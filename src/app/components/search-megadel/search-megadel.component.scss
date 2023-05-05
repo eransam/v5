@@ -1,0 +1,621 @@
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-header
+  .datatable-header-cell
+  .datatable-header-cell-label {
+  font-family: inherit;
+  font-size: medium;
+  font-weight: bold;
+  color: #6b6f82;
+}
+
+:host ::ng-deep .table-bordered {
+  border: 2px solid #e3ebf3;
+}
+
+:host ::ng-deep .no-style {
+  border-top: 2px solid #e3ebf3;
+}
+:host ::ng-deep .filter {
+  margin-left: 4px;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-header {
+  display: block;
+  overflow: inherit;
+  font-family: inherit;
+  font-size: medium;
+  font-weight: bold;
+  color: #6b6f82;
+}
+
+:host ::ng-deep .datatable-icon-right:before {
+  font-family: "icofont";
+  font-style: normal;
+  content: "\203A";
+}
+
+:host ::ng-deep .datatable-icon-skip:before {
+  font-family: "icofont";
+  font-style: normal;
+  content: "\00BB";
+}
+
+:host ::ng-deep .datatable-icon-left:before {
+  font-family: "icofont";
+  font-style: normal;
+  content: "\2039";
+}
+
+:host ::ng-deep .datatable-icon-prev:before {
+  font-family: "icofont";
+  font-style: normal;
+  content: "\00AB";
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-icon-left:before {
+  font-size: x-large;
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-icon-prev:before {
+  font-size: x-large;
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-icon-right:before {
+  font-size: x-large;
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-icon-skip:before {
+  font-size: x-large;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-left,
+.ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-right,
+.ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-prev {
+  font-size: 16px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #d4d2e7;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-right,
+.ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-right {
+  font-size: 16px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #d4d2e7;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-skip {
+  font-size: 16px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #d4d2e7;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-prev {
+  font-size: 16px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #d4d2e7;
+}
+
+:host
+  ::ng-deep
+  .datatable-footer
+  .datatable-pager
+  ul
+  li:not(.disabled).active
+  a,
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  ul[_ngcontent-c11]
+  li[_ngcontent-c11]:not(.disabled):hover
+  a[_ngcontent-c11] {
+  background-color: #d4d2e7;
+  font-weight: bold;
+  font-size: small;
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+  height: 32px;
+  min-width: 34px;
+  line-height: 22px;
+  padding: 0;
+  border-radius: 3px;
+  margin: 0 3px;
+  text-align: center;
+  vertical-align: top;
+  padding-top: 3px;
+  text-decoration: none;
+  vertical-align: bottom;
+  color: #7c8091;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-left,
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-right[_ngcontent-c11],
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-prev[_ngcontent-c11] {
+  font-size: 14px;
+  line-height: 9px;
+  padding: 0px 08px;
+  background-color: #ffffff;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-left,
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-right[_ngcontent-c11],
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-prev[_ngcontent-c11] {
+  font-size: 0px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #ffffff;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-right,
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-right[_ngcontent-c11],
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-prev[_ngcontent-c11] {
+  font-size: 0px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #ffffff;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-skip,
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-right[_ngcontent-c11],
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-prev[_ngcontent-c11] {
+  font-size: 0px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #ffffff;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  .datatable-icon-prev,
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-right[_ngcontent-c11],
+.ngx-datatable.bootstrap[_ngcontent-c11]
+  .datatable-footer[_ngcontent-c11]
+  .datatable-pager[_ngcontent-c11]
+  .datatable-icon-prev[_ngcontent-c11] {
+  font-size: 0px;
+  line-height: 22px;
+  padding: 0px 09px;
+  background-color: #ffffff;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  ul
+  li:not(.disabled):hover
+  a {
+  background-color: #545454;
+  font-weight: bold;
+  color: white;
+}
+
+:host
+  ::ng-deep
+  .ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  ul
+  li:not(.disabled).active
+  a,
+.ngx-datatable.bootstrap
+  .datatable-footer
+  .datatable-pager
+  ul
+  li:not(.disabled):hover
+  a {
+  background-color: #545454;
+  font-weight: bold;
+  color: white;
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-footer {
+  background: #727e8e;
+  color: #ededed;
+  margin-top: -1px;
+  overflow: inherit;
+}
+
+:host ::ng-deep .datatable-footer .datatable-pager .pager li a {
+  width: 30px !important;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-footer .datatable-pager {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 80%;
+  flex: 1 1 97%;
+  text-align: right;
+}
+
+:host ::ng-deep .datatable-icon-down:after {
+  content: "\2193";
+  font-size: large;
+}
+
+:host ::ng-deep .dataTables_filter {
+  text-align: right;
+}
+
+:host ::ng-deep .ngx-datatable.no-style .datatable-header {
+  font-weight: bold;
+  height: unset !important;
+  overflow: inherit;
+  margin-bottom: 10px;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-footer .datatable-pager {
+  flex: 0 0 0%;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-footer .datatable-pager .pager {
+  display: flex;
+}
+
+:host ::ng-deep .block-ui-wrapper {
+  background: rgba(255, 249, 249, 0.5) !important;
+}
+:host ::ng-deep .ngx-datatable .datatable-footer .datatable-pager a {
+  height: 32px;
+  min-width: 34px;
+  line-height: 22px;
+  padding: 0;
+  border-radius: 3px;
+  margin: 0 3px;
+  text-align: center;
+  vertical-align: top;
+  padding-top: 3px;
+  text-decoration: none;
+  vertical-align: bottom;
+  color: #7c8091;
+}
+
+:host ::ng-deep .ngx-datatable {
+  display: -webkit-box;
+}
+
+:host ::ng-deep .empty-row {
+  padding-left: 1rem !important;
+}
+
+.searchInput {
+  :host ::ng-deep .block-ui-wrapper {
+    background: rgba(255, 249, 249, 0.5) !important;
+  }
+
+  :host ::ng-deep .btn-light:not(:disabled):not(.disabled):active {
+    color: unset !important;
+    background-color: unset !important;
+    border-color: #d3d9df !important;
+  }
+
+  :host ::ng-deep .btn-light:hover:not(.disabled):active {
+    background-color: #e2e6ea !important;
+    border-color: #dae0e5 !important;
+  }
+
+  :host ::ng-deep .btn-light {
+    color: unset !important;
+    background-color: unset !important;
+    border-color: unset !important;
+  }
+
+  :host ::ng-deep .bg-primary {
+    background-color: #007bff !important;
+  }
+
+  :host ::ng-deep .text-white {
+    color: #fff !important;
+  }
+
+  :host ::ng-deep .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  :host ::ng-deep .custom-day:active {
+    color: #6d7183 !important;
+    background-color: #fff !important;
+    border-block-color: rgb(2, 117, 216) !important;
+  }
+
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+
+  :host ::ng-deep .hidden {
+    display: block !important;
+  }
+
+  .ngb-dp-weekday {
+    color: #17a2b8;
+  }
+
+  .ngb-dp-week-number,
+  .ngb-dp-weekday {
+    line-height: 2rem;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .ngb-datepicker-month-view {
+    pointer-events: auto;
+  }
+
+  :host ::ng-deep .ngb-dp-header {
+    background-color: var(--light) !important;
+  }
+
+  :host ::ng-deep .ngb-dp-weekdays {
+    background-color: var(--light);
+  }
+
+  :host ::ng-deep .ngb-dp-month-name {
+    background-color: var(--light);
+  }
+
+  .small {
+    font-size: 80%;
+    font-weight: 400;
+  }
+
+  .ngb-dp-day {
+    cursor: pointer !important;
+  }
+
+  .ngb-dp-month {
+    pointer-events: none;
+  }
+
+  .btn-light:hover {
+    color: #212529 !important;
+    background-color: #e2e6ea !important;
+    border-color: #dae0e5 !important;
+  }
+
+  .ngb-datepicker-month-view {
+    pointer-events: auto;
+  }
+
+  .ngb-dp-header {
+    border-bottom: 0;
+    border-radius: 0.25rem 0.25rem 0 0;
+    padding-top: 0.25rem;
+  }
+
+  .ngb-dp-day,
+  .ngb-dp-week-number,
+  .ngb-dp-weekday {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+
+  .custom-day.range,
+  .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+  }
+
+  :host ::ng-deep .block-ui-wrapper {
+    background: rgba(255, 249, 249, 0.5) !important;
+  }
+}
+
+.checkboxStyle {
+  .right-checkbox input[type="checkbox"],
+  .right-checkbox .custom-control-indicator,
+  .right-checkbox input[type="radio"],
+  .right-radio input[type="checkbox"],
+  .right-radio .custom-control-indicator,
+  .right-radio input[type="radio"] {
+    left: auto;
+    top: auto;
+    position: absolute;
+  }
+
+  .right-checkbox input[type="checkbox"],
+  .right-checkbox .custom-control-label::before,
+  .right-checkbox .custom-control-label::after,
+  .right-checkbox input[type="radio"],
+  .right-radio input[type="checkbox"],
+  .right-radio .custom-control-label::before,
+  .right-radio .custom-control-label::after,
+  .right-radio input[type="radio"] {
+    left: auto;
+    right: 2%;
+  }
+
+  .radio.right-radio label {
+    padding-left: 0;
+  }
+
+  .row {
+    justify-content: flex-end;
+  }
+
+  /* iCheck */
+  .skin [class*="icheckbox_"],
+  .skin [class*="iradio_"],
+  .icheck_square [class*="icheckbox_"],
+  .icheck_square [class*="iradio_"] {
+    margin-right: 0.6rem;
+  }
+
+  .skin [class*="icheckbox_line"],
+  .skin [class*="iradio_line"] {
+    margin-bottom: 0.6rem;
+  }
+
+  .state[class*="icheckbox_"]:hover,
+  .state[class*="iradio_"]:hover {
+    cursor: default;
+  }
+
+  /* Image Checkbox selected*/
+  input[type="checkbox"]:checked + img.img-thumbnail {
+    background-color: #666ee8;
+    color: #999966;
+    border-color: #666ee8;
+  }
+
+  :host ::ng-deep .block-ui-wrapper {
+    background: rgba(255, 249, 249, 0.5) !important;
+  }
+}
+
+.form-row {
+  justify-content: end;
+}
+
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.mat-autocomplete-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.autoComplateTest {
+  position: absolute !important;
+  top: 21% !important;
+  left: 20% !important;
+  background-color: white !important;
+  color: black !important;
+  direction: rtl !important;
+  width: 427px !important;
+}
+
+.cdk-overlay-container {
+  position: absolute !important;
+  top: 21% !important;
+  left: 20% !important;
+  background-color: white !important;
+  color: black !important;
+  direction: rtl !important;
+  width: 427px !important;
+}
+
+mat-autocomplete {
+  position: absolute !important;
+  top: 21% !important;
+  left: 20% !important;
+  background-color: white !important;
+  color: black !important;
+  direction: rtl !important;
+  width: 427px !important;
+}
+
+.form-check-label {
+  margin-right: 18px;
+}
+
+
+.cleanBtn{
+    background-color: #FF4961 !important;
+}
