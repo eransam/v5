@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { firstValueFrom } from "rxjs";
-import { environment } from "src/environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class MegadelSearchService {
   constructor(private http: HttpClient) {}
@@ -24,7 +24,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_active?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -40,7 +40,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_not_active?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -56,7 +56,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_not_active?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -67,20 +67,20 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/All_Megadel_Details_ByFirstName_All?firstName=${firstName}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
 
   async get_siteName_by_yzId(yz_Id: any): Promise<any[]> {
-    console.log("yz_Id123: ", yz_Id);
+    console.log('yz_Id123: ', yz_Id);
 
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_siteName_by_yzId?yz_Id=${yz_Id}`
       )
     );
-    console.log("item123: ", item);
+    console.log('item123: ', item);
 
     return item;
   }
@@ -93,7 +93,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/all_Megadel_Details_ByFirstName_That_Active?firstName=${firstName}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -106,7 +106,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/all_Megadel_Details_ByFirstName_That_Active_To_Desplay?firstName=${firstName}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -119,7 +119,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/All_Megadel_Details_ByFirstName_All_To_Desplay?firstName=${firstName}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -132,7 +132,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/all_Megadel_Details_ByFirstName_That_NotActive?firstName=${firstName}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -145,7 +145,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/all_Megadel_Details_ByFirstName_That_Not_Active_To_Desplay?firstName=${firstName}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -156,7 +156,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/get_num_of_gidol_hotz_from_yz_yzrn?pa_Yzrn=${pa_Yzrn}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
     return item;
   }
 
@@ -169,7 +169,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/all_Megadel_Details_ByFirstName_and_shemYeshuv?firstname=${firstName}&shem_yeshuv=${shem_yeshuv}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -183,7 +183,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/allMegadelDetails_ByFirstName_and_shemYeshuv_To_Desplay?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -197,7 +197,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/AllMegadelDetails_ByFirstName_and_shemYeshuv_To_Desplay_that_active?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -210,7 +210,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/get_megadelDetails_ByShlocha_Not_active?belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -223,7 +223,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/get_megadelDetails_ByShlocha_active?belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -234,7 +234,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/get_megadelDetails_ByShlocha?belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -245,7 +245,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadelDetails_by_atar_Notactive?yz_Id=${yz_Id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -256,7 +256,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadelDetails_by_atar_active?yz_Id=${yz_Id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -267,7 +267,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadelDetails_by_atar?yz_Id=${yz_Id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -281,7 +281,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadelDetails_by_shem_shlocha_all?firstname=${firstname}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -295,7 +295,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadelDetails_by_shem_shlocha_active?firstname=${firstname}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -309,7 +309,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/megadelDetails_by_shem_shlocha?firstname=${firstname}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -323,7 +323,18 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/AllMegadelDetails_ByFirstName_and_shemYeshuv_To_Desplay_that_Notactive?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
+
+    return item;
+  }
+
+  async Get_All_Shloha_Id_By_NAME(name: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_All_Shloha_Id_By_NAME?name=${name}`
+      )
+    );
+    console.log('item: ', item);
 
     return item;
   }
@@ -338,7 +349,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/allMegadelDetails_ByFirstName_and_shemYeshuv_and_atar_To_Desplay?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}&yz_Id=${yz_Id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -353,7 +364,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/allMegadelDetails_ByFirstName_and_shemYeshuv_and_atar_To_Desplay_active?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}&yz_Id=${yz_Id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -368,7 +379,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/allMegadelDetails_ByFirstName_and_shemYeshuv_and_atar_To_Desplay_Notactive?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}&yz_Id=${yz_Id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -384,7 +395,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/AllMegadelDetails_ByFirstName_shemYeshuv_atar_shloha_not_active?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}&yz_Id=${yz_Id}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -400,7 +411,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/AllMegadelDetails_ByFirstName_shemYeshuv_atar_shloha?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}&yz_Id=${yz_Id}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -416,7 +427,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/AllMegadelDetails_ByFirstName_shemYeshuv_atar_shloha_all?firstname=${firstName}&yz_shem_yeshuv=${shem_yeshuv}&yz_Id=${yz_Id}&belonging_group_id=${belonging_group_id}`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -427,7 +438,17 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/getAllShloha`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
+    return item;
+  }
+
+  async GetAllShlohaNAME(): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/GetAllShlohaNAME`
+      )
+    );
+    console.log('item: ', item);
     return item;
   }
 
@@ -437,7 +458,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/getAllMegadelDetailsWantedFunc`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
     return item;
   }
 
@@ -447,7 +468,7 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/getAllNameSiteIdstatus`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
     return item;
   }
 
@@ -457,15 +478,15 @@ export class MegadelSearchService {
         `${environment.apiPath}growerService.asmx/getAllYeshovimAndEzurim`
       )
     );
-    console.log("item: ", item);
+    console.log('item: ', item);
     return item;
   }
 
   //  end Megadel: ------------------------------------------------------------------------------------------------------------------------
 
   async bringRepMin(userNameOrId: any, month: any, year: any): Promise<any[]> {
-    console.log("month: ", month);
-    console.log("userNameOrId: ", userNameOrId);
+    console.log('month: ', month);
+    console.log('userNameOrId: ', userNameOrId);
     const yearRegex = /\d+$/;
     const userId = userNameOrId.match(yearRegex)[0];
 
@@ -479,18 +500,18 @@ export class MegadelSearchService {
       )
     );
 
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
 
   async bringRepFull(userNameOrId: any, month: any, year: any): Promise<any[]> {
-    console.log("month: ", month);
-    console.log("userNameOrId: ", userNameOrId);
+    console.log('month: ', month);
+    console.log('userNameOrId: ', userNameOrId);
 
-    const words = userNameOrId.split("-");
+    const words = userNameOrId.split('-');
     const userId = words[1];
-    console.log("userId: ", userId);
+    console.log('userId: ', userId);
 
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -498,7 +519,7 @@ export class MegadelSearchService {
       )
     );
 
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -514,7 +535,7 @@ export class MegadelSearchService {
       )
     );
 
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -530,7 +551,7 @@ export class MegadelSearchService {
       )
     );
 
-    console.log("item: ", item);
+    console.log('item: ', item);
 
     return item;
   }
@@ -540,8 +561,8 @@ export class MegadelSearchService {
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
     const lastDayOfMonth = new Date(year, month, 0).getDate();
-    console.log("currentMonth: ", currentMonth);
-    console.log("currentYear: ", currentYear);
+    console.log('currentMonth: ', currentMonth);
+    console.log('currentYear: ', currentYear);
 
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -549,9 +570,9 @@ export class MegadelSearchService {
       )
     );
 
-    console.log("item in getAllTotalAmountByYearAndMonth: ", item);
+    console.log('item in getAllTotalAmountByYearAndMonth: ', item);
     item[0].lastDayOfMonth = lastDayOfMonth;
-    console.log("typeof(item[0].year: ", typeof item[0].year);
+    console.log('typeof(item[0].year: ', typeof item[0].year);
 
     const cutTheYear = item[0].year.toString();
 
@@ -560,7 +581,7 @@ export class MegadelSearchService {
 
     item[0].year = numValue;
 
-    console.log("getAllTotalAmountByYearAndMonthWithLastDay: ", item);
+    console.log('getAllTotalAmountByYearAndMonthWithLastDay: ', item);
 
     return item;
   }
@@ -580,7 +601,7 @@ export class MegadelSearchService {
         `${environment.apiPath}FoodService.asmx/getUserTotalByDate`
       )
     );
-    console.log("itemsByCart: ", itemsByCart);
+    console.log('itemsByCart: ', itemsByCart);
 
     return itemsByCart;
   }

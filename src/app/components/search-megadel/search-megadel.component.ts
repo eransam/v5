@@ -1,43 +1,43 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { NgBlockUI, BlockUI } from "ng-block-ui";
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
   PerfectScrollbarConfigInterface,
-} from "ngx-perfect-scrollbar";
-import { TableApiService } from "src/app/_services/table-api.service";
-import { FormBuilder } from "@angular/forms";
-import { EventEmitter, Output } from "@angular/core";
+} from 'ngx-perfect-scrollbar';
+import { TableApiService } from 'src/app/_services/table-api.service';
+import { FormBuilder } from '@angular/forms';
+import { EventEmitter, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { ReportService } from "../../services/reports.service";
-import { MegadelSearchService } from "../../services/MegadelSearch.service";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
+} from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { ReportService } from '../../services/reports.service';
+import { MegadelSearchService } from '../../services/MegadelSearch.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { Router } from "@angular/router";
-import { NotifyService } from "../../services/notify.service";
+import { Router } from '@angular/router';
+import { NotifyService } from '../../services/notify.service';
 
 @Component({
-  selector: "app-search-megadel",
-  templateUrl: "./search-megadel.component.html",
-  styleUrls: ["./search-megadel.component.scss"],
+  selector: 'app-search-megadel',
+  templateUrl: './search-megadel.component.html',
+  styleUrls: ['./search-megadel.component.scss'],
 })
 export class SearchMegadelComponent implements OnInit {
   purchases: any;
-  AllTotalAmountByYearAndMonth: any = "";
-  TotalAmountDay: any = "";
-  TotalAmountMonth: any = "";
-  TotalAmountYear: any = "";
-  totalAmountTemplate: any = "";
-  checkDecimal: any = "";
+  AllTotalAmountByYearAndMonth: any = '';
+  TotalAmountDay: any = '';
+  TotalAmountMonth: any = '';
+  TotalAmountYear: any = '';
+  totalAmountTemplate: any = '';
+  checkDecimal: any = '';
 
   @Output()
   public addRep = new EventEmitter<any>();
@@ -64,9 +64,9 @@ export class SearchMegadelComponent implements OnInit {
   extension1: any[] = [];
   extension2: any[];
 
-  detailsFromformcheckbox: any = "";
-  detailsFromformMonth: any = "";
-  detailsFromformYear: any = "";
+  detailsFromformcheckbox: any = '';
+  detailsFromformMonth: any = '';
+  detailsFromformYear: any = '';
 
   //מגדירים פילטר חיפוש לכל שדה אינפוט
   filteredUsers: Observable<string[]>;
@@ -93,14 +93,14 @@ export class SearchMegadelComponent implements OnInit {
   checkBoxAll = false;
 
   //   form varible:
-  selectedCheckbox = "";
+  selectedCheckbox = '';
   usernameControl = new FormControl();
   siteControl = new FormControl();
   settlementControl = new FormControl();
   extensionControl = new FormControl();
 
-  @BlockUI("baseStyle") blockUIBaseStyle: NgBlockUI;
-  @BlockUI("noStylingClasses") blockUINoStylingClasses: NgBlockUI;
+  @BlockUI('baseStyle') blockUIBaseStyle: NgBlockUI;
+  @BlockUI('noStylingClasses') blockUINoStylingClasses: NgBlockUI;
 
   public config: PerfectScrollbarConfigInterface = { suppressScrollY: true };
   @ViewChild(PerfectScrollbarComponent)
@@ -127,42 +127,42 @@ export class SearchMegadelComponent implements OnInit {
   ) {
     //ערך חדש וכל שינוי שמהשתמש הזין באינפוט this.filteredUsers כאן אנו מגדירים למשתנה
     this.filteredUsers = this.usernameControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterUser(value))
     );
 
     this.filteredsite = this.siteControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterSite(value))
     );
 
     this.filteredsettlement = this.settlementControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterSettlement(value))
     );
 
     this.filteredextension = this.extensionControl.valueChanges.pipe(
-      startWith(""),
+      startWith(''),
       map((value) => this._filterExtension(value))
     );
   }
 
   updateValue() {
     if (this.checkBoxActive) {
-      this.selectedCheckbox = "active";
+      this.selectedCheckbox = 'active';
     } else if (this.checkBoxNotActive) {
-      this.selectedCheckbox = "notActive";
+      this.selectedCheckbox = 'notActive';
     } else if (this.checkBoxAll) {
-      this.selectedCheckbox = "all";
+      this.selectedCheckbox = 'all';
     } else {
-      this.selectedCheckbox = "";
+      this.selectedCheckbox = '';
     }
   }
 
   checkboxClicked(checkboxValue: string) {
     if (checkboxValue === this.selectedCheckbox) {
       // If the clicked checkbox is already selected, unselect it
-      this.selectedCheckbox = "";
+      this.selectedCheckbox = '';
     } else {
       // Otherwise, select the clicked checkbox and unselect the other checkboxes
       this.selectedCheckbox = checkboxValue;
@@ -187,8 +187,8 @@ export class SearchMegadelComponent implements OnInit {
   }
   private _filterSettlement(value: string): string[] {
     const filterValue3 = value.toLowerCase();
-    console.log("filterValue3: ", filterValue3);
-    console.log("this.settlement1/: ", this.settlement1);
+    console.log('filterValue3: ', filterValue3);
+    console.log('this.settlement1/: ', this.settlement1);
 
     return this.settlement1.filter((settlement) =>
       settlement.toLowerCase().includes(filterValue3)
@@ -207,15 +207,15 @@ export class SearchMegadelComponent implements OnInit {
   stylerows: any;
   baserows: any;
   temp2 = this.rows;
-  @BlockUI("projectInfo") blockUIProjectInfo: NgBlockUI;
-  @BlockUI("userProfile") blockUIUserProfile: NgBlockUI;
+  @BlockUI('projectInfo') blockUIProjectInfo: NgBlockUI;
+  @BlockUI('userProfile') blockUIUserProfile: NgBlockUI;
 
-  interestedIn = ["design", "development", "illustration", "branding", "video"];
+  interestedIn = ['design', 'development', 'illustration', 'branding', 'video'];
   budget = [
-    "less than 5000$",
-    "5000$ - 10000$",
-    "10000$ - 20000$",
-    "more than 20000$",
+    'less than 5000$',
+    '5000$ - 10000$',
+    '10000$ - 20000$',
+    'more than 20000$',
   ];
 
   projectInfo: FormGroup;
@@ -225,8 +225,8 @@ export class SearchMegadelComponent implements OnInit {
 
   async ngOnInit() {
     //FormControl מגדירים את המשתנים כך שיהיו מסוג
-    (this.monthInput = new FormControl("", Validators.required)),
-      (this.yearInput = new FormControl("", Validators.required)),
+    (this.monthInput = new FormControl('', Validators.required)),
+      (this.yearInput = new FormControl('', Validators.required)),
       (this.usernameInput = new FormControl());
     this.siteInput = new FormControl();
     this.settlementInput = new FormControl();
@@ -238,21 +238,21 @@ export class SearchMegadelComponent implements OnInit {
       yaerBox: this.yearInput,
     });
 
-    this.extension2 = await this.megadelSearchService.getAllShloha();
-    console.log("this.extension2: ", this.extension2);
+    this.extension2 = await this.megadelSearchService.GetAllShlohaNAME();
+    console.log('this.extension2: ', this.extension2);
 
     for (let i = 0; i < this.extension2.length; i++) {
-      this.extension1.push(`${this.extension2[i].belonging_group_id}`);
+      this.extension1.push(`${this.extension2[i].name}`);
     }
     let mergedArray: any[] = this.mergeIdenticalValues(this.extension1);
-    console.log("mergedArray: ", mergedArray);
+    console.log('mergedArray: ', mergedArray);
     this.extension1 = mergedArray;
 
-    console.log("this.extension1: ", this.extension1);
+    console.log('this.extension1: ', this.extension1);
 
     this.users2 =
       await this.megadelSearchService.getAllMegadelDetailsWantedFunc();
-    console.log("this.users2: ", this.users2);
+    console.log('this.users2: ', this.users2);
 
     for (let i = 0; i < this.users2.length; i++) {
       this.users.push(
@@ -261,7 +261,7 @@ export class SearchMegadelComponent implements OnInit {
     }
 
     this.site2 = await this.megadelSearchService.getAllNameSiteIdstatus();
-    console.log("this.site2: ", this.site2);
+    console.log('this.site2: ', this.site2);
 
     for (let i = 0; i < this.site2.length; i++) {
       this.site1.push(
@@ -272,7 +272,7 @@ export class SearchMegadelComponent implements OnInit {
 
     this.settlement2 =
       await this.megadelSearchService.getAllYeshovimAndEzurim();
-    console.log("this.settlement2: ", this.settlement2);
+    console.log('this.settlement2: ', this.settlement2);
 
     for (let i = 0; i < this.settlement2.length; i++) {
       this.settlement1.push(
@@ -280,84 +280,84 @@ export class SearchMegadelComponent implements OnInit {
       );
     }
 
-    console.log("settlement1: ", this.settlement1);
+    console.log('settlement1: ', this.settlement1);
 
     this.breadcrumb = {
-      mainlabel: "Row Reparator Forms",
+      mainlabel: 'Row Reparator Forms',
       links: [
         {
-          name: "Home",
+          name: 'Home',
           isLink: true,
-          link: "/dashboard/sales",
+          link: '/dashboard/sales',
         },
         {
-          name: "Form Layouts",
+          name: 'Form Layouts',
           isLink: true,
-          link: "#",
+          link: '#',
         },
         {
-          name: "Row Reparator Forms",
+          name: 'Row Reparator Forms',
           isLink: true,
         },
       ],
     };
 
     this.projectInfo = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      email: ["", Validators.required],
-      phone: ["", Validators.required],
-      company: ["", Validators.required],
-      interestedIn: ["", Validators.required],
-      budget: ["", Validators.required],
-      selectFile: ["", Validators.required],
-      aboutProject: ["", Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
+      company: ['', Validators.required],
+      interestedIn: ['', Validators.required],
+      budget: ['', Validators.required],
+      selectFile: ['', Validators.required],
+      aboutProject: ['', Validators.required],
     });
 
     this.userProfile = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
-      nickName: ["", Validators.required],
-      email: ["", Validators.required],
-      website: ["", Validators.required],
-      phone: ["", Validators.required],
-      bio: ["", Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      userName: ['', Validators.required],
+      nickName: ['', Validators.required],
+      email: ['', Validators.required],
+      website: ['', Validators.required],
+      phone: ['', Validators.required],
+      bio: ['', Validators.required],
     });
 
     this.timeSheet = this.formBuilder.group({
-      employeeName: ["", Validators.required],
-      projectname: ["", Validators.required],
-      date: ["", Validators.required],
-      ratePerHour: ["", Validators.required],
-      startTime: ["", Validators.required],
-      endTime: ["", Validators.required],
-      notes: ["", Validators.required],
+      employeeName: ['', Validators.required],
+      projectname: ['', Validators.required],
+      date: ['', Validators.required],
+      ratePerHour: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+      notes: ['', Validators.required],
     });
     this.eventRegistration = this.formBuilder.group({
-      fullname: ["", Validators.required],
-      title: ["", Validators.required],
-      company: ["", Validators.required],
-      email: ["", Validators.required],
-      phone: ["", Validators.required],
-      customer1: ["", Validators.required],
+      fullname: ['', Validators.required],
+      title: ['', Validators.required],
+      company: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
+      customer1: ['', Validators.required],
     });
 
     this.breadcrumb = {
-      mainlabel: "Styling DataTable",
+      mainlabel: 'Styling DataTable',
       links: [
         {
-          name: "Home",
+          name: 'Home',
           isLink: true,
-          link: "/dashboard/sales",
+          link: '/dashboard/sales',
         },
         {
-          name: "DataTables",
+          name: 'DataTables',
           isLink: true,
-          link: "#",
+          link: '#',
         },
         {
-          name: "Styling DataTable",
+          name: 'Styling DataTable',
           isLink: false,
         },
       ],
@@ -367,7 +367,7 @@ export class SearchMegadelComponent implements OnInit {
       this.getTabledata();
     });
 
-    console.log("filteredextension: ", this.filteredextension);
+    console.log('filteredextension: ', this.filteredextension);
   }
 
   checkBox1: boolean = false;
@@ -388,10 +388,10 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   cleanInputFild() {
-    this.username = "";
-    this.site = "";
-    this.extension = "";
-    this.settlement = "";
+    this.username = '';
+    this.site = '';
+    this.extension = '';
+    this.settlement = '';
   }
 
   getTabledata() {
@@ -440,7 +440,7 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   reloadBaseStyle() {
-    this.blockUIBaseStyle.start("Loading..");
+    this.blockUIBaseStyle.start('Loading..');
 
     setTimeout(() => {
       this.blockUIBaseStyle.stop();
@@ -448,7 +448,7 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   reloadNoStylingClasses() {
-    this.blockUINoStylingClasses.start("Loading..");
+    this.blockUINoStylingClasses.start('Loading..');
 
     setTimeout(() => {
       this.blockUINoStylingClasses.stop();
@@ -456,7 +456,7 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   reloadProjectInfo() {
-    this.blockUIProjectInfo.start("Loading..");
+    this.blockUIProjectInfo.start('Loading..');
 
     setTimeout(() => {
       this.blockUIProjectInfo.stop();
@@ -464,7 +464,7 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   reloadUserProfile() {
-    this.blockUIUserProfile.start("Loading..");
+    this.blockUIUserProfile.start('Loading..');
 
     setTimeout(() => {
       this.blockUIUserProfile.stop();
@@ -483,46 +483,48 @@ export class SearchMegadelComponent implements OnInit {
 
   onButtonMenuClick(button: string) {
     this.selectedButton = button;
-    console.log("Selected button:", button);
+    console.log('Selected button:', button);
   }
   getSettlementName(value: string): string {
-    const parts = value.split("-");
-    return parts.slice(0, -1).join("-");
+    const parts = value.split('-');
+    return parts.slice(0, -1).join('-');
   }
 
   async add() {
-    let SettlementName = "";
-    let SitetName = "";
-    let Username = "";
+    let SettlementName = '';
+    let SitetName = '';
+    let Username = '';
     let extension = this.extensionControl.value;
     if (extension === undefined) {
-      extension = "";
+      extension = '';
+    } else {
+      const resultsCodeShloha =
+        await this.megadelSearchService.Get_All_Shloha_Id_By_NAME(extension);
+      extension = resultsCodeShloha[0]?.id;
     }
-    console.log("usernameControl: ", this.usernameControl.value);
-    console.log("siteControl: ", this.siteControl.value);
-    console.log("settlementControl: ", this.settlementControl.value);
-    console.log("extensionControl: ", this.extensionControl.value);
+    console.log('usernameControl: ', this.usernameControl.value);
+    console.log('siteControl: ', this.siteControl.value);
+    console.log('settlementControl: ', this.settlementControl.value);
+    console.log('extensionControl: ', this.extensionControl.value);
     if (this.settlementControl.value) {
       // מלקט מהמחרוזת רק את שם היישוב
       SettlementName = this.settlementControl.value;
     }
 
     if (this.siteControl.value) {
-      SitetName = this.siteControl.value.split("-").pop();
+      SitetName = this.siteControl.value.split('-').pop();
     }
 
     if (this.usernameControl.value) {
-      Username = this.usernameControl.value.split("-")[0];
+      Username = this.usernameControl.value.split('-')[0];
     }
 
-    console.log("SettlementName: ", SettlementName);
-    console.log("SitetName: ", SitetName);
-    console.log("Username: ", Username);
-    console.log("extension: ", extension);
-
-    if (this.selectedCheckbox === "" || this.selectedCheckbox === "active") {
-      console.log("in active");
-
+    if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
+      console.log('in active');
+      console.log('SettlementName: ', SettlementName);
+      console.log('SitetName: ', SitetName);
+      console.log('Username: ', Username);
+      console.log('extension: ', extension);
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
           SitetName,
@@ -531,11 +533,7 @@ export class SearchMegadelComponent implements OnInit {
           extension
         );
 
-
-        console.log("results in the first: " , results);
-        
-
-
+      console.log('results in the first: ', results);
 
       results.forEach(async (item) => {
         let yz_yzrn = item.yz_yzrn;
@@ -546,46 +544,32 @@ export class SearchMegadelComponent implements OnInit {
         if (results2[0]?.pa_Counter) {
           item.pa_Counter = results2[0].pa_Counter;
         } else {
-          item.pa_Counter = "ללא";
+          item.pa_Counter = '';
         }
       });
 
-      results.forEach(async (item) => {
-        let yz_Id = item.yz_Id;
-        console.log("yz_Id: ", yz_Id);
+      results.forEach(async (item444) => {
+        console.log('item_eran: ', item444.yz_Id);
+
+        let yz_Id = item444.yz_Id;
+        console.log('yz_Id: ', yz_Id);
 
         const results3 = await this.megadelSearchService.get_siteName_by_yzId(
-            yz_Id
+          item444.yz_Id
         );
-        console.log("results3: ", results3);
 
-        let theObj = results3[0];
-        console.log("theObj: ", theObj);
-
-        item.yz_Id = theObj.code;
+        console.log('results222223: ', results3);
+        const codes = results3.map((obj) => obj.code);
+        const joinedString = codes.join(',');
+        console.log('joinedString: ', joinedString);
+        item444.yz_Id = joinedString;
       });
 
-      console.log("the results: ", results);
-
-      const resultAfterAll = [];
-      for (const obj of results) {
-        const existingObj = resultAfterAll.find(
-          (o) => o.yz_zehut === obj.yz_zehut
-        );
-
-        if (existingObj) {
-          console.log("existingObj: ", existingObj);
-
-          existingObj.yz_Id += `, ${obj.yz_Id}`;
-        } else {
-          resultAfterAll.push(obj);
-        }
-      }
+      console.log('ddddd: ', results[0].arrayOfAtar2);
 
       this.theDetails = results;
-
       //   notActive
-    } else if (this.selectedCheckbox === "notActive") {
+    } else if (this.selectedCheckbox === 'notActive') {
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_not_active(
           SitetName,
@@ -594,7 +578,7 @@ export class SearchMegadelComponent implements OnInit {
           extension
         );
       this.theDetails = results;
-    } else if (this.selectedCheckbox === "all") {
+    } else if (this.selectedCheckbox === 'all') {
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_all(
           SitetName,
