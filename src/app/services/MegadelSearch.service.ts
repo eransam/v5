@@ -339,6 +339,17 @@ export class MegadelSearchService {
     return item;
   }
 
+  async get_growerId_By_code_atar(ycode: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_growerId_By_code_atar?ycode=${ycode}`
+      )
+    );
+    console.log('item: ', item);
+
+    return item;
+  }
+
   async allMegadelDetails_ByFirstName_and_shemYeshuv_and_atar_To_Desplay(
     firstName: any,
     shem_yeshuv: any,

@@ -492,7 +492,7 @@ export class SearchMegadelComponent implements OnInit {
 
   async add() {
     let SettlementName = '';
-    let SitetName = '';
+    let SitetName: any = '';
     let Username = '';
     let extension = this.extensionControl.value;
     if (extension === undefined) {
@@ -513,6 +513,10 @@ export class SearchMegadelComponent implements OnInit {
 
     if (this.siteControl.value) {
       SitetName = this.siteControl.value.split('-').pop();
+      const results88 =
+        await this.megadelSearchService.get_growerId_By_code_atar(SitetName);
+      SitetName = results88[0].grower_id;
+      console.log('SitetName: ', SitetName);
     }
 
     if (this.usernameControl.value) {
@@ -525,6 +529,7 @@ export class SearchMegadelComponent implements OnInit {
       console.log('SitetName: ', SitetName);
       console.log('Username: ', Username);
       console.log('extension: ', extension);
+
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
           SitetName,

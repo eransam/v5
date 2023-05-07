@@ -153,7 +153,7 @@
                                 class="form-check-label"
                                 for="notActive"
                               ></label>
-                              פעיל
+                              לא פעיל
                             </div>
                           </div>
                           <div class="col-auto">
@@ -177,18 +177,19 @@
                         >
                           <!-- <button type="button" class="btn btn-warning mr-1">
                             <i class="feather ft-x"></i> בטל
-                          </button> -->
-                          <!-- <button
+                          </button>  -->
+
+                          <i class="feather ft-x"></i> נקה
+
+                          <button type="submit" class="btn btn-primary">
+                            <i class="la la-check"></i> חפש
+                          </button>
+                          <button
                             type="bottun"
                             class="btn btn-primary cleanBtn"
                             style="margin-right: 5px"
                             (click)="cleanInputFild()"
-                          >
-                            <i class="feather ft-x"></i> נקה
-                          </button> -->
-                          <button type="submit" class="btn btn-primary">
-                            <i class="la la-check"></i> חפש
-                          </button>
+                          ></button>
                         </div>
                       </div>
                     </div>
@@ -299,7 +300,15 @@
                         [minWidth]="90"
                       >
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_sug }}
+                          <ng-container *ngIf="row.yz_sug === 1">
+                            ראשי
+                          </ng-container>
+                          <ng-container *ngIf="row.yz_sug === 2">
+                            שותף
+                          </ng-container>
+                          <ng-container *ngIf="row.yz_sug === 3">
+                            פרטני
+                          </ng-container>
                         </ng-template>
                       </ngx-datatable-column>
 
