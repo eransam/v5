@@ -46,6 +46,8 @@ export class SearchMegadelComponent implements OnInit {
   selectedMonth: string;
   selectedYear: string;
   username: string;
+  numName: string;
+
   site: string;
   settlement: string;
   extension: string;
@@ -94,6 +96,7 @@ export class SearchMegadelComponent implements OnInit {
 
   //   form varible:
   selectedCheckbox = '';
+  numNameControl = new FormControl();
   usernameControl = new FormControl();
   siteControl = new FormControl();
   settlementControl = new FormControl();
@@ -447,6 +450,25 @@ export class SearchMegadelComponent implements OnInit {
     }, 2500);
   }
 
+  clearInput(inputName: string): void {
+    switch (inputName) {
+      case 'username':
+        this.username = '';
+        break;
+      case 'numName':
+        this.numName = '';
+        break;
+      case 'site':
+        this.site = '';
+        break;
+      case 'settlement':
+        this.settlement = '';
+        break;
+
+      // Add cases for other input names if needed
+    }
+  }
+
   reloadNoStylingClasses() {
     this.blockUINoStylingClasses.start('Loading..');
 
@@ -489,8 +511,12 @@ export class SearchMegadelComponent implements OnInit {
     const parts = value.split('-');
     return parts.slice(0, -1).join('-');
   }
+  isLoading = false;
 
   async add() {
+    this.theDetails = [];
+    this.isLoading = true; // Start loading
+
     let SettlementName = '';
     let SitetName: any = '';
     let Username = '';
@@ -502,10 +528,7 @@ export class SearchMegadelComponent implements OnInit {
         await this.megadelSearchService.Get_All_Shloha_Id_By_NAME(extension);
       extension = resultsCodeShloha[0]?.id;
     }
-    console.log('usernameControl: ', this.usernameControl.value);
-    console.log('siteControl: ', this.siteControl.value);
-    console.log('settlementControl: ', this.settlementControl.value);
-    console.log('extensionControl: ', this.extensionControl.value);
+
     if (this.settlementControl.value) {
       // מלקט מהמחרוזת רק את שם היישוב
       SettlementName = this.settlementControl.value;
@@ -516,7 +539,6 @@ export class SearchMegadelComponent implements OnInit {
       const results88 =
         await this.megadelSearchService.get_growerId_By_code_atar(SitetName);
       SitetName = results88[0].grower_id;
-      console.log('SitetName: ', SitetName);
     }
 
     if (this.usernameControl.value) {
@@ -524,12 +546,6 @@ export class SearchMegadelComponent implements OnInit {
     }
 
     if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
-      console.log('in active');
-      console.log('SettlementName: ', SettlementName);
-      console.log('SitetName: ', SitetName);
-      console.log('Username: ', Username);
-      console.log('extension: ', extension);
-
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
           SitetName,
@@ -538,41 +554,37 @@ export class SearchMegadelComponent implements OnInit {
           extension
         );
 
-      console.log('results in the first: ', results);
+      if (results.length === 0) {
+        this.theDetails = results;
+      } else {
+        results.forEach(async (item) => {
+          let yz_yzrn = item.yz_yzrn;
+          const results2 =
+            await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+              yz_yzrn
+            );
+          if (results2[0]?.pa_Counter) {
+            item.pa_Counter = results2[0].pa_Counter;
+          } else {
+            item.pa_Counter = '';
+          }
+        });
 
-      results.forEach(async (item) => {
-        let yz_yzrn = item.yz_yzrn;
-        const results2 =
-          await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-            yz_yzrn
+        results.forEach(async (item444) => {
+          let yz_Id = item444.yz_Id;
+
+          const results3 = await this.megadelSearchService.get_siteName_by_yzId(
+            item444.yz_Id
           );
-        if (results2[0]?.pa_Counter) {
-          item.pa_Counter = results2[0].pa_Counter;
-        } else {
-          item.pa_Counter = '';
-        }
-      });
 
-      results.forEach(async (item444) => {
-        console.log('item_eran: ', item444.yz_Id);
+          const codes = results3.map((obj) => obj.code);
+          const joinedString = codes.join(', ');
+          item444.yz_Id = joinedString;
+        });
 
-        let yz_Id = item444.yz_Id;
-        console.log('yz_Id: ', yz_Id);
+        this.theDetails = results;
+      }
 
-        const results3 = await this.megadelSearchService.get_siteName_by_yzId(
-          item444.yz_Id
-        );
-
-        console.log('results222223: ', results3);
-        const codes = results3.map((obj) => obj.code);
-        const joinedString = codes.join(',');
-        console.log('joinedString: ', joinedString);
-        item444.yz_Id = joinedString;
-      });
-
-      console.log('ddddd: ', results[0].arrayOfAtar2);
-
-      this.theDetails = results;
       //   notActive
     } else if (this.selectedCheckbox === 'notActive') {
       const results =
@@ -593,5 +605,6 @@ export class SearchMegadelComponent implements OnInit {
         );
       this.theDetails = results;
     }
+    this.isLoading = false; // Stop loading
   }
 }

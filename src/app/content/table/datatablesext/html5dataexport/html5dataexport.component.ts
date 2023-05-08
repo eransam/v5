@@ -8,6 +8,8 @@ import { TableApiService } from 'src/app/_services/table-api.service';
 const { jsPDF } = require("jspdf");
 require('jspdf-autotable');
 
+
+
 @Component({
   selector: 'app-html5dataexport',
   templateUrl: './html5dataexport.component.html',

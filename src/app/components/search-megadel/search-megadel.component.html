@@ -6,34 +6,59 @@
         (ngSubmit)="add()"
         [formGroup]="DetailsForm"
       >
-        <div class="form-body">
+        <!-- input text search start ---------------------------------------------------------------------------------------------------------------------->
+
+        <div class="form-body text-right">
           <h4 class="form-section"><i class="la la-eye"></i>חיפוש מגדל:</h4>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group row mx-auto">
-                <label class="col-md-3 label-control" for="userinput1"
+                <label class="col-md-4 label-control" for="userinput1"
                   >שם מגדל</label
                 >
-                <div class="col-md-9">
+                <div class="col-md-8">
                   <input
                     name="username"
                     type="text"
                     id="username-input"
                     class="form-control border-primary"
-                    placeholder="First Name"
-                    [formControl]="usernameInput"
+                    placeholder="שם"
                     [(ngModel)]="username"
                     [formControl]="usernameControl"
                   />
+                  <span class="delete-icon" (click)="clearInput('username')">
+                    <i class="fa fa-times"></i>
+                  </span>
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group row mx-auto">
-                <label class="col-md-3 label-control" for="userinput2"
+                <label class="col-md-4 label-control" for="userinput1"
+                  >מספר מגדל</label
+                >
+                <div class="col-md-8">
+                  <input
+                    name="numName"
+                    type="text"
+                    id="numName-input"
+                    class="form-control border-primary"
+                    placeholder="מספר מגדל"
+                    [(ngModel)]="numName"
+                    [formControl]="numNameControl"
+                  />
+                  <span class="delete-icon" (click)="clearInput('numName')">
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput2"
                   >שם אתר</label
                 >
-                <div class="col-md-9">
+                <div class="col-md-8">
                   <input
                     type="text"
                     id="age-input"
@@ -43,36 +68,39 @@
                     [(ngModel)]="site"
                     [formControl]="siteControl"
                   />
+                  <span class="delete-icon" (click)="clearInput('site')">
+                    <i class="fa fa-times"></i>
+                  </span>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group row last mx-auto">
-                <label class="col-md-3 label-control" for="userinput3"
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput3"
                   >שלוחה</label
                 >
-                <div class="col-md-9">
-                  <!-- הכנסה של שדה חיצוני -->
+                <div class="col-md-8">
                   <ng-select
+                    style="
+                      direction: rtl;
+                      justify-content: right;
+                      text-align: right;
+                    "
                     [items]="extension1"
                     [searchable]="true"
                     [formControl]="extensionControl"
                     placeholder="בחר שלוחה"
                     [(ngModel)]="extension"
-                  >
-                  </ng-select>
+                  ></ng-select>
                 </div>
               </div>
             </div>
-
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group row last mx-auto">
-                <label class="col-md-3 label-control" for="userinput4"
+                <label class="col-md-4 label-control" for="userinput4"
                   >ישוב</label
                 >
-                <div class="col-md-9">
+                <div class="col-md-8">
                   <input
                     type="text"
                     id="settlement-input"
@@ -82,35 +110,17 @@
                     placeholder="ישוב"
                     [(ngModel)]="settlement"
                     [formControl]="settlementControl"
-                    [matAutocomplete]="autoSettlement"
                   />
-                  <mat-autocomplete
-                    #autoSettlement="matAutocomplete"
-                    style="
-                      position: absolute !important;
-                      top: 21% !important;
-                      left: 20% !important;
-                      background-color: white !important;
-                      color: black !important;
-                      direction: rtl !important;
-                      width: 427px !important;
-                    "
-                    class="autoComplateTest"
-                  >
-                    <mat-option
-                      *ngFor="let settlement12 of filteredsettlement | async"
-                      [value]="settlement12"
-                    >
-                      <div>
-                        {{ settlement12 }}
-                      </div>
-                    </mat-option>
-                  </mat-autocomplete>
+                  <span class="delete-icon" (click)="clearInput('settlement')">
+                    <i class="fa fa-times"></i>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- input text search end ---------------------------------------------------------------------------------------------------------------------->
 
         <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
 
@@ -178,18 +188,22 @@
                           <!-- <button type="button" class="btn btn-warning mr-1">
                             <i class="feather ft-x"></i> בטל
                           </button>  -->
-
-                          <i class="feather ft-x"></i> נקה
-
-                          <button type="submit" class="btn btn-primary">
-                            <i class="la la-check"></i> חפש
-                          </button>
                           <button
                             type="bottun"
                             class="btn btn-primary cleanBtn"
-                            style="margin-right: 5px"
+                            style="margin-left: 15px !important"
                             (click)="cleanInputFild()"
-                          ></button>
+                          >
+                            <i class="feather ft-x"></i> נקה
+                          </button>
+
+                          <button
+                            type="submit"
+                            class="btn btn-primary"
+                            (keyup.enter)="add()"
+                          >
+                            <i class="la la-check"></i> חפש
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -199,151 +213,226 @@
             </div>
           </section>
         </div>
-        <!--end Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
+        <!--end Color Checkboxes  ---------------------------------------------------------------------------------------------------------------------->
       </form>
     </div>
-    <div class="content-body">
+
+    <!-- table of results  ---------------------------------------------------------------------------------------------------------------------->
+
+    <div class="content-body text-right">
       <!-- Base style table -->
-      <section id="base-style">
-        <div class="row">
-          <div class="col-12" *blockUI="'baseStyle'; message: 'Loading'">
-            <m-card
-              [options]="options"
-              (reloadFunction)="reloadBaseStyle($event)"
-            >
-              <ng-container mCardHeaderTitle> חיפוש מגדל </ng-container>
-              <ng-container mCardBody>
-                <div class="card-dashboard">
-                  <div class="table table-striped table-bordered base-style">
-                    <ngx-datatable
-                      class="bootstrap ps"
-                      [limit]="20"
-                      [rows]="theDetails"
-                      [columnMode]="'force'"
-                      [headerHeight]="50"
-                      [footerHeight]="50"
-                      [rowHeight]="50"
-                      fxFlex="auto"
-                      [perfectScrollbar]="config"
-                    >
-                      <ngx-datatable-column
-                        name="אתר"
-                        [flexGrow]="1"
-                        [minWidth]="90"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_Id }}
-                        </ng-template>
-                      </ngx-datatable-column>
 
-                      <ngx-datatable-column
-                        name="שם יצרן"
-                        [flexGrow]="1"
-                        [minWidth]="90"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_shem }}
-                        </ng-template>
-                      </ngx-datatable-column>
+      <div *ngIf="isLoading" class="loader"></div>
 
-                      <ngx-datatable-column
-                        name="מספר יצרן"
-                        [flexGrow]="1"
-                        [minWidth]="90"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_yzrn }}
-                        </ng-template>
-                      </ngx-datatable-column>
+      <!-- Rest of your template -->
 
-                      <ngx-datatable-column
-                        name="שם פרטי"
-                        [flexGrow]="1"
-                        [minWidth]="30"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_first_name }}
-                        </ng-template>
-                      </ngx-datatable-column>
+      <div *ngIf="!isLoading">
+        <!-- Display theDetails data -->
 
-                      <ngx-datatable-column
-                        name="שם משפחה"
-                        [flexGrow]="1"
-                        [minWidth]="90"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_last_name }}
-                        </ng-template>
-                      </ngx-datatable-column>
+        <section id="base-style text-right">
+          <div class="row">
+            <div class="col-12" *blockUI="'baseStyle'; message: 'Loading'">
+              <m-card
+                [options]="options"
+                (reloadFunction)="reloadBaseStyle($event)"
+              >
+                <ng-container mCardHeaderTitle> חיפוש מגדל </ng-container>
 
-                      <ngx-datatable-column
-                        name="ת.ז"
-                        [flexGrow]="1"
-                        [minWidth]="90"
+                <ng-container mCardBody>
+                  <div class="importBth">
+                    <div class="justify-content">
+                      <button
+                        class="btn btn-secondary buttons-excel buttons-html5"
+                        (click)="callServiceToCopy()"
                       >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_zehut }}
-                        </ng-template>
-                      </ngx-datatable-column>
-                      <ngx-datatable-column
-                        name="ישוב"
-                        [flexGrow]="1"
-                        [minWidth]="90"
+                        Copy
+                      </button>
+                      <button
+                        class="btn btn-secondary buttons-excel buttons-html5"
+                        (click)="getExcelData()"
                       >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.yz_shem_yeshuv }}
-                        </ng-template>
-                      </ngx-datatable-column>
-                      <ngx-datatable-column
-                        name="סוג מגדל"
-                        [flexGrow]="1"
-                        [minWidth]="90"
+                        Excel
+                      </button>
+                      <button
+                        class="btn btn-secondary buttons-excel buttons-html5"
+                        (click)="getPdfData()"
                       >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          <ng-container *ngIf="row.yz_sug === 1">
-                            ראשי
-                          </ng-container>
-                          <ng-container *ngIf="row.yz_sug === 2">
-                            שותף
-                          </ng-container>
-                          <ng-container *ngIf="row.yz_sug === 3">
-                            פרטני
-                          </ng-container>
-                        </ng-template>
-                      </ngx-datatable-column>
-
-                      <ngx-datatable-column
-                        name="ג''ח"
-                        [flexGrow]="1"
-                        [minWidth]="90"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          {{ row.pa_Counter }}
-                        </ng-template>
-                      </ngx-datatable-column>
-
-                      <ngx-datatable-column
-                        name="סטטוס"
-                        [flexGrow]="1"
-                        [minWidth]="90"
-                      >
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                          <ng-container
-                            *ngIf="row.yz_is_activ === 1; else closedTemplate"
-                          >
-                            לא פעיל
-                          </ng-container>
-                          <ng-template #closedTemplate> פעיל </ng-template>
-                        </ng-template>
-                      </ngx-datatable-column>
-                    </ngx-datatable>
+                        Pdf
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </ng-container>
-            </m-card>
+                  <div class="card-dashboard text-right">
+                    <div class="table table-striped table-bordered base-style">
+                      <ngx-datatable
+                        class="bootstrap ps"
+                        [limit]="20"
+                        [rows]="theDetails"
+                        [columnMode]="'force'"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [rowHeight]="50"
+                        fxFlex="auto"
+                        [perfectScrollbar]="config"
+                      >
+                        <ngx-datatable-column
+                          name="אתר"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">{{ row.yz_Id }}</div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="שם יצרן"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">{{ row.yz_shem }}</div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="מספר יצרן"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">{{ row.yz_yzrn }}</div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="שם פרטי"
+                          [flexGrow]="1"
+                          [minWidth]="30"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              {{ row.yz_first_name }}
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="שם משפחה"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              {{ row.yz_last_name }}
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="ת.ז"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">{{ row.yz_zehut }}</div>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column
+                          name="ישוב"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              {{ row.yz_shem_yeshuv }}
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column
+                          name="סוג מגדל"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <ng-container *ngIf="row.yz_sug === 1">
+                              <div [class]="'text-right'">ראשי</div>
+                            </ng-container>
+                            <ng-container *ngIf="row.yz_sug === 2">
+                              <div [class]="'text-right'">שותף</div>
+                            </ng-container>
+                            <ng-container *ngIf="row.yz_sug === 3">
+                              <div [class]="'text-right'">פרטני</div>
+                            </ng-container>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="ג''ח"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              {{ row.pa_Counter }}
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="סטטוס"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <ng-container
+                              *ngIf="row.yz_is_activ === 1; else closedTemplate"
+                            >
+                              <div [class]="'text-right'">לא פעיל</div>
+                            </ng-container>
+                            <ng-template #closedTemplate>
+                              <div [class]="'text-right'">פעיל</div>
+                            </ng-template>
+                          </ng-template>
+                        </ngx-datatable-column>
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </ng-container>
+              </m-card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </div>
