@@ -1,10 +1,9 @@
 <div class="app-content content">
   <div class="content-wrapper">
-    <div class="content-header row mb-1">
-    </div>
+    <div class="content-header row mb-1"></div>
     <div class="content-body">
       <!-- eCommerce statistic -->
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-xl-3 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
@@ -87,11 +86,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!--/ eCommerce statistic -->
 
       <!-- Products sell and New Orders -->
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-xl-8 col-12">
           <div class="card card-shadow">
             <div class="card-header card-header-transparent py-20">
@@ -290,7 +289,7 @@
             </ng-container>
           </m-card>
         </div>
-      </div>
+      </div> -->
       <!--/ Products sell and New Orders -->
 
       <!-- Recent Transactions -->
@@ -302,13 +301,23 @@
 
               <div class="heading-elements invoice">
                 <ul class="list-inline mb-0">
-                  <li><a [routerLink]="" class="btn btn-sm btn-danger box-shadow-2 round btn-min-width pull-right"
-                      (click)="rotueInvoice()">Invoice Summary</a></li>
+                  <li>
+                    <a
+                      [routerLink]=""
+                      class="btn btn-sm btn-danger box-shadow-2 round btn-min-width pull-right"
+                      (click)="rotueInvoice()"
+                      >Invoice Summary</a
+                    >
+                  </li>
                 </ul>
               </div>
             </div>
             <div class="card-content">
-              <div class="table-responsive" fxFlex="auto" [perfectScrollbar]="config">
+              <div
+                class="table-responsive"
+                fxFlex="auto"
+                [perfectScrollbar]="config"
+              >
                 <table class="table table-hover table-xl border_bottom">
                   <thead>
                     <tr>
@@ -324,31 +333,51 @@
                   <tbody>
                     <tr *ngFor="let row of rows">
                       <td class="text-truncate row_padding">
-                        <i class="la la-dot-circle-o {{row.statusSymbol}} font-medium-1 mr-1"></i>
-                        {{row.status}}
+                        <i
+                          class="la la-dot-circle-o {{
+                            row.statusSymbol
+                          }} font-medium-1 mr-1"
+                        ></i>
+                        {{ row.status }}
                       </td>
                       <td class="text-truncate row_padding">
                         <a [routerLink]="">{{ row.invoice }}</a>
                       </td>
                       <td class="text-truncate row_padding">
-                        <span class="avatar avatar-xs"><img class="box-shadow-2 image-name-space"
-                            [src]="row.image"></span><span>{{row.name}}</span>
+                        <span class="avatar avatar-xs"
+                          ><img
+                            class="box-shadow-2 image-name-space"
+                            [src]="row.image" /></span
+                        ><span>{{ row.name }}</span>
                       </td>
                       <td class="text-truncate row_padding">
-                        <span><img class="media-object avatar avatar-md avatar-online media-left pull-up square"
-                            [src]="row.categories"></span>
+                        <span
+                          ><img
+                            class="media-object avatar avatar-md avatar-online media-left pull-up square"
+                            [src]="row.categories"
+                        /></span>
                       </td>
                       <td class="text-truncate row_padding">
                         <span>
-                          <button type="button"
-                            class="btn btn-sm btn-outline-{{row.type}} round">{{row.buttonname}}</button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-{{ row.type }} round"
+                          >
+                            {{ row.buttonname }}
+                          </button>
                         </span>
                       </td>
                       <td class="text-truncate row_padding">
-                        <ngb-progressbar height="7px" type="{{row.progressColor}}" [value]=row.value>
+                        <ngb-progressbar
+                          height="7px"
+                          type="{{ row.progressColor }}"
+                          [value]="row.value"
+                        >
                         </ngb-progressbar>
                       </td>
-                      <td class="text-truncate row_padding">{{ row.amount }} </td>
+                      <td class="text-truncate row_padding">
+                        {{ row.amount }}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -360,7 +389,7 @@
       <!--/ Recent Transactions -->
 
       <!--Recent Orders & Monthly Sales -->
-      <div class="row match_height">
+      <!-- <div class="row match_height">
         <div class="col-xl-12 col-lg-12">
           <div class="card">
             <div class="card-content top_space">
@@ -406,9 +435,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!--/Recent Orders & Monthly Sales -->
-      <div class="row" matchHeight="card">
+      <!-- <div class="row" matchHeight="card">
         <div class="col-xl-4 col-lg-12">
           <div class="card">
             <div class="card-header">
@@ -502,7 +531,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!--/ Basic Horizontal Timeline -->
     </div>
   </div>

@@ -661,6 +661,8 @@ mat-autocomplete {
     font-size: medium;
     font-weight: bold;
     color: #6b6f82;
+    display: flex;
+    justify-content: left;
   }
 
   :host ::ng-deep .btn:not(:disabled):not(.disabled) {
@@ -1014,4 +1016,17 @@ mat-autocomplete {
 .ngx-datatable *:after {
   box-sizing: border-box;
   font-size: large;
+}
+
+.logoIngStyle {
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  display: flex !important;
+  justify-content: left !important;
+}
+
+.importBth {
+  display: flex;
+  justify-content: left;
 }

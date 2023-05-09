@@ -31,7 +31,7 @@ import { HospitalComponent } from './hospital/hospital.component';
     }),
     RouterModule.forChild([
       {
-        path: 'ecommerce',
+        path: 'ecommerce/:id',
         component: EcommerceComponent
       },
       {

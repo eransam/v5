@@ -5,6 +5,7 @@
         class="form form-horizontal row-separator"
         (ngSubmit)="add()"
         [formGroup]="DetailsForm"
+        (keyup.enter)="add()"
       >
         <!-- input text search start ---------------------------------------------------------------------------------------------------------------------->
 
@@ -25,6 +26,7 @@
                     placeholder="שם"
                     [(ngModel)]="username"
                     [formControl]="usernameControl"
+                    (keydown.enter)="$event.preventDefault()"
                   />
                   <span class="delete-icon" (click)="clearInput('username')">
                     <i class="fa fa-times"></i>
@@ -46,6 +48,7 @@
                     placeholder="מספר מגדל"
                     [(ngModel)]="numName"
                     [formControl]="numNameControl"
+                    (keydown.enter)="$event.preventDefault()"
                   />
                   <span class="delete-icon" (click)="clearInput('numName')">
                     <i class="fa fa-times"></i>
@@ -56,7 +59,7 @@
             <div class="col-md-4">
               <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput2"
-                  >שם אתר</label
+                  >מספר אתר</label
                 >
                 <div class="col-md-8">
                   <input
@@ -67,6 +70,7 @@
                     placeholder="שם אתר"
                     [(ngModel)]="site"
                     [formControl]="siteControl"
+                    (keydown.enter)="$event.preventDefault()"
                   />
                   <span class="delete-icon" (click)="clearInput('site')">
                     <i class="fa fa-times"></i>
@@ -110,6 +114,7 @@
                     placeholder="ישוב"
                     [(ngModel)]="settlement"
                     [formControl]="settlementControl"
+                    (keydown.enter)="$event.preventDefault()"
                   />
                   <span class="delete-icon" (click)="clearInput('settlement')">
                     <i class="fa fa-times"></i>
@@ -197,11 +202,7 @@
                             <i class="feather ft-x"></i> נקה
                           </button>
 
-                          <button
-                            type="submit"
-                            class="btn btn-primary"
-                            (keyup.enter)="add()"
-                          >
+                          <button type="submit" class="btn btn-primary">
                             <i class="la la-check"></i> חפש
                           </button>
                         </div>
@@ -241,24 +242,26 @@
                 <ng-container mCardBody>
                   <div class="importBth">
                     <div class="justify-content">
-                      <button
-                        class="btn btn-secondary buttons-excel buttons-html5"
-                        (click)="callServiceToCopy()"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-secondary buttons-excel buttons-html5"
-                        (click)="getExcelData()"
-                      >
-                        Excel
-                      </button>
-                      <button
-                        class="btn btn-secondary buttons-excel buttons-html5"
+                      <!-- <img
+                        class="logoIngStyle"
+                        src="../../../assets/logo/pdf.png"
+                        alt="Image"
                         (click)="getPdfData()"
-                      >
-                        Pdf
-                      </button>
+                      /> -->
+
+                      <img
+                        class="logoIngStyle"
+                        src="../../../assets/logo/excel.png"
+                        alt="Image"
+                        (click)="getExcelData()"
+                      />
+
+                      <!-- <img
+                        class="logoIngStyle"
+                        src="../../../assets/logo/printLogo.PNG"
+                        alt="Image"
+                        (click)="getExcelData()"
+                      /> -->
                     </div>
                   </div>
                   <div class="card-dashboard text-right">
@@ -275,7 +278,7 @@
                         [perfectScrollbar]="config"
                       >
                         <ngx-datatable-column
-                          name="אתר"
+                          name="מספר אתר"
                           [flexGrow]="1"
                           [minWidth]="90"
                         >
@@ -283,7 +286,17 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <div [class]="'text-right'">{{ row.yz_Id }}</div>
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_Id
+                                ]"
+                              >
+                                {{ row.yz_Id }}</a
+                              >
+                              <!-- {{ row.yz_Id }} -->
+                            </div>
                           </ng-template>
                         </ngx-datatable-column>
 
@@ -296,20 +309,11 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <div [class]="'text-right'">{{ row.yz_shem }}</div>
-                          </ng-template>
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column
-                          name="מספר יצרן"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">{{ row.yz_yzrn }}</div>
+                            <div [class]="'text-right'">
+                              <a [routerLink]="['/details', row.id]">{{
+                                row.yz_shem
+                              }}</a>
+                            </div>
                           </ng-template>
                         </ngx-datatable-column>
 
@@ -323,7 +327,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              {{ row.yz_first_name }}
+                              <a [routerLink]="['/details', row.id]">
+                                {{ row.yz_first_name }}</a
+                              >
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -338,7 +344,26 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              {{ row.yz_last_name }}
+                              <a [routerLink]="['/details', row.id]">
+                                {{ row.yz_last_name }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                          name="מספר יצרן"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a [routerLink]="['/details', row.id]">
+                                {{ row.yz_yzrn }}</a
+                              >
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -352,7 +377,11 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <div [class]="'text-right'">{{ row.yz_zehut }}</div>
+                            <div [class]="'text-right'">
+                              <a [routerLink]="['/details', row.id]">{{
+                                row.yz_zehut
+                              }}</a>
+                            </div>
                           </ng-template>
                         </ngx-datatable-column>
                         <ngx-datatable-column
@@ -365,7 +394,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              {{ row.yz_shem_yeshuv }}
+                              <a [routerLink]="['/details', row.id]">{{
+                                row.yz_shem_yeshuv
+                              }}</a>
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -379,13 +410,19 @@
                             ngx-datatable-cell-template
                           >
                             <ng-container *ngIf="row.yz_sug === 1">
-                              <div [class]="'text-right'">ראשי</div>
+                              <div [class]="'text-right'">
+                                <a [routerLink]="['/details', row.id]">ראשי</a>
+                              </div>
                             </ng-container>
                             <ng-container *ngIf="row.yz_sug === 2">
-                              <div [class]="'text-right'">שותף</div>
+                              <div [class]="'text-right'">
+                                <a [routerLink]="['/details', row.id]"> שותף</a>
+                              </div>
                             </ng-container>
                             <ng-container *ngIf="row.yz_sug === 3">
-                              <div [class]="'text-right'">פרטני</div>
+                              <div [class]="'text-right'">
+                                <a [routerLink]="['/details', row.id]">פרטני</a>
+                              </div>
                             </ng-container>
                           </ng-template>
                         </ngx-datatable-column>
@@ -400,7 +437,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              {{ row.pa_Counter }}
+                              <a [routerLink]="['/details', row.id]">
+                                {{ row.pa_Counter }}</a
+                              >
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -417,10 +456,21 @@
                             <ng-container
                               *ngIf="row.yz_is_activ === 1; else closedTemplate"
                             >
-                              <div [class]="'text-right'">לא פעיל</div>
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.id
+                                  ]"
+                                >
+                                  לא פעיל</a
+                                >
+                              </div>
                             </ng-container>
                             <ng-template #closedTemplate>
-                              <div [class]="'text-right'">פעיל</div>
+                              <div [class]="'text-right'">
+                                <a [routerLink]="['/details', row.id]"> פעיל</a>
+                              </div>
                             </ng-template>
                           </ng-template>
                         </ngx-datatable-column>

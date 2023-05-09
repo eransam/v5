@@ -21,9 +21,15 @@ import { map, startWith } from 'rxjs/operators';
 import { ReportService } from '../../services/reports.service';
 import { MegadelSearchService } from '../../services/MegadelSearch.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import { TableexcelService } from '../../../../services/tableexcel.service';
+
+import { TableexcelService } from '../../services/tableexcel.service';
+import * as XLSX from 'xlsx';
 
 import { Router } from '@angular/router';
 import { NotifyService } from '../../services/notify.service';
+const { jsPDF } = require('jspdf');
+require('jspdf-autotable');
 
 @Component({
   selector: 'app-search-megadel',
@@ -122,6 +128,7 @@ export class SearchMegadelComponent implements OnInit {
   @ViewChild(DatatableComponent, { static: true }) table: DatatableComponent;
 
   constructor(
+    private tableexcelService: TableexcelService,
     private tableApiservice: TableApiService,
     private formBuilder: FormBuilder,
     private megadelSearchService: MegadelSearchService,
@@ -428,6 +435,51 @@ export class SearchMegadelComponent implements OnInit {
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
+
+  getExcelData(): void {
+    this.tableexcelService.exportAsExcelFile(
+      this.theDetails,
+      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+    );
+  }
+
+  getPdfData() {
+    const doc = new jsPDF();
+    const col = [
+      'מס אתר',
+      'שם יצרן',
+      'שם פרטי',
+      'שם משפחה',
+      'מספר יצרן',
+      'ת.ז',
+      'ישוב',
+      'סוג מגדל',
+    ];
+    const rows = [];
+
+    this.theDetails.forEach((element) => {
+      const temp = [
+        element.yz_Id,
+        element.yz_shem,
+        element.yz_first_name,
+        element.yz_last_name,
+        element.yz_yzrn,
+        element.yz_zehut,
+        element.yz_shem_yeshuv,
+      ];
+      rows.push(temp);
+    });
+    doc.autoTable(col, rows);
+    doc.save('Test.pdf');
+  }
+  getPrint(printME) {
+    const printContents = document.getElementById(printME).innerHTML;
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  }
+
   updatecompactFilter(event) {
     const val = event.target.value.toLowerCase();
     this.baserows = [...this.temp2]; // and here you have to initialize it with your data
@@ -485,6 +537,15 @@ export class SearchMegadelComponent implements OnInit {
     }, 2500);
   }
 
+  //   exportExcel(): void {
+  //     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+  //       this.table.nativeElement
+  //     );
+  //     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  //     XLSX.writeFile(workbook, 'table.xlsx');
+  //   }
+
   reloadUserProfile() {
     this.blockUIUserProfile.start('Loading..');
 
@@ -514,6 +575,8 @@ export class SearchMegadelComponent implements OnInit {
   isLoading = false;
 
   async add() {
+    console.log('in the add');
+
     this.theDetails = [];
     this.isLoading = true; // Start loading
 
@@ -536,10 +599,18 @@ export class SearchMegadelComponent implements OnInit {
 
     if (this.siteControl.value) {
       SitetName = this.siteControl.value.split('-').pop();
+
       const results88 =
         await this.megadelSearchService.get_growerId_By_code_atar(SitetName);
-      SitetName = results88[0].grower_id;
+
+      console.log('results88-test: ', results88);
+      if (results88[0]?.grower_id) {
+        SitetName = results88[0].grower_id;
+      } else {
+        SitetName = 'מספר לא קיים';
+      }
     }
+    console.log('this.usernameControl.value: ', this.usernameControl.value);
 
     if (this.usernameControl.value) {
       Username = this.usernameControl.value.split('-')[0];

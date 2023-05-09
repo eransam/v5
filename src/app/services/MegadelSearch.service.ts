@@ -14,11 +14,14 @@ export class MegadelSearchService {
   //   string yz_Id, string yz_first_name, string yz_shem_yeshuv, string belonging_group_id
 
   async megadel_by_atar_name_yeshov_shloha_active(
+    
     yz_Id: any,
     yz_first_name: any,
     yz_shem_yeshuv: any,
     belonging_group_id: any
   ): Promise<any[]> {
+    console.log("yz_Id-999: " , yz_Id);
+
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_active?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}`
@@ -35,6 +38,7 @@ export class MegadelSearchService {
     yz_shem_yeshuv: any,
     belonging_group_id: any
   ): Promise<any[]> {
+    
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_not_active?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}`
