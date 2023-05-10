@@ -97,6 +97,7 @@ export class EcommerceComponent implements OnInit {
     );
 
     console.log('this.FarmDetails: ', this.FarmDetails);
+    this.rows = this.FarmDetails;
 
     this.chartApiservice.getEcommerceData().subscribe((Response) => {
       this.ChartistData = Response;
@@ -109,7 +110,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   getTabledata() {
-    this.rows = this.datatableData.rows;
+    this.rows = this.FarmDetails;
   }
   getlineArea() {
     const ChartData = this.ChartistData;
