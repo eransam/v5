@@ -20,6 +20,7 @@ export interface Chart {
   events?: ChartEvent;
 }
 import { ActivatedRoute } from '@angular/router';
+import { MegadelSearchService } from '../../../services/MegadelSearch.service';
 
 @Component({
   selector: 'app-ecommerce',
@@ -34,6 +35,8 @@ export class EcommerceComponent implements OnInit {
   componentRef?: PerfectScrollbarComponent;
   @ViewChild(PerfectScrollbarDirective)
   directiveRef?: PerfectScrollbarDirective;
+
+  idFromurl: any;
 
   currentJustify = 'end';
   loadingIndicator = true;
@@ -56,13 +59,55 @@ export class EcommerceComponent implements OnInit {
   Daygraph = true;
   Weekgraph = false;
   Monthgraph = false;
-
+  FarmId: any = '';
+  siteName: any = '';
+  FarmDetails: any = '';
+  henHouseID: any = '-1';
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
+    private megadelSearchService: MegadelSearchService,
     private route: Router,
     private route2: ActivatedRoute
   ) {}
+
+  async ngOnInit() {
+    this.route2.params.subscribe((params) => {
+      this.idFromurl = params['id']; // Retrieve the parameter value from the URL
+      console.log('idFromurl: ', this.idFromurl); // Print the parameter value
+      // Save the parameter value in a variable or perform any other logic
+    });
+
+    this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
+      this.idFromurl
+    );
+    console.log('this.siteName: ', this.siteName);
+    if (this.siteName[0]?.code) {
+      this.FarmId = await this.megadelSearchService.Get_farmId_By_siteName(
+        this.siteName[0]?.code
+      );
+    }
+    console.log('FarmId: ', this.FarmId);
+    this.FarmId = this.FarmId[0]?.id;
+    console.log('FarmId2: ', this.FarmId);
+
+    this.FarmDetails = await this.megadelSearchService.prc_farm_details_eran(
+      this.FarmId,
+      this.henHouseID
+    );
+
+    console.log('this.FarmDetails: ', this.FarmDetails);
+
+    this.chartApiservice.getEcommerceData().subscribe((Response) => {
+      this.ChartistData = Response;
+      this.getlineArea();
+    });
+    this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
+      this.datatableData = Response;
+      this.getTabledata();
+    });
+  }
+
   getTabledata() {
     this.rows = this.datatableData.rows;
   }
@@ -424,21 +469,6 @@ export class EcommerceComponent implements OnInit {
   }
   ///////////////////// End barchart////////////////
 
-  ngOnInit() {
-    this.route2.params.subscribe((params) => {
-      const idFromurl = params['id']; // Retrieve the parameter value from the URL
-      console.log('idFromurl: ', idFromurl); // Print the parameter value
-      // Save the parameter value in a variable or perform any other logic
-    });
-    this.chartApiservice.getEcommerceData().subscribe((Response) => {
-      this.ChartistData = Response;
-      this.getlineArea();
-    });
-    this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
-      this.datatableData = Response;
-      this.getTabledata();
-    });
-  }
   reloadNewOrders() {
     this.blockUINewOrders.start('Loading..');
     setTimeout(() => {

@@ -276,7 +276,7 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_Id
+                                  row.yz_IdReal
                                 ]"
                               >
                                 {{ row.yz_Id }}</a
@@ -295,9 +295,10 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">{{
-                                row.yz_shem
-                              }}</a>
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                >{{ row.yz_shem }}</a
+                              >
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -312,7 +313,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                              >
                                 {{ row.yz_first_name }}</a
                               >
                             </div>
@@ -329,7 +332,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                              >
                                 {{ row.yz_last_name }}</a
                               >
                             </div>
@@ -346,7 +351,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                              >
                                 {{ row.yz_yzrn }}</a
                               >
                             </div>
@@ -363,9 +370,10 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">{{
-                                row.yz_zehut
-                              }}</a>
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                >{{ row.yz_zehut }}</a
+                              >
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -379,9 +387,10 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">{{
-                                row.yz_shem_yeshuv
-                              }}</a>
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                >{{ row.yz_shem_yeshuv }}</a
+                              >
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
@@ -396,17 +405,36 @@
                           >
                             <ng-container *ngIf="row.yz_sug === 1">
                               <div [class]="'text-right'">
-                                <a [routerLink]="['/details', row.id]">ראשי</a>
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.id
+                                  ]"
+                                  >ראשי</a
+                                >
                               </div>
                             </ng-container>
                             <ng-container *ngIf="row.yz_sug === 2">
                               <div [class]="'text-right'">
-                                <a [routerLink]="['/details', row.id]"> שותף</a>
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.id
+                                  ]"
+                                >
+                                  שותף</a
+                                >
                               </div>
                             </ng-container>
                             <ng-container *ngIf="row.yz_sug === 3">
                               <div [class]="'text-right'">
-                                <a [routerLink]="['/details', row.id]">פרטני</a>
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.id
+                                  ]"
+                                  >פרטני</a
+                                >
                               </div>
                             </ng-container>
                           </ng-template>
@@ -422,7 +450,9 @@
                             ngx-datatable-cell-template
                           >
                             <div [class]="'text-right'">
-                              <a [routerLink]="['/details', row.id]">
+                              <a
+                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                              >
                                 {{ row.pa_Counter }}</a
                               >
                             </div>
@@ -454,7 +484,14 @@
                             </ng-container>
                             <ng-template #closedTemplate>
                               <div [class]="'text-right'">
-                                <a [routerLink]="['/details', row.id]"> פעיל</a>
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.id
+                                  ]"
+                                >
+                                  פעיל</a
+                                >
                               </div>
                             </ng-template>
                           </ng-template>

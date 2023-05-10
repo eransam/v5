@@ -654,17 +654,16 @@ export class SearchMegadelComponent implements OnInit {
         });
 
         results.forEach(async (item444) => {
-          let yz_Id = item444.yz_Id;
 
           const results3 = await this.megadelSearchService.get_siteName_by_yzId(
             item444.yz_Id
           );
-
+          
           const codes = results3.map((obj) => obj.code);
           const joinedString = codes.join(', ');
+          item444.yz_IdReal = item444.yz_Id;
           item444.yz_Id = joinedString;
         });
-
         this.theDetails = results;
       }
 

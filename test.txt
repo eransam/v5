@@ -1,0 +1,298 @@
+USE [LulMobile]
+GO
+/****** Object:  StoredProcedure [dbo].[prc_farm_details]    Script Date: 10/05/2023 09:35:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec prc_farm_details @farm_id=3690 ,@hen_house_id = -1
+
+ALTER procedure [dbo].[prc_farm_details]
+	 @farm_id int=null
+	,@belonging_group_id int =null,@code int =null 
+	,@is_hen_house_split int =null
+	,@hen_house_id smallint=null
+AS
+
+	declare @datetime_string nvarchar(15) = (select pinuyofot.dbo.func_DateString(day(getdate()),month(getdate()),year(getdate())))
+
+	declare @egg_factory_id int
+	declare @egg_factory_name nvarchar(150)
+
+--	declare @egg_warehouse_id int
+	declare @egg_warehouse_name  nvarchar(150)
+
+	declare @mifkad_desc nvarchar(50)
+
+	declare @msvk_count tinyint = 1
+
+	--select @msvk_count=count(distinct msvk_id) 
+	--from HELPDESC.dbo.OvedToMsvk
+	--where farm_id = @farm_id
+
+	declare @hen_house_desc_active nvarchar(50) = ''
+	declare @hen_house_not_active nvarchar(50) = ''
+    
+	select *
+	into #tmp_henhouse
+	from ChickenHealth.dbo.HEN_HOUSE 
+	where farm_id = @farm_id 
+
+    select  @hen_house_desc_active= convert(nvarchar,(select COUNT(*) from #tmp_henhouse where status_id = 1)) + ' פעילים' ,
+	        @hen_house_not_active=  convert(nvarchar,(select COUNT(*) from #tmp_henhouse where status_id = 2)) + ' לא פעילים' 
+            
+
+	SELECT distinct 
+	--Egg.dbo.GetMsvkZamud(case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end ,FARM.id ,(select HELPDESC.dbo.func_Convert_CH_BG (belonging_group_id)),@datetime_string,56) as sug,
+
+	FARM.id AS farm_id,
+		   FARM.code AS farm_code,
+		   FARM.name AS farm_name,
+		   (select top 1 yz_shem + ' / ' + yz_yzrn + ' / ' + Yeshuvim.yv_Shem from EGG.dbo.Yazran left outer join EGG.dbo.Yeshuvim on Yazran.yz_yeshuv = Yeshuvim.yv_Yeshuv where cast(yz_yzrn as int) = cast(Yazran.yz_yzrn as int)) as farm_name_lull2000,
+		   FARM.farm_type_id, 
+		   FARM_TYPE.name,
+		   farm.settlement_id as settlement_id,
+		   CONVERT(nvarchar(10), FARM.code) + case when @hen_house_id = -1 then '' else '/' + CONVERT(nvarchar,house_num_int) end + ' - ' + FARM.name  AS farm_code_name,
+		   FARM.funding_customer_id,
+		  
+		   FARM.incubator,
+		   FARM.grower_id, 
+		   farm.funder_change_reason,
+		   FARM.confirm_plan_date,
+		   FARM.farm_status_id,
+		   CASE WHEN farm_status_id = 1 THEN 'פעיל' ELSE 'סגור' END AS farm_status_name, 
+		   FARM.x_coord, 
+		   FARM.y_coord, 
+		   FARM.date_created, 
+		   FARM.comments, 
+		   Yeshuvim.yv_Shem as settlement_name,
+		   Yeshuvim.yv_Yeshuv as settlement_number,
+		   case when is_hen_house_split = 1 then grower_hen_house.yz_shem else yazran.yz_shem end as grower_name,
+		   case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end as lull2000_code,
+		 --  (select top 1 Rashai from egg.dbo.Yezur_mehushav where yzrn =yazran.yz_yzrn) as rashai,
+		   BG.id as belonging_group_id,
+		   BG.name as belonging_group_name,
+           CONVERT(CHAR(10),FARM.date_created,103) AS create_date,
+		   (select count(*) from ChickenHealth.dbo.FARM_PERMIT_DOCUMENT where farm_id = farm.id) as farm_permit_document_count,
+	   --	   CASE WHEN (select count(*) from ChickenHealth_Log.dbo.FARM_LOG where farm_id = FARM.id)>1 THEN 1 ELSE 0 END AS IS_COLOR_LOG ,
+		   block_id,
+		   case when not farm.block_id is null then (select count(*) from ChickenHealth.dbo.farm f where f.block_id = farm.block_id) else 0 end as block_count,
+		   case when flock_status_id = 1 and flock_hatch_date is null then (select top 1 id from ChickenHealth.dbo.flock where farm_id = @farm_id and flock_status_id = 2 order by id desc) else flock.id end as active_flock_id,
+		   case when flock.id is null or flock_hatch_date is null  then 2 else 1 end as flock_status_id,
+		  --flock_status_id,
+		   flock.flock_hatch_date as flock_hatch_date,
+		   is_farm_up,
+		   0 as is_child_farm,
+		   0 as is_child_farm_id,
+		  -- (select  * from EGG.dbo.Yezur_mehushav where yzrn = Yeshuv_Yazran.v_yzrn
+	
+		   (select count(*) from ChickenHealth.dbo.SEKER_HATALA where farm_id = FARM.ID) as seker_hatala_count,
+		   (select count(*) from ChickenHealth.dbo.CONTACT_PERSON  where customer_id = FARM.ID) as contact_person_count,
+		   (select count(*) from ChickenHealth.dbo.HEN_HOUSE where farm_id = FARM.ID) as hen_house_count,
+		  -- FARM.is_hen_house_split,  -- exec prc_farm_details 883 10250   
+		   case when FARM.belonging_group_id = 20 and FARM.is_hen_house_split = 1 then  (select dbo.func_HenHouseByFarm (FARM.id)) else '' end as hen_house_list,
+		   is_not_allow_population_hatcher,
+		   is_business_licenses,
+	   	   case when belonging_group_id = 20 then egg.dbo.GetCodeGidul_Rashi_Shtaf(case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end,farm.id,'30',getdate(),1) else null end as cd_gidul, -- yana
+		   case when belonging_group_id = 20 then (select COUNT(distinct pa_yzrn)
+		 
+		FROM 	egg.dbo.PARTNERS
+		join  egg.dbo.Yeshuv_Yazran on
+		v_yzrn=pa_yzrn
+		WHERE 	pa_tzrt = 30  and
+			   pa_counter=egg.dbo.GetCodeGidul_Rashi_Shtaf((case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end),farm.id,'30',getdate(),1) and
+			--	pa_yzrnhead=yazran.yz_yzrn and --ADD
+				   @datetime_string  between pa_date_from and pa_date_to) else (select count(*) from egg.dbo.Partners_By_Farm where Atar_Id = farm.id and getdate() between date_from and date_to) end as is_has_partner,
+			FARM.hen_house_type_id,
+		
+			FLOCK.id as action_flock_id,
+			--case when (select count(*) from HATCHER_TRANSFER WHERE is_transfer <> 2 and HATCHER_TRANSFER.flock_id = FLOCK.id) = 0 or (select count(*) from SUB_FLOCK where parent_flock_id = FLOCK.id and male_number + female_number >0) >0 then 0 else 1 end as is_has_certificate
+	
+			yazran.yz_SelfGrower as is_self_grower,
+			HEN_HOUSE_TYPE.NAME AS hen_house_type_name,
+			case when farm.is_not_allow_population_hatcher = 1 and belonging_group_id = 20 then 
+		     EggMovements.dbo.func_QuarantineHatalaCount(farm.id)
+			else
+		   	chickenhealth.dbo.func_QuarantineCount(farm.id) end as count_quarantine,
+			--chickenhealth.dbo.func_QuarantineCount(FARM.id) as count_quarantine,
+
+			PinuyOfot.dbo.func_isQuarantineAllow(FARM.id,1) AS is_quarantine_allow_in,
+			PinuyOfot.dbo.func_isQuarantineAllow(FARM.id,2) AS is_quarantine_allow_out,
+			case when belonging_group_id = 19 then 0 else case when farm.farm_type_id = 3 and is_not_allow_population_hatcher = 1 then 0 else 1 end end as is_transfer_farm,
+			case when belonging_group_id = 19 then 1 else case when farm.is_not_allow_population_hatcher = 1 and FARM.belonging_group_id = 20 then 0 else 1 end end as is_slaughter,
+		
+			@msvk_count as msvk_count,
+			--Egg.dbo.GetMsvkZamud(case when grower_hen_house.yz_yzrn is null then  Yazran.yz_yzrn else grower_hen_house.yz_yzrn end ,FARM.id ,(select HELPDESC.dbo.func_Convert_CH_BG (belonging_group_id)),@datetime_string,3) as msvk_name,
+			--Egg.dbo.GetMsvkZamud(case when grower_hen_house.yz_yzrn is null then  Yazran.yz_yzrn else grower_hen_house.yz_yzrn end ,FARM.id ,(select HELPDESC.dbo.func_Convert_CH_BG (belonging_group_id)),@datetime_string,1) as msvk_id,
+			ROUND(CONVERT(float, DATEDIFF(day,  flock_hatch_date, case when not flock_close_date is null then flock_close_date else GETDATE() end)) / 7, 1) AS flock_week_age,
+			ROUND(CONVERT(float, DATEDIFF(month,  flock_hatch_date, case when not flock_close_date is null then flock_close_date else GETDATE() end)), 1) AS flock_month_age, 
+
+			ChickenHealth.dbo.func_GetChickenNumberWithVirtualHenHouse(flock.id) as chicken_sum,
+			latitude_google, longitude_google  ,
+			case when not latitude_google is null and not longitude_google is null then 1 else 0 end as is_waze,
+			'https://www.waze.com/ul?ll=' + convert(nvarchar,latitude_google) + '%2C' + convert(nvarchar,latitude_google) +'&navigate=yes' as waze_url,
+			case when (select count(*) from ChickenHealth.dbo.HATCHER_TRANSFER where flock_id = flock.id and is_transfer=1) = 0 then 0 else 1 end as is_undo_split,
+			case when belonging_group_id = 19 then 
+			  case when (select count(*) from pinuyofot.dbo.CERTIFICATE where is_confirm =0 and is_printed=1 and is_deleted=0 and is_deleted_real = 0 and flock_id = FLOCK.id)>0 or (select count(*) from pinuyofot.dbo.certificate c where is_deleted=0 and is_deleted_real=0 and c.flock_id = FLOCK.id)=0 then 0 else 1 end 
+			else 
+			case when pinuyofot.dbo.func_certificateIsConfirmAll(FLOCK.id) = 1 or pinuyofot.dbo.func_certificateTransferIsConfirmAll(FLOCK.id) = 1 then 1 else 0 end
+			 end as is_allow_market,
+			case when belonging_group_id = 20 and is_not_allow_population_hatcher = 1 then 1 else 0 end as is_hatala_final_farm,
+			case when belonging_group_id = 20 and is_not_allow_population_hatcher = 1 then egg.dbo.GetMcsaKvua(case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end,'30',YEAR(GETDATE()),'00') else null end as mcsa_kvua,
+			isnull(cast(kibolet_lul as nvarchar(10)),'') as kibolet_lul,
+		--	,Egg.dbo.GetMsvkZamud(case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end ,FARM.id ,(select HELPDESC.dbo.func_Convert_CH_BG (belonging_group_id)),@datetime_string,1) as msvk_code,
+			 EggMovements.dbo.func_GetFarmTransportTypeIDs(farm.id) as transfer_type_id,
+			EggMovements.dbo.func_getFarmTransportTypeNames(farm.id) as transfer_type_name,
+
+			 1 as transfer_method_id,
+			'ברכב' as transfer_method_name,
+
+			 case when farm.belonging_group_id = 20 and farm.is_not_allow_population_hatcher =1 then 1 else 0 end as is_farm_hatala
+			 --,case when @farm_id  is not null  and is_hen_house_split=1 then (select dbo.func_GetCountLinks(@farm_id))	  else 0 end as  count_links
+			-- ,case when @farm_id  is not null  then (select dbo.func_GetCountLinks(@farm_id)) else 0 end as  count_links
+			 ,isnull(FARM.is_hen_house_split,0) as is_hen_house_split,
+			
+			
+			 EggMovements.dbo.func_investigate_count(@farm_id) as investigate_count,
+			 isnull(FARM_PROPERTIES.sorting_by_myself,0) as sorting_by_myself,
+			 isnull(FARM_PROPERTIES.is_allow_certificate_sorting_my_self,0) as is_allow_certificate_sorting_my_self,
+
+			 
+			 isnull(FARM_PROPERTIES.is_more_than_one_msvk,0) as is_more_than_one_msvk,
+			 -- case when farm.belonging_group_id = 20 and farm.is_not_allow_population_hatcher =1 then 
+			   isnull(is_installed_atala,0)
+			   --else isnull(FARM_PROPERTIES.is_installed,0) end
+			   as is_install,
+			 
+			 --  case when farm.belonging_group_id = 20 and farm.is_not_allow_population_hatcher =1 then 
+			   is_installed_atala_date --else FARM_PROPERTIES.installed_date end
+			   as install_date,
+
+			   FARM_PROPERTIES.link_printer_id,
+			   egg.dbo.Get_Zan_Of_By_Deliver_Date( 20, (case when is_hen_house_split = 1 then grower_hen_house.yz_yzrn else yazran.yz_yzrn end) ,farm.id ,@datetime_string) as species_id,
+			   isnull(yazran.is_app_agree,0) as is_app_agree,
+			   convert(char(10),yazran.app_agree_date,103) + ' ' + convert(char(10),yazran.app_agree_date,108) as app_agree_date,
+			   @hen_house_desc_active as hen_house_desc_active,
+			   @hen_house_not_active as hen_house_not_active ,
+			   ChickenHealth.dbo.func_GetBreedName(FLOCK.id) as breed_names,
+			   generation.name as generation_name,
+			   null as funder_name,
+			 --  OCRD.cardName as funder_name,
+			   (select  SUM(isnull(convert(float,area),0)) from ChickenHealth.dbo.HEN_HOUSE where farm_id = FARM.id and status_id =1) as hen_house_area,
+			   convert(char(10),farm_create_date,103) as farm_create_date,
+			      case when belonging_group_id in (17,18) then is_egg_revia_to_industry else 0 end as is_egg_revia_to_industry
+
+
+
+			
+		into #tmp	 
+
+	FROM   ChickenHealth.dbo.FARM left JOIN EGG.DBO.Yazran ON FARM.GROWER_ID = EGG.dbo.yazran.yz_id 
+								  LEFT OUTER JOIN ChickenHealth.dbo.FARM_TYPE ON FARM.farm_type_id = ChickenHealth.dbo.FARM_TYPE.id 
+								  LEFT OUTER JOIN ChickenHealth.dbo.belonging_group BG ON farm.belonging_group_id = bg.id
+								  LEFT JOIN EGG.DBO.Yeshuvim ON FARM.settlement_id = Yeshuvim.yv_id 
+								  LEFT OUTER JOIN ChickenHealth.dbo.FLOCK ON FARM.id = FLOCK.farm_id AND flock_status_id =1
+								  LEFT OUTER JOIN ChickenHealth.dbo.HEN_HOUSE_TYPE ON FARM.hen_house_type_id =HEN_HOUSE_TYPE.id
+								  left join ChickenHealth.dbo.FARM_PROPERTIES  on farm.id = FARM_PROPERTIES.farm_id
+							 	  left join ChickenHealth.dbo.HEN_HOUSE ON FARM.id = HEN_HOUSE.farm_id and HEN_HOUSE.id = @hen_house_id AND is_hen_house_split = 1
+								  left JOIN EGG.DBO.Yazran grower_hen_house ON HEN_HOUSE.grower_id_h = grower_hen_house.yz_id 
+								  left join ChickenHealth.dbo.generation on FLOCK.generation_id = GENERATION.id
+								--  LEFT OUTER JOIN [epb-sap1].[SBO_LUL_2007].[dbo].[OCRD] ON convert(int,FARM.funding_account) = CONVERT(int,OCRD.CARDCODE)
+
+	WHERE (@farm_id is null or FARM.id = @farm_id)
+	--and ((@belonging_group_id is null or FARM.belonging_group_id=@belonging_group_id) and FARM.farm_status_id=1 )
+	and (@code is null or FARM.code=@code)
+	and (@is_hen_house_split is null or  is_hen_house_split=@is_hen_house_split)
+	and (HEN_HOUSE.id = @hen_house_id or @hen_house_id =-1 )
+	order by FARM.id
+
+
+	declare @msvk_code int
+	declare @msvk_name nvarchar(max)
+	declare @msvk_delay tinyint
+	declare @egg_warehouse_id int
+
+	declare @lull2000_code nvarchar(10)
+
+	select top 1 @belonging_group_id = belonging_group_id,@lull2000_code = lull2000_code from #tmp
+
+	declare @table_split as table (id int,item nvarchar(50))
+
+	insert into @table_split (id,item) (
+
+	select * from [EggMovements].[dbo].[Split_-]((select Egg.dbo.GetMsvkZamud(@lull2000_code ,@farm_id ,(select HELPDESC.dbo.func_Convert_CH_BG (@belonging_group_id)),@datetime_string,21)))
+	)
+
+	set @msvk_code = (select item from @table_split where id=1)
+	set @msvk_name = (select item from @table_split where id=2)
+	set @msvk_delay = (select item from @table_split where id=3)
+	set @egg_warehouse_id = (select item from @table_split where id=4)
+
+
+	select @egg_warehouse_name = isnull(license_number,'') + ' - ' + isnull(first_name,'') + ' ' + isnull(last_name,'') from HELPDESC.dbo.ovdim where id=@egg_warehouse_id 
+
+
+	if( @farm_id in(2833,2871,2815,6300,2808,2817,2886)) begin
+	
+	  set @egg_factory_id = 4026
+	  set @egg_factory_name = 'ב.נווה ציון שיווק ביצים בע"מ'
+
+	end 
+	else
+	begin
+		select @egg_factory_id=ovdim.id , @egg_factory_name=cast(isnull(license_number,'') as nvarchar(10)) + ' - ' + isnull(first_name,'') + isnull(last_name,'') 
+		from egg.dbo.Table_Link inner join HELPDESC.dbo.ovdim on Table_Link.tl_codeto = ovdim.id
+		where tl_fromtable = 'MSVK' and tl_totable = 'mcmn'
+		and tl_codefrom in(@msvk_code)
+	end
+
+
+	select @msvk_code as msvk_code, convert(nvarchar,@msvk_code) + ' - ' + @msvk_name as msvk_name,@msvk_delay as msvk_delay, @egg_warehouse_id as egg_warehouse_id, @egg_warehouse_name as egg_warehouse_name,
+	       case when #tmp.cd_gidul=0 then 0 else 1 end ,#tmp.lull2000_code,
+	           #tmp.action_flock_id,*,
+			 --case when is_quarantine_allow_out = 0 then 0 else null end as is_quarantine_allow,
+			 null as is_quarantine_allow,
+			 --   case when count_quarantine >0 then eggMovements.dbo.func_isQuarantineAllow(farm_id) else null end as is_quarantine_allow,
+	egg.dbo.Get_Yzrn_Organi_Mkdm(#tmp.lull2000_code,#tmp.farm_id,30,getdatE()) as pargit,
+	--#tmp.mcsa_kvua / egg.dbo.Get_Yzrn_Organi_Mkdm(#tmp.lull2000_code,#tmp.farm_id,30,getdatE())  as rashai,
+		EggMovements.dbo.func_pargit_mcsa(#tmp.lull2000_code,#tmp.farm_id) as rashai,
+		 (select convert(char(10),min(delivery_date),103) from PinuyOfot.dbo.CERTIFICATE_TRANSFER where dest_flock_id = #tmp.active_flock_id) as delivery_date,
+		(select sum(chicken_sum_female-isnull(mortality_in_trans,0)) from PinuyOfot.dbo.CERTIFICATE_TRANSFER where dest_flock_id = #tmp.active_flock_id and isnull(is_deleted,0) =0) as transfer_sum,
+		 @egg_factory_id as egg_factory_id,
+		 @egg_factory_name as egg_factory_name,
+		 case when #tmp.species_id = 6 then 'אורגני'  
+		      when #tmp.species_id = 7 then 'ביצי חופש' else ' ' end as species_name,
+			  (select count(*) 
+			     from egg.dbo.PargitTd
+			     where pr_Tzrt = 48 and pr_lhk_Mkbl = #tmp.active_flock_id) as mifkad_count,
+
+				 (case when isnull((select TOP 1 isnull(Long_Pinui,0) from Metilot.dbo.Pinuiim_For_Printing_Teudot_Mishloch where  Flock=#tmp.active_flock_id),0) =1
+				 then 
+				   (SELECT  isnull(sum(td_Kamut_Mishkal),0)
+	  FROM egg.dbo.OfHaiTd 
+ 
+	  WHERE convert(smallint,td_Tzrt)=11 and td_flock=#tmp.active_flock_id)
+				 else 0 end) as pinuy_sum
+
+
+
+		
+	--(select sum(pr_kamut) d
+	-- from egg.dbo.pargit 
+	-- where pr_tzrt='46' and pr_lhk_Mkbl=#tmp.active_flock_id and 
+	--      ((#tmp.cd_gidul > 0 and pr_yzrn in (select pa_yzrn from egg.dbo.partners where pa_tzrt=30 and pa_counter=#tmp.cd_gidul and getdate() between pa_date_from and pa_date_to)) 
+	--	or (#tmp.cd_gidul = 0 and cast(pr_Yzrn as int) = cast(#tmp.lull2000_code as int)))
+	 
+	-- ) as rashai
+
+	 from #tmp --inner join egg.dbo.Tables on #tmp.species_id = tables.tb_code and tb_table = 'GEZA'
+
+
+	 --select * from egg.dbo.tables where  tb_table = 'GEZA'
+
+
+
+
+	
+
+	 
