@@ -52,7 +52,7 @@ export class SearchMegadelComponent implements OnInit {
   selectedMonth: string;
   selectedYear: string;
   username: string;
-  numName: string;
+  numName: any;
 
   site: string;
   settlement: string;
@@ -81,6 +81,7 @@ export class SearchMegadelComponent implements OnInit {
   filteredsite: Observable<string[]>;
   filteredsettlement: Observable<string[]>;
   filteredextension: Observable<string[]>;
+  filterednumName: Observable<string[]>;
 
   // מגדירים את הפורם אינפוטים כדי שדרכם יועבר הערך המוזן באינפוט
 
@@ -137,6 +138,11 @@ export class SearchMegadelComponent implements OnInit {
   ) {
     //ערך חדש וכל שינוי שמהשתמש הזין באינפוט this.filteredUsers כאן אנו מגדירים למשתנה
     this.filteredUsers = this.usernameControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterUser(value))
+    );
+
+    this.filterednumName = this.numNameControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterUser(value))
     );
@@ -402,6 +408,7 @@ export class SearchMegadelComponent implements OnInit {
     this.site = '';
     this.extension = '';
     this.settlement = '';
+    this.numName = '';
   }
 
   getTabledata() {
@@ -537,14 +544,9 @@ export class SearchMegadelComponent implements OnInit {
     }, 2500);
   }
 
-  //   exportExcel(): void {
-  //     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-  //       this.table.nativeElement
-  //     );
-  //     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-  //     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  //     XLSX.writeFile(workbook, 'table.xlsx');
-  //   }
+  test(yz_Id: any) {
+    console.log(yz_Id);
+  }
 
   reloadUserProfile() {
     this.blockUIUserProfile.start('Loading..');
@@ -583,6 +585,8 @@ export class SearchMegadelComponent implements OnInit {
     let SettlementName = '';
     let SitetName: any = '';
     let Username = '';
+    let numName = '';
+
     let extension = this.extensionControl.value;
     if (extension === undefined) {
       extension = '';
@@ -590,6 +594,12 @@ export class SearchMegadelComponent implements OnInit {
       const resultsCodeShloha =
         await this.megadelSearchService.Get_All_Shloha_Id_By_NAME(extension);
       extension = resultsCodeShloha[0]?.id;
+    }
+
+    if (this.numNameControl.value) {
+      // מלקט מהמחרוזת רק את שם היישוב
+      numName = this.numNameControl.value;
+      console.log('numName: ', numName);
     }
 
     if (this.settlementControl.value) {
@@ -610,19 +620,21 @@ export class SearchMegadelComponent implements OnInit {
         SitetName = 'מספר לא קיים';
       }
     }
-    console.log('this.usernameControl.value: ', this.usernameControl.value);
 
     if (this.usernameControl.value) {
       Username = this.usernameControl.value.split('-')[0];
     }
 
     if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
+      console.log('Username: ', Username);
+
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
           SitetName,
           Username,
           SettlementName,
-          extension
+          extension,
+          numName
         );
 
       if (results.length === 0) {
@@ -663,7 +675,8 @@ export class SearchMegadelComponent implements OnInit {
           SitetName,
           Username,
           SettlementName,
-          extension
+          extension,
+          numName
         );
       this.theDetails = results;
     } else if (this.selectedCheckbox === 'all') {
@@ -672,7 +685,8 @@ export class SearchMegadelComponent implements OnInit {
           SitetName,
           Username,
           SettlementName,
-          extension
+          extension,
+          numName
         );
       this.theDetails = results;
     }
