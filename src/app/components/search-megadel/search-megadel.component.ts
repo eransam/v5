@@ -640,6 +640,8 @@ export class SearchMegadelComponent implements OnInit {
       if (results.length === 0) {
         this.theDetails = results;
       } else {
+        console.log("results333: " , results);
+        
         results.forEach(async (item) => {
           let yz_yzrn = item.yz_yzrn;
           const results2 =
@@ -665,6 +667,8 @@ export class SearchMegadelComponent implements OnInit {
           item444.yz_Id = joinedString;
         });
         this.theDetails = results;
+        localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+
       }
 
       //   notActive
@@ -678,6 +682,8 @@ export class SearchMegadelComponent implements OnInit {
           numName
         );
       this.theDetails = results;
+      localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+
     } else if (this.selectedCheckbox === 'all') {
       const results =
         await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_all(
@@ -688,6 +694,8 @@ export class SearchMegadelComponent implements OnInit {
           numName
         );
       this.theDetails = results;
+      localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+
     }
     this.isLoading = false; // Stop loading
   }

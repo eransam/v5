@@ -59,6 +59,9 @@ export class EcommerceComponent implements OnInit {
   Daygraph = true;
   Weekgraph = false;
   Monthgraph = false;
+  theDetails: any[];
+  userDetails: any[];
+  theUserDetails: any[];
   FarmId: any[];
   siteName: any = '';
   FarmDetails: any[] = [];
@@ -72,13 +75,43 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    console.log('FarmId: ', this.FarmId); // Print the parameter value
+    // const storedTheDetails = localStorage.getItem('theDetails');
+    // if (storedTheDetails) {
+    //   const theDetailsfromLocalStorage = JSON.parse(storedTheDetails);
+    //   this.theDetails = theDetailsfromLocalStorage;
+    //   console.log('theDetails1: ', this.theDetails); // Print the parameter value
+
+    //   // Use theDetails as needed
+    // }
+
+    // console.log('theDetails2: ', this.theDetails); // Print the parameter value
 
     this.route2.params.subscribe((params) => {
       this.idFromurl = params['id']; // Retrieve the parameter value from the URL
       console.log('idFromurl: ', this.idFromurl); // Print the parameter value
       // Save the parameter value in a variable or perform any other logic
     });
+
+    this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
+      this.idFromurl
+    );
+
+    if (this.userDetails[0].length === 0) {
+      this.userDetails = [];
+    } else {
+      console.log('this.userDetails[0]: ', this.userDetails[0]);
+      const results2 =
+        await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+          this.userDetails[0].yz_yzrn
+        );
+      if (results2[0]?.pa_Counter) {
+        this.userDetails[0].pa_Counter = results2[0].pa_Counter;
+      } else {
+        this.userDetails[0].pa_Counter = '';
+      }
+    }
+
+    this.theUserDetails = this.userDetails[0];
 
     this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
       this.idFromurl
@@ -89,7 +122,6 @@ export class EcommerceComponent implements OnInit {
       console.log('this.FarmId-end: ', this.FarmId);
       this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
       console.log('this.FarmDetails-end: ', this.FarmDetails);
-
     }
 
     this.rows = this.FarmDetails;
