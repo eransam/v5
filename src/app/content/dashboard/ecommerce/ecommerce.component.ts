@@ -59,9 +59,9 @@ export class EcommerceComponent implements OnInit {
   Daygraph = true;
   Weekgraph = false;
   Monthgraph = false;
-  FarmId: any = '';
+  FarmId: any[];
   siteName: any = '';
-  FarmDetails: any = '';
+  FarmDetails: any[] = [];
   henHouseID: any = '-1';
   constructor(
     private chartApiservice: ChartApiService,
@@ -72,6 +72,8 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    console.log('FarmId: ', this.FarmId); // Print the parameter value
+
     this.route2.params.subscribe((params) => {
       this.idFromurl = params['id']; // Retrieve the parameter value from the URL
       console.log('idFromurl: ', this.idFromurl); // Print the parameter value
@@ -81,22 +83,15 @@ export class EcommerceComponent implements OnInit {
     this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
       this.idFromurl
     );
-    console.log('this.siteName: ', this.siteName);
-    if (this.siteName[0]?.code) {
-      this.FarmId = await this.megadelSearchService.Get_farmId_By_siteName(
-        this.siteName[0]?.code
-      );
+
+    if (this.siteName) {
+      this.FarmId = await this.getFarmIdArr(this.siteName);
+      console.log('this.FarmId-end: ', this.FarmId);
+      this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
+      console.log('this.FarmDetails-end: ', this.FarmDetails);
+
     }
-    console.log('FarmId: ', this.FarmId);
-    this.FarmId = this.FarmId[0]?.id;
-    console.log('FarmId2: ', this.FarmId);
 
-    this.FarmDetails = await this.megadelSearchService.prc_farm_details_eran(
-      this.FarmId,
-      this.henHouseID
-    );
-
-    console.log('this.FarmDetails: ', this.FarmDetails);
     this.rows = this.FarmDetails;
 
     this.chartApiservice.getEcommerceData().subscribe((Response) => {
@@ -107,6 +102,37 @@ export class EcommerceComponent implements OnInit {
       this.datatableData = Response;
       this.getTabledata();
     });
+  }
+
+  async getFarmIdArr(siteNames: any[]): Promise<any[]> {
+    const farmIds: any[] = [];
+
+    for (const item of siteNames) {
+      if (item && item.code) {
+        const farmId = await this.megadelSearchService.Get_farmId_By_siteName(
+          item.code
+        );
+        farmIds.push(farmId[0].id);
+      }
+    }
+
+    return farmIds;
+  }
+
+  async getFarmDetailsArr(FarmIdArr: any[]): Promise<any[]> {
+    const farmDetailsArr: any[] = [];
+    console.log('theFarmIdArr: ', FarmIdArr);
+
+    for (const FarmId of FarmIdArr) {
+      if (FarmId) {
+        console.log('theFarmId: ', FarmId);
+
+        const farmDetails =
+          await this.megadelSearchService.prc_farm_details_eran(FarmId, -1);
+        farmDetailsArr.push(farmDetails[0]);
+      }
+    }
+    return farmDetailsArr;
   }
 
   getTabledata() {

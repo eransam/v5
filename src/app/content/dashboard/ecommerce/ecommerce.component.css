@@ -26,14 +26,12 @@
   stroke-width: 5px;
   stroke: #ffffff;
   fill: #58e0cd;
-  ;
 }
 
 :host ::ng-deep .media {
   display: flex;
   align-items: flex-start;
 }
-
 
 :host ::ng-deep .position-relative {
   position: relative !important;
@@ -120,7 +118,7 @@
 }
 
 :host ::ng-deep .donut .ct-started .ct-slice-donut {
-  stroke: #666ECC;
+  stroke: #666ecc;
   stroke-width: 32px !important;
 }
 
@@ -184,10 +182,10 @@
 :host ::ng-deep .square {
   border-radius: 0% !important;
   height: auto;
-  border: 2px solid #FFF !important;
+  border: 2px solid #fff !important;
 }
 
-:host ::ng-deep .ps--active-x>.ps__rail-x {
+:host ::ng-deep .ps--active-x > .ps__rail-x {
   display: none !important;
 }
 
@@ -203,12 +201,11 @@
   margin-bottom: 0rem;
 }
 
-
 :host ::ng-deep .btn.active {
   outline: none;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  background-color: #2196F3 !important;
+  background-color: #2196f3 !important;
   color: white !important;
 }
 
@@ -225,7 +222,7 @@
 }
 
 :host ::ng-deep .progress {
-  box-shadow: 6px 6px 14px -1px rgba(62, 57, 107, .2);
+  box-shadow: 6px 6px 14px -1px rgba(62, 57, 107, 0.2);
   margin-top: 1rem !important;
 }
 
@@ -233,7 +230,7 @@
   position: absolute !important;
 }
 
-@media only screen and (max-width:767px) {
+@media only screen and (max-width: 767px) {
   .btn-group {
     position: relative !important;
   }
@@ -293,7 +290,7 @@
 }
 
 :host ::ng-deep .pr_stats {
-  text-align: center
+  text-align: center;
 }
 
 :host ::ng-deep .height-300 {
@@ -307,7 +304,6 @@
 :host ::ng-deep .card-header .heading-elements a.btn {
   color: white !important;
 }
-
 
 :host ::ng-deep .row_padding {
   padding: 1.25rem 2rem !important;
@@ -374,7 +370,6 @@
   top: 16.906px;
 }
 
-
 :host ::ng-deep .chartist-tooltip.tooltip-show {
   opacity: 0.6 !important;
 }
@@ -404,11 +399,17 @@
 }
 :host ::ng-deep .tab-content > .tab-pane,
 .pill-content > .pill-pane {
-display: block;     
-height: 0;          
-overflow-y: hidden;
+  display: block;
+  height: 0;
+  overflow-y: hidden;
 }
 :host ::ng-deep .tab-content > .active,
 .pill-content > .active {
-height: auto;       
+  height: auto;
+}
+
+.detailsTable {
+  padding: unset !important;
+  direction: rtl !important;
+  text-align: right !important;
 }

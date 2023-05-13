@@ -296,50 +296,45 @@
       <div class="row match_height">
         <div id="recent-transactions" class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">Recent Transactions</h4>
-
-              <div class="heading-elements invoice">
-                <ul class="list-inline mb-0">
-                  <li>
-                    <a
-                      [routerLink]=""
-                      class="btn btn-sm btn-danger box-shadow-2 round btn-min-width pull-right"
-                      (click)="rotueInvoice()"
-                      >Invoice Summary</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <div class="card-header"></div>
             <div class="card-content">
               <div
                 class="table-responsive"
                 fxFlex="auto"
                 [perfectScrollbar]="config"
               >
-                <table class="table table-hover table-xl border_bottom">
-                  <thead>
+                <table
+                  class="table table-hover table-xl border_bottom detailsTable"
+                  style="direction: rtl"
+                >
+                  <thead class="detailsTable">
                     <tr>
-                      <th scope="col" class="border-top-0">יישוב המשק</th>
+                      <th scope="col" class="border-top-0">מס' רישיון :</th>
+                      <th scope="col" class="border-top-0">שם אתר:</th>
+
+                      <th scope="col" class="border-top-0">יישוב</th>
                       <th scope="col" class="border-top-0">ק. השתייכות</th>
                       <th scope="col" class="border-top-0">סוג משק</th>
-                      <th scope="col" class="border-top-0">מגדל</th>
-                      <th scope="col" class="border-top-0">מס' מגדל</th>
+                      <th scope="col" class="border-top-0">סוג מבנה</th>
+
+                      <!-- <th scope="col" class="border-top-0">סוג הובלה</th> -->
+
+                      <th scope="col" class="border-top-0">לול למחיצה</th>
+
+                      <th scope="col" class="border-top-0">יש היתר אכלוס</th>
+
+                      <th scope="col" class="border-top-0">תנאי אימון</th>
+
+                      <th scope="col" class="border-top-0">מס גוש</th>
                       <th scope="col" class="border-top-0">מס להקה</th>
+
                       <th scope="col" class="border-top-0">תאריך בקיעה</th>
 
                       <th scope="col" class="border-top-0">גיל בשבועות</th>
+
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
-                      <th scope="col" class="border-top-0">סוג מבנה</th>
-                      <th scope="col" class="border-top-0">סוג הובלה</th>
-                      <th scope="col" class="border-top-0">האם לול מחיצה</th>
-                      <th scope="col" class="border-top-0">יש היתר אכלוס</th>
-                      <th scope="col" class="border-top-0">תנאי בית אימון</th>
 
-                      <th scope="col" class="border-top-0">מס גוש</th>
-
-                      <th scope="col" class="border-top-0">שם משווק</th>
+                      <!-- <th scope="col" class="border-top-0">שם משווק</th>
 
                       <th scope="col" class="border-top-0">מכון מיון</th>
 
@@ -347,90 +342,123 @@
 
                       <th scope="col" class="border-top-0">מכסה</th>
 
-                      <th scope="col" class="border-top-0">שותפים</th>
+                      <th scope="col" class="border-top-0">שותפים</th> -->
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let row of rows">
-                        <td class="text-truncate row_padding">{{row.name}}</td>
-
-                      <!-- <td class="text-truncate row_padding"*ngIf="id.is_waze==1"><a href="{{id.waze_url}}" target="_blank"></a></td> -->
-                      <td class="text-truncate row_padding">{{row.belonging_group_name}}</td>
-                      <td class="text-truncate row_padding">{{row.name}}</td>
-                      <td class="text-truncate row_padding">{{row.grower_name}}</td>
-                      <td class="text-truncate row_padding">{{row.lull2000_code}}</td>
-                      <td class="text-truncate row_padding"><span *ngIf="id.flock_status_id==2" style="color: red;">{{id.active_flock_id}}&nbsp;&nbsp;<span *ngIf="id.flock_status_id==2" class="label label-danger">להקה סגורה</span></span>
-                        <span *ngIf="row.flock_status_id==1" style="color: green;">{{id.active_flock_id}}</span></td>
-                      <td class="text-truncate row_padding">{{row.flock_week_age }}</td>
-                      <td class="text-truncate row_padding">{{row.flock_hatch_date | date: 'dd/MM/yyyy'}}</td>
-                      <td class="text-truncate row_padding">{{row.flock_month_age }}</td>
-                      <td class="text-truncate row_padding">{{row.hen_house_type_name}}</td>
-                      <td class="text-truncate row_padding">{{id.transfer_type_name | slice:1:-1}}</td>
-                      <!-- <td class="text-truncate row_padding"> -->
-                        <!-- <span *ngIf="id.is_hen_house_split==1 && splitHenHouseNum == -1">יש - {{id.farm_code}}</span>
-                        <span *ngIf="id.is_hen_house_split==1 && splitHenHouseNum != -1">יש - {{id.farm_code}}/{{splitHenHouseNum}}</span>
-                        <span *ngIf="id.is_hen_house_split==0">אין</span>
+                      <td class="text-truncate row_padding">
+                        {{ row.farm_code }}
                       </td>
-                      <td class="text-truncate row_padding"[ngSwitch]="id.is_business_licenses">
-                        <span *ngSwitchCase="'1'">יש</span>
-                        <span *ngSwitchCase="'0'">אין</span>
-                    </td>
-                      <td class="text-truncate row_padding" [ngSwitch]="id.is_not_allow_population_hatcher">
-                        <span *ngSwitchCase="'0'">יש</span>
-                        <span *ngSwitchCase="'1'">אין</span>
+
+                      <td class="text-truncate row_padding">
+                        {{ row.farm_name }}
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        {{ row.settlement_name }}
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        {{ row.belonging_group_name }}
+                      </td>
+
+                      <td class="text-truncate row_padding">{{ row.name }}</td>
+                      <td class="text-truncate row_padding">
+                        {{ row.hen_house_type_name }}
+                      </td>
+
+                      <!-- <td class="text-truncate row_padding">
+                        {{ row.transfer_type_name }}
+                      </td> -->
+
+                      <td class="text-truncate row_padding">
+                        <span
+                          *ngIf="
+                            row.is_hen_house_split == 1 &&
+                            splitHenHouseNum == -1
+                          "
+                          >יש - {{ row.farm_code }}</span
+                        >
+
+                        <span
+                          *ngIf="
+                            row.is_hen_house_split == 1 &&
+                            splitHenHouseNum != -1
+                          "
+                          >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span
+                        >
+                        <span
+                          *ngIf="row.is_hen_house_split == 0"
+                          style="color: red"
+                          >X</span
+                        >
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        <div [ngSwitch]="row.is_business_licenses">
+                          <span *ngSwitchCase="'1'" style="color: green"
+                            >√</span
+                          >
+                          <span *ngSwitchCase="'0'" style="color: red">X</span>
+                        </div>
+                      </td>
+
+                      <td
+                        class="text-truncate row_padding"
+                        [ngSwitch]="row.is_not_allow_population_hatcher"
+                      >
+                        <span *ngSwitchCase="'0'" style="color: green">√</span>
+                        <span *ngSwitchCase="'1'" style="color: red">X</span>
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        <span *ngIf="row.block_id"
+                          >{{ row.block_id }} ({{ row.block_count }})</span
+                        >
+                        <span *ngIf="!row.block_id" style="color: red">X</span>
                       </td>
                       <td class="text-truncate row_padding">
-                        <span *ngIf="id.block_id">{{id.block_id}} ({{id.block_count}})</span>
-                        <span *ngIf="!id.block_id">אין</span>
-                     </td>
-                      <td class="text-truncate row_padding" align="left"><span *ngIf="id.block_id" routerLink="/farm_block/{{id.block_id}}/{{id.farm_id}}"><img src="assets/image/arrow-link.png" alt="User Image" width=20></span></td>
-                      <td class="text-truncate row_padding" colspan="1" *ngIf="msvkCount==1">
-                        <span *ngIf="id.msvk_name!='000-'">{{id.msvk_name}}</span>
-                        <span *ngIf="id.msvk_name=='000-'">אין</span>
-                     </td>
-                     <td class="text-truncate row_padding"colspan="1" *ngIf="msvkCount>1">
-                        <SPAN *ngFor="let m of msvkData">
-                       <span *ngIf="id.msvk_name!='000-'">{{m.msvk_name }}</span>
-                     </SPAN>
+                        {{ row.active_flock_id }}
                       </td>
-                     <td class="text-truncate row_padding"align="left"><span *ngIf="userTypeID==9 || userTypeID==13 || userTypeID==15" routerLink="/msvk_details/{{id.msvk_code}}/{{id.msvk_name}}"><img src="assets/image/arrow-link.png" alt="User Image" width=20></span></td>
-                     <td class="text-truncate row_padding" colspan="2">
-                        tooltip="פג בתאריך {{s.expired_date}}"
-                         <table border="0" width="100%;">
-                             <TR *ngFor="let e of eggFactoryData">
-                                <TD>{{e.oved_name | slice:0:25 }} </TD>
-                                <TD style="text-align: left;"><i *ngIf="e.is_limited==1" class="fa fa-clock-o"  style="color:red;" ></i></TD>
-                             </TR>
-                           </table>
-                    </td>
-                     <td class="text-truncate row_padding"colspan="2">
-                        {{eggWarehouseName}}
-                     </td>
-                     <td class="text-truncate row_padding" colspan="2">
-                        <span>{{id.mcsa_kvua | number: '.0'}}</span>
-                     </td>
-                     <td class="text-truncate row_padding"colspan="2">
-                        <span>{{id.rashai | number: '.0'}}</span>
-                     </td>
-                     <td class="text-truncate row_padding"colspan="2">
-                        <span>{{id.transfer_sum | number: '.0'}}</span>
-                     </td>
-                     <td class="text-truncate row_padding" colspan="1">
-                        <span>
-                          <span *ngIf="(userTypeID=='4' || userTypeID=='9') && id.is_hatala_final_farm==1"><input type="text" [(ngModel)]="KiboletLul" style="width: 100px;"></span>
-                          <span *ngIf="userTypeID!='4' && userTypeID!='9' && id.kibolet_lul>0">{{id.kibolet_lul | number: '.0'}}</span>
-                          <span *ngIf="userTypeID!='4' && userTypeID!='9' && id.kibolet_lul==0">אין</span>
-                        </span>
-  
-                      </td>
-                     <td class="text-truncate row_padding"                     colspan="2">
-                        <span>{{id.delivery_date}}</span>
-                     </td>
-                     <td class="text-truncate row_padding">
-                        <span *ngIf="id.cd_gidul!='0'">{{id.is_has_partner}} ({{id.cd_gidul}})</span>
-                        <span *ngIf="id.cd_gidul==0">אין</span>
-                     </td>  -->
 
+                      <td class="text-truncate row_padding">
+                        {{ row.flock_hatch_date | date : "dd/MM/yyyy" }}
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        {{ row.flock_week_age }}
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        {{ row.flock_month_age }}
+                      </td>
+
+                      <!-- <td class="text-truncate row_padding">
+                        <span *ngIf="row.msvk_name != '000-'">{{
+                          row.msvk_name
+                        }}</span>
+                        <span *ngIf="row.msvk_name == '000-'">אין</span>
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        "מכון מיון - בדיקה"
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        "מחסן ביצים - בדיקה"
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        "{{ row.mcsa_kvua | number : ".0" }}"
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        <span *ngIf="row.cd_gidul != '0'"
+                          >{{ row.is_has_partner }} ({{ row.cd_gidul }})</span
+                        >
+                        <span *ngIf="row.cd_gidul == 0">אין</span>
+                      </td> -->
                     </tr>
                   </tbody>
                 </table>
