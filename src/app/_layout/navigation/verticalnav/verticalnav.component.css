@@ -1,0 +1,15 @@
+.liStyle {
+  cursor: pointer;
+  border-bottom: 1px solid white;
+  direction: rtl;
+  width: 100%;
+  padding: 15px !important;
+  display: flex;
+}
+
+.ulStyle {
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+  direction: rtl;
+}

@@ -75,17 +75,6 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // const storedTheDetails = localStorage.getItem('theDetails');
-    // if (storedTheDetails) {
-    //   const theDetailsfromLocalStorage = JSON.parse(storedTheDetails);
-    //   this.theDetails = theDetailsfromLocalStorage;
-    //   console.log('theDetails1: ', this.theDetails); // Print the parameter value
-
-    //   // Use theDetails as needed
-    // }
-
-    // console.log('theDetails2: ', this.theDetails); // Print the parameter value
-
     this.route2.params.subscribe((params) => {
       this.idFromurl = params['id']; // Retrieve the parameter value from the URL
       console.log('idFromurl: ', this.idFromurl); // Print the parameter value
