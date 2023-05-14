@@ -83,6 +83,15 @@ export class VerticalnavComponent implements OnInit {
     this.setActiveRouteInNavbar();
   }
 
+
+navto(str:any){
+    let returnUrl = str;
+    this.router.navigate([returnUrl]);
+}
+
+
+
+
   resetMainMenu() {
     const nodes = this.document.getElementById('main-menu-navigation').childNodes;
     for (let i = 0; i < nodes.length; i++) {

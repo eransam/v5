@@ -6,7 +6,7 @@ import { AlertService } from '../_services/alert.service';
 
 @Component({
   templateUrl: 'login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -23,17 +23,16 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private renderer: Renderer2
   ) {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.returnUrl = params['returnUrl'];
     });
-
   }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['john@pixinvent.com', Validators.required],
       password: ['password@123', Validators.required],
-      rememberMe: false
+      rememberMe: false,
     });
     // Remember Me
     if (localStorage.getItem('remember')) {
@@ -63,37 +62,42 @@ export class LoginComponent implements OnInit {
     }
     const value = {
       email: this.f.email.value,
-      password: this.f.password.value
+      password: this.f.password.value,
     };
     this.authService.doLogin(value).then(
-      res => {
-        if (this.loginForm.controls['rememberMe'] && this.loginForm.controls['rememberMe'].value) {
+      (res) => {
+        if (
+          this.loginForm.controls['rememberMe'] &&
+          this.loginForm.controls['rememberMe'].value
+        ) {
           localStorage.setItem('remember', 'true');
         } else {
           localStorage.removeItem('remember');
         }
         this.setUserInStorage(res);
         localStorage.removeItem('currentLayoutStyle');
-        let returnUrl = '/dashboard/sales';
+        let returnUrl = '/datatables/SearchMegadelComponent';
         if (this.returnUrl) {
           returnUrl = this.returnUrl;
         }
         this.router.navigate([returnUrl]);
       },
-      err => {
+      (err) => {
         this.submitted = false;
         this.alertService.error(err.message);
       }
     );
   }
-addCheckbox(event) {
-  const toggle = document.getElementById('icheckbox');
-  if (event.currentTarget.className === 'icheckbox_square-blue') {
-     this.renderer.addClass(toggle, 'checked');
-  } else if (event.currentTarget.className === 'icheckbox_square-blue checked') {
-    this.renderer.removeClass(toggle, 'checked');
+  addCheckbox(event) {
+    const toggle = document.getElementById('icheckbox');
+    if (event.currentTarget.className === 'icheckbox_square-blue') {
+      this.renderer.addClass(toggle, 'checked');
+    } else if (
+      event.currentTarget.className === 'icheckbox_square-blue checked'
+    ) {
+      this.renderer.removeClass(toggle, 'checked');
+    }
   }
-}
   setUserInStorage(res) {
     if (res.user) {
       localStorage.setItem('currentUser', JSON.stringify(res.user));

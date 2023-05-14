@@ -530,7 +530,7 @@
 .la-joomla:before { content: "\f252"; }
 .la-jpy:before { content: "\f253"; }
 .la-jsfiddle:before { content: "\f254"; }
-.la-key:before { content: "\f255"; }
+/* .la-key:before { content: "\f255"; } */
 .la-keyboard-o:before { content: "\f256"; }
 .la-krw:before { content: "\f257"; }
 .la-language:before { content: "\f258"; }
@@ -801,7 +801,7 @@
 .la-unlock-alt:before { content: "\f361"; }
 .la-upload:before { content: "\f362"; }
 .la-usd:before { content: "\f363"; }
-.la-user:before { content: "\f364"; }
+/* .la-user:before { content: "\f364"; } */
 .la-user-md:before { content: "\f365"; }
 .la-user-plus:before { content: "\f366"; }
 .la-user-secret:before { content: "\f367"; }
