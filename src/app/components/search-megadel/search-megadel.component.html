@@ -122,6 +122,29 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-group row last mx-auto">
+                  <label class="col-md-4 label-control" for="userinput4"
+                    >גידול חוץ</label
+                  >
+                  <div class="col-md-8">
+                    <input
+                      type="text"
+                      id="gidolHotz-input"
+                      name="gidolHotz"
+                      class="form-control border-primary"
+                      [formControl]="gidolHotzInput"
+                      placeholder="גידול חוץ"
+                      [(ngModel)]="gidolHotz"
+                      [formControl]="gidolHotzControl"
+                      (keydown.enter)="$event.preventDefault()"
+                    />
+                    <span class="delete-icon" (click)="clearInput('gidolHotz')">
+                      <i class="fa fa-times"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
 
@@ -238,13 +261,12 @@
                 (reloadFunction)="reloadBaseStyle($event)"
               >
                 <ng-container mCardHeaderTitle> חיפוש מגדל </ng-container>
-
                 <ng-container mCardBody>
                   <div class="importBth">
                     <div class="justify-content">
                       <img
                         class="logoIngStyle"
-                        src="../../../assets/logo/excel.png"
+                        src="assets/images/logo/excel.png"
                         alt="Image"
                         (click)="getExcelData()"
                       />
