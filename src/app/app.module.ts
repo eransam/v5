@@ -69,6 +69,7 @@ import { UserService } from "./_api/user/user.service";
 import { PrivacyPolicyComponent } from "./login/privacy-policy/privacy-policy.component";
 import { TermsConditionComponent } from "./login/terms-condition/terms-condition.component";
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { GrowerDetailsComponent } from './components/grower-details/grower-details.component';
 
 @NgModule({
   imports: [
@@ -119,6 +120,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     FullLayoutComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent,
+    GrowerDetailsComponent,
   ],
   providers: [
     MatAutocompleteModule,

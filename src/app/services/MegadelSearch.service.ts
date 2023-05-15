@@ -41,6 +41,66 @@ export class MegadelSearchService {
     return item;
   }
 
+  async megadel_by_atar_name_yeshov_shloha_all_with_pa_Counter(
+    yz_Id: any,
+    yz_first_name: any,
+    yz_shem_yeshuv: any,
+    belonging_group_id: any,
+    yz_yzrn: any,
+    pa_Counter: any
+  ): Promise<any[]> {
+    console.log('yz_Id-999: ', yz_Id);
+
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_all_with_pa_Counter?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}&yz_yzrn=${yz_yzrn}&pa_Counter=${pa_Counter}`
+      )
+    );
+    console.log('item: ', item);
+
+    return item;
+  }
+
+  async megadel_by_atar_name_yeshov_shloha_active_with_pa_Counter(
+    yz_Id: any,
+    yz_first_name: any,
+    yz_shem_yeshuv: any,
+    belonging_group_id: any,
+    yz_yzrn: any,
+    pa_Counter: any
+  ): Promise<any[]> {
+    console.log('yz_Id-999: ', yz_Id);
+
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_active_with_pa_Counter?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}&yz_yzrn=${yz_yzrn}&pa_Counter=${pa_Counter}`
+      )
+    );
+    console.log('item: ', item);
+
+    return item;
+  }
+
+  async megadel_by_atar_name_yeshov_shloha_not_active_with_pa_Counter(
+    yz_Id: any,
+    yz_first_name: any,
+    yz_shem_yeshuv: any,
+    belonging_group_id: any,
+    yz_yzrn: any,
+    pa_Counter: any
+  ): Promise<any[]> {
+    console.log('yz_Id-999: ', yz_Id);
+
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/megadel_by_atar_name_yeshov_shloha_not_active_with_pa_Counter?yz_Id=${yz_Id}&yz_first_name=${yz_first_name}&yz_shem_yeshuv=${yz_shem_yeshuv}&belonging_group_id=${belonging_group_id}&yz_yzrn=${yz_yzrn}&pa_Counter=${pa_Counter}`
+      )
+    );
+    console.log('item: ', item);
+
+    return item;
+  }
+
   async megadel_by_atar_name_yeshov_shloha_not_active(
     yz_Id: any,
     yz_first_name: any,

@@ -19,8 +19,11 @@ export interface Chart {
   responsiveOptions?: any;
   events?: ChartEvent;
 }
+import { TableexcelService } from '../../../services/tableexcel.service';
+
 import { ActivatedRoute } from '@angular/router';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-ecommerce',
@@ -37,6 +40,7 @@ export class EcommerceComponent implements OnInit {
   directiveRef?: PerfectScrollbarDirective;
 
   idFromurl: any;
+  modalGrowerID;
 
   currentJustify = 'end';
   loadingIndicator = true;
@@ -66,15 +70,23 @@ export class EcommerceComponent implements OnInit {
   siteName: any = '';
   FarmDetails: any[] = [];
   henHouseID: any = '-1';
+  isLoading_theUserDetails = false;
+  isLoading_FarmDetails = false;
+  totalFarms:any;
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
     private megadelSearchService: MegadelSearchService,
     private route: Router,
-    private route2: ActivatedRoute
+    private route2: ActivatedRoute,
+    private tableexcelService: TableexcelService,
+
   ) {}
 
   async ngOnInit() {
+    this.isLoading_theUserDetails = true;
+    this.isLoading_FarmDetails = true;
+
     this.route2.params.subscribe((params) => {
       this.idFromurl = params['id']; // Retrieve the parameter value from the URL
       console.log('idFromurl: ', this.idFromurl); // Print the parameter value
@@ -101,6 +113,7 @@ export class EcommerceComponent implements OnInit {
     }
 
     this.theUserDetails = this.userDetails[0];
+    this.isLoading_theUserDetails = false;
 
     this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
       this.idFromurl
@@ -113,7 +126,28 @@ export class EcommerceComponent implements OnInit {
       console.log('this.FarmDetails-end: ', this.FarmDetails);
     }
 
+    this.totalFarms = this.FarmDetails.length
+
+    for (let item of this.FarmDetails) {
+      // Code to be executed for each item
+      console.log('item in for of: ', item);
+      let lull2000_code = item.lull2000_code;
+      const results2 =
+        await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+          lull2000_code
+        );
+      if (results2[0]?.pa_Counter) {
+        item.pa_Counter = results2[0].pa_Counter;
+      } else {
+        item.pa_Counter = '';
+      }
+    }
+
+    console.log('this.FarmDetails after gidol hotz: ', this.FarmDetails);
+
+    // lull2000_code
     this.rows = this.FarmDetails;
+    this.isLoading_FarmDetails = false;
 
     this.chartApiservice.getEcommerceData().subscribe((Response) => {
       this.ChartistData = Response;
@@ -123,6 +157,14 @@ export class EcommerceComponent implements OnInit {
       this.datatableData = Response;
       this.getTabledata();
     });
+  }
+
+
+
+  dblClickGrower(growerID) {
+    console.log('growerID=' + growerID);
+    this.modalGrowerID = growerID;
+    document.getElementById('btnModalGrower').click();
   }
 
   async getFarmIdArr(siteNames: any[]): Promise<any[]> {
@@ -155,6 +197,15 @@ export class EcommerceComponent implements OnInit {
     }
     return farmDetailsArr;
   }
+
+
+  getExcelDataFarmDetails(): void {
+    this.tableexcelService.exportAsExcelFile(
+      this.FarmDetails,
+      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+    );
+  }
+
 
   getTabledata() {
     this.rows = this.FarmDetails;

@@ -10,8 +10,8 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="info">850</h3>
-                    <h6>Products Sold</h6>
+                    <h3 class="info">רב שנתי</h3>
+                    <h6>פרטים מורחבים</h6>
                   </div>
                   <div>
                     <i
@@ -37,8 +37,8 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="warning">$748</h3>
-                    <h6>Net Profit</h6>
+                    <h3 class="warning">תעודות</h3>
+                    <h6>פרטי תעודות</h6>
                   </div>
                   <div>
                     <i
@@ -66,8 +66,8 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="success">146</h3>
-                    <h6>New Customers</h6>
+                    <h3 class="success">סיכום חודשי</h3>
+                    <h6>פרטי סיכום חודשי</h6>
                   </div>
                   <div>
                     <i
@@ -93,8 +93,8 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="danger">99.89 %</h3>
-                    <h6>Customer Satisfaction</h6>
+                    <h3 class="danger">כרטיס מגדל</h3>
+                    <h6>פרטי מגדל</h6>
                   </div>
                   <div>
                     <i class="icon-heart danger font-large-2 float-right"></i>
@@ -196,9 +196,12 @@
           </div>
         </div>
 
+        <!-- טבלת פרטי מגדל -->
+        <div *ngIf="isLoading_theUserDetails" class="loader"></div>
+
         <div
-          class="col-xl-4 col-lg-12"
-          *blockUI="'newOrders'; message: 'Loading'"
+          *ngIf="!isLoading_theUserDetails"
+          class="col-xl-4 col-lg-12 growerDetails"
         >
           <m-card
             [options]="options"
@@ -255,16 +258,33 @@
             </ng-container>
           </m-card>
         </div>
+        <!-- סיום טבלת פרטי מגדל -->
       </div>
-      <!--/ Products sell and New Orders -->
 
-      <!-- Recent Transactions -->
+      <!-- טבלת פרטי משקים -->
+      <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
       <div class="row match_height">
         <div id="recent-transactions" class="col-12">
           <div class="card">
             <div class="card-header"></div>
             <div class="card-content">
+              <div class="exel_and_total">
+                <div class="importBth">
+                  <div class="justify-content">
+                    <img
+                      class="logoIngStyle"
+                      src="assets/images/logo/excel.png"
+                      alt="Image"
+                      (click)="getExcelDataFarmDetails()"
+                    />
+                  </div>
+                </div>
+                <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div>
+              </div>
+
               <div
+                *ngIf="!isLoading_FarmDetails"
                 class="table-responsive"
                 fxFlex="auto"
                 [perfectScrollbar]="config"
@@ -299,6 +319,8 @@
                       <th scope="col" class="border-top-0">גיל בשבועות</th>
 
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
+                      <th scope="col" class="border-top-0">קיבולת לול</th>
+                      <th scope="col" class="border-top-0">גידול חוץ</th>
 
                       <!-- <th scope="col" class="border-top-0">שם משווק</th>
 
@@ -399,6 +421,19 @@
                       <td class="text-truncate row_padding">
                         {{ row.flock_month_age }}
                       </td>
+                      <td class="text-truncate row_padding">
+                        {{ row.kibolet_lul }}
+                      </td>
+                      <td class="text-truncate row_padding">
+                        <div
+                          *ngIf="row.pa_Counter.length === 0; else elseBlock"
+                        >
+                          <span>אין</span>
+                        </div>
+                        <ng-template #elseBlock>
+                          <span>{{ row.pa_Counter }}</span>
+                        </ng-template>
+                      </td>
 
                       <!-- <td class="text-truncate row_padding">
                         <span *ngIf="row.msvk_name != '000-'">{{
@@ -433,7 +468,25 @@
           </div>
         </div>
       </div>
-      <!--/ Recent Transactions -->
+      <!--סיום טבלת פרטי משקים -->
+
+
+      <button id="btnModalGrower" style="display: none;"  type="button" class="btn btn-primary" data-toggle="modal" data-target="#growerModal">
+          
+      </button>
+      
+      <!-- Modal -->
+      <div class="modal" id="growerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="vertical-alignment-helper">
+           <div class="modal-dialog vertical-align-center">
+                <div class="modal-content" style="width: 500px;">
+                 <app-grower-details *ngIf="modalGrowerID" [growerID]="modalGrowerID"></app-grower-details>
+            </div>
+          </div>
+         </div>
+        </div>
+
+        
 
       <!--Recent Orders & Monthly Sales -->
       <div class="row match_height">
