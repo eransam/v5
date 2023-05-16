@@ -14,6 +14,7 @@ import { BlockTemplateComponent } from '../../_layout/blockui/block-template.com
 import { MatchHeightModule } from '../partials/general/match-height/match-height.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { HospitalComponent } from './hospital/hospital.component';
+import { GrowerDetailsComponent } from 'src/app/components/grower-details/grower-details.component';
 
 @NgModule({
   imports: [
@@ -25,27 +26,39 @@ import { HospitalComponent } from './hospital/hospital.component';
     MatchHeightModule,
     NgxDatatableModule,
     PerfectScrollbarModule,
+
     NgbModule,
     BlockUIModule.forRoot({
-      template: BlockTemplateComponent
+      template: BlockTemplateComponent,
     }),
     RouterModule.forChild([
       {
         path: 'ecommerce/:id',
-        component: EcommerceComponent
+        component: EcommerceComponent,
       },
+
+      {
+        path: 'GrowerDetailsComponent',
+        component: GrowerDetailsComponent,
+      },
+
       {
         path: 'sales',
-        component: SalesComponent
+        component: SalesComponent,
       },
       {
         path: 'hospital',
-        component: HospitalComponent
-      }
-    ])
+        component: HospitalComponent,
+      },
+    ]),
   ],
-  declarations: [EcommerceComponent, SalesComponent, HospitalComponent],
+  declarations: [
+    EcommerceComponent,
+    SalesComponent,
+    HospitalComponent,
+    GrowerDetailsComponent,
+  ],
 
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DashboardModule { }
+export class DashboardModule {}

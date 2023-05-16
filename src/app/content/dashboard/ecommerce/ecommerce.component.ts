@@ -4,6 +4,8 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ChartEvent, ChartType } from 'ng-chartist';
 import 'chartist-plugin-tooltips';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { EggMarketingService } from 'src/app/services/egg-marketing.service';
+import { LinkService } from 'src/app/services/link.service';
 import {
   PerfectScrollbarDirective,
   PerfectScrollbarComponent,
@@ -72,7 +74,11 @@ export class EcommerceComponent implements OnInit {
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = false;
-  totalFarms:any;
+  totalFarms: any;
+  growerData = [];
+  contactPersonFarmData = [];
+  ContactPersonLength;
+  yzrnHead;
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -80,7 +86,8 @@ export class EcommerceComponent implements OnInit {
     private route: Router,
     private route2: ActivatedRoute,
     private tableexcelService: TableexcelService,
-
+    private data: LinkService,
+    private dataEgg: EggMarketingService
   ) {}
 
   async ngOnInit() {
@@ -113,6 +120,9 @@ export class EcommerceComponent implements OnInit {
     }
 
     this.theUserDetails = this.userDetails[0];
+
+    console.log('this.theUserDetails: ', this.theUserDetails);
+
     this.isLoading_theUserDetails = false;
 
     this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
@@ -126,7 +136,7 @@ export class EcommerceComponent implements OnInit {
       console.log('this.FarmDetails-end: ', this.FarmDetails);
     }
 
-    this.totalFarms = this.FarmDetails.length
+    this.totalFarms = this.FarmDetails.length;
 
     for (let item of this.FarmDetails) {
       // Code to be executed for each item
@@ -157,14 +167,15 @@ export class EcommerceComponent implements OnInit {
       this.datatableData = Response;
       this.getTabledata();
     });
+
+    this.loadData(this.FarmDetails[0].grower_id);
   }
-
-
 
   dblClickGrower(growerID) {
     console.log('growerID=' + growerID);
     this.modalGrowerID = growerID;
     document.getElementById('btnModalGrower').click();
+    console.log('this.modalGrowerID: ', this.modalGrowerID);
   }
 
   async getFarmIdArr(siteNames: any[]): Promise<any[]> {
@@ -182,6 +193,32 @@ export class EcommerceComponent implements OnInit {
     return farmIds;
   }
 
+  async loadData(growerID) {
+    console.log('growerID in loadData: ', growerID);
+
+    await this.data.getGrowerDetails(growerID).subscribe((data) => {
+        console.log('the_data: ', data);
+
+      this.growerData = data[0];
+      console.log('this.growerData2: ', this.growerData);
+
+      this.yzrnHead = this.growerData[0]['lull2000_code'];
+
+      this.dataEgg
+        .getContactPersonFarmHatala(this.yzrnHead)
+        .subscribe((data) => {
+          console.log('data from getContactPersonFarmHatala: ', data);
+
+          this.contactPersonFarmData = data;
+          this.ContactPersonLength = this.contactPersonFarmData.length;
+        });
+    });
+    console.log('this.growerData2: ', this.growerData);
+  }
+
+  test() {
+    console.log('hello');
+  }
   async getFarmDetailsArr(FarmIdArr: any[]): Promise<any[]> {
     const farmDetailsArr: any[] = [];
     console.log('theFarmIdArr: ', FarmIdArr);
@@ -198,14 +235,12 @@ export class EcommerceComponent implements OnInit {
     return farmDetailsArr;
   }
 
-
   getExcelDataFarmDetails(): void {
     this.tableexcelService.exportAsExcelFile(
       this.FarmDetails,
       'Modern Admin - Clean Angular8+ Dashboard HTML Template'
     );
   }
-
 
   getTabledata() {
     this.rows = this.FarmDetails;

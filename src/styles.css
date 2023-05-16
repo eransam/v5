@@ -15,6 +15,8 @@ body{
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import '../node_modules/angular-archwizard/styles/archwizard.css';
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 
 :host ::ng-deep .email-fixed-header {
   min-height: calc(100% - 207px)!important;

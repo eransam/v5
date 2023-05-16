@@ -2,7 +2,7 @@
   <div class="content-wrapper">
     <div class="content-header row mb-1"></div>
     <div class="content-body">
-      <!-- eCommerce statistic -->
+      <!-- eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
       <div class="row">
         <div class="col-xl-3 col-lg-6 col-12">
           <div class="card pull-up">
@@ -113,9 +113,9 @@
           </div>
         </div>
       </div>
-      <!--/ eCommerce statistic -->
+      <!--/ eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
 
-      <!-- Products sell and New Orders -->
+      <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
       <div class="row">
         <div class="col-xl-8 col-12">
           <div class="card card-shadow">
@@ -196,7 +196,7 @@
           </div>
         </div>
 
-        <!-- טבלת פרטי מגדל -->
+        <!-- טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
         <div *ngIf="isLoading_theUserDetails" class="loader"></div>
 
         <div
@@ -250,6 +250,20 @@
                             <span *ngSwitchDefault>פעיל</span>
                           </td>
                         </tr>
+                        <tr>
+                          <td><B>פרטים נוספים</B></td>
+                          <td><B>פרטים נוספים</B></td>
+
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              (click)="loadData(theUserDetails.growerID)"
+                            >
+                              הצג
+                            </button>
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -258,10 +272,10 @@
             </ng-container>
           </m-card>
         </div>
-        <!-- סיום טבלת פרטי מגדל -->
+        <!-- סיום טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
       </div>
 
-      <!-- טבלת פרטי משקים -->
+      <!-- טבלת פרטי משקים ------------------------------------------------------------------------------------------------------------------------>
       <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
       <div class="row match_height">
@@ -431,7 +445,9 @@
                           <span>אין</span>
                         </div>
                         <ng-template #elseBlock>
-                          <span>{{ row.pa_Counter }}</span>
+                          <span
+                            >{{ row.is_has_partner }} ({{ row.cd_gidul }})</span
+                          >
                         </ng-template>
                       </td>
 
@@ -468,27 +484,62 @@
           </div>
         </div>
       </div>
-      <!--סיום טבלת פרטי משקים -->
+      <!--סיום טבלת פרטי משקים ------------------------------------------------------------------------------------------------------------------------>
 
-
-      <button id="btnModalGrower" style="display: none;"  type="button" class="btn btn-primary" data-toggle="modal" data-target="#growerModal">
-          
-      </button>
-      
-      <!-- Modal -->
-      <div class="modal" id="growerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- Modal ------------------------------------------------------------------------------------------------------------------------>
+      <div
+        class="modal"
+        id="growerModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
         <div class="vertical-alignment-helper">
-           <div class="modal-dialog vertical-align-center">
-                <div class="modal-content" style="width: 500px;">
-                 <app-grower-details *ngIf="modalGrowerID" [growerID]="modalGrowerID"></app-grower-details>
+          <div class="modal-dialog vertical-align-center">
+            <div class="modal-content" style="width: 500px">
+              <app-grower-details
+                *ngIf="modalGrowerID"
+                [growerID]="modalGrowerID"
+              ></app-grower-details>
             </div>
           </div>
-         </div>
         </div>
+      </div>
 
-        
+      <button
+        id="btnModalGrower"
+        (click)="test()"
+        style="display: none"
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#growerModal"
+      ></button>
 
-      <!--Recent Orders & Monthly Sales -->
+      <!-- Modal -->
+      <div
+        class="modal"
+        id="growerModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog vertical-align-center">
+            <div class="modal-content" style="width: 500px">
+              <app-grower-details
+                *ngIf="modalGrowerID"
+                [growerID]="modalGrowerID"
+              ></app-grower-details>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--and Modal ------------------------------------------------------------------------------------------------------------------------>
+
+      <!--Recent Orders & Monthly Sales ------------------------------------------------------------------------------------------------------------------------>
       <div class="row match_height">
         <div class="col-xl-12 col-lg-12">
           <div class="card">
@@ -559,7 +610,7 @@
           </div>
         </div>
       </div>
-      <!--/Recent Orders & Monthly Sales -->
+      <!--/Recent Orders & Monthly Sales ------------------------------------------------------------------------------------------------------------------------>
       <div class="row" matchHeight="card">
         <div class="col-xl-4 col-lg-12">
           <div class="card">

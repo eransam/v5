@@ -1,1 +1,100 @@
-<p>grower-details works!</p>
+
+<table class="table" *ngFor="let g of growerData" dir="rtl">
+   
+    <tr>
+        <TD style="width: 10px;text-align: right;vertical-align: top;cursor: pointer;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span style="color:black; font-size: 26px;cursor: pointer;" aria-hidden="true" >&times;</span>
+              </button>
+         
+        </TD>
+       <TD>
+        <h2 class="box-title" style="padding-top: 0px; margin-top: 0px;">&nbsp;פרטי מגדל {{g.grower_name}}</h2>
+       </TD>
+      
+    </tr>
+    <TR><TD style="height:10px;"></TD></TR>
+    <TR><TD colspan="2">
+
+
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><b>לול 2000</b></td>
+                            <td>{{g.lull2000_code}}</td>
+                            <td></td>
+                        </tr>
+                
+                  <tr>
+                      <td><b>כתובת</b></td>
+                      <td>{{g.address}}</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td><b>יישוב</b></td>
+                      <td>{{g.city_name}}</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                    <td><b>טלפון 1</b></td>
+                    <td>{{g.tel1}}</td>
+                    <td><a href="{{'tel:' + g.tel1}}" target="_blank"><i *ngIf="g.tel1!=''" class="fa fa-phone" style="color:green;" aria-hidden="true"></i></a></td>
+                   </tr>
+                   <tr>
+                      <td><b>טלפון 2</b></td>
+                      <td>{{g.tel2}}</td>
+                      <td><a href="{{'tel:' + g.tel2}}" target="_blank"><i *ngIf="g.tel2!=''" class="fa fa-phone" style="color:green;" aria-hidden="true"></i></a></td>
+                     </tr>
+                     <tr>
+                      <td><b>פקס</b></td>
+                      <td colspan="2">{{g.fax}}</td>
+                     
+                     </tr>
+                     <tr>
+                        <td><b>דוא"ל</b></td>
+                        <td>{{g.email}}</td>
+                        <td><a href="{{'emailto:' + g.email}}" target="_blank"><i *ngIf="g.email!=''" class="fa fa-envelope" style="color:green;" aria-hidden="true"></i></a></td>
+                       </tr>
+
+                    </tbody>
+                   </table>
+        </TD>
+        </TR>
+        </table>
+        
+  
+    <div class="row" *ngIf="ContactPersonLength>0">
+        <div class="col-md-12" dir="rtl">
+          
+         <div  class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">אנשי קשר במשק</h3>
+      
+            <div class="box-tools pull-right">
+            
+            </div>
+          </div>
+          <div class="box-body" dir="rtl">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th style="text-align: right;">מספרי טלפון</th>
+                
+                 </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let f of contactPersonFarmData">
+                  <td>{{f.phone}}</td>
+                  <td><a href="{{'tel:' + f.phone}}" target="_blank"><i *ngIf="f.phone!=''" class="fa fa-phone" style="color:green;" aria-hidden="true"></i></a></td>
+                </tr>
+               
+                </tbody>
+              </table>
+            </div>
+        
+          </div>
+          </div>
+      
+          </div>
+          </div>
