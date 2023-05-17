@@ -123,28 +123,28 @@
               </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group row last mx-auto">
-                  <label class="col-md-4 label-control" for="userinput4"
-                    >גידול חוץ</label
-                  >
-                  <div class="col-md-8">
-                    <input
-                      type="text"
-                      id="gidolHotz-input"
-                      name="gidolHotz"
-                      class="form-control border-primary"
-                      [formControl]="gidolHotzInput"
-                      placeholder="גידול חוץ"
-                      [(ngModel)]="gidolHotz"
-                      [formControl]="gidolHotzControl"
-                      (keydown.enter)="$event.preventDefault()"
-                    />
-                    <span class="delete-icon" (click)="clearInput('gidolHotz')">
-                      <i class="fa fa-times"></i>
-                    </span>
-                  </div>
+              <div class="form-group row last mx-auto">
+                <label class="col-md-4 label-control" for="userinput4"
+                  >גידול חוץ</label
+                >
+                <div class="col-md-8">
+                  <input
+                    type="text"
+                    id="gidolHotz-input"
+                    name="gidolHotz"
+                    class="form-control border-primary"
+                    [formControl]="gidolHotzInput"
+                    placeholder="גידול חוץ"
+                    [(ngModel)]="gidolHotz"
+                    [formControl]="gidolHotzControl"
+                    (keydown.enter)="$event.preventDefault()"
+                  />
+                  <span class="delete-icon" (click)="clearInput('gidolHotz')">
+                    <i class="fa fa-times"></i>
+                  </span>
                 </div>
               </div>
+            </div>
           </div>
         </div>
 
@@ -318,7 +318,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                                 >{{ row.yz_shem }}</a
                               >
                             </div>
@@ -336,7 +339,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                               >
                                 {{ row.yz_first_name }}</a
                               >
@@ -355,7 +361,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                               >
                                 {{ row.yz_last_name }}</a
                               >
@@ -374,7 +383,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                               >
                                 {{ row.yz_yzrn }}</a
                               >
@@ -393,7 +405,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                                 >{{ row.yz_zehut }}</a
                               >
                             </div>
@@ -410,7 +425,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                                 >{{ row.yz_shem_yeshuv }}</a
                               >
                             </div>
@@ -430,7 +448,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.id
+                                    row.yz_IdReal
                                   ]"
                                   >ראשי</a
                                 >
@@ -441,7 +459,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.id
+                                    row.yz_IdReal
                                   ]"
                                 >
                                   שותף</a
@@ -453,7 +471,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.id
+                                    row.yz_IdReal
                                   ]"
                                   >פרטני</a
                                 >
@@ -473,7 +491,10 @@
                           >
                             <div [class]="'text-right'">
                               <a
-                                [routerLink]="['/dashboard/ecommerce', row.id]"
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
                               >
                                 {{ row.pa_Counter }}</a
                               >
@@ -497,7 +518,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.id
+                                    row.yz_IdReal
                                   ]"
                                 >
                                   לא פעיל</a
@@ -509,7 +530,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.id
+                                    row.yz_IdReal
                                   ]"
                                 >
                                   פעיל</a

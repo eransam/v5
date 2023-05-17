@@ -410,7 +410,6 @@ export class SearchMegadelComponent implements OnInit {
   cleanInputFild() {
     this.username = '';
     this.site = '';
-    this.extension = '';
     this.settlement = '';
     this.numName = '';
     this.gidolHotz = '';
@@ -643,7 +642,7 @@ export class SearchMegadelComponent implements OnInit {
       console.log('gidolHotzName: ', gidolHotzName);
 
       const results =
-        await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active_with_pa_Counter(
+        await this.megadelSearchService.Get_partners_by_pa_Counter_and_megadel(
           SitetName,
           Username,
           SettlementName,
@@ -687,7 +686,7 @@ export class SearchMegadelComponent implements OnInit {
       //   notActive
     } else if (this.selectedCheckbox === 'notActive') {
       const results =
-        await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_not_active_with_pa_Counter(
+        await this.megadelSearchService.Get_partners_by_pa_Counter_and_megadel_not_active(
           SitetName,
           Username,
           SettlementName,
@@ -699,7 +698,7 @@ export class SearchMegadelComponent implements OnInit {
       localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
     } else if (this.selectedCheckbox === 'all') {
       const results =
-        await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_all_with_pa_Counter(
+        await this.megadelSearchService.Get_partners_by_pa_Counter_and_megadel_all(
           SitetName,
           Username,
           SettlementName,

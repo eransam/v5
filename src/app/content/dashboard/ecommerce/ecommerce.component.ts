@@ -43,6 +43,7 @@ export class EcommerceComponent implements OnInit {
 
   idFromurl: any;
   modalGrowerID;
+  showAdditionalDetails: boolean = false;
 
   currentJustify = 'end';
   loadingIndicator = true;
@@ -171,6 +172,10 @@ export class EcommerceComponent implements OnInit {
     this.loadData(this.FarmDetails[0].grower_id);
   }
 
+  toggleAdditionalDetails() {
+    this.showAdditionalDetails = !this.showAdditionalDetails;
+  }
+
   dblClickGrower(growerID) {
     console.log('growerID=' + growerID);
     this.modalGrowerID = growerID;
@@ -197,7 +202,7 @@ export class EcommerceComponent implements OnInit {
     console.log('growerID in loadData: ', growerID);
 
     await this.data.getGrowerDetails(growerID).subscribe((data) => {
-        console.log('the_data: ', data);
+      console.log('the_data: ', data);
 
       this.growerData = data[0];
       console.log('this.growerData2: ', this.growerData);

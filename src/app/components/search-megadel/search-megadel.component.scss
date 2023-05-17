@@ -995,7 +995,7 @@ mat-autocomplete {
 }
 
 .text-right {
-  text-align: right;
+  text-align: center !important;
 }
 .ngx-datatable.fixed-row
   .datatable-scroll
@@ -1025,7 +1025,6 @@ mat-autocomplete {
   display: flex !important;
   justify-content: left !important;
   cursor: pointer;
-
 }
 
 .importBth {

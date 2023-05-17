@@ -3,7 +3,7 @@
     <div class="content-header row mb-1"></div>
     <div class="content-body">
       <!-- eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
-      <div class="row">
+      <div class="row" style="direction: rtl">
         <div class="col-xl-3 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
@@ -119,22 +119,12 @@
       <div class="row">
         <div class="col-xl-8 col-12">
           <div class="card card-shadow">
-            <div class="card-header card-header-transparent py-20">
+            <div
+              class="card-header card-header-transparent py-20"
+              style="direction: rtl"
+            >
               <div class="btn-group dropdown">
-                <a [routerLink]="" ngbDropdown class="d-inline-block">
-                  <button
-                    class="btn btn_dropdown btn_set_padding btn-dropdown-toggle"
-                    id="dropdownBasic1"
-                    ngbDropdownToggle
-                  >
-                    PRODUCTS SALES
-                  </button>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button class="dropdown-item">Sales</button>
-                    <button class="dropdown-item">Total Sales</button>
-                    <button class="dropdown-item">Profit</button>
-                  </div>
-                </a>
+                <h1>התראות</h1>
               </div>
               <ul
                 ngbNav
@@ -142,7 +132,7 @@
                 class="justify-content-end nav nav-pills"
               >
                 <li [ngbNavItem]="1">
-                  <a ngbNavLink>Day</a>
+                  <a ngbNavLink> לפי יום</a>
                   <ng-template ngbNavContent>
                     <div class="areaChartLegend scoreLineShadow">
                       <x-chartist
@@ -158,7 +148,7 @@
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="2">
-                  <a ngbNavLink>Week</a>
+                  <a ngbNavLink>לפי שבוע</a>
                   <ng-template ngbNavContent>
                     <div class="areaChartLegend scoreLineShadow">
                       <x-chartist
@@ -174,7 +164,7 @@
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="3">
-                  <a ngbNavLink>Month</a>
+                  <a ngbNavLink>לפי חודש</a>
                   <ng-template ngbNavContent>
                     <div class="areaChartLegend scoreLineShadow">
                       <x-chartist
@@ -217,18 +207,42 @@
                         <tr>
                           <td><B>שם יצרן</B></td>
                           <td>{{ theUserDetails.yz_shem }}</td>
+
+                          <td><B>כתובת</B></td>
+                          <td>
+                            {{
+                              growerData.address + "," + growerData.city_name
+                            }}
+                          </td>
                         </tr>
                         <tr>
                           <td><B>מספר יצרן</B></td>
                           <td>{{ theUserDetails.yz_yzrn }}</td>
+
+                          <td><B>מיקוד</B></td>
+                          <td>
+                            {{ growerData.v_mikud }}
+                          </td>
                         </tr>
                         <tr>
                           <td><B>ת.ז</B></td>
                           <td>{{ theUserDetails.yz_zehut }}</td>
+
+                          <td><B>טלפון</B></td>
+                          <td>
+                            {{ growerData.tel1 }}
+                          </td>
                         </tr>
                         <tr>
                           <td><B>ישוב</B></td>
                           <td>{{ theUserDetails.yz_shem_yeshuv }}</td>
+
+                          <td>
+                            <B>טלפון נוסף</B>
+                          </td>
+                          <td>
+                            {{ growerData.tel2 }}
+                          </td>
                         </tr>
                         <tr>
                           <td><B>סוג מגדל</B></td>
@@ -236,6 +250,10 @@
                             <span *ngSwitchCase="'1'">ראשי</span>
                             <span *ngSwitchCase="'2'">שותף</span>
                             <span *ngSwitchCase="'3'">פרטני</span>
+                          </td>
+                          <td><B>מייל</B></td>
+                          <td>
+                            {{ growerData.email }}
                           </td>
                         </tr>
 
@@ -248,20 +266,6 @@
                           <td [ngSwitch]="theUserDetails.yz_is_activ">
                             <span *ngSwitchCase="'1'">לא פעיל</span>
                             <span *ngSwitchDefault>פעיל</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><B>פרטים נוספים</B></td>
-                          <td><B>פרטים נוספים</B></td>
-
-                          <td>
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              (click)="loadData(theUserDetails.growerID)"
-                            >
-                              הצג
-                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -539,224 +543,7 @@
       </div>
       <!--and Modal ------------------------------------------------------------------------------------------------------------------------>
 
-      <!--Recent Orders & Monthly Sales ------------------------------------------------------------------------------------------------------------------------>
-      <div class="row match_height">
-        <div class="col-xl-12 col-lg-12">
-          <div class="card">
-            <div class="card-content top_space">
-              <div
-                id="cost-revenue"
-                class="ecommercesaleslineArea position-relative"
-              >
-                <x-chartist
-                  *ngIf="ecommercesaleslineArea"
-                  [data]="ecommercesaleslineArea.data"
-                  [type]="ecommercesaleslineArea.type"
-                  [options]="ecommercesaleslineArea.options"
-                  [responsiveOptions]="ecommercesaleslineArea.responsiveOptions"
-                  [events]="ecommercesaleslineArea.events"
-                >
-                </x-chartist>
-              </div>
-            </div>
-            <div class="card-footer border_top">
-              <div class="row mt-1">
-                <div class="col-3 text-center">
-                  <h6 class="text-muted">Total Products</h6>
-                  <h2 class="block font-weight-normal">18.6 k</h2>
-                  <div class="TotalProducts">
-                    <ngb-progressbar
-                      height="7px"
-                      type="gradient-x-info"
-                      [value]="70"
-                    ></ngb-progressbar>
-                  </div>
-                </div>
-                <div class="col-3 text-center">
-                  <h6 class="text-muted">Total Sales</h6>
-                  <h2 class="block font-weight-normal">64.5 M</h2>
-                  <div class="TotalSales">
-                    <ngb-progressbar
-                      height="7px"
-                      type="gradient-x-warning"
-                      [value]="60"
-                    ></ngb-progressbar>
-                  </div>
-                </div>
-                <div class="col-3 text-center">
-                  <h6 class="text-muted">Total Cost</h6>
-                  <h2 class="block font-weight-normal">24.3 B</h2>
-                  <div class="TotalCost">
-                    <ngb-progressbar
-                      height="7px"
-                      type="gradient-x-danger"
-                      [value]="40"
-                    ></ngb-progressbar>
-                  </div>
-                </div>
-                <div class="col-3 text-center">
-                  <h6 class="text-muted">Total Revenue</h6>
-                  <h2 class="block font-weight-normal">36.7 M</h2>
-                  <div class="TotalRevenue">
-                    <ngb-progressbar
-                      height="7px"
-                      type="gradient-x-success"
-                      [value]="90"
-                    ></ngb-progressbar>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Recent Orders & Monthly Sales ------------------------------------------------------------------------------------------------------------------------>
-      <div class="row" matchHeight="card">
-        <div class="col-xl-4 col-lg-12">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">Basic Card</h4>
-            </div>
-            <div class="card-content">
-              <img
-                class="img-fluid"
-                src="../../../../assets/images/carousel/05.jpg"
-                alt="Card image cap"
-              />
-              <div class="card-body">
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a [routerLink]="" class="card-link">Card link</a>
-                <a [routerLink]="" class="card-link">Another link</a>
-              </div>
-            </div>
-            <div
-              class="card-footer border-top-blue-grey border-top-lighten-5 text-muted"
-            >
-              <span class="float-left">3 hours ago</span>
-              <span class="float-right">
-                <a [routerLink]="" class="card-link"
-                  >Read More <i class="fa fa-angle-right"></i
-                ></a>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-lg-12">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">Project Stats</h4>
-            </div>
-            <div class="card-content">
-              <p class="font-medium-2 text-muted text-center dountchartheader">
-                Project Tasks
-              </p>
-              <div id="donut-dashboard-chart" class="donut">
-                <x-chartist
-                  *ngIf="donutChart"
-                  class="pr_stats"
-                  [data]="donutChart.data"
-                  [type]="donutChart.type"
-                  [options]="donutChart.options"
-                  [responsiveOptions]="donutChart.responsiveOptions"
-                  [events]="donutChart.events"
-                >
-                </x-chartist>
-              </div>
-              <div class="card-body">
-                <div class="row mb-3">
-                  <div class="col Started">
-                    <span class="mb-1 text-muted cardtext d-block"
-                      >23% - Done</span
-                    >
-                    <div>
-                      <ngb-progressbar
-                        height="7px"
-                        type="success"
-                        [value]="23"
-                      ></ngb-progressbar>
-                    </div>
-                  </div>
-                  <div class="col Progress">
-                    <span class="mb-1 text-muted cardtext d-block"
-                      >14% - In Progress</span
-                    >
-                    <div>
-                      <ngb-progressbar
-                        height="7px"
-                        type="danger"
-                        [value]="14"
-                      ></ngb-progressbar>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col Remaining">
-                    <span class="mb-1 text-muted cardtext d-block"
-                      >35% - Remaining</span
-                    >
-                    <div>
-                      <ngb-progressbar
-                        height="7px"
-                        type="warning"
-                        [value]="35"
-                      ></ngb-progressbar>
-                    </div>
-                  </div>
-                  <div class="col Done">
-                    <span class="mb-1 text-muted cardtext d-block"
-                      >28% - Started</span
-                    >
-                    <div>
-                      <ngb-progressbar
-                        height="7px"
-                        type="primary"
-                        [value]="28"
-                      ></ngb-progressbar>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-lg-12">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-body sales-growth-chart">
-                <div id="monthly-sales" class=""></div>
-                <div class="barchart">
-                  <x-chartist
-                    *ngIf="barChart"
-                    [data]="barChart.data"
-                    [type]="barChart.type"
-                    [options]="barChart.options"
-                    [responsiveOptions]="barChart.responsiveOptions"
-                    [events]="barChart.events"
-                  >
-                  </x-chartist>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="chart-title mb-1 text-center">
-                  <h6>Total monthly Sales.</h6>
-                </div>
-                <div class="chart-stats text-center">
-                  <a
-                    [routerLink]=""
-                    class="btn btn-sm btn-danger box-shadow-2 mr-1"
-                    >Statistics
-                    <i class="feather ft-bar-chart" (click)="reLoad()"></i
-                  ></a>
-                  <span class="text-muted">for the last year.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!--/ Basic Horizontal Timeline -->
     </div>
   </div>

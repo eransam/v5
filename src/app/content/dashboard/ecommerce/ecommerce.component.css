@@ -454,3 +454,14 @@
   align-items: center;
   padding: 15px;
 }
+
+.media-body .text-left {
+  text-align: right !important;
+}
+
+.ngx-datatable.bootstrap
+  .datatable-body
+  .datatable-body-row.datatable-row-even {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding-right: 2% !important;
+}
