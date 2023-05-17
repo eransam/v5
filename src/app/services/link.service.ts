@@ -10,19 +10,19 @@ export class LinkService {
 
   getGrowerByMsvkSelect(msvkCode, growerID, settlementID, fromDate, toDate) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getGrowerByMsvkSelect?msvkCode=${msvkCode}&growerID=${growerID}&settlementID=${settlementID}&fromDate=${fromDate}&toDate=${toDate}`
+      `${environment.apiPath}/LinkService.asmx/getGrowerByMsvkSelect?msvkCode=${msvkCode}&growerID=${growerID}&settlementID=${settlementID}&fromDate=${fromDate}&toDate=${toDate}`
     );
   }
 
   getFarmByMsvkSelect(msvkCode, farmID, settlementID, isSortSelf) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getFarmByMsvkSelect?msvkCode=${msvkCode}&farmID=${farmID}&settlementID=${settlementID}&isSortSelf=${isSortSelf}`
+      `${environment.apiPath}/LinkService.asmx/getFarmByMsvkSelect?msvkCode=${msvkCode}&farmID=${farmID}&settlementID=${settlementID}&isSortSelf=${isSortSelf}`
     );
   }
 
   getFarmByOved(ovedID, msvkCode) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getFarmByOved?ovedID=${ovedID}&msvkCode=${msvkCode}`
+      `${environment.apiPath}/LinkService.asmx/getFarmByOved?ovedID=${ovedID}&msvkCode=${msvkCode}`
     );
   }
 
@@ -36,7 +36,7 @@ export class LinkService {
     statusID
   ) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getCarAndDriverByMsvkSelect?msvkCode=${msvkCode}&driverID=${driverID}&carNumber=${carNumber}&carTypeID=${carTypeID}&carManufactor=${carManufactor}&isCertificateTogheter=${isCertificateTogheter}&statusID=${statusID}`
+      `${environment.apiPath}/LinkService.asmx/getCarAndDriverByMsvkSelect?msvkCode=${msvkCode}&driverID=${driverID}&carNumber=${carNumber}&carTypeID=${carTypeID}&carManufactor=${carManufactor}&isCertificateTogheter=${isCertificateTogheter}&statusID=${statusID}`
     );
   }
 
@@ -50,7 +50,7 @@ export class LinkService {
     carModelID
   ) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/carInsert?carNumber=${carNumber}&carTypeID=${carTypeID}&carManufacturID=${carManufacturID}&modifiedBy=${modifiedBy}&year=${year}&colorID=${colorID}&carModelID=${carModelID}`
+      `${environment.apiPath}/LinkService.asmx/carInsert?carNumber=${carNumber}&carTypeID=${carTypeID}&carManufacturID=${carManufacturID}&modifiedBy=${modifiedBy}&year=${year}&colorID=${colorID}&carModelID=${carModelID}`
     );
   }
 
@@ -62,26 +62,26 @@ export class LinkService {
     carManufactor
   ) {
     console.log(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getCarAndDriverByMsvkInsert?msvkCode=${msvkCode}&driverID=${driverID}&carNumber=${carNumber}&carTypeID=${carTypeID}&carManufactor=${carManufactor}`
+      `${environment.apiPath}/LinkService.asmx/getCarAndDriverByMsvkInsert?msvkCode=${msvkCode}&driverID=${driverID}&carNumber=${carNumber}&carTypeID=${carTypeID}&carManufactor=${carManufactor}`
     );
 
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getCarAndDriverByMsvkSelect?msvkCode=${msvkCode}&driverID=${driverID}&carNumber=${carNumber}&carTypeID=${carTypeID}&carManufactor=${carManufactor}`
+      `${environment.apiPath}/LinkService.asmx/getCarAndDriverByMsvkSelect?msvkCode=${msvkCode}&driverID=${driverID}&carNumber=${carNumber}&carTypeID=${carTypeID}&carManufactor=${carManufactor}`
     );
   }
 
   getEggWareHouseFactory(msvkCode, eggFactoryID, isCertificateTogheter) {
     console.log(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getEggWareHouseFactory?msvkCode=${msvkCode}&eggFactoryID=${eggFactoryID}&isCertificateTogheter=${isCertificateTogheter}`
+      `${environment.apiPath}/LinkService.asmx/getEggWareHouseFactory?msvkCode=${msvkCode}&eggFactoryID=${eggFactoryID}&isCertificateTogheter=${isCertificateTogheter}`
     );
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getEggWareHouseFactory?msvkCode=${msvkCode}&eggFactoryID=${eggFactoryID}&isCertificateTogheter=${isCertificateTogheter}`
+      `${environment.apiPath}/LinkService.asmx/getEggWareHouseFactory?msvkCode=${msvkCode}&eggFactoryID=${eggFactoryID}&isCertificateTogheter=${isCertificateTogheter}`
     );
   }
 
   getOvdimDetails(ovedID) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getOvdimDetails?ovedID=${ovedID}`
+      `${environment.apiPath}/LinkService.asmx/getOvdimDetails?ovedID=${ovedID}`
     );
   }
 
@@ -91,29 +91,29 @@ export class LinkService {
 
     return this.http.get<any>(
       `${
-        environment.apiPathEggMmovments
-      }/LinkService.asmx/getGrowerDetails?growerID=${growerID.toString()}`
+        environment.apiPath
+      }growerService.asmx/getGrowerDetails?growerID=${growerID.toString()}`
     );
   }
 
   driverEggInsert(lastName, firstName, idNo, mobilePhone, userID, carID) {
     console.log(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/driverEggInsert?lastName=${lastName}&firstName=${firstName}&idNo=${idNo}&mobilePhone=${mobilePhone}&userID=${userID}&carID=${carID}`
+      `${environment.apiPath}/LinkService.asmx/driverEggInsert?lastName=${lastName}&firstName=${firstName}&idNo=${idNo}&mobilePhone=${mobilePhone}&userID=${userID}&carID=${carID}`
     );
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/driverEggInsert?lastName=${lastName}&firstName=${firstName}&idNo=${idNo}&mobilePhone=${mobilePhone}&userID=${userID}&carID=${carID}`
+      `${environment.apiPath}/LinkService.asmx/driverEggInsert?lastName=${lastName}&firstName=${firstName}&idNo=${idNo}&mobilePhone=${mobilePhone}&userID=${userID}&carID=${carID}`
     );
   }
 
   driverInsertCheck(idNumber) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/driverInsertCheck?idNumber=${idNumber}`
+      `${environment.apiPath}/LinkService.asmx/driverInsertCheck?idNumber=${idNumber}`
     );
   }
 
   carInsertCheck(carNumber) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/carInsertCheck?carNumber=${carNumber}`
+      `${environment.apiPath}/LinkService.asmx/carInsertCheck?carNumber=${carNumber}`
     );
   }
 
@@ -127,13 +127,13 @@ export class LinkService {
     userID
   ) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/carEggInsert?carNumber=${carNumber}&carTypeID=${carTypeID}&carManufacturID=${carManufacturID}&prodctionYear=${prodctionYear}&colorID=${colorID}&carModelID=${carModelID}&userID=${userID}`
+      `${environment.apiPath}/LinkService.asmx/carEggInsert?carNumber=${carNumber}&carTypeID=${carTypeID}&carManufacturID=${carManufacturID}&prodctionYear=${prodctionYear}&colorID=${colorID}&carModelID=${carModelID}&userID=${userID}`
     );
   }
 
   deleteDriver(id, reasonText, userID) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/deleteDriver?id=${id}&reasonText=${reasonText}&userID=${userID}`
+      `${environment.apiPath}/LinkService.asmx/deleteDriver?id=${id}&reasonText=${reasonText}&userID=${userID}`
     );
   }
 
@@ -150,13 +150,13 @@ export class LinkService {
     msvkCode
   ) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/getQuarantine?farmID=${farmID}&settlementID=${settlementID}&statusID=${statusID}&slaughterID=${slaughterID}&quarantineNumber=${quarantineNumber}&quarantineTypeID=${quarantineTypeID}&fromDate=${fromDate}&toDate=${toDate}&quarantineID=${quarantineID}&msvkCode=${msvkCode}`
+      `${environment.apiPath}/LinkService.asmx/getQuarantine?farmID=${farmID}&settlementID=${settlementID}&statusID=${statusID}&slaughterID=${slaughterID}&quarantineNumber=${quarantineNumber}&quarantineTypeID=${quarantineTypeID}&fromDate=${fromDate}&toDate=${toDate}&quarantineID=${quarantineID}&msvkCode=${msvkCode}`
     );
   }
 
   updateOvdimUsernamePassword(ovedID, userName, password) {
     return this.http.get<any>(
-      `${environment.apiPathEggMmovments}/LinkService.asmx/updateOvdimUsernamePassword?ovedID=${ovedID}&userName=${userName}&password=${password}`
+      `${environment.apiPath}/LinkService.asmx/updateOvdimUsernamePassword?ovedID=${ovedID}&userName=${userName}&password=${password}`
     );
   }
 }

@@ -408,6 +408,7 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   cleanInputFild() {
+    this.theDetails = [];
     this.username = '';
     this.site = '';
     this.settlement = '';
