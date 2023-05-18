@@ -29,6 +29,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
+    console.log("prod: " ,  window.location.protocol + '//' + window.location.host + '/');
+    
     this.loginForm = this.formBuilder.group({
       email: ['john@pixinvent.com', Validators.required],
       password: ['password@123', Validators.required],

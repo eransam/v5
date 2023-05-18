@@ -2,9 +2,9 @@
 // If left as is, it firbase and google map related functionality will not work on LIVE instance.
 
 export const environment = {
+  production: true,
   apiPath: window.location.protocol + '//' + window.location.host + '/',
 
-  production: true,
   firebase: {
     apiKey: 'AIzaSyB78aPWrovray_gVpZmadbDmEr5AzypOAA',
     // authDomain: 'evolvision-rnd.firebaseapp.com',

@@ -414,6 +414,7 @@ export class SearchMegadelComponent implements OnInit {
     this.settlement = '';
     this.numName = '';
     this.gidolHotz = '';
+    this.extension = '';
   }
 
   getTabledata() {

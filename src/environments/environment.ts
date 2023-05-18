@@ -5,10 +5,10 @@
 // WARNING - Values under "firebase" and value of "googleApiKey" needs to be replaced from your own accounts
 // If left as is, it firbase and google map related functionality will not work on LIVE instance.
 export const environment = {
+    production: false,
   apiPath: 'https://localhost:44380/',
   apiPathEggMmovments: 'http://localhost:61414/',
 
-  production: false,
   firebase: {
     apiKey: 'AIzaSyCSG-EGU2RLITgpjf_ogf1w47edC_DXlWc',
     authDomain: 'evolvision-rnd.firebaseapp.com',

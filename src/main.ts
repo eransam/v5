@@ -4,9 +4,15 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-if (environment.production) {
-  enableProdMode();
-}
+const updateApiPath = () => {
+  if (environment.production) {
+    environment.apiPath =
+      window.location.protocol + '//' + window.location.host + '/';
+  }
+};
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+updateApiPath();
+
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => console.log(err));
