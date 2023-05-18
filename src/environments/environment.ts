@@ -7,7 +7,7 @@
 export const environment = {
     production: false,
   apiPath: 'https://localhost:44380/',
-  apiPathEggMmovments: 'http://localhost:61414/',
+//   apiPathEggMmovments: 'http://localhost:61414/',
 
   firebase: {
     apiKey: 'AIzaSyCSG-EGU2RLITgpjf_ogf1w47edC_DXlWc',
