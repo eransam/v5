@@ -30,7 +30,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
-  styleUrls: ['./ecommerce.component.css'],
+  styleUrls: ['./ecommerce.component.scss'],
 })
 export class EcommerceComponent implements OnInit {
   @BlockUI('newOrders') blockUINewOrders: NgBlockUI;
@@ -80,6 +80,11 @@ export class EcommerceComponent implements OnInit {
   contactPersonFarmData = [];
   ContactPersonLength;
   yzrnHead;
+  kannatNum_and_oldMegadelNum = [];
+  mihsot = [];
+  chosenYear = 2023;
+  partnerData: any[];
+
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -103,6 +108,28 @@ export class EcommerceComponent implements OnInit {
 
     this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
       this.idFromurl
+    );
+
+    this.mihsot = await this.megadelSearchService.Micsa_Select_New(
+      5,
+      this.userDetails[0]?.yz_yzrn,
+      this.chosenYear,
+      '30 - ביצי מאכל',
+      88
+    );
+
+    console.log('this.mihsot: ', this.mihsot);
+
+    this.kannatNum_and_oldMegadelNum =
+      await this.megadelSearchService.YazrnExtrnl_Get_Code(
+        2,
+        '',
+        this.userDetails[0]?.yz_yzrn
+      );
+
+    console.log(
+      'this.kannatNum_and_oldMegadelNum: ',
+      this.kannatNum_and_oldMegadelNum
     );
 
     if (this.userDetails[0].length === 0) {
@@ -170,6 +197,18 @@ export class EcommerceComponent implements OnInit {
     });
 
     this.loadData(this.FarmDetails[0].grower_id);
+  }
+
+  //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+
+  async getPartner(farmID, flockID, lull2000Code) {
+    this.partnerData = await this.megadelSearchService.getPartner(
+      farmID,
+      flockID,
+      lull2000Code
+    );
+
+    console.log('this.partnerData: ', this.partnerData);
   }
 
   toggleAdditionalDetails() {
@@ -248,6 +287,8 @@ export class EcommerceComponent implements OnInit {
   }
 
   getTabledata() {
+    console.log(':this.FarmDetails555: ', this.FarmDetails);
+
     this.rows = this.FarmDetails;
   }
   getlineArea() {

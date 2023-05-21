@@ -117,74 +117,175 @@
 
       <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
       <div class="row">
-        <div class="col-xl-8 col-12">
-          <div class="card card-shadow">
-            <div
-              class="card-header card-header-transparent py-20"
-              style="direction: rtl"
-            >
-              <div class="btn-group dropdown">
-                <h1>התראות</h1>
+        <!-- טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
+        <div class="col-xl-3 col-12">
+          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+          <div class="row match_height">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total">
+                    <div class="importBth">
+                      <div class="justify-content">
+                        <img
+                          class="logoIngStyle"
+                          src="assets/images/logo/excel.png"
+                          alt="Image"
+                          (click)="getExcelDataFarmDetails()"
+                        />
+                      </div>
+                    </div>
+                    <h1>התראות</h1>
+                    <!-- <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div> -->
+                  </div>
+
+                  <div
+                    *ngIf="!isLoading_FarmDetails"
+                    class="table-responsive"
+                    fxFlex="auto"
+                    [perfectScrollbar]="config"
+                  >
+                    <!-- <table
+                      class="table table-hover table-xl border_bottom detailsTable"
+                      style="direction: rtl"
+                    >
+                      <thead class="detailsTable">
+                        <tr>
+                          <th scope="col" class="border-top-0">סוג:</th>
+                          <th scope="col" class="border-top-0">שם סוג מכסה:</th>
+                          <th scope="col" class="border-top-0">סוג תוספת:</th>
+                          <th scope="col" class="border-top-0">כמות</th>
+                          <th scope="col" class="border-top-0">מתאריך</th>
+                          <th scope="col" class="border-top-0">אחוז</th>
+                          <th scope="col" class="border-top-0">הערה</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of mihsot">
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_sug_mcsa }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.nameSugMcsa }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.nameSugMcsa7 }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_kamut }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_date_from }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_ahuz }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_remark }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table> -->
+                  </div>
+                </div>
               </div>
-              <ul
-                ngbNav
-                #nav="ngbNav"
-                class="justify-content-end nav nav-pills"
-              >
-                <li [ngbNavItem]="1">
-                  <a ngbNavLink> לפי יום</a>
-                  <ng-template ngbNavContent>
-                    <div class="areaChartLegend scoreLineShadow">
-                      <x-chartist
-                        *ngIf="lineAreaDay"
-                        [data]="lineAreaDay.data"
-                        [type]="lineAreaDay.type"
-                        [options]="lineAreaDay.options"
-                        [responsiveOptions]="lineAreaDay.responsiveOptions"
-                        [events]="lineAreaDay.events"
-                      >
-                      </x-chartist>
-                    </div>
-                  </ng-template>
-                </li>
-                <li [ngbNavItem]="2">
-                  <a ngbNavLink>לפי שבוע</a>
-                  <ng-template ngbNavContent>
-                    <div class="areaChartLegend scoreLineShadow">
-                      <x-chartist
-                        *ngIf="lineAreaWeek"
-                        [data]="lineAreaWeek.data"
-                        [type]="lineAreaWeek.type"
-                        [options]="lineAreaWeek.options"
-                        [responsiveOptions]="lineAreaWeek.responsiveOptions"
-                        [events]="lineAreaWeek.events"
-                      >
-                      </x-chartist>
-                    </div>
-                  </ng-template>
-                </li>
-                <li [ngbNavItem]="3">
-                  <a ngbNavLink>לפי חודש</a>
-                  <ng-template ngbNavContent>
-                    <div class="areaChartLegend scoreLineShadow">
-                      <x-chartist
-                        *ngIf="lineAreaMonth"
-                        [data]="lineAreaMonth.data"
-                        [type]="lineAreaMonth.type"
-                        [options]="lineAreaMonth.options"
-                        [responsiveOptions]="lineAreaMonth.responsiveOptions"
-                        [events]="lineAreaMonth.events"
-                      >
-                      </x-chartist>
-                    </div>
-                  </ng-template>
-                </li>
-              </ul>
-              <div [ngbNavOutlet]="nav"></div>
             </div>
-            <br />
           </div>
         </div>
+        <!--סיום טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
+
+        <!-- טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
+        <div class="col-xl-5 col-12">
+          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+          <div class="row match_height">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total">
+                    <div class="importBth">
+                      <div class="justify-content">
+                        <img
+                          class="logoIngStyle"
+                          src="assets/images/logo/excel.png"
+                          alt="Image"
+                          (click)="getExcelDataFarmDetails()"
+                        />
+                      </div>
+                    </div>
+                    <h1>מכסות</h1>
+                    <!-- <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div> -->
+                  </div>
+
+                  <div
+                    *ngIf="!isLoading_FarmDetails"
+                    class="table-responsive"
+                    fxFlex="auto"
+                    [perfectScrollbar]="config"
+                  >
+                    <table
+                      class="table table-hover table-xl border_bottom detailsTable"
+                      style="direction: rtl"
+                    >
+                      <thead class="detailsTable">
+                        <tr>
+                          <th scope="col" class="border-top-0">סוג:</th>
+                          <th scope="col" class="border-top-0">שם סוג מכסה:</th>
+                          <th scope="col" class="border-top-0">סוג תוספת:</th>
+                          <th scope="col" class="border-top-0">כמות</th>
+                          <th scope="col" class="border-top-0">מתאריך</th>
+                          <th scope="col" class="border-top-0">אחוז</th>
+                          <th scope="col" class="border-top-0">הערה</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of mihsot">
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_sug_mcsa }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.nameSugMcsa }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.nameSugMcsa7 }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_kamut }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_date_from }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_ahuz }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_remark }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--סיום טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
 
         <!-- טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
         <div *ngIf="isLoading_theUserDetails" class="loader"></div>
@@ -268,6 +369,18 @@
                             <span *ngSwitchDefault>פעיל</span>
                           </td>
                         </tr>
+                        <tr>
+                          <th><B>קוד</B></th>
+                          <th><B>סידורי</B></th>
+                          <th><B>תאור</B></th>
+                          <th><B>מגדל זר</B></th>
+                        </tr>
+                        <tr *ngFor="let row of kannatNum_and_oldMegadelNum">
+                          <th>{{ row.MsvkExtrnl }}</th>
+                          <th>{{ row.NameMsvkExt }}</th>
+                          <th>{{ row.No_Siduri }}</th>
+                          <th>{{ row.YazExtrnl }}</th>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -338,6 +451,8 @@
 
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
                       <th scope="col" class="border-top-0">קיבולת לול</th>
+                      <th scope="col" class="border-top-0">מכסה</th>
+
                       <th scope="col" class="border-top-0">גידול חוץ</th>
 
                       <!-- <th scope="col" class="border-top-0">שם משווק</th>
@@ -443,15 +558,27 @@
                         {{ row.kibolet_lul }}
                       </td>
                       <td class="text-truncate row_padding">
+                        {{ row.mcsa_kvua }}
+                      </td>
+
+                      <td class="text-truncate row_padding">
                         <div
                           *ngIf="row.pa_Counter.length === 0; else elseBlock"
                         >
                           <span>אין</span>
                         </div>
                         <ng-template #elseBlock>
-                          <span
-                            >{{ row.is_has_partner }} ({{ row.cd_gidul }})</span
+                          <button
+                            (click)="
+                              getPartner(
+                                row.farm_id,
+                                row.active_flock_id,
+                                row.lull2000_code
+                              )
+                            "
                           >
+                            {{ row.is_has_partner }} ({{ row.cd_gidul }})
+                          </button>
                         </ng-template>
                       </td>
 
@@ -542,7 +669,6 @@
         </div>
       </div>
       <!--and Modal ------------------------------------------------------------------------------------------------------------------------>
-
 
       <!--/ Basic Horizontal Timeline -->
     </div>
