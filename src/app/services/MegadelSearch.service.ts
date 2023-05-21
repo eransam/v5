@@ -22,6 +22,56 @@ export class MegadelSearchService {
     return item;
   }
 
+  async Micsa_Select_New(
+    Order: any,
+    start_yzrn: any,
+    start_year: any,
+    start_tz: any,
+    start_sg_mcsa: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Micsa_Select_New?Order=${Order}&start_yzrn=${start_yzrn}&start_year=${start_year}&start_tz=${start_tz}&start_sg_mcsa=${start_sg_mcsa}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async getPartner(
+    farmID: any,
+    flockID: any,
+    lull2000Code: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/getPartner?farmID=${farmID}&flockID=${flockID}&lull2000Code=${lull2000Code}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  //   getPartner(farmID, flockID, lull2000Code) {
+  //     return this.http.get<any>(
+  //       `${environment.apiPath}/growerService.asmx/getPartner?farmID=${farmID}&flockID=${flockID}&lull2000Code=${lull2000Code}`
+  //     );
+  //   }
+
+  async YazrnExtrnl_Get_Code(
+    Order: any,
+    MsvkExtrnl: any,
+    YzrnMoaza: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/YazrnExtrnl_Get_Code?Order=${Order}&MsvkExtrnl=${MsvkExtrnl}&YzrnMoaza=${YzrnMoaza}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async megadel_by_atar_name_yeshov_shloha_active(
     yz_Id: any,
     yz_first_name: any,
@@ -81,8 +131,6 @@ export class MegadelSearchService {
     return item;
   }
 
-
-
   async Get_partners_by_pa_Counter_and_megadel(
     yz_Id: any,
     yz_first_name: any,
@@ -102,8 +150,6 @@ export class MegadelSearchService {
 
     return item;
   }
-
-
 
   async Get_partners_by_pa_Counter_and_megadel_not_active(
     yz_Id: any,
@@ -125,7 +171,6 @@ export class MegadelSearchService {
     return item;
   }
 
-
   async Get_partners_by_pa_Counter_and_megadel_all(
     yz_Id: any,
     yz_first_name: any,
@@ -145,18 +190,6 @@ export class MegadelSearchService {
 
     return item;
   }
-
-
-
-
-
-
-
-
-
-
-  
-
 
   async megadel_by_atar_name_yeshov_shloha_not_active_with_pa_Counter(
     yz_Id: any,

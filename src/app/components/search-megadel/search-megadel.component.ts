@@ -681,6 +681,8 @@ export class SearchMegadelComponent implements OnInit {
           item444.yz_IdReal = item444.yz_Id;
           item444.yz_Id = joinedString;
         });
+        console.log("results end: " , results);
+        
         this.theDetails = results;
         localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
       }

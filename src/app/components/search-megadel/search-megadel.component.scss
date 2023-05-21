@@ -592,13 +592,18 @@
 }
 
 .cdk-overlay-container {
-  position: absolute !important;
-  top: 21% !important;
-  left: 20% !important;
-  background-color: white !important;
+  max-width: 60vw;
   color: black !important;
-  direction: rtl !important;
-  width: 427px !important;
+  background-color: silver;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  position: relative;
+  top: -1621px;
+  left: 164px;
 }
 
 mat-autocomplete {
@@ -1030,4 +1035,13 @@ mat-autocomplete {
 .importBth {
   display: flex;
   justify-content: left;
+}
+
+.clean_and_search_btn {
+  display: flex;
+  justify-content: end;
+}
+
+.card-heade:first-child {
+  height: 65px !important;
 }

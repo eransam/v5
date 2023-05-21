@@ -138,7 +138,6 @@
                       </div>
                     </div>
                     <h1>התראות</h1>
-                    <!-- <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div> -->
                   </div>
 
                   <div
@@ -147,53 +146,7 @@
                     fxFlex="auto"
                     [perfectScrollbar]="config"
                   >
-                    <!-- <table
-                      class="table table-hover table-xl border_bottom detailsTable"
-                      style="direction: rtl"
-                    >
-                      <thead class="detailsTable">
-                        <tr>
-                          <th scope="col" class="border-top-0">סוג:</th>
-                          <th scope="col" class="border-top-0">שם סוג מכסה:</th>
-                          <th scope="col" class="border-top-0">סוג תוספת:</th>
-                          <th scope="col" class="border-top-0">כמות</th>
-                          <th scope="col" class="border-top-0">מתאריך</th>
-                          <th scope="col" class="border-top-0">אחוז</th>
-                          <th scope="col" class="border-top-0">הערה</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of mihsot">
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_sug_mcsa }}
-                          </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.nameSugMcsa }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.nameSugMcsa7 }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_kamut }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_date_from }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_ahuz }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_remark }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table> -->
                   </div>
                 </div>
               </div>
@@ -455,15 +408,6 @@
 
                       <th scope="col" class="border-top-0">גידול חוץ</th>
 
-                      <!-- <th scope="col" class="border-top-0">שם משווק</th>
-
-                      <th scope="col" class="border-top-0">מכון מיון</th>
-
-                      <th scope="col" class="border-top-0">מחסן ביצים</th>
-
-                      <th scope="col" class="border-top-0">מכסה</th>
-
-                      <th scope="col" class="border-top-0">שותפים</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -489,9 +433,6 @@
                         {{ row.hen_house_type_name }}
                       </td>
 
-                      <!-- <td class="text-truncate row_padding">
-                        {{ row.transfer_type_name }}
-                      </td> -->
 
                       <td class="text-truncate row_padding">
                         <span
@@ -579,34 +520,11 @@
                           >
                             {{ row.is_has_partner }} ({{ row.cd_gidul }})
                           </button>
+
+                          <button (click)="openPopup()">Open Pop-up</button>
                         </ng-template>
                       </td>
 
-                      <!-- <td class="text-truncate row_padding">
-                        <span *ngIf="row.msvk_name != '000-'">{{
-                          row.msvk_name
-                        }}</span>
-                        <span *ngIf="row.msvk_name == '000-'">אין</span>
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        "מכון מיון - בדיקה"
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        "מחסן ביצים - בדיקה"
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        "{{ row.mcsa_kvua | number : ".0" }}"
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        <span *ngIf="row.cd_gidul != '0'"
-                          >{{ row.is_has_partner }} ({{ row.cd_gidul }})</span
-                        >
-                        <span *ngIf="row.cd_gidul == 0">אין</span>
-                      </td> -->
                     </tr>
                   </tbody>
                 </table>

@@ -15,6 +15,8 @@ import { MatchHeightModule } from '../partials/general/match-height/match-height
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { HospitalComponent } from './hospital/hospital.component';
 import { GrowerDetailsComponent } from 'src/app/components/grower-details/grower-details.component';
+import { PopupComponent } from './popup/popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -26,7 +28,7 @@ import { GrowerDetailsComponent } from 'src/app/components/grower-details/grower
     MatchHeightModule,
     NgxDatatableModule,
     PerfectScrollbarModule,
-
+    MatDialogModule,
     NgbModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent,
@@ -57,6 +59,7 @@ import { GrowerDetailsComponent } from 'src/app/components/grower-details/grower
     SalesComponent,
     HospitalComponent,
     GrowerDetailsComponent,
+    PopupComponent,
   ],
 
   exports: [RouterModule],

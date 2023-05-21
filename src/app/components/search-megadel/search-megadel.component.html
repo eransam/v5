@@ -155,7 +155,7 @@
         <div class="checkboxStyle">
           <section class="input-type-options">
             <div class="row" matchHeight="card">
-              <div class="col-xl-6 col-lg-12">
+              <div class="col-xl-6 col-lg-12 clean_and_search_btn">
                 <div class="">
                   <div class="card-content">
                     <div class="card-body">
@@ -260,7 +260,13 @@
                 [options]="options"
                 (reloadFunction)="reloadBaseStyle($event)"
               >
-                <ng-container mCardHeaderTitle> חיפוש מגדל </ng-container>
+                <ng-container
+                  mCardHeaderTitle
+                  class="searckMegadel"
+                  
+                >
+                  חיפוש מגדל
+                </ng-container>
                 <ng-container mCardBody>
                   <div class="importBth">
                     <div class="justify-content">

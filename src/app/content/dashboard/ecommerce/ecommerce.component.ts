@@ -26,6 +26,8 @@ import { TableexcelService } from '../../../services/tableexcel.service';
 import { ActivatedRoute } from '@angular/router';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
 import { of } from 'rxjs';
+import { PopupComponent } from '../popup/popup.component';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ecommerce',
@@ -93,7 +95,8 @@ export class EcommerceComponent implements OnInit {
     private route2: ActivatedRoute,
     private tableexcelService: TableexcelService,
     private data: LinkService,
-    private dataEgg: EggMarketingService
+    private dataEgg: EggMarketingService,
+    private dialog: MatDialog
   ) {}
 
   async ngOnInit() {
@@ -209,6 +212,21 @@ export class EcommerceComponent implements OnInit {
     );
 
     console.log('this.partnerData: ', this.partnerData);
+  }
+
+  openPopup() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog'; // Apply the CSS class to center the dialog
+    dialogConfig.data = this.partnerData;
+    const dialogRef = this.dialog.open(PopupComponent, {
+      data: this.partnerData,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // Handle actions when the dialog is closed
+      console.log('Dialog closed with result:', result);
+      // Perform any necessary actions based on the result
+    });
   }
 
   toggleAdditionalDetails() {

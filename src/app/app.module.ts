@@ -72,7 +72,8 @@ import { UserService } from './_api/user/user.service';
 import { PrivacyPolicyComponent } from './login/privacy-policy/privacy-policy.component';
 import { TermsConditionComponent } from './login/terms-condition/terms-condition.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   imports: [
     BrowserModule,
@@ -84,6 +85,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatchHeightModule,
     BreadcrumbModule,
     NgbModule,
+    MatDialogModule,
+    MatButtonModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
