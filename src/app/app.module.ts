@@ -74,8 +74,10 @@ import { TermsConditionComponent } from './login/terms-condition/terms-condition
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   imports: [
+    MatIconModule,
     BrowserModule,
     PartialsModule,
     ReactiveFormsModule,

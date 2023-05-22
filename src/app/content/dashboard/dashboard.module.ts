@@ -17,6 +17,7 @@ import { HospitalComponent } from './hospital/hospital.component';
 import { GrowerDetailsComponent } from 'src/app/components/grower-details/grower-details.component';
 import { PopupComponent } from './popup/popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NgxDatatableModule,
     PerfectScrollbarModule,
     MatDialogModule,
+    MatIconModule,
     NgbModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent,

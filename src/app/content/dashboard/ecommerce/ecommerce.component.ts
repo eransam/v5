@@ -86,6 +86,10 @@ export class EcommerceComponent implements OnInit {
   mihsot = [];
   chosenYear = 2023;
   partnerData: any[];
+  mcsaSum = 0;
+  certificateSum = 0;
+  eggSum = 0;
+  eggSumFarm = 0;
 
   constructor(
     private chartApiservice: ChartApiService,
@@ -210,6 +214,30 @@ export class EcommerceComponent implements OnInit {
       flockID,
       lull2000Code
     );
+    this.mcsaSum = 0;
+    this.eggSum = 0;
+    this.certificateSum = 0;
+
+    for (var i = 0; i < this.partnerData.length; i++) {
+      this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+      this.certificateSum += parseFloat(this.partnerData[i]['certificate_sum']);
+      this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+    }
+
+    console.log('this.mcsaSum: ', this.mcsaSum);
+    console.log('this.certificateSum: ', this.certificateSum);
+    console.log('this.eggSum: ', this.eggSum);
+    let obj = {
+      mcsaSum: this.mcsaSum,
+      certificateSum: this.certificateSum,
+      eggSum: this.eggSum,
+    };
+
+    this.partnerData.push({ obj2: obj });
+    console.log('this.partnerData: ', this.partnerData);
+
+    console.log();
+
     await this.openPopup();
   }
 
@@ -226,6 +254,8 @@ export class EcommerceComponent implements OnInit {
       console.log('Dialog closed with result:', result);
       // Perform any necessary actions based on the result
     });
+
+    // dialogRef.close();
   }
 
   toggleAdditionalDetails() {
