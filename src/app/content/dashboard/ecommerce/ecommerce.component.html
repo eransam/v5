@@ -145,9 +145,7 @@
                     class="table-responsive"
                     fxFlex="auto"
                     [perfectScrollbar]="config"
-                  >
-
-                  </div>
+                  ></div>
                 </div>
               </div>
             </div>
@@ -322,18 +320,18 @@
                             <span *ngSwitchDefault>פעיל</span>
                           </td>
                         </tr>
-                        <tr>
-                          <th><B>קוד</B></th>
-                          <th><B>סידורי</B></th>
-                          <th><B>תאור</B></th>
-                          <th><B>מגדל זר</B></th>
-                        </tr>
-                        <tr *ngFor="let row of kannatNum_and_oldMegadelNum">
-                          <th>{{ row.MsvkExtrnl }}</th>
-                          <th>{{ row.NameMsvkExt }}</th>
-                          <th>{{ row.No_Siduri }}</th>
-                          <th>{{ row.YazExtrnl }}</th>
-                        </tr>
+                          <tr class="numKannat">
+                            <th><B>קוד</B></th>
+                            <th><B>סידורי</B></th>
+                            <th><B>תאור</B></th>
+                            <th><B>מגדל זר</B></th>
+                          </tr>
+                          <tr *ngFor="let row of kannatNum_and_oldMegadelNum" class="numKannat">
+                            <th>{{ row.MsvkExtrnl }}</th>
+                            <th>{{ row.NameMsvkExt }}</th>
+                            <th>{{ row.No_Siduri }}</th>
+                            <th>{{ row.YazExtrnl }}</th>
+                          </tr>
                       </tbody>
                     </table>
                   </div>
@@ -407,7 +405,6 @@
                       <th scope="col" class="border-top-0">מכסה</th>
 
                       <th scope="col" class="border-top-0">גידול חוץ</th>
-
                     </tr>
                   </thead>
                   <tbody>
@@ -432,7 +429,6 @@
                       <td class="text-truncate row_padding">
                         {{ row.hen_house_type_name }}
                       </td>
-
 
                       <td class="text-truncate row_padding">
                         <span
@@ -520,11 +516,8 @@
                           >
                             {{ row.is_has_partner }} ({{ row.cd_gidul }})
                           </button>
-
-                          <button (click)="openPopup()">Open Pop-up</button>
                         </ng-template>
                       </td>
-
                     </tr>
                   </tbody>
                 </table>

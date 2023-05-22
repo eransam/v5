@@ -1,6 +1,72 @@
 <!-- <div class="popup-dialog"> -->
-  <h2>Array Objects:</h2>
+<!-- <h2>Array Objects:</h2>
   <ul>
     <li *ngFor="let obj of data">{{ obj.grower_name }}</li>
-  </ul>
+  </ul> -->
 <!-- </div> -->
+<table class="" dir="rtl" style="padding: 5px" border="0">
+  <thead>
+    <tr>
+      <TD style="width: 10px; text-align: right; vertical-align: top">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span style="color: black; font-size: 26px" aria-hidden="true"
+            >&times;</span
+          >
+        </button>
+      </TD>
+      <TD style="font-size: 20px">&nbsp;סה"כ שותפים {{ data.length }}</TD>
+    </tr>
+  </thead>
+
+  <TR
+    ><TD colspan="2">
+      <table class="table no-margin">
+        <thead>
+          <tr>
+            <th style="font-weight: bold; text-align: right">תחילת שותפות</th>
+            <th style="font-weight: bold; text-align: right">שם מגדל</th>
+            <th style="font-weight: bold; text-align: right">מס מגדל</th>
+            <!-- <th style="font-weight: bold; text-align: right;" *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">מס' אכלוס פרגיות</th> -->
+            <th style="font-weight: bold; text-align: right">
+              מס' שיווק ביצים
+            </th>
+            <th style="font-weight: bold; text-align: right">מכסה</th>
+            <th style="font-weight: bold; text-align: right">אחוז</th>
+            <th style="font-weight: bold"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let p of data"
+            [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
+          >
+            <td>{{ p.start_date }}</td>
+            <td>{{ p.grower_name }}</td>
+            <td>{{ p.lull2000_code }}</td>
+            <!-- <td *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">{{p.certificate_sum | number: '0.0'}}</td>
+        <td>{{p.egg_sum | number: '0.0'}}</td>
+        <td>{{p.mcsa_sum | number: '0.0'}}</td>
+        <td>{{p.percent_ | number: '0.0'}}%</td> -->
+
+            <td>
+              <span *ngIf="p.is_main_grower" class="label label-success"
+                >מגדל ראשי</span
+              >
+            </td>
+          </tr>
+          <TR>
+            <TD colspan="3"></TD>
+            <!-- <TD *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">{{ certificateSum | number: '0.0' }}</TD>
+        <TD>{{ eggSum | number: '0.0' }} </TD>
+        <TD>{{ mcsaSum | number: '0.0' }} </TD> -->
+            <TD colspan="2"></TD>
+          </TR>
+        </tbody>
+      </table> </TD
+  ></TR>
+</table>

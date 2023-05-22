@@ -8,6 +8,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent {
+    userTypeID;
+
     constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
 }

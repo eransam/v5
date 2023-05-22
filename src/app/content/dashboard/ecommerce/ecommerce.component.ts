@@ -210,8 +210,7 @@ export class EcommerceComponent implements OnInit {
       flockID,
       lull2000Code
     );
-
-    console.log('this.partnerData: ', this.partnerData);
+    await this.openPopup();
   }
 
   openPopup() {

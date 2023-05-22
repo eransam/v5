@@ -413,8 +413,8 @@ export class SearchMegadelComponent implements OnInit {
     this.site = '';
     this.settlement = '';
     this.numName = '';
-    this.gidolHotz = '';
-    this.extension = '';
+    // this.gidolHotz = '';
+    // this.extension = '';
   }
 
   getTabledata() {
@@ -644,13 +644,12 @@ export class SearchMegadelComponent implements OnInit {
       console.log('gidolHotzName: ', gidolHotzName);
 
       const results =
-        await this.megadelSearchService.Get_partners_by_pa_Counter_and_megadel(
+        await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
           SitetName,
           Username,
           SettlementName,
           extension,
-          numName,
-          gidolHotzName
+          numName
         );
 
       if (results.length === 0) {
@@ -681,8 +680,8 @@ export class SearchMegadelComponent implements OnInit {
           item444.yz_IdReal = item444.yz_Id;
           item444.yz_Id = joinedString;
         });
-        console.log("results end: " , results);
-        
+        console.log('results end: ', results);
+
         this.theDetails = results;
         localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
       }
@@ -690,25 +689,23 @@ export class SearchMegadelComponent implements OnInit {
       //   notActive
     } else if (this.selectedCheckbox === 'notActive') {
       const results =
-        await this.megadelSearchService.Get_partners_by_pa_Counter_and_megadel_not_active(
+        await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_not_active(
           SitetName,
           Username,
           SettlementName,
           extension,
-          numName,
-          gidolHotzName
+          numName
         );
       this.theDetails = results;
       localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
     } else if (this.selectedCheckbox === 'all') {
       const results =
-        await this.megadelSearchService.Get_partners_by_pa_Counter_and_megadel_all(
+        await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_all(
           SitetName,
           Username,
           SettlementName,
           extension,
-          numName,
-          gidolHotzName
+          numName
         );
       this.theDetails = results;
       localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
