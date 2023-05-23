@@ -507,19 +507,27 @@
 }
 
 .popup-dialog {
+  background-color: white !important;
   max-width: 60vw;
   color: black !important;
   background-color: silver;
   font-size: 20px;
-  /* direction: rtl; */
   margin: auto;
   color: black !important;
   background-color: silver;
   font-size: 20px;
   direction: rtl;
-  position: relative;
-  top: -1621px;
-  left: 164px;
+  /* position: relative; */
+  /* top: -1700px; */
+  /* left: 164px; */
+  padding: 4px;
+  /* height: 400px; */
+  width: fit-content;
+  position: absolute;
+  top: 20%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  margin: auto;
 }
 
 .numKannat {

@@ -194,6 +194,7 @@
                           <th scope="col" class="border-top-0">סוג תוספת:</th>
                           <th scope="col" class="border-top-0">כמות</th>
                           <th scope="col" class="border-top-0">מתאריך</th>
+                          <th scope="col" class="border-top-0">עד תאריך</th>
                           <th scope="col" class="border-top-0">אחוז</th>
                           <th scope="col" class="border-top-0">הערה</th>
                         </tr>
@@ -213,7 +214,7 @@
                           </td>
 
                           <td class="text-truncate row_padding">
-                            {{ row.mi_kamut }}
+                            {{ row.mi_kamut | numberFormat }}
                           </td>
 
                           <td class="text-truncate row_padding">
@@ -221,9 +222,18 @@
                           </td>
 
                           <td class="text-truncate row_padding">
-                            {{ row.mi_ahuz }}
+                            {{ row.mi_date_to | date : "dd/MM/yyyy" }}
                           </td>
 
+                          <td class="text-truncate row_padding">
+                            <div *ngIf="row.mi_ahuz === 100; else elseBlock">
+                              0
+                            </div>
+
+                            <ng-template #elseBlock>
+                              {{ row.mi_ahuz }}
+                            </ng-template>
+                          </td>
                           <td class="text-truncate row_padding">
                             {{ row.mi_remark }}
                           </td>
@@ -268,8 +278,6 @@
                           </td>
                         </tr>
                         <tr>
-
-
                           <td><B>מספר יצרן</B></td>
                           <td>{{ theUserDetails.yz_yzrn }}</td>
                           <td>
@@ -320,13 +328,13 @@
                           <td><B>ג''ח</B></td>
                           <td>{{ theUserDetails.pa_Counter }}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <td><B>סטטוס</B></td>
                           <td [ngSwitch]="theUserDetails.yz_is_activ">
                             <span *ngSwitchCase="'1'">לא פעיל</span>
                             <span *ngSwitchDefault>פעיל</span>
                           </td>
-                        </tr>
+                        </tr> -->
                         <tr class="numKannat">
                           <!-- <th><B>קוד</B></th> -->
                           <!-- <th><B>סידורי</B></th> -->
@@ -502,10 +510,10 @@
                         {{ row.flock_month_age }}
                       </td>
                       <td class="text-truncate row_padding">
-                        {{ row.kibolet_lul }}
+                        {{ row.kibolet_lul | numberFormat }}
                       </td>
                       <td class="text-truncate row_padding">
-                        {{ row.mcsa_kvua }}
+                        {{ row.mcsa_kvua | numberFormat }}
                       </td>
 
                       <td class="text-truncate row_padding">

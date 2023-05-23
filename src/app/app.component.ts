@@ -78,8 +78,8 @@ export class AppComponent implements OnInit {
         } else {
           if ((this.router.url === '/' || this.router.url === '/login' || this.router.url === '/register') &&
               !localStorage.getItem('remember')) {
-            this.title = 'Login with Background Image';
-            this.titleService.setTitle(this.title + '' + this._themeSettingsConfig.defaultTitleSuffix);
+            this.title = 'Lul - erp';
+            this.titleService.setTitle(this.title);
             this.title = '';
           }
         }

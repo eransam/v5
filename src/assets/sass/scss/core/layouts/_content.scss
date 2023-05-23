@@ -317,10 +317,11 @@ body div.cdk-overlay-container {
   background-color: silver;
   font-size: 20px;
   direction: rtl;
-  position: relative;
-  top: -1700px;
-  left: 164px;
   padding: 4px;
-  /* height: 400px; */
-  width: 980px;
+  width: fit-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
 }

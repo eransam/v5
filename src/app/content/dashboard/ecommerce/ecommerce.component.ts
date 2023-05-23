@@ -274,10 +274,7 @@ export class EcommerceComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'popup-dialog'; // Apply the CSS class to center the dialog
     dialogConfig.data = this.arrOfOldGrower;
-    const dialogRef = this.dialog.open(PopupOldGrowerComponent, {
-      data: this.arrOfOldGrower,
-    });
-
+    const dialogRef = this.dialog.open(PopupOldGrowerComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {
       // Handle actions when the dialog is closed
       console.log('Dialog closed with result:', result);

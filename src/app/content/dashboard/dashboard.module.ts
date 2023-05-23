@@ -19,6 +19,7 @@ import { PopupComponent } from './popup/popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.component';
+import { NumberFormatPipe } from './number-format.pipe';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.com
     GrowerDetailsComponent,
     PopupComponent,
     PopupOldGrowerComponent,
+    NumberFormatPipe,
   ],
 
   exports: [RouterModule],
