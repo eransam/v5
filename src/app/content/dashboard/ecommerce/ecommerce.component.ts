@@ -28,6 +28,7 @@ import { MegadelSearchService } from '../../../services/MegadelSearch.service';
 import { of } from 'rxjs';
 import { PopupComponent } from '../popup/popup.component';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { PopupOldGrowerComponent } from '../popup-old-grower/popup-old-grower.component';
 
 @Component({
   selector: 'app-ecommerce',
@@ -90,6 +91,7 @@ export class EcommerceComponent implements OnInit {
   certificateSum = 0;
   eggSum = 0;
   eggSumFarm = 0;
+  arrOfOldGrower = [];
 
   constructor(
     private chartApiservice: ChartApiService,
@@ -139,6 +141,17 @@ export class EcommerceComponent implements OnInit {
       this.kannatNum_and_oldMegadelNum
     );
 
+    for (let i = 0; i < this.kannatNum_and_oldMegadelNum.length; i++) {
+      let item = this.kannatNum_and_oldMegadelNum[i];
+      if (item.NameMsvkExt === 'מספר מגדל ישן') {
+        this.arrOfOldGrower.push(item);
+        this.kannatNum_and_oldMegadelNum.splice(i, 1);
+        i--; // Decrement the index as the array length has changed
+      }
+    }
+
+    console.log('arrOfOldGrower: ', this.arrOfOldGrower);
+
     if (this.userDetails[0].length === 0) {
       this.userDetails = [];
     } else {
@@ -174,7 +187,6 @@ export class EcommerceComponent implements OnInit {
     this.totalFarms = this.FarmDetails.length;
 
     for (let item of this.FarmDetails) {
-      // Code to be executed for each item
       console.log('item in for of: ', item);
       let lull2000_code = item.lull2000_code;
       const results2 =
@@ -247,6 +259,23 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.data = this.partnerData;
     const dialogRef = this.dialog.open(PopupComponent, {
       data: this.partnerData,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // Handle actions when the dialog is closed
+      console.log('Dialog closed with result:', result);
+      // Perform any necessary actions based on the result
+    });
+
+    // dialogRef.close();
+  }
+
+  openPopup_Of_OldGrower() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog'; // Apply the CSS class to center the dialog
+    dialogConfig.data = this.arrOfOldGrower;
+    const dialogRef = this.dialog.open(PopupOldGrowerComponent, {
+      data: this.arrOfOldGrower,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

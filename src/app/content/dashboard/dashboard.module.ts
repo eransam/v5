@@ -18,6 +18,7 @@ import { GrowerDetailsComponent } from 'src/app/components/grower-details/grower
 import { PopupComponent } from './popup/popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.component';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { MatIconModule } from '@angular/material/icon';
     HospitalComponent,
     GrowerDetailsComponent,
     PopupComponent,
+    PopupOldGrowerComponent,
   ],
 
   exports: [RouterModule],
