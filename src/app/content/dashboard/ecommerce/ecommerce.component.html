@@ -117,7 +117,7 @@
 
       <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
       <div class="row">
-        <!-- טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
+        <!-- טבלה התראות ------------------------------------------------------------------------------------------------------------------------>
         <div class="col-xl-2 col-12">
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
@@ -151,7 +151,7 @@
             </div>
           </div>
         </div>
-        <!--סיום טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
+        <!--סיום טבלה התראות ------------------------------------------------------------------------------------------------------------------------>
 
         <!-- טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
         <div class="col-xl-5 col-12">
@@ -259,11 +259,12 @@
             [options]="options"
             (reloadFunction)="reloadNewOrders($event)"
           >
-            <ng-container mCardHeaderTitle> פרטי מגדל</ng-container>
             <ng-container mCardContent>
               <div id="new-orders" class="media-list position-relative">
-                <div class="table-responsive">
+                <div class="table-responsive card-micsa">
                   <div>
+                    <div class="card-header"></div>
+                    <h1>פרטי מגדל</h1>
                     <table class="table" style="direction: rtl">
                       <tbody>
                         <tr>
@@ -326,8 +327,82 @@
 
                         <tr>
                           <td><B>ג''ח</B></td>
-                          <td>{{ theUserDetails.pa_Counter }}</td>
+                          <td class="text-truncate row_padding">
+                            <div
+                              *ngIf="
+                                rows[0].pa_Counter.length === 0;
+                                else elseBlock
+                              "
+                            >
+                              <span>אין</span>
+                            </div>
+                            <ng-template #elseBlock>
+                              <button
+                                (click)="
+                                  getPartner(
+                                    rows[0].farm_id,
+                                    rows[0].active_flock_id,
+                                    rows[0].lull2000_code
+                                  )
+                                "
+                              >
+                                {{ rows[0].is_has_partner }} ({{
+                                  rows[0].cd_gidul
+                                }})
+                              </button>
+                            </ng-template>
+                          </td>
                         </tr>
+
+                        <!-- <tr>
+                          <td class="text-truncate row_padding">
+                            <div
+                              *ngIf="
+                                rows[0].pa_Counter.length === 0;
+                                else elseBlock
+                              "
+                            >
+                              <span>אין</span>
+                            </div>
+                            <ng-template #elseBlock>
+                              <button
+                                (click)="
+                                  getPartner(
+                                    rows[0].farm_id,
+                                    rows[0].active_flock_id,
+                                    rows[0].lull2000_code
+                                  )
+                                "
+                              >
+                                {{ rows[0].is_has_partner }} ({{
+                                  rows[0].cd_gidul
+                                }})
+                              </button>
+                            </ng-template>
+                          </td>
+                        </tr> -->
+
+                        <!-- <td class="text-truncate row_padding">
+                            <div
+                              *ngIf="row.pa_Counter.length === 0; else elseBlock"
+                            >
+                              <span>אין</span>
+                            </div>
+                            <ng-template #elseBlock>
+                              <button
+                                (click)="
+                                  getPartner(
+                                    row.farm_id,
+                                    row.active_flock_id,
+                                    row.lull2000_code
+                                  )
+                                "
+                              >
+                                {{ row.is_has_partner }} ({{ row.cd_gidul }})
+                              </button>
+                            </ng-template>
+                          </td> -->
+
                         <!-- <tr>
                           <td><B>סטטוס</B></td>
                           <td [ngSwitch]="theUserDetails.yz_is_activ">
@@ -420,9 +495,6 @@
 
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
                       <th scope="col" class="border-top-0">קיבולת לול</th>
-                      <th scope="col" class="border-top-0">מכסה</th>
-
-                      <th scope="col" class="border-top-0">גידול חוץ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -511,30 +583,6 @@
                       </td>
                       <td class="text-truncate row_padding">
                         {{ row.kibolet_lul | numberFormat }}
-                      </td>
-                      <td class="text-truncate row_padding">
-                        {{ row.mcsa_kvua | numberFormat }}
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        <div
-                          *ngIf="row.pa_Counter.length === 0; else elseBlock"
-                        >
-                          <span>אין</span>
-                        </div>
-                        <ng-template #elseBlock>
-                          <button
-                            (click)="
-                              getPartner(
-                                row.farm_id,
-                                row.active_flock_id,
-                                row.lull2000_code
-                              )
-                            "
-                          >
-                            {{ row.is_has_partner }} ({{ row.cd_gidul }})
-                          </button>
-                        </ng-template>
                       </td>
                     </tr>
                   </tbody>
