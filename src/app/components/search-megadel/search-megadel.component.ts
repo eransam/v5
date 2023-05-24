@@ -44,10 +44,10 @@ export class SearchMegadelComponent implements OnInit {
   TotalAmountYear: any = '';
   totalAmountTemplate: any = '';
   checkDecimal: any = '';
-
+  chosenYear = 2023;
   @Output()
   public addRep = new EventEmitter<any>();
-
+  mihsot3 = [];
   selectedDepartment: any;
   selectedMonth: string;
   selectedYear: string;
@@ -63,7 +63,7 @@ export class SearchMegadelComponent implements OnInit {
   // the input box
   users: any[] = [];
   users2: any[];
-
+  mihsot = [];
   settlement1: any[] = [];
   settlement2: any[];
 
@@ -680,7 +680,18 @@ export class SearchMegadelComponent implements OnInit {
           item444.yz_IdReal = item444.yz_Id;
           item444.yz_Id = joinedString;
         });
-        console.log('results end: ', results);
+
+        results.forEach(async (item444) => {
+          this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
+            5,
+            item444?.yz_yzrn,
+            this.chosenYear,
+            '30 - ביצי מאכל',
+            88
+          );
+          item444.micsa = this.mihsot3[0]?.mi_kamut;
+        });
+        console.log('results after micsa: ', results);
 
         this.theDetails = results;
         localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
@@ -707,6 +718,7 @@ export class SearchMegadelComponent implements OnInit {
           extension,
           numName
         );
+
       this.theDetails = results;
       localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
     }

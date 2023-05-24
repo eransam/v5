@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.component';
 import { NumberFormatPipe } from './number-format.pipe';
+import { SearchMegadelComponent } from 'src/app/components/search-megadel/search-megadel.component';
 
 @NgModule({
   imports: [

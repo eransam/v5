@@ -127,16 +127,7 @@
                 <div class="card-header"></div>
                 <div class="card-content">
                   <div class="exel_and_total">
-                    <div class="importBth">
-                      <div class="justify-content">
-                        <img
-                          class="logoIngStyle"
-                          src="assets/images/logo/excel.png"
-                          alt="Image"
-                          (click)="getExcelDataFarmDetails()"
-                        />
-                      </div>
-                    </div>
+                    <div class="importBth"></div>
                     <h1>התראות</h1>
                   </div>
 
@@ -163,16 +154,6 @@
                 <div class="card-header"></div>
                 <div class="card-content">
                   <div class="exel_and_total">
-                    <div class="importBth">
-                      <div class="justify-content">
-                        <img
-                          class="logoIngStyle"
-                          src="assets/images/logo/excel.png"
-                          alt="Image"
-                          (click)="getExcelDataFarmDetails()"
-                        />
-                      </div>
-                    </div>
                     <h1>מכסות</h1>
                     <!-- <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div> -->
                   </div>
@@ -271,20 +252,29 @@
                           <td><B>שם יצרן</B></td>
                           <td>{{ theUserDetails.yz_shem }}</td>
 
+                          <td><B>מספר יצרן</B></td>
+                          <td>{{ theUserDetails.yz_yzrn }}</td>
+                          <td
+                            align="left"
+                            style="cursor: pointer"
+                            (click)="openPopup_Of_OldGrower()"
+                          >
+                            <i class="fas fa-angle-left fa-lg"></i>
+                          </td>
+
+                          <!-- 
+                          <td>
+                            <button (click)="openPopup_Of_OldGrower()">
+                              <i class="fas fa-angle-left fa-lg"></i>
+                            </button>
+                          </td> -->
+                        </tr>
+                        <tr>
                           <td><B>כתובת</B></td>
                           <td>
                             {{
                               growerData.address + "," + growerData.city_name
                             }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><B>מספר יצרן</B></td>
-                          <td>{{ theUserDetails.yz_yzrn }}</td>
-                          <td>
-                            <button (click)="openPopup_Of_OldGrower()">
-                              הצג מס' קודמים
-                            </button>
                           </td>
 
                           <td><B>מיקוד</B></td>
@@ -292,6 +282,7 @@
                             {{ growerData.v_mikud }}
                           </td>
                         </tr>
+
                         <tr>
                           <td><B>ת.ז</B></td>
                           <td>{{ theUserDetails.yz_zehut }}</td>
@@ -315,9 +306,21 @@
                         <tr>
                           <td><B>סוג מגדל</B></td>
                           <td [ngSwitch]="theUserDetails.yz_sug">
-                            <span *ngSwitchCase="'1'">ראשי</span>
-                            <span *ngSwitchCase="'2'">שותף</span>
-                            <span *ngSwitchCase="'3'">פרטני</span>
+                            <span
+                              *ngSwitchCase="'1'"
+                              style="font-size: 19px; font-weight: 600"
+                              >ראשי</span
+                            >
+                            <span
+                              *ngSwitchCase="'2'"
+                              style="font-size: 19px; font-weight: 600"
+                              >שותף</span
+                            >
+                            <span
+                              *ngSwitchCase="'3'"
+                              style="font-size: 19px; font-weight: 600"
+                              >פרטני</span
+                            >
                           </td>
                           <td><B>מייל</B></td>
                           <td>
@@ -336,8 +339,16 @@
                             >
                               <span>אין</span>
                             </div>
-                            <ng-template #elseBlock>
+                            <ng-template
+                              #elseBlock
+                              style="padding: none !important"
+                            >
                               <button
+                                style="
+                                  color: blue;
+                                  background-color: white !important;
+                                  border: none;
+                                "
                                 (click)="
                                   getPartner(
                                     rows[0].farm_id,

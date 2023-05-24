@@ -275,13 +275,30 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.panelClass = 'popup-dialog'; // Apply the CSS class to center the dialog
     dialogConfig.data = this.arrOfOldGrower;
     const dialogRef = this.dialog.open(PopupOldGrowerComponent, dialogConfig);
+
+    let isSecondClick = false;
+
+    // Add event listener to the document for 'click' event
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+
     dialogRef.afterClosed().subscribe((result) => {
       // Handle actions when the dialog is closed
       console.log('Dialog closed with result:', result);
       // Perform any necessary actions based on the result
-    });
 
-    // dialogRef.close();
+      // Reset the flag when the dialog is closed
+      isSecondClick = false;
+      // Remove the event listener when the dialog is closed
+      document.removeEventListener('click', handleDocumentClick);
+    });
   }
 
   toggleAdditionalDetails() {
