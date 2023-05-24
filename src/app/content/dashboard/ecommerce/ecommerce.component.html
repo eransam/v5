@@ -1,4 +1,5 @@
-<div class="app-content content">
+<div *ngIf="isLoading_FarmDetails" class="loader"></div>
+<div *ngIf="!isLoading_FarmDetails" class="app-content content">
   <div class="content-wrapper">
     <div class="content-header row mb-1"></div>
     <div class="content-body">
@@ -258,6 +259,7 @@
                             align="left"
                             style="cursor: pointer"
                             (click)="openPopup_Of_OldGrower()"
+                            id="openPopup_Of_OldGrowerBtn"
                           >
                             <i class="fas fa-angle-left fa-lg"></i>
                           </td>
@@ -344,6 +346,7 @@
                               style="padding: none !important"
                             >
                               <button
+                                id="gidolHotzBtn"
                                 style="
                                   color: blue;
                                   background-color: white !important;
@@ -365,76 +368,25 @@
                           </td>
                         </tr>
 
-                        <!-- <tr>
-                          <td class="text-truncate row_padding">
-                            <div
-                              *ngIf="
-                                rows[0].pa_Counter.length === 0;
-                                else elseBlock
-                              "
-                            >
-                              <span>אין</span>
-                            </div>
-                            <ng-template #elseBlock>
-                              <button
-                                (click)="
-                                  getPartner(
-                                    rows[0].farm_id,
-                                    rows[0].active_flock_id,
-                                    rows[0].lull2000_code
-                                  )
-                                "
-                              >
-                                {{ rows[0].is_has_partner }} ({{
-                                  rows[0].cd_gidul
-                                }})
-                              </button>
-                            </ng-template>
-                          </td>
-                        </tr> -->
-
-                        <!-- <td class="text-truncate row_padding">
-                            <div
-                              *ngIf="row.pa_Counter.length === 0; else elseBlock"
-                            >
-                              <span>אין</span>
-                            </div>
-                            <ng-template #elseBlock>
-                              <button
-                                (click)="
-                                  getPartner(
-                                    row.farm_id,
-                                    row.active_flock_id,
-                                    row.lull2000_code
-                                  )
-                                "
-                              >
-                                {{ row.is_has_partner }} ({{ row.cd_gidul }})
-                              </button>
-                            </ng-template>
-                          </td> -->
-
-                        <!-- <tr>
-                          <td><B>סטטוס</B></td>
-                          <td [ngSwitch]="theUserDetails.yz_is_activ">
-                            <span *ngSwitchCase="'1'">לא פעיל</span>
-                            <span *ngSwitchDefault>פעיל</span>
-                          </td>
-                        </tr> -->
-                        <tr class="numKannat">
-                          <!-- <th><B>קוד</B></th> -->
-                          <!-- <th><B>סידורי</B></th> -->
-                          <!-- <th><B>תאור</B></th> -->
-                          <!-- <th><B>מגדל זר</B></th> -->
-                        </tr>
+                        <!-- <tr class="numKannat"></tr> -->
                         <tr
                           *ngFor="let row of kannatNum_and_oldMegadelNum"
-                          class="numKannat"
+                          class=""
                         >
                           <!-- <th>{{ row.MsvkExtrnl }}</th> -->
                           <th>{{ row.NameMsvkExt }}</th>
                           <!-- <th>{{ row.No_Siduri }}</th> -->
                           <th>{{ row.YazExtrnl }}</th>
+                        </tr>
+
+                        <tr>
+                          <td
+                            style="cursor: pointer; color: green"
+                            (click)="openPopup_more_info_grower()"
+                            id="moreInfoBtn"
+                          >
+                            פרטים נוספים
+                          </td>
                         </tr>
                       </tbody>
                     </table>

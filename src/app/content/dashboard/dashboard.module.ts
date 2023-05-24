@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.component';
 import { NumberFormatPipe } from './number-format.pipe';
 import { SearchMegadelComponent } from 'src/app/components/search-megadel/search-megadel.component';
+import { PopupMoreInfoGrowerComponent } from './popup-more-info-grower/popup-more-info-grower.component';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { SearchMegadelComponent } from 'src/app/components/search-megadel/search
     PopupComponent,
     PopupOldGrowerComponent,
     NumberFormatPipe,
+    PopupMoreInfoGrowerComponent,
   ],
 
   exports: [RouterModule],

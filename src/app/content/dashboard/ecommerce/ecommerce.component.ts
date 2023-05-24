@@ -29,6 +29,7 @@ import { of } from 'rxjs';
 import { PopupComponent } from '../popup/popup.component';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { PopupOldGrowerComponent } from '../popup-old-grower/popup-old-grower.component';
+import { PopupMoreInfoGrowerComponent } from '../popup-more-info-grower/popup-more-info-grower.component';
 
 @Component({
   selector: 'app-ecommerce',
@@ -71,6 +72,7 @@ export class EcommerceComponent implements OnInit {
   Monthgraph = false;
   theDetails: any[];
   userDetails: any[];
+  userDetails_more_info: any[];
   theUserDetails: any[];
   FarmId: any[];
   siteName: any = '';
@@ -112,12 +114,27 @@ export class EcommerceComponent implements OnInit {
     this.route2.params.subscribe((params) => {
       this.idFromurl = params['id']; // Retrieve the parameter value from the URL
       console.log('idFromurl: ', this.idFromurl); // Print the parameter value
-      // Save the parameter value in a variable or perform any other logic
+      // Save the parameter value in a variable or perform any other logic -yz_yzrn
     });
 
     this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
       this.idFromurl
     );
+    console.log('this.userDetails in 2 screen: ', this.userDetails);
+
+    this.userDetails_more_info =
+      await this.megadelSearchService.Yzrn_Select_By_View_New(
+        14,
+        this.userDetails[0].yz_yzrn,
+        '%',
+        '%',
+        '%',
+        '%',
+        '%',
+        '%',
+        '%'
+      );
+    console.log('this.userDetails_more_info: ', this.userDetails_more_info);
 
     this.mihsot = await this.megadelSearchService.Micsa_Select_New(
       5,
@@ -255,19 +272,81 @@ export class EcommerceComponent implements OnInit {
 
   openPopup() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'popup-dialog'; // Apply the CSS class to center the dialog
+    dialogConfig.panelClass = 'popup-dialog';
     dialogConfig.data = this.partnerData;
-    const dialogRef = this.dialog.open(PopupComponent, {
-      data: this.partnerData,
-    });
+    const dialogRef = this.dialog.open(PopupComponent, dialogConfig);
+
+    let isSecondClick = false;
+
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+
+    const handleButtonClick = () => {
+      if (dialogRef) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    // Add a click event listener to the button that triggers the main function
+    const buttonElement = document.querySelector('#gidolHotzBtn'); // Replace 'your-button-id' with the actual ID of your button
+    buttonElement.addEventListener('click', handleButtonClick);
 
     dialogRef.afterClosed().subscribe((result) => {
-      // Handle actions when the dialog is closed
       console.log('Dialog closed with result:', result);
-      // Perform any necessary actions based on the result
+      isSecondClick = false;
+      document.removeEventListener('click', handleDocumentClick);
+      buttonElement.removeEventListener('click', handleButtonClick);
     });
+  }
 
-    // dialogRef.close();
+  openPopup_more_info_grower() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog';
+    dialogConfig.data = this.userDetails_more_info;
+    const dialogRef = this.dialog.open(
+      PopupMoreInfoGrowerComponent,
+      dialogConfig
+    );
+
+    let isSecondClick = false;
+
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+
+    const handleButtonClick = () => {
+      if (dialogRef) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    // Add a click event listener to the button that triggers the main function
+    const buttonElement = document.querySelector('#moreInfoBtn'); // Replace 'your-button-id' with the actual ID of your button
+    buttonElement.addEventListener('click', handleButtonClick);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed with result:', result);
+      isSecondClick = false;
+      document.removeEventListener('click', handleDocumentClick);
+      buttonElement.removeEventListener('click', handleButtonClick);
+    });
   }
 
   openPopup_Of_OldGrower() {

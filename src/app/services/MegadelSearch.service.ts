@@ -11,6 +11,26 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Yzrn_Select_By_View_New(
+    Order: any,
+    start_code_yzrn: any,
+    start_name_yzrn: any,
+    start_name_yeshuv: any,
+    start_sug: any,
+    start_status: any,
+    start_tzrt: any,
+    start_year: any,
+    start_sug_mcsa: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yzrn_Select_By_View_New?Order=${Order}&start_code_yzrn=${start_code_yzrn}&start_name_yzrn=${start_name_yzrn}&start_name_yeshuv=${start_name_yeshuv}&start_sug=${start_sug}&start_status=${start_status}&start_tzrt=${start_tzrt}&start_year=${start_year}&start_sug_mcsa=${start_sug_mcsa}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_Farmid_By_yzId(yz_Id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
