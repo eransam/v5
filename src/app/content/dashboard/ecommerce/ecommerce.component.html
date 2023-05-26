@@ -159,14 +159,10 @@
                     <!-- <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div> -->
                   </div>
 
-                  <div
-                    *ngIf="!isLoading_FarmDetails"
-                    class="table-responsive"
-                    fxFlex="auto"
-                    [perfectScrollbar]="config"
-                  >
+                  <div *ngIf="!isLoading_FarmDetails" class="table-container">
+                    > >
                     <table
-                      class="table table-hover table-xl border_bottom detailsTable"
+                      class="table table-hover border_bottom detailsTable"
                       style="direction: rtl"
                     >
                       <thead class="detailsTable">
@@ -421,12 +417,7 @@
                 <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div>
               </div>
 
-              <div
-                *ngIf="!isLoading_FarmDetails"
-                class="table-responsive"
-                fxFlex="auto"
-                [perfectScrollbar]="config"
-              >
+              <div *ngIf="!isLoading_FarmDetails" class="table-container">
                 <table
                   class="table table-hover table-xl border_bottom detailsTable"
                   style="direction: rtl"
@@ -458,6 +449,7 @@
 
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
                       <th scope="col" class="border-top-0">קיבולת לול</th>
+                      <th scope="col" class="border-top-0">איכלוס</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -546,6 +538,9 @@
                       </td>
                       <td class="text-truncate row_padding">
                         {{ row.kibolet_lul | numberFormat }}
+                      </td>
+                      <td class="text-truncate row_padding">
+                        {{ row.hiclos_number | numberFormat }}
                       </td>
                     </tr>
                   </tbody>

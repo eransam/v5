@@ -203,8 +203,8 @@ export class EcommerceComponent implements OnInit {
 
     this.totalFarms = this.FarmDetails.length;
 
+    // הוספה לפרטי האתר שדה המכיל גידול חוץ
     for (let item of this.FarmDetails) {
-      console.log('item in for of: ', item);
       let lull2000_code = item.lull2000_code;
       const results2 =
         await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
@@ -216,10 +216,28 @@ export class EcommerceComponent implements OnInit {
         item.pa_Counter = '';
       }
     }
+    //////////////////////////////////////////
 
-    console.log('this.FarmDetails after gidol hotz: ', this.FarmDetails);
+    for (let item of this.FarmDetails) {
+      let grower_id = item.grower_id;
+      let farm_id = item.farm_id;
 
-    // lull2000_code
+      const results2 =
+        await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
+          farm_id,
+          grower_id
+        );
+      console.log('results2 in get_hiclos_by_growerId_and_farmId: ', results2);
+
+      if (results2[0]?.female_number_f) {
+        item.hiclos_number = results2[0].female_number_f;
+      } else {
+        item.pa_Counter = '';
+      }
+    }
+
+    ///////////////////////////////////////
+
     this.rows = this.FarmDetails;
     this.isLoading_FarmDetails = false;
 

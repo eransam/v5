@@ -11,6 +11,26 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+
+  
+
+  async get_hiclos_by_growerId_and_farmId(
+    farm_id: any,
+
+    grower_id: any
+
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_hiclos_by_growerId_and_farmId?farm_id=${farm_id}&grower_id=${grower_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+
+
   async Yzrn_Select_By_View_New(
     Order: any,
     start_code_yzrn: any,
