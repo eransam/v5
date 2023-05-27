@@ -318,10 +318,53 @@ body div.cdk-overlay-container .popup-dialog {
   font-size: 20px;
   direction: rtl;
   padding: 4px;
+  width: -moz-fit-content;
   width: fit-content;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: absolute !important;
+  top: 45%;
+  left: 71%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+}
+
+body div.cdk-overlay-container .popup-dialog-more-info {
+  background-color: white !important;
+  max-width: 60vw;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  padding: 4px;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute !important;
+  top: 765px;
+  right: -310px;
+  transform: translate(-50%, -50%);
+  margin: auto;
+}
+
+body div.cdk-overlay-container .popup-dialog-OldGrower {
+  background-color: white !important;
+  max-width: 60vw;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  padding: 4px;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute !important;
+  top: 15%;
+  left: 58%;
   transform: translate(-50%, -50%);
   margin: auto;
 }

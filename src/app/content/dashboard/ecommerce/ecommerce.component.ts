@@ -328,7 +328,7 @@ export class EcommerceComponent implements OnInit {
 
   openPopup_more_info_grower() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'popup-dialog';
+    dialogConfig.panelClass = 'popup-dialog-more-info';
     dialogConfig.data = this.userDetails_more_info;
     const dialogRef = this.dialog.open(
       PopupMoreInfoGrowerComponent,
@@ -369,7 +369,7 @@ export class EcommerceComponent implements OnInit {
 
   openPopup_Of_OldGrower() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'popup-dialog'; // Apply the CSS class to center the dialog
+    dialogConfig.panelClass = 'popup-dialog-OldGrower'; // Apply the CSS class to center the dialog
     dialogConfig.data = this.arrOfOldGrower;
     const dialogRef = this.dialog.open(PopupOldGrowerComponent, dialogConfig);
 

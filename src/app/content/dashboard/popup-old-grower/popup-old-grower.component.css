@@ -21,3 +21,7 @@
 .testpop {
   padding: 1px;
 }
+
+.no-wrap-test-eran {
+  white-space: nowrap;
+}
