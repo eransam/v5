@@ -155,8 +155,15 @@
                 <div class="card-header"></div>
                 <div class="card-content">
                   <div class="exel_and_total">
-                    <h1>מכסות</h1>
-                    <!-- <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div> -->
+                    <div>
+                      <p style="direction: rtl">
+                        סה''כ מכסה קבועה: {{ totalMicsaKvoha  | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        סה''כ מכסה לתשלום: {{ totalMicsaToPay  | numberFormat }}
+                      </p>
+                    </div>
+                    <h1>מכסת ביצים</h1>
                   </div>
 
                   <div *ngIf="!isLoading_FarmDetails" class="table-container">

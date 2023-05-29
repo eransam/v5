@@ -75,7 +75,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NumberFormatPipe } from './content/dashboard/number-format.pipe';
 
 @NgModule({
   imports: [
@@ -129,7 +128,6 @@ import { NumberFormatPipe } from './content/dashboard/number-format.pipe';
     FullLayoutComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent,
-    NumberFormatPipe,
   ],
   providers: [
     MatAutocompleteModule,

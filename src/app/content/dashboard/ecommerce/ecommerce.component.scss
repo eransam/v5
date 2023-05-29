@@ -452,9 +452,10 @@
 
 .exel_and_total {
   display: flex;
-  justify-content: end;
   align-items: center;
   padding: 15px;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .media-body .text-left {

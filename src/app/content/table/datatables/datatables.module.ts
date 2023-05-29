@@ -17,7 +17,6 @@ import { BlockTemplateComponent } from '../../../_layout/blockui/block-template.
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchMegadelComponent } from 'src/app/components/search-megadel/search-megadel.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { NumberFormatPipe } from '../../dashboard/number-format.pipe';
 
 @NgModule({
   imports: [
@@ -60,7 +59,6 @@ import { NumberFormatPipe } from '../../dashboard/number-format.pipe';
     StylingComponent,
     ApiComponent,
     SearchMegadelComponent,
-    NumberFormatPipe
   ],
   exports: [RouterModule],
 })

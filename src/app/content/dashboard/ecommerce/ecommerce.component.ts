@@ -87,6 +87,7 @@ export class EcommerceComponent implements OnInit {
   yzrnHead;
   kannatNum_and_oldMegadelNum = [];
   mihsot = [];
+
   chosenYear = 2023;
   partnerData: any[];
   mcsaSum = 0;
@@ -94,6 +95,8 @@ export class EcommerceComponent implements OnInit {
   eggSum = 0;
   eggSumFarm = 0;
   arrOfOldGrower = [];
+  totalMicsaKvoha = 0;
+  totalMicsaToPay = 0;
 
   constructor(
     private chartApiservice: ChartApiService,
@@ -143,6 +146,28 @@ export class EcommerceComponent implements OnInit {
       );
 
       console.log('this.mihsot: ', this.mihsot);
+      for (const iterator of this.mihsot) {
+        if (
+          iterator.mi_sug_mcsa === '1 ' ||
+          iterator.mi_sug_mcsa === '2 ' ||
+          iterator.mi_sug_mcsa === '3 ' ||
+          iterator.mi_sug_mcsa === '1' ||
+          iterator.mi_sug_mcsa === '2' ||
+          iterator.mi_sug_mcsa === '3'
+        ) {
+          this.totalMicsaKvoha += iterator.mi_kamut;
+        }
+        if (
+          iterator.mi_sug_mcsa === '4 ' ||
+          iterator.mi_sug_mcsa === '4' ||
+          iterator.mi_sug_mcsa === '11' ||
+          iterator.mi_sug_mcsa === '11 '
+        ) {
+          this.totalMicsaToPay += iterator.mi_kamut;
+        }
+
+        console.log('totalMicsaToPay: ', this.totalMicsaToPay);
+      }
 
       this.kannatNum_and_oldMegadelNum =
         await this.megadelSearchService.YazrnExtrnl_Get_Code(
