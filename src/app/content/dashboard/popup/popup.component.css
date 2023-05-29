@@ -13,3 +13,6 @@
   top: -1621px;
   left: 164px;
 }
+.no-wrap-test-eran {
+  white-space: nowrap;
+}

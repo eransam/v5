@@ -678,6 +678,8 @@ export class SearchMegadelComponent implements OnInit {
           const codes = results3.map((obj) => obj.code);
           const joinedString = codes.join(', ');
           item444.yz_IdReal = item444.yz_Id;
+          console.log('typeof( item444.yz_IdReal): ', typeof item444.yz_IdReal);
+
           item444.yz_Id = joinedString;
         });
 

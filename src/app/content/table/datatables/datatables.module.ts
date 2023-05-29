@@ -60,6 +60,7 @@ import { NumberFormatPipe } from '../../dashboard/number-format.pipe';
     StylingComponent,
     ApiComponent,
     SearchMegadelComponent,
+    NumberFormatPipe
   ],
   exports: [RouterModule],
 })

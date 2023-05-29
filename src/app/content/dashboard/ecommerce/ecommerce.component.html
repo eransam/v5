@@ -160,7 +160,6 @@
                   </div>
 
                   <div *ngIf="!isLoading_FarmDetails" class="table-container">
-                    > >
                     <table
                       class="table table-hover border_bottom detailsTable"
                       style="direction: rtl"
@@ -303,19 +302,19 @@
                         </tr>
                         <tr>
                           <td><B>סוג מגדל</B></td>
-                          <td [ngSwitch]="theUserDetails.yz_sug">
+                          <td [ngSwitch]="userDetails_more_info[0].Rashi">
                             <span
                               *ngSwitchCase="'1'"
                               style="font-size: 19px; font-weight: 600"
                               >ראשי</span
                             >
                             <span
-                              *ngSwitchCase="'2'"
+                              *ngSwitchCase="'0'"
                               style="font-size: 19px; font-weight: 600"
                               >שותף</span
                             >
                             <span
-                              *ngSwitchCase="'3'"
+                              *ngSwitchDefault
                               style="font-size: 19px; font-weight: 600"
                               >פרטני</span
                             >

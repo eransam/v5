@@ -1,50 +1,50 @@
-﻿import { Routes, RouterModule, ExtraOptions } from "@angular/router";
-import { PublicLayoutComponent } from "./_layout/public-layout/public-layout.component";
-import { PrivateLayoutComponent } from "./_layout/private-layout/private-layout.component";
-import { AuthGuard } from "./_guards/auth.guard";
-import { RegisterComponent } from "./register";
-import { LoginComponent } from "./login";
-import { ChangelogComponent } from "./changelog/changelog.component";
-import { FullLayoutComponent } from "./_layout/full-layout/full-layout.component";
-import { PrivacyPolicyComponent } from "./login/privacy-policy/privacy-policy.component";
-import { TermsConditionComponent } from "./login/terms-condition/terms-condition.component";
+﻿import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+import { PublicLayoutComponent } from './_layout/public-layout/public-layout.component';
+import { PrivateLayoutComponent } from './_layout/private-layout/private-layout.component';
+import { AuthGuard } from './_guards/auth.guard';
+import { RegisterComponent } from './register';
+import { LoginComponent } from './login';
+import { ChangelogComponent } from './changelog/changelog.component';
+import { FullLayoutComponent } from './_layout/full-layout/full-layout.component';
+import { PrivacyPolicyComponent } from './login/privacy-policy/privacy-policy.component';
+import { TermsConditionComponent } from './login/terms-condition/terms-condition.component';
 const appRoutes: Routes = [
-  { path: "privacypolicy", component: PrivacyPolicyComponent },
-  { path: "termCondition", component: TermsConditionComponent },
+  { path: 'privacypolicy', component: PrivacyPolicyComponent },
+  { path: 'termCondition', component: TermsConditionComponent },
   // Public layout
   {
-    path: "",
+    path: '',
     component: PublicLayoutComponent,
     children: [
-      { path: "register", component: RegisterComponent },
-      { path: "login", component: LoginComponent },
-      { path: "", component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'login', component: LoginComponent },
+      { path: '', component: LoginComponent },
     ],
   },
   {
-    path: "",
+    path: '',
     component: FullLayoutComponent,
     children: [
       {
-        path: "error",
+        path: 'error',
         loadChildren: () =>
-          import("../app/content/full-pages/error/error.module").then(
+          import('../app/content/full-pages/error/error.module').then(
             (m) => m.ErrorModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "authentication",
+        path: 'authentication',
         loadChildren: () =>
           import(
-            "../app/content/full-pages/authentication/authentication.module"
+            '../app/content/full-pages/authentication/authentication.module'
           ).then((m) => m.AuthenticationModule),
         canActivate: [AuthGuard],
       },
       {
-        path: "others",
+        path: 'others',
         loadChildren: () =>
-          import("../app/content/full-pages/others/others.module").then(
+          import('../app/content/full-pages/others/others.module').then(
             (m) => m.OthersModule
           ),
         canActivate: [AuthGuard],
@@ -53,254 +53,255 @@ const appRoutes: Routes = [
   },
   // Private layout
   {
-    path: "",
+    path: '',
     component: PrivateLayoutComponent,
     children: [
-      { path: "logout", component: LoginComponent, canActivate: [AuthGuard] },
+      { path: 'logout', component: LoginComponent, canActivate: [AuthGuard] },
       {
-        path: "changelog",
+        path: 'changelog',
         component: ChangelogComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: "dashboard",
+        path: 'dashboard',
         loadChildren: () =>
-          import("../app/content/dashboard/dashboard.module").then(
+          import('../app/content/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "components",
+        path: 'components',
         loadChildren: () =>
-          import("../app/content/ngbbootstrap/components.module").then(
+          import('../app/content/ngbbootstrap/components.module').then(
             (m) => m.ComponentsModule
           ),
         canActivate: [AuthGuard],
+        
       },
       {
-        path: "todo-app",
+        path: 'todo-app',
         loadChildren: () =>
-          import("../app/content/applications/todo-app/todo-app.module").then(
+          import('../app/content/applications/todo-app/todo-app.module').then(
             (m) => m.TodoAppModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "chats",
+        path: 'chats',
         loadChildren: () =>
-          import("../app/content/applications/chat/chats.module").then(
+          import('../app/content/applications/chat/chats.module').then(
             (m) => m.ChatsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "email",
+        path: 'email',
         loadChildren: () =>
-          import("../app/content/applications/email/email.module").then(
+          import('../app/content/applications/email/email.module').then(
             (m) => m.EmailModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "kanban",
+        path: 'kanban',
         loadChildren: () =>
-          import("../app/content/applications/kanban/kanban.module").then(
+          import('../app/content/applications/kanban/kanban.module').then(
             (m) => m.KanbanModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "calender",
+        path: 'calender',
         loadChildren: () =>
-          import("../app/content/applications/calender/calender.module").then(
+          import('../app/content/applications/calender/calender.module').then(
             (m) => m.CalenderModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "contacts",
+        path: 'contacts',
         loadChildren: () =>
-          import("../app/content/applications/contacts/contacts.module").then(
+          import('../app/content/applications/contacts/contacts.module').then(
             (m) => m.ContactsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "chartjs",
+        path: 'chartjs',
         loadChildren: () =>
-          import("../app/content/charts-maps/chartjs/chartjs.module").then(
+          import('../app/content/charts-maps/chartjs/chartjs.module').then(
             (m) => m.ChartjsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "form-elements",
+        path: 'form-elements',
         loadChildren: () =>
           import(
-            "../app/content/forms/form-elements/form-elements.module"
+            '../app/content/forms/form-elements/form-elements.module'
           ).then((m) => m.FormElementsModule),
         canActivate: [AuthGuard],
       },
       {
-        path: "form-layouts",
+        path: 'form-layouts',
         loadChildren: () =>
-          import("../app/content/forms/form-layouts/form-layouts.module").then(
+          import('../app/content/forms/form-layouts/form-layouts.module').then(
             (m) => m.FormLayoutsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "form-wizard",
+        path: 'form-wizard',
         loadChildren: () =>
-          import("../app/content/forms/form-wizard/form-wizard.module").then(
+          import('../app/content/forms/form-wizard/form-wizard.module').then(
             (m) => m.FormWizardModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "form-repeater",
+        path: 'form-repeater',
         loadChildren: () =>
           import(
-            "../app/content/forms/form-repeater/form-repeater.module"
+            '../app/content/forms/form-repeater/form-repeater.module'
           ).then((m) => m.FormRepeaterModule),
         canActivate: [AuthGuard],
       },
       {
-        path: "ngchartist",
+        path: 'ngchartist',
         loadChildren: () =>
           import(
-            "../app/content/charts-maps/ngchartist/ngchartist.module"
+            '../app/content/charts-maps/ngchartist/ngchartist.module'
           ).then((m) => m.NgchartistModule),
         canActivate: [AuthGuard],
       },
       {
-        path: "boostraptables",
+        path: 'boostraptables',
         loadChildren: () =>
           import(
-            "../app/content/table/boostraptables/boostraptables.module"
+            '../app/content/table/boostraptables/boostraptables.module'
           ).then((m) => m.BoostraptablesModule),
         canActivate: [AuthGuard],
       },
       {
-        path: "datatables",
+        path: 'datatables',
         loadChildren: () =>
-          import("../app/content/table/datatables/datatables.module").then(
+          import('../app/content/table/datatables/datatables.module').then(
             (m) => m.DatatablesModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "datatablesext",
+        path: 'datatablesext',
         loadChildren: () =>
           import(
-            "../app/content/table/datatablesext/datatablesext.module"
+            '../app/content/table/datatablesext/datatablesext.module'
           ).then((m) => m.DatatablesextModule),
         canActivate: [AuthGuard],
       },
       {
-        path: "icons",
+        path: 'icons',
         loadChildren: () =>
-          import("../app/content/icons/icons.module").then(
+          import('../app/content/icons/icons.module').then(
             (m) => m.IconsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "cards",
+        path: 'cards',
         loadChildren: () =>
-          import("../app/content/cards/cards.module").then(
+          import('../app/content/cards/cards.module').then(
             (m) => m.CardsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "invoice",
+        path: 'invoice',
         loadChildren: () =>
-          import("../app/content/pages/invoice/invoice.module").then(
+          import('../app/content/pages/invoice/invoice.module').then(
             (m) => m.InvoiceModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "timelines",
+        path: 'timelines',
         loadChildren: () =>
-          import("../app/content/pages/timelines/timelines.module").then(
+          import('../app/content/pages/timelines/timelines.module').then(
             (m) => m.TimelinesModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "user",
+        path: 'user',
         loadChildren: () =>
-          import("../app/content/pages/user/user.module").then(
+          import('../app/content/pages/user/user.module').then(
             (m) => m.UserModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "gallery",
+        path: 'gallery',
         loadChildren: () =>
-          import("../app/content/pages/gallery/gallery.module").then(
+          import('../app/content/pages/gallery/gallery.module').then(
             (m) => m.GalleryModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "news-feed",
+        path: 'news-feed',
         loadChildren: () =>
-          import("../app/content/pages/news-feed/news-feed.module").then(
+          import('../app/content/pages/news-feed/news-feed.module').then(
             (m) => m.NewsFeedModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "dropzone",
+        path: 'dropzone',
         loadChildren: () =>
-          import("../app/content/pages/dropzone/dropzone.module").then(
+          import('../app/content/pages/dropzone/dropzone.module').then(
             (m) => m.DropzoneModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "social-feed",
+        path: 'social-feed',
         loadChildren: () =>
-          import("../app/content/pages/social-feed/social-feed.module").then(
+          import('../app/content/pages/social-feed/social-feed.module').then(
             (m) => m.SocialFeedModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "search",
+        path: 'search',
         loadChildren: () =>
-          import("../app/content/pages/search/search.module").then(
+          import('../app/content/pages/search/search.module').then(
             (m) => m.SearchModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "advanceCards",
+        path: 'advanceCards',
         loadChildren: () =>
-          import("../app/content/advance-cards/advance-cards.module").then(
+          import('../app/content/advance-cards/advance-cards.module').then(
             (m) => m.AdvanceCardsModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: "extraComponents",
+        path: 'extraComponents',
         loadChildren: () =>
           import(
-            "../app/content/extra-components/extra-components.module"
+            '../app/content/extra-components/extra-components.module'
           ).then((m) => m.ExtraComponentsModule),
         canActivate: [AuthGuard],
       },
     ],
   },
   // otherwise redirect to home
-  { path: "**", redirectTo: "changelog" },
+  { path: '**', redirectTo: '' },
 ];
 
 export const routing = RouterModule.forRoot(appRoutes, {
   scrollOffset: [0, 0],
-  scrollPositionRestoration: "top",
+  scrollPositionRestoration: 'top',
 });

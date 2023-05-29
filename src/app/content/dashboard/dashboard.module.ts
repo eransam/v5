@@ -58,6 +58,10 @@ import { PopupMoreInfoGrowerComponent } from './popup-more-info-grower/popup-mor
         path: 'hospital',
         component: HospitalComponent,
       },
+      {
+        path: '**',
+        redirectTo: '',
+      },
     ]),
   ],
   declarations: [

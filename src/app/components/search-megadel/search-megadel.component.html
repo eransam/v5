@@ -250,7 +250,7 @@
 
       <!-- Rest of your template -->
 
-      <div *ngIf="!isLoading" >
+      <div *ngIf="!isLoading">
         <!-- Display theDetails data -->
 
         <section id="base-style text-right">
@@ -269,7 +269,6 @@
                       <img
                         class="logoIngStyle"
                         src="assets/images/logo/excel.png"
-                        
                         alt="Image"
                         (click)="getExcelData()"
                       />
@@ -559,7 +558,7 @@
                                   row.yz_IdReal
                                 ]"
                               >
-                                {{ row.micsa }}</a
+                                {{ row.micsa | numberFormat }}</a
                               >
                             </div>
                           </ng-template>

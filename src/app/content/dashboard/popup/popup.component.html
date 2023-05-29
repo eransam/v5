@@ -18,13 +18,14 @@
             <th style="font-weight: bold; text-align: right">תחילת שותפות</th>
             <th style="font-weight: bold; text-align: right">שם מגדל</th>
             <th style="font-weight: bold; text-align: right">מס מגדל</th>
+
             <!-- <th style="font-weight: bold; text-align: right;" *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">מס' אכלוס פרגיות</th> -->
             <th style="font-weight: bold; text-align: right">
               מס' שיווק ביצים
             </th>
+
             <th style="font-weight: bold; text-align: right">מכסה</th>
             <th style="font-weight: bold; text-align: right">אחוז</th>
-            <th style="font-weight: bold"></th>
           </tr>
         </thead>
         <tbody>
@@ -33,29 +34,37 @@
             [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
           >
             <td>{{ p.start_date }}</td>
-            <td>{{ p.grower_name }}</td>
-            <td>{{ p.lull2000_code }}</td>
-            <td>{{ p.certificate_sum | number : "0.0" }}</td>
-            <td>{{ p.egg_sum | number : "0.0" }}</td>
-            <td>{{ p.mcsa_sum | number : "0.0" }}</td>
-            <td>{{ p.percent_ | number : "0.0" }}%</td>
 
             <td>
-              <span *ngIf="p.is_main_grower" class="label label-success"
+              <a [routerLink]="['/dashboard/ecommerce', p.id]">
+                {{ p.grower_name }}
+              </a>
+            </td>
+
+            <td>{{ p.lull2000_code }}</td>
+
+            <!-- <td>{{ p.certificate_sum | number : "0.0" }}</td> -->
+            <td>{{ p.egg_sum | number : "0.0" }}</td>
+            <td>{{ p.mcsa_sum | number : "0.0" }}</td>
+            <td>
+              {{ p.percent_ | number : "0.0" }}
+            </td>
+
+            <td class="no-wrap-test-eran">
+              <span
+                *ngIf="p.is_main_grower"
+                class="label label-success no-wrap-test-eran"
                 >מגדל ראשי</span
               >
             </td>
           </tr>
           <TR>
             <TD colspan="3"></TD>
-            <TD
-              *ngIf="
-                userTypeID == '9' || userTypeID == '15' || userTypeID == '2'
-              "
-              >{{ certificateSum | number : "0.0" }}</TD
-            >
-            <TD>{{ data[data.length - 1].obj2.eggSum | number : "0.0" }} </TD>
+            <TD>{{ certificateSum | number : "0.0" }}</TD>
             <TD>{{ data[data.length - 1].obj2.mcsaSum | number : "0.0" }} </TD>
+            <!-- <TD>{{ data[data.length - 1].obj2.eggSum | number : "0.0" }} </TD> -->
+            <TD>100% </TD>
+
             <TD colspan="2"></TD>
           </TR>
         </tbody>

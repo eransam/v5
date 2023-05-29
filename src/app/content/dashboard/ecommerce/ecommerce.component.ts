@@ -108,152 +108,161 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.isLoading_theUserDetails = true;
-    this.isLoading_FarmDetails = true;
+    this.route2.params.subscribe(async (params) => {
+      this.idFromurl = params['id'];
+      console.log('idFromurl:', this.idFromurl);
 
-    this.route2.params.subscribe((params) => {
-      this.idFromurl = params['id']; // Retrieve the parameter value from the URL
-      console.log('idFromurl: ', this.idFromurl); // Print the parameter value
-      // Save the parameter value in a variable or perform any other logic -yz_yzrn
-    });
+      // Call any necessary functions or perform logic based on the new parameter value
+      this.refreshComponent();
 
-    this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
-      this.idFromurl
-    );
-    console.log('this.userDetails in 2 screen: ', this.userDetails);
-
-    this.userDetails_more_info =
-      await this.megadelSearchService.Yzrn_Select_By_View_New(
-        14,
-        this.userDetails[0].yz_yzrn,
-        '%',
-        '%',
-        '%',
-        '%',
-        '%',
-        '%',
-        '%'
+      this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
+        this.idFromurl
       );
-    console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+      console.log('this.userDetails in 2 screen: ', this.userDetails);
 
-    this.mihsot = await this.megadelSearchService.Micsa_Select_New(
-      5,
-      this.userDetails[0]?.yz_yzrn,
-      this.chosenYear,
-      '30 - ביצי מאכל',
-      88
-    );
+      this.userDetails_more_info =
+        await this.megadelSearchService.Yzrn_Select_By_View_New(
+          14,
+          this.userDetails[0].yz_yzrn,
+          '%',
+          '%',
+          '%',
+          '%',
+          '%',
+          '%',
+          '%'
+        );
+      console.log('this.userDetails_more_info: ', this.userDetails_more_info);
 
-    console.log('this.mihsot: ', this.mihsot);
-
-    this.kannatNum_and_oldMegadelNum =
-      await this.megadelSearchService.YazrnExtrnl_Get_Code(
-        2,
-        '',
-        this.userDetails[0]?.yz_yzrn
+      this.mihsot = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.yz_yzrn,
+        this.chosenYear,
+        '30 - ביצי מאכל',
+        88
       );
 
-    console.log(
-      'this.kannatNum_and_oldMegadelNum: ',
-      this.kannatNum_and_oldMegadelNum
-    );
+      console.log('this.mihsot: ', this.mihsot);
 
-    for (let i = 0; i < this.kannatNum_and_oldMegadelNum.length; i++) {
-      let item = this.kannatNum_and_oldMegadelNum[i];
-      if (item.NameMsvkExt === 'מספר מגדל ישן') {
-        this.arrOfOldGrower.push(item);
-        this.kannatNum_and_oldMegadelNum.splice(i, 1);
-        i--; // Decrement the index as the array length has changed
-      }
-    }
-
-    console.log('arrOfOldGrower: ', this.arrOfOldGrower);
-
-    if (this.userDetails[0].length === 0) {
-      this.userDetails = [];
-    } else {
-      console.log('this.userDetails[0]: ', this.userDetails[0]);
-      const results2 =
-        await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-          this.userDetails[0].yz_yzrn
+      this.kannatNum_and_oldMegadelNum =
+        await this.megadelSearchService.YazrnExtrnl_Get_Code(
+          2,
+          '',
+          this.userDetails[0]?.yz_yzrn
         );
-      if (results2[0]?.pa_Counter) {
-        this.userDetails[0].pa_Counter = results2[0].pa_Counter;
-      } else {
-        this.userDetails[0].pa_Counter = '';
+
+      console.log(
+        'this.kannatNum_and_oldMegadelNum: ',
+        this.kannatNum_and_oldMegadelNum
+      );
+
+      for (let i = 0; i < this.kannatNum_and_oldMegadelNum.length; i++) {
+        let item = this.kannatNum_and_oldMegadelNum[i];
+        if (item.NameMsvkExt === 'מספר מגדל ישן') {
+          this.arrOfOldGrower.push(item);
+          this.kannatNum_and_oldMegadelNum.splice(i, 1);
+          i--; // Decrement the index as the array length has changed
+        }
       }
-    }
 
-    this.theUserDetails = this.userDetails[0];
+      console.log('arrOfOldGrower: ', this.arrOfOldGrower);
 
-    console.log('this.theUserDetails: ', this.theUserDetails);
+      if (this.userDetails[0].length === 0) {
+        this.userDetails = [];
+      } else {
+        console.log('this.userDetails[0]: ', this.userDetails[0]);
+        const results2 =
+          await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+            this.userDetails[0].yz_yzrn
+          );
+        if (results2[0]?.pa_Counter) {
+          this.userDetails[0].pa_Counter = results2[0].pa_Counter;
+        } else {
+          this.userDetails[0].pa_Counter = '';
+        }
+      }
 
-    this.isLoading_theUserDetails = false;
+      this.theUserDetails = this.userDetails[0];
 
-    this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
-      this.idFromurl
-    );
+      console.log('this.theUserDetails: ', this.theUserDetails);
 
-    if (this.siteName) {
-      this.FarmId = await this.getFarmIdArr(this.siteName);
-      console.log('this.FarmId-end: ', this.FarmId);
-      this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
-      console.log('this.FarmDetails-end: ', this.FarmDetails);
-    }
+      this.isLoading_theUserDetails = false;
 
-    this.totalFarms = this.FarmDetails.length;
+      this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
+        this.idFromurl
+      );
 
-    // הוספה לפרטי האתר שדה המכיל גידול חוץ
-    for (let item of this.FarmDetails) {
-      let lull2000_code = item.lull2000_code;
-      const results2 =
-        await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-          lull2000_code
+      if (this.siteName) {
+        this.FarmId = await this.getFarmIdArr(this.siteName);
+        console.log('this.FarmId-end: ', this.FarmId);
+        this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
+        console.log('this.FarmDetails-end: ', this.FarmDetails);
+      }
+
+      this.totalFarms = this.FarmDetails.length;
+
+      // הוספה לפרטי האתר שדה המכיל גידול חוץ
+      for (let item of this.FarmDetails) {
+        let lull2000_code = item.lull2000_code;
+        const results2 =
+          await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+            lull2000_code
+          );
+        if (results2[0]?.pa_Counter) {
+          item.pa_Counter = results2[0].pa_Counter;
+        } else {
+          item.pa_Counter = '';
+        }
+      }
+      //////////////////////////////////////////
+
+      for (let item of this.FarmDetails) {
+        let grower_id = item.grower_id;
+        let farm_id = item.farm_id;
+
+        const results2 =
+          await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
+            farm_id,
+            grower_id
+          );
+        console.log(
+          'results2 in get_hiclos_by_growerId_and_farmId: ',
+          results2
         );
-      if (results2[0]?.pa_Counter) {
-        item.pa_Counter = results2[0].pa_Counter;
-      } else {
-        item.pa_Counter = '';
+
+        if (results2[0]?.female_number_f) {
+          item.hiclos_number = results2[0].female_number_f;
+        } else {
+          item.pa_Counter = '';
+        }
       }
-    }
-    //////////////////////////////////////////
 
-    for (let item of this.FarmDetails) {
-      let grower_id = item.grower_id;
-      let farm_id = item.farm_id;
+      ///////////////////////////////////////
 
-      const results2 =
-        await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
-          farm_id,
-          grower_id
-        );
-      console.log('results2 in get_hiclos_by_growerId_and_farmId: ', results2);
+      this.rows = this.FarmDetails;
+      this.isLoading_FarmDetails = false;
 
-      if (results2[0]?.female_number_f) {
-        item.hiclos_number = results2[0].female_number_f;
-      } else {
-        item.pa_Counter = '';
-      }
-    }
+      this.chartApiservice.getEcommerceData().subscribe((Response) => {
+        this.ChartistData = Response;
+        this.getlineArea();
+      });
+      this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
+        this.datatableData = Response;
+        this.getTabledata();
+      });
 
-    ///////////////////////////////////////
-
-    this.rows = this.FarmDetails;
-    this.isLoading_FarmDetails = false;
-
-    this.chartApiservice.getEcommerceData().subscribe((Response) => {
-      this.ChartistData = Response;
-      this.getlineArea();
+      this.loadData(this.FarmDetails[0].grower_id);
     });
-    this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
-      this.datatableData = Response;
-      this.getTabledata();
-    });
-
-    this.loadData(this.FarmDetails[0].grower_id);
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+  refreshComponent() {
+    // Implement the logic that needs to be executed when the parameter value changes
+    this.isLoading_theUserDetails = true;
+    this.isLoading_FarmDetails = true;
+
+    // Perform any other necessary operations or API calls based on the new parameter value
+  }
 
   async getPartner(farmID, flockID, lull2000Code) {
     this.partnerData = await this.megadelSearchService.getPartner(
@@ -433,16 +442,17 @@ export class EcommerceComponent implements OnInit {
       this.growerData = data[0];
       console.log('this.growerData2: ', this.growerData);
 
-      this.yzrnHead = this.growerData[0]['lull2000_code'];
+      this.yzrnHead = this.growerData[0]?.lull2000_code;
+      if (this.yzrnHead) {
+        this.dataEgg
+          .getContactPersonFarmHatala(this.yzrnHead)
+          .subscribe((data) => {
+            console.log('data from getContactPersonFarmHatala: ', data);
 
-      this.dataEgg
-        .getContactPersonFarmHatala(this.yzrnHead)
-        .subscribe((data) => {
-          console.log('data from getContactPersonFarmHatala: ', data);
-
-          this.contactPersonFarmData = data;
-          this.ContactPersonLength = this.contactPersonFarmData.length;
-        });
+            this.contactPersonFarmData = data;
+            this.ContactPersonLength = this.contactPersonFarmData.length;
+          });
+      }
     });
     console.log('this.growerData2: ', this.growerData);
   }
