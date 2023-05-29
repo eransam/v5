@@ -22,6 +22,7 @@ import { ReportService } from '../../services/reports.service';
 import { MegadelSearchService } from '../../services/MegadelSearch.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { TableexcelService } from '../../../../services/tableexcel.service';
+import { NumberFormatPipe } from '../../content/dashboard/number-format.pipe';
 
 import { TableexcelService } from '../../services/tableexcel.service';
 import * as XLSX from 'xlsx';

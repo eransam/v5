@@ -17,6 +17,8 @@ import { BlockTemplateComponent } from '../../../_layout/blockui/block-template.
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchMegadelComponent } from 'src/app/components/search-megadel/search-megadel.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import { NumberFormatPipe } from '../../dashboard/number-format.pipe';
+import { SharedModuleModule } from '../../../shared-module/shared-module.module';
 
 @NgModule({
   imports: [
@@ -30,6 +32,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NgxDatatableModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    SharedModuleModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent,
     }),

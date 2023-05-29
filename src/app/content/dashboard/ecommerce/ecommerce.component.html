@@ -5,7 +5,34 @@
     <div class="content-body">
       <!-- eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
       <div class="row" style="direction: rtl">
-        <div class="col-xl-3 col-lg-6 col-12">
+        <div class="col-xl-2 col-lg-6 col-12">
+            <div class="card pull-up">
+              <div class="card-content">
+                <div class="card-body card_padding">
+                  <div class="media d-flex">
+                    <div class="media-body text-left">
+                      <h3 class="info">תשלום</h3>
+                      <h6>תשלום</h6>
+                    </div>
+                    <div>
+                      <i
+                        class="icon-basket-loaded info font-large-2 float-right"
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="mb-0 mt-1">
+                    <ngb-progressbar
+                      height="7px"
+                      width="100%"
+                      type="gradient-x-info"
+                      [value]="80"
+                    ></ngb-progressbar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -32,7 +59,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-lg-6 col-12">
+        <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -157,10 +184,10 @@
                   <div class="exel_and_total">
                     <div>
                       <p style="direction: rtl">
-                        סה''כ מכסה קבועה: {{ totalMicsaKvoha  | numberFormat }}
+                        סה''כ מכסה קבועה: {{ totalMicsaKvoha | numberFormat }}
                       </p>
                       <p style="direction: rtl">
-                        סה''כ מכסה לתשלום: {{ totalMicsaToPay  | numberFormat }}
+                        סה''כ מכסה לתשלום: {{ totalMicsaToPay | numberFormat }}
                       </p>
                     </div>
                     <h1>מכסת ביצים</h1>
@@ -284,6 +311,13 @@
                           <td><B>מיקוד</B></td>
                           <td>
                             {{ growerData.v_mikud }}
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td><B>נחלה</B></td>
+                          <td>
+                            {{ userDetails_more_info[0].v_msk }}
                           </td>
                         </tr>
 

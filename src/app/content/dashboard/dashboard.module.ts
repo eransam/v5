@@ -19,9 +19,10 @@ import { PopupComponent } from './popup/popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.component';
-import { NumberFormatPipe } from './number-format.pipe';
+// import { NumberFormatPipe } from './number-format.pipe';
 import { SearchMegadelComponent } from 'src/app/components/search-megadel/search-megadel.component';
 import { PopupMoreInfoGrowerComponent } from './popup-more-info-grower/popup-more-info-grower.component';
+import { SharedModuleModule } from '../../shared-module/shared-module.module';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { PopupMoreInfoGrowerComponent } from './popup-more-info-grower/popup-mor
     MatDialogModule,
     MatIconModule,
     NgbModule,
+    SharedModuleModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent,
     }),
@@ -71,7 +73,6 @@ import { PopupMoreInfoGrowerComponent } from './popup-more-info-grower/popup-mor
     GrowerDetailsComponent,
     PopupComponent,
     PopupOldGrowerComponent,
-    NumberFormatPipe,
     PopupMoreInfoGrowerComponent,
   ],
 
