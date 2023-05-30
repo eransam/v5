@@ -30,6 +30,7 @@ import { PopupComponent } from '../popup/popup.component';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { PopupOldGrowerComponent } from '../popup-old-grower/popup-old-grower.component';
 import { PopupMoreInfoGrowerComponent } from '../popup-more-info-grower/popup-more-info-grower.component';
+// {{ userDetails_more_info[0].v_YzYosh }}
 
 @Component({
   selector: 'app-ecommerce',
@@ -73,6 +74,7 @@ export class EcommerceComponent implements OnInit {
   theDetails: any[];
   userDetails: any[];
   userDetails_more_info: any[];
+  businessLicense: any[];
   theUserDetails: any[];
   FarmId: any[];
   siteName: any = '';
@@ -97,6 +99,7 @@ export class EcommerceComponent implements OnInit {
   arrOfOldGrower = [];
   totalMicsaKvoha = 0;
   totalMicsaToPay = 0;
+  McsRishaion_Esek_number_type:any
 
   constructor(
     private chartApiservice: ChartApiService,
@@ -121,6 +124,9 @@ export class EcommerceComponent implements OnInit {
       this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
         this.idFromurl
       );
+
+      console.log('this.userDetails: ', this.userDetails);
+
       console.log('this.userDetails in 2 screen: ', this.userDetails);
 
       this.userDetails_more_info =
@@ -135,7 +141,36 @@ export class EcommerceComponent implements OnInit {
           '%',
           '%'
         );
-      console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+
+        console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+
+       function getCurrentDateAsString(): string {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const currentDate = `${year}${month}${day}`;
+        return currentDate;
+      }
+
+      const CurrentDate = await getCurrentDateAsString();
+
+      this.businessLicense =
+        await this.megadelSearchService.Yzrn_Get_Rishaion_Esek(
+          2,
+          30,
+          this.userDetails[0].yz_yzrn,
+          CurrentDate,
+          0
+        );
+        console.log('this.businessLicense: ', this.businessLicense);
+
+        this.McsRishaion_Esek_number_type = parseFloat(this.businessLicense[0]?.McsRishaion_Esek);
+
+
+      console.log('this.McsRishaion_Esek_number_type: ', this.McsRishaion_Esek_number_type);
+
 
       this.mihsot = await this.megadelSearchService.Micsa_Select_New(
         5,
@@ -146,6 +181,7 @@ export class EcommerceComponent implements OnInit {
       );
 
       console.log('this.mihsot: ', this.mihsot);
+
       for (const iterator of this.mihsot) {
         if (
           iterator.mi_sug_mcsa === '1 ' ||
@@ -165,8 +201,6 @@ export class EcommerceComponent implements OnInit {
         ) {
           this.totalMicsaToPay += iterator.mi_kamut;
         }
-
-        console.log('totalMicsaToPay: ', this.totalMicsaToPay);
       }
 
       this.kannatNum_and_oldMegadelNum =
@@ -175,11 +209,6 @@ export class EcommerceComponent implements OnInit {
           '',
           this.userDetails[0]?.yz_yzrn
         );
-
-      console.log(
-        'this.kannatNum_and_oldMegadelNum: ',
-        this.kannatNum_and_oldMegadelNum
-      );
 
       for (let i = 0; i < this.kannatNum_and_oldMegadelNum.length; i++) {
         let item = this.kannatNum_and_oldMegadelNum[i];
@@ -190,12 +219,9 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
-      console.log('arrOfOldGrower: ', this.arrOfOldGrower);
-
       if (this.userDetails[0].length === 0) {
         this.userDetails = [];
       } else {
-        console.log('this.userDetails[0]: ', this.userDetails[0]);
         const results2 =
           await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
             this.userDetails[0].yz_yzrn
@@ -208,9 +234,7 @@ export class EcommerceComponent implements OnInit {
       }
 
       this.theUserDetails = this.userDetails[0];
-
       console.log('this.theUserDetails: ', this.theUserDetails);
-
       this.isLoading_theUserDetails = false;
 
       this.siteName = await this.megadelSearchService.get_siteName_by_yzId(

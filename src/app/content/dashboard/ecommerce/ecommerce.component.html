@@ -6,32 +6,32 @@
       <!-- eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
       <div class="row" style="direction: rtl">
         <div class="col-xl-2 col-lg-6 col-12">
-            <div class="card pull-up">
-              <div class="card-content">
-                <div class="card-body card_padding">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="info">תשלום</h3>
-                      <h6>תשלום</h6>
-                    </div>
-                    <div>
-                      <i
-                        class="icon-basket-loaded info font-large-2 float-right"
-                      ></i>
-                    </div>
+          <div class="card pull-up">
+            <div class="card-content">
+              <div class="card-body card_padding">
+                <div class="media d-flex">
+                  <div class="media-body text-left">
+                    <h3 class="info">תשלום</h3>
+                    <h6>תשלום</h6>
                   </div>
-                  <div class="mb-0 mt-1">
-                    <ngb-progressbar
-                      height="7px"
-                      width="100%"
-                      type="gradient-x-info"
-                      [value]="80"
-                    ></ngb-progressbar>
+                  <div>
+                    <i
+                      class="icon-basket-loaded info font-large-2 float-right"
+                    ></i>
                   </div>
+                </div>
+                <div class="mb-0 mt-1">
+                  <ngb-progressbar
+                    height="7px"
+                    width="100%"
+                    type="gradient-x-info"
+                    [value]="80"
+                  ></ngb-progressbar>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
@@ -146,25 +146,169 @@
       <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
       <div class="row">
         <!-- טבלה התראות ------------------------------------------------------------------------------------------------------------------------>
-        <div class="col-xl-2 col-12">
+        <div
+          class="col-xl-2 col-12"
+          style="background-color: white; height: fit-content"
+        >
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
-              <div class="card card-micsa">
+              <div class="table-responsive card-micsa">
                 <div class="card-header"></div>
                 <div class="card-content">
-                  <div class="exel_and_total">
+                  <div class="eexel_and_total">
                     <div class="importBth"></div>
                     <h1>התראות</h1>
                   </div>
-
                   <div
                     *ngIf="!isLoading_FarmDetails"
-                    class="table-responsive"
+                    class="table-container"
                     fxFlex="auto"
                     [perfectScrollbar]="config"
-                  ></div>
+                  >
+                    <table
+                      class="table table-hover border_bottom detailsTable"
+                      style="direction: rtl"
+                    >
+                      <thead class="detailsTable">
+                        <tr *ngIf="userDetails_more_info[0].v_YzYosh === 1">
+                          <th scope="col" class="border-top-0">מגדל יו''ש</th>
+                          <th scope="col" class="border-top-0">
+                            <div [ngSwitch]="userDetails_more_info[0].v_YzYosh">
+                              <span
+                                *ngSwitchCase="'1'"
+                                style="color: green; font-size: 2rem"
+                                >√</span
+                              >
+                              <span
+                                *ngSwitchDefault
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              >
+                            </div>
+                          </th>
+                        </tr>
+
+                        <tr
+                          *ngIf="userDetails_more_info[0].v_SelfGrower === '1'"
+                        >
+                          <th scope="col" class="border-top-0">
+                            מגדל גידול עצמי
+                          </th>
+                          <th scope="col" class="border-top-0">
+                            <div
+                              [ngSwitch]="userDetails_more_info[0].v_SelfGrower"
+                            >
+                              <span
+                                *ngSwitchCase="'1'"
+                                style="color: green; font-size: 2rem"
+                                >√</span
+                              >
+                              <!-- <span
+                                *ngSwitchDefault
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              > -->
+                            </div>
+                          </th>
+                        </tr>
+
+                        <tr *ngIf="userDetails_more_info[0].v_Dor_bet === '1'">
+                          <th scope="col" class="border-top-0">מגדל דור ב'</th>
+                          <th scope="col" class="border-top-0">
+                            <div
+                              [ngSwitch]="userDetails_more_info[0].v_Dor_bet"
+                            >
+                              <span
+                                *ngSwitchCase="'1'"
+                                style="color: green; font-size: 2rem"
+                                >√</span
+                              >
+                              <span
+                                *ngSwitchDefault
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              >
+                            </div>
+                          </th>
+                        </tr>
+
+                        <tr *ngIf="McsRishaion_Esek_number_type !== 0">
+                          <th scope="col" class="border-top-0">רישיון עסק</th>
+                          <th scope="col" class="border-top-0">
+                            <div [ngSwitch]="McsRishaion_Esek_number_type">
+                              <span
+                                *ngSwitchCase="0"
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              >
+                              <span
+                                *ngSwitchDefault
+                                style="color: green; font-size: 2rem"
+                                >√</span
+                              >
+                            </div>
+                          </th>
+                        </tr>
+
+                        <tr
+                          *ngIf="userDetails_more_info[0].v_SelfConsum === '1'"
+                        >
+                          <th scope="col" class="border-top-0">
+                            מגדל צריכה עמצאית
+                          </th>
+                          <th scope="col" class="border-top-0">
+                            <div
+                              [ngSwitch]="userDetails_more_info[0].v_SelfConsum"
+                            >
+                              <span
+                                *ngSwitchCase="'1'"
+                                style="color: green; font-size: 2rem"
+                                >√</span
+                              >
+                              <span
+                                *ngSwitchDefault
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              >
+                            </div>
+                          </th>
+                        </tr>
+
+                        <tr *ngIf="userDetails_more_info[0].v_SelfConsum !== 0">
+                          <th scope="col" class="border-top-0">אישור שו''ט</th>
+                          <th scope="col" class="border-top-0">
+                            <div [ngSwitch]="McsRishaion_Esek_number_type">
+                              <span
+                                *ngSwitchCase="0"
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              >
+                              <span
+                                *ngSwitchDefault
+                                style="color: green; font-size: 2rem"
+                                >בבדיקה * test eran</span
+                              >
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <!-- <tr>
+                          <td class="text-truncate row_padding">
+                            <div [ngSwitch]="userDetails_more_info[0].v_YzYosh">
+                              <span *ngSwitchCase="'1'" style="color: green"
+                                >√</span
+                              >
+                              <span *ngSwitchDefault style="color: red">X</span>
+                            </div>
+                          </td>
+                        </tr> -->
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

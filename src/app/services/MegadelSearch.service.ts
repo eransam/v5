@@ -11,14 +11,26 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
-
-  
+  async Yzrn_Get_Rishaion_Esek(
+    order: any,
+    tzrt: any,
+    yzrn: any,
+    dt: any,
+    atar_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yzrn_Get_Rishaion_Esek?order=${order}&tzrt=${tzrt}&yzrn=${yzrn}&dt=${dt}&atar_id=${atar_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
 
   async get_hiclos_by_growerId_and_farmId(
     farm_id: any,
 
     grower_id: any
-
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -28,8 +40,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-
 
   async Yzrn_Select_By_View_New(
     Order: any,
