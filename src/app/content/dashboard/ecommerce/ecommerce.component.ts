@@ -486,7 +486,7 @@ export class EcommerceComponent implements OnInit {
 
   Popup_Izavon() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'popup-dialog-OldGrower'; // Apply the CSS class to center the dialog
+    dialogConfig.panelClass = 'Popup_Izavon'; // Apply the CSS class to center the dialog
     dialogConfig.data = this.objIzavon;
     const dialogRef = this.dialog.open(PopupIzavonComponent, dialogConfig);
 
