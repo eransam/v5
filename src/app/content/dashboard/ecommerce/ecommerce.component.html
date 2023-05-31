@@ -338,7 +338,6 @@
                               √
                             </span>
                           </th>
-
                           <!-- <th
                               scope="col"
                               class="border-top-0"
@@ -365,6 +364,26 @@
                             align="left"
                             style="cursor: pointer"
                             (click)="Popup_Grower_Other_Addr()"
+                            id="Popup_Grower_Other_Addr"
+                          >
+                            <i class="fas fa-angle-left fa-lg"></i>
+                          </th>
+                        </tr>
+
+                        <!-- התראה שם מגדל ישן-->
+                        <tr *ngIf="checkOldGrowerName">
+                          <th scope="col" class="border-top-0">
+                            קיים שם מגדל ישן
+                            <span style="color: green; font-size: 2rem">
+                              √
+                            </span>
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0"
+                            align="left"
+                            style="cursor: pointer"
+                            (click)="Popup_Old_Grower_Name()"
                             id="Popup_Grower_Other_Addr"
                           >
                             <i class="fas fa-angle-left fa-lg"></i>
@@ -415,6 +434,7 @@
                   </div>
 
                   <div *ngIf="!isLoading_FarmDetails" class="table-container">
+                    <!-- טבלת מכסות ביצים  -->
                     <table
                       class="table table-hover border_bottom detailsTable"
                       style="direction: rtl"
@@ -427,8 +447,6 @@
                           <th scope="col" class="border-top-0">כמות</th>
                           <th scope="col" class="border-top-0">מתאריך</th>
                           <th scope="col" class="border-top-0">עד תאריך</th>
-                          <th scope="col" class="border-top-0">אחוז</th>
-                          <th scope="col" class="border-top-0">הערה</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -456,22 +474,56 @@
                           <td class="text-truncate row_padding">
                             {{ row.mi_date_to | date : "dd/MM/yyyy" }}
                           </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- טבלת מכסות ביצים סיום -->
 
+                    <!-- טבלת מכסות פטם -->
+                    <P style="direction: rtl">מכסות פטם:</P>
+                    <table
+                      class="table table-hover border_bottom detailsTable"
+                      style="direction: rtl"
+                    >
+                      <thead class="detailsTable">
+                        <tr>
+                          <th scope="col" class="border-top-0">סוג:</th>
+                          <th scope="col" class="border-top-0">שם סוג מכסה:</th>
+                          <th scope="col" class="border-top-0">סוג תוספת:</th>
+                          <th scope="col" class="border-top-0">כמות</th>
+                          <th scope="col" class="border-top-0">מתאריך</th>
+                          <th scope="col" class="border-top-0">עד תאריך</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of mihsotPetem">
                           <td class="text-truncate row_padding">
-                            <div *ngIf="row.mi_ahuz === 100; else elseBlock">
-                              0
-                            </div>
-
-                            <ng-template #elseBlock>
-                              {{ row.mi_ahuz }}
-                            </ng-template>
+                            {{ row.mi_sug_mcsa }}
                           </td>
+
                           <td class="text-truncate row_padding">
-                            {{ row.mi_remark }}
+                            {{ row.nameSugMcsa }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.nameSugMcsa7 }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_kamut | numberFormat }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                          </td>
+
+                          <td class="text-truncate row_padding">
+                            {{ row.mi_date_to | date : "dd/MM/yyyy" }}
                           </td>
                         </tr>
                       </tbody>
                     </table>
+                    <!-- טבלת מכסות פטם סיום-->
                   </div>
                 </div>
               </div>
@@ -596,7 +648,9 @@
                                 else elseBlock
                               "
                             >
-                              <span>אין</span>
+                              <span style="font-size: 20px !important"
+                                >אין</span
+                              >
                             </div>
                             <ng-template
                               #elseBlock

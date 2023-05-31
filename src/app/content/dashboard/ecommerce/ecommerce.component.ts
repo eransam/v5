@@ -35,6 +35,7 @@ import { PopupOldGrowerComponent } from '../popup-old-grower/popup-old-grower.co
 import { PopupMoreInfoGrowerComponent } from '../popup-more-info-grower/popup-more-info-grower.component';
 import { PopupIzavonComponent } from '../popup-izavon/popup-izavon.component';
 import { PopupGrowerOtherAddrComponent } from '../popup-grower-other-addr/popup-grower-other-addr.component';
+import { PopupOldGrowerNameComponent } from '../popup-old-grower-name/popup-old-grower-name.component';
 // {{ userDetails_more_info[0].v_YzYosh }}
 
 @Component({
@@ -94,7 +95,7 @@ export class EcommerceComponent implements OnInit {
   yzrnHead;
   kannatNum_and_oldMegadelNum = [];
   mihsot = [];
-
+  mihsotPetem = [];
   chosenYear = 2023;
   partnerData: any[];
   mcsaSum = 0;
@@ -111,7 +112,9 @@ export class EcommerceComponent implements OnInit {
   Check_v_name_kaful = false;
   check_if_Yzrn_have_Other_Addr: any[];
   objIzavon: any[];
+  oldNameGrower: any[];
   yzrn_have_other_addr = false;
+  checkOldGrowerName = false;
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -153,8 +156,21 @@ export class EcommerceComponent implements OnInit {
           '%',
           '%'
         );
-
       console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+
+      //   oldNameGrower
+      this.oldNameGrower =
+        await this.megadelSearchService.Yazran_History_Get_Data(
+          this.userDetails[0].yz_yzrn,
+          'yz_shem'
+        );
+
+      console.log('this.oldNameGrower: ', this.oldNameGrower);
+
+      // התראה של שם ישן
+      if (this.oldNameGrower[0]?.Old_Name_Yazran.length > 0) {
+        this.checkOldGrowerName = true;
+      }
 
       // v_SelfConsum_piece4 - אישור שוט וחילוץ מס האישור
       if (this.userDetails_more_info[0]?.v_SelfConsum !== 0) {
@@ -162,8 +178,7 @@ export class EcommerceComponent implements OnInit {
         this.v_SelfConsum_piece4 = pieces[3];
       }
 
-
-        //  עיזבון - בדיקה האם יש ובמידה ויש יצירת אובייקט לפופאפ
+      //  עיזבון - בדיקה האם יש ובמידה ויש יצירת אובייקט לפופאפ
       if (this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900') {
         this.checkIzavon = true;
         this.objIzavon = [
@@ -172,35 +187,31 @@ export class EcommerceComponent implements OnInit {
             v_DtPtira: this.userDetails_more_info[0]?.v_DtPtira,
           },
         ];
-
       }
 
-
-    //   v_Ben_Zug_Shutaf - בן זוג שותף התראה
-    if (this.userDetails_more_info[0]?.v_Ben_Zug_Shutaf !== '0') {
+      //   v_Ben_Zug_Shutaf - בן זוג שותף התראה
+      if (this.userDetails_more_info[0]?.v_Ben_Zug_Shutaf !== '0') {
         this.Check_Ben_Zug_Shotaf = true;
       }
-    //   v_name_kaful - כפל גידול
-    if (this.userDetails_more_info[0]?.v_name_kaful !== '0') {
+      //   v_name_kaful - כפל גידול
+      if (this.userDetails_more_info[0]?.v_name_kaful !== '0') {
         this.Check_v_name_kaful = true;
       }
 
-
       this.check_if_Yzrn_have_Other_Addr =
-      await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
-        this.userDetails[0].yz_yzrn
+        await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
+          this.userDetails[0].yz_yzrn
+        );
+      console.log('this.userDetails[0].yz_yzrn: ', this.userDetails[0].yz_yzrn);
+
+      console.log(
+        'this.check_if_Yzrn_have_Other_Addr: ',
+        this.check_if_Yzrn_have_Other_Addr
       );
-      console.log("this.userDetails[0].yz_yzrn: " , this.userDetails[0].yz_yzrn);
 
-      console.log("this.check_if_Yzrn_have_Other_Addr: " , this.check_if_Yzrn_have_Other_Addr);
-
-      if ( this.check_if_Yzrn_have_Other_Addr.length > 0) {
-        this.yzrn_have_other_addr = true
+      if (this.check_if_Yzrn_have_Other_Addr.length > 0) {
+        this.yzrn_have_other_addr = true;
       }
-
-      
-
-      
 
       function getCurrentDateAsString(): string {
         const today = new Date();
@@ -242,6 +253,20 @@ export class EcommerceComponent implements OnInit {
       );
 
       console.log('this.mihsot: ', this.mihsot);
+
+
+      this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.yz_yzrn,
+        this.chosenYear,
+        '19',
+        88
+      );
+
+      console.log('this.mihsotPetem: ', this.mihsotPetem);
+
+
+
 
       for (const iterator of this.mihsot) {
         if (
@@ -551,8 +576,11 @@ export class EcommerceComponent implements OnInit {
   Popup_Grower_Other_Addr() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'Popup_Grower_Other_Addr'; // Apply the CSS class to center the dialog
-    dialogConfig.data = this.objIzavon;
-    const dialogRef = this.dialog.open(PopupGrowerOtherAddrComponent, dialogConfig);
+    dialogConfig.data = this.check_if_Yzrn_have_Other_Addr;
+    const dialogRef = this.dialog.open(
+      PopupGrowerOtherAddrComponent,
+      dialogConfig
+    );
 
     let isSecondClick = false;
 
@@ -578,10 +606,40 @@ export class EcommerceComponent implements OnInit {
       document.removeEventListener('click', handleDocumentClick);
     });
   }
-  
 
+  Popup_Old_Grower_Name() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'Popup_Old_Grower_Name'; // Apply the CSS class to center the dialog
+    dialogConfig.data = this.oldNameGrower;
+    const dialogRef = this.dialog.open(
+      PopupOldGrowerNameComponent,
+      dialogConfig
+    );
 
+    let isSecondClick = false;
 
+    // Add event listener to the document for 'click' event
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // Handle actions when the dialog is closed
+      console.log('Dialog closed with result:', result);
+      // Perform any necessary actions based on the result
+
+      // Reset the flag when the dialog is closed
+      isSecondClick = false;
+      // Remove the event listener when the dialog is closed
+      document.removeEventListener('click', handleDocumentClick);
+    });
+  }
 
   toggleAdditionalDetails() {
     this.showAdditionalDetails = !this.showAdditionalDetails;

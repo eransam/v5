@@ -11,6 +11,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Yazran_History_Get_Data(yazran: any, Field_Name: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yazran_History_Get_Data?yazran=${yazran}&Field_Name=${Field_Name}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Yzrn_Other_Addr_Get_Data(yzrn: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
