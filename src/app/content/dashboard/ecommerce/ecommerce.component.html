@@ -302,14 +302,70 @@
 
                         <!--  עזבון -->
                         <tr *ngIf="checkIzavon">
-                          <th scope="col" class="border-top-0">קיים עיזבון</th>
+                          <th scope="col" class="border-top-0">
+                            קיים עיזבון
+                            <span style="color: green; font-size: 2rem">
+                              √
+                            </span>
+                          </th>
                           <th
                             scope="col"
                             class="border-top-0"
                             align="left"
                             style="cursor: pointer"
                             (click)="Popup_Izavon()"
-                            id="openPopup_Of_OldGrowerBtn"
+                            id="Popup_Izavon"
+                          >
+                            <i class="fas fa-angle-left fa-lg"></i>
+                          </th>
+                        </tr>
+
+                        <!--  התראה בן זוג שותף -->
+                        <tr *ngIf="Check_Ben_Zug_Shotaf">
+                          <th scope="col" class="border-top-0">
+                            קיים בן זוג שותף
+                            <span style="color: green; font-size: 2rem">
+                              √
+                            </span>
+                          </th>
+                        </tr>
+
+                        <!-- התראה כפל גידול-->
+                        <tr *ngIf="Check_v_name_kaful">
+                          <th scope="col" class="border-top-0">
+                            קיים כפל גידול
+                            <span style="color: green; font-size: 2rem">
+                              √
+                            </span>
+                          </th>
+
+                          <!-- <th
+                              scope="col"
+                              class="border-top-0"
+                              align="left"
+                              style="cursor: pointer"
+                              (click)="Popup_Izavon()"
+                              id="openPopup_Of_OldGrowerBtn"
+                            >
+                              <i class="fas fa-angle-left fa-lg"></i>
+                            </th> -->
+                        </tr>
+
+                        <!-- התראה כתובת שונה למגדל-->
+                        <tr *ngIf="yzrn_have_other_addr">
+                          <th scope="col" class="border-top-0">
+                            קיים למגדל כתובת מגורים שונה
+                            <span style="color: green; font-size: 2rem">
+                              √
+                            </span>
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0"
+                            align="left"
+                            style="cursor: pointer"
+                            (click)="Popup_Grower_Other_Addr()"
+                            id="Popup_Grower_Other_Addr"
                           >
                             <i class="fas fa-angle-left fa-lg"></i>
                           </th>

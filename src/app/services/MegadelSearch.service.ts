@@ -11,6 +11,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Yzrn_Other_Addr_Get_Data(yzrn: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yzrn_Other_Addr_Get_Data?yzrn=${yzrn}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Yzrn_Get_Rishaion_Esek(
     order: any,
     tzrt: any,
