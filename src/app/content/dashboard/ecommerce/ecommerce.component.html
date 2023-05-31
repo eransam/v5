@@ -172,6 +172,7 @@
                       style="direction: rtl"
                     >
                       <thead class="detailsTable">
+                        <!-- מגדל יוש -->
                         <tr *ngIf="userDetails_more_info[0].v_YzYosh === 1">
                           <th scope="col" class="border-top-0">מגדל יו''ש</th>
                           <th scope="col" class="border-top-0">
@@ -190,6 +191,7 @@
                           </th>
                         </tr>
 
+                        <!--מגדל גידול עצמי-->
                         <tr
                           *ngIf="userDetails_more_info[0].v_SelfGrower === '1'"
                         >
@@ -214,6 +216,7 @@
                           </th>
                         </tr>
 
+                        <!-- מגדל דור ב -->
                         <tr *ngIf="userDetails_more_info[0].v_Dor_bet === '1'">
                           <th scope="col" class="border-top-0">מגדל דור ב'</th>
                           <th scope="col" class="border-top-0">
@@ -234,6 +237,7 @@
                           </th>
                         </tr>
 
+                        <!-- רישיון עסק -->
                         <tr *ngIf="McsRishaion_Esek_number_type !== 0">
                           <th scope="col" class="border-top-0">רישיון עסק</th>
                           <th scope="col" class="border-top-0">
@@ -252,6 +256,7 @@
                           </th>
                         </tr>
 
+                        <!-- מגדל צריכה עצמית -->
                         <tr
                           *ngIf="userDetails_more_info[0].v_SelfConsum === '1'"
                         >
@@ -276,21 +281,37 @@
                           </th>
                         </tr>
 
+                        <!-- אישור שוט -->
                         <tr *ngIf="userDetails_more_info[0].v_SelfConsum !== 0">
                           <th scope="col" class="border-top-0">אישור שו''ט</th>
                           <th scope="col" class="border-top-0">
                             <div [ngSwitch]="McsRishaion_Esek_number_type">
-                              <span
+                              <!-- <span
                                 *ngSwitchCase="0"
                                 style="color: red; font-size: 2rem"
                                 >X</span
-                              >
+                              > -->
                               <span
                                 *ngSwitchDefault
                                 style="color: green; font-size: 2rem"
-                                >בבדיקה * test eran</span
+                                >{{ v_SelfConsum_piece4 }}</span
                               >
                             </div>
+                          </th>
+                        </tr>
+
+                        <!--  עזבון -->
+                        <tr *ngIf="checkIzavon">
+                          <th scope="col" class="border-top-0">קיים עיזבון</th>
+                          <th
+                            scope="col"
+                            class="border-top-0"
+                            align="left"
+                            style="cursor: pointer"
+                            (click)="Popup_Izavon()"
+                            id="openPopup_Of_OldGrowerBtn"
+                          >
+                            <i class="fas fa-angle-left fa-lg"></i>
                           </th>
                         </tr>
                       </thead>
@@ -461,7 +482,7 @@
                         <tr>
                           <td><B>נחלה</B></td>
                           <td>
-                            {{ userDetails_more_info[0].v_msk }}
+                            {{ userDetails_more_info[0]?.v_msk }}
                           </td>
                         </tr>
 
@@ -515,7 +536,7 @@
                           <td class="text-truncate row_padding">
                             <div
                               *ngIf="
-                                rows[0].pa_Counter.length === 0;
+                                rows[0]?.pa_Counter.length === 0;
                                 else elseBlock
                               "
                             >
@@ -534,14 +555,14 @@
                                 "
                                 (click)="
                                   getPartner(
-                                    rows[0].farm_id,
-                                    rows[0].active_flock_id,
-                                    rows[0].lull2000_code
+                                    rows[0]?.farm_id,
+                                    rows[0]?.active_flock_id,
+                                    rows[0]?.lull2000_code
                                   )
                                 "
                               >
-                                {{ rows[0].is_has_partner }} ({{
-                                  rows[0].cd_gidul
+                                {{ rows[0]?.is_has_partner }} ({{
+                                  rows[0]?.cd_gidul
                                 }})
                               </button>
                             </ng-template>

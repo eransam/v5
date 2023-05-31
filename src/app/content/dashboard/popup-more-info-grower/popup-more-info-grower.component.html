@@ -12,7 +12,7 @@
 
   <TR
     ><TD colspan="2">
-      <table class="table no-margin">
+      <table *ngFor="let p of data" class="table no-margin">
         <thead>
           <tr>
             <th>
@@ -31,17 +31,10 @@
             <th style="font-weight: bold; text-align: right">נחלה</th>
             <th style="font-weight: bold; text-align: right">ID ישוב</th>
             <th style="font-weight: bold; text-align: right">מיקוד</th>
-            <th style="font-weight: bold; text-align: right">שם בן זוג</th>
-            <th style="font-weight: bold; text-align: right">תז בן זוג</th>
-            <th style="font-weight: bold; text-align: right">
-              קוד בהנהלת חשבונות
-            </th>
-            <th style="font-weight: bold; text-align: right">קוד לקוח בסאפ</th>
-            <th style="font-weight: bold; text-align: right">עוסק מורשה</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let p of data">
+          <tr>
             <td>
               <div class="bordered">{{ p.v_First_Name }}</div>
             </td>
@@ -53,14 +46,10 @@
             <td>{{ p.v_msk }}</td>
             <td>{{ p.v_ysv_id }}</td>
             <td>{{ p.v_mikud }}</td>
-            <td>{{ p.v_benzug_name }}</td>
-            <td>{{ p.v_benzug_tz }}</td>
-            <td>{{ p.v_acc }}</td>
-            <td>{{ p.v_hesbon }}</td>
-            <td>{{ p.v_OsekMurshe }}</td>
           </tr>
         </tbody>
 
+        <!-- שורה חדשה -->
         <thead>
           <tr>
             <th style="font-weight: bold; text-align: right">טל</th>
@@ -76,7 +65,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let p of data">
+          <tr>
             <td>{{ p.v_tel }}</td>
             <td>{{ p.v_tel1 }}</td>
             <td>{{ p.v_ktovet }}</td>
@@ -85,6 +74,55 @@
             <td>{{ p.v_tel1 }}</td>
             <td>{{ p.v_Email }}</td>
             <td *ngIf="p.v_Email1">{{ p.v_Email1 }}</td>
+          </tr>
+        </tbody>
+
+        <!-- שורה חדשה -->
+
+        <thead>
+          <tr>
+            <th style="font-weight: bold; text-align: right">שם בן זוג</th>
+            <th style="font-weight: bold; text-align: right">תז בן זוג</th>
+            <th style="font-weight: bold; text-align: right">
+              קוד בהנהלת חשבונות
+            </th>
+            <th style="font-weight: bold; text-align: right">קוד לקוח בסאפ</th>
+            <th style="font-weight: bold; text-align: right">עוסק מורשה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div [ngSwitch]="p.v_benzug_name">
+                <span *ngSwitchDefault>{{ p.v_benzug_name }}</span>
+                <span *ngSwitchCase="''" style="color: red">X</span>
+              </div>
+            </td>
+            <td>
+              <div [ngSwitch]="p.v_benzug_tz">
+                <span *ngSwitchDefault>{{ p.v_benzug_tz }}</span>
+                <span *ngSwitchCase="''" style="color: red">X</span>
+              </div>
+            </td>
+
+            <td>
+              <div [ngSwitch]="p.v_acc">
+                <span *ngSwitchDefault>{{ p.v_acc }}</span>
+                <span *ngSwitchCase="''" style="color: red">X</span>
+              </div>
+            </td>
+            <td>
+              <div [ngSwitch]="p.v_hesbon">
+                <span *ngSwitchDefault>{{ p.v_hesbon }}</span>
+                <span *ngSwitchCase="''" style="color: red">X</span>
+              </div>
+            </td>
+            <td>
+              <div [ngSwitch]="p.v_OsekMurshe">
+                <span *ngSwitchDefault>{{ p.v_OsekMurshe }}</span>
+                <span *ngSwitchCase="''" style="color: red">X</span>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

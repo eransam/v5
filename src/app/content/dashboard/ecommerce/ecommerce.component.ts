@@ -21,6 +21,9 @@ export interface Chart {
   responsiveOptions?: any;
   events?: ChartEvent;
 }
+
+// userDetails_more_info[0].v_SelfConsum
+
 import { TableexcelService } from '../../../services/tableexcel.service';
 
 import { ActivatedRoute } from '@angular/router';
@@ -30,6 +33,7 @@ import { PopupComponent } from '../popup/popup.component';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { PopupOldGrowerComponent } from '../popup-old-grower/popup-old-grower.component';
 import { PopupMoreInfoGrowerComponent } from '../popup-more-info-grower/popup-more-info-grower.component';
+import { PopupIzavonComponent } from '../popup-izavon/popup-izavon.component';
 // {{ userDetails_more_info[0].v_YzYosh }}
 
 @Component({
@@ -99,8 +103,10 @@ export class EcommerceComponent implements OnInit {
   arrOfOldGrower = [];
   totalMicsaKvoha = 0;
   totalMicsaToPay = 0;
-  McsRishaion_Esek_number_type:any
-
+  McsRishaion_Esek_number_type: any;
+  v_SelfConsum_piece4: any;
+  checkIzavon = false;
+  objIzavon: any[];
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -129,6 +135,7 @@ export class EcommerceComponent implements OnInit {
 
       console.log('this.userDetails in 2 screen: ', this.userDetails);
 
+      //   userDetails_more_info
       this.userDetails_more_info =
         await this.megadelSearchService.Yzrn_Select_By_View_New(
           14,
@@ -142,9 +149,27 @@ export class EcommerceComponent implements OnInit {
           '%'
         );
 
-        console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+      console.log('this.userDetails_more_info: ', this.userDetails_more_info);
 
-       function getCurrentDateAsString(): string {
+      // v_SelfConsum_piece4
+      if (this.userDetails_more_info[0]?.v_SelfConsum !== 0) {
+        const pieces = this.userDetails_more_info[0]?.v_SelfConsum.split(',');
+        this.v_SelfConsum_piece4 = pieces[3];
+      }
+
+      if (this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900') {
+        this.checkIzavon = true;
+        this.objIzavon = [
+          {
+            v_dtUpdIzavon: this.userDetails_more_info[0]?.v_dtUpdIzavon,
+            v_DtPtira: this.userDetails_more_info[0]?.v_DtPtira,
+          },
+        ];
+
+        // v_dtUpdIzavon
+      }
+
+      function getCurrentDateAsString(): string {
         const today = new Date();
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -164,13 +189,16 @@ export class EcommerceComponent implements OnInit {
           CurrentDate,
           0
         );
-        console.log('this.businessLicense: ', this.businessLicense);
+      console.log('this.businessLicense: ', this.businessLicense);
 
-        this.McsRishaion_Esek_number_type = parseFloat(this.businessLicense[0]?.McsRishaion_Esek);
+      this.McsRishaion_Esek_number_type = parseFloat(
+        this.businessLicense[0]?.McsRishaion_Esek
+      );
 
-
-      console.log('this.McsRishaion_Esek_number_type: ', this.McsRishaion_Esek_number_type);
-
+      console.log(
+        'this.McsRishaion_Esek_number_type: ',
+        this.McsRishaion_Esek_number_type
+      );
 
       this.mihsot = await this.megadelSearchService.Micsa_Select_New(
         5,
@@ -300,7 +328,7 @@ export class EcommerceComponent implements OnInit {
         this.getTabledata();
       });
 
-      this.loadData(this.FarmDetails[0].grower_id);
+      this.loadData(this.FarmDetails[0]?.grower_id);
     });
   }
 
@@ -430,6 +458,37 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.panelClass = 'popup-dialog-OldGrower'; // Apply the CSS class to center the dialog
     dialogConfig.data = this.arrOfOldGrower;
     const dialogRef = this.dialog.open(PopupOldGrowerComponent, dialogConfig);
+
+    let isSecondClick = false;
+
+    // Add event listener to the document for 'click' event
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // Handle actions when the dialog is closed
+      console.log('Dialog closed with result:', result);
+      // Perform any necessary actions based on the result
+
+      // Reset the flag when the dialog is closed
+      isSecondClick = false;
+      // Remove the event listener when the dialog is closed
+      document.removeEventListener('click', handleDocumentClick);
+    });
+  }
+
+  Popup_Izavon() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog-OldGrower'; // Apply the CSS class to center the dialog
+    dialogConfig.data = this.objIzavon;
+    const dialogRef = this.dialog.open(PopupIzavonComponent, dialogConfig);
 
     let isSecondClick = false;
 

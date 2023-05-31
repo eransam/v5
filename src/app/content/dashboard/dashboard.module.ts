@@ -23,6 +23,7 @@ import { PopupOldGrowerComponent } from './popup-old-grower/popup-old-grower.com
 import { SearchMegadelComponent } from 'src/app/components/search-megadel/search-megadel.component';
 import { PopupMoreInfoGrowerComponent } from './popup-more-info-grower/popup-more-info-grower.component';
 import { SharedModuleModule } from '../../shared-module/shared-module.module';
+import { PopupIzavonComponent } from './popup-izavon/popup-izavon.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { SharedModuleModule } from '../../shared-module/shared-module.module';
     PopupComponent,
     PopupOldGrowerComponent,
     PopupMoreInfoGrowerComponent,
+    PopupIzavonComponent,
   ],
 
   exports: [RouterModule],
