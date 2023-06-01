@@ -107,6 +107,7 @@ export class EcommerceComponent implements OnInit {
   totalMicsaToPay = 0;
   McsRishaion_Esek_number_type: any;
   v_SelfConsum_piece4: any;
+  shot_confirmation: any;
   checkIzavon = false;
   Check_Ben_Zug_Shotaf = false;
   Check_v_name_kaful = false;
@@ -115,6 +116,7 @@ export class EcommerceComponent implements OnInit {
   oldNameGrower: any[];
   yzrn_have_other_addr = false;
   checkOldGrowerName = false;
+  businessLicense_all_details: any;
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -179,7 +181,10 @@ export class EcommerceComponent implements OnInit {
       }
 
       //  עיזבון - בדיקה האם יש ובמידה ויש יצירת אובייקט לפופאפ
-      if (this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900') {
+      if (
+        this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900' &&
+        this.userDetails_more_info[0]?.v_DtPtira !== ''
+      ) {
         this.checkIzavon = true;
         this.objIzavon = [
           {
@@ -197,7 +202,7 @@ export class EcommerceComponent implements OnInit {
       if (this.userDetails_more_info[0]?.v_name_kaful !== '0') {
         this.Check_v_name_kaful = true;
       }
-
+      //התראה על כתובת שונה של היצרן
       this.check_if_Yzrn_have_Other_Addr =
         await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
           this.userDetails[0].yz_yzrn
@@ -212,6 +217,7 @@ export class EcommerceComponent implements OnInit {
       if (this.check_if_Yzrn_have_Other_Addr.length > 0) {
         this.yzrn_have_other_addr = true;
       }
+      //התראה על כתובת שונה של היצרן - סיום
 
       function getCurrentDateAsString(): string {
         const today = new Date();
@@ -225,6 +231,7 @@ export class EcommerceComponent implements OnInit {
 
       const CurrentDate = await getCurrentDateAsString();
 
+      // רישיון עסק התראה
       this.businessLicense =
         await this.megadelSearchService.Yzrn_Get_Rishaion_Esek(
           2,
@@ -235,6 +242,19 @@ export class EcommerceComponent implements OnInit {
         );
       console.log('this.businessLicense: ', this.businessLicense);
 
+      const pieces = this.businessLicense[0]?.McsRishaion_Esek.split(',');
+      const piece4 = pieces[3];
+      const piece1_kamot = pieces[0];
+      const piece1_until_date = pieces[2];
+      this.businessLicense_all_details = ` רישיון עסק ${piece1_kamot}  עד ${piece1_until_date} `;
+      console.log(
+        'businessLicense_all_details: ',
+        this.businessLicense_all_details
+      );
+
+      this.shot_confirmation = pieces[3];
+      console.log('shot_confirmation: ', this.shot_confirmation);
+
       this.McsRishaion_Esek_number_type = parseFloat(
         this.businessLicense[0]?.McsRishaion_Esek
       );
@@ -243,7 +263,9 @@ export class EcommerceComponent implements OnInit {
         'this.McsRishaion_Esek_number_type: ',
         this.McsRishaion_Esek_number_type
       );
+      // רישיון עסק התראה - סיום
 
+      // מכסות ביצים
       this.mihsot = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.yz_yzrn,
@@ -253,20 +275,23 @@ export class EcommerceComponent implements OnInit {
       );
 
       console.log('this.mihsot: ', this.mihsot);
+      // מכסות ביצים - סיום
 
-
+      // מכסות פטם
       this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.yz_yzrn,
         this.chosenYear,
-        '19',
+        '10',
         88
       );
 
       console.log('this.mihsotPetem: ', this.mihsotPetem);
+      // מכסות פטם - סיום
 
-
-
+      //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
+      this.totalMicsaKvoha = 0; // Initialize the variable to 0
+      this.totalMicsaToPay = 0; // Initialize the variable to 0
 
       for (const iterator of this.mihsot) {
         if (
@@ -288,7 +313,9 @@ export class EcommerceComponent implements OnInit {
           this.totalMicsaToPay += iterator.mi_kamut;
         }
       }
+      //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום: -  סיום
 
+      // קנט ושם מגדל ישן
       this.kannatNum_and_oldMegadelNum =
         await this.megadelSearchService.YazrnExtrnl_Get_Code(
           2,
@@ -304,6 +331,7 @@ export class EcommerceComponent implements OnInit {
           i--; // Decrement the index as the array length has changed
         }
       }
+      // קנט ושם מגדל ישן -  סיום
 
       if (this.userDetails[0].length === 0) {
         this.userDetails = [];
@@ -349,8 +377,9 @@ export class EcommerceComponent implements OnInit {
           item.pa_Counter = '';
         }
       }
-      //////////////////////////////////////////
+      // הוספה לפרטי האתר שדה המכיל גידול חוץ - סיום
 
+      // הוספת שדה איכלוס -
       for (let item of this.FarmDetails) {
         let grower_id = item.grower_id;
         let farm_id = item.farm_id;
@@ -371,8 +400,7 @@ export class EcommerceComponent implements OnInit {
           item.pa_Counter = '';
         }
       }
-
-      ///////////////////////////////////////
+      // הוספת שדה איכלוס - סיום
 
       this.rows = this.FarmDetails;
       this.isLoading_FarmDetails = false;

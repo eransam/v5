@@ -239,21 +239,30 @@
 
                         <!-- רישיון עסק -->
                         <tr *ngIf="McsRishaion_Esek_number_type !== 0">
-                          <th scope="col" class="border-top-0">רישיון עסק</th>
                           <th scope="col" class="border-top-0">
+                            {{ businessLicense_all_details }}
+                          </th>
+                          <th>
+                            <div>
+                              <span style="color: green; font-size: 2rem"
+                                >√</span
+                              >
+                            </div>
+                          </th>
+
+                          <!-- <th scope="col" class="border-top-0">
                             <div [ngSwitch]="McsRishaion_Esek_number_type">
                               <span
-                                *ngSwitchCase="0"
                                 style="color: red; font-size: 2rem"
                                 >X</span
                               >
                               <span
                                 *ngSwitchDefault
                                 style="color: green; font-size: 2rem"
-                                >√</span
+                                >{{ businessLicense_all_details }}</span
                               >
                             </div>
-                          </th>
+                          </th> -->
                         </tr>
 
                         <!-- מגדל צריכה עצמית -->
@@ -282,20 +291,14 @@
                         </tr>
 
                         <!-- אישור שוט -->
-                        <tr *ngIf="userDetails_more_info[0].v_SelfConsum !== 0">
-                          <th scope="col" class="border-top-0">אישור שו''ט</th>
-                          <th scope="col" class="border-top-0">
-                            <div [ngSwitch]="McsRishaion_Esek_number_type">
-                              <!-- <span
-                                *ngSwitchCase="0"
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              > -->
-                              <span
-                                *ngSwitchDefault
-                                style="color: green; font-size: 2rem"
-                                >{{ v_SelfConsum_piece4 }}</span
-                              >
+                        <tr *ngIf="shot_confirmation === '1'">
+                          <th scope="col" class="border-top-0">אישור שוט</th>
+
+                          <th>
+                            <div>
+                              <span style="color: green; font-size: 2rem">
+                                √
+                              </span>
                             </div>
                           </th>
                         </tr>
@@ -303,7 +306,7 @@
                         <!--  עזבון -->
                         <tr *ngIf="checkIzavon">
                           <th scope="col" class="border-top-0">
-                            קיים עיזבון
+                             עיזבון
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -323,7 +326,7 @@
                         <!--  התראה בן זוג שותף -->
                         <tr *ngIf="Check_Ben_Zug_Shotaf">
                           <th scope="col" class="border-top-0">
-                            קיים בן זוג שותף
+                             בן זוג שותף
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -333,7 +336,7 @@
                         <!-- התראה כפל גידול-->
                         <tr *ngIf="Check_v_name_kaful">
                           <th scope="col" class="border-top-0">
-                            קיים כפל גידול
+                             כפל גידול
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -373,7 +376,7 @@
                         <!-- התראה שם מגדל ישן-->
                         <tr *ngIf="checkOldGrowerName">
                           <th scope="col" class="border-top-0">
-                            קיים שם מגדל ישן
+                             שם מגדל ישן
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
