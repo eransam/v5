@@ -52,7 +52,6 @@ export class EcommerceComponent implements OnInit {
   @ViewChild(PerfectScrollbarDirective)
   directiveRef?: PerfectScrollbarDirective;
 
-  idFromurl: any;
   modalGrowerID;
   showAdditionalDetails: boolean = false;
 
@@ -117,6 +116,11 @@ export class EcommerceComponent implements OnInit {
   yzrn_have_other_addr = false;
   checkOldGrowerName = false;
   businessLicense_all_details: any;
+  idFromurl: any;
+  farmID2Fromurl: any;
+  flockID2Fromurl: any;
+  mainGrower: any[];
+  pa_CounterShotaf: any;
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -131,8 +135,12 @@ export class EcommerceComponent implements OnInit {
 
   async ngOnInit() {
     this.route2.params.subscribe(async (params) => {
+      this.farmID2Fromurl = params['farmid'];
+      this.flockID2Fromurl = params['flockid'];
       this.idFromurl = params['id'];
       console.log('idFromurl:', this.idFromurl);
+      console.log('flockID2Fromurl:', this.flockID2Fromurl);
+      console.log('farmID2Fromurl:', this.farmID2Fromurl);
 
       // Call any necessary functions or perform logic based on the new parameter value
       this.refreshComponent();
@@ -140,10 +148,7 @@ export class EcommerceComponent implements OnInit {
       this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
         this.idFromurl
       );
-
       console.log('this.userDetails: ', this.userDetails);
-
-      console.log('this.userDetails in 2 screen: ', this.userDetails);
 
       //   userDetails_more_info
       this.userDetails_more_info =
@@ -333,6 +338,7 @@ export class EcommerceComponent implements OnInit {
       }
       // קנט ושם מגדל ישן -  סיום
 
+      //   חילוץ מס קבוצת גידול חוץ
       if (this.userDetails[0].length === 0) {
         this.userDetails = [];
       } else {
@@ -346,21 +352,48 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].pa_Counter = '';
         }
       }
+      //   חילוץ מס קבוצת גידול חוץ -  סיום
 
       this.theUserDetails = this.userDetails[0];
-      console.log('this.theUserDetails: ', this.theUserDetails);
+
+      //   סיום הלואודינג
       this.isLoading_theUserDetails = false;
 
+      //   חילוץ מס האתר ע'י האיידי של המגדל
       this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
         this.idFromurl
       );
 
-      if (this.siteName) {
+      console.log('this.siteName: ', this.siteName);
+
+      //   חילוץ מס האתר ע'י האיידי של המגדל - סיום
+
+      if (this.siteName.length > 0) {
+        // FarmId חילוץ
         this.FarmId = await this.getFarmIdArr(this.siteName);
         console.log('this.FarmId-end: ', this.FarmId);
+        //סיום - FarmId חילוץ
+
+        // חילוץ פרטי אתר עי הפארם איידי
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
         console.log('this.FarmDetails-end: ', this.FarmDetails);
+      } else {
+        this.mainGrower =
+          await this.megadelSearchService.Partners_Get_CodeGidul(
+            11,
+            this.userDetails[0].yz_yzrn,
+            30,
+            2023
+          );
+
+        const thefarmdet = await this.getFarmDetailsArr([
+          this.mainGrower[0].atar_id,
+        ]);
+        console.log('thefarmdet3: ', thefarmdet);
+
+        this.FarmDetails = thefarmdet;
       }
+      // חילוץ פרטי אתר עי הפארם איידי -  סיום
 
       this.totalFarms = this.FarmDetails.length;
 
@@ -402,7 +435,10 @@ export class EcommerceComponent implements OnInit {
       }
       // הוספת שדה איכלוס - סיום
 
+      console.log('this.FarmDetails with hiclos: ', this.FarmDetails);
+
       this.rows = this.FarmDetails;
+
       this.isLoading_FarmDetails = false;
 
       this.chartApiservice.getEcommerceData().subscribe((Response) => {
@@ -414,7 +450,7 @@ export class EcommerceComponent implements OnInit {
         this.getTabledata();
       });
 
-      this.loadData(this.FarmDetails[0]?.grower_id);
+      this.loadData(this.userDetails[0]?.yz_Id);
     });
   }
 
@@ -428,36 +464,89 @@ export class EcommerceComponent implements OnInit {
   }
 
   async getPartner(farmID, flockID, lull2000Code) {
-    this.partnerData = await this.megadelSearchService.getPartner(
-      farmID,
-      flockID,
-      lull2000Code
-    );
-    this.mcsaSum = 0;
-    this.eggSum = 0;
-    this.certificateSum = 0;
+    console.log('ccc: ', farmID, ' ', flockID, ' ', lull2000Code);
+    if (farmID === null || flockID === null || lull2000Code === null) {
+      this.mainGrower = await this.megadelSearchService.Partners_Get_CodeGidul(
+        11,
+        this.userDetails[0].yz_yzrn,
+        30,
+        2023
+      );
 
-    for (var i = 0; i < this.partnerData.length; i++) {
-      this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
-      this.certificateSum += parseFloat(this.partnerData[i]['certificate_sum']);
-      this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+      const thefarmdet = await this.getFarmDetailsArr([
+        this.mainGrower[0].atar_id,
+      ]);
+
+      this.partnerData = await this.megadelSearchService.getPartner(
+        thefarmdet[0]?.farm_id,
+        thefarmdet[0]?.active_flock_id,
+        thefarmdet[0]?.lull2000_code
+      );
+      console.log('this.partnerData5: ', this.partnerData);
+
+      this.mcsaSum = 0;
+      this.eggSum = 0;
+      this.certificateSum = 0;
+
+      for (var i = 0; i < this.partnerData.length; i++) {
+        this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+        this.certificateSum += parseFloat(
+          this.partnerData[i]['certificate_sum']
+        );
+        this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+      }
+
+      console.log('this.mcsaSum: ', this.mcsaSum);
+      console.log('this.certificateSum: ', this.certificateSum);
+      console.log('this.eggSum: ', this.eggSum);
+      let obj = {
+        mcsaSum: this.mcsaSum,
+        certificateSum: this.certificateSum,
+        eggSum: this.eggSum,
+      };
+
+      this.partnerData.push({ obj2: obj, farmID2: farmID, flockID2: flockID });
+
+      console.log('this.partnerData: ', this.partnerData);
+
+      console.log();
+
+      await this.openPopup();
+    } else {
+      this.partnerData = await this.megadelSearchService.getPartner(
+        farmID,
+        flockID,
+        lull2000Code
+      );
+      this.mcsaSum = 0;
+      this.eggSum = 0;
+      this.certificateSum = 0;
+
+      for (var i = 0; i < this.partnerData.length; i++) {
+        this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+        this.certificateSum += parseFloat(
+          this.partnerData[i]['certificate_sum']
+        );
+        this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+      }
+
+      console.log('this.mcsaSum: ', this.mcsaSum);
+      console.log('this.certificateSum: ', this.certificateSum);
+      console.log('this.eggSum: ', this.eggSum);
+      let obj = {
+        mcsaSum: this.mcsaSum,
+        certificateSum: this.certificateSum,
+        eggSum: this.eggSum,
+      };
+
+      this.partnerData.push({ obj2: obj, farmID2: farmID, flockID2: flockID });
+
+      console.log('this.partnerData: ', this.partnerData);
+
+      console.log();
+
+      await this.openPopup();
     }
-
-    console.log('this.mcsaSum: ', this.mcsaSum);
-    console.log('this.certificateSum: ', this.certificateSum);
-    console.log('this.eggSum: ', this.eggSum);
-    let obj = {
-      mcsaSum: this.mcsaSum,
-      certificateSum: this.certificateSum,
-      eggSum: this.eggSum,
-    };
-
-    this.partnerData.push({ obj2: obj });
-    console.log('this.partnerData: ', this.partnerData);
-
-    console.log();
-
-    await this.openPopup();
   }
 
   openPopup() {

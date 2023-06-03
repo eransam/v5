@@ -49,6 +49,10 @@ import { PopupOldGrowerNameComponent } from './popup-old-grower-name/popup-old-g
         path: 'ecommerce/:id',
         component: EcommerceComponent,
       },
+      {
+        path: 'ecommerce/:id/:flockid/:farmid',
+        component: EcommerceComponent,
+      },
 
       {
         path: 'GrowerDetailsComponent',

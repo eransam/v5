@@ -34,9 +34,15 @@
             [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
           >
             <td>{{ p.start_date }}</td>
-
             <td>
-              <a [routerLink]="['/dashboard/ecommerce', p.id]">
+              <a
+                [routerLink]="[
+                  '/dashboard/ecommerce',
+                  p.id,
+                  data[data.length - 1].farmID2,
+                  data[data.length - 1].flockID2
+                ]"
+              >
                 {{ p.grower_name }}
               </a>
             </td>

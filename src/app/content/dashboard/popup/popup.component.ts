@@ -17,7 +17,7 @@ export class PopupComponent implements OnInit {
     public router: Router
   ) {
     console.log('data in constractor: ', data);
-    console.log('typeof data[0].id: ', typeof data[0].id);
+    // console.log('typeof data[0].id: ', typeof data[0].id);
   }
 
   async ngOnInit() {

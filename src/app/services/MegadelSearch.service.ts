@@ -11,6 +11,19 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+// מביא מגדל ראשי ופרטי קבוצת גידול חוץ
+  async Partners_Get_CodeGidul(order: any, start_code_yzrn: any, start_tzrt: any, start_year: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Partners_Get_CodeGidul?order=${order}&start_code_yzrn=${start_code_yzrn}&start_tzrt=${start_tzrt}&start_year=${start_year}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+
+//   שם ישן של מגדל
   async Yazran_History_Get_Data(yazran: any, Field_Name: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
