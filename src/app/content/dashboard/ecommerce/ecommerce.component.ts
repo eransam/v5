@@ -95,7 +95,10 @@ export class EcommerceComponent implements OnInit {
   kannatNum_and_oldMegadelNum = [];
   mihsot = [];
   mihsotPetem = [];
-  chosenYear = 2023;
+  mihsotHodim = [];
+  chosenYear: any = 2023;
+  years: string[] = ['2020', '2021', '2022', '2023'];
+
   partnerData: any[];
   mcsaSum = 0;
   certificateSum = 0;
@@ -279,7 +282,7 @@ export class EcommerceComponent implements OnInit {
         88
       );
 
-      console.log('this.mihsot: ', this.mihsot);
+      console.log('this.mihsot.length: ', this.mihsot.length);
       // מכסות ביצים - סיום
 
       // מכסות פטם
@@ -293,6 +296,18 @@ export class EcommerceComponent implements OnInit {
 
       console.log('this.mihsotPetem: ', this.mihsotPetem);
       // מכסות פטם - סיום
+
+      // מכסות הודים
+      this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.yz_yzrn,
+        this.chosenYear,
+        '01',
+        88
+      );
+
+      console.log('this.mihsotPetem: ', this.mihsotHodim);
+      // מכסות הודים - סיום
 
       //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
       this.totalMicsaKvoha = 0; // Initialize the variable to 0
@@ -383,7 +398,7 @@ export class EcommerceComponent implements OnInit {
             11,
             this.userDetails[0].yz_yzrn,
             30,
-            2023
+            this.chosenYear
           );
 
         const thefarmdet = await this.getFarmDetailsArr([
@@ -455,6 +470,69 @@ export class EcommerceComponent implements OnInit {
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+
+  async onYearChange() {
+    // מכסות ביצים
+    this.mihsot = await this.megadelSearchService.Micsa_Select_New(
+      5,
+      this.userDetails[0]?.yz_yzrn,
+      this.chosenYear,
+      '30 - ביצי מאכל',
+      88
+    );
+
+    console.log('this.mihsot.length: ', this.mihsot.length);
+    // מכסות ביצים - סיום
+
+    // מכסות פטם
+    this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
+      5,
+      this.userDetails[0]?.yz_yzrn,
+      this.chosenYear,
+      '10',
+      88
+    );
+
+    console.log('this.mihsotPetem: ', this.mihsotPetem);
+    // מכסות פטם - סיום
+
+    // מכסות הודים
+    this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
+      5,
+      this.userDetails[0]?.yz_yzrn,
+      this.chosenYear,
+      '01',
+      88
+    );
+
+    console.log('this.mihsotPetem: ', this.mihsotHodim);
+    // מכסות הודים - סיום
+
+    this.totalMicsaKvoha = 0; // Initialize the variable to 0
+    this.totalMicsaToPay = 0; // Initialize the variable to 0
+
+    for (const iterator of this.mihsot) {
+      if (
+        iterator.mi_sug_mcsa === '1 ' ||
+        iterator.mi_sug_mcsa === '2 ' ||
+        iterator.mi_sug_mcsa === '3 ' ||
+        iterator.mi_sug_mcsa === '1' ||
+        iterator.mi_sug_mcsa === '2' ||
+        iterator.mi_sug_mcsa === '3'
+      ) {
+        this.totalMicsaKvoha += iterator.mi_kamut;
+      }
+      if (
+        iterator.mi_sug_mcsa === '4 ' ||
+        iterator.mi_sug_mcsa === '4' ||
+        iterator.mi_sug_mcsa === '11' ||
+        iterator.mi_sug_mcsa === '11 '
+      ) {
+        this.totalMicsaToPay += iterator.mi_kamut;
+      }
+    }
+  }
+
   refreshComponent() {
     // Implement the logic that needs to be executed when the parameter value changes
     this.isLoading_theUserDetails = true;
@@ -470,7 +548,7 @@ export class EcommerceComponent implements OnInit {
         11,
         this.userDetails[0].yz_yzrn,
         30,
-        2023
+        this.chosenYear
       );
 
       const thefarmdet = await this.getFarmDetailsArr([

@@ -16,6 +16,8 @@
         <thead>
           <tr>
             <th style="font-weight: bold; text-align: right">תחילת שותפות</th>
+            <th style="font-weight: bold; text-align: right">סיום שותפות</th>
+
             <th style="font-weight: bold; text-align: right">שם מגדל</th>
             <th style="font-weight: bold; text-align: right">מס מגדל</th>
 
@@ -34,6 +36,8 @@
             [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
           >
             <td>{{ p.start_date }}</td>
+            <td>{{ p.end_date }}</td>
+
             <td>
               <a
                 [routerLink]="[

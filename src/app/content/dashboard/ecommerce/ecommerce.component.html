@@ -306,7 +306,7 @@
                         <!--  עזבון -->
                         <tr *ngIf="checkIzavon">
                           <th scope="col" class="border-top-0">
-                             עיזבון
+                            עיזבון
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -326,7 +326,7 @@
                         <!--  התראה בן זוג שותף -->
                         <tr *ngIf="Check_Ben_Zug_Shotaf">
                           <th scope="col" class="border-top-0">
-                             בן זוג שותף
+                            בן זוג שותף
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -336,7 +336,7 @@
                         <!-- התראה כפל גידול-->
                         <tr *ngIf="Check_v_name_kaful">
                           <th scope="col" class="border-top-0">
-                             כפל גידול
+                            כפל גידול
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -376,7 +376,7 @@
                         <!-- התראה שם מגדל ישן-->
                         <tr *ngIf="checkOldGrowerName">
                           <th scope="col" class="border-top-0">
-                             שם מגדל ישן
+                            שם מגדל ישן
                             <span style="color: green; font-size: 2rem">
                               √
                             </span>
@@ -433,100 +433,195 @@
                         סה''כ מכסה לתשלום: {{ totalMicsaToPay | numberFormat }}
                       </p>
                     </div>
-                    <h1>מכסת ביצים</h1>
+                  </div>
+                  <div class="year-select rtl_Style">
+                    בחר שנה:
+                    <select [(ngModel)]="chosenYear" (change)="onYearChange()">
+                      <option *ngFor="let year of years" [value]="year">
+                        {{ year }}
+                      </option>
+                    </select>
                   </div>
 
                   <div *ngIf="!isLoading_FarmDetails" class="table-container">
                     <!-- טבלת מכסות ביצים  -->
-                    <table
-                      class="table table-hover border_bottom detailsTable"
-                      style="direction: rtl"
-                    >
-                      <thead class="detailsTable">
+                    <div *ngIf="mihsot.length > 0">
+                      <div class="rtl_Style">
                         <tr>
-                          <th scope="col" class="border-top-0">סוג:</th>
-                          <th scope="col" class="border-top-0">שם סוג מכסה:</th>
-                          <th scope="col" class="border-top-0">סוג תוספת:</th>
-                          <th scope="col" class="border-top-0">כמות</th>
-                          <th scope="col" class="border-top-0">מתאריך</th>
-                          <th scope="col" class="border-top-0">עד תאריך</th>
+                          <td style="margin-left: 50px">
+                            <h3 class="rtl_Style">מכסת ביצים :</h3>
+                          </td>
+
+                          <td><B>ג''ח</B></td>
+                          <td class="text-truncate row_padding">
+                            <div
+                              *ngIf="
+                                rows[0]?.pa_Counter.length === 0;
+                                else elseBlock
+                              "
+                            >
+                              <span style="font-size: 20px !important"
+                                >אין</span
+                              >
+                            </div>
+                            <ng-template
+                              #elseBlock
+                              style="padding: none !important"
+                            >
+                              <button
+                                id="gidolHotzBtn"
+                                style="
+                                  color: blue;
+                                  background-color: white !important;
+                                  border: none;
+                                "
+                                (click)="
+                                  getPartner(
+                                    rows[0]?.farm_id,
+                                    rows[0]?.active_flock_id,
+                                    rows[0]?.lull2000_code
+                                  )
+                                "
+                              >
+                                {{ rows[0]?.is_has_partner }} ({{
+                                  rows[0]?.cd_gidul
+                                }})
+                              </button>
+                            </ng-template>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of mihsot">
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_sug_mcsa }}
-                          </td>
+                      </div>
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsot">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.nameSugMcsa }}
-                          </td>
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.nameSugMcsa7 }}
-                          </td>
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_kamut | numberFormat }}
-                          </td>
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_date_from | date : "dd/MM/yyyy" }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_date_to | date : "dd/MM/yyyy" }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                     <!-- טבלת מכסות ביצים סיום -->
 
                     <!-- טבלת מכסות פטם -->
-                    <P style="direction: rtl">מכסות פטם:</P>
-                    <table
-                      class="table table-hover border_bottom detailsTable"
-                      style="direction: rtl"
-                    >
-                      <thead class="detailsTable">
-                        <tr>
-                          <th scope="col" class="border-top-0">סוג:</th>
-                          <th scope="col" class="border-top-0">שם סוג מכסה:</th>
-                          <th scope="col" class="border-top-0">סוג תוספת:</th>
-                          <th scope="col" class="border-top-0">כמות</th>
-                          <th scope="col" class="border-top-0">מתאריך</th>
-                          <th scope="col" class="border-top-0">עד תאריך</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of mihsotPetem">
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_sug_mcsa }}
-                          </td>
+                    <div *ngIf="mihsotPetem.length > 0">
+                      <h3 class="rtl_Style">מכסת פטם</h3>
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsotPetem">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.nameSugMcsa }}
-                          </td>
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.nameSugMcsa7 }}
-                          </td>
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_kamut | numberFormat }}
-                          </td>
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
 
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_date_from | date : "dd/MM/yyyy" }}
-                          </td>
-
-                          <td class="text-truncate row_padding">
-                            {{ row.mi_date_to | date : "dd/MM/yyyy" }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                     <!-- טבלת מכסות פטם סיום-->
+
+                    <!-- טבלת מכסות הודים -->
+                    <div *ngIf="mihsotHodim.length > 0">
+                      <h3 class="rtl_Style">מכסת הודים</h3>
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsotHodim">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- טבלת מכסות הודים סיום-->
                   </div>
                 </div>
               </div>
