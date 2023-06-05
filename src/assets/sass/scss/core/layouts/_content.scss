@@ -431,3 +431,11 @@ body div.cdk-overlay-container .Popup_Old_Grower_Name {
   transform: translate(-50%, -50%);
   margin: auto;
 }
+body {
+  zoom: 0.75;
+}
+// ממרכז את המסך השני
+html body .content .content-wrapper {
+  padding: 2.1rem 1rem 0rem 7rem;
+  overflow: hidden;
+}

@@ -23,37 +23,37 @@
 
             <!-- <th style="font-weight: bold; text-align: right;" *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">מס' אכלוס פרגיות</th> -->
 
-            <th style="font-weight: bold; text-align: right">מכסה</th>
+            <!-- <th style="font-weight: bold; text-align: right">מכסה</th> -->
             <th style="font-weight: bold; text-align: right">אחוז</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let p of data"
+            *ngFor="let p of data[0].partners"
             [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
           >
-            <td>{{ p.start_date }}</td>
-            <td>{{ p.end_date }}</td>
+            <td>{{ p.date_from }}</td>
+            <td>{{ p.date_to }}</td>
 
             <td>
               <a
                 [routerLink]="[
                   '/dashboard/ecommerce',
-                  p.id,
-                  data[data.length - 1].farmID2,
-                  data[data.length - 1].flockID2
+                  p.Id_Shutaf,
+                  data[data.length - 1]?.farmID2,
+                  data[data.length - 1]?.flockID2
                 ]"
               >
-                {{ p.grower_name }}
+                {{ p.v_shem_yzrn }}
               </a>
             </td>
 
-            <td>{{ p.lull2000_code }}</td>
+            <td>{{ p.yzrn }}</td>
 
             <!-- <td>{{ p.certificate_sum | number : "0.0" }}</td> -->
-            <td>{{ p.mcsa_sum | number : "0.0" }}</td>
+            <!-- <td>{{ p.mcsa_sum | number : "0.0" }}</td> -->
             <td>
-              {{ p.percent_ | number : "0.0" }}
+              {{ p.AhzIclus | number : "0.0" }}
             </td>
 
             <td class="no-wrap-test-eran">
@@ -64,16 +64,16 @@
               >
             </td>
           </tr>
-          <TR>
+          <!-- <TR>
             <TD colspan="3"></TD>
             <TD>{{ certificateSum | number : "0.0" }}</TD>
             <TD>{{ data[data.length - 1].obj2.mcsaSum | number : "0.0" }} </TD>
-            <!-- <TD>{{ data[data.length - 1].obj2.eggSum | number : "0.0" }} </TD> -->
             <TD>100% </TD>
 
             <TD colspan="2"></TD>
-          </TR>
+          </TR> -->
         </tbody>
-      </table> </TD
-  ></TR>
+      </table>
+    </TD></TR
+  >
 </table>

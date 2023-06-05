@@ -22,8 +22,6 @@ export interface Chart {
   events?: ChartEvent;
 }
 
-// userDetails_more_info[0].v_SelfConsum
-
 import { TableexcelService } from '../../../services/tableexcel.service';
 
 import { ActivatedRoute } from '@angular/router';
@@ -36,7 +34,7 @@ import { PopupMoreInfoGrowerComponent } from '../popup-more-info-grower/popup-mo
 import { PopupIzavonComponent } from '../popup-izavon/popup-izavon.component';
 import { PopupGrowerOtherAddrComponent } from '../popup-grower-other-addr/popup-grower-other-addr.component';
 import { PopupOldGrowerNameComponent } from '../popup-old-grower-name/popup-old-grower-name.component';
-// {{ userDetails_more_info[0].v_YzYosh }}
+import { PopupPetemPartnersComponent } from '../popup-petem-partners/popup-petem-partners.component';
 
 @Component({
   selector: 'app-ecommerce',
@@ -124,6 +122,9 @@ export class EcommerceComponent implements OnInit {
   flockID2Fromurl: any;
   mainGrower: any[];
   pa_CounterShotaf: any;
+  check = 0;
+  arrPartnersPetem: any[] = [];
+
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -137,6 +138,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.checkOldGrowerName = false;
     this.route2.params.subscribe(async (params) => {
       this.farmID2Fromurl = params['farmid'];
       this.flockID2Fromurl = params['flockid'];
@@ -411,6 +413,7 @@ export class EcommerceComponent implements OnInit {
       // חילוץ פרטי אתר עי הפארם איידי -  סיום
 
       this.totalFarms = this.FarmDetails.length;
+      console.log('this.totalFarms: ', this.totalFarms);
 
       // הוספה לפרטי האתר שדה המכיל גידול חוץ
       for (let item of this.FarmDetails) {
@@ -431,6 +434,24 @@ export class EcommerceComponent implements OnInit {
       for (let item of this.FarmDetails) {
         let grower_id = item.grower_id;
         let farm_id = item.farm_id;
+
+        const checkPartners =
+          await this.megadelSearchService.Partners_By_Farm_Select(
+            7,
+            item.farm_code,
+            '19',
+            '',
+            '20180101',
+            '99991231'
+          );
+        console.log('checkPartners: ', checkPartners);
+        if (checkPartners.length > 1) {
+          this.arrPartnersPetem.push({
+            numGroup: item.farm_code,
+            partners: checkPartners,
+          });
+          console.log(' this.arrPartnersPetem: ', this.arrPartnersPetem);
+        }
 
         const results2 =
           await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
@@ -470,6 +491,42 @@ export class EcommerceComponent implements OnInit {
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+
+  isFirstUniqueValue(obj: any, currentIndex: number): boolean {
+    for (let i = 0; i < currentIndex; i++) {
+      if (
+        this.rows[i].is_has_partner === obj.is_has_partner &&
+        this.rows[i].cd_gidul === obj.cd_gidul
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isLastUniqueValue(obj: any, currentIndex: number): boolean {
+    for (let i = currentIndex + 1; i < this.rows.length; i++) {
+      if (
+        this.rows[i].is_has_partner === obj.is_has_partner &&
+        this.rows[i].cd_gidul === obj.cd_gidul
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+  hasMultipleUniqueValues(obj: any): boolean {
+    let count = 0;
+    for (let row of this.rows) {
+      if (
+        row.is_has_partner === obj.is_has_partner &&
+        row.cd_gidul === obj.cd_gidul
+      ) {
+        count++;
+      }
+    }
+    return count > 1;
+  }
 
   async onYearChange() {
     // מכסות ביצים
@@ -541,89 +598,113 @@ export class EcommerceComponent implements OnInit {
     // Perform any other necessary operations or API calls based on the new parameter value
   }
 
-  async getPartner(farmID, flockID, lull2000Code) {
-    console.log('ccc: ', farmID, ' ', flockID, ' ', lull2000Code);
-    if (farmID === null || flockID === null || lull2000Code === null) {
-      this.mainGrower = await this.megadelSearchService.Partners_Get_CodeGidul(
-        11,
-        this.userDetails[0].yz_yzrn,
-        30,
-        this.chosenYear
-      );
+  //    rows[0]?.farm_id,
+  //   rows[0]?.active_flock_id,
+  //   rows[0]?.lull2000_code
 
-      const thefarmdet = await this.getFarmDetailsArr([
-        this.mainGrower[0].atar_id,
-      ]);
+  async getPartner(allTheFarmDet) {
+    console.log('allTheFarmDet: ', allTheFarmDet);
 
-      this.partnerData = await this.megadelSearchService.getPartner(
-        thefarmdet[0]?.farm_id,
-        thefarmdet[0]?.active_flock_id,
-        thefarmdet[0]?.lull2000_code
-      );
-      console.log('this.partnerData5: ', this.partnerData);
+    // console.log('ccc: ', farmID, ' ', flockID, ' ', lull2000Code);
+    for (const obj2 of allTheFarmDet) {
+      if (
+        obj2?.farm_id === null ||
+        obj2?.active_flock_id === null ||
+        obj2?.lull2000_code === null
+      ) {
+        this.mainGrower =
+          await this.megadelSearchService.Partners_Get_CodeGidul(
+            11,
+            this.userDetails[0].yz_yzrn,
+            30,
+            this.chosenYear
+          );
 
-      this.mcsaSum = 0;
-      this.eggSum = 0;
-      this.certificateSum = 0;
+        const thefarmdet = await this.getFarmDetailsArr([
+          this.mainGrower[0].atar_id,
+        ]);
 
-      for (var i = 0; i < this.partnerData.length; i++) {
-        this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
-        this.certificateSum += parseFloat(
-          this.partnerData[i]['certificate_sum']
+        this.partnerData = await this.megadelSearchService.getPartner(
+          thefarmdet[0]?.farm_id,
+          thefarmdet[0]?.active_flock_id,
+          thefarmdet[0]?.lull2000_code
         );
-        this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
-      }
+        console.log('this.partnerData5: ', this.partnerData);
 
-      console.log('this.mcsaSum: ', this.mcsaSum);
-      console.log('this.certificateSum: ', this.certificateSum);
-      console.log('this.eggSum: ', this.eggSum);
-      let obj = {
-        mcsaSum: this.mcsaSum,
-        certificateSum: this.certificateSum,
-        eggSum: this.eggSum,
-      };
+        this.mcsaSum = 0;
+        this.eggSum = 0;
+        this.certificateSum = 0;
 
-      this.partnerData.push({ obj2: obj, farmID2: farmID, flockID2: flockID });
+        for (var i = 0; i < this.partnerData.length; i++) {
+          this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+          this.certificateSum += parseFloat(
+            this.partnerData[i]['certificate_sum']
+          );
+          this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+        }
 
-      console.log('this.partnerData: ', this.partnerData);
+        console.log('this.mcsaSum: ', this.mcsaSum);
+        console.log('this.certificateSum: ', this.certificateSum);
+        console.log('this.eggSum: ', this.eggSum);
+        let obj = {
+          mcsaSum: this.mcsaSum,
+          certificateSum: this.certificateSum,
+          eggSum: this.eggSum,
+        };
 
-      console.log();
+        this.partnerData.push({
+          obj2: obj,
+          farmID2: obj2?.farm_id,
+          flockID2: obj2?.active_flock_id,
+        });
 
-      await this.openPopup();
-    } else {
-      this.partnerData = await this.megadelSearchService.getPartner(
-        farmID,
-        flockID,
-        lull2000Code
-      );
-      this.mcsaSum = 0;
-      this.eggSum = 0;
-      this.certificateSum = 0;
+        console.log('this.partnerData in if of for: ', this.partnerData);
 
-      for (var i = 0; i < this.partnerData.length; i++) {
-        this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
-        this.certificateSum += parseFloat(
-          this.partnerData[i]['certificate_sum']
+        console.log();
+
+        await this.openPopup();
+      } else {
+        this.partnerData = await this.megadelSearchService.getPartner(
+          obj2?.farm_id,
+          obj2?.active_flock_id,
+          obj2?.lull2000_code
         );
-        this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+
+        console.log('this.partnerData in the else: ', this.partnerData);
+
+        this.mcsaSum = 0;
+        this.eggSum = 0;
+        this.certificateSum = 0;
+
+        for (var i = 0; i < this.partnerData.length; i++) {
+          this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+          this.certificateSum += parseFloat(
+            this.partnerData[i]['certificate_sum']
+          );
+          this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+        }
+
+        console.log('this.mcsaSum: ', this.mcsaSum);
+        console.log('this.certificateSum: ', this.certificateSum);
+        console.log('this.eggSum: ', this.eggSum);
+        let obj = {
+          mcsaSum: this.mcsaSum,
+          certificateSum: this.certificateSum,
+          eggSum: this.eggSum,
+        };
+
+        this.partnerData.push({
+          obj2: obj,
+          farmID2: obj2?.farm_id,
+          flockID2: obj2?.active_flock_id,
+        });
+
+        console.log('this.partnerData in else of for: ', this.partnerData);
+
+        console.log();
+
+        await this.openPopup();
       }
-
-      console.log('this.mcsaSum: ', this.mcsaSum);
-      console.log('this.certificateSum: ', this.certificateSum);
-      console.log('this.eggSum: ', this.eggSum);
-      let obj = {
-        mcsaSum: this.mcsaSum,
-        certificateSum: this.certificateSum,
-        eggSum: this.eggSum,
-      };
-
-      this.partnerData.push({ obj2: obj, farmID2: farmID, flockID2: flockID });
-
-      console.log('this.partnerData: ', this.partnerData);
-
-      console.log();
-
-      await this.openPopup();
     }
   }
 
@@ -664,6 +745,50 @@ export class EcommerceComponent implements OnInit {
       buttonElement.removeEventListener('click', handleButtonClick);
     });
   }
+
+
+  open_PopupPetemPartnersComponent() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog';
+    dialogConfig.data = this.arrPartnersPetem;
+    const dialogRef = this.dialog.open(PopupPetemPartnersComponent, dialogConfig);
+
+    let isSecondClick = false;
+
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+
+    const handleButtonClick = () => {
+      if (dialogRef) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    // Add a click event listener to the button that triggers the main function
+    const buttonElement = document.querySelector('#gidolHotzBtn'); // Replace 'your-button-id' with the actual ID of your button
+    buttonElement.addEventListener('click', handleButtonClick);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed with result:', result);
+      isSecondClick = false;
+      document.removeEventListener('click', handleDocumentClick);
+      buttonElement.removeEventListener('click', handleButtonClick);
+    });
+  }
+
+
+
+
+  
 
   openPopup_more_info_grower() {
     const dialogConfig = new MatDialogConfig();

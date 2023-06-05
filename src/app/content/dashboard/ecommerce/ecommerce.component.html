@@ -1,9 +1,14 @@
 <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-<div *ngIf="!isLoading_FarmDetails" class="app-content content">
+<div
+  *ngIf="!isLoading_FarmDetails"
+  class="app-content content"
+  [id]="'ecommerceId'"
+>
   <div class="content-wrapper">
     <div class="content-header row mb-1"></div>
     <div class="content-body">
       <!-- eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
+      <!-- תשלום -->
       <div class="row" style="direction: rtl">
         <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
@@ -32,6 +37,7 @@
             </div>
           </div>
         </div>
+        <!-- רב שנתי -->
         <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
@@ -59,6 +65,7 @@
             </div>
           </div>
         </div>
+        <!-- תעודות -->
         <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
@@ -87,8 +94,8 @@
             </div>
           </div>
         </div>
-
-        <div class="col-xl-3 col-lg-6 col-12">
+        <!-- סיכום חודשי -->
+        <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -115,7 +122,8 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-lg-6 col-12">
+        <!-- כרטיס מגדל -->
+        <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -140,7 +148,36 @@
             </div>
           </div>
         </div>
+        <!--חיפוש לפי שנה-->
+        <div class="col-xl-2 col-lg-6 col-12">
+          <div class="card pull-up">
+            <div class="card-content">
+              <div class="card-body card_padding">
+                <div class="media d-flex">
+                  <div class="media-body text-left"></div>
+                  <div class="year-select rtl_Style">
+                    שנה:
+                    <select [(ngModel)]="chosenYear" (change)="onYearChange()">
+                      <option *ngFor="let year of years" [value]="year">
+                        {{ year }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-0 mt-1">
+                  <ngb-progressbar
+                    height="7px"
+                    width="100%"
+                    type="gradient-x-danger"
+                    [value]="85"
+                  ></ngb-progressbar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <!--/ eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
 
       <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
@@ -414,9 +451,8 @@
           </div>
         </div>
         <!--סיום טבלה התראות ------------------------------------------------------------------------------------------------------------------------>
-
-        <!-- טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
-        <div class="col-xl-5 col-12">
+        <!-- טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
+        <div class="col-xl-3 col-12">
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
           <div class="row match_height">
@@ -424,118 +460,56 @@
               <div class="card card-micsa">
                 <div class="card-header"></div>
                 <div class="card-content">
-                  <div class="exel_and_total">
-                    <div>
-                      <p style="direction: rtl">
-                        סה''כ מכסה קבועה: {{ totalMicsaKvoha | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        סה''כ מכסה לתשלום: {{ totalMicsaToPay | numberFormat }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="year-select rtl_Style">
-                    בחר שנה:
-                    <select [(ngModel)]="chosenYear" (change)="onYearChange()">
-                      <option *ngFor="let year of years" [value]="year">
-                        {{ year }}
-                      </option>
-                    </select>
-                  </div>
+                  <div class="exel_and_total"></div>
 
-                  <div *ngIf="!isLoading_FarmDetails" class="table-container">
-                    <!-- טבלת מכסות ביצים  -->
-                    <div *ngIf="mihsot.length > 0">
-                      <div class="rtl_Style">
-                        <tr>
-                          <td style="margin-left: 50px">
-                            <h3 class="rtl_Style">מכסת ביצים :</h3>
-                          </td>
+                  <div
+                    *ngIf="!isLoading_FarmDetails"
+                    class="table-container micsotStyle"
+                  >
+                    <!-- טבלת מכסות פטם -->
+                    <div *ngIf="mihsotPetem.length > 0">
+                      <tr>
+                        <td style="margin-left: 50px">
+                          <h3 class="rtl_Style">מכסת פטם :</h3>
+                        </td>
 
-                          <td><B>ג''ח</B></td>
-                          <td class="text-truncate row_padding">
-                            <div
-                              *ngIf="
-                                rows[0]?.pa_Counter.length === 0;
-                                else elseBlock
-                              "
-                            >
-                              <span style="font-size: 20px !important"
-                                >אין</span
-                              >
-                            </div>
+                        <td><B>ג''ח</B></td>
+                        <td class="text-truncate row_padding">
+                          <div
+                            *ngFor="let obj of arrPartnersPetem; let i = index"
+                          >
+                            <div *ngIf="!obj?.numGroup; else elseBlock"></div>
                             <ng-template
                               #elseBlock
                               style="padding: none !important"
                             >
-                              <button
-                                id="gidolHotzBtn"
-                                style="
-                                  color: blue;
-                                  background-color: white !important;
-                                  border: none;
-                                "
-                                (click)="
-                                  getPartner(
-                                    rows[0]?.farm_id,
-                                    rows[0]?.active_flock_id,
-                                    rows[0]?.lull2000_code
-                                  )
-                                "
-                              >
-                                {{ rows[0]?.is_has_partner }} ({{
-                                  rows[0]?.cd_gidul
-                                }})
-                              </button>
+                              <ng-container *ngIf="isFirstUniqueValue(obj, i)">
+                                <div *ngIf="obj.numGroup">
+                                  <button
+                                    id="gidolHotzBtn"
+                                    style="
+                                      color: blue;
+                                      background-color: white !important;
+                                      border: none;
+                                    "
+                                    (click)="open_PopupPetemPartnersComponent()"
+                                  >
+                                    {{ obj.partners.length }} ({{
+                                      obj.numGroup
+                                    }})
+                                  </button>
+                                </div>
+                                <ng-container
+                                  *ngIf="hasMultipleUniqueValues(obj)"
+                                >
+                                  <span>,</span>
+                                </ng-container>
+                              </ng-container>
                             </ng-template>
-                          </td>
-                        </tr>
-                      </div>
-                      <table
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">סוג:</th>
-                            <th scope="col" class="border-top-0">
-                              שם סוג מכסה:
-                            </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
-                            <th scope="col" class="border-top-0">כמות</th>
-                            <th scope="col" class="border-top-0">מתאריך</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of mihsot">
-                            <td class="text-truncate row_padding">
-                              {{ row.mi_sug_mcsa }}
-                            </td>
+                          </div>
+                        </td>
+                      </tr>
 
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.mi_kamut | numberFormat }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <!-- טבלת מכסות ביצים סיום -->
-
-                    <!-- טבלת מכסות פטם -->
-                    <div *ngIf="mihsotPetem.length > 0">
-                      <h3 class="rtl_Style">מכסת פטם</h3>
                       <table
                         class="table table-hover border_bottom detailsTable"
                         style="direction: rtl"
@@ -628,6 +602,132 @@
             </div>
           </div>
         </div>
+        <!--סיום טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
+
+        <!-- טבלה מכסות ביצי הטלה------------------------------------------------------------------------------------------------------------------------>
+        <div class="col-xl-3 col-12">
+          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+          <div class="row match_height">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total">
+                    <div>
+                      <p style="direction: rtl">
+                        קבועה: {{ totalMicsaKvoha | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        לתשלום: {{ totalMicsaToPay | numberFormat }}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="!isLoading_FarmDetails"
+                    class="table-container micsotStyle"
+                  >
+                    <!-- טבלת מכסות ביצים  -->
+                    <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
+                      <div class="rtl_Style">
+                        <tr>
+                          <td style="margin-left: 50px">
+                            <!-- <h3 class="rtl_Style">מכסת ביצים :</h3> -->
+                          </td>
+
+                          <td><B>ג''ח</B></td>
+                          <td class="text-truncate row_padding">
+                            <div *ngFor="let obj of rows; let i = index">
+                              <div
+                                *ngIf="
+                                  obj?.pa_Counter.length === 0;
+                                  else elseBlock
+                                "
+                              ></div>
+                              <ng-template
+                                #elseBlock
+                                style="padding: none !important"
+                              >
+                                <ng-container
+                                  *ngIf="isFirstUniqueValue(obj, i)"
+                                >
+                                  <div *ngIf="obj.cd_gidul">
+                                    <button
+                                      id="gidolHotzBtn"
+                                      style="
+                                        color: blue;
+                                        background-color: white !important;
+                                        border: none;
+                                      "
+                                      (click)="getPartner([obj])"
+                                    >
+                                      {{ obj.is_has_partner }} ({{
+                                        obj.cd_gidul
+                                      }})
+                                    </button>
+                                  </div>
+                                  <ng-container
+                                    *ngIf="hasMultipleUniqueValues(obj)"
+                                  >
+                                    <span>,</span>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </div>
+                          </td>
+                        </tr>
+                      </div>
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsot">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- טבלת מכסות ביצים סיום -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!--סיום טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
 
         <!-- טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
@@ -635,7 +735,7 @@
 
         <div
           *ngIf="!isLoading_theUserDetails"
-          class="col-xl-5 col-lg-12 growerDetails"
+          class="col-xl-4 col-lg-12 growerDetails"
         >
           <m-card
             [options]="options"
@@ -679,10 +779,10 @@
                             }}
                           </td>
 
-                          <td><B>מיקוד</B></td>
+                          <!-- <td><B>מיקוד</B></td>
                           <td>
                             {{ growerData.v_mikud }}
-                          </td>
+                          </td> -->
                         </tr>
 
                         <tr>
@@ -717,63 +817,35 @@
                           <td [ngSwitch]="userDetails_more_info[0].Rashi">
                             <span
                               *ngSwitchCase="'1'"
-                              style="font-size: 19px; font-weight: 600"
+                              style="
+                                font-size: 19px;
+                                font-weight: 600;
+                                color: green;
+                              "
                               >ראשי</span
                             >
                             <span
                               *ngSwitchCase="'0'"
-                              style="font-size: 19px; font-weight: 600"
+                              style="
+                                font-size: 19px;
+                                font-weight: 600;
+                                color: red;
+                              "
                               >שותף</span
                             >
                             <span
                               *ngSwitchDefault
-                              style="font-size: 19px; font-weight: 600"
+                              style="
+                                font-size: 19px;
+                                font-weight: 600;
+                                color: blue;
+                              "
                               >פרטני</span
                             >
                           </td>
                           <td><B>מייל</B></td>
                           <td>
                             {{ growerData.email }}
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td><B>ג''ח</B></td>
-                          <td class="text-truncate row_padding">
-                            <div
-                              *ngIf="
-                                rows[0]?.pa_Counter.length === 0;
-                                else elseBlock
-                              "
-                            >
-                              <span style="font-size: 20px !important"
-                                >אין</span
-                              >
-                            </div>
-                            <ng-template
-                              #elseBlock
-                              style="padding: none !important"
-                            >
-                              <button
-                                id="gidolHotzBtn"
-                                style="
-                                  color: blue;
-                                  background-color: white !important;
-                                  border: none;
-                                "
-                                (click)="
-                                  getPartner(
-                                    rows[0]?.farm_id,
-                                    rows[0]?.active_flock_id,
-                                    rows[0]?.lull2000_code
-                                  )
-                                "
-                              >
-                                {{ rows[0]?.is_has_partner }} ({{
-                                  rows[0]?.cd_gidul
-                                }})
-                              </button>
-                            </ng-template>
                           </td>
                         </tr>
 
@@ -837,7 +909,7 @@
                 >
                   <thead class="detailsTable">
                     <tr>
-                      <th scope="col" class="border-top-0">מס' רישיון :</th>
+                      <th scope="col" class="border-top-0">מס' אתר :</th>
                       <th scope="col" class="border-top-0">שם אתר:</th>
 
                       <th scope="col" class="border-top-0">יישוב</th>
@@ -847,13 +919,6 @@
 
                       <!-- <th scope="col" class="border-top-0">סוג הובלה</th> -->
 
-                      <th scope="col" class="border-top-0">לול למחיצה</th>
-
-                      <th scope="col" class="border-top-0">יש היתר אכלוס</th>
-
-                      <th scope="col" class="border-top-0">תנאי אימון</th>
-
-                      <th scope="col" class="border-top-0">מס גוש</th>
                       <th scope="col" class="border-top-0">מס להקה</th>
 
                       <th scope="col" class="border-top-0">תאריך בקיעה</th>
@@ -863,6 +928,13 @@
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
                       <th scope="col" class="border-top-0">קיבולת לול</th>
                       <th scope="col" class="border-top-0">איכלוס</th>
+                      <th scope="col" class="border-top-0">לול למחיצה</th>
+
+                      <th scope="col" class="border-top-0">יש היתר אכלוס</th>
+
+                      <th scope="col" class="border-top-0">תנאי אימון</th>
+
+                      <th scope="col" class="border-top-0">מס גוש</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -889,52 +961,6 @@
                       </td>
 
                       <td class="text-truncate row_padding">
-                        <span
-                          *ngIf="
-                            row.is_hen_house_split == 1 &&
-                            splitHenHouseNum == -1
-                          "
-                          >יש - {{ row.farm_code }}</span
-                        >
-
-                        <span
-                          *ngIf="
-                            row.is_hen_house_split == 1 &&
-                            splitHenHouseNum != -1
-                          "
-                          >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span
-                        >
-                        <span
-                          *ngIf="row.is_hen_house_split == 0"
-                          style="color: red"
-                          >X</span
-                        >
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        <div [ngSwitch]="row.is_business_licenses">
-                          <span *ngSwitchCase="'1'" style="color: green"
-                            >√</span
-                          >
-                          <span *ngSwitchCase="'0'" style="color: red">X</span>
-                        </div>
-                      </td>
-
-                      <td
-                        class="text-truncate row_padding"
-                        [ngSwitch]="row.is_not_allow_population_hatcher"
-                      >
-                        <span *ngSwitchCase="'0'" style="color: green">√</span>
-                        <span *ngSwitchCase="'1'" style="color: red">X</span>
-                      </td>
-
-                      <td class="text-truncate row_padding">
-                        <span *ngIf="row.block_id"
-                          >{{ row.block_id }} ({{ row.block_count }})</span
-                        >
-                        <span *ngIf="!row.block_id" style="color: red">X</span>
-                      </td>
-                      <td class="text-truncate row_padding">
                         {{ row.active_flock_id }}
                       </td>
 
@@ -954,6 +980,72 @@
                       </td>
                       <td class="text-truncate row_padding">
                         {{ row.hiclos_number | numberFormat }}
+                      </td>
+                      <td class="text-truncate row_padding">
+                        <span
+                          style="font-size: 2rem !important"
+                          *ngIf="
+                            row.is_hen_house_split == 1 &&
+                            splitHenHouseNum == -1
+                          "
+                          >יש - {{ row.farm_code }}</span
+                        >
+
+                        <span
+                          style="font-size: 2rem !important"
+                          *ngIf="
+                            row.is_hen_house_split == 1 &&
+                            splitHenHouseNum != -1
+                          "
+                          >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span
+                        >
+                        <span
+                          *ngIf="row.is_hen_house_split == 0"
+                          style="color: red; font-size: 2rem !important"
+                          >X</span
+                        >
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        <div [ngSwitch]="row.is_business_licenses">
+                          <span
+                            *ngSwitchCase="'1'"
+                            style="color: green; font-size: 2rem !important"
+                            >√</span
+                          >
+                          <span
+                            *ngSwitchCase="'0'"
+                            style="color: red; font-size: 2rem !important"
+                            >X</span
+                          >
+                        </div>
+                      </td>
+
+                      <td
+                        class="text-truncate row_padding"
+                        [ngSwitch]="row.is_not_allow_population_hatcher"
+                      >
+                        <span
+                          *ngSwitchCase="'0'"
+                          style="color: green; font-size: 2rem !important"
+                          >√</span
+                        >
+                        <span
+                          *ngSwitchCase="'1'"
+                          style="color: red; font-size: 2rem !important"
+                          >X</span
+                        >
+                      </td>
+
+                      <td class="text-truncate row_padding">
+                        <span *ngIf="row.block_id"
+                          >{{ row.block_id }} ({{ row.block_count }})</span
+                        >
+                        <span
+                          *ngIf="!row.block_id"
+                          style="color: red; font-size: 2rem !important"
+                          >X</span
+                        >
                       </td>
                     </tr>
                   </tbody>

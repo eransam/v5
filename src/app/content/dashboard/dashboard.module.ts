@@ -26,6 +26,7 @@ import { SharedModuleModule } from '../../shared-module/shared-module.module';
 import { PopupIzavonComponent } from './popup-izavon/popup-izavon.component';
 import { PopupGrowerOtherAddrComponent } from './popup-grower-other-addr/popup-grower-other-addr.component';
 import { PopupOldGrowerNameComponent } from './popup-old-grower-name/popup-old-grower-name.component';
+import { PopupPetemPartnersComponent } from './popup-petem-partners/popup-petem-partners.component';
 
 @NgModule({
   imports: [
@@ -84,6 +85,7 @@ import { PopupOldGrowerNameComponent } from './popup-old-grower-name/popup-old-g
     PopupIzavonComponent,
     PopupGrowerOtherAddrComponent,
     PopupOldGrowerNameComponent,
+    PopupPetemPartnersComponent,
   ],
 
   exports: [RouterModule],

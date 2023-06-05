@@ -540,7 +540,7 @@
 }
 
 .table-container {
-  max-height: 340px; /* Adjust the height as needed */
+  max-height: 778px; /* Adjust the height as needed */
   overflow-y: auto;
 }
 
@@ -557,6 +557,35 @@
   text-align: center;
 }
 
-.rtl_Style{
-direction: rtl;
+.rtl_Style {
+  direction: rtl;
+}
+
+#ecommerceId {
+  zoom: 0.75;
+}
+
+.micsotStyle {
+  max-height: 321px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-container {
+  margin-right: 10px;
+}
+
+.right-container {
+  margin-left: 10px;
+}
+.table-container {
+  overflow-x: auto;
+  direction: rtl;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
