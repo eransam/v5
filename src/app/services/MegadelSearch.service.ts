@@ -11,6 +11,17 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  // איכלוס 750
+  async get_calc_750_eran(farnId: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_calc_750_eran?farnId=${farnId}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   // שותפי פטם
   async Partners_By_Farm_Select(
     order: any,

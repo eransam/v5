@@ -471,7 +471,27 @@ export class EcommerceComponent implements OnInit {
       }
       // הוספת שדה איכלוס - סיום
 
-      console.log('this.FarmDetails with hiclos: ', this.FarmDetails);
+      // הוספת שדה איכלוס - 750
+      for (let item of this.FarmDetails) {
+        let grower_id = item.grower_id;
+        let farm_id = item.farm_id;
+
+        const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
+          item.farm_code
+        );
+        console.log('hiclos750: ', hiclos750);
+        console.log('hiclos750[0]?.calc750: ', hiclos750[0]?.calc750);
+
+        // if (hiclos750[0]?.calc750) {
+        item.calc750 = hiclos750[0]?.calc750;
+        // }
+      }
+      // הוספת שדה איכלוס 750- סיום
+
+      console.log(
+        'this.FarmDetails with hiclos and hiclos750: ',
+        this.FarmDetails
+      );
 
       this.rows = this.FarmDetails;
 
@@ -746,12 +766,14 @@ export class EcommerceComponent implements OnInit {
     });
   }
 
-
   open_PopupPetemPartnersComponent() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'popup-dialog';
     dialogConfig.data = this.arrPartnersPetem;
-    const dialogRef = this.dialog.open(PopupPetemPartnersComponent, dialogConfig);
+    const dialogRef = this.dialog.open(
+      PopupPetemPartnersComponent,
+      dialogConfig
+    );
 
     let isSecondClick = false;
 
@@ -784,11 +806,6 @@ export class EcommerceComponent implements OnInit {
       buttonElement.removeEventListener('click', handleButtonClick);
     });
   }
-
-
-
-
-  
 
   openPopup_more_info_grower() {
     const dialogConfig = new MatDialogConfig();

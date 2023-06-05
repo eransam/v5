@@ -928,6 +928,8 @@
                       <th scope="col" class="border-top-0">גיל בחודשים</th>
                       <th scope="col" class="border-top-0">קיבולת לול</th>
                       <th scope="col" class="border-top-0">איכלוס</th>
+                      <th scope="col" class="border-top-0">איכלוס 750</th>
+
                       <th scope="col" class="border-top-0">לול למחיצה</th>
 
                       <th scope="col" class="border-top-0">יש היתר אכלוס</th>
@@ -981,6 +983,10 @@
                       <td class="text-truncate row_padding">
                         {{ row.hiclos_number | numberFormat }}
                       </td>
+                      <td class="text-truncate row_padding">
+                        {{ row.calc750 | numberFormat }}
+                      </td>
+
                       <td class="text-truncate row_padding">
                         <span
                           style="font-size: 2rem !important"
