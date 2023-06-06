@@ -286,20 +286,6 @@
                               >
                             </div>
                           </th>
-
-                          <!-- <th scope="col" class="border-top-0">
-                            <div [ngSwitch]="McsRishaion_Esek_number_type">
-                              <span
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              >
-                              <span
-                                *ngSwitchDefault
-                                style="color: green; font-size: 2rem"
-                                >{{ businessLicense_all_details }}</span
-                              >
-                            </div>
-                          </th> -->
                         </tr>
 
                         <!-- מגדל צריכה עצמית -->
@@ -378,16 +364,6 @@
                               √
                             </span>
                           </th>
-                          <!-- <th
-                              scope="col"
-                              class="border-top-0"
-                              align="left"
-                              style="cursor: pointer"
-                              (click)="Popup_Izavon()"
-                              id="openPopup_Of_OldGrowerBtn"
-                            >
-                              <i class="fas fa-angle-left fa-lg"></i>
-                            </th> -->
                         </tr>
 
                         <!-- התראה כתובת שונה למגדל-->
@@ -431,18 +407,7 @@
                         </tr>
                       </thead>
 
-                      <tbody>
-                        <!-- <tr>
-                          <td class="text-truncate row_padding">
-                            <div [ngSwitch]="userDetails_more_info[0].v_YzYosh">
-                              <span *ngSwitchCase="'1'" style="color: green"
-                                >√</span
-                              >
-                              <span *ngSwitchDefault style="color: red">X</span>
-                            </div>
-                          </td>
-                        </tr> -->
-                      </tbody>
+                      <tbody></tbody>
                     </table>
                   </div>
                 </div>
@@ -451,8 +416,16 @@
           </div>
         </div>
         <!--סיום טבלה התראות ------------------------------------------------------------------------------------------------------------------------>
+
         <!-- טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
-        <div class="col-xl-3 col-12">
+
+        <div
+          *ngIf="
+            (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
+            mihsot.length > 0
+          "
+          class="col-xl-3 col-12"
+        >
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
           <div class="row match_height">
@@ -605,7 +578,13 @@
         <!--סיום טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
 
         <!-- טבלה מכסות ביצי הטלה------------------------------------------------------------------------------------------------------------------------>
-        <div class="col-xl-3 col-12">
+        <div
+          *ngIf="
+            (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
+            mihsot.length > 0
+          "
+          class="col-xl-3 col-12"
+        >
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
           <div class="row match_height">
@@ -635,9 +614,7 @@
                     <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
                       <div class="rtl_Style">
                         <tr>
-                          <td style="margin-left: 50px">
-                            <!-- <h3 class="rtl_Style">מכסת ביצים :</h3> -->
-                          </td>
+                          <td style="margin-left: 50px"></td>
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
@@ -728,7 +705,302 @@
             </div>
           </div>
         </div>
+
+        <!-- ---------- תצוגה 2 ----------->
+
+        <!-- טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
+        <div
+          *ngIf="
+            (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
+            mihsot.length === 0
+          "
+          class="col-xl-6 col-12"
+        >
+          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+          <div class="row match_height">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total"></div>
+
+                  <div
+                    *ngIf="!isLoading_FarmDetails"
+                    class="table-container micsotStyle"
+                  >
+                    <!-- טבלת מכסות פטם -->
+                    <div *ngIf="mihsotPetem.length > 0">
+                      <tr>
+                        <td style="margin-left: 50px">
+                          <h3 class="rtl_Style">מכסת פטם :</h3>
+                        </td>
+
+                        <td><B>ג''ח</B></td>
+                        <td class="text-truncate row_padding">
+                          <div
+                            *ngFor="let obj of arrPartnersPetem; let i = index"
+                          >
+                            <div *ngIf="!obj?.numGroup; else elseBlock"></div>
+                            <ng-template
+                              #elseBlock
+                              style="padding: none !important"
+                            >
+                              <ng-container *ngIf="isFirstUniqueValue(obj, i)">
+                                <div *ngIf="obj.numGroup">
+                                  <button
+                                    id="gidolHotzBtn"
+                                    style="
+                                      color: blue;
+                                      background-color: white !important;
+                                      border: none;
+                                    "
+                                    (click)="open_PopupPetemPartnersComponent()"
+                                  >
+                                    {{ obj.partners.length }} ({{
+                                      obj.numGroup
+                                    }})
+                                  </button>
+                                </div>
+                                <ng-container
+                                  *ngIf="hasMultipleUniqueValues(obj)"
+                                >
+                                  <span>,</span>
+                                </ng-container>
+                              </ng-container>
+                            </ng-template>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsotPetem">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- טבלת מכסות פטם סיום-->
+
+                    <!-- טבלת מכסות הודים -->
+                    <div *ngIf="mihsotHodim.length > 0">
+                      <h3 class="rtl_Style">מכסת הודים</h3>
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsotHodim">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- טבלת מכסות הודים סיום-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--סיום טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
+        </div>
+
         <!--סיום טבלה מכסות ------------------------------------------------------------------------------------------------------------------------>
+
+        <!-- -------------------- תצוגה 3 ------------------------->
+
+        <!-- טבלה מכסות ביצי הטלה------------------------------------------------------------------------------------------------------------------------>
+        <div
+          *ngIf="
+            mihsot.length > 0 &&
+            mihsotPetem.length === 0 &&
+            mihsotHodim.length === 0
+          "
+          class="col-xl-6 col-12"
+        >
+          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+          <div class="row match_height">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total">
+                    <div>
+                      <p style="direction: rtl">
+                        קבועה: {{ totalMicsaKvoha | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        לתשלום: {{ totalMicsaToPay | numberFormat }}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="!isLoading_FarmDetails"
+                    class="table-container micsotStyle"
+                  >
+                    <!-- טבלת מכסות ביצים  -->
+                    <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
+                      <div class="rtl_Style">
+                        <tr>
+                          <td style="margin-left: 50px"></td>
+
+                          <td><B>ג''ח</B></td>
+                          <td class="text-truncate row_padding">
+                            <div *ngFor="let obj of rows; let i = index">
+                              <div
+                                *ngIf="
+                                  obj?.pa_Counter.length === 0;
+                                  else elseBlock
+                                "
+                              ></div>
+                              <ng-template
+                                #elseBlock
+                                style="padding: none !important"
+                              >
+                                <ng-container
+                                  *ngIf="isFirstUniqueValue(obj, i)"
+                                >
+                                  <div *ngIf="obj.cd_gidul">
+                                    <button
+                                      id="gidolHotzBtn"
+                                      style="
+                                        color: blue;
+                                        background-color: white !important;
+                                        border: none;
+                                      "
+                                      (click)="getPartner([obj])"
+                                    >
+                                      {{ obj.is_has_partner }} ({{
+                                        obj.cd_gidul
+                                      }})
+                                    </button>
+                                  </div>
+                                  <ng-container
+                                    *ngIf="hasMultipleUniqueValues(obj)"
+                                  >
+                                    <span>,</span>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </div>
+                          </td>
+                        </tr>
+                      </div>
+                      <table
+                        class="table table-hover border_bottom detailsTable"
+                        style="direction: rtl"
+                      >
+                        <thead class="detailsTable">
+                          <tr>
+                            <th scope="col" class="border-top-0">סוג:</th>
+                            <th scope="col" class="border-top-0">
+                              שם סוג מכסה:
+                            </th>
+                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <th scope="col" class="border-top-0">כמות</th>
+                            <th scope="col" class="border-top-0">מתאריך</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of mihsot">
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_sug_mcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.nameSugMcsa7 }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_kamut | numberFormat }}
+                            </td>
+
+                            <td class="text-truncate row_padding">
+                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <!-- טבלת מכסות ביצים סיום -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
         <div *ngIf="isLoading_theUserDetails" class="loader"></div>

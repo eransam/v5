@@ -391,6 +391,9 @@ export class EcommerceComponent implements OnInit {
         console.log('this.FarmId-end: ', this.FarmId);
         //סיום - FarmId חילוץ
 
+        // ihsotPetem.length > 0 || mihsotHodim.length > 0) &&
+        //     mihsot.length > 0
+
         // חילוץ פרטי אתר עי הפארם איידי
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
         console.log('this.FarmDetails-end: ', this.FarmDetails);
@@ -557,6 +560,7 @@ export class EcommerceComponent implements OnInit {
       '30 - ביצי מאכל',
       88
     );
+    console.log('this.mihsot: ', this.mihsot);
 
     console.log('this.mihsot.length: ', this.mihsot.length);
     // מכסות ביצים - סיום
@@ -571,6 +575,8 @@ export class EcommerceComponent implements OnInit {
     );
 
     console.log('this.mihsotPetem: ', this.mihsotPetem);
+    console.log('this.mihsotPetem.length: ', this.mihsotPetem.length);
+
     // מכסות פטם - סיום
 
     // מכסות הודים
@@ -582,7 +588,9 @@ export class EcommerceComponent implements OnInit {
       88
     );
 
-    console.log('this.mihsotPetem: ', this.mihsotHodim);
+    console.log('this.mihsotHodim: ', this.mihsotHodim);
+    console.log('this.mihsotHodim.length: ', this.mihsotHodim.length);
+
     // מכסות הודים - סיום
 
     this.totalMicsaKvoha = 0; // Initialize the variable to 0
