@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+// import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-popup-petem-partners',
@@ -14,7 +15,8 @@ export class PopupPetemPartnersComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public router: Router
+    public router: Router,
+    
   ) {
     console.log('data in constractor in PopupPetemPartnersComponent: ', data);
     console.log(

@@ -178,7 +178,7 @@
         </div>
       </div>
 
-      <!--/ eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
+      <!--/ eCommerce statistic ------   ------------------------------------------------------------------------------------------------------------------>
 
       <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
       <div class="row">
@@ -196,7 +196,10 @@
                 <div class="card-content">
                   <div class="eexel_and_total">
                     <div class="importBth"></div>
-                    <h1>התראות</h1>
+
+                    <div>
+                      <h1 class="rtl_Style" style="margin-top: 12px">התראות</h1>
+                    </div>
                   </div>
                   <div
                     *ngIf="!isLoading_FarmDetails"
@@ -424,16 +427,19 @@
             (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
             mihsot.length > 0
           "
-          class="col-xl-3 col-12"
+          class="col-xl-2 col-12"
         >
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
-              <div class="card card-micsa">
+              <div
+                class="card card-micsa"
+                style="padding-right: 15px !important"
+              >
                 <div class="card-header"></div>
                 <div class="card-content">
-                  <div class="exel_and_total"></div>
+                  <!-- <div class="exel_and_total"></div> -->
 
                   <div
                     *ngIf="!isLoading_FarmDetails"
@@ -441,11 +447,11 @@
                   >
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
-                      <tr>
-                        <td style="margin-left: 50px">
-                          <h3 class="rtl_Style">מכסת פטם :</h3>
-                        </td>
+                      <div>
+                        <h1 class="rtl_Style">מכסת פטם :</h1>
+                      </div>
 
+                      <tr>
                         <td><B>ג''ח</B></td>
                         <td class="text-truncate row_padding">
                           <div
@@ -493,7 +499,6 @@
                             <th scope="col" class="border-top-0">
                               שם סוג מכסה:
                             </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
                             <th scope="col" class="border-top-0">כמות</th>
                             <th scope="col" class="border-top-0">מתאריך</th>
                           </tr>
@@ -506,10 +511,6 @@
 
                             <td class="text-truncate row_padding">
                               {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
                             </td>
 
                             <td class="text-truncate row_padding">
@@ -720,7 +721,10 @@
 
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
-              <div class="card card-micsa">
+              <div
+                class="card card-micsa"
+                style="padding-right: 15px !important"
+              >
                 <div class="card-header"></div>
                 <div class="card-content">
                   <div class="exel_and_total"></div>
@@ -731,11 +735,10 @@
                   >
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
+                      <div>
+                        <h1 class="rtl_Style">מכסת פטם</h1>
+                      </div>
                       <tr>
-                        <td style="margin-left: 50px">
-                          <h3 class="rtl_Style">מכסת פטם :</h3>
-                        </td>
-
                         <td><B>ג''ח</B></td>
                         <td class="text-truncate row_padding">
                           <div
@@ -1001,6 +1004,15 @@
             </div>
           </div>
         </div>
+
+        <div
+          *ngIf="
+            mihsot.length === 0 &&
+            mihsotPetem.length === 0 &&
+            mihsotHodim.length === 0
+          "
+          class="col-xl-6 col-12"
+        ></div>
 
         <!-- טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
         <div *ngIf="isLoading_theUserDetails" class="loader"></div>

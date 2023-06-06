@@ -1,12 +1,20 @@
 <table class="" dir="rtl" style="padding: 5px" border="0">
   <thead>
     <tr>
-      <TD style="width: 10px; text-align: right; vertical-align: top">
+      <th style="font-weight: bold; text-align: right">
+        &nbsp;סה"כ שותפים {{ data.length - 1 }}
+      </th>
+
+      <th style="font-weight: bold; text-align: right">
+        &nbsp;קוד קבוצה {{ data[data.length - 1]?.obj2?.cd_gidul }}
+      </th>
+
+      <th style="font-weight: bold; text-align: right">גידול משותף ביצים</th>
+      <th style="font-weight: bold; text-align: right">
         <button mat-icon-button mat-dialog-close>
           <mat-icon>X</mat-icon>
         </button>
-      </TD>
-      <TD style="font-size: 20px">&nbsp;סה"כ שותפים {{ data.length - 1 }}</TD>
+      </th>
     </tr>
   </thead>
 
@@ -15,16 +23,15 @@
       <table class="table no-margin">
         <thead>
           <tr>
+            <th style="font-weight: bold; text-align: right">מס מגדל</th>
+            <th style="font-weight: bold; text-align: right">שם מגדל</th>
+            <th style="font-weight: bold; text-align: right">מכסה</th>
+            <th style="font-weight: bold; text-align: right">אחוז</th>
+
             <th style="font-weight: bold; text-align: right">תחילת שותפות</th>
             <th style="font-weight: bold; text-align: right">סיום שותפות</th>
 
-            <th style="font-weight: bold; text-align: right">שם מגדל</th>
-            <th style="font-weight: bold; text-align: right">מס מגדל</th>
-
             <!-- <th style="font-weight: bold; text-align: right;" *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">מס' אכלוס פרגיות</th> -->
-
-            <th style="font-weight: bold; text-align: right">מכסה</th>
-            <th style="font-weight: bold; text-align: right">אחוז</th>
           </tr>
         </thead>
         <tbody>
@@ -32,9 +39,7 @@
             *ngFor="let p of data"
             [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
           >
-            <td>{{ p.start_date }}</td>
-            <td>{{ p.end_date }}</td>
-
+            <td>{{ p.lull2000_code }}</td>
             <td>
               <a
                 [routerLink]="[
@@ -47,14 +52,15 @@
                 {{ p.grower_name }}
               </a>
             </td>
-
-            <td>{{ p.lull2000_code }}</td>
-
-            <!-- <td>{{ p.certificate_sum | number : "0.0" }}</td> -->
             <td>{{ p.mcsa_sum | number : "0.0" }}</td>
             <td>
               {{ p.percent_ | number : "0.0" }}
             </td>
+
+            <td>{{ p.start_date }}</td>
+            <td>{{ p.end_date }}</td>
+
+            <!-- <td>{{ p.certificate_sum | number : "0.0" }}</td> -->
 
             <td class="no-wrap-test-eran">
               <span

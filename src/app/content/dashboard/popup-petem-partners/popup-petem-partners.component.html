@@ -1,12 +1,21 @@
 <table class="" dir="rtl" style="padding: 5px" border="0">
   <thead>
     <tr>
-      <TD style="width: 10px; text-align: right; vertical-align: top">
+      <th style="font-weight: bold; text-align: right">
+        &nbsp;סה"כ שותפים {{ data[0].partners.length - 1 }}
+      </th>
+      <th style="font-weight: bold; text-align: right">
+        &nbsp;קוד קבוצה {{ data[0].numGroup }}
+      </th>
+
+      <th style="font-weight: bold; text-align: right">
+        גידול משותף פטם \ הודים
+      </th>
+      <th style="font-weight: bold; text-align: right">
         <button mat-icon-button mat-dialog-close>
           <mat-icon>X</mat-icon>
         </button>
-      </TD>
-      <TD style="font-size: 20px">&nbsp;סה"כ שותפים {{ data.length - 1 }}</TD>
+      </th>
     </tr>
   </thead>
 
@@ -15,16 +24,16 @@
       <table class="table no-margin">
         <thead>
           <tr>
+            <th style="font-weight: bold; text-align: right">מס מגדל</th>
+            <th style="font-weight: bold; text-align: right">שם מגדל</th>
+            <th style="font-weight: bold; text-align: right">אחוז</th>
+
             <th style="font-weight: bold; text-align: right">תחילת שותפות</th>
             <th style="font-weight: bold; text-align: right">סיום שותפות</th>
-
-            <th style="font-weight: bold; text-align: right">שם מגדל</th>
-            <th style="font-weight: bold; text-align: right">מס מגדל</th>
 
             <!-- <th style="font-weight: bold; text-align: right;" *ngIf="(userTypeID== '9' || userTypeID== '15' || userTypeID== '2')">מס' אכלוס פרגיות</th> -->
 
             <!-- <th style="font-weight: bold; text-align: right">מכסה</th> -->
-            <th style="font-weight: bold; text-align: right">אחוז</th>
           </tr>
         </thead>
         <tbody>
@@ -32,8 +41,7 @@
             *ngFor="let p of data[0].partners"
             [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
           >
-            <td>{{ p.date_from }}</td>
-            <td>{{ p.date_to }}</td>
+            <td>{{ p.yzrn }}</td>
 
             <td>
               <a
@@ -47,14 +55,22 @@
                 {{ p.v_shem_yzrn }}
               </a>
             </td>
-
-            <td>{{ p.yzrn }}</td>
-
-            <!-- <td>{{ p.certificate_sum | number : "0.0" }}</td> -->
-            <!-- <td>{{ p.mcsa_sum | number : "0.0" }}</td> -->
             <td>
               {{ p.AhzIclus | number : "0.0" }}
             </td>
+            <td>{{ p.date_from | date : "yyyy-MM-dd" }}</td>
+
+            <td *ngIf="p.date_to !== '9999-12-31T00:00:00'">
+              {{ p.date_from | date : "yyyy-MM-dd" }}
+            </td>
+            <td *ngIf="p.date_to === '9999-12-31T00:00:00'">
+              <p>לא הוזן</p>
+            </td>
+
+            <!-- <td>{{ p.date_to | date : "yyyy-MM-dd" }}</td> -->
+
+            <!-- <td>{{ p.certificate_sum | number : "0.0" }}</td> -->
+            <!-- <td>{{ p.mcsa_sum | number : "0.0" }}</td> -->
 
             <td class="no-wrap-test-eran">
               <span

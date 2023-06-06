@@ -719,6 +719,7 @@ export class EcommerceComponent implements OnInit {
           mcsaSum: this.mcsaSum,
           certificateSum: this.certificateSum,
           eggSum: this.eggSum,
+          cd_gidul: allTheFarmDet[0].cd_gidul,
         };
 
         this.partnerData.push({
