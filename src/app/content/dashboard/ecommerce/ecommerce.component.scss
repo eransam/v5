@@ -586,6 +586,9 @@
 .table-container {
   overflow-x: auto;
   direction: rtl;
-  overflow-y: hidden;
+  overflow-y: auto;
   white-space: nowrap;
+}
+.check {
+  display: flex !important;
 }

@@ -11,6 +11,29 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  // חיפוש מגדלים לפי אתר
+  async Yzrn_Select_For_Search_Yzrn_Atar(
+    order: any,
+    start_code_yzrn: any,
+    start_name_yzrn: any,
+    start_name_yeshuv: any,
+    start_Id_No: any,
+    start_Msk: any,
+    start_tzrt: any,
+    TzLab: any,
+    AtarNm: any,
+    AtarNo: any,
+    sts: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yzrn_Select_For_Search_Yzrn_Atar?order=${order}&start_code_yzrn=${start_code_yzrn}&start_name_yzrn=${start_name_yzrn}&start_name_yeshuv=${start_name_yeshuv}&start_Id_No=${start_Id_No}&start_Msk=${start_Msk}&start_tzrt=${start_tzrt}&TzLab=${TzLab}&AtarNm=${AtarNm}&AtarNo=${AtarNo}&sts=${sts}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   // איכלוס 750
   async get_calc_750_eran(farnId: any): Promise<any[]> {
     const item = await firstValueFrom(
@@ -167,12 +190,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-  //   getPartner(farmID, flockID, lull2000Code) {
-  //     return this.http.get<any>(
-  //       `${environment.apiPath}/growerService.asmx/getPartner?farmID=${farmID}&flockID=${flockID}&lull2000Code=${lull2000Code}`
-  //     );
-  //   }
 
   async YazrnExtrnl_Get_Code(
     Order: any,
@@ -406,6 +423,8 @@ export class MegadelSearchService {
   }
 
   async Get_farmId_By_siteName(siteName: any): Promise<any[]> {
+    console.log('siteName1: ', siteName);
+
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/Get_farmId_By_siteName?siteName=${siteName}`

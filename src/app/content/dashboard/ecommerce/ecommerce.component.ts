@@ -124,7 +124,8 @@ export class EcommerceComponent implements OnInit {
   pa_CounterShotaf: any;
   check = 0;
   arrPartnersPetem: any[] = [];
-
+  Active_FarmDetails: any[] = [];
+  Not_Active_FarmDetails: any[] = [];
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -139,6 +140,10 @@ export class EcommerceComponent implements OnInit {
 
   async ngOnInit() {
     this.checkOldGrowerName = false;
+    this.Check_Ben_Zug_Shotaf = false;
+    this.Check_v_name_kaful = false;
+    this.checkOldGrowerName = false;
+
     this.route2.params.subscribe(async (params) => {
       this.farmID2Fromurl = params['farmid'];
       this.flockID2Fromurl = params['flockid'];
@@ -146,10 +151,17 @@ export class EcommerceComponent implements OnInit {
       console.log('idFromurl:', this.idFromurl);
       console.log('flockID2Fromurl:', this.flockID2Fromurl);
       console.log('farmID2Fromurl:', this.farmID2Fromurl);
+      this.checkOldGrowerName = false;
+      this.Check_Ben_Zug_Shotaf = false;
+      this.Check_v_name_kaful = false;
+      this.checkOldGrowerName = false;
+
+      console.log(' this.checkOldGrowerName: ', this.checkOldGrowerName);
 
       // Call any necessary functions or perform logic based on the new parameter value
       this.refreshComponent();
 
+      //   userDetails
       this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
         this.idFromurl
       );
@@ -169,6 +181,8 @@ export class EcommerceComponent implements OnInit {
           '%'
         );
       console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+
+      //   לוגיקה התראות -------------------------------------------------------------------
 
       //   oldNameGrower
       this.oldNameGrower =
@@ -330,7 +344,9 @@ export class EcommerceComponent implements OnInit {
           iterator.mi_sug_mcsa === '4 ' ||
           iterator.mi_sug_mcsa === '4' ||
           iterator.mi_sug_mcsa === '11' ||
-          iterator.mi_sug_mcsa === '11 '
+          iterator.mi_sug_mcsa === '11 ' ||
+          iterator.mi_sug_mcsa === '5' ||
+          iterator.mi_sug_mcsa === '5 '
         ) {
           this.totalMicsaToPay += iterator.mi_kamut;
         }
@@ -394,7 +410,7 @@ export class EcommerceComponent implements OnInit {
         // ihsotPetem.length > 0 || mihsotHodim.length > 0) &&
         //     mihsot.length > 0
 
-        // חילוץ פרטי אתר עי הפארם איידי
+        // חילוץ פרטי אתרים עי הפארם איידי
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
         console.log('this.FarmDetails-end: ', this.FarmDetails);
       } else {
@@ -496,6 +512,14 @@ export class EcommerceComponent implements OnInit {
         this.FarmDetails
       );
 
+      for (let item of this.FarmDetails) {
+        if (item.farm_status_id === 1) {
+          this.Active_FarmDetails.push(item);
+        } else {
+          this.Not_Active_FarmDetails.push(item);
+        }
+      }
+
       this.rows = this.FarmDetails;
 
       this.isLoading_FarmDetails = false;
@@ -515,6 +539,18 @@ export class EcommerceComponent implements OnInit {
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
+  showNotActiveSite() {
+    this.rows = this.Active_FarmDetails;
+  }
+
+  showAllSite() {
+    this.rows = this.FarmDetails;
+  }
+
+  showActiveSite(){
+    this.rows = this.Not_Active_FarmDetails;
+
+  }
   isFirstUniqueValue(obj: any, currentIndex: number): boolean {
     for (let i = 0; i < currentIndex; i++) {
       if (
@@ -1050,6 +1086,9 @@ export class EcommerceComponent implements OnInit {
 
         const farmDetails =
           await this.megadelSearchService.prc_farm_details_eran(FarmId, -1);
+
+        console.log('farmDetails1: ', farmDetails);
+
         farmDetailsArr.push(farmDetails[0]);
       }
     }

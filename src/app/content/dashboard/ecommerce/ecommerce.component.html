@@ -427,7 +427,7 @@
             (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
             mihsot.length > 0
           "
-          class="col-xl-2 col-12"
+          class="col-xl-3 col-12"
         >
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
@@ -481,7 +481,7 @@
                                 <ng-container
                                   *ngIf="hasMultipleUniqueValues(obj)"
                                 >
-                                  <span>,</span>
+                                  <span>&nbsp;</span>
                                 </ng-container>
                               </ng-container>
                             </ng-template>
@@ -651,7 +651,7 @@
                                   <ng-container
                                     *ngIf="hasMultipleUniqueValues(obj)"
                                   >
-                                    <span>,</span>
+                                    <span>&nbsp;</span>
                                   </ng-container>
                                 </ng-container>
                               </ng-template>
@@ -1183,7 +1183,42 @@
                     />
                   </div>
                 </div>
-                <div class="totalFarms">סהכ אתרים : {{ totalFarms }}</div>
+                <div class="check">
+                  <div class="totalFarms col">סהכ אתרים : {{ totalFarms }}</div>
+                  <div
+                    (click)="showNotActiveSite()"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                    "
+                  >
+                    אתרים לא פעילים
+                  </div>
+
+                  <div
+                    (click)="showActiveSite()"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                    "
+                  >
+                    אתרים פעילים
+                  </div>
+
+                  <div
+                    (click)="showAllSite()"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                      margin-left: 25px;
+                    "
+                  >
+                    כלל האתרים
+                  </div>
+                </div>
               </div>
 
               <div *ngIf="!isLoading_FarmDetails" class="table-container">
@@ -1193,8 +1228,8 @@
                 >
                   <thead class="detailsTable">
                     <tr>
-                      <th scope="col" class="border-top-0">מס' אתר :</th>
-                      <th scope="col" class="border-top-0">שם אתר:</th>
+                      <th scope="col" class="border-top-0">מס' אתר</th>
+                      <th scope="col" class="border-top-0">שם אתר</th>
 
                       <th scope="col" class="border-top-0">יישוב</th>
                       <th scope="col" class="border-top-0">ק. השתייכות</th>
@@ -1261,40 +1296,61 @@
                       <td class="text-truncate row_padding">
                         {{ row.flock_month_age }}
                       </td>
-                      <td class="text-truncate row_padding">
+                      <td class="text-truncate row_padding" *ngIf="">
                         {{ row.kibolet_lul | numberFormat }}
                       </td>
-                      <td class="text-truncate row_padding">
-                        {{ row.hiclos_number | numberFormat }}
-                      </td>
-                      <td class="text-truncate row_padding">
-                        {{ row.calc750 | numberFormat }}
-                      </td>
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.hiclos_number === NaN; else elseBlock"
+                      ></td>
+                      <ng-template #elseBlock>
+                        <td class="text-truncate row_padding">
+                          {{ row.hiclos_number | numberFormat }}
+                        </td>
+                      </ng-template>
 
-                      <td class="text-truncate row_padding">
-                        <span
-                          style="font-size: 2rem !important"
-                          *ngIf="
-                            row.is_hen_house_split == 1 &&
-                            splitHenHouseNum == -1
-                          "
-                          >יש - {{ row.farm_code }}</span
-                        >
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.hiclos_number === NaN; else elseBlock1"
+                      ></td>
+                      <ng-template #elseBlock1>
+                        <td class="text-truncate row_padding">
+                          {{ row.calc750 | numberFormat }}
+                        </td>
+                      </ng-template>
 
-                        <span
-                          style="font-size: 2rem !important"
-                          *ngIf="
-                            row.is_hen_house_split == 1 &&
-                            splitHenHouseNum != -1
-                          "
-                          >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span
-                        >
-                        <span
-                          *ngIf="row.is_hen_house_split == 0"
-                          style="color: red; font-size: 2rem !important"
-                          >X</span
-                        >
-                      </td>
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.hiclos_number === NaN; else elseBlock2"
+                      ></td>
+                      <ng-template #elseBlock1>
+                        <td class="text-truncate row_padding">
+                          <span
+                            style="font-size: 2rem !important"
+                            *ngIf="
+                              row.is_hen_house_split == 1 &&
+                              splitHenHouseNum == -1
+                            "
+                            >יש - {{ row.farm_code }}</span
+                          >
+
+                          <span
+                            style="font-size: 2rem !important"
+                            *ngIf="
+                              row.is_hen_house_split == 1 &&
+                              splitHenHouseNum != -1
+                            "
+                            >יש - {{ row.farm_code }}/{{
+                              splitHenHouseNum
+                            }}</span
+                          >
+                          <span
+                            *ngIf="row.is_hen_house_split == 0"
+                            style="color: red; font-size: 2rem !important"
+                            >X</span
+                          >
+                        </td>
+                      </ng-template>
 
                       <td class="text-truncate row_padding">
                         <div [ngSwitch]="row.is_business_licenses">

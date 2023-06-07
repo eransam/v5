@@ -67,7 +67,7 @@
                     id="age-input"
                     name="site"
                     class="form-control border-primary textUserInput"
-                    placeholder="שם אתר"
+                    placeholder="מס אתר"
                     [(ngModel)]="site"
                     [formControl]="siteControl"
                     (keydown.enter)="$event.preventDefault()"
@@ -288,6 +288,28 @@
                         [perfectScrollbar]="config"
                       >
                         <ngx-datatable-column
+                          name="מחצה"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                              >
+                                {{ row.YazRishaion }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
                           name="מספר אתר"
                           [flexGrow]="1"
                           [minWidth]="90"
@@ -324,7 +346,7 @@
                                   '/dashboard/ecommerce',
                                   row.yz_IdReal
                                 ]"
-                                >{{ row.yz_shem }}</a
+                                >{{ row.v_shem_yzrn }}</a
                               >
                             </div>
                           </ng-template>
@@ -346,7 +368,7 @@
                                   row.yz_IdReal
                                 ]"
                               >
-                                {{ row.yz_first_name }}</a
+                                {{ row.v_first_name }}</a
                               >
                             </div>
                           </ng-template>
@@ -368,7 +390,7 @@
                                   row.yz_IdReal
                                 ]"
                               >
-                                {{ row.yz_last_name }}</a
+                                {{ row.v_last_name }}</a
                               >
                             </div>
                           </ng-template>
@@ -390,7 +412,7 @@
                                   row.yz_IdReal
                                 ]"
                               >
-                                {{ row.yz_yzrn }}</a
+                                {{ row.v_yzrn }}</a
                               >
                             </div>
                           </ng-template>
@@ -411,7 +433,7 @@
                                   '/dashboard/ecommerce',
                                   row.yz_IdReal
                                 ]"
-                                >{{ row.yz_zehut }}</a
+                                >{{ row.v_zehut }}</a
                               >
                             </div>
                           </ng-template>
@@ -431,7 +453,7 @@
                                   '/dashboard/ecommerce',
                                   row.yz_IdReal
                                 ]"
-                                >{{ row.yz_shem_yeshuv }}</a
+                                >{{ row.v_shem_yeshuv }}</a
                               >
                             </div>
                           </ng-template>
@@ -445,7 +467,7 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <ng-container *ngIf="row.yz_sug === 1">
+                            <ng-container *ngIf="row.v_sug === 1">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -456,7 +478,7 @@
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.yz_sug === 2">
+                            <ng-container *ngIf="row.v_sug === 2">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -468,7 +490,7 @@
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.yz_sug === 3">
+                            <ng-container *ngIf="row.v_sug === 3">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -498,7 +520,7 @@
                                   row.yz_IdReal
                                 ]"
                               >
-                                {{ row.pa_Counter }}</a
+                                {{ row.cdgdl }}</a
                               >
                             </div>
                           </ng-template>
@@ -514,7 +536,7 @@
                             ngx-datatable-cell-template
                           >
                             <ng-container
-                              *ngIf="row.yz_is_activ === 1; else closedTemplate"
+                              *ngIf="row.v_status === 1; else closedTemplate"
                             >
                               <div [class]="'text-right'">
                                 <a
