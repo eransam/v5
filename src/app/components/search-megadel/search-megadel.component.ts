@@ -644,172 +644,240 @@ export class SearchMegadelComponent implements OnInit {
     if (this.usernameControl.value) {
       Username = this.usernameControl.value;
     }
+    if (this.SitetNameTomaaravi !== ' ') {
+      console.log('in the if SitetNameTomaaravi');
+      console.log('this.SitetNameTomaaravi: ', this.SitetNameTomaaravi);
 
-    if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
-      console.log('gidolHotzName: ', gidolHotzName);
+      if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
+        console.log('gidolHotzName: ', gidolHotzName);
 
-      console.log('numName9: ', numName);
-      console.log('Username9: ', Username);
-      console.log('SettlementName9: ', SettlementName);
-      console.log('this.SitetNameTomaaravi9: ', this.SitetNameTomaaravi);
+        console.log('numName9: ', numName);
+        console.log('Username9: ', Username);
+        console.log('SettlementName9: ', SettlementName);
+        console.log('this.SitetNameTomaaravi9: ', this.SitetNameTomaaravi);
 
-      const resultsMaaravi =
-        await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn_Atar(
-          0,
-          numName,
-          Username,
-          SettlementName,
-          '%',
-          '%',
-          '',
-          2023,
-          '%',
-          this.SitetNameTomaaravi,
-          0
-        );
-      console.log('resultsMaaravi: ', resultsMaaravi);
-
-      if (resultsMaaravi.length === 0) {
-        this.theDetails = resultsMaaravi;
-      } else {
+        const resultsMaaravi =
+          await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn_Atar(
+            0,
+            numName,
+            Username,
+            SettlementName,
+            '%',
+            '%',
+            '',
+            2023,
+            '%',
+            this.SitetNameTomaaravi,
+            0
+          );
         console.log('resultsMaaravi: ', resultsMaaravi);
 
-        // מוסיף שדה ג''ח
-        resultsMaaravi.forEach(async (item) => {
-          let yz_yzrn = item.v_yzrn;
-          const results2 =
-            await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-              yz_yzrn
+        if (resultsMaaravi.length === 0) {
+          this.theDetails = resultsMaaravi;
+        } else {
+          console.log('resultsMaaravi: ', resultsMaaravi);
+
+          // מוסיף שדה ג''ח
+          resultsMaaravi.forEach(async (item) => {
+            let yz_yzrn = item.v_yzrn;
+            const results2 =
+              await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+                yz_yzrn
+              );
+            if (results2[0]?.pa_Counter) {
+              item.pa_Counter = results2[0].pa_Counter;
+            } else {
+              item.pa_Counter = '';
+            }
+          });
+          console.log('resultsMaaravigfssdfsdf: ', resultsMaaravi);
+
+          // יוצר שדה המכיל מספרי אתרים
+          resultsMaaravi.forEach(async (item444) => {
+            const results3 =
+              await this.megadelSearchService.get_siteName_by_yzId(
+                item444.v_yzrn_id
+              );
+            console.log(' item444.YazRishaion: ', item444.YazRishaion);
+
+            console.log('results3: ', results3);
+
+            const codes = results3.map((obj) => obj.code);
+            const joinedString = codes.join(', ');
+            item444.yz_IdReal = item444.v_yzrn_id;
+            console.log(
+              'typeof( item444.yz_IdReal): ',
+              typeof item444.yz_IdReal
             );
-          if (results2[0]?.pa_Counter) {
-            item.pa_Counter = results2[0].pa_Counter;
-          } else {
-            item.pa_Counter = '';
-          }
-        });
-        console.log('resultsMaaravigfssdfsdf: ', resultsMaaravi);
 
-        // יוצר שדה המכיל מספרי אתרים
-        resultsMaaravi.forEach(async (item444) => {
-          const results3 = await this.megadelSearchService.get_siteName_by_yzId(
-            item444.v_yzrn_id
-          );
-          console.log(' item444.YazRishaion: ', item444.YazRishaion);
+            item444.yz_Id = joinedString;
+          });
 
-          console.log('results3: ', results3);
+          // יוצר שדה מיכסה
+          resultsMaaravi.forEach(async (item444) => {
+            this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
+              5,
+              item444?.v_yzrn,
+              this.chosenYear,
+              '30 - ביצי מאכל',
+              88
+            );
+            item444.micsa = this.mihsot3[0]?.mi_kamut;
+          });
+          console.log('resultsMaaravi after micsa: ', resultsMaaravi);
 
-          const codes = results3.map((obj) => obj.code);
-          const joinedString = codes.join(', ');
-          item444.yz_IdReal = item444.v_yzrn_id;
-          console.log('typeof( item444.yz_IdReal): ', typeof item444.yz_IdReal);
+          this.theDetails = resultsMaaravi;
+          localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+        }
 
-          item444.yz_Id = joinedString;
-        });
+        console.log('resultsMaaravi999: ', resultsMaaravi);
 
-        // יוצר שדה מיכסה
-        resultsMaaravi.forEach(async (item444) => {
-          this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
-            5,
-            item444?.v_yzrn,
-            this.chosenYear,
-            '30 - ביצי מאכל',
-            88
-          );
-          item444.micsa = this.mihsot3[0]?.mi_kamut;
-        });
-        console.log('resultsMaaravi after micsa: ', resultsMaaravi);
+        //   const results =
+        //     await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
+        //       SitetName,
+        //       Username,
+        //       SettlementName,
+        //       extension,
+        //       numName
+        //     );
 
-        this.theDetails = resultsMaaravi;
-        localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+        //   console.log('results6: ', results);
+
+        //   if (results.length === 0) {
+        //     this.theDetails = results;
+        //   } else {
+        //     console.log('results333: ', results);
+
+        //     results.forEach(async (item) => {
+        //       let yz_yzrn = item.yz_yzrn;
+        //       const results2 =
+        //         await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+        //           yz_yzrn
+        //         );
+        //       if (results2[0]?.pa_Counter) {
+        //         item.pa_Counter = results2[0].pa_Counter;
+        //       } else {
+        //         item.pa_Counter = '';
+        //       }
+        //     });
+
+        //     results.forEach(async (item444) => {
+        //       const results3 = await this.megadelSearchService.get_siteName_by_yzId(
+        //         item444.yz_Id
+        //       );
+        //       console.log('item444.yz_Id: ', item444.yz_Id);
+        //       console.log('results3 2: ', results3);
+
+        //       const codes = results3.map((obj) => obj.code);
+        //       const joinedString = codes.join(', ');
+        //       item444.yz_IdReal = item444.yz_Id;
+        //       console.log('typeof( item444.yz_IdReal): ', typeof item444.yz_IdReal);
+
+        //       item444.yz_Id = joinedString;
+        //     });
+
+        //     results.forEach(async (item444) => {
+        //       this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
+        //         5,
+        //         item444?.yz_yzrn,
+        //         this.chosenYear,
+        //         '30 - ביצי מאכל',
+        //         88
+        //       );
+        //       item444.micsa = this.mihsot3[0]?.mi_kamut;
+        //     });
+        //     console.log('results after micsa: ', results);
+
+        //     this.theDetails = results;
+        //     localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
       }
+    } else {
+      if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
+        console.log('gidolHotzName: ', gidolHotzName);
 
-      console.log('resultsMaaravi999: ', resultsMaaravi);
+        console.log('numName9: ', numName);
+        console.log('Username9: ', Username);
+        console.log('SettlementName9: ', SettlementName);
+        console.log('this.SitetNameTomaaravi9: ', this.SitetNameTomaaravi);
 
-      //   const results =
-      //     await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_active(
-      //       SitetName,
-      //       Username,
-      //       SettlementName,
-      //       extension,
-      //       numName
-      //     );
+        const resultsMaaravi2 =
+          await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
+            18,
+            '%',
+            Username,
+            SettlementName,
+            1,
+            '%',
+            30,
+            this.chosenYear,
+            '%',
+            '%',
+            '%',
+            1,
+            '%'
+          );
+        console.log('resultsMaaravi2: ', resultsMaaravi2);
 
-      //   console.log('results6: ', results);
+        if (resultsMaaravi2.length === 0) {
+          this.theDetails = resultsMaaravi2;
+        } else {
+          console.log('resultsMaaravi2: ', resultsMaaravi2);
 
-      //   if (results.length === 0) {
-      //     this.theDetails = results;
-      //   } else {
-      //     console.log('results333: ', results);
+          // מוסיף שדה ג''ח
+          resultsMaaravi2.forEach(async (item) => {
+            let yz_yzrn = item.v_yzrn;
+            const results2 =
+              await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+                yz_yzrn
+              );
+            if (results2[0]?.pa_Counter) {
+              item.pa_Counter = results2[0].pa_Counter;
+            } else {
+              item.pa_Counter = '';
+            }
+          });
 
-      //     results.forEach(async (item) => {
-      //       let yz_yzrn = item.yz_yzrn;
-      //       const results2 =
-      //         await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-      //           yz_yzrn
-      //         );
-      //       if (results2[0]?.pa_Counter) {
-      //         item.pa_Counter = results2[0].pa_Counter;
-      //       } else {
-      //         item.pa_Counter = '';
-      //       }
-      //     });
+          // יוצר שדה המכיל מספרי אתרים
+          resultsMaaravi2.forEach(async (item444) => {
+            const results3 =
+              await this.megadelSearchService.get_siteName_by_yzId(
+                item444.v_yzrn_id
+              );
+            console.log(' item444.YazRishaion: ', item444.YazRishaion);
 
-      //     results.forEach(async (item444) => {
-      //       const results3 = await this.megadelSearchService.get_siteName_by_yzId(
-      //         item444.yz_Id
-      //       );
-      //       console.log('item444.yz_Id: ', item444.yz_Id);
-      //       console.log('results3 2: ', results3);
+            console.log('results3: ', results3);
 
-      //       const codes = results3.map((obj) => obj.code);
-      //       const joinedString = codes.join(', ');
-      //       item444.yz_IdReal = item444.yz_Id;
-      //       console.log('typeof( item444.yz_IdReal): ', typeof item444.yz_IdReal);
+            const codes = results3.map((obj) => obj.code);
+            const joinedString = codes.join(', ');
+            item444.yz_IdReal = item444.v_yzrn_id;
+            console.log(
+              'typeof( item444.yz_IdReal): ',
+              typeof item444.yz_IdReal
+            );
 
-      //       item444.yz_Id = joinedString;
-      //     });
+            item444.yz_Id = joinedString;
+          });
 
-      //     results.forEach(async (item444) => {
-      //       this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
-      //         5,
-      //         item444?.yz_yzrn,
-      //         this.chosenYear,
-      //         '30 - ביצי מאכל',
-      //         88
-      //       );
-      //       item444.micsa = this.mihsot3[0]?.mi_kamut;
-      //     });
-      //     console.log('results after micsa: ', results);
+          // יוצר שדה מיכסה
+          resultsMaaravi2.forEach(async (item444) => {
+            this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
+              5,
+              item444?.v_yzrn,
+              this.chosenYear,
+              '30 - ביצי מאכל',
+              88
+            );
+            item444.micsa = this.mihsot3[0]?.mi_kamut;
+          });
+          console.log('resultsMaaravi after micsa: ', resultsMaaravi2);
 
-      //     this.theDetails = results;
-      //     localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+          this.theDetails = resultsMaaravi2;
+          localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
+        }
+
+        console.log('resultsMaaravi999: ', resultsMaaravi2);
+      }
     }
-
-    //   notActive
-    // } else if (this.selectedCheckbox === 'notActive') {
-    //   const results =
-    //     await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_not_active(
-    //       SitetName,
-    //       Username,
-    //       SettlementName,
-    //       extension,
-    //       numName
-    //     );
-    //   this.theDetails = results;
-    //   localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
-    // } else if (this.selectedCheckbox === 'all') {
-    //   const results =
-    //     await this.megadelSearchService.megadel_by_atar_name_yeshov_shloha_all(
-    //       SitetName,
-    //       Username,
-    //       SettlementName,
-    //       extension,
-    //       numName
-    //     );
-
-    //   this.theDetails = results;
-    //   localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
-    // }
     this.isLoading = false; // Stop loading
   }
 }

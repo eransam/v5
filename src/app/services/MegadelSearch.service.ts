@@ -11,6 +11,31 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  // חיפוש מגדלים לפי שם מגדל, שם ישוב, מס מגדל
+  async Yzrn_Select_For_Search_Yzrn(
+    order: any,
+    start_code_yzrn: any,
+    start_name_yzrn: any,
+    start_name_yeshuv: any,
+    start_sug: any,
+    KntNo: any,
+    start_tzrt: any,
+    start_year: any,
+    AcountNo: any,
+    start_Id_No: any,
+    start_Msk: any,
+    code: any,
+    RishaionNo: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yzrn_Select_For_Search_Yzrn?order=${order}&start_code_yzrn=${start_code_yzrn}&start_name_yzrn=${start_name_yzrn}&start_name_yeshuv=${start_name_yeshuv}&start_sug=${start_sug}&KntNo=${KntNo}&start_tzrt=${start_tzrt}&start_year=${start_year}&AcountNo=${AcountNo}&start_Id_No=${start_Id_No}&start_Msk=${start_Msk}&code=${code}&RishaionNo=${RishaionNo}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   // חיפוש מגדלים לפי אתר
   async Yzrn_Select_For_Search_Yzrn_Atar(
     order: any,
