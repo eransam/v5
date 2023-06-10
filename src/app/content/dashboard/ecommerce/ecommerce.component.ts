@@ -477,7 +477,7 @@ export class EcommerceComponent implements OnInit {
         if (results2[0]?.female_number_f) {
           item.hiclos_number = results2[0].female_number_f;
         } else {
-          item.pa_Counter = '';
+          item.hiclos_number = '';
         }
       }
       // הוספת שדה איכלוס - סיום
