@@ -11,6 +11,25 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  // מציג אתרים לפי מספר מגדל כולל לול למחצה
+  async Tables_Select_All_Atarim_Of_Yzrn(
+    order: any,
+    start_prefix: any,
+    start_code: any,
+    start_Year: any,
+    start_Tzrt: any,
+    start_Yzrn: any,
+    start_Status: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Tables_Select_All_Atarim_Of_Yzrn?order=${order}&start_prefix=${start_prefix}&start_code=${start_code}&start_Year=${start_Year}&start_Tzrt=${start_Tzrt}&start_Yzrn=${start_Yzrn}&start_Status=${start_Status}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   // חיפוש מגדלים לפי שם מגדל, שם ישוב, מס מגדל
   async Yzrn_Select_For_Search_Yzrn(
     order: any,

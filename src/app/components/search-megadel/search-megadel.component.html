@@ -318,6 +318,47 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
+                            <ng-container
+                              *ngIf="
+                                row.farm_status_id === 1;
+                                else closedTemplate
+                              "
+                            >
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_IdReal
+                                  ]"
+                                >
+                                  <p style="">{{ row.yz_Id }}</p></a
+                                >
+                              </div>
+                            </ng-container>
+                            <ng-template #closedTemplate>
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_IdReal
+                                  ]"
+                                >
+                                  <p style="">{{ row.yz_Id }}</p></a
+                                >
+                              </div>
+                            </ng-template>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- <ngx-datatable-column
+                          name="מספר אתר"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
                             <div [class]="'text-right'">
                               <a
                                 [routerLink]="[
@@ -329,7 +370,7 @@
                               >
                             </div>
                           </ng-template>
-                        </ngx-datatable-column>
+                        </ngx-datatable-column> -->
 
                         <ngx-datatable-column
                           name="שם יצרן"

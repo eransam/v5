@@ -35,6 +35,7 @@ import { PopupIzavonComponent } from '../popup-izavon/popup-izavon.component';
 import { PopupGrowerOtherAddrComponent } from '../popup-grower-other-addr/popup-grower-other-addr.component';
 import { PopupOldGrowerNameComponent } from '../popup-old-grower-name/popup-old-grower-name.component';
 import { PopupPetemPartnersComponent } from '../popup-petem-partners/popup-petem-partners.component';
+import { number } from 'echarts';
 
 @Component({
   selector: 'app-ecommerce',
@@ -103,6 +104,7 @@ export class EcommerceComponent implements OnInit {
   eggSum = 0;
   eggSumFarm = 0;
   arrOfOldGrower = [];
+  arrLulMehetza = [];
   totalMicsaKvoha = 0;
   totalMicsaToPay = 0;
   McsRishaion_Esek_number_type: any;
@@ -231,12 +233,6 @@ export class EcommerceComponent implements OnInit {
         await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
           this.userDetails[0].yz_yzrn
         );
-      console.log('this.userDetails[0].yz_yzrn: ', this.userDetails[0].yz_yzrn);
-
-      console.log(
-        'this.check_if_Yzrn_have_Other_Addr: ',
-        this.check_if_Yzrn_have_Other_Addr
-      );
 
       if (this.check_if_Yzrn_have_Other_Addr.length > 0) {
         this.yzrn_have_other_addr = true;
@@ -282,11 +278,6 @@ export class EcommerceComponent implements OnInit {
       this.McsRishaion_Esek_number_type = parseFloat(
         this.businessLicense[0]?.McsRishaion_Esek
       );
-
-      console.log(
-        'this.McsRishaion_Esek_number_type: ',
-        this.McsRishaion_Esek_number_type
-      );
       // רישיון עסק התראה - סיום
 
       // מכסות ביצים
@@ -297,8 +288,6 @@ export class EcommerceComponent implements OnInit {
         '30 - ביצי מאכל',
         88
       );
-
-      console.log('this.mihsot.length: ', this.mihsot.length);
       // מכסות ביצים - סיום
 
       // מכסות פטם
@@ -309,8 +298,6 @@ export class EcommerceComponent implements OnInit {
         '10',
         88
       );
-
-      console.log('this.mihsotPetem: ', this.mihsotPetem);
       // מכסות פטם - סיום
 
       // מכסות הודים
@@ -321,7 +308,6 @@ export class EcommerceComponent implements OnInit {
         '01',
         88
       );
-
       console.log('this.mihsotPetem: ', this.mihsotHodim);
       // מכסות הודים - סיום
 
@@ -393,11 +379,16 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_theUserDetails = false;
 
       //   חילוץ מס האתר ע'י האיידי של המגדל
-      this.siteName = await this.megadelSearchService.get_siteName_by_yzId(
-        this.idFromurl
-      );
-
-      console.log('this.siteName: ', this.siteName);
+      this.siteName =
+        await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
+          50,
+          '',
+          '%',
+          0,
+          '20,27',
+          this.userDetails[0].yz_yzrn,
+          99
+        );
 
       //   חילוץ מס האתר ע'י האיידי של המגדל - סיום
 
@@ -407,11 +398,9 @@ export class EcommerceComponent implements OnInit {
         console.log('this.FarmId-end: ', this.FarmId);
         //סיום - FarmId חילוץ
 
-        // ihsotPetem.length > 0 || mihsotHodim.length > 0) &&
-        //     mihsot.length > 0
-
         // חילוץ פרטי אתרים עי הפארם איידי
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
+
         console.log('this.FarmDetails-end: ', this.FarmDetails);
       } else {
         this.mainGrower =
@@ -432,17 +421,20 @@ export class EcommerceComponent implements OnInit {
       // חילוץ פרטי אתר עי הפארם איידי -  סיום
 
       this.totalFarms = this.FarmDetails.length;
-      console.log('this.totalFarms: ', this.totalFarms);
 
       // הוספה לפרטי האתר שדה המכיל גידול חוץ
       for (let item of this.FarmDetails) {
-        let lull2000_code = item.lull2000_code;
-        const results2 =
-          await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-            lull2000_code
-          );
-        if (results2[0]?.pa_Counter) {
-          item.pa_Counter = results2[0].pa_Counter;
+        if (item.lull2000_code) {
+          let lull2000_code = item.lull2000_code;
+          const results2 =
+            await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+              lull2000_code
+            );
+          if (results2[0]?.pa_Counter) {
+            item.pa_Counter = results2[0].pa_Counter;
+          } else {
+            item.pa_Counter = '';
+          }
         } else {
           item.pa_Counter = '';
         }
@@ -453,11 +445,11 @@ export class EcommerceComponent implements OnInit {
       for (let item of this.FarmDetails) {
         let grower_id = item.grower_id;
         let farm_id = item.farm_id;
-
+        let farm_code_without_slesh = this.extractNumber(item.farm_code);
         const checkPartners =
           await this.megadelSearchService.Partners_By_Farm_Select(
             7,
-            item.farm_code,
+            farm_code_without_slesh,
             '19',
             '',
             '20180101',
@@ -519,8 +511,9 @@ export class EcommerceComponent implements OnInit {
           this.Not_Active_FarmDetails.push(item);
         }
       }
+      console.log('this.Active_FarmDetails;: ', this.Active_FarmDetails);
 
-      this.rows = this.FarmDetails;
+      this.rows = this.Active_FarmDetails;
 
       this.isLoading_FarmDetails = false;
 
@@ -530,7 +523,7 @@ export class EcommerceComponent implements OnInit {
       });
       this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
         this.datatableData = Response;
-        this.getTabledata();
+        // this.getTabledata();
       });
 
       this.loadData(this.userDetails[0]?.yz_Id);
@@ -539,7 +532,7 @@ export class EcommerceComponent implements OnInit {
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
-  showNotActiveSite() {
+  show_ActiveSite() {
     this.rows = this.Active_FarmDetails;
   }
 
@@ -547,9 +540,8 @@ export class EcommerceComponent implements OnInit {
     this.rows = this.FarmDetails;
   }
 
-  showActiveSite(){
+  show_not_ActiveSite() {
     this.rows = this.Not_Active_FarmDetails;
-
   }
   isFirstUniqueValue(obj: any, currentIndex: number): boolean {
     for (let i = 0; i < currentIndex; i++) {
@@ -1039,14 +1031,71 @@ export class EcommerceComponent implements OnInit {
 
     for (const item of siteNames) {
       if (item && item.code) {
+        if (item.code.includes('/')) {
+          this.arrLulMehetza.push(item.code);
+        }
+        const extractedNumber = this.extractNumber(item.code);
+
         const farmId = await this.megadelSearchService.Get_farmId_By_siteName(
-          item.code
+          extractedNumber
         );
         farmIds.push(farmId[0].id);
       }
     }
 
     return farmIds;
+  }
+
+  extractNumber(value: any): number {
+    if (typeof value === 'string') {
+      if (value.includes('/')) {
+        // Split the string based on the '/'
+        const parts = value.split('/');
+
+        // Retrieve the first part which represents the number
+        const numberPart = parts[0];
+
+        // Convert the number part to a numeric value
+        const number = Number(numberPart);
+
+        // Return the extracted number
+        return number;
+      } else {
+        // Convert the number part to a numeric value
+        const number = Number(value);
+
+        // Return the extracted number
+        return number;
+      }
+    } else {
+      return value;
+    }
+  }
+
+  extractNumber_In_Type_Number(value: any): number {
+    if (typeof value === 'string') {
+      if (value.includes('/')) {
+        // Split the string based on the '/'
+        const parts = value.split('/');
+
+        // Retrieve the first part which represents the number
+        const numberPart = parts[0];
+
+        // Convert the number part to a numeric value
+        const number = Number(numberPart);
+
+        // Return the extracted number as a number
+        return number;
+      } else {
+        // Convert the number part to a numeric value
+        const number = Number(value);
+
+        // Return the extracted number as a number
+        return number;
+      }
+    } else {
+      return value;
+    }
   }
 
   async loadData(growerID) {
@@ -1073,9 +1122,6 @@ export class EcommerceComponent implements OnInit {
     console.log('this.growerData2: ', this.growerData);
   }
 
-  test() {
-    console.log('hello');
-  }
   async getFarmDetailsArr(FarmIdArr: any[]): Promise<any[]> {
     const farmDetailsArr: any[] = [];
     console.log('theFarmIdArr: ', FarmIdArr);
@@ -1086,6 +1132,14 @@ export class EcommerceComponent implements OnInit {
 
         const farmDetails =
           await this.megadelSearchService.prc_farm_details_eran(FarmId, -1);
+
+        for (let item of this.arrLulMehetza) {
+          console.log('item: ', item);
+          let checkMehetza = this.extractNumber_In_Type_Number(item);
+          if (farmDetails[0].farm_code === checkMehetza) {
+            farmDetails[0].farm_code = item;
+          }
+        }
 
         console.log('farmDetails1: ', farmDetails);
 
