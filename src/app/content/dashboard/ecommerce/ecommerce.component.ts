@@ -175,7 +175,6 @@ export class EcommerceComponent implements OnInit {
       this.click_on_show_ActiveSite = true;
       this.click_on_not_show_ActiveSite = false;
       this.newArray = [];
-      this.newArray = [];
 
       // Call any necessary functions or perform logic based on the new parameter value
       this.refreshComponent();
@@ -549,7 +548,7 @@ export class EcommerceComponent implements OnInit {
         this.click_on_show_ActiveSite = true;
         this.click_on_not_show_ActiveSite = false;
       } else {
-        this.rows = this.Not_Active_FarmDetails;
+        this.rows = this.Active_FarmDetails;
         this.isNotActiveSiteShown = true;
         this.click_on_show_ActiveSite = false;
         this.click_on_not_show_ActiveSite = true;
@@ -702,6 +701,7 @@ export class EcommerceComponent implements OnInit {
 
   async getPartner(allTheFarmDet) {
     console.log('allTheFarmDet: ', allTheFarmDet);
+    console.log('this.newArray2: ', this.newArray);
 
     // console.log('ccc: ', farmID, ' ', flockID, ' ', lull2000Code);
     for (const obj2 of allTheFarmDet) {
@@ -729,12 +729,6 @@ export class EcommerceComponent implements OnInit {
         );
         console.log('this.partnerData5: ', this.partnerData);
 
-        for (const obj2 of this.newArray) {
-          if (obj2.cd_gidul === this.partnerData[0].cd_gidul) {
-            this.newArrayEnd.push(obj2);
-          }
-        }
-
         this.mcsaSum = 0;
         this.eggSum = 0;
         this.certificateSum = 0;
@@ -755,6 +749,11 @@ export class EcommerceComponent implements OnInit {
           certificateSum: this.certificateSum,
           eggSum: this.eggSum,
         };
+        for (const obj2 of this.newArray) {
+          if (obj2.cd_gidul === this.partnerData[0].cd_gidul.toString()) {
+            this.newArrayEnd.push(obj2);
+          }
+        }
 
         this.partnerData.push({
           obj2: obj,
@@ -764,8 +763,6 @@ export class EcommerceComponent implements OnInit {
         });
 
         console.log('this.partnerData in if of for: ', this.partnerData);
-
-        console.log();
 
         await this.openPopup();
       } else {
@@ -800,7 +797,7 @@ export class EcommerceComponent implements OnInit {
         };
 
         for (const obj2 of this.newArray) {
-          if (obj2.cd_gidul === this.partnerData[0].cd_gidul) {
+          if (obj2.cd_gidul === this.partnerData[0].cd_gidul.toString()) {
             this.newArrayEnd.push(obj2);
           }
         }
@@ -827,22 +824,18 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.data = this.partnerData;
     const dialogRef = this.dialog.open(PopupComponent, dialogConfig);
 
-    let isSecondClick = false;
+    let isClickedInside = false;
 
     const handleDocumentClick = () => {
-      if (isSecondClick) {
+      if (!isClickedInside) {
         dialogRef.close();
         document.removeEventListener('click', handleDocumentClick);
-      } else {
-        isSecondClick = true;
       }
+      isClickedInside = false;
     };
 
     const handleButtonClick = () => {
-      if (dialogRef) {
-        dialogRef.close();
-        document.removeEventListener('click', handleDocumentClick);
-      }
+      isClickedInside = true;
     };
 
     document.addEventListener('click', handleDocumentClick);
@@ -853,7 +846,6 @@ export class EcommerceComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog closed with result:', result);
-      isSecondClick = false;
       document.removeEventListener('click', handleDocumentClick);
       buttonElement.removeEventListener('click', handleButtonClick);
     });
