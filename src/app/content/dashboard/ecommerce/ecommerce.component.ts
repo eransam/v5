@@ -83,6 +83,8 @@ export class EcommerceComponent implements OnInit {
   FarmId: any[];
   siteName: any = '';
   FarmDetails: any[] = [];
+  newArray: any[] = [];
+  newArrayEnd: any[] = [];
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = false;
@@ -128,6 +130,10 @@ export class EcommerceComponent implements OnInit {
   arrPartnersPetem: any[] = [];
   Active_FarmDetails: any[] = [];
   Not_Active_FarmDetails: any[] = [];
+  public isNotActiveSiteShown: boolean = false;
+  public click_on_show_ActiveSite: boolean = true;
+  public click_on_not_show_ActiveSite: boolean = false;
+
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -141,10 +147,16 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.Active_FarmDetails = [];
+    this.Not_Active_FarmDetails = [];
+    this.isNotActiveSiteShown = false;
+    this.click_on_show_ActiveSite = true;
+    this.click_on_not_show_ActiveSite = false;
     this.checkOldGrowerName = false;
     this.Check_Ben_Zug_Shotaf = false;
     this.Check_v_name_kaful = false;
-    this.checkOldGrowerName = false;
+    this.newArray = [];
+    this.newArray = [];
 
     this.route2.params.subscribe(async (params) => {
       this.farmID2Fromurl = params['farmid'];
@@ -157,8 +169,13 @@ export class EcommerceComponent implements OnInit {
       this.Check_Ben_Zug_Shotaf = false;
       this.Check_v_name_kaful = false;
       this.checkOldGrowerName = false;
-
-      console.log(' this.checkOldGrowerName: ', this.checkOldGrowerName);
+      this.Active_FarmDetails = [];
+      this.Not_Active_FarmDetails = [];
+      this.isNotActiveSiteShown = false;
+      this.click_on_show_ActiveSite = true;
+      this.click_on_not_show_ActiveSite = false;
+      this.newArray = [];
+      this.newArray = [];
 
       // Call any necessary functions or perform logic based on the new parameter value
       this.refreshComponent();
@@ -401,6 +418,14 @@ export class EcommerceComponent implements OnInit {
         // חילוץ פרטי אתרים עי הפארם איידי
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
 
+        this.newArray = this.FarmDetails.map((obj) => {
+          return {
+            cd_gidul: obj?.cd_gidul,
+            farm_code: obj?.farm_code,
+          };
+        });
+        console.log(' this.newArray: ', this.newArray);
+
         console.log('this.FarmDetails-end: ', this.FarmDetails);
       } else {
         this.mainGrower =
@@ -417,6 +442,12 @@ export class EcommerceComponent implements OnInit {
         console.log('thefarmdet3: ', thefarmdet);
 
         this.FarmDetails = thefarmdet;
+        this.newArray = this.FarmDetails.map((obj) => {
+          return {
+            cd_gidul: obj?.cd_gidul,
+            farm_code: obj?.farm_code,
+          };
+        });
       }
       // חילוץ פרטי אתר עי הפארם איידי -  סיום
 
@@ -446,6 +477,7 @@ export class EcommerceComponent implements OnInit {
         let grower_id = item.grower_id;
         let farm_id = item.farm_id;
         let farm_code_without_slesh = this.extractNumber(item.farm_code);
+        // בדיקת שותפים מכסת פטם
         const checkPartners =
           await this.megadelSearchService.Partners_By_Farm_Select(
             7,
@@ -511,10 +543,17 @@ export class EcommerceComponent implements OnInit {
           this.Not_Active_FarmDetails.push(item);
         }
       }
-      console.log('this.Active_FarmDetails;: ', this.Active_FarmDetails);
 
-      this.rows = this.Active_FarmDetails;
-
+      if (this.Active_FarmDetails.length > 0) {
+        this.rows = this.Active_FarmDetails;
+        this.click_on_show_ActiveSite = true;
+        this.click_on_not_show_ActiveSite = false;
+      } else {
+        this.rows = this.Not_Active_FarmDetails;
+        this.isNotActiveSiteShown = true;
+        this.click_on_show_ActiveSite = false;
+        this.click_on_not_show_ActiveSite = true;
+      }
       this.isLoading_FarmDetails = false;
 
       this.chartApiservice.getEcommerceData().subscribe((Response) => {
@@ -523,7 +562,6 @@ export class EcommerceComponent implements OnInit {
       });
       this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
         this.datatableData = Response;
-        // this.getTabledata();
       });
 
       this.loadData(this.userDetails[0]?.yz_Id);
@@ -533,6 +571,10 @@ export class EcommerceComponent implements OnInit {
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
   show_ActiveSite() {
+    this.isNotActiveSiteShown = false;
+    this.click_on_show_ActiveSite = true;
+    this.click_on_not_show_ActiveSite = false;
+
     this.rows = this.Active_FarmDetails;
   }
 
@@ -541,6 +583,10 @@ export class EcommerceComponent implements OnInit {
   }
 
   show_not_ActiveSite() {
+    this.isNotActiveSiteShown = true;
+    this.click_on_show_ActiveSite = false;
+    this.click_on_not_show_ActiveSite = true;
+
     this.rows = this.Not_Active_FarmDetails;
   }
   isFirstUniqueValue(obj: any, currentIndex: number): boolean {
@@ -654,19 +700,15 @@ export class EcommerceComponent implements OnInit {
     // Perform any other necessary operations or API calls based on the new parameter value
   }
 
-  //    rows[0]?.farm_id,
-  //   rows[0]?.active_flock_id,
-  //   rows[0]?.lull2000_code
-
   async getPartner(allTheFarmDet) {
     console.log('allTheFarmDet: ', allTheFarmDet);
 
     // console.log('ccc: ', farmID, ' ', flockID, ' ', lull2000Code);
     for (const obj2 of allTheFarmDet) {
       if (
-        obj2?.farm_id === null ||
-        obj2?.active_flock_id === null ||
-        obj2?.lull2000_code === null
+        obj2?.farm_id !== null ||
+        obj2?.active_flock_id !== null ||
+        obj2?.lull2000_code !== null
       ) {
         this.mainGrower =
           await this.megadelSearchService.Partners_Get_CodeGidul(
@@ -686,6 +728,12 @@ export class EcommerceComponent implements OnInit {
           thefarmdet[0]?.lull2000_code
         );
         console.log('this.partnerData5: ', this.partnerData);
+
+        for (const obj2 of this.newArray) {
+          if (obj2.cd_gidul === this.partnerData[0].cd_gidul) {
+            this.newArrayEnd.push(obj2);
+          }
+        }
 
         this.mcsaSum = 0;
         this.eggSum = 0;
@@ -712,6 +760,7 @@ export class EcommerceComponent implements OnInit {
           obj2: obj,
           farmID2: obj2?.farm_id,
           flockID2: obj2?.active_flock_id,
+          newArrayEnd: this.newArrayEnd,
         });
 
         console.log('this.partnerData in if of for: ', this.partnerData);
@@ -750,10 +799,17 @@ export class EcommerceComponent implements OnInit {
           cd_gidul: allTheFarmDet[0].cd_gidul,
         };
 
+        for (const obj2 of this.newArray) {
+          if (obj2.cd_gidul === this.partnerData[0].cd_gidul) {
+            this.newArrayEnd.push(obj2);
+          }
+        }
+
         this.partnerData.push({
           obj2: obj,
           farmID2: obj2?.farm_id,
           flockID2: obj2?.active_flock_id,
+          newArrayEnd: this.newArrayEnd,
         });
 
         console.log('this.partnerData in else of for: ', this.partnerData);
@@ -1156,11 +1212,6 @@ export class EcommerceComponent implements OnInit {
     );
   }
 
-  getTabledata() {
-    console.log(':this.FarmDetails555: ', this.FarmDetails);
-
-    this.rows = this.FarmDetails;
-  }
   getlineArea() {
     const ChartData = this.ChartistData;
     this.lineAreaDay = {

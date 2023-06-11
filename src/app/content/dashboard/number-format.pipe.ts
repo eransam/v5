@@ -4,7 +4,20 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'numberFormat',
 })
 export class NumberFormatPipe implements PipeTransform {
-  transform(number: number): string {
+  transform(value: any): string {
+    let number: number;
+
+    // Check if the value is a string and convert it to a number
+    if (typeof value === 'string') {
+      number = parseFloat(value);
+    } else if (typeof value === 'number') {
+      number = value;
+    } else {
+      // Return the value as-is if it's not a string or number
+      return value;
+    }
+
+    // Format the number and return it as a string
     return new Intl.NumberFormat().format(number);
   }
 }

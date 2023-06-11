@@ -778,7 +778,7 @@ export class SearchMegadelComponent implements OnInit {
         const resultsMaaravi2 =
           await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
             18,
-            '%',
+            numName,
             Username,
             SettlementName,
             1,
@@ -797,8 +797,6 @@ export class SearchMegadelComponent implements OnInit {
           this.theDetails = resultsMaaravi2;
         } else {
           console.log('resultsMaaravi2: ', resultsMaaravi2);
-
-
 
           // הוספה לפרטי האתר שדה המכיל גידול חוץ
           for (let item of resultsMaaravi2) {
@@ -829,10 +827,15 @@ export class SearchMegadelComponent implements OnInit {
             //   );
 
             const results3 =
-            await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
-                50,'','%',0,'20,27',item.v_yzrn,99
-             
-            ); 
+              await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
+                50,
+                '',
+                '%',
+                0,
+                '20,27',
+                item.v_yzrn,
+                99
+              );
             const codes = results3.map((obj) => obj.code);
             const joinedString = codes.join(', ');
             item.yz_IdReal = item.v_yzrn_id;

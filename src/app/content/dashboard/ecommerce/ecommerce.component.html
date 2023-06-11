@@ -443,7 +443,7 @@
 
                   <div
                     *ngIf="!isLoading_FarmDetails"
-                    class="table-container micsotStyle"
+                    class="table-container micsotStyle2"
                   >
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
@@ -1188,19 +1188,6 @@
                   <div class="totalFarms col">סהכ : {{ rows.length }}</div> -->
 
                   <div
-                    *ngIf="Active_FarmDetails.length > 0"
-                    (click)="show_ActiveSite()"
-                    style="
-                      color: blue;
-                      text-decoration: underline;
-                      cursor: pointer;
-                      margin-left: 25px;
-                    "
-                  >
-                    ({{ Active_FarmDetails.length }})אתרים פעילים
-                  </div>
-
-                  <div
                     *ngIf="Not_Active_FarmDetails.length > 0"
                     (click)="show_not_ActiveSite()"
                     style="
@@ -1208,10 +1195,28 @@
                       text-decoration: underline;
                       cursor: pointer;
                       margin-left: 25px;
+                      font-size: larger;
                     "
+                    [class.active-site]="click_on_not_show_ActiveSite"
                   >
-                    ({{ Not_Active_FarmDetails.length }})אתרים לא פעילים
+                    ({{ Not_Active_FarmDetails.length }}) לא פעילים
                   </div>
+
+                  <div
+                    *ngIf="Active_FarmDetails.length > 0"
+                    (click)="show_ActiveSite()"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                      margin-left: 25px;
+                      font-size: larger;
+                    "
+                    [class.active-site]="click_on_show_ActiveSite"
+                  >
+                    ({{ Active_FarmDetails.length }}) פעילים
+                  </div>
+
                   <!-- 
                   <div
                     (click)="showAllSite()"
@@ -1242,8 +1247,6 @@
                       <th scope="col" class="border-top-0">סוג משק</th>
                       <th scope="col" class="border-top-0">סוג מבנה</th>
 
-                      <!-- <th scope="col" class="border-top-0">סוג הובלה</th> -->
-
                       <th scope="col" class="border-top-0">מס להקה</th>
 
                       <th scope="col" class="border-top-0">תאריך בקיעה</th>
@@ -1264,137 +1267,234 @@
                       <th scope="col" class="border-top-0">מס גוש</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody
+                    [ngStyle]="{
+                      'background-color': isNotActiveSiteShown
+                        ? '#fff1f1'
+                        : '#edffed'
+                    }"
+                  >
                     <tr *ngFor="let row of rows">
+                      <!-- <th scope="col" class="border-top-0">מס' אתר</th> -->
                       <td class="text-truncate row_padding">
                         {{ row.farm_code }}
                       </td>
 
+                      <!-- <th scope="col" class="border-top-0">שם אתר</th> -->
                       <td class="text-truncate row_padding">
                         {{ row.farm_name }}
                       </td>
 
+                      <!-- <th scope="col" class="border-top-0">יישוב</th> -->
                       <td class="text-truncate row_padding">
                         {{ row.settlement_name }}
                       </td>
 
+                      <!-- <th scope="col" class="border-top-0">ק. השתייכות</th> -->
                       <td class="text-truncate row_padding">
                         {{ row.belonging_group_name }}
                       </td>
 
-                      <td class="text-truncate row_padding">{{ row.name }}</td>
-                      <td class="text-truncate row_padding">
+                      <!-- <th scope="col" class="border-top-0">סוג משק</th> -->
+                      <td
+                        *ngIf="!row.name || row.name === null"
+                        class="text-truncate row_padding"
+                      ></td>
+                      <td
+                        *ngIf="row.name || row.name !== null"
+                        class="text-truncate row_padding"
+                      >
+                        {{ row.name }}
+                      </td>
+
+                      <!-- <th scope="col" class="border-top-0">סוג מבנה</th> -->
+
+                      <td
+                        *ngIf="
+                          !row.hen_house_type_name ||
+                          row.hen_house_type_name === null
+                        "
+                        class="text-truncate row_padding"
+                      ></td>
+                      <td
+                        *ngIf="
+                          row.hen_house_type_name ||
+                          row.hen_house_type_name !== null
+                        "
+                        class="text-truncate row_padding"
+                      >
                         {{ row.hen_house_type_name }}
                       </td>
 
-                      <td class="text-truncate row_padding">
+                      <!-- <th scope="col" class="border-top-0">מס להקה</th> -->
+                      <td
+                        *ngIf="
+                          !row.active_flock_id || row.active_flock_id === null
+                        "
+                        class="text-truncate row_padding"
+                      ></td>
+                      <td
+                        *ngIf="
+                          row.active_flock_id || row.active_flock_id !== null
+                        "
+                        class="text-truncate row_padding"
+                      >
                         {{ row.active_flock_id }}
                       </td>
 
-                      <td class="text-truncate row_padding">
+                      <!-- <th scope="col" class="border-top-0">תאריך בקיעה</th> -->
+                      <td
+                        *ngIf="
+                          !row.flock_hatch_date || row.flock_hatch_date === null
+                        "
+                        class="text-truncate row_padding"
+                      ></td>
+                      <td
+                        *ngIf="
+                          row.flock_hatch_date || row.flock_hatch_date !== null
+                        "
+                        class="text-truncate row_padding"
+                      >
                         {{ row.flock_hatch_date | date : "dd/MM/yyyy" }}
                       </td>
 
-                      <td class="text-truncate row_padding">
+                      <!-- <th scope="col" class="border-top-0">גיל בשבועות</th> -->
+                      <td
+                        *ngIf="
+                          !row.flock_week_age || row.flock_week_age === null
+                        "
+                        class="text-truncate row_padding"
+                      ></td>
+                      <td
+                        *ngIf="
+                          row.flock_week_age || row.flock_week_age !== null
+                        "
+                        class="text-truncate row_padding"
+                      >
                         {{ row.flock_week_age }}
                       </td>
 
-                      <td class="text-truncate row_padding">
+                      <!-- <th scope="col" class="border-top-0">גיל בחודשים</th> -->
+                      <td
+                        *ngIf="
+                          !row.flock_month_age || row.flock_month_age === null
+                        "
+                        class="text-truncate row_padding"
+                      ></td>
+                      <td
+                        *ngIf="
+                          row.flock_month_age || row.flock_month_age !== null
+                        "
+                        class="text-truncate row_padding"
+                      >
                         {{ row.flock_month_age }}
                       </td>
-                      <td class="text-truncate row_padding" *ngIf="">
-                        {{ row.kibolet_lul | numberFormat }}
+                      <!-- <th scope="col" class="border-top-0">קיבולת לול</th> -->
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.kibolet_lul === ''"
+                      >
+                        {{ row.kibolet_lul }}
                       </td>
                       <td
                         class="text-truncate row_padding"
-                        *ngIf="row.hiclos_number === NaN; else elseBlock"
+                        *ngIf="row.kibolet_lul !== ''"
+                      >
+                        {{ row.kibolet_lul | numberFormat }}
+                      </td>
+
+                      <!-- <th scope="col" class="border-top-0">איכלוס</th> -->
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.hiclos_number === ''"
+                      >
+                        {{ row.hiclos_number }}
+                      </td>
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.hiclos_number !== ''"
+                      >
+                        {{ row.hiclos_number | numberFormat }}
+                      </td>
+
+                      <!-- <th scope="col" class="border-top-0">איכלוס 750</th> -->
+                      <td
+                        class="text-truncate row_padding"
+                        *ngIf="row.calc750 === 0"
                       ></td>
-                      <ng-template #elseBlock>
-                        <td class="text-truncate row_padding">
-                          {{ row.hiclos_number | numberFormat }}
-                        </td>
-                      </ng-template>
 
                       <td
                         class="text-truncate row_padding"
-                        *ngIf="row.hiclos_number === NaN; else elseBlock1"
-                      ></td>
-                      <ng-template #elseBlock1>
-                        <td class="text-truncate row_padding">
-                          {{ row.calc750 | numberFormat }}
-                        </td>
-                      </ng-template>
-
+                        *ngIf="row.calc750 === ''"
+                      >
+                        {{ row.calc750 }}
+                      </td>
                       <td
                         class="text-truncate row_padding"
-                        *ngIf="row.hiclos_number === NaN; else elseBlock2"
-                      ></td>
-                      <ng-template #elseBlock1>
-                        <td class="text-truncate row_padding">
-                          <span
-                            style="font-size: 2rem !important"
-                            *ngIf="
-                              row.is_hen_house_split == 1 &&
-                              splitHenHouseNum == -1
-                            "
-                            >יש - {{ row.farm_code }}</span
-                          >
+                        *ngIf="row.calc750 !== '' && row.calc750 !== 0"
+                      >
+                        {{ row.calc750 | numberFormat }}
+                      </td>
 
-                          <span
-                            style="font-size: 2rem !important"
-                            *ngIf="
-                              row.is_hen_house_split == 1 &&
-                              splitHenHouseNum != -1
-                            "
-                            >יש - {{ row.farm_code }}/{{
-                              splitHenHouseNum
-                            }}</span
-                          >
-                          <span
-                            *ngIf="row.is_hen_house_split == 0"
-                            style="color: red; font-size: 2rem !important"
-                            >X</span
-                          >
-                        </td>
-                      </ng-template>
+                      <!-- <th scope="col" class="border-top-0">לול למחיצה</th> -->
+                      <td class="text-truncate row_padding">
+                        <span
+                          style="font-size: 2rem !important"
+                          *ngIf="
+                            row.is_hen_house_split === 1 &&
+                            splitHenHouseNum != -1
+                          "
+                          >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span
+                        >
+                        <span
+                          *ngIf="row.is_hen_house_split === 0"
+                          style="color: red; font-size: 2rem !important"
+                          >X</span
+                        >
+                      </td>
 
+                      <!--<th scope="col" class="border-top-0">יש היתר אכלוס</th>-->
                       <td class="text-truncate row_padding">
                         <div [ngSwitch]="row.is_business_licenses">
                           <span
-                            *ngSwitchCase="'1'"
+                            *ngSwitchCase="1"
                             style="color: green; font-size: 2rem !important"
                             >√</span
                           >
                           <span
-                            *ngSwitchCase="'0'"
+                            *ngSwitchCase="0"
                             style="color: red; font-size: 2rem !important"
                             >X</span
                           >
                         </div>
                       </td>
 
+                      <!--<th scope="col" class="border-top-0">תנאי אימון</th> -->
                       <td
                         class="text-truncate row_padding"
                         [ngSwitch]="row.is_not_allow_population_hatcher"
                       >
                         <span
-                          *ngSwitchCase="'0'"
+                          *ngSwitchCase="0"
                           style="color: green; font-size: 2rem !important"
                           >√</span
                         >
                         <span
-                          *ngSwitchCase="'1'"
+                          *ngSwitchCase="1"
                           style="color: red; font-size: 2rem !important"
                           >X</span
                         >
                       </td>
 
+                      <!--<th scope="col" class="border-top-0">מס גוש</th> -->
                       <td class="text-truncate row_padding">
-                        <span *ngIf="row.block_id"
+                        <span
+                          *ngIf="row.block_id"
+                          style="font-size: 20px !important"
                           >{{ row.block_id }} ({{ row.block_count }})</span
                         >
                         <span
-                          *ngIf="!row.block_id"
+                          *ngIf="!row.block_id || row.block_id === null"
                           style="color: red; font-size: 2rem !important"
                           >X</span
                         >
