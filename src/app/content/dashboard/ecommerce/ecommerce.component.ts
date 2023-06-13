@@ -36,6 +36,7 @@ import { PopupGrowerOtherAddrComponent } from '../popup-grower-other-addr/popup-
 import { PopupOldGrowerNameComponent } from '../popup-old-grower-name/popup-old-grower-name.component';
 import { PopupPetemPartnersComponent } from '../popup-petem-partners/popup-petem-partners.component';
 import { number } from 'echarts';
+import { PopupCertificatesComponent } from '../popup-certificates/popup-certificates.component';
 
 @Component({
   selector: 'app-ecommerce',
@@ -133,7 +134,7 @@ export class EcommerceComponent implements OnInit {
   public isNotActiveSiteShown: boolean = false;
   public click_on_show_ActiveSite: boolean = true;
   public click_on_not_show_ActiveSite: boolean = false;
-
+  certificates_by_grewernum: any[] = [];
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -407,6 +408,7 @@ export class EcommerceComponent implements OnInit {
         );
 
       //   חילוץ מס האתר ע'י האיידי של המגדל - סיום
+      localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
       if (this.siteName.length > 0) {
         // FarmId חילוץ
@@ -568,6 +570,26 @@ export class EcommerceComponent implements OnInit {
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+
+  //     -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0
+  async shows_certificates_by_grewernum() {
+    this.certificates_by_grewernum =
+      await this.megadelSearchService.Teuda_Select_New(
+        1,
+        this.chosenYear,
+        30,
+        this.userDetails[0]?.yz_yzrn,
+        '20230101',
+        '20231231',
+        0,
+        0
+      );
+    console.log(
+      'this.certificates_by_grewernum: ',
+      this.certificates_by_grewernum
+    );
+    await this.openPopup_certificates();
+  }
 
   show_ActiveSite() {
     this.isNotActiveSiteShown = false;
@@ -849,6 +871,16 @@ export class EcommerceComponent implements OnInit {
       document.removeEventListener('click', handleDocumentClick);
       buttonElement.removeEventListener('click', handleButtonClick);
     });
+  }
+
+  openPopup_certificates() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    dialogConfig.data = this.certificates_by_grewernum;
+    const dialogRef = this.dialog.open(
+      PopupCertificatesComponent,
+      dialogConfig
+    );
   }
 
   open_PopupPetemPartnersComponent() {

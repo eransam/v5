@@ -8,19 +8,19 @@ body{
 .margin-top-70{
     margin-top: 70px;
 }*/
-@import '~quill/dist/quill.core.css';
-@import '~quill/dist/quill.bubble.css';
-@import '~quill/dist/quill.snow.css';
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
-@import '~perfect-scrollbar/css/perfect-scrollbar.css';
-@import '../node_modules/angular-archwizard/styles/archwizard.css';
-@import '../node_modules/bootstrap/dist/css/bootstrap.css';
-@import '~bootstrap/dist/css/bootstrap.min.css';
-
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+@import "../node_modules/angular-archwizard/styles/archwizard.css";
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 :host ::ng-deep .email-fixed-header {
-  min-height: calc(100% - 207px)!important;
-  margin-top: 0!important;
+  min-height: calc(100% - 207px) !important;
+  margin-top: 0 !important;
   overflow-y: hidden !important;
 }
 ::ng-deep ngb-modal-backdrop {
@@ -29,4 +29,3 @@ body{
 :host ::ng-deep .ngb-dp-header {
   background-color: var(--light) !important;
 }
-

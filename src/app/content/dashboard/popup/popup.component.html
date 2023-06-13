@@ -19,11 +19,14 @@
 
     <tr style="display: flex">
       <th>&nbsp; אתרי שותפות:</th>
+
       <th
         *ngFor="let obj of data[data.length - 1]?.newArrayEnd"
         style="font-weight: bold; text-align: right"
       >
-        {{ obj.farm_code }} &nbsp; ,
+        <span *ngIf="obj.is_not_allow_population_hatcher === 1">
+          {{ obj.farm_code }} &nbsp; ,
+        </span>
       </th>
     </tr>
   </thead>

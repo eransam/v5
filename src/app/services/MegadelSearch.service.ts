@@ -11,6 +11,34 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+
+  
+
+
+// תעודות
+  //   -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0 
+  async Teuda_Select_New(
+    order: any,
+    start_year: any,
+    start_tzrt: any,
+    start_yzrn: any,
+    start_date: any,
+    end_date: any,
+    start_list: any,
+    Rishaion: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Teuda_Select_New?order=${order}&start_year=${start_year}&start_tzrt=${start_tzrt}&start_yzrn=${start_yzrn}&start_date=${start_date}&end_date=${end_date}&start_list=${start_list}&Rishaion=${Rishaion}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+
+
+
   // מציג אתרים לפי מספר מגדל כולל לול למחצה
   async Tables_Select_All_Atarim_Of_Yzrn(
     order: any,
