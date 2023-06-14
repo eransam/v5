@@ -920,7 +920,12 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngFor="let obj of FarmDetails; let i = index">
+                            <div
+                              *ngFor="
+                                let obj of thefarmdetOfThemainGrower;
+                                let i = index
+                              "
+                            >
                               <div
                                 *ngIf="
                                   obj?.cd_gidul.length === 0;
@@ -1050,13 +1055,6 @@
                           >
                             <i class="fas fa-angle-left fa-lg"></i>
                           </td>
-
-                          <!-- 
-                          <td>
-                            <button (click)="openPopup_Of_OldGrower()">
-                              <i class="fas fa-angle-left fa-lg"></i>
-                            </button>
-                          </td> -->
                         </tr>
                         <tr>
                           <td><B>כתובת</B></td>
@@ -1065,11 +1063,6 @@
                               growerData.address + "," + growerData.city_name
                             }}
                           </td>
-
-                          <!-- <td><B>מיקוד</B></td>
-                          <td>
-                            {{ growerData.v_mikud }}
-                          </td> -->
                         </tr>
 
                         <tr>
@@ -1141,9 +1134,7 @@
                           *ngFor="let row of kannatNum_and_oldMegadelNum"
                           class=""
                         >
-                          <!-- <th>{{ row.MsvkExtrnl }}</th> -->
                           <th>{{ row.NameMsvkExt }}</th>
-                          <!-- <th>{{ row.No_Siduri }}</th> -->
                           <th>{{ row.YazExtrnl }}</th>
                         </tr>
 
@@ -1219,19 +1210,6 @@
                   >
                     ({{ Active_FarmDetails.length }}) פעילים
                   </div>
-
-                  <!-- 
-                  <div
-                    (click)="showAllSite()"
-                    style="
-                      color: blue;
-                      text-decoration: underline;
-                      cursor: pointer;
-                      margin-left: 25px;
-                    "
-                  >
-                    כלל האתרים
-                  </div> -->
                 </div>
               </div>
 
@@ -1261,7 +1239,7 @@
                       <th scope="col" class="border-top-0">איכלוס</th>
                       <th scope="col" class="border-top-0">איכלוס 750</th>
 
-                      <th scope="col" class="border-top-0">לול למחיצה</th>
+                      <th scope="col" class="border-top-0">לול מחיצה</th>
 
                       <th scope="col" class="border-top-0">יש היתר אכלוס</th>
 
@@ -1270,13 +1248,7 @@
                       <th scope="col" class="border-top-0">מס גוש</th>
                     </tr>
                   </thead>
-                  <tbody
-                    [ngStyle]="{
-                      'background-color': isNotActiveSiteShown
-                        ? '#fff1f1'
-                        : '#edffed'
-                    }"
-                  >
+                  <tbody>
                     <tr *ngFor="let row of rows">
                       <!-- <th scope="col" class="border-top-0">מס' אתר</th> -->
                       <td class="text-truncate row_padding">
@@ -1439,15 +1411,16 @@
                         {{ row.calc750 | numberFormat }}
                       </td>
 
-                      <!-- <th scope="col" class="border-top-0">לול למחיצה</th> -->
+                      <!-- <th scope="col" class="border-top-0">לול מחיצה</th> -->
+                      <!-- >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span-->
                       <td class="text-truncate row_padding">
                         <span
-                          style="font-size: 2rem !important"
+                          style="color: green; font-size: 2rem !important"
                           *ngIf="
                             row.is_hen_house_split === 1 &&
                             splitHenHouseNum != -1
                           "
-                          >יש - {{ row.farm_code }}/{{ splitHenHouseNum }}</span
+                          >√</span
                         >
                         <span
                           *ngIf="row.is_hen_house_split === 0"

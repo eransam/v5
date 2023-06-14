@@ -21,12 +21,11 @@
       <th>&nbsp; אתרי שותפות:</th>
 
       <th
-        *ngFor="let obj of data[data.length - 1]?.newArrayEnd"
+        *ngFor="let obj of data[data.length - 1].newArrayEnd"
         style="font-weight: bold; text-align: right"
       >
-        <span *ngIf="obj.is_not_allow_population_hatcher === 1">
-          {{ obj.farm_code }} &nbsp; ,
-        </span>
+        <!-- <span *ngIf="obj.is_not_allow_population_hatcher === 1"> -->
+        <span> {{ obj.farm_code }} &nbsp; , </span>
       </th>
     </tr>
   </thead>

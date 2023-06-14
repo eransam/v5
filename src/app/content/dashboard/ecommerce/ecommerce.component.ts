@@ -136,6 +136,8 @@ export class EcommerceComponent implements OnInit {
   public click_on_not_show_ActiveSite: boolean = false;
   certificates_by_grewernum: any[] = [];
   thefarmdetOfThemainGrower: any[] = [];
+  // Component class
+
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -181,14 +183,13 @@ export class EcommerceComponent implements OnInit {
       // Call any necessary functions or perform logic based on the new parameter value
       this.refreshComponent();
 
-      //   userDetails
+      //   מחלצים את פרטי היצרן
       this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
         this.idFromurl
       );
-      console.log('this.userDetails: ', this.userDetails);
       localStorage.setItem('userDetails', JSON.stringify(this.userDetails));
 
-      //   userDetails_more_info
+      //   מחלצים פרטים נוספים של היצרן
       this.userDetails_more_info =
         await this.megadelSearchService.Yzrn_Select_By_View_New(
           14,
@@ -374,6 +375,8 @@ export class EcommerceComponent implements OnInit {
       }
       // קנט ושם מגדל ישן -  סיום
 
+      //   סיום התראות-----------------------------------------------------------------------------------------------------------------------------------------
+
       //   חילוץ מס קבוצת גידול חוץ
       if (this.userDetails[0].length === 0) {
         this.userDetails = [];
@@ -395,7 +398,7 @@ export class EcommerceComponent implements OnInit {
       //   סיום הלואודינג
       this.isLoading_theUserDetails = false;
 
-      //   חילוץ מס האתר ע'י האיידי של המגדל
+      //   מחלצים את מספרי האתרים של היצרן
       this.siteName =
         await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
           50,
@@ -406,19 +409,17 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].yz_yzrn,
           99
         );
-
-      //   חילוץ מס האתר ע'י האיידי של המגדל - סיום
       localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
       if (this.siteName.length > 0) {
-        // FarmId חילוץ
+        // FarmId חילוץ - חילוץ איידי של כל אתר
         this.FarmId = await this.getFarmIdArr(this.siteName);
         console.log('this.FarmId-end: ', this.FarmId);
-        //סיום - FarmId חילוץ
 
-        // חילוץ פרטי אתרים עי הפארם איידי
+        // חילוץ פרטי אתרים עי הפארם איידי של היצרן
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
 
+        // מחלצים למערך את מספרי האתרים עם הקוד גידול חוץ שלהם במידה ויש
         this.newArray = this.FarmDetails.map((obj) => {
           return {
             cd_gidul: obj?.cd_gidul,
@@ -427,6 +428,8 @@ export class EcommerceComponent implements OnInit {
         });
         console.log(' this.newArray: ', this.newArray);
 
+        // ביצוע פעולות כדי להביא את מס גידול החוץ כולל כמות שותפים
+        // מחלצים את המגדל הראשי במידה ויש ליצרן זה
         this.mainGrower =
           await this.megadelSearchService.Partners_Get_CodeGidul(
             11,
@@ -434,17 +437,13 @@ export class EcommerceComponent implements OnInit {
             30,
             this.chosenYear
           );
-
+        // כאן יש את השדות של מס ג''ח ומס השותפים
         this.thefarmdetOfThemainGrower = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
         ]);
-        this.newArray = this.thefarmdetOfThemainGrower.map((obj) => {
-          return {
-            cd_gidul: obj?.cd_gidul,
-            farm_code: obj?.farm_code,
-          };
-        });
+        this.totalFarms = this.FarmDetails.length;
       } else {
+        // במידה וליצרן אין בכלל אתרים שלו
         this.mainGrower =
           await this.megadelSearchService.Partners_Get_CodeGidul(
             11,
@@ -453,21 +452,42 @@ export class EcommerceComponent implements OnInit {
             this.chosenYear
           );
 
+        // כאן יש את השדות של מס ג''ח ומס השותפים
         this.thefarmdetOfThemainGrower = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
         ]);
 
-        // this.FarmDetails = this.thefarmdetOfThemainGrower;
-        this.newArray = this.FarmDetails.map((obj) => {
+        // במידה ולא נמצאו אתרים למגדל אנו נביא את האתרים של המגדל הראשי
+        this.siteName =
+          await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
+            50,
+            '',
+            '%',
+            0,
+            '20,27',
+            this.thefarmdetOfThemainGrower[0].lull2000_code,
+            99
+          );
+        localStorage.setItem('siteName', JSON.stringify(this.siteName));
+
+        //   נחלץ את האיידי של האתרים ע''י המספרי אתר שלהם של היצרן הראשי
+        this.FarmId = await this.getFarmIdArr(this.siteName);
+        console.log('this.FarmId-end: ', this.FarmId);
+
+        // חילוץ פרטי אתרים עי הפארם איידי של היצרן הראשי
+        var FarmDetails2 = await this.getFarmDetailsArr(this.FarmId);
+
+        // מחלצים למערך את מספרי האתרים עם הקוד גידול חוץ שלהם במידה ויש
+        this.newArray = FarmDetails2.map((obj) => {
           return {
             cd_gidul: obj?.cd_gidul,
             farm_code: obj?.farm_code,
           };
         });
+        console.log(' this.newArray: ', this.newArray);
       }
-      // חילוץ פרטי אתר עי הפארם איידי -  סיום
 
-      this.totalFarms = this.FarmDetails.length;
+      // חילוץ פרטי אתר עי הפארם איידי -  סיום-----------------------------------------------------------------------------------------
 
       // הוספה לפרטי האתר שדה המכיל גידול חוץ
       for (let item of this.FarmDetails) {
@@ -605,6 +625,7 @@ export class EcommerceComponent implements OnInit {
     );
     await this.openPopup_certificates();
   }
+  // Component class
 
   show_ActiveSite() {
     this.isNotActiveSiteShown = false;
@@ -847,6 +868,8 @@ export class EcommerceComponent implements OnInit {
             this.newArrayEnd.push(obj2);
           }
         }
+        console.log("this.newArrayEnd: " , this.newArrayEnd);
+        
 
         this.partnerData.push({
           obj2: obj,
