@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
-
+import { MegadelSearchService } from '../../../services/MegadelSearch.service';
 @Component({
   selector: 'app-popup-certificates',
   templateUrl: './popup-certificates.component.html',
@@ -33,14 +33,20 @@ export class PopupCertificatesComponent {
   site: string;
   startDateControl = new FormControl();
   endDateControl = new FormControl();
+  chosenYearControl = new FormControl();
+  chosenSiteControl = new FormControl();
+
   chosenYear = '';
   years = ['2020', '2021', '2022', '2023'];
   siteName: any[] = [];
-  chosenSite: any;
+  userDetails: any[] = [];
+  chosenSite: any = 0;
+  certificates_by_grewernum: any[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private megadelSearchService: MegadelSearchService
   ) {
     console.log('data in constractor: ', data);
     // console.log('typeof data[0].id: ', typeof data[0].id);
@@ -50,13 +56,79 @@ export class PopupCertificatesComponent {
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
     this.siteName.push({ code: 'כולם' });
+    this.userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    console.log('this.userDetails: ', this.userDetails);
   }
 
-  add() {
-    console.log('siteControl: ', this.startDateControl.value);
+  async add() {
+    console.log('startDateControl: ', this.startDateControl.value);
     console.log('siteControl: ', this.endDateControl.value);
-    console.log('chosenYear: ', this.chosenYear);
-    console.log('siteName: ', this.siteName);
-    console.log('chosenSite: ', this.chosenSite);
+    console.log('chosenYearControl: ', this.chosenYearControl.value);
+    console.log('chosenSiteControl: ', this.chosenSiteControl.value);
+    // {year: 2023, month: 6, day: 10}
+
+    // start date:
+    var theStartDate = this.startDateControl.value;
+
+    theStartDate.year = theStartDate.year.toString();
+    if (parseInt(theStartDate.month, 10) <= 9) {
+      theStartDate.month = '0' + theStartDate.month.toString();
+    } else {
+      theStartDate.month = theStartDate.month.toString();
+    }
+
+    if (theStartDate.day <= 9) {
+      theStartDate.day = '0' + theStartDate.day.toString();
+    } else {
+      theStartDate.day = theStartDate.day.toString();
+    }
+    theStartDate =
+      theStartDate.year.toString() + theStartDate.month + theStartDate.day;
+
+    var endDateControl = this.endDateControl.value;
+    if (endDateControl.month.length <= 9) {
+      endDateControl.month = '0' + endDateControl.month.toString();
+    } else {
+      endDateControl.month = endDateControl.month.toString();
+    }
+
+    if (endDateControl.day <= 9) {
+      endDateControl.day = '0' + endDateControl.day.toString();
+    } else {
+      endDateControl.day = endDateControl.day.toString();
+    }
+    endDateControl =
+      endDateControl.year.toString() +
+      endDateControl.month +
+      endDateControl.day;
+
+    var chosenSiteControl = this.chosenSiteControl.value;
+
+    if (chosenSiteControl === 'כולם') {
+      chosenSiteControl = 0;
+    }
+
+    this.certificates_by_grewernum =
+      await this.megadelSearchService.Teuda_Select_New(
+        1,
+        this.chosenYearControl.value,
+        30,
+        this.userDetails[0]?.yz_yzrn,
+        theStartDate,
+        endDateControl,
+        0,
+        chosenSiteControl
+      );
+
+    console.log(
+      'this.certificates_by_grewernum: ',
+      this.certificates_by_grewernum
+    );
+
+    this.data = this.certificates_by_grewernum;
+    this.startDateControl.setValue(null); // Set the value to null
+    this.endDateControl.setValue(null); // Set the value to null
+    this.chosenYearControl.setValue(null); // Set the value to null
+    this.chosenSiteControl.setValue(null); // Set the value to null
   }
 }

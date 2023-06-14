@@ -441,7 +441,8 @@ html body .content .content-wrapper {
 }
 
 body div.cdk-overlay-container .openPopup_certificates-dialog {
-  height: 485px !important;
+  height: 80% !important;
+  width: 70% !important;
   background-color: white !important;
   max-width: 60vw;
   color: black !important;
@@ -452,6 +453,7 @@ body div.cdk-overlay-container .openPopup_certificates-dialog {
   background-color: silver;
   font-size: 20px;
   direction: rtl;
+  
   padding: 4px;
   width: -moz-fit-content;
   width: fit-content;

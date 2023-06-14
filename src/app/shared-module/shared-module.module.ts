@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NumberFormatPipe } from '../content/dashboard/number-format.pipe';
+import { NumberFormatPipe } from '../content/dashboard/pipes/number-format.pipe/number-format.pipe';
 
 @NgModule({
   declarations: [NumberFormatPipe],
@@ -9,5 +9,3 @@ import { NumberFormatPipe } from '../content/dashboard/number-format.pipe';
   imports: [CommonModule],
 })
 export class SharedModuleModule {}
-
-

@@ -5,7 +5,7 @@
   (keyup.enter)="add()"
 >
   <div class="form-body text-right">
-    <h4 class="form-section"><i class="la la-eye"></i>חיפוש מגדל:</h4>
+    <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4>
     <div class="row">
       <!-- date from -->
       <div class="col-md-3">
@@ -32,6 +32,9 @@
           </div>
         </div>
       </div>
+      s
+
+      <!-- date to -->
 
       <!-- date to -->
       <div class="col-md-3">
@@ -60,9 +63,9 @@
       </div>
 
       <!-- בחר שנה -->
-      <div class="year-select rtl_Style">
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         שנה:
-        <select [(ngModel)]="chosenYear" (change)="add()">
+        <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
           <option *ngFor="let year of years" [value]="year">
             {{ year }}
           </option>
@@ -70,18 +73,18 @@
       </div>
 
       <!-- בחר אתר -->
-      <div class="year-select rtl_Style">
-        שנה:
-        <select [(ngModel)]="chosenSite">
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        אתר:
+        <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
           <option *ngFor="let obj of this.siteName" [value]="obj.code">
             {{ obj.code }}
           </option>
         </select>
       </div>
+      <div class="col-md-1" style="padding-top: 23px">
+        <button type="submit">חפש</button>
+      </div>
     </div>
-    <button type="submit">חפש</button>
-
-    <!-- input text search end ---------------------------------------------------------------------------------------------------------------------->
 
     <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
 
@@ -119,7 +122,7 @@
               <td>{{ p.Td_Atar }}</td>
               <td>{{ p.flock_id }}</td>
               <td>{{ p.td_tzrt }}</td>
-              <td>{{ p.td_date }}</td>
+              <td>{{ p.td_date | date : "dd/MM/yyyy" }}</td>
               <td>{{ p.td_kamut_mishkal }}</td>
               <td>{{ p.td_kamut_mishkal }}</td>
               <td>{{ p.td_msvk }} - {{ p.tb_name }}</td>
@@ -132,7 +135,7 @@
               <td></td>
               <td>{{ p.Atar_Id }}</td>
               <td>{{ p.id_td }}</td>
-              <td>{{ p.date_Creat }}</td>
+              <td>{{ p.date_Creat | date : "dd/MM/yyyy" }}</td>
             </tr>
           </tbody>
         </table>

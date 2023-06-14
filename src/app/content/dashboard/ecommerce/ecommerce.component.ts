@@ -185,6 +185,7 @@ export class EcommerceComponent implements OnInit {
         this.idFromurl
       );
       console.log('this.userDetails: ', this.userDetails);
+      localStorage.setItem('userDetails', JSON.stringify(this.userDetails));
 
       //   userDetails_more_info
       this.userDetails_more_info =
