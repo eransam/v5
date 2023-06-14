@@ -11,12 +11,19 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  // מחזיר שם ישוב עם מספר מגדל
+  async Get_yz_shem_yeshuv_by_yz_yzrn(yz_yzrn: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_yz_shem_yeshuv_by_yz_yzrn?yz_yzrn=${yz_yzrn}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
 
-  
-
-
-// תעודות
-  //   -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0 
+  // תעודות
+  //   -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0
   async Teuda_Select_New(
     order: any,
     start_year: any,
@@ -35,9 +42,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-
-
 
   // מציג אתרים לפי מספר מגדל כולל לול למחצה
   async Tables_Select_All_Atarim_Of_Yzrn(

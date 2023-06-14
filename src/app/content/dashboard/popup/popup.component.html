@@ -38,6 +38,9 @@
           <tr>
             <th style="font-weight: bold; text-align: right">מס מגדל</th>
             <th style="font-weight: bold; text-align: right">שם מגדל</th>
+
+            <th style="font-weight: bold; text-align: right">ישוב</th>
+
             <th style="font-weight: bold; text-align: right">מכסה</th>
             <th style="font-weight: bold; text-align: right">אחוז</th>
 
@@ -65,6 +68,8 @@
                 {{ p.grower_name }}
               </a>
             </td>
+
+            <td>{{ p.yeshuv }}</td>
             <td>{{ p.mcsa_sum | number : "0.0" }}</td>
             <td>
               {{ p.percent_ | number : "0.0" }}

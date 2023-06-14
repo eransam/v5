@@ -66,8 +66,9 @@
           </div>
         </div>
         <!-- תעודות -->
-        <div class="col-xl-2 col-lg-6 col-12"
-        (click)="shows_certificates_by_grewernum()"
+        <div
+          class="col-xl-2 col-lg-6 col-12"
+          (click)="shows_certificates_by_grewernum()"
         >
           <div class="card pull-up">
             <div class="card-content">
@@ -919,10 +920,10 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngFor="let obj of rows; let i = index">
+                            <div *ngFor="let obj of FarmDetails; let i = index">
                               <div
                                 *ngIf="
-                                  obj?.pa_Counter.length === 0;
+                                  obj?.cd_gidul.length === 0;
                                   else elseBlock
                                 "
                               ></div>

@@ -135,6 +135,7 @@ export class EcommerceComponent implements OnInit {
   public click_on_show_ActiveSite: boolean = true;
   public click_on_not_show_ActiveSite: boolean = false;
   certificates_by_grewernum: any[] = [];
+  thefarmdetOfThemainGrower: any[] = [];
   constructor(
     private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
@@ -210,8 +211,6 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].yz_yzrn,
           'yz_shem'
         );
-
-      console.log('this.oldNameGrower: ', this.oldNameGrower);
 
       // התראה של שם ישן
       if (this.oldNameGrower[0]?.Old_Name_Yazran.length > 0) {
@@ -428,7 +427,23 @@ export class EcommerceComponent implements OnInit {
         });
         console.log(' this.newArray: ', this.newArray);
 
-        console.log('this.FarmDetails-end: ', this.FarmDetails);
+        this.mainGrower =
+          await this.megadelSearchService.Partners_Get_CodeGidul(
+            11,
+            this.userDetails[0].yz_yzrn,
+            30,
+            this.chosenYear
+          );
+
+        this.thefarmdetOfThemainGrower = await this.getFarmDetailsArr([
+          this.mainGrower[0].atar_id,
+        ]);
+        this.newArray = this.thefarmdetOfThemainGrower.map((obj) => {
+          return {
+            cd_gidul: obj?.cd_gidul,
+            farm_code: obj?.farm_code,
+          };
+        });
       } else {
         this.mainGrower =
           await this.megadelSearchService.Partners_Get_CodeGidul(
@@ -438,12 +453,11 @@ export class EcommerceComponent implements OnInit {
             this.chosenYear
           );
 
-        const thefarmdet = await this.getFarmDetailsArr([
+        this.thefarmdetOfThemainGrower = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
         ]);
-        console.log('thefarmdet3: ', thefarmdet);
 
-        this.FarmDetails = thefarmdet;
+        // this.FarmDetails = this.thefarmdetOfThemainGrower;
         this.newArray = this.FarmDetails.map((obj) => {
           return {
             cd_gidul: obj?.cd_gidul,
@@ -751,6 +765,15 @@ export class EcommerceComponent implements OnInit {
           thefarmdet[0]?.lull2000_code
         );
         console.log('this.partnerData5: ', this.partnerData);
+
+        for (let obj of this.partnerData) {
+          var yeshuv =
+            await this.megadelSearchService.Get_yz_shem_yeshuv_by_yz_yzrn(
+              obj.lull2000_code
+            );
+          obj.yeshuv = yeshuv[0].yz_shem_yeshuv;
+        }
+        console.log('this.partnerData5 after yeshuv: ', this.partnerData);
 
         this.mcsaSum = 0;
         this.eggSum = 0;
