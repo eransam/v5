@@ -82,10 +82,13 @@ export class EcommerceComponent implements OnInit {
   businessLicense: any[];
   theUserDetails: any[];
   FarmId: any[];
+  FarmIdOfTheMaingrower: any[];
+  FarmDetailsOfTheMaingrower: any[];
   siteName: any = '';
   FarmDetails: any[] = [];
   newArray: any[] = [];
   newArrayEnd: any[] = [];
+  siteNameOfTheMaingrower: any[] = [];
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = false;
@@ -160,7 +163,7 @@ export class EcommerceComponent implements OnInit {
     this.Check_Ben_Zug_Shotaf = false;
     this.Check_v_name_kaful = false;
     this.newArray = [];
-    this.newArray = [];
+    this.newArrayEnd = [];
 
     this.route2.params.subscribe(async (params) => {
       this.farmID2Fromurl = params['farmid'];
@@ -179,6 +182,7 @@ export class EcommerceComponent implements OnInit {
       this.click_on_show_ActiveSite = true;
       this.click_on_not_show_ActiveSite = false;
       this.newArray = [];
+      this.newArrayEnd = [];
 
       // Call any necessary functions or perform logic based on the new parameter value
       this.refreshComponent();
@@ -203,6 +207,10 @@ export class EcommerceComponent implements OnInit {
           '%'
         );
       console.log('this.userDetails_more_info: ', this.userDetails_more_info);
+      console.log(
+        'userDetails_more_info[0].CdGdl: ',
+        this.userDetails_more_info[0].CdGdl
+      );
 
       //   לוגיקה התראות -------------------------------------------------------------------
 
@@ -420,13 +428,13 @@ export class EcommerceComponent implements OnInit {
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
 
         // מחלצים למערך את מספרי האתרים עם הקוד גידול חוץ שלהם במידה ויש
-        this.newArray = this.FarmDetails.map((obj) => {
-          return {
-            cd_gidul: obj?.cd_gidul,
-            farm_code: obj?.farm_code,
-          };
-        });
-        console.log(' this.newArray: ', this.newArray);
+        // this.newArray = this.FarmDetails.map((obj) => {
+        //   return {
+        //     cd_gidul: obj?.cd_gidul,
+        //     farm_code: obj?.farm_code,
+        //   };
+        // });
+        // console.log(' this.newArray: ', this.newArray);
 
         // ביצוע פעולות כדי להביא את מס גידול החוץ כולל כמות שותפים
         // מחלצים את המגדל הראשי במידה ויש ליצרן זה
@@ -437,6 +445,37 @@ export class EcommerceComponent implements OnInit {
             30,
             this.chosenYear
           );
+        this.siteNameOfTheMaingrower =
+          await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
+            50,
+            '',
+            '%',
+            0,
+            '20,27',
+            this.mainGrower[0].YzrnHead,
+            99
+          );
+        if (this.siteNameOfTheMaingrower.length > 0) {
+          this.FarmIdOfTheMaingrower = await this.getFarmIdArr(
+            this.siteNameOfTheMaingrower
+          );
+          console.log('this.FarmId-end: ', this.FarmId);
+
+          // חילוץ פרטי אתרים עי הפארם איידי של היצרן
+          this.FarmDetailsOfTheMaingrower = await this.getFarmDetailsArr(
+            this.FarmIdOfTheMaingrower
+          );
+
+          // מחלצים למערך את מספרי האתרים עם הקוד גידול חוץ שלהם במידה ויש
+          this.newArray = this.FarmDetailsOfTheMaingrower.map((obj) => {
+            return {
+              cd_gidul: obj?.cd_gidul,
+              farm_code: obj?.farm_code,
+            };
+          });
+          console.log(' this.newArray: ', this.newArray);
+        }
+
         // כאן יש את השדות של מס ג''ח ומס השותפים
         this.thefarmdetOfThemainGrower = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
@@ -478,13 +517,13 @@ export class EcommerceComponent implements OnInit {
         var FarmDetails2 = await this.getFarmDetailsArr(this.FarmId);
 
         // מחלצים למערך את מספרי האתרים עם הקוד גידול חוץ שלהם במידה ויש
-        this.newArray = FarmDetails2.map((obj) => {
-          return {
-            cd_gidul: obj?.cd_gidul,
-            farm_code: obj?.farm_code,
-          };
-        });
-        console.log(' this.newArray: ', this.newArray);
+        // this.newArray = FarmDetails2.map((obj) => {
+        //   return {
+        //     cd_gidul: obj?.cd_gidul,
+        //     farm_code: obj?.farm_code,
+        //   };
+        // });
+        // console.log(' this.newArray: ', this.newArray);
       }
 
       // חילוץ פרטי אתר עי הפארם איידי -  סיום-----------------------------------------------------------------------------------------
@@ -571,6 +610,152 @@ export class EcommerceComponent implements OnInit {
         'this.FarmDetails with hiclos and hiclos750: ',
         this.FarmDetails
       );
+
+      for (let obj2 of this.FarmDetails) {
+        if (
+          obj2?.farm_id !== null &&
+          obj2?.active_flock_id !== null &&
+          obj2?.lull2000_code !== null
+        ) {
+          this.mainGrower =
+            await this.megadelSearchService.Partners_Get_CodeGidul(
+              11,
+              this.userDetails[0].yz_yzrn,
+              30,
+              this.chosenYear
+            );
+
+          const thefarmdet = await this.getFarmDetailsArr([
+            this.mainGrower[0].atar_id,
+          ]);
+
+          // if (        thefarmdet[0]?.farm_id !== null ||
+          //     thefarmdet[0]?.active_flock_id !== null ||
+          //     thefarmdet[0]?.lull2000_code !== null) {
+
+          // }
+
+          this.partnerData = await this.megadelSearchService.getPartner(
+            thefarmdet[0]?.farm_id,
+            thefarmdet[0]?.active_flock_id,
+            this.mainGrower[0]?.YzrnHead
+          );
+          console.log('this.partnerData5: ', this.partnerData);
+
+          for (let obj of this.partnerData) {
+            var yeshuv =
+              await this.megadelSearchService.Get_yz_shem_yeshuv_by_yz_yzrn(
+                obj.lull2000_code
+              );
+            obj.yeshuv = yeshuv[0].yz_shem_yeshuv;
+          }
+          console.log('this.partnerData5 after yeshuv: ', this.partnerData);
+
+          this.mcsaSum = 0;
+          this.eggSum = 0;
+          this.certificateSum = 0;
+
+          for (var i = 0; i < this.partnerData.length; i++) {
+            this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+            this.certificateSum += parseFloat(
+              this.partnerData[i]['certificate_sum']
+            );
+            this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+          }
+
+          console.log('this.mcsaSum: ', this.mcsaSum);
+          console.log('this.certificateSum: ', this.certificateSum);
+          console.log('this.eggSum: ', this.eggSum);
+          let obj = {
+            mcsaSum: this.mcsaSum,
+            certificateSum: this.certificateSum,
+            eggSum: this.eggSum,
+          };
+          for (const obj2 of this.newArray) {
+            if (obj2.cd_gidul === this.partnerData[0].cd_gidul.toString()) {
+              this.newArrayEnd.push(obj2);
+            }
+          }
+
+          this.partnerData.push({
+            obj2: obj,
+            farmID2: obj2?.farm_id,
+            flockID2: obj2?.active_flock_id,
+            newArrayEnd: this.newArrayEnd,
+          });
+
+          console.log('this.partnerData in if of for: ', this.partnerData);
+        } else {
+          // this.partnerData = await this.megadelSearchService.getPartner(
+          //   obj2?.farm_id,
+          //   obj2?.active_flock_id,
+          //   obj2?.lull2000_code
+          // );
+
+          this.mainGrower =
+            await this.megadelSearchService.Partners_Get_CodeGidul(
+              11,
+              this.userDetails[0].yz_yzrn,
+              30,
+              this.chosenYear
+            );
+
+          const thefarmdet = await this.getFarmDetailsArr([
+            this.mainGrower[0].atar_id,
+          ]);
+
+          this.partnerData = await this.megadelSearchService.getPartner(
+            thefarmdet[0]?.farm_id,
+            thefarmdet[0]?.active_flock_id,
+            this.mainGrower[0]?.YzrnHead
+          );
+          console.log('this.partnerData5: ', this.partnerData);
+
+          for (let obj of this.partnerData) {
+            var yeshuv =
+              await this.megadelSearchService.Get_yz_shem_yeshuv_by_yz_yzrn(
+                obj.lull2000_code
+              );
+            obj.yeshuv = yeshuv[0].yz_shem_yeshuv;
+          }
+          console.log('this.partnerData5 after yeshuv: ', this.partnerData);
+
+          this.mcsaSum = 0;
+          this.eggSum = 0;
+          this.certificateSum = 0;
+
+          for (var i = 0; i < this.partnerData.length; i++) {
+            this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+            this.certificateSum += parseFloat(
+              this.partnerData[i]['certificate_sum']
+            );
+            this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+          }
+
+          console.log('this.mcsaSum: ', this.mcsaSum);
+          console.log('this.certificateSum: ', this.certificateSum);
+          console.log('this.eggSum: ', this.eggSum);
+          let obj = {
+            mcsaSum: this.mcsaSum,
+            certificateSum: this.certificateSum,
+            eggSum: this.eggSum,
+          };
+          for (const obj2 of this.newArray) {
+            if (obj2.cd_gidul === this.partnerData[0].cd_gidul.toString()) {
+              this.newArrayEnd.push(obj2);
+            }
+          }
+
+          this.partnerData.push({
+            obj2: obj,
+            farmID2: obj2?.farm_id,
+            flockID2: obj2?.active_flock_id,
+            newArrayEnd: this.newArrayEnd,
+          });
+
+          console.log('this.partnerData in if of for: ', this.partnerData);
+        }
+      }
 
       for (let item of this.FarmDetails) {
         if (item.farm_status_id === 1) {
@@ -762,10 +947,10 @@ export class EcommerceComponent implements OnInit {
     console.log('this.newArray2: ', this.newArray);
 
     // console.log('ccc: ', farmID, ' ', flockID, ' ', lull2000Code);
-    for (const obj2 of allTheFarmDet) {
+    for (let obj2 of allTheFarmDet) {
       if (
-        obj2?.farm_id !== null ||
-        obj2?.active_flock_id !== null ||
+        obj2?.farm_id !== null &&
+        obj2?.active_flock_id !== null &&
         obj2?.lull2000_code !== null
       ) {
         this.mainGrower =
@@ -780,10 +965,16 @@ export class EcommerceComponent implements OnInit {
           this.mainGrower[0].atar_id,
         ]);
 
+        // if (        thefarmdet[0]?.farm_id !== null ||
+        //     thefarmdet[0]?.active_flock_id !== null ||
+        //     thefarmdet[0]?.lull2000_code !== null) {
+
+        // }
+
         this.partnerData = await this.megadelSearchService.getPartner(
           thefarmdet[0]?.farm_id,
           thefarmdet[0]?.active_flock_id,
-          thefarmdet[0]?.lull2000_code
+          this.mainGrower[0]?.YzrnHead
         );
         console.log('this.partnerData5: ', this.partnerData);
 
@@ -833,13 +1024,39 @@ export class EcommerceComponent implements OnInit {
 
         await this.openPopup();
       } else {
-        this.partnerData = await this.megadelSearchService.getPartner(
-          obj2?.farm_id,
-          obj2?.active_flock_id,
-          obj2?.lull2000_code
-        );
+        // this.partnerData = await this.megadelSearchService.getPartner(
+        //   obj2?.farm_id,
+        //   obj2?.active_flock_id,
+        //   obj2?.lull2000_code
+        // );
 
-        console.log('this.partnerData in the else: ', this.partnerData);
+        this.mainGrower =
+          await this.megadelSearchService.Partners_Get_CodeGidul(
+            11,
+            this.userDetails[0].yz_yzrn,
+            30,
+            this.chosenYear
+          );
+
+        const thefarmdet = await this.getFarmDetailsArr([
+          this.mainGrower[0].atar_id,
+        ]);
+
+        this.partnerData = await this.megadelSearchService.getPartner(
+          thefarmdet[0]?.farm_id,
+          thefarmdet[0]?.active_flock_id,
+          this.mainGrower[0]?.YzrnHead
+        );
+        console.log('this.partnerData5: ', this.partnerData);
+
+        for (let obj of this.partnerData) {
+          var yeshuv =
+            await this.megadelSearchService.Get_yz_shem_yeshuv_by_yz_yzrn(
+              obj.lull2000_code
+            );
+          obj.yeshuv = yeshuv[0].yz_shem_yeshuv;
+        }
+        console.log('this.partnerData5 after yeshuv: ', this.partnerData);
 
         this.mcsaSum = 0;
         this.eggSum = 0;
@@ -860,16 +1077,12 @@ export class EcommerceComponent implements OnInit {
           mcsaSum: this.mcsaSum,
           certificateSum: this.certificateSum,
           eggSum: this.eggSum,
-          cd_gidul: allTheFarmDet[0].cd_gidul,
         };
-
         for (const obj2 of this.newArray) {
           if (obj2.cd_gidul === this.partnerData[0].cd_gidul.toString()) {
             this.newArrayEnd.push(obj2);
           }
         }
-        console.log("this.newArrayEnd: " , this.newArrayEnd);
-        
 
         this.partnerData.push({
           obj2: obj,
@@ -878,9 +1091,7 @@ export class EcommerceComponent implements OnInit {
           newArrayEnd: this.newArrayEnd,
         });
 
-        console.log('this.partnerData in else of for: ', this.partnerData);
-
-        console.log();
+        console.log('this.partnerData in if of for: ', this.partnerData);
 
         await this.openPopup();
       }

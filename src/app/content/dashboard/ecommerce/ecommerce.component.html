@@ -625,7 +625,7 @@
                             <div *ngFor="let obj of rows; let i = index">
                               <div
                                 *ngIf="
-                                  obj?.pa_Counter.length === 0;
+                                  userDetails_more_info[0].CdGdl === 0;
                                   else elseBlock
                                 "
                               ></div>
@@ -636,7 +636,7 @@
                                 <ng-container
                                   *ngIf="isFirstUniqueValue(obj, i)"
                                 >
-                                  <div *ngIf="obj.cd_gidul">
+                                  <div *ngIf="userDetails_more_info[0].CdGdl">
                                     <button
                                       id="gidolHotzBtn"
                                       style="
@@ -646,8 +646,8 @@
                                       "
                                       (click)="getPartner([obj])"
                                     >
-                                      {{ obj.is_has_partner }} ({{
-                                        obj.cd_gidul
+                                      {{ partnerData.length - 1}} ({{
+                                        userDetails_more_info[0].CdGdl
                                       }})
                                     </button>
                                   </div>
@@ -928,7 +928,7 @@
                             >
                               <div
                                 *ngIf="
-                                  obj?.cd_gidul.length === 0;
+                                  userDetails_more_info[0].CdGdl === 0;
                                   else elseBlock
                                 "
                               ></div>
@@ -939,7 +939,7 @@
                                 <ng-container
                                   *ngIf="isFirstUniqueValue(obj, i)"
                                 >
-                                  <div *ngIf="obj.cd_gidul">
+                                  <div *ngIf="userDetails_more_info[0].CdGdl">
                                     <button
                                       id="gidolHotzBtn"
                                       style="
@@ -949,8 +949,8 @@
                                       "
                                       (click)="getPartner([obj])"
                                     >
-                                      {{ obj.is_has_partner }} ({{
-                                        obj.cd_gidul
+                                      {{ partnerData.length - 1}} ({{
+                                        userDetails_more_info[0].CdGdl
                                       }})
                                     </button>
                                   </div>
