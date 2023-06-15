@@ -29,6 +29,7 @@ import { PopupOldGrowerNameComponent } from './popup-old-grower-name/popup-old-g
 import { PopupPetemPartnersComponent } from './popup-petem-partners/popup-petem-partners.component';
 import { PopupCertificatesComponent } from './popup-certificates/popup-certificates.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PopupGrowerCardComponent } from './popup-grower-card/popup-grower-card.component';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     PopupOldGrowerNameComponent,
     PopupPetemPartnersComponent,
     PopupCertificatesComponent,
+    PopupGrowerCardComponent,
   ],
 
   exports: [RouterModule],

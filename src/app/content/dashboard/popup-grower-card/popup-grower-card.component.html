@@ -1,0 +1,147 @@
+<form
+  class="form form-horizontal row-separator"
+  (ngSubmit)="add()"
+  [formGroup]="DetailsForm"
+  (keyup.enter)="add()"
+>
+  <div class="form-body text-right">
+    <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4>
+    <div class="row">
+      <!-- date from -->
+      <div class="col-md-3">
+        <div class="form-group row mx-auto">
+          <label class="col-md-4 label-control" for="startDate">מתאריך</label>
+          <div class="col-md-8">
+            <input
+              placeholder="yyyy-mm-dd"
+              type="text"
+              id="startDateControl-input"
+              name="startDate"
+              ngbDatepicker
+              #d1="ngbDatepicker"
+              class="form-control border-primary textUserInput"
+              [(ngModel)]="startDate"
+              [formControl]="startDateControl"
+              (keydown.enter)="$event.preventDefault()"
+            />
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="d1.toggle()">
+                <i class="fa fa-calendar" style="cursor: pointer"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- date to -->
+
+      <!-- date to -->
+      <div class="col-md-3">
+        <div class="form-group row mx-auto">
+          <label class="col-md-4 label-control" for="endDate">עד תאריך</label>
+          <div class="col-md-8">
+            <input
+              placeholder="yyyy-mm-dd"
+              type="text"
+              id="endDateControl-input"
+              name="endDate"
+              ngbDatepicker
+              #d2="ngbDatepicker"
+              class="form-control border-primary textUserInput"
+              [(ngModel)]="endDate"
+              [formControl]="endDateControl"
+              (keydown.enter)="$event.preventDefault()"
+            />
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="d2.toggle()">
+                <i class="fa fa-calendar" style="cursor: pointer"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- בחר שנה -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        שנה:
+        <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
+          <option *ngFor="let year of years" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר אתר -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        אתר:
+        <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
+          <option *ngFor="let obj of this.siteName" [value]="obj.code">
+            {{ obj.code }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-1" style="padding-top: 23px">
+        <button type="submit">חפש</button>
+      </div>
+    </div>
+
+    <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
+
+    <!--end Color Checkboxes  ---------------------------------------------------------------------------------------------------------------------->
+    <table class="" dir="rtl" style="padding: 5px" border="0">
+      <td colspan="2">
+        <table class="table no-margin">
+          <thead>
+            <tr>
+              <th style="font-weight: bold; text-align: right">תעודה</th>
+              <th style="font-weight: bold; text-align: right">אתר</th>
+              <th style="font-weight: bold; text-align: right">להקה</th>
+              <th style="font-weight: bold; text-align: right">תוצ</th>
+              <th style="font-weight: bold; text-align: right">תאריך</th>
+              <th style="font-weight: bold; text-align: right">כמות</th>
+              <th style="font-weight: bold; text-align: right">מצטבר</th>
+              <th style="font-weight: bold; text-align: right">משווק</th>
+              <th style="font-weight: bold; text-align: right">דף</th>
+              <th style="font-weight: bold; text-align: right">חודש</th>
+              <th style="font-weight: bold; text-align: right">רטרו</th>
+              <th style="font-weight: bold; text-align: right">בקיעה</th>
+              <th style="font-weight: bold; text-align: right">סיום שיווק</th>
+              <th style="font-weight: bold; text-align: right">
+                הפרש ימי שיווק בקיעה
+              </th>
+              <th style="font-weight: bold; text-align: right">שם קבלן</th>
+              <th style="font-weight: bold; text-align: right">אתר</th>
+              <th style="font-weight: bold; text-align: right">ID</th>
+              <th style="font-weight: bold; text-align: right">תאריך יצירה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+            <div *ngIf="!isLoading_FarmDetails">
+              <tr *ngFor="let p of data">
+                <td>{{ p.td_teuda }}</td>
+                <td>{{ p.Td_Atar }}</td>
+                <td>{{ p.flock_id }}</td>
+                <td>{{ p.td_tzrt }}</td>
+                <td>{{ p.td_date | date : "dd/MM/yyyy" }}</td>
+                <td>{{ p.td_kamut_mishkal }}</td>
+                <td>{{ p.td_kamut_mishkal }}</td>
+                <td>{{ p.td_msvk }} - {{ p.tb_name }}</td>
+                <td>{{ p.td_daf }}</td>
+                <td>{{ p.td_hodesh }}</td>
+                <td>{{ p.td_retro }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ p.Atar_Id }}</td>
+                <td>{{ p.id_td }}</td>
+                <td>{{ p.date_Creat | date : "dd/MM/yyyy" }}</td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+      </td>
+    </table>
+  </div>
+</form>

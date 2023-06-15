@@ -37,6 +37,7 @@ import { PopupOldGrowerNameComponent } from '../popup-old-grower-name/popup-old-
 import { PopupPetemPartnersComponent } from '../popup-petem-partners/popup-petem-partners.component';
 import { number } from 'echarts';
 import { PopupCertificatesComponent } from '../popup-certificates/popup-certificates.component';
+import { PopupGrowerCardComponent } from '../popup-grower-card/popup-grower-card.component';
 
 @Component({
   selector: 'app-ecommerce',
@@ -1129,6 +1130,12 @@ export class EcommerceComponent implements OnInit {
       document.removeEventListener('click', handleDocumentClick);
       buttonElement.removeEventListener('click', handleButtonClick);
     });
+  }
+  openPopup_GrowerCard_Component() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    dialogConfig.data = this.certificates_by_grewernum;
+    const dialogRef = this.dialog.open(PopupGrowerCardComponent, dialogConfig);
   }
 
   openPopup_certificates() {
