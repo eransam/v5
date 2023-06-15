@@ -35,6 +35,7 @@ export class PopupCertificatesComponent {
   endDateControl = new FormControl();
   chosenYearControl = new FormControl();
   chosenSiteControl = new FormControl();
+  isLoading_FarmDetails = false;
 
   chosenYear = '';
   years = ['2020', '2021', '2022', '2023'];
@@ -61,6 +62,8 @@ export class PopupCertificatesComponent {
   }
 
   async add() {
+    this.isLoading_FarmDetails = true;
+
     console.log('startDateControl: ', this.startDateControl.value);
     console.log('siteControl: ', this.endDateControl.value);
     console.log('chosenYearControl: ', this.chosenYearControl.value);
@@ -126,6 +129,7 @@ export class PopupCertificatesComponent {
     );
 
     this.data = this.certificates_by_grewernum;
+    this.isLoading_FarmDetails = false;
     this.startDateControl.setValue(null); // Set the value to null
     this.endDateControl.setValue(null); // Set the value to null
     this.chosenYearControl.setValue(null); // Set the value to null

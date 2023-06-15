@@ -116,26 +116,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let p of data">
-              <td>{{ p.td_teuda }}</td>
-              <td>{{ p.Td_Atar }}</td>
-              <td>{{ p.flock_id }}</td>
-              <td>{{ p.td_tzrt }}</td>
-              <td>{{ p.td_date | date : "dd/MM/yyyy" }}</td>
-              <td>{{ p.td_kamut_mishkal }}</td>
-              <td>{{ p.td_kamut_mishkal }}</td>
-              <td>{{ p.td_msvk }} - {{ p.tb_name }}</td>
-              <td>{{ p.td_daf }}</td>
-              <td>{{ p.td_hodesh }}</td>
-              <td>{{ p.td_retro }}</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>{{ p.Atar_Id }}</td>
-              <td>{{ p.id_td }}</td>
-              <td>{{ p.date_Creat | date : "dd/MM/yyyy" }}</td>
-            </tr>
+            <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+            <div *ngIf="!isLoading_FarmDetails">
+              <tr *ngFor="let p of data">
+                <td>{{ p.td_teuda }}</td>
+                <td>{{ p.Td_Atar }}</td>
+                <td>{{ p.flock_id }}</td>
+                <td>{{ p.td_tzrt }}</td>
+                <td>{{ p.td_date | date : "dd/MM/yyyy" }}</td>
+                <td>{{ p.td_kamut_mishkal }}</td>
+                <td>{{ p.td_kamut_mishkal }}</td>
+                <td>{{ p.td_msvk }} - {{ p.tb_name }}</td>
+                <td>{{ p.td_daf }}</td>
+                <td>{{ p.td_hodesh }}</td>
+                <td>{{ p.td_retro }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ p.Atar_Id }}</td>
+                <td>{{ p.id_td }}</td>
+                <td>{{ p.date_Creat | date : "dd/MM/yyyy" }}</td>
+              </tr>
+            </div>
           </tbody>
         </table>
       </td>
