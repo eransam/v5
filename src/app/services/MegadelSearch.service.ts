@@ -11,6 +11,48 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  //   --exec Pargit_Teuda @order =4, @start_yzrn ="02060341" , @start_tz ='48',@start_year  ='2022', @start_date  ='', @end_date  ='', @Rishaion  =0
+  async Pargit_Teuda(
+    order: any,
+    start_yzrn: any,
+    start_tz: any,
+    start_year: any,
+    start_date: any,
+    end_date: any,
+    Rishaion: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Pargit_Teuda?order=${order}&start_yzrn=${start_yzrn}&start_tz=${start_tz}
+        &start_year=${start_year}&start_date=${start_date}&end_date=${end_date}&Rishaion=${Rishaion}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  //   --exec Micsa_Get_McsKvua_New @ORDER 	=2 ,@YZRN 	="11303047",@TZ   ='30',@YEAR  =2023, @MCS1 ='1' , @MCS3  ='3' ,@DtSvk='', @tik_McsSys=0
+  // מחזיר שם ישוב עם מספר מגדל
+  async Micsa_Get_McsKvua_New(
+    ORDER: any,
+    YZRN: any,
+    Tz: any,
+    YEAR: any,
+    MCS1: any,
+    MCS3: any,
+    DtSvk: any,
+    tik_McsSys: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Micsa_Get_McsKvua_New?ORDER=${ORDER}&YZRN=${YZRN}&Tz=${Tz}
+        &YEAR=${YEAR}&MCS1=${MCS1}&MCS3=${MCS3}&DtSvk=${DtSvk}&tik_McsSys=${tik_McsSys}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   // מחזיר שם ישוב עם מספר מגדל
   async Get_yz_shem_yeshuv_by_yz_yzrn(yz_yzrn: any): Promise<any[]> {
     const item = await firstValueFrom(

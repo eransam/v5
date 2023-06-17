@@ -103,6 +103,11 @@ export class EcommerceComponent implements OnInit {
   mihsotPetem = [];
   mihsotHodim = [];
   chosenYear: any = 2023;
+  shloha: any = '30';
+  startDay: any = '';
+  endDay: any = '';
+  siteNum: any = 0;
+
   years: string[] = ['2020', '2021', '2022', '2023'];
 
   partnerData: any[];
@@ -139,6 +144,9 @@ export class EcommerceComponent implements OnInit {
   public click_on_show_ActiveSite: boolean = true;
   public click_on_not_show_ActiveSite: boolean = false;
   certificates_by_grewernum: any[] = [];
+  growerCard: any[] = [];
+  Get_McsKvua_shloha_30: any[] = [];
+
   thefarmdetOfThemainGrower: any[] = [];
   // Component class
 
@@ -792,6 +800,67 @@ export class EcommerceComponent implements OnInit {
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
+  //   --exec Micsa_Get_McsKvua_New @ORDER 	=2 ,@YZRN 	="11303047",@TZ   ='30',@YEAR  =2023, @MCS1 ='1' , @MCS3  ='3' ,@DtSvk='', @tik_McsSys=0
+  async Micsa_Get_McsKvua_New_shloha_30_to_Get_McsKvua_shloha_30() {
+    this.Get_McsKvua_shloha_30 =
+      await this.megadelSearchService.Micsa_Get_McsKvua_New(
+        2,
+        this.userDetails[0]?.yz_yzrn,
+        this.shloha,
+        this.chosenYear,
+        1,
+        3,
+        '',
+        0
+      );
+    console.log('this.Get_McsKvua_shloha_30: ', this.Get_McsKvua_shloha_30);
+  }
+
+  async shows_grower_card() {
+
+
+// 	--exec Pargit_Teuda @order =4, @start_yzrn ="02060341" , @start_tz ='48',@start_year  ='2022', @start_date  ='',
+//  @end_date  ='', @Rishaion  =0
+    this.Pargit_Teuda_month = await this.megadelSearchService.Pargit_Teuda(
+        4,
+        this.userDetails[0]?.yz_yzrn,
+        48,
+        this.chosenYear,
+        this.startDay,
+        this.endDay,
+        this.siteNum
+      );
+
+
+
+    this.month_shloha_30 = await this.megadelSearchService.Teuda_Select_New(
+      6,
+      this.chosenYear,
+      this.shloha,
+      this.userDetails[0]?.yz_yzrn,
+      this.startDay,
+      this.endDay,
+      0,
+      this.siteNum
+    );
+
+    this.Get_McsKvua_shloha_30 =
+      await this.megadelSearchService.Micsa_Get_McsKvua_New(
+        2,
+        this.userDetails[0]?.yz_yzrn,
+        this.shloha,
+        this.chosenYear,
+        1,
+        3,
+        '',
+        0
+      );
+      
+      
+    console.log('this.growerCard: ', this.growerCard);
+    this.openPopup_GrowerCard_Component();
+  }
+
   //     -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0
   async shows_certificates_by_grewernum() {
     this.certificates_by_grewernum =
@@ -809,7 +878,7 @@ export class EcommerceComponent implements OnInit {
       'this.certificates_by_grewernum: ',
       this.certificates_by_grewernum
     );
-    await this.openPopup_certificates();
+    this.openPopup_certificates();
   }
   // Component class
 
@@ -1134,7 +1203,7 @@ export class EcommerceComponent implements OnInit {
   openPopup_GrowerCard_Component() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'openPopup_certificates-dialog';
-    dialogConfig.data = this.certificates_by_grewernum;
+    dialogConfig.data = this.growerCard;
     const dialogRef = this.dialog.open(PopupGrowerCardComponent, dialogConfig);
   }
 
