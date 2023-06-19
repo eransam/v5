@@ -93,6 +93,9 @@ export class EcommerceComponent implements OnInit {
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = true;
+  isLoading_userDet = true;
+  isLoading_micsot = true;
+
   totalFarms: any;
   growerData = [];
   contactPersonFarmData = [];
@@ -194,6 +197,10 @@ export class EcommerceComponent implements OnInit {
       this.newArrayEnd = [];
       this.isLoading_theUserDetails = true;
       this.isLoading_FarmDetails = true;
+
+      this.isLoading_userDet = true;
+      this.isLoading_micsot = true;
+
       // Call any necessary functions or perform logic based on the new parameter value
       this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
       this.userDetails = this.userDetails.filter(
@@ -219,6 +226,8 @@ export class EcommerceComponent implements OnInit {
           '%',
           '%'
         );
+        this.isLoading_userDet = false;
+
 
       //   לוגיקה התראות -------------------------------------------------------------------
 
@@ -365,6 +374,8 @@ export class EcommerceComponent implements OnInit {
           this.totalMicsaToPay += iterator.mi_kamut;
         }
       }
+      this.isLoading_micsot = true;
+
       //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום: -  סיום
 
       // קנט ושם מגדל ישן
@@ -387,25 +398,6 @@ export class EcommerceComponent implements OnInit {
 
       //   סיום התראות-----------------------------------------------------------------------------------------------------------------------------------------
 
-      //   חילוץ מס קבוצת גידול חוץ
-      //   if (this.userDetails[0].length === 0) {
-      //     this.userDetails = [];
-      //   } else {
-      // const results2 =
-      //   await this.megadelSearchService.Get_num_of_gidol_hotz_from_v_yzrn(
-      //     this.userDetails[0].v_yzrn
-      //   );
-      // if (results2[0]?.pa_Counter) {
-      //   this.userDetails[0].pa_Counter = results2[0].pa_Counter;
-      // } else {
-      //   this.userDetails[0].pa_Counter = '';
-      // }
-      //   }
-
-      //   חילוץ מס קבוצת גידול חוץ -  סיום
-
-      //   סיום הלואודינג
-      this.isLoading_theUserDetails = false;
 
       //   מחלצים את מספרי האתרים של היצרן
       this.siteName =
@@ -418,7 +410,6 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].v_yzrn,
           99
         );
-      //   localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
       if (this.siteName.length > 0) {
         // FarmId חילוץ - חילוץ איידי של כל אתר

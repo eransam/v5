@@ -31,11 +31,12 @@ export class PopupCertificatesComponent {
   ngbDatepickerStartControl: FormControl;
   DetailsForm: FormGroup;
   site: string;
-
+  shlohaOption = [0,0,0]
   startDateControl = new FormControl();
   endDateControl = new FormControl();
   chosenYearControl = new FormControl();
   chosenSiteControl = new FormControl();
+  chosenShlohaControl = new FormControl();
   isLoading_FarmDetails = false;
 
   chosenYear = '';
@@ -43,6 +44,7 @@ export class PopupCertificatesComponent {
   siteName: any[] = [];
   userDetails: any[] = [];
   chosenSite: any = 0;
+  chosenShloha: any = 0;
   certificates_by_grewernum: any[] = [];
   theStartDate: any = '';
   theEndDateControl: any = '';

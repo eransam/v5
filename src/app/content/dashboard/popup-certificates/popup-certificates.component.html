@@ -84,9 +84,9 @@
       <!-- בחר שלוחה -->
       <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         שלוחה:
-        <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
-          <option *ngFor="let obj of this.siteName" [value]="obj.code">
-            {{ obj.code }}
+        <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
+          <option *ngFor="let obj of this.shlohaOption" [value]="obj">
+            {{ obj }}
           </option>
         </select>
       </div>
