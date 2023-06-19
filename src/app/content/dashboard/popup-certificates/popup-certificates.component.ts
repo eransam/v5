@@ -31,6 +31,7 @@ export class PopupCertificatesComponent {
   ngbDatepickerStartControl: FormControl;
   DetailsForm: FormGroup;
   site: string;
+
   startDateControl = new FormControl();
   endDateControl = new FormControl();
   chosenYearControl = new FormControl();
@@ -43,6 +44,10 @@ export class PopupCertificatesComponent {
   userDetails: any[] = [];
   chosenSite: any = 0;
   certificates_by_grewernum: any[] = [];
+  theStartDate: any = '';
+  theEndDateControl: any = '';
+  theChosenSiteControl: any = 0;
+  theChosenYearControl: any = 2023;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
@@ -68,59 +73,88 @@ export class PopupCertificatesComponent {
     console.log('siteControl: ', this.endDateControl.value);
     console.log('chosenYearControl: ', this.chosenYearControl.value);
     console.log('chosenSiteControl: ', this.chosenSiteControl.value);
+
+    //  this.theChosenYearControl
+    if (this.chosenYearControl.value === '') {
+      this.theChosenYearControl = '2023';
+    } else {
+      if (this.chosenYearControl.value) {
+        this.theChosenYearControl = this.chosenYearControl.value;
+      } else {
+        this.theChosenYearControl = '2023';
+      }
+    }
     // {year: 2023, month: 6, day: 10}
 
-    // start date:
-    var theStartDate = this.startDateControl.value;
+    //   this.theStartDate
+    if (this.startDateControl.value) {
+      this.theStartDate = this.startDateControl.value;
 
-    theStartDate.year = theStartDate.year.toString();
-    if (parseInt(theStartDate.month, 10) <= 9) {
-      theStartDate.month = '0' + theStartDate.month.toString();
+      this.theStartDate.year = this.theStartDate.year.toString();
+      if (parseInt(this.theStartDate.month, 10) <= 9) {
+        this.theStartDate.month = '0' + this.theStartDate.month.toString();
+      } else {
+        this.theStartDate.month = this.theStartDate.month.toString();
+      }
+
+      if (this.theStartDate.day <= 9) {
+        this.theStartDate.day = '0' + this.theStartDate.day.toString();
+      } else {
+        this.theStartDate.day = this.theStartDate.day.toString();
+      }
+      this.theStartDate =
+        this.theStartDate.year.toString() +
+        this.theStartDate.month +
+        this.theStartDate.day;
     } else {
-      theStartDate.month = theStartDate.month.toString();
+      this.theStartDate = '20230101';
     }
 
-    if (theStartDate.day <= 9) {
-      theStartDate.day = '0' + theStartDate.day.toString();
+    //   this.theEndDateControl
+    if (this.endDateControl.value) {
+      this.theEndDateControl = this.endDateControl.value;
+      if (this.theEndDateControl.month.length <= 9) {
+        this.theEndDateControl.month =
+          '0' + this.theEndDateControl.month.toString();
+      } else {
+        this.theEndDateControl.month = this.theEndDateControl.month.toString();
+      }
+
+      if (this.theEndDateControl.day <= 9) {
+        this.theEndDateControl.day =
+          '0' + this.theEndDateControl.day.toString();
+      } else {
+        this.theEndDateControl.day = this.theEndDateControl.day.toString();
+      }
+      this.theEndDateControl =
+        this.theEndDateControl.year.toString() +
+        this.theEndDateControl.month +
+        this.theEndDateControl.day;
     } else {
-      theStartDate.day = theStartDate.day.toString();
+      this.theEndDateControl = '20211231';
     }
-    theStartDate =
-      theStartDate.year.toString() + theStartDate.month + theStartDate.day;
 
-    var endDateControl = this.endDateControl.value;
-    if (endDateControl.month.length <= 9) {
-      endDateControl.month = '0' + endDateControl.month.toString();
+    //  this.theChosenSiteControl
+    this.theChosenSiteControl = this.chosenSiteControl.value;
+
+    if (this.theChosenSiteControl === 'כולם') {
+      this.theChosenSiteControl = 0;
     } else {
-      endDateControl.month = endDateControl.month.toString();
-    }
-
-    if (endDateControl.day <= 9) {
-      endDateControl.day = '0' + endDateControl.day.toString();
-    } else {
-      endDateControl.day = endDateControl.day.toString();
-    }
-    endDateControl =
-      endDateControl.year.toString() +
-      endDateControl.month +
-      endDateControl.day;
-
-    var chosenSiteControl = this.chosenSiteControl.value;
-
-    if (chosenSiteControl === 'כולם') {
-      chosenSiteControl = 0;
+      if (!this.theChosenSiteControl) {
+        this.theChosenSiteControl = 0;
+      }
     }
 
     this.certificates_by_grewernum =
       await this.megadelSearchService.Teuda_Select_New(
         1,
-        this.chosenYearControl.value,
+        this.theChosenYearControl,
         30,
         this.userDetails[0]?.yz_yzrn,
-        theStartDate,
-        endDateControl,
+        this.theStartDate,
+        this.theEndDateControl,
         0,
-        chosenSiteControl
+        this.theChosenSiteControl
       );
 
     console.log(

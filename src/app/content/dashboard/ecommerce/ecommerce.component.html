@@ -1,9 +1,10 @@
-<div *ngIf="isLoading_FarmDetails" class="loader"></div>
-<div
+<!-- <div *ngIf="isLoading_FarmDetails" class="loader"></div> -->
+<!-- <div
   *ngIf="!isLoading_FarmDetails"
   class="app-content content"
   [id]="'ecommerceId'"
->
+> -->
+<div class="app-content content" [id]="'ecommerceId'">
   <div class="content-wrapper">
     <div class="content-header row mb-1"></div>
     <div class="content-body">
@@ -190,8 +191,6 @@
           class="col-xl-2 col-12"
           style="background-color: white; height: fit-content"
         >
-          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
               <div class="table-responsive card-micsa">
@@ -205,7 +204,6 @@
                     </div>
                   </div>
                   <div
-                    *ngIf="!isLoading_FarmDetails"
                     class="table-container"
                     fxFlex="auto"
                     [perfectScrollbar]="config"
@@ -432,8 +430,6 @@
           "
           class="col-xl-3 col-12"
         >
-          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
               <div
@@ -444,10 +440,7 @@
                 <div class="card-content">
                   <!-- <div class="exel_and_total"></div> -->
 
-                  <div
-                    *ngIf="!isLoading_FarmDetails"
-                    class="table-container micsotStyle2"
-                  >
+                  <div class="table-container micsotStyle2">
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
                       <div>
@@ -589,8 +582,6 @@
           "
           class="col-xl-3 col-12"
         >
-          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
@@ -610,10 +601,7 @@
                     </div>
                   </div>
 
-                  <div
-                    *ngIf="!isLoading_FarmDetails"
-                    class="table-container micsotStyle"
-                  >
+                  <div class="table-container micsotStyle">
                     <!-- טבלת מכסות ביצים  -->
                     <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
                       <div class="rtl_Style">
@@ -622,14 +610,27 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngFor="let obj of rows; let i = index">
-                              <div
+                            <div *ngIf="theUserDetails.pa_Counter > 0">
+                              <button
+                                id="gidolHotzBtn"
+                                style="
+                                  color: blue;
+                                  background-color: white !important;
+                                  border: none;
+                                "
+                                (click)="getPartner([obj])"
+                              >
+                                {{ theUserDetails.pa_Counter }} קיים ג''ח -
+                              </button>
+                            </div>
+                            <!-- <div *ngFor="let obj of rows; let i = index"> -->
+                            <!-- <div
                                 *ngIf="
                                   userDetails_more_info[0].CdGdl === 0;
                                   else elseBlock
                                 "
-                              ></div>
-                              <ng-template
+                              ></div> -->
+                            <!-- <ng-template
                                 #elseBlock
                                 style="padding: none !important"
                               >
@@ -657,8 +658,8 @@
                                     <span>&nbsp;</span>
                                   </ng-container>
                                 </ng-container>
-                              </ng-template>
-                            </div>
+                              </ng-template> -->
+                            <!-- </div> -->
                           </td>
                         </tr>
                       </div>
@@ -720,8 +721,6 @@
           "
           class="col-xl-6 col-12"
         >
-          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
               <div
@@ -732,10 +731,7 @@
                 <div class="card-content">
                   <div class="exel_and_total"></div>
 
-                  <div
-                    *ngIf="!isLoading_FarmDetails"
-                    class="table-container micsotStyle"
-                  >
+                  <div class="table-container micsotStyle">
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
                       <div>
@@ -887,8 +883,6 @@
           "
           class="col-xl-6 col-12"
         >
-          <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-
           <div class="row match_height">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
@@ -908,10 +902,7 @@
                     </div>
                   </div>
 
-                  <div
-                    *ngIf="!isLoading_FarmDetails"
-                    class="table-container micsotStyle"
-                  >
+                  <div class="table-container micsotStyle">
                     <!-- טבלת מכסות ביצים  -->
                     <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
                       <div class="rtl_Style">
@@ -920,7 +911,22 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div
+                            <div *ngIf="theUserDetails.pa_Counter > 0">
+                              <button
+                                id="gidolHotzBtn"
+                                style="
+                                  color: blue;
+                                  background-color: white !important;
+                                  border: none;
+                                  direction: rtl;
+                                "
+                                (click)="getPartner([obj])"
+                              >
+                                קיים ג''ח -
+                                {{ theUserDetails.pa_Counter }}
+                              </button>
+                            </div>
+                            <!-- <div
                               *ngFor="
                                 let obj of thefarmdetOfThemainGrower;
                                 let i = index
@@ -961,7 +967,7 @@
                                   </ng-container>
                                 </ng-container>
                               </ng-template>
-                            </div>
+                            </div> -->
                           </td>
                         </tr>
                       </div>
@@ -1023,12 +1029,8 @@
         ></div>
 
         <!-- טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
-        <div *ngIf="isLoading_theUserDetails" class="loader"></div>
 
-        <div
-          *ngIf="!isLoading_theUserDetails"
-          class="col-xl-4 col-lg-12 growerDetails"
-        >
+        <div *ngIf="true" class="col-xl-4 col-lg-12 growerDetails">
           <m-card
             [options]="options"
             (reloadFunction)="reloadNewOrders($event)"
@@ -1157,9 +1159,7 @@
         </div>
         <!-- סיום טבלת פרטי מגדל ------------------------------------------------------------------------------------------------------------------------>
       </div>
-
       <!-- טבלת פרטי משקים ------------------------------------------------------------------------------------------------------------------------>
-      <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
       <div class="row match_height">
         <div id="recent-transactions" class="col-12">
@@ -1213,7 +1213,8 @@
                 </div>
               </div>
 
-              <div *ngIf="!isLoading_FarmDetails" class="table-container">
+              <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+              <div *ngIf="!isLoading_FarmDetails">
                 <table
                   class="table table-hover table-xl border_bottom detailsTable"
                   style="direction: rtl"
@@ -1248,6 +1249,7 @@
                       <th scope="col" class="border-top-0">מס גוש</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     <tr *ngFor="let row of rows">
                       <!-- <th scope="col" class="border-top-0">מס' אתר</th> -->
@@ -1483,63 +1485,62 @@
           </div>
         </div>
       </div>
-      <!--סיום טבלת פרטי משקים ------------------------------------------------------------------------------------------------------------------------>
-
-      <!-- Modal ------------------------------------------------------------------------------------------------------------------------>
-      <div
-        class="modal"
-        id="growerModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="vertical-alignment-helper">
-          <div class="modal-dialog vertical-align-center">
-            <div class="modal-content" style="width: 500px">
-              <app-grower-details
-                *ngIf="modalGrowerID"
-                [growerID]="modalGrowerID"
-              ></app-grower-details>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <button
-        id="btnModalGrower"
-        (click)="test()"
-        style="display: none"
-        type="button"
-        class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#growerModal"
-      ></button>
-
-      <!-- Modal -->
-      <div
-        class="modal"
-        id="growerModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="vertical-alignment-helper">
-          <div class="modal-dialog vertical-align-center">
-            <div class="modal-content" style="width: 500px">
-              <app-grower-details
-                *ngIf="modalGrowerID"
-                [growerID]="modalGrowerID"
-              ></app-grower-details>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--and Modal ------------------------------------------------------------------------------------------------------------------------>
-
-      <!--/ Basic Horizontal Timeline -->
     </div>
+    <!--סיום טבלת פרטי משקים ------------------------------------------------------------------------------------------------------------------------>
+
+    <!-- Modal ------------------------------------------------------------------------------------------------------------------------>
+    <div
+      class="modal"
+      id="growerModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+          <div class="modal-content" style="width: 500px">
+            <app-grower-details
+              *ngIf="modalGrowerID"
+              [growerID]="modalGrowerID"
+            ></app-grower-details>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      id="btnModalGrower"
+      style="display: none"
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#growerModal"
+    ></button>
+
+    <!-- Modal -->
+    <div
+      class="modal"
+      id="growerModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+          <div class="modal-content" style="width: 500px">
+            <app-grower-details
+              *ngIf="modalGrowerID"
+              [growerID]="modalGrowerID"
+            ></app-grower-details>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--and Modal ------------------------------------------------------------------------------------------------------------------------>
+
+    <!--/ Basic Horizontal Timeline -->
   </div>
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
