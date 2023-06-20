@@ -1201,6 +1201,36 @@
                   >
                     ({{ Active_FarmDetails.length }}) פעילים
                   </div>
+
+                  <div class="site_by_shlohot_btn" *ngIf="this.keys_of_categorizedArrays.length > 0">
+                    <div *ngFor="let obj of keys_of_categorizedArrays">
+                      <div
+                        style="
+                          color: blue;
+                          text-decoration: underline;
+                          cursor: pointer;
+                          margin-left: 25px;
+                          font-size: larger;
+                        "
+                        [class.active-site]="click_on_show_ActiveSite"
+                      >
+                        <span
+                          (click)="show_agg_site()"
+                          style="font-size: larger"
+                          *ngIf="obj === '20'"
+                        >
+                          ביצי מאכל
+                        </span>
+                        <span
+                          (click)="show_petem_and_hodim_site()"
+                          style="font-size: larger"
+                          *ngIf="obj === '22'"
+                        >
+                          הודים פטם
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- isLoading_userDet = true;

@@ -149,7 +149,8 @@ export class EcommerceComponent implements OnInit {
   certificates_by_grewernum: any[] = [];
   growerCard: any[] = [];
   Get_McsKvua_shloha_30: any[] = [];
-
+  categorizedArrays: any = {};
+  keys_of_categorizedArrays: any[] = [];
   thefarmdetOfThemainGrower: any[] = [];
   // Component class
 
@@ -200,7 +201,6 @@ export class EcommerceComponent implements OnInit {
 
       this.isLoading_userDet = true;
       this.isLoading_micsot = true;
-
       // Call any necessary functions or perform logic based on the new parameter value
       this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
       this.userDetails = this.userDetails.filter(
@@ -229,7 +229,6 @@ export class EcommerceComponent implements OnInit {
             '%'
           );
       }
-
 
       //   מחלצים פרטים נוספים של היצרן
       this.userDetails_more_info =
@@ -422,7 +421,7 @@ export class EcommerceComponent implements OnInit {
           '',
           '%',
           0,
-          '20,27',
+          '17,18,19,20,21,22,23,25,26,27,28',
           this.userDetails[0].v_yzrn,
           99
         );
@@ -434,6 +433,24 @@ export class EcommerceComponent implements OnInit {
 
         // חילוץ פרטי אתרים עי הפארם איידי של היצרן
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
+        this.FarmDetails.sort((a, b) =>
+          a.belonging_group_id > b.belonging_group_id ? 1 : -1
+        );
+
+        for (let obj of this.FarmDetails) {
+          const belonging_group_id = obj.belonging_group_id;
+
+          // Check if the category array exists, otherwise create a new one
+          if (!this.categorizedArrays[belonging_group_id]) {
+            this.categorizedArrays[belonging_group_id] = [];
+          }
+
+          // Push the object into the respective category array
+          await this.categorizedArrays[belonging_group_id].push(obj);
+        }
+
+        console.log(this.categorizedArrays);
+        this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
 
         // מכניסים שדה גידול חוץ לפרטי יוזר
         this.mainGrower =
@@ -622,6 +639,19 @@ export class EcommerceComponent implements OnInit {
 
     this.rows = this.Active_FarmDetails;
   }
+
+  show_agg_site() {
+    const key = '20';
+    const value = this.categorizedArrays[key];
+    this.rows = this.categorizedArrays[key];
+  }
+
+  show_petem_and_hodim_site() {
+    const key = '22';
+    const value = this.categorizedArrays[key];
+    this.rows = this.categorizedArrays[key];
+  }
+
 
   showAllSite() {
     this.rows = this.FarmDetails;
