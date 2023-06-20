@@ -442,14 +442,6 @@
   cursor: pointer;
 }
 
-/* .importBth {
-    justify-content: left;
-  }
-  
-  .totalFarms {
-    justify-content: right;
-  } */
-
 .exel_and_total {
   display: flex;
   align-items: center;
@@ -609,4 +601,8 @@
 }
 .eranTest {
   padding: 1px;
+}
+
+.search_by_year {
+  height: 113px;
 }

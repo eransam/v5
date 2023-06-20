@@ -207,11 +207,29 @@ export class EcommerceComponent implements OnInit {
         (obj) => obj.v_yzrn_id.toString() === this.idFromurl
       );
 
-      //   מחלצים את פרטי היצרן
-      //   this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
-      //     this.idFromurl
-      //   );
-      //   localStorage.setItem('userDetails', JSON.stringify(this.userDetails));
+      if (this.userDetails.length === 0) {
+        this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
+          this.idFromurl
+        );
+
+        this.userDetails =
+          await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
+            18,
+            this.userDetails[0].yz_yzrn,
+            '%',
+            '%',
+            1,
+            '%',
+            30,
+            this.chosenYear,
+            '%',
+            '%',
+            '%',
+            1,
+            '%'
+          );
+      }
+
 
       //   מחלצים פרטים נוספים של היצרן
       this.userDetails_more_info =
@@ -226,8 +244,7 @@ export class EcommerceComponent implements OnInit {
           '%',
           '%'
         );
-        this.isLoading_userDet = false;
-
+      this.isLoading_userDet = false;
 
       //   לוגיקה התראות -------------------------------------------------------------------
 
@@ -397,7 +414,6 @@ export class EcommerceComponent implements OnInit {
       // קנט ושם מגדל ישן -  סיום
 
       //   סיום התראות-----------------------------------------------------------------------------------------------------------------------------------------
-
 
       //   מחלצים את מספרי האתרים של היצרן
       this.siteName =

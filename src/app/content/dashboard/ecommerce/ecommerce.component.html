@@ -154,7 +154,7 @@
         </div>
         <!--חיפוש לפי שנה-->
         <div class="col-xl-2 col-lg-6 col-12">
-          <div class="card pull-up">
+          <div class="card pull-up search_by_year">
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex">
@@ -214,107 +214,163 @@
                     >
                       <thead class="detailsTable">
                         <!-- מגדל יוש -->
-                        <tr *ngIf="userDetails_more_info[0].v_YzYosh === 1">
-                          <th scope="col" class="border-top-0">מגדל יו''ש</th>
-                          <th scope="col" class="border-top-0">
-                            <div [ngSwitch]="userDetails_more_info[0].v_YzYosh">
-                              <span
-                                *ngSwitchCase="'1'"
-                                style="color: green; font-size: 2rem"
-                                >√</span
+                        <tr
+                          *ngIf="
+                            this.userDetails_more_info &&
+                            this.userDetails_more_info.length > 0 &&
+                            this.userDetails_more_info[0]?.v_YzYosh
+                          "
+                        >
+                          <div
+                            *ngIf="
+                              this.userDetails_more_info[0]?.v_YzYosh === 1
+                            "
+                          >
+                            <th scope="col" class="border-top-0">מגדל יו''ש</th>
+                            <th scope="col" class="border-top-0">
+                              <div
+                                [ngSwitch]="
+                                  this.userDetails_more_info[0]?.v_YzYosh
+                                "
                               >
-                              <span
-                                *ngSwitchDefault
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              >
-                            </div>
-                          </th>
+                                <span
+                                  *ngSwitchCase="'1'"
+                                  style="color: green; font-size: 2rem"
+                                  >√</span
+                                >
+                                <span
+                                  *ngSwitchDefault
+                                  style="color: red; font-size: 2rem"
+                                  >X</span
+                                >
+                              </div>
+                            </th>
+                          </div>
                         </tr>
 
                         <!--מגדל גידול עצמי-->
+
                         <tr
-                          *ngIf="userDetails_more_info[0].v_SelfGrower === '1'"
+                          *ngIf="
+                            this.userDetails_more_info &&
+                            this.userDetails_more_info.length > 0 &&
+                            this.userDetails_more_info[0]?.v_SelfGrower
+                          "
                         >
-                          <th scope="col" class="border-top-0">
-                            מגדל גידול עצמי
-                          </th>
-                          <th scope="col" class="border-top-0">
-                            <div
-                              [ngSwitch]="userDetails_more_info[0].v_SelfGrower"
-                            >
-                              <span
-                                *ngSwitchCase="'1'"
-                                style="color: green; font-size: 2rem"
-                                >√</span
+                          <div
+                            *ngIf="
+                              userDetails_more_info[0]?.v_SelfGrower === '1'
+                            "
+                          >
+                            <th scope="col" class="border-top-0">
+                              מגדל גידול עצמי
+                            </th>
+                            <th scope="col" class="border-top-0">
+                              <div
+                                [ngSwitch]="
+                                  userDetails_more_info[0]?.v_SelfGrower
+                                "
                               >
-                              <!-- <span
-                                *ngSwitchDefault
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              > -->
-                            </div>
-                          </th>
+                                <span
+                                  *ngSwitchCase="'1'"
+                                  style="color: green; font-size: 2rem"
+                                  >√</span
+                                >
+                                <!-- <span
+                                    *ngSwitchDefault
+                                    style="color: red; font-size: 2rem"
+                                    >X</span
+                                  > -->
+                              </div>
+                            </th>
+                          </div>
                         </tr>
 
                         <!-- מגדל דור ב -->
-                        <tr *ngIf="userDetails_more_info[0].v_Dor_bet === '1'">
-                          <th scope="col" class="border-top-0">מגדל דור ב'</th>
-                          <th scope="col" class="border-top-0">
-                            <div
-                              [ngSwitch]="userDetails_more_info[0].v_Dor_bet"
-                            >
-                              <span
-                                *ngSwitchCase="'1'"
-                                style="color: green; font-size: 2rem"
-                                >√</span
+                        <tr
+                          *ngIf="
+                            this.userDetails_more_info &&
+                            this.userDetails_more_info.length > 0 &&
+                            this.userDetails_more_info[0]?.v_Dor_bet
+                          "
+                        >
+                          <div
+                            *ngIf="userDetails_more_info[0]?.v_Dor_bet === '1'"
+                          >
+                            <th scope="col" class="border-top-0">
+                              מגדל דור ב'
+                            </th>
+                            <th scope="col" class="border-top-0">
+                              <div
+                                [ngSwitch]="userDetails_more_info[0]?.v_Dor_bet"
                               >
-                              <span
-                                *ngSwitchDefault
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              >
-                            </div>
-                          </th>
+                                <span
+                                  *ngSwitchCase="'1'"
+                                  style="color: green; font-size: 2rem"
+                                  >√</span
+                                >
+                                <span
+                                  *ngSwitchDefault
+                                  style="color: red; font-size: 2rem"
+                                  >X</span
+                                >
+                              </div>
+                            </th>
+                          </div>
                         </tr>
 
                         <!-- רישיון עסק -->
-                        <tr *ngIf="McsRishaion_Esek_number_type !== 0">
-                          <th scope="col" class="border-top-0">
-                            {{ businessLicense_all_details }}
-                          </th>
-                          <th>
-                            <div>
-                              <span style="color: green; font-size: 2rem"
-                                >√</span
-                              >
-                            </div>
-                          </th>
+                        <tr *ngIf="McsRishaion_Esek_number_type">
+                          <div *ngIf="McsRishaion_Esek_number_type !== 0">
+                            <th scope="col" class="border-top-0">
+                              {{ businessLicense_all_details }}
+                            </th>
+                            <th>
+                              <div>
+                                <span style="color: green; font-size: 2rem"
+                                  >√</span
+                                >
+                              </div>
+                            </th>
+                          </div>
                         </tr>
 
                         <!-- מגדל צריכה עצמית -->
+
                         <tr
-                          *ngIf="userDetails_more_info[0].v_SelfConsum === '1'"
+                          *ngIf="
+                            this.userDetails_more_info &&
+                            this.userDetails_more_info.length > 0 &&
+                            this.userDetails_more_info[0]?.v_SelfConsum
+                          "
                         >
-                          <th scope="col" class="border-top-0">
-                            מגדל צריכה עמצאית
-                          </th>
-                          <th scope="col" class="border-top-0">
-                            <div
-                              [ngSwitch]="userDetails_more_info[0].v_SelfConsum"
-                            >
-                              <span
-                                *ngSwitchCase="'1'"
-                                style="color: green; font-size: 2rem"
-                                >√</span
+                          <div
+                            *ngIf="
+                              userDetails_more_info[0]?.v_SelfConsum === '1'
+                            "
+                          >
+                            <th scope="col" class="border-top-0">
+                              מגדל צריכה עמצאית
+                            </th>
+                            <th scope="col" class="border-top-0">
+                              <div
+                                [ngSwitch]="
+                                  userDetails_more_info[0]?.v_SelfConsum
+                                "
                               >
-                              <span
-                                *ngSwitchDefault
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              >
-                            </div>
-                          </th>
+                                <span
+                                  *ngSwitchCase="'1'"
+                                  style="color: green; font-size: 2rem"
+                                  >√</span
+                                >
+                                <span
+                                  *ngSwitchDefault
+                                  style="color: red; font-size: 2rem"
+                                  >X</span
+                                >
+                              </div>
+                            </th>
+                          </div>
                         </tr>
 
                         <!-- אישור שוט -->
@@ -610,7 +666,7 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngIf="theUserDetails.pa_Counter > 0">
+                            <div *ngIf="theUserDetails?.pa_Counter > 0">
                               <button
                                 id="gidolHotzBtn"
                                 style="
@@ -623,43 +679,6 @@
                                 {{ theUserDetails.pa_Counter }} קיים ג''ח -
                               </button>
                             </div>
-                            <!-- <div *ngFor="let obj of rows; let i = index"> -->
-                            <!-- <div
-                                *ngIf="
-                                  userDetails_more_info[0].CdGdl === 0;
-                                  else elseBlock
-                                "
-                              ></div> -->
-                            <!-- <ng-template
-                                #elseBlock
-                                style="padding: none !important"
-                              >
-                                <ng-container
-                                  *ngIf="isFirstUniqueValue(obj, i)"
-                                >
-                                  <div *ngIf="userDetails_more_info[0].CdGdl">
-                                    <button
-                                      id="gidolHotzBtn"
-                                      style="
-                                        color: blue;
-                                        background-color: white !important;
-                                        border: none;
-                                      "
-                                      (click)="getPartner([obj])"
-                                    >
-                                      {{ partnerData.length - 1 }} ({{
-                                        userDetails_more_info[0].CdGdl
-                                      }})
-                                    </button>
-                                  </div>
-                                  <ng-container
-                                    *ngIf="hasMultipleUniqueValues(obj)"
-                                  >
-                                    <span>&nbsp;</span>
-                                  </ng-container>
-                                </ng-container>
-                              </ng-template> -->
-                            <!-- </div> -->
                           </td>
                         </tr>
                       </div>
@@ -911,20 +930,22 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngIf="theUserDetails.pa_Counter > 0">
-                              <button
-                                id="gidolHotzBtn"
-                                style="
-                                  color: blue;
-                                  background-color: white !important;
-                                  border: none;
-                                  direction: rtl;
-                                "
-                                (click)="getPartner([obj])"
-                              >
-                                קיים ג''ח -
-                                {{ theUserDetails.pa_Counter }}
-                              </button>
+                            <div *ngIf="theUserDetails?.pa_Counter">
+                              <div *ngIf="theUserDetails?.pa_Counter > 0">
+                                <button
+                                  id="gidolHotzBtn"
+                                  style="
+                                    color: blue;
+                                    background-color: white !important;
+                                    border: none;
+                                    direction: rtl;
+                                  "
+                                  (click)="getPartner([obj])"
+                                >
+                                  קיים ג''ח -
+                                  {{ theUserDetails.pa_Counter }}
+                                </button>
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -1000,15 +1021,21 @@
                     <div class="card-header"></div>
                     <h1>פרטי מגדל</h1>
                     <table class="table" style="direction: rtl">
-                      <tbody>
+                      <tbody
+                        *ngIf="
+                          this.userDetails_more_info &&
+                          this.userDetails_more_info.length > 0
+                        "
+                      >
                         <tr>
                           <td><B>שם יצרן</B></td>
+
                           <td>
-                            {{ this.userDetails_more_info[0].v_shem_yzrn }}
+                            {{ this.userDetails_more_info[0]?.v_shem_yzrn }}
                           </td>
 
                           <td><B>מספר יצרן</B></td>
-                          <td>{{ this.userDetails_more_info[0].v_yzrn }}</td>
+                          <td>{{ this.userDetails_more_info[0]?.v_yzrn }}</td>
                           <td
                             align="left"
                             style="cursor: pointer"
@@ -1022,9 +1049,9 @@
                           <td><B>כתובת</B></td>
                           <td>
                             {{
-                              this.userDetails_more_info[0].v_ktovet +
+                              this.userDetails_more_info[0]?.v_ktovet +
                                 "," +
-                                this.userDetails_more_info[0].v_ktovet1
+                                this.userDetails_more_info[0]?.v_ktovet1
                             }}
                           </td>
                         </tr>
@@ -1038,29 +1065,29 @@
 
                         <tr>
                           <td><B>ת.ז</B></td>
-                          <td>{{ this.userDetails_more_info[0].v_zehut }}</td>
+                          <td>{{ this.userDetails_more_info[0]?.v_zehut }}</td>
 
                           <td><B>טלפון</B></td>
                           <td>
-                            {{ this.userDetails_more_info[0].v_tel1 }}
+                            {{ this.userDetails_more_info[0]?.v_tel1 }}
                           </td>
                         </tr>
                         <tr>
                           <td><B>ישוב</B></td>
                           <td>
-                            {{ this.userDetails_more_info[0].v_shem_yeshuv }}
+                            {{ this.userDetails_more_info[0]?.v_shem_yeshuv }}
                           </td>
 
                           <td>
                             <B>טלפון נוסף</B>
                           </td>
                           <td>
-                            {{ this.userDetails_more_info[0].tel }}
+                            {{ this.userDetails_more_info[0]?.tel }}
                           </td>
                         </tr>
                         <tr>
                           <td><B>סוג מגדל</B></td>
-                          <td [ngSwitch]="userDetails_more_info[0].Rashi">
+                          <td [ngSwitch]="userDetails_more_info[0]?.Rashi">
                             <span
                               *ngSwitchCase="'1'"
                               style="
@@ -1091,7 +1118,7 @@
                           </td>
                           <td><B>מייל</B></td>
                           <td>
-                            {{ this.userDetails_more_info[0].v_Email }}
+                            {{ this.userDetails_more_info[0]?.v_Email }}
                           </td>
                         </tr>
 
