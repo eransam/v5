@@ -31,7 +31,7 @@ export class PopupCertificatesComponent {
   ngbDatepickerStartControl: FormControl;
   DetailsForm: FormGroup;
   site: string;
-  shlohaOption = [0,0,0]
+  shlohaOption = [0, 0, 0];
   startDateControl = new FormControl();
   endDateControl = new FormControl();
   chosenYearControl = new FormControl();
@@ -50,6 +50,12 @@ export class PopupCertificatesComponent {
   theEndDateControl: any = '';
   theChosenSiteControl: any = 0;
   theChosenYearControl: any = 2023;
+  theChosenShlohaControl: any = '30';
+
+  grower_extention: any[] = [];
+  grower_extention_name: any[] = [];
+
+  initialEndDate: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
@@ -61,11 +67,73 @@ export class PopupCertificatesComponent {
   }
 
   async ngOnInit() {
+    this.initialEndDate = this.endDate;
+
+    this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
+    console.log(this.grower_extention);
+    for (let obj of this.grower_extention) {
+      this.grower_extention_name.push(this.getCategoryLabel(obj));
+    }
+
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
     this.siteName.push({ code: 'כולם' });
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'));
     console.log('this.userDetails: ', this.userDetails);
+  }
+
+  getCategoryKey(label: string): string {
+    switch (label) {
+      case 'תרנגולות - רבייה כבדה':
+        return '17';
+      case 'תרנגולות - רבייה קלה':
+        return '18';
+      case 'תרנגולות - פיטום':
+        return '19';
+      case 'תרנגולות - הטלה':
+        return '20';
+      case 'הודים - רבייה':
+        return '21';
+      case 'הודים - פיטום':
+        return '22';
+      case 'עופות - שונים':
+        return '23';
+      case 'ברווזים - פיטום':
+        return '25';
+      case 'ברווזים - רבייה':
+        return '26';
+      case 'שלווים - ביצי מאכל':
+        return '28';
+      default:
+        return '';
+    }
+  }
+
+  getCategoryLabel(key: string): string {
+    switch (key) {
+      case '17':
+        return 'תרנגולות - רבייה כבדה';
+      case '18':
+        return 'תרנגולות - רבייה קלה';
+      case '19':
+        return 'תרנגולות - פיטום';
+      case '20':
+        return 'תרנגולות - הטלה';
+      case '21':
+        return 'הודים - רבייה';
+      case '22':
+        return 'הודים - פיטום';
+      case '23':
+        return 'עופות - שונים';
+      case '25':
+        return 'ברווזים - פיטום';
+      case '26':
+        return 'ברווזים - רבייה';
+      case '28':
+        return 'שלווים - ביצי מאכל';
+      default:
+        return '';
+    }
   }
 
   async add() {
@@ -75,8 +143,33 @@ export class PopupCertificatesComponent {
     console.log('siteControl: ', this.endDateControl.value);
     console.log('chosenYearControl: ', this.chosenYearControl.value);
     console.log('chosenSiteControl: ', this.chosenSiteControl.value);
+    console.log('chosenShlohaControl: ', this.chosenShlohaControl.value);
+
+    // chosenShlohaControl
+    if (this.chosenShlohaControl.value === 0) {
+      this.theChosenShlohaControl = '30';
+    } else {
+      if (this.chosenShlohaControl.value) {
+        this.theChosenShlohaControl = this.chosenShlohaControl.value;
+        this.theChosenShlohaControl = this.getCategoryKey(
+          this.theChosenShlohaControl
+        );
+      } else {
+        this.theChosenShlohaControl = '30';
+      }
+
+      const shloha_Maaravi =
+        await this.megadelSearchService.convert_shlohaOshik_to_shlohaMaaravi(
+          this.theChosenShlohaControl
+        );
+      const tbCodeValues = shloha_Maaravi.map((obj) => obj.tb_code);
+      const tbCodeString = tbCodeValues.join(',');
+      this.theChosenShlohaControl = tbCodeString;
+      console.log(this.theChosenShlohaControl);
+    }
 
     //  this.theChosenYearControl
+    // {year: 2023, month: 6, day: 10}
     if (this.chosenYearControl.value === '') {
       this.theChosenYearControl = '2023';
     } else {
@@ -86,10 +179,9 @@ export class PopupCertificatesComponent {
         this.theChosenYearControl = '2023';
       }
     }
-    // {year: 2023, month: 6, day: 10}
 
     //   this.theStartDate
-    if (this.startDateControl.value) {
+    if (this.startDateControl?.value) {
       this.theStartDate = this.startDateControl.value;
 
       this.theStartDate.year = this.theStartDate.year.toString();
@@ -109,7 +201,7 @@ export class PopupCertificatesComponent {
         this.theStartDate.month +
         this.theStartDate.day;
     } else {
-      this.theStartDate = '20230101';
+      this.theStartDate = `${this.chosenYearControl}0101`;
     }
 
     //   this.theEndDateControl
@@ -133,7 +225,7 @@ export class PopupCertificatesComponent {
         this.theEndDateControl.month +
         this.theEndDateControl.day;
     } else {
-      this.theEndDateControl = '20211231';
+      this.theEndDateControl = `${this.chosenYearControl}1231`;
     }
 
     //  this.theChosenSiteControl
@@ -151,14 +243,13 @@ export class PopupCertificatesComponent {
       await this.megadelSearchService.Teuda_Select_New(
         1,
         this.theChosenYearControl,
-        30,
+        this.theChosenShlohaControl,
         this.userDetails[0]?.yz_yzrn,
         this.theStartDate,
         this.theEndDateControl,
         0,
         this.theChosenSiteControl
       );
-
     console.log(
       'this.certificates_by_grewernum: ',
       this.certificates_by_grewernum

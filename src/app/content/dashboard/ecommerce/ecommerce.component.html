@@ -1171,64 +1171,64 @@
                 <div class="check">
                   <!-- <div class="totalFarms col">סהכ אתרים : {{ totalFarms }}</div>
                   <div class="totalFarms col">סהכ : {{ rows.length }}</div> -->
+                  <div style="display: flex">
+                    <div
+                      *ngIf="Not_Active_FarmDetails.length > 0"
+                      (click)="show_not_ActiveSite()"
+                      style="
+                        color: blue;
+                        text-decoration: underline;
+                        cursor: pointer;
+                        margin-left: 25px;
+                        font-size: larger;
+                      "
+                      [class.active-site]="click_on_not_show_ActiveSite"
+                    >
+                      ({{ Not_Active_FarmDetails.length }}) לא פעילים
+                    </div>
 
-                  <div
-                    *ngIf="Not_Active_FarmDetails.length > 0"
-                    (click)="show_not_ActiveSite()"
-                    style="
-                      color: blue;
-                      text-decoration: underline;
-                      cursor: pointer;
-                      margin-left: 25px;
-                      font-size: larger;
-                    "
-                    [class.active-site]="click_on_not_show_ActiveSite"
-                  >
-                    ({{ Not_Active_FarmDetails.length }}) לא פעילים
+                    <div
+                      *ngIf="Active_FarmDetails.length > 0"
+                      (click)="show_ActiveSite()"
+                      style="
+                        color: blue;
+                        text-decoration: underline;
+                        cursor: pointer;
+                        margin-left: 25px;
+                        font-size: larger;
+                      "
+                      [class.active-site]="click_on_show_ActiveSite"
+                    >
+                      ({{ Active_FarmDetails.length }}) פעילים
+                    </div>
                   </div>
 
                   <div
-                    *ngIf="Active_FarmDetails.length > 0"
-                    (click)="show_ActiveSite()"
-                    style="
-                      color: blue;
-                      text-decoration: underline;
-                      cursor: pointer;
-                      margin-left: 25px;
-                      font-size: larger;
-                    "
-                    [class.active-site]="click_on_show_ActiveSite"
+                    class="site_by_shlohot_btn"
+                    *ngIf="this.keys_of_categorizedArrays.length > 0"
                   >
-                    ({{ Active_FarmDetails.length }}) פעילים
-                  </div>
-
-                  <div class="site_by_shlohot_btn" *ngIf="this.keys_of_categorizedArrays.length > 0">
-                    <div *ngFor="let obj of keys_of_categorizedArrays">
-                      <div
-                        style="
-                          color: blue;
-                          text-decoration: underline;
-                          cursor: pointer;
-                          margin-left: 25px;
-                          font-size: larger;
-                        "
-                        [class.active-site]="click_on_show_ActiveSite"
+                    <div>
+                      <span
+                        (click)="selectCategory(obj)"
+                        style="font-size: larger"
+                        *ngFor="let obj of keys_of_categorizedArrays"
                       >
                         <span
-                          (click)="show_agg_site()"
-                          style="font-size: larger"
-                          *ngIf="obj === '20'"
+                          [class.active-site_shlohot_btn]="
+                            selectedCategory === obj
+                          "
+                          style="
+                            color: blue;
+                            text-decoration: underline;
+                            cursor: pointer;
+                            margin-left: 25px;
+                            font-size: 25px;
+                          "
                         >
-                          ביצי מאכל
+                          {{ getCategoryLabel(obj) }}
                         </span>
-                        <span
-                          (click)="show_petem_and_hodim_site()"
-                          style="font-size: larger"
-                          *ngIf="obj === '22'"
-                        >
-                          הודים פטם
-                        </span>
-                      </div>
+                        &nbsp;&nbsp;
+                      </span>
                     </div>
                   </div>
                 </div>

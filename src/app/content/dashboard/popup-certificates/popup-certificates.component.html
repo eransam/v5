@@ -8,7 +8,7 @@
     <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4>
     <div class="row">
       <!-- date from -->
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group row mx-auto">
           <label class="col-md-4 label-control" for="startDate">מתאריך</label>
           <div class="col-md-8">
@@ -34,9 +34,7 @@
       </div>
 
       <!-- date to -->
-
-      <!-- date to -->
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group row mx-auto">
           <label class="col-md-4 label-control" for="endDate">עד תאריך</label>
           <div class="col-md-8">
@@ -48,7 +46,7 @@
               ngbDatepicker
               #d2="ngbDatepicker"
               class="form-control border-primary textUserInput"
-              [(ngModel)]="endDate"
+              [(ngModel)]="initialEndDate"
               [formControl]="endDateControl"
               (keydown.enter)="$event.preventDefault()"
             />
@@ -85,13 +83,13 @@
       <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         שלוחה:
         <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
-          <option *ngFor="let obj of this.shlohaOption" [value]="obj">
+          <option *ngFor="let obj of this.grower_extention_name" [value]="obj">
             {{ obj }}
           </option>
         </select>
       </div>
 
-      <div class="col-md-1" style="padding-top: 23px">
+      <div class="col-md-2" style="padding-top: 23px">
         <button type="submit">חפש</button>
       </div>
     </div>

@@ -152,7 +152,7 @@ export class EcommerceComponent implements OnInit {
   categorizedArrays: any = {};
   keys_of_categorizedArrays: any[] = [];
   thefarmdetOfThemainGrower: any[] = [];
-  // Component class
+  selectedCategory: string = '';
 
   constructor(
     private chartApiservice: ChartApiService,
@@ -541,15 +541,6 @@ export class EcommerceComponent implements OnInit {
       }
       this.isLoading_FarmDetails = false;
 
-      //   this.chartApiservice.getEcommerceData().subscribe((Response) => {
-      //     this.ChartistData = Response;
-      //     this.getlineArea();
-      //   });
-      //   this.tableApiservice.getEcommerceTableData().subscribe((Response) => {
-      //     this.datatableData = Response;
-      //   });
-
-      //   this.loadData(this.userDetails[0]?.yz_Id);
     });
   }
 
@@ -572,29 +563,6 @@ export class EcommerceComponent implements OnInit {
   }
 
   async shows_grower_card() {
-    // 	--exec Pargit_Teuda @order =4, @start_yzrn ="02060341" , @start_tz ='48',@start_year  ='2022', @start_date  ='',
-    //  @end_date  ='', @Rishaion  =0
-    // this.Pargit_Teuda_month = await this.megadelSearchService.Pargit_Teuda(
-    //     4,
-    //     this.userDetails[0]?.v_yzrn,
-    //     48,
-    //     this.chosenYear,
-    //     this.startDay,
-    //     this.endDay,
-    //     this.siteNum
-    //   );
-
-    // this.month_shloha_30 = await this.megadelSearchService.Teuda_Select_New(
-    //   6,
-    //   this.chosenYear,
-    //   this.shloha,
-    //   this.userDetails[0]?.v_yzrn,
-    //   this.startDay,
-    //   this.endDay,
-    //   0,
-    //   this.siteNum
-    // );
-
     this.Get_McsKvua_shloha_30 =
       await this.megadelSearchService.Micsa_Get_McsKvua_New(
         2,
@@ -632,36 +600,86 @@ export class EcommerceComponent implements OnInit {
   }
   // Component class
 
+  getCategoryLabel(key: string): string {
+    switch (key) {
+      case '17':
+        return 'תרנגולות - רבייה כבדה';
+      case '18':
+        return 'תרנגולות - רבייה קלה';
+      case '19':
+        return 'תרנגולות - פיטום';
+      case '20':
+        return 'תרנגולות - הטלה';
+      case '21':
+        return 'הודים - רבייה';
+      case '22':
+        return 'הודים - פיטום';
+      case '23':
+        return 'עופות - שונים';
+      case '25':
+        return 'ברווזים - פיטום';
+      case '26':
+        return 'ברווזים - רבייה';
+      case '28':
+        return 'שלווים - ביצי מאכל';
+      default:
+        return '';
+    }
+  }
+
+  getCategoryKey(label: string): string {
+    switch (label) {
+      case 'תרנגולות - רבייה כבדה':
+        return '17';
+      case 'תרנגולות - רבייה קלה':
+        return '18';
+      case 'תרנגולות - פיטום':
+        return '19';
+      case 'תרנגולות - הטלה':
+        return '20';
+      case 'הודים - רבייה':
+        return '21';
+      case 'הודים - פיטום':
+        return '22';
+      case 'עופות - שונים':
+        return '23';
+      case 'ברווזים - פיטום':
+        return '25';
+      case 'ברווזים - רבייה':
+        return '26';
+      case 'שלווים - ביצי מאכל':
+        return '28';
+      default:
+        return '';
+    }
+  }
+
+  selectCategory(category: string) {
+    this.click_on_not_show_ActiveSite = false;
+    this.click_on_show_ActiveSite = false;
+    this.selectedCategory = category;
+    const value = this.categorizedArrays[category];
+    this.rows = value;
+  }
+
   show_ActiveSite() {
+    this.selectedCategory = '';
     this.isNotActiveSiteShown = false;
     this.click_on_show_ActiveSite = true;
     this.click_on_not_show_ActiveSite = false;
-
     this.rows = this.Active_FarmDetails;
   }
 
-  show_agg_site() {
-    const key = '20';
-    const value = this.categorizedArrays[key];
-    this.rows = this.categorizedArrays[key];
-  }
-
-  show_petem_and_hodim_site() {
-    const key = '22';
-    const value = this.categorizedArrays[key];
-    this.rows = this.categorizedArrays[key];
-  }
-
-
   showAllSite() {
+    this.selectedCategory = '';
     this.rows = this.FarmDetails;
   }
 
   show_not_ActiveSite() {
+    this.selectedCategory = '';
     this.isNotActiveSiteShown = true;
     this.click_on_show_ActiveSite = false;
     this.click_on_not_show_ActiveSite = true;
-
     this.rows = this.Not_Active_FarmDetails;
   }
   isFirstUniqueValue(obj: any, currentIndex: number): boolean {
@@ -971,6 +989,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   openPopup_certificates() {
+    this.certificates_by_grewernum.push({grower_Extensions: this.keys_of_categorizedArrays})
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'openPopup_certificates-dialog';
     dialogConfig.data = this.certificates_by_grewernum;

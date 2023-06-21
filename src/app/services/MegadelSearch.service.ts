@@ -11,6 +11,32 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  //   המרת שלוחה ממערבי לאושיק
+  async convert_shlohaMaaravi_to_shlohaOshik(shloha: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${
+          environment.apiPath
+        }growerService.asmx/convert_shlohaMaaravi_to_shlohaOshik?shloha=${shloha.toString()}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  //   המרת שלוחה מאושיק למערבי
+  async convert_shlohaOshik_to_shlohaMaaravi(shloha: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${
+          environment.apiPath
+        }growerService.asmx/convert_shlohaOshik_to_shlohaMaaravi?shloha=${shloha.toString()}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   //   --exec Pargit_Teuda @order =4, @start_yzrn ="02060341" , @start_tz ='48',@start_year  ='2022', @start_date  ='', @end_date  ='', @Rishaion  =0
   async Pargit_Teuda(
     order: any,

@@ -592,8 +592,9 @@
 
 /* Component styles or separate stylesheet */
 .active-site {
-  font-weight: bolder;
-  font-size: larger;
+  //   font-weight: bolder;
+  //   font-size: larger;
+  color: green !important;
 }
 
 .openPopup_certificates-dialog {
@@ -612,4 +613,8 @@
   /* display: inline-block; */
   /* display: block; */
   display: flex;
+}
+
+.active-site_shlohot_btn {
+  color: green !important;
 }
