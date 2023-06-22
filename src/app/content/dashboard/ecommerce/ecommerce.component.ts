@@ -1275,7 +1275,7 @@ export class EcommerceComponent implements OnInit {
 
   openPopup_grower_cart(data: any) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    dialogConfig.panelClass = 'openPopup_grower_cart-dialog';
     dialogConfig.data = data;
     const dialogRef = this.dialog.open(PopupGrowerCardComponent, dialogConfig);
   }
