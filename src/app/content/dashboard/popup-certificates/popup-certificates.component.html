@@ -96,8 +96,205 @@
 
     <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
 
-    <!--end Color Checkboxes  ---------------------------------------------------------------------------------------------------------------------->
-    <table class="" dir="rtl" style="padding: 5px" border="0">
+    <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+    <div *ngIf="!isLoading_FarmDetails">
+      <ngx-datatable
+        class="bootstrap ps"
+        [limit]="20"
+        [rows]="data"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        fxFlex="auto"
+        [perfectScrollbar]="config"
+      >
+        <ngx-datatable-column name="תעודה" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_teuda }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="אתר" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <ng-container *ngIf="row.farm_status_id === 1; else closedTemplate">
+              <div [class]="'text-right'">
+                <a [routerLink]="['/dashboard/ecommerce']">
+                  <p style="">{{ row.Td_Atar }}</p></a
+                >
+              </div>
+            </ng-container>
+            <ng-template #closedTemplate>
+              <div [class]="'text-right'">
+                <a [routerLink]="['/dashboard/ecommerce', row.yz_IdReal]">
+                  <p style="">{{ row.Td_Atar }}</p></a
+                >
+              </div>
+            </ng-template>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="להקה" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">{{ row.flock_id }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="תוצ" [flexGrow]="1" [minWidth]="30">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_tzrt }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="תאריך" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.td_date | date : "dd/MM/yyyy" }}</a
+              >
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="כמות" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.td_kamut_mishkal }}</a
+              >
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="מצטבר" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">{{
+                row.td_kamut_mishkal
+              }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="משווק" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"
+                >{{ row.td_msvk }} - {{ row.tb_name }}</a
+              >
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="דף" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">{{ row.td_daf }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="חודש" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce', row.yz_IdReal]">
+                {{ row.td_hodesh }}</a
+              >
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="רטרו" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_retro }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="בקיעה" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="סיום שיווק" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column
+          name="הפרש ימי שיווק בקיעה"
+          [flexGrow]="1"
+          [minWidth]="90"
+        >
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="שם קבלן" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="אתר" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Atar_Id }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="ID" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.id_td }}</a>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.date_Creat | date : "dd/MM/yyyy" }}</a
+              >
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1" [minWidth]="90">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.date_Creat | date : "dd/MM/yyyy" }}</a
+              >
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <!--end Color Checkboxes  ---------------------------------------------------------------------------------------------------------------------->
+  <!-- <table class="" dir="rtl" style="padding: 5px" border="0">
       <td colspan="2">
         <table class="table no-margin">
           <div *ngIf="isLoading_FarmDetails" class="loader"></div>
@@ -107,20 +304,31 @@
                 <th style="font-weight: bold; text-align: right">תעודה</th>
                 <th style="font-weight: bold; text-align: right">אתר</th>
                 <th style="font-weight: bold; text-align: right">להקה</th>
+                
                 <th style="font-weight: bold; text-align: right">תוצ</th>
+                
                 <th style="font-weight: bold; text-align: right">תאריך</th>
+                
                 <th style="font-weight: bold; text-align: right">כמות</th>
+
                 <th style="font-weight: bold; text-align: right">מצטבר</th>
+                
                 <th style="font-weight: bold; text-align: right">משווק</th>
+                
                 <th style="font-weight: bold; text-align: right">דף</th>
+
                 <th style="font-weight: bold; text-align: right">חודש</th>
+
                 <th style="font-weight: bold; text-align: right">רטרו</th>
+
                 <th style="font-weight: bold; text-align: right">בקיעה</th>
                 <th style="font-weight: bold; text-align: right">סיום שיווק</th>
+                
                 <th style="font-weight: bold; text-align: right">
                   הפרש ימי שיווק בקיעה
                 </th>
                 <th style="font-weight: bold; text-align: right">שם קבלן</th>
+
                 <th style="font-weight: bold; text-align: right">אתר</th>
                 <th style="font-weight: bold; text-align: right">ID</th>
                 <th style="font-weight: bold; text-align: right">
@@ -134,25 +342,37 @@
                 <td>{{ p.Td_Atar }}</td>
                 <td>{{ p.flock_id }}</td>
                 <td>{{ p.td_tzrt }}</td>
+
                 <td>{{ p.td_date | date : "dd/MM/yyyy" }}</td>
+                
                 <td>{{ p.td_kamut_mishkal }}</td>
                 <td>{{ p.td_kamut_mishkal }}</td>
+                
                 <td>{{ p.td_msvk }} - {{ p.tb_name }}</td>
+
                 <td>{{ p.td_daf }}</td>
+                
                 <td>{{ p.td_hodesh }}</td>
+
                 <td>{{ p.td_retro }}</td>
+                
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+
+                
                 <td>{{ p.Atar_Id }}</td>
+
+                
                 <td>{{ p.id_td }}</td>
                 <td>{{ p.date_Creat | date : "dd/MM/yyyy" }}</td>
+                
               </tr>
             </tbody>
           </div>
         </table>
       </td>
-    </table>
-  </div>
+    </table> -->
+  <!-- </div> -->
 </form>

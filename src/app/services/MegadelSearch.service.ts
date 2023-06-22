@@ -11,6 +11,40 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Mdgrot_Teuda(
+    Order: any,
+    start_yzrn: any,
+    start_tz: any,
+    start_year: any,
+    start_date: any,
+    End_date: any,
+    Rishaion: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Mdgrot_Teuda?Order=${Order}&start_yzrn=${start_yzrn}&start_tz=${start_tz}&start_year=${start_year}&start_date=${start_date}&End_date=${End_date}&Rishaion=${Rishaion}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async Yazran_Cartis_Select(
+    order: any,
+    start_yzrn: any,
+    start_year: any,
+    start_tz: any,
+    start_sg_mcsa: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yazran_Cartis_Select?order=${order}&start_yzrn=${start_yzrn}&start_year=${start_year}&start_tz=${start_tz}&start_sg_mcsa=${start_sg_mcsa}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   //   המרת שלוחה ממערבי לאושיק
   async convert_shlohaMaaravi_to_shlohaOshik(shloha: any): Promise<any[]> {
     const item = await firstValueFrom(
