@@ -37,6 +37,8 @@
             <!-- <th style="font-weight: bold; text-align: right">nmatar</th> -->
           </tr>
         </thead>
+        <!-- <tbody *ngIf="isLoading_Cart" class="loader"></tbody>
+        <tbody *ngIf="!isLoading_Cart"> -->
         <tbody>
           <tr *ngFor="let p of data">
             <td>{{ p.yr }}</td>

@@ -37,8 +37,9 @@ export class PopupGrowerCardComponent {
   chosenYearControl = new FormControl();
   chosenSiteControl = new FormControl();
   isLoading_FarmDetails = false;
+  isLoading_Cart = false;
 
-  chosenYear = '';
+  chosenYear: any = 9999;
   years = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
   siteName: any[] = [];
   userDetails: any[] = [];
@@ -58,7 +59,7 @@ export class PopupGrowerCardComponent {
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
     this.siteName.push({ code: 'כולם' });
-    this.userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
   }
 
@@ -77,8 +78,11 @@ export class PopupGrowerCardComponent {
         '',
         ''
       );
-    const sortedArray = Yazran_Cartis_Select.sort((a, b) => b.yr - a.yr);
-
+    var sortedArray = Yazran_Cartis_Select.sort((a, b) => b.yr - a.yr);
+    var newArray = sortedArray.filter(
+      (obj) => obj.yr.toString() === this.chosenYear
+    );
+    sortedArray = newArray;
     const uniqueObjects = [];
     const uniqueNames = new Set();
 
@@ -101,24 +105,23 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetIndex4 !== -1) {
+    if (targetIndex4 !== -1 && targetIndex4 !== 0 && targetIndex4 !== null) {
       uniqueObjects.splice(targetIndex4, 1);
+
+      var Teuda_Select_New4 = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject4.yr,
+        '04',
+        this.userDetails[0].v_yzrn,
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject4.dates = Teuda_Select_New4[0];
+      uniqueObjects.push(targetObject4);
     }
-
-    var Teuda_Select_New4 = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      this.chosenYearControl.value,
-      '04',
-      this.userDetails[0].v_yzrn,
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject4.dates = Teuda_Select_New4[0];
-    uniqueObjects.push(targetObject4);
-
     let targetObject11 = null;
     let targetIndex11 = -1;
 
@@ -130,24 +133,23 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetIndex11 !== -1) {
+    if (targetIndex11 !== -1 && targetIndex11 !== 0 && targetIndex11 !== null) {
       uniqueObjects.splice(targetIndex11, 1);
+
+      var Teuda_Select_New11 = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject11.yr,
+        targetObject11.tzrt,
+        this.userDetails[0].v_yzrn,
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject11.dates = Teuda_Select_New11[0];
+      uniqueObjects.push(targetObject11);
     }
-
-    var Teuda_Select_New11 = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      this.chosenYearControl.value,
-      targetObject11.tzrt,
-      this.userDetails[0].v_yzrn,
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject11.dates = Teuda_Select_New11[0];
-    uniqueObjects.push(targetObject11);
-
     let targetObject30 = null;
     let targetIndex30 = -1;
 
@@ -159,25 +161,24 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetIndex30 !== -1) {
+    if (targetIndex30 !== -1 && targetIndex30 !== 0 && targetIndex30 !== null) {
       uniqueObjects.splice(targetIndex30, 1);
+
+      var Teuda_Select_New = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject30.yr,
+        targetObject30.tzrt,
+        this.userDetails[0].v_yzrn,
+
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject30.dates = Teuda_Select_New[0];
+      uniqueObjects.push(targetObject30);
     }
-
-    var Teuda_Select_New = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      this.chosenYearControl.value,
-      targetObject30.tzrt,
-      this.userDetails[0].v_yzrn,
-
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject30.dates = Teuda_Select_New[0];
-    uniqueObjects.push(targetObject30);
-
     let targetObject1 = null;
     let targetIndex1 = -1;
 
@@ -189,24 +190,23 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetObject1 !== -1) {
+    if (targetIndex1 !== -1 && targetIndex1 !== 0 && targetIndex1 !== null) {
       uniqueObjects.splice(targetIndex1, 1);
+
+      var Teuda_Select_New01 = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject1.yr,
+        '01',
+        this.userDetails[0].v_yzrn,
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject1.dates = Teuda_Select_New01[0];
+      uniqueObjects.push(targetObject1);
     }
-
-    var Teuda_Select_New01 = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      this.chosenYearControl.value,
-      '01',
-      this.userDetails[0].v_yzrn,
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject1.dates = Teuda_Select_New01[0];
-    uniqueObjects.push(targetObject1);
-
     let targetObject41 = null;
     let targetIndex41 = -1;
 
@@ -218,23 +218,22 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetObject41 !== -1) {
+    if (targetIndex41 !== -1 && targetIndex41 !== 0 && targetIndex41 !== null) {
       uniqueObjects.splice(targetIndex41, 1);
+
+      var Mdgrot_Teuda41 = await this.megadelSearchService.Mdgrot_Teuda(
+        6,
+        this.userDetails[0].v_yzrn,
+        targetObject41.tzrt,
+        targetObject41.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject41.dates = Mdgrot_Teuda41[0];
+      uniqueObjects.push(targetObject41);
     }
-
-    var Mdgrot_Teuda41 = await this.megadelSearchService.Mdgrot_Teuda(
-      6,
-      this.userDetails[0].v_yzrn,
-      targetObject41.tzrt,
-      this.chosenYearControl.value,
-      '',
-      '',
-      0
-    );
-
-    targetObject41.dates = Mdgrot_Teuda41[0];
-    uniqueObjects.push(targetObject41);
-
     let targetObject44 = null;
     let targetIndex44 = -1;
 
@@ -246,23 +245,22 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetObject44 !== -1) {
+    if (targetIndex44 !== -1 && targetIndex44 !== 0 && targetIndex44 !== null) {
       uniqueObjects.splice(targetIndex44, 1);
+
+      var Mdgrot_Teuda44 = await this.megadelSearchService.Mdgrot_Teuda(
+        6,
+        this.userDetails[0].v_yzrn,
+        targetObject44.tzrt,
+        targetObject44.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject44.dates = Mdgrot_Teuda44[0];
+      uniqueObjects.push(targetObject44);
     }
-
-    var Mdgrot_Teuda44 = await this.megadelSearchService.Mdgrot_Teuda(
-      6,
-      this.userDetails[0].v_yzrn,
-      targetObject44.tzrt,
-      this.chosenYearControl.value,
-      '',
-      '',
-      0
-    );
-
-    targetObject44.dates = Mdgrot_Teuda44[0];
-    uniqueObjects.push(targetObject44);
-
     let targetObject45 = null;
     let targetIndex45 = -1;
 
@@ -274,23 +272,22 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetObject45 !== -1) {
+    if (targetIndex45 !== -1 && targetIndex45 !== 0 && targetIndex45 !== null) {
       uniqueObjects.splice(targetIndex45, 1);
+
+      var Pargit_Teuda45 = await this.megadelSearchService.Pargit_Teuda(
+        4,
+        this.userDetails[0].v_yzrn,
+        targetObject45.tzrt,
+        targetObject45.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject45.dates = Pargit_Teuda45[0];
+      uniqueObjects.push(targetObject45);
     }
-
-    var Pargit_Teuda45 = await this.megadelSearchService.Pargit_Teuda(
-      4,
-      this.userDetails[0].v_yzrn,
-      targetObject45.tzrt,
-      this.chosenYearControl.value,
-      '',
-      '',
-      0
-    );
-
-    targetObject45.dates = Pargit_Teuda45[0];
-    uniqueObjects.push(targetObject45);
-
     let targetObject46 = null;
     let targetIndex46 = -1;
 
@@ -302,23 +299,22 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetObject46 !== -1) {
+    if (targetIndex46 !== -1 && targetIndex46 !== 0 && targetIndex46 !== null) {
       uniqueObjects.splice(targetIndex46, 1);
+
+      var Pargit_Teuda46 = await this.megadelSearchService.Pargit_Teuda(
+        4,
+        this.userDetails[0].v_yzrn,
+        targetObject46.tzrt,
+        targetObject46.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject46.dates = Pargit_Teuda46[0];
+      uniqueObjects.push(targetObject46);
     }
-
-    var Pargit_Teuda46 = await this.megadelSearchService.Pargit_Teuda(
-      4,
-      this.userDetails[0].v_yzrn,
-      targetObject46.tzrt,
-      this.chosenYearControl.value,
-      '',
-      '',
-      0
-    );
-
-    targetObject46.dates = Pargit_Teuda46[0];
-    uniqueObjects.push(targetObject46);
-
     let targetObject98 = null;
     let targetIndex98 = -1;
 
@@ -330,14 +326,18 @@ export class PopupGrowerCardComponent {
       }
     }
 
-    if (targetObject98 !== -1) {
+    if (
+      targetObject98 !== -1 &&
+      targetObject98 !== 0 &&
+      targetObject98 !== null
+    ) {
       if (targetObject98?.mztbr !== 0) {
         uniqueObjects.splice(targetIndex98, 1);
         var Pargit_Teuda98 = await this.megadelSearchService.Pargit_Teuda(
           4,
           this.userDetails[0].v_yzrn,
           targetObject98.tzrt,
-          this.chosenYearControl.value,
+          targetObject98.yr,
           '',
           '',
           0
@@ -348,8 +348,13 @@ export class PopupGrowerCardComponent {
       }
     }
 
+    // for (let obj of uniqueObjects) {
+    //   obj.yr = this.chosenYear;
+    // }
+
     this.data = uniqueObjects;
     console.log('test');
+    this.isLoading_Cart = true;
   }
 
   async add() {
