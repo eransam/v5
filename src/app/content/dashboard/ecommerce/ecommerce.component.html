@@ -131,10 +131,7 @@
           class="col-xl-2 col-lg-6 col-12"
           (click)="openPopup_GrowerCard_Component()"
         > -->
-        <div
-        class="col-xl-2 col-lg-6 col-12"
-        (click)="testCart()"
-      >
+        <div class="col-xl-2 col-lg-6 col-12" (click)="testCart()">
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -493,7 +490,8 @@
           "
           class="col-xl-3 col-12"
         >
-          <div class="row match_height">
+          <div *ngIf="isLoading_userDet" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_userDet">
             <div id="recent-transactions" class="col-12">
               <div
                 class="card card-micsa"
@@ -645,7 +643,8 @@
           "
           class="col-xl-3 col-12"
         >
-          <div class="row match_height">
+          <div *ngIf="isLoading_userDet" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_userDet">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
                 <div class="card-header"></div>
@@ -747,7 +746,8 @@
           "
           class="col-xl-6 col-12"
         >
-          <div class="row match_height">
+          <div *ngIf="isLoading_userDet" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_userDet">
             <div id="recent-transactions" class="col-12">
               <div
                 class="card card-micsa"
@@ -901,6 +901,10 @@
         <!-- -------------------- תצוגה 3 ------------------------->
 
         <!-- טבלה מכסות ביצי הטלה------------------------------------------------------------------------------------------------------------------------>
+
+        <!-- <div *ngIf="isLoading_userDet" class="loader"></div>
+                <div *ngIf="!isLoading_userDet"> -->
+
         <div
           *ngIf="
             mihsot.length > 0 &&
@@ -909,7 +913,8 @@
           "
           class="col-xl-6 col-12"
         >
-          <div class="row match_height">
+          <div *ngIf="isLoading_userDet" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_userDet">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
                 <div class="card-header"></div>
@@ -1176,8 +1181,6 @@
                   </div>
                 </div>
                 <div class="check">
-                  <!-- <div class="totalFarms col">סהכ אתרים : {{ totalFarms }}</div>
-                  <div class="totalFarms col">סהכ : {{ rows.length }}</div> -->
                   <div style="display: flex">
                     <div
                       *ngIf="Not_Active_FarmDetails.length > 0"

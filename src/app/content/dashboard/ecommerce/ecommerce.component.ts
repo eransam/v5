@@ -198,7 +198,6 @@ export class EcommerceComponent implements OnInit {
       this.newArrayEnd = [];
       this.isLoading_theUserDetails = true;
       this.isLoading_FarmDetails = true;
-
       this.isLoading_userDet = true;
       this.isLoading_micsot = true;
       // Call any necessary functions or perform logic based on the new parameter value
@@ -243,7 +242,7 @@ export class EcommerceComponent implements OnInit {
           '%',
           '%'
         );
-      this.isLoading_userDet = false;
+      //   this.isLoading_userDet = false;
 
       //   לוגיקה התראות -------------------------------------------------------------------
 
@@ -462,7 +461,7 @@ export class EcommerceComponent implements OnInit {
           );
         this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
         this.theUserDetails = this.userDetails[0];
-
+        this.isLoading_userDet = false;
         this.totalFarms = this.FarmDetails.length;
       } else {
         this.FarmDetails = [];
@@ -1268,7 +1267,7 @@ export class EcommerceComponent implements OnInit {
         uniqueObjects.push(targetObject98);
       }
 
-      this.openPopup_grower_cart(uniqueObjects)
+      this.openPopup_grower_cart(uniqueObjects);
     }
     console.log('test');
   }
