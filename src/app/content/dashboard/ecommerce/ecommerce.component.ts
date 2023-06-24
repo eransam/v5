@@ -1019,25 +1019,24 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetIndex4 !== -1) {
+    if (targetIndex4 !== -1 && targetIndex4 !== null && targetIndex4 !== 0) {
       uniqueObjects.splice(targetIndex4, 1);
+
+      var Teuda_Select_New4 = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject4.yr,
+        '04',
+        this.userDetails[0].v_yzrn,
+
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject4.dates = Teuda_Select_New4[0];
+      uniqueObjects.push(targetObject4);
     }
-
-    var Teuda_Select_New4 = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      targetObject4.yr,
-      '04',
-      this.userDetails[0].v_yzrn,
-
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject4.dates = Teuda_Select_New4[0];
-    uniqueObjects.push(targetObject4);
-
     let targetObject11 = null;
     let targetIndex11 = -1;
 
@@ -1049,25 +1048,24 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetIndex11 !== -1) {
+    if (targetIndex11 !== -1 && targetIndex11 !== null && targetIndex11 !== 0) {
       uniqueObjects.splice(targetIndex11, 1);
+
+      var Teuda_Select_New11 = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject11.yr,
+        targetObject11.tzrt,
+        this.userDetails[0].v_yzrn,
+
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject11.dates = Teuda_Select_New11[0];
+      uniqueObjects.push(targetObject11);
     }
-
-    var Teuda_Select_New11 = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      targetObject11.yr,
-      targetObject11.tzrt,
-      this.userDetails[0].v_yzrn,
-
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject11.dates = Teuda_Select_New11[0];
-    uniqueObjects.push(targetObject11);
-
     let targetObject30 = null;
     let targetIndex30 = -1;
 
@@ -1079,25 +1077,24 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetIndex30 !== -1) {
+    if (targetIndex30 !== -1 && targetIndex30 !== null && targetIndex30 !== 0) {
       uniqueObjects.splice(targetIndex30, 1);
+
+      var Teuda_Select_New = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject30.yr,
+        targetObject30.tzrt,
+        this.userDetails[0].v_yzrn,
+
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject30.dates = Teuda_Select_New[0];
+      uniqueObjects.push(targetObject30);
     }
-
-    var Teuda_Select_New = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      targetObject30.yr,
-      targetObject30.tzrt,
-      this.userDetails[0].v_yzrn,
-
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject30.dates = Teuda_Select_New[0];
-    uniqueObjects.push(targetObject30);
-
     let targetObject1 = null;
     let targetIndex1 = -1;
 
@@ -1109,24 +1106,23 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject1 !== -1) {
+    if (targetObject1 !== -1 && targetObject1 !== null && targetObject1 !== 0) {
       uniqueObjects.splice(targetIndex1, 1);
+
+      var Teuda_Select_New01 = await this.megadelSearchService.Teuda_Select_New(
+        6,
+        targetObject1.yr,
+        '01',
+        this.userDetails[0].v_yzrn,
+        '',
+        '',
+        0,
+        0
+      );
+
+      targetObject1.dates = Teuda_Select_New01[0];
+      uniqueObjects.push(targetObject1);
     }
-
-    var Teuda_Select_New01 = await this.megadelSearchService.Teuda_Select_New(
-      6,
-      targetObject1.yr,
-      '01',
-      this.userDetails[0].v_yzrn,
-      '',
-      '',
-      0,
-      0
-    );
-
-    targetObject1.dates = Teuda_Select_New01[0];
-    uniqueObjects.push(targetObject1);
-
     let targetObject41 = null;
     let targetIndex41 = -1;
 
@@ -1138,23 +1134,26 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject41 !== -1) {
+    if (
+      targetObject41 !== -1 &&
+      targetObject41 !== null &&
+      targetObject41 !== 0
+    ) {
       uniqueObjects.splice(targetIndex41, 1);
+
+      var Mdgrot_Teuda41 = await this.megadelSearchService.Mdgrot_Teuda(
+        6,
+        this.userDetails[0].v_yzrn,
+        targetObject41.tzrt,
+        targetObject41.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject41.dates = Mdgrot_Teuda41[0];
+      uniqueObjects.push(targetObject41);
     }
-
-    var Mdgrot_Teuda41 = await this.megadelSearchService.Mdgrot_Teuda(
-      6,
-      this.userDetails[0].v_yzrn,
-      targetObject41.tzrt,
-      targetObject41.yr,
-      '',
-      '',
-      0
-    );
-
-    targetObject41.dates = Mdgrot_Teuda41[0];
-    uniqueObjects.push(targetObject41);
-
     let targetObject44 = null;
     let targetIndex44 = -1;
 
@@ -1166,23 +1165,26 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject44 !== -1) {
+    if (
+      targetObject44 !== -1 &&
+      targetObject44 !== null &&
+      targetObject44 !== 0
+    ) {
       uniqueObjects.splice(targetIndex44, 1);
+
+      var Mdgrot_Teuda44 = await this.megadelSearchService.Mdgrot_Teuda(
+        6,
+        this.userDetails[0].v_yzrn,
+        targetObject44.tzrt,
+        targetObject44.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject44.dates = Mdgrot_Teuda44[0];
+      uniqueObjects.push(targetObject44);
     }
-
-    var Mdgrot_Teuda44 = await this.megadelSearchService.Mdgrot_Teuda(
-      6,
-      this.userDetails[0].v_yzrn,
-      targetObject44.tzrt,
-      targetObject44.yr,
-      '',
-      '',
-      0
-    );
-
-    targetObject44.dates = Mdgrot_Teuda44[0];
-    uniqueObjects.push(targetObject44);
-
     let targetObject45 = null;
     let targetIndex45 = -1;
 
@@ -1194,23 +1196,26 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject45 !== -1) {
+    if (
+      targetObject45 !== -1 &&
+      targetObject45 !== null &&
+      targetObject45 !== 0
+    ) {
       uniqueObjects.splice(targetIndex45, 1);
+
+      var Pargit_Teuda45 = await this.megadelSearchService.Pargit_Teuda(
+        4,
+        this.userDetails[0].v_yzrn,
+        targetObject45.tzrt,
+        targetObject45.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject45.dates = Pargit_Teuda45[0];
+      uniqueObjects.push(targetObject45);
     }
-
-    var Pargit_Teuda45 = await this.megadelSearchService.Pargit_Teuda(
-      4,
-      this.userDetails[0].v_yzrn,
-      targetObject45.tzrt,
-      targetObject45.yr,
-      '',
-      '',
-      0
-    );
-
-    targetObject45.dates = Pargit_Teuda45[0];
-    uniqueObjects.push(targetObject45);
-
     let targetObject46 = null;
     let targetIndex46 = -1;
 
@@ -1222,23 +1227,26 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject46 !== -1) {
+    if (
+      targetObject46 !== -1 &&
+      targetObject46 !== null &&
+      targetObject46 !== 0
+    ) {
       uniqueObjects.splice(targetIndex46, 1);
+
+      var Pargit_Teuda46 = await this.megadelSearchService.Pargit_Teuda(
+        4,
+        this.userDetails[0].v_yzrn,
+        targetObject46.tzrt,
+        targetObject46.yr,
+        '',
+        '',
+        0
+      );
+
+      targetObject46.dates = Pargit_Teuda46[0];
+      uniqueObjects.push(targetObject46);
     }
-
-    var Pargit_Teuda46 = await this.megadelSearchService.Pargit_Teuda(
-      4,
-      this.userDetails[0].v_yzrn,
-      targetObject46.tzrt,
-      targetObject46.yr,
-      '',
-      '',
-      0
-    );
-
-    targetObject46.dates = Pargit_Teuda46[0];
-    uniqueObjects.push(targetObject46);
-
     let targetObject98 = null;
     let targetIndex98 = -1;
 
@@ -1250,7 +1258,11 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject98 !== -1) {
+    if (
+      targetObject98 !== -1 &&
+      targetObject98 !== null &&
+      targetObject98 !== 0
+    ) {
       if (targetObject98?.mztbr !== 0) {
         uniqueObjects.splice(targetIndex98, 1);
         var Pargit_Teuda98 = await this.megadelSearchService.Pargit_Teuda(
@@ -1266,9 +1278,8 @@ export class EcommerceComponent implements OnInit {
         targetObject98.dates = Pargit_Teuda98[0];
         uniqueObjects.push(targetObject98);
       }
-
-      this.openPopup_grower_cart(uniqueObjects);
     }
+    this.openPopup_grower_cart(uniqueObjects);
     console.log('test');
   }
 
