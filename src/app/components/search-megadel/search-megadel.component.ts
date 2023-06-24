@@ -841,28 +841,4 @@ export class SearchMegadelComponent implements OnInit {
             item.yz_IdReal = item.v_yzrn_id;
             item.yz_Id = joinedString;
           }
-
-          // יוצר שדה מיכסה
-          for (let item of resultsMaaravi2) {
-            this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
-              5,
-              item?.v_yzrn,
-              this.chosenYear,
-              '30 - ביצי מאכל',
-              88
-            );
-            item.micsa = this.mihsot3[0]?.mi_kamut;
-          }
-
-          console.log('resultsMaaravi after micsa: ', resultsMaaravi2);
-
-          this.theDetails = resultsMaaravi2;
-          localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
-        }
-
-        console.log('resultsMaaravi999: ', resultsMaaravi2);
-      }
-    }
-    this.isLoading = false; // Stop loading
-  }
-}
+ 
