@@ -13,7 +13,9 @@
           <label class="col-md-4 label-control" for="startDate">מתאריך</label>
           <div class="col-md-8">
             <input
-              placeholder="yyyy-mm-dd"
+              placeholder="{{ startDateControl_placeHolder.substr(0, 4) }}/{{
+                startDateControl_placeHolder.substr(4, 2)
+              }}/{{ startDateControl_placeHolder.substr(6, 2) }}"
               type="text"
               id="startDateControl-input"
               name="startDate"
@@ -39,7 +41,9 @@
           <label class="col-md-4 label-control" for="endDate">עד תאריך</label>
           <div class="col-md-8">
             <input
-              placeholder="yyyy-mm-dd"
+              placeholder="{{ endDateControl_placeHolder.substr(0, 4) }}/{{
+                endDateControl_placeHolder.substr(4, 2)
+              }}/{{ endDateControl_placeHolder.substr(6, 2) }}"
               type="text"
               id="endDateControl-input"
               name="endDate"
@@ -63,6 +67,9 @@
       <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         שנה:
         <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
+          <option value="" disabled selected>
+            {{ chosenYear_placeHolder }}
+          </option>
           <option *ngFor="let year of years" [value]="year">
             {{ year }}
           </option>
@@ -80,7 +87,7 @@
       </div>
 
       <!-- בחר שלוחה -->
-      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+      <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
         שלוחה:
         <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
           <option *ngFor="let obj of this.grower_extention_name" [value]="obj">
@@ -89,7 +96,7 @@
         </select>
       </div>
 
-      <div class="col-md-2" style="padding-top: 23px">
+      <div class="col-md-1" style="padding-top: 23px">
         <button type="submit">חפש</button>
       </div>
     </div>
@@ -292,6 +299,4 @@
       </ngx-datatable>
     </div>
   </div>
-
-
 </form>

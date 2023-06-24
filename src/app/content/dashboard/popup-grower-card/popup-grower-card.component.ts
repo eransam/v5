@@ -38,6 +38,7 @@ export class PopupGrowerCardComponent {
   chosenSiteControl = new FormControl();
   isLoading_FarmDetails = false;
   isLoading_Cart = false;
+  isLoading_userDet = false;
 
   chosenYear: any = 9999;
   years = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
@@ -353,11 +354,14 @@ export class PopupGrowerCardComponent {
     // }
 
     this.data = uniqueObjects;
+    this.isLoading_userDet = false;
+
     console.log('test');
     this.isLoading_Cart = true;
   }
 
   async add() {
+    this.isLoading_userDet = true;
     this.isLoading_FarmDetails = true;
 
     console.log('startDateControl: ', this.startDateControl.value);
@@ -425,7 +429,7 @@ export class PopupGrowerCardComponent {
     );
 
     this.data = this.certificates_by_grewernum;
-    this.isLoading_FarmDetails = false;
+    this.isLoading_userDet = false;
     this.startDateControl.setValue(null); // Set the value to null
     this.endDateControl.setValue(null); // Set the value to null
     this.chosenYearControl.setValue(null); // Set the value to null

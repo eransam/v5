@@ -127,11 +127,12 @@
           </div>
         </div>
         <!-- כרטיס מגדל -->
-        <!-- <div
+        <div *ngIf="isLoading_userDet" class="loader_grower_cart"></div>
+        <div
+          *ngIf="!isLoading_userDet"
           class="col-xl-2 col-lg-6 col-12"
-          (click)="openPopup_GrowerCard_Component()"
-        > -->
-        <div class="col-xl-2 col-lg-6 col-12" (click)="testCart()">
+          (click)="testCart()"
+        >
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -596,7 +597,6 @@
                             <th scope="col" class="border-top-0">
                               שם סוג מכסה:
                             </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
                             <th scope="col" class="border-top-0">כמות</th>
                             <th scope="col" class="border-top-0">מתאריך</th>
                           </tr>
@@ -609,10 +609,6 @@
 
                             <td class="text-truncate row_padding">
                               {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
                             </td>
 
                             <td class="text-truncate row_padding">
@@ -698,7 +694,6 @@
                             <th scope="col" class="border-top-0">
                               שם סוג מכסה:
                             </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
                             <th scope="col" class="border-top-0">כמות</th>
                             <th scope="col" class="border-top-0">מתאריך</th>
                           </tr>
@@ -711,10 +706,6 @@
 
                             <td class="text-truncate row_padding">
                               {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
                             </td>
 
                             <td class="text-truncate row_padding">
@@ -811,7 +802,7 @@
                             <th scope="col" class="border-top-0">
                               שם סוג מכסה:
                             </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
+                            <!-- <th scope="col" class="border-top-0">סוג תוספת:</th> -->
                             <th scope="col" class="border-top-0">כמות</th>
                             <th scope="col" class="border-top-0">מתאריך</th>
                           </tr>
@@ -826,9 +817,9 @@
                               {{ row.nameSugMcsa }}
                             </td>
 
-                            <td class="text-truncate row_padding">
+                            <!-- <td class="text-truncate row_padding">
                               {{ row.nameSugMcsa7 }}
-                            </td>
+                            </td> -->
 
                             <td class="text-truncate row_padding">
                               {{ row.mi_kamut | numberFormat }}
@@ -856,7 +847,6 @@
                             <th scope="col" class="border-top-0">
                               שם סוג מכסה:
                             </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
                             <th scope="col" class="border-top-0">כמות</th>
                             <th scope="col" class="border-top-0">מתאריך</th>
                           </tr>
@@ -869,10 +859,6 @@
 
                             <td class="text-truncate row_padding">
                               {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
                             </td>
 
                             <td class="text-truncate row_padding">
@@ -972,7 +958,6 @@
                             <th scope="col" class="border-top-0">
                               שם סוג מכסה:
                             </th>
-                            <th scope="col" class="border-top-0">סוג תוספת:</th>
                             <th scope="col" class="border-top-0">כמות</th>
                             <th scope="col" class="border-top-0">מתאריך</th>
                           </tr>
@@ -985,10 +970,6 @@
 
                             <td class="text-truncate row_padding">
                               {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
                             </td>
 
                             <td class="text-truncate row_padding">

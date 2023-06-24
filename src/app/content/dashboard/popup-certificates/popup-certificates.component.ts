@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -51,11 +52,13 @@ export class PopupCertificatesComponent {
   theChosenSiteControl: any = 0;
   theChosenYearControl: any = 2023;
   theChosenShlohaControl: any = '30';
-
+  startDateControl_placeHolder: any = 'yyyy-mm-dd';
+  endDateControl_placeHolder: any = 'yyyy-mm-dd';
   grower_extention: any[] = [];
   grower_extention_name: any[] = [];
 
   initialEndDate: any;
+  chosenYear_placeHolder: any = 'בחר שנה';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
@@ -138,7 +141,6 @@ export class PopupCertificatesComponent {
 
   async add() {
     this.isLoading_FarmDetails = true;
-
     console.log('startDateControl: ', this.startDateControl.value);
     console.log('siteControl: ', this.endDateControl.value);
     console.log('chosenYearControl: ', this.chosenYearControl.value);
@@ -158,14 +160,18 @@ export class PopupCertificatesComponent {
         this.theChosenShlohaControl = '30';
       }
 
-      const shloha_Maaravi =
-        await this.megadelSearchService.convert_shlohaOshik_to_shlohaMaaravi(
-          this.theChosenShlohaControl
-        );
-      const tbCodeValues = shloha_Maaravi.map((obj) => obj.tb_code);
-      const tbCodeString = tbCodeValues.join(',');
-      this.theChosenShlohaControl = tbCodeString;
-      console.log(this.theChosenShlohaControl);
+      if (this.theChosenShlohaControl === '20') {
+        this.theChosenShlohaControl = '30';
+      } else {
+        const shloha_Maaravi =
+          await this.megadelSearchService.convert_shlohaOshik_to_shlohaMaaravi(
+            this.theChosenShlohaControl
+          );
+        const tbCodeValues = shloha_Maaravi.map((obj) => obj.tb_code);
+        const tbCodeString = tbCodeValues.join(',');
+        this.theChosenShlohaControl = tbCodeString;
+        console.log(this.theChosenShlohaControl);
+      }
     }
 
     //  this.theChosenYearControl
@@ -180,6 +186,8 @@ export class PopupCertificatesComponent {
       }
     }
 
+    this.chosenYear_placeHolder = await this.theChosenYearControl;
+
     //   this.theStartDate
     if (this.startDateControl?.value) {
       this.theStartDate = this.startDateControl.value;
@@ -190,12 +198,15 @@ export class PopupCertificatesComponent {
       } else {
         this.theStartDate.month = this.theStartDate.month.toString();
       }
+      this.theStartDate.month = await this.theStartDate.month.slice(-2);
 
       if (this.theStartDate.day <= 9) {
         this.theStartDate.day = '0' + this.theStartDate.day.toString();
       } else {
         this.theStartDate.day = this.theStartDate.day.toString();
       }
+      this.theStartDate.day = await this.theStartDate.day.slice(-2);
+
       this.theStartDate =
         this.theStartDate.year.toString() +
         this.theStartDate.month +
@@ -204,15 +215,21 @@ export class PopupCertificatesComponent {
       this.theStartDate = `${this.chosenYearControl}0101`;
     }
 
+    this.startDateControl_placeHolder = await this.theStartDate;
+
     //   this.theEndDateControl
     if (this.endDateControl.value) {
       this.theEndDateControl = this.endDateControl.value;
+
       if (this.theEndDateControl.month.length <= 9) {
         this.theEndDateControl.month =
           '0' + this.theEndDateControl.month.toString();
       } else {
         this.theEndDateControl.month = this.theEndDateControl.month.toString();
       }
+      this.theEndDateControl.month = await this.theEndDateControl.month.slice(
+        -2
+      );
 
       if (this.theEndDateControl.day <= 9) {
         this.theEndDateControl.day =
@@ -220,6 +237,7 @@ export class PopupCertificatesComponent {
       } else {
         this.theEndDateControl.day = this.theEndDateControl.day.toString();
       }
+      this.theEndDateControl.day = await this.theEndDateControl.day.slice(-2);
       this.theEndDateControl =
         this.theEndDateControl.year.toString() +
         this.theEndDateControl.month +
@@ -227,6 +245,7 @@ export class PopupCertificatesComponent {
     } else {
       this.theEndDateControl = `${this.chosenYearControl}1231`;
     }
+    this.endDateControl_placeHolder = await this.theEndDateControl;
 
     //  this.theChosenSiteControl
     this.theChosenSiteControl = this.chosenSiteControl.value;
@@ -257,9 +276,9 @@ export class PopupCertificatesComponent {
 
     this.data = this.certificates_by_grewernum;
     this.isLoading_FarmDetails = false;
-    this.startDateControl.setValue(null); // Set the value to null
-    this.endDateControl.setValue(null); // Set the value to null
-    this.chosenYearControl.setValue(null); // Set the value to null
-    this.chosenSiteControl.setValue(null); // Set the value to null
+    // this.startDateControl.setValue(null); // Set the value to null
+    // this.endDateControl.setValue(null); // Set the value to null
+    // this.chosenYearControl.setValue(null); // Set the value to null
+    // this.chosenSiteControl.setValue(null); // Set the value to null
   }
 }
