@@ -1,19 +1,14 @@
-<!-- <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
-  שנה:
-  <select
-    [(ngModel)]="chosenYear"
-    [formControl]="chosenYearControl"
-    (change)="new_data_on_year_change()"
-  >
-    <option *ngFor="let year of years" [value]="year">
-      {{ year }}
-    </option>
-  </select>
-</div> -->
+<!-- <div class="userDetDiv">
+  <p>שם: {{ theUserDet[0]?.yz_shem }}</p>
+  <p>מס מגדל: {{ theUserDet[0]?.yz_yzrn }}</p>
+  <p>כתובת: {{ theUserDet[0].yz_shem_yeshuv }}</p>
+</div>
 
-<div class="year-select rtl_Style">
+<div class="year-select rtl_Style" style="margin: 15px">
   שנה:
   <select [(ngModel)]="chosenYear" (change)="new_data_on_year_change()">
+    <option disabled selected value="2023">בחר שנה</option>
+
     <option *ngFor="let year of years" [value]="year">
       {{ year }}
     </option>
@@ -38,11 +33,9 @@
               <th style="font-weight: bold; text-align: right">מכסה</th>
               <th style="font-weight: bold; text-align: right">מצטבר</th>
               <th style="font-weight: bold; text-align: right">יתרה</th>
-              <!-- <th style="font-weight: bold; text-align: right">nmatar</th> -->
             </tr>
           </thead>
-          <!-- <tbody *ngIf="isLoading_Cart" class="loader"></tbody>
-        <tbody *ngIf="!isLoading_Cart"> -->
+
 
           <tbody>
             <tr *ngFor="let p of data">
@@ -75,4 +68,63 @@
       </td>
     </table>
   </div>
-</form>
+</form> -->
+
+<div class="userDetDiv">
+  <p class="userDetLabel">שם:</p>
+  <p class="userDetValue">{{ theUserDet[0]?.yz_shem }}</p>
+  <p class="userDetLabel">מס מגדל:</p>
+  <p class="userDetValue">{{ theUserDet[0]?.yz_yzrn }}</p>
+  <p class="userDetLabel">כתובת:</p>
+  <p class="userDetValue">{{ theUserDet[0]?.yz_shem_yeshuv }}</p>
+</div>
+
+<div class="year-select rtl_Style">
+  <label for="chosenYear" class="year-select-label">שנה:</label>
+  <select
+    id="chosenYear"
+    [(ngModel)]="chosenYear"
+    (change)="new_data_on_year_change()"
+  >
+    <option disabled selected value="2023">בחר שנה</option>
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+</div>
+
+<div class="loader-container" *ngIf="isLoading_userDet">
+  <div class="loader-gif"></div>
+</div>
+
+<div class="table-container" *ngIf="!isLoading_userDet">
+  <table class="data-table" dir="rtl">
+    <thead>
+      <tr>
+        <th>שנה</th>
+        <th>קוד</th>
+        <th>תוצרת</th>
+        <th>חודש</th>
+        <th>פעילות עד חודש</th>
+        <th>מכסה</th>
+        <th>מצטבר</th>
+        <th>יתרה</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of data">
+        <td>{{ p.yr }}</td>
+        <td>{{ p.tzrt }}</td>
+        <td>{{ p.name_Tz }}</td>
+        <td *ngIf="p.dates; else elseBlock2">{{ p.dates.hodesh }}</td>
+        <ng-template #elseBlock2><td></td></ng-template>
+        <td *ngIf="p.dates; else elseBlock3">{{ p.dates.hodnm }}</td>
+        <ng-template #elseBlock3><td></td></ng-template>
+        <td>{{ p.mcsa }}</td>
+        <td>{{ p.mztbr }}</td>
+        <td *ngIf="p.mcsa - p.mztbr > 0; else elseBlock4">
+          {{ p.mcsa - p.mztbr }}
+        </td>
+        <ng-template #elseBlock4><td></td></ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>

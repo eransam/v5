@@ -8,3 +8,10 @@
   height: 300px;
   animation: spin 1s linear infinite;
 }
+
+.mainTableClass a {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  font-size: large !important;
+  font-weight: 700 !important;
+}

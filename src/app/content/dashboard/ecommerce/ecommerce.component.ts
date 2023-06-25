@@ -153,6 +153,8 @@ export class EcommerceComponent implements OnInit {
   keys_of_categorizedArrays: any[] = [];
   thefarmdetOfThemainGrower: any[] = [];
   selectedCategory: string = '';
+  notActiveColor: any = false;
+  activeColor: any = true;
 
   constructor(
     private chartApiservice: ChartApiService,
@@ -666,6 +668,8 @@ export class EcommerceComponent implements OnInit {
     this.click_on_show_ActiveSite = true;
     this.click_on_not_show_ActiveSite = false;
     this.rows = this.Active_FarmDetails;
+    this.notActiveColor = false;
+    this.activeColor = true;
   }
 
   showAllSite() {
@@ -679,6 +683,8 @@ export class EcommerceComponent implements OnInit {
     this.click_on_show_ActiveSite = false;
     this.click_on_not_show_ActiveSite = true;
     this.rows = this.Not_Active_FarmDetails;
+    this.notActiveColor = true;
+    this.activeColor = false;
   }
   isFirstUniqueValue(obj: any, currentIndex: number): boolean {
     for (let i = 0; i < currentIndex; i++) {

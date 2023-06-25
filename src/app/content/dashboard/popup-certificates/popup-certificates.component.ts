@@ -40,7 +40,7 @@ export class PopupCertificatesComponent {
   chosenShlohaControl = new FormControl();
   isLoading_FarmDetails = false;
 
-  chosenYear = '';
+  chosenYear: any = '';
   years = ['2020', '2021', '2022', '2023'];
   siteName: any[] = [];
   userDetails: any[] = [];
@@ -52,8 +52,8 @@ export class PopupCertificatesComponent {
   theChosenSiteControl: any = 0;
   theChosenYearControl: any = 2023;
   theChosenShlohaControl: any = '30';
-  startDateControl_placeHolder: any = 'yyyy-mm-dd';
-  endDateControl_placeHolder: any = 'yyyy-mm-dd';
+  startDateControl_placeHolder: any = '20230101';
+  endDateControl_placeHolder: any = '20231231';
   grower_extention: any[] = [];
   grower_extention_name: any[] = [];
 
@@ -65,12 +65,17 @@ export class PopupCertificatesComponent {
     private formBuilder: FormBuilder,
     private megadelSearchService: MegadelSearchService
   ) {
+    this.chosenYear = '2023';
+    this.chosenSite = 'כולם';
+    this.chosenShloha = 'תרנגולות - הטלה';
+    // this.initialEndDate = '2023/12/31';
+
     console.log('data in constractor: ', data);
     // console.log('typeof data[0].id: ', typeof data[0].id);
   }
 
   async ngOnInit() {
-    this.initialEndDate = this.endDate;
+    // this.initialEndDate = this.endDate;
 
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
@@ -212,7 +217,7 @@ export class PopupCertificatesComponent {
         this.theStartDate.month +
         this.theStartDate.day;
     } else {
-      this.theStartDate = `${this.chosenYearControl}0101`;
+      this.theStartDate = `${this.chosenYearControl.value}0101`;
     }
 
     this.startDateControl_placeHolder = await this.theStartDate;
@@ -243,7 +248,7 @@ export class PopupCertificatesComponent {
         this.theEndDateControl.month +
         this.theEndDateControl.day;
     } else {
-      this.theEndDateControl = `${this.chosenYearControl}1231`;
+      this.theEndDateControl = `${this.chosenYearControl.value}1231`;
     }
     this.endDateControl_placeHolder = await this.theEndDateControl;
 

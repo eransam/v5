@@ -836,6 +836,11 @@ export class SearchMegadelComponent implements OnInit {
                 item.v_yzrn,
                 99
               );
+            const allInactive = results3.every(
+              (obj) => obj.RishaionSts === 'לא פעיל'
+            );
+            console.log(allInactive);
+
             const codes = results3.map((obj) => obj.code);
             const joinedString = codes.join(', ');
             item.yz_IdReal = item.v_yzrn_id;

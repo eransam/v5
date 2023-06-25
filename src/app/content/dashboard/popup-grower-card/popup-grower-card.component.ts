@@ -39,6 +39,7 @@ export class PopupGrowerCardComponent {
   isLoading_FarmDetails = false;
   isLoading_Cart = false;
   isLoading_userDet = false;
+  theUserDet:any[] = [];
 
   chosenYear: any = 9999;
   years = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
@@ -53,6 +54,7 @@ export class PopupGrowerCardComponent {
     private megadelSearchService: MegadelSearchService
   ) {
     console.log('data in constractor: ', data);
+    this.chosenYear = 9999;
     // console.log('typeof data[0].id: ', typeof data[0].id);
   }
 
@@ -62,6 +64,16 @@ export class PopupGrowerCardComponent {
     this.siteName.push({ code: 'כולם' });
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
+    this.chosenYear = 2023;
+
+    if (localStorage.getItem('userDetails')) {
+        this.theUserDet =  JSON.parse(localStorage.getItem('userDetails'));
+      }
+      
+
+
+
+
   }
 
   onYearChange() {
@@ -348,10 +360,6 @@ export class PopupGrowerCardComponent {
         uniqueObjects.push(targetObject98);
       }
     }
-
-    // for (let obj of uniqueObjects) {
-    //   obj.yr = this.chosenYear;
-    // }
 
     this.data = uniqueObjects;
     this.isLoading_userDet = false;

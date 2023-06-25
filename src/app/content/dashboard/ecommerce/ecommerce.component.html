@@ -1195,31 +1195,26 @@
                   </div>
 
                   <div
+                    style="margin-left: 30px"
                     class="site_by_shlohot_btn"
-                    *ngIf="this.keys_of_categorizedArrays.length > 0"
+                    *ngIf="keys_of_categorizedArrays.length > 0"
                   >
                     <div>
-                      <span
-                        (click)="selectCategory(obj)"
+                      <select
+                        [(ngModel)]="selectedCategory"
+                        (change)="selectCategory($event.target.value)"
+                        class="form-select form-select-lg"
                         style="font-size: larger"
-                        *ngFor="let obj of keys_of_categorizedArrays"
                       >
-                        <span
-                          [class.active-site_shlohot_btn]="
-                            selectedCategory === obj
-                          "
-                          style="
-                            color: blue;
-                            text-decoration: underline;
-                            cursor: pointer;
-                            margin-left: 25px;
-                            font-size: 25px;
-                          "
+                        <option value="" disabled selected>שלוחה</option>
+                        <option
+                          *ngFor="let obj of keys_of_categorizedArrays"
+                          [value]="obj"
+                          [selected]="selectedCategory === obj"
                         >
                           {{ getCategoryLabel(obj) }}
-                        </span>
-                        &nbsp;&nbsp;
-                      </span>
+                        </option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -1232,10 +1227,7 @@
 
               <div *ngIf="isLoading_FarmDetails" class="loader"></div>
               <div *ngIf="!isLoading_FarmDetails">
-                <table
-                  class="table table-hover table-xl border_bottom detailsTable"
-                  style="direction: rtl"
-                >
+                <table class="" style="direction: rtl">
                   <thead class="detailsTable">
                     <tr>
                       <th scope="col" class="border-top-0">מס' אתר</th>
@@ -1266,9 +1258,9 @@
                       <th scope="col" class="border-top-0">מס גוש</th>
                     </tr>
                   </thead>
-
+                  
                   <tbody>
-                    <tr *ngFor="let row of rows">
+                    <tr *ngFor="let row of rows" [class.green-background]="activeColor" [class.red-background]="notActiveColor">
                       <!-- <th scope="col" class="border-top-0">מס' אתר</th> -->
                       <td class="text-truncate row_padding">
                         {{ row.farm_code }}
