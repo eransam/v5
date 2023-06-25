@@ -1,6 +1,7 @@
 .loader_grower_cart {
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #e9cd00;
+  border-top: 4px solid #f1b80b;
+
   border-radius: 50%;
   padding-top: 50px;
   margin-top: 50px;
@@ -42,7 +43,7 @@
 
 .year-select select:focus {
   outline: none;
-  border-color: #e9cd00;
+  border-color: #f1b80b;
 }
 
 .loader-gif {
@@ -50,7 +51,8 @@
   width: 40px;
   height: 40px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #e9cd00;
+  border-top: 4px solid #f1b80b;
+
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -67,7 +69,8 @@
 .data-table th {
   font-weight: bold;
   text-align: right;
-  background-color: #e9cd00;
+  background-color: #f1b80b;
+
   color: #fff;
   padding: 10px;
 }

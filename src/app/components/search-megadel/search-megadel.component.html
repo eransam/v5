@@ -160,7 +160,6 @@
                   <div class="card-content">
                     <div class="card-body">
                       <div>
-
                         <div
                           class="d-inline-block custom-control custom-checkbox mr-1"
                           style="padding: unset; margin-bottom: 15px"
@@ -257,7 +256,7 @@
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
-
+                        all_not_active
                         <ngx-datatable-column
                           name="מספר אתר"
                           [flexGrow]="1"
@@ -280,8 +279,15 @@
                                     row.yz_IdReal
                                   ]"
                                 >
-                                  <p style="">{{ row.yz_Id }}</p></a
-                                >
+                                  <div *ngIf="allInactive">
+                                    <p style="">{{ row.yz_Id }}</p>
+                                  </div>
+                                  <div *ngIf="!allInactive">
+                                    <p style="">
+                                      {{ row.yz_Id }}
+                                    </p>
+                                  </div>
+                                </a>
                               </div>
                             </ng-container>
                             <ng-template #closedTemplate>
@@ -292,14 +298,42 @@
                                     row.yz_IdReal
                                   ]"
                                 >
-                                  <p style="">{{ row.yz_Id }}</p></a
-                                >
+                                  <div *ngIf="allInactive">
+                                    <p style="">{{ row.yz_Id }}</p>
+                                  </div>
+                                  <div *ngIf="!allInactive">
+                                    <p style="">
+                                      {{ row.yz_Id }}
+                                    </p>
+                                  </div>
+                                </a>
                               </div>
                             </ng-template>
                           </ng-template>
                         </ngx-datatable-column>
 
-
+                        <ngx-datatable-column
+                          name="הערה"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                              >
+                                <p *ngIf="row.all_not_active">לא פעילים</p>
+                                <p *ngIf="!row.all_not_active">קיימים פעילים</p>
+                              </a>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
 
                         <ngx-datatable-column
                           name="שם יצרן"

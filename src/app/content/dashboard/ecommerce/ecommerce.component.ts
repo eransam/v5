@@ -461,7 +461,9 @@ export class EcommerceComponent implements OnInit {
             30,
             this.chosenYear
           );
-        this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
+        if (this.mainGrower[0]?.cdgdl) {
+          this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
+        }
         this.theUserDetails = this.userDetails[0];
         this.isLoading_userDet = false;
         this.totalFarms = this.FarmDetails.length;

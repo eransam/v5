@@ -363,5 +363,10 @@
   padding-left: 1rem !important;
 }
 
-.searchInput {
+.test222 {
+  background-color: red !important;
+}
+
+datatable-row-center datatable-row-group ng-star-inserted {
+  background-color: red !important;
 }

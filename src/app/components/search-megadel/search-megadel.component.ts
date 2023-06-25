@@ -133,7 +133,7 @@ export class SearchMegadelComponent implements OnInit {
   temp = [];
 
   @ViewChild(DatatableComponent, { static: true }) table: DatatableComponent;
-
+  allInactive: any = false;
   constructor(
     private tableexcelService: TableexcelService,
     private tableApiservice: TableApiService,
@@ -693,6 +693,7 @@ export class SearchMegadelComponent implements OnInit {
               await this.megadelSearchService.get_siteName_by_yzId(
                 item.v_yzrn_id
               );
+
             console.log(' item444.YazRishaion: ', item.YazRishaion);
             const codes = [];
             for (let obj of results3) {
@@ -836,15 +837,16 @@ export class SearchMegadelComponent implements OnInit {
                 item.v_yzrn,
                 99
               );
-            const allInactive = results3.every(
+            this.allInactive = results3.every(
               (obj) => obj.RishaionSts === 'לא פעיל'
             );
-            console.log(allInactive);
+            console.log(this.allInactive);
 
             const codes = results3.map((obj) => obj.code);
             const joinedString = codes.join(', ');
             item.yz_IdReal = item.v_yzrn_id;
             item.yz_Id = joinedString;
+            item.all_not_active = this.allInactive;
           }
 
           // יוצר שדה מיכסה
@@ -871,3 +873,4 @@ export class SearchMegadelComponent implements OnInit {
     this.isLoading = false; // Stop loading
   }
 }
+// #F1B80B
