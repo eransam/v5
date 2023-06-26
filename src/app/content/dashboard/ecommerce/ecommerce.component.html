@@ -1192,6 +1192,13 @@
                     >
                       ({{ Active_FarmDetails.length }}) פעילים
                     </div>
+
+                    <button
+                      (click)="this.sort_site_by_shloha()"
+                      style="margin-left: 20px; margin-right: 20px"
+                    >
+                      חיפוש לפי שלוחה
+                    </button>
                   </div>
 
                   <div
@@ -1227,7 +1234,7 @@
 
               <div *ngIf="isLoading_FarmDetails" class="loader"></div>
               <div *ngIf="!isLoading_FarmDetails">
-                <table class="" style="direction: rtl">
+                <table class="" style="direction: rtl; width: 100%">
                   <thead class="detailsTable">
                     <tr>
                       <th scope="col" class="border-top-0">מס' אתר</th>
@@ -1258,9 +1265,13 @@
                       <th scope="col" class="border-top-0">מס גוש</th>
                     </tr>
                   </thead>
-                  
+
                   <tbody>
-                    <tr *ngFor="let row of rows" [class.green-background]="activeColor" [class.red-background]="notActiveColor">
+                    <tr
+                      *ngFor="let row of rows"
+                      [class.green-background]="activeColor"
+                      [class.red-background]="notActiveColor"
+                    >
                       <!-- <th scope="col" class="border-top-0">מס' אתר</th> -->
                       <td class="text-truncate row_padding">
                         {{ row.farm_code }}
@@ -1369,7 +1380,7 @@
                       ></td>
                       <td
                         *ngIf="
-                          row.flock_month_age || row.flock_month_age !== null
+                          row.flock_month_age && row.flock_month_age !== null
                         "
                         class="text-truncate row_padding"
                       >

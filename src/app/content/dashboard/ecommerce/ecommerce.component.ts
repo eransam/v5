@@ -427,6 +427,9 @@ export class EcommerceComponent implements OnInit {
           99
         );
 
+      console.log(this.siteName);
+      localStorage.setItem('siteName', JSON.stringify(this.siteName));
+
       if (this.siteName.length > 0) {
         // FarmId חילוץ - חילוץ איידי של כל אתר
         this.FarmId = await this.getFarmIdArr(this.siteName);
@@ -434,36 +437,27 @@ export class EcommerceComponent implements OnInit {
 
         // חילוץ פרטי אתרים עי הפארם איידי של היצרן
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
-        this.FarmDetails.sort((a, b) =>
-          a.belonging_group_id > b.belonging_group_id ? 1 : -1
-        );
 
-        for (let obj of this.FarmDetails) {
-          const belonging_group_id = obj.belonging_group_id;
-
-          // Check if the category array exists, otherwise create a new one
-          if (!this.categorizedArrays[belonging_group_id]) {
-            this.categorizedArrays[belonging_group_id] = [];
-          }
-
-          // Push the object into the respective category array
-          await this.categorizedArrays[belonging_group_id].push(obj);
-        }
-
-        console.log(this.categorizedArrays);
-        this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+        // מיון המשקים לקבוצות שלוחה
+        // await this.sort_site_by_shloha();
 
         // מכניסים שדה גידול חוץ לפרטי יוזר
-        this.mainGrower =
-          await this.megadelSearchService.Partners_Get_CodeGidul(
-            11,
-            this.userDetails[0].v_yzrn,
-            30,
-            this.chosenYear
-          );
-        if (this.mainGrower[0]?.cdgdl) {
-          this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
+        if (
+          this.userDetails[0]?.cdgdl.length === 0 ||
+          this.userDetails[0].cdgdl === undefined
+        ) {
+          this.mainGrower =
+            await this.megadelSearchService.Partners_Get_CodeGidul(
+              11,
+              this.userDetails[0].v_yzrn,
+              30,
+              this.chosenYear
+            );
+          if (this.mainGrower[0]?.cdgdl) {
+            this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
+          }
         }
+
         this.theUserDetails = this.userDetails[0];
         this.isLoading_userDet = false;
         this.totalFarms = this.FarmDetails.length;
@@ -548,6 +542,25 @@ export class EcommerceComponent implements OnInit {
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
+  async sort_site_by_shloha() {
+    this.FarmDetails.sort((a, b) =>
+      a.belonging_group_id > b.belonging_group_id ? 1 : -1
+    );
+
+    for (let obj of this.FarmDetails) {
+      const belonging_group_id = obj.belonging_group_id;
+
+      // Check if the category array exists, otherwise create a new one
+      if (!this.categorizedArrays[belonging_group_id]) {
+        this.categorizedArrays[belonging_group_id] = [];
+      }
+
+      // Push the object into the respective category array
+      await this.categorizedArrays[belonging_group_id].push(obj);
+    }
+
+    this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+  }
   //   --exec Micsa_Get_McsKvua_New @ORDER 	=2 ,@YZRN 	="11303047",@TZ   ='30',@YEAR  =2023, @MCS1 ='1' , @MCS3  ='3' ,@DtSvk='', @tik_McsSys=0
   async Micsa_Get_McsKvua_New_shloha_30_to_Get_McsKvua_shloha_30() {
     this.Get_McsKvua_shloha_30 =

@@ -85,8 +85,8 @@ export class PopupCertificatesComponent {
 
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
-    this.siteName.push({ code: 'כולם' });
-    this.userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    this.siteName.push({"RishaionSts":"","code":"כולם"});
+    this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
   }
 
@@ -268,7 +268,7 @@ export class PopupCertificatesComponent {
         1,
         this.theChosenYearControl,
         this.theChosenShlohaControl,
-        this.userDetails[0]?.yz_yzrn,
+        this.userDetails[0]?.v_yzrn,
         this.theStartDate,
         this.theEndDateControl,
         0,
