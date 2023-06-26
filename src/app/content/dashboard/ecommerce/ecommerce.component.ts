@@ -208,6 +208,8 @@ export class EcommerceComponent implements OnInit {
         (obj) => obj.v_yzrn_id.toString() === this.idFromurl
       );
 
+      localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
+
       if (this.userDetails.length === 0) {
         this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
           this.idFromurl
@@ -607,10 +609,8 @@ export class EcommerceComponent implements OnInit {
         0,
         0
       );
-    console.log(
-      'this.certificates_by_grewernum: ',
-      this.certificates_by_grewernum
-    );
+    console.log(this.certificates_by_grewernum);
+
     this.openPopup_certificates();
   }
   // Component class
