@@ -102,7 +102,163 @@
 
     <div *ngIf="isLoading_FarmDetails" class="loader"></div>
     <div *ngIf="!isLoading_FarmDetails" class="mainTableClass">
-      <ngx-datatable
+      <table>
+        <thead>
+          <tr>
+            <th>תעודה</th>
+            <th>אתר</th>
+            <th>להקה</th>
+            <th>תוצ</th>
+            <th>תאריך</th>
+            <th>כמות</th>
+            <th>מצטבר</th>
+            <th>משווק</th>
+            <th>דף</th>
+            <th>חודש</th>
+            <th>רטרו</th>
+            <th>בקיעה</th>
+            <th>סיום שיווק</th>
+            <th>הפרש ימי שיווק בקיעה</th>
+            <th>שם קבלן</th>
+            <th>אתר</th>
+            <th>ID</th>
+            <th>תאריך יצירה</th>
+            <th>תאריך יצירה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of visibleData">
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.td_teuda
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <ng-container
+                  *ngIf="row.farm_status_id === 1; else closedTemplate"
+                >
+                  <a [routerLink]="['/dashboard/ecommerce']">{{
+                    row.Td_Atar
+                  }}</a>
+                </ng-container>
+                <ng-template #closedTemplate>
+                  <a [routerLink]="['/dashboard/ecommerce', row.yz_IdReal]">{{
+                    row.Td_Atar
+                  }}</a>
+                </ng-template>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.flock_id
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{ row.td_tzrt }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.td_date | date : "dd/MM/yyyy"
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.td_kamut_mishkal
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.td_kamut_mishkal
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']"
+                  >{{ row.td_msvk }} - {{ row.tb_name }}</a
+                >
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{ row.td_daf }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce', row.yz_IdReal]">{{
+                  row.td_hodesh
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.td_retro
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']"></a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']"></a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']"></a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']"></a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{ row.Atar_Id }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{ row.id_td }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.date_Creat | date : "dd/MM/yyyy"
+                }}</a>
+              </div>
+            </td>
+            <td>
+              <div class="text-right">
+                <a [routerLink]="['/dashboard/ecommerce']">{{
+                  row.date_Creat | date : "dd/MM/yyyy"
+                }}</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- <ngx-datatable
         class="bootstrap ps"
         [limit]="20"
         [rows]="visibleData"
@@ -293,19 +449,12 @@
             </div>
           </ng-template>
         </ngx-datatable-column>
-      </ngx-datatable>
+      </ngx-datatable> -->
       <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
         קודם
       </button>
       <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
         הבא
-      </button>
-      <button>
-        <div [class]="'text-right'">
-          <a [routerLink]="['/dashboard/CertificatesPageComponent']">
-            <p>test</p>
-          </a>
-        </div>
       </button>
     </div>
   </div>

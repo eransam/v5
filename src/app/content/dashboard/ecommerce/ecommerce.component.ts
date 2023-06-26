@@ -598,6 +598,7 @@ export class EcommerceComponent implements OnInit {
 
   //     -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0
   async shows_certificates_by_grewernum() {
+    this.sort_site_by_shloha();
     this.certificates_by_grewernum =
       await this.megadelSearchService.Teuda_Select_New(
         1,

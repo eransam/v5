@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
   FormControl,
@@ -14,11 +12,11 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
 @Component({
-  selector: 'app-popup-certificates',
-  templateUrl: './popup-certificates.component.html',
-  styleUrls: ['./popup-certificates.component.css'],
+  selector: 'app-certificates-page',
+  templateUrl: './certificates-page.component.html',
+  styleUrls: ['./certificates-page.component.css'],
 })
-export class PopupCertificatesComponent {
+export class CertificatesPageComponent {
   userTypeID;
   certificateSum = 0;
   startDate: Date;
@@ -62,9 +60,8 @@ export class PopupCertificatesComponent {
 
   public currentPage: number = 1; // Current page number
   public rowsPerPage: number = 20; // Number of rows per page
-
+  data: any[] = [];
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
     private formBuilder: FormBuilder,
     private megadelSearchService: MegadelSearchService
@@ -73,16 +70,13 @@ export class PopupCertificatesComponent {
     this.chosenSite = 'כולם';
     this.chosenShloha = 'תרנגולות - הטלה';
     // this.initialEndDate = '2023/12/31';
-
-    console.log('data in constractor: ', data);
-    localStorage.setItem('cartificates_data', JSON.stringify(data));
-
     // console.log('typeof data[0].id: ', typeof data[0].id);
   }
 
   async ngOnInit() {
     // this.initialEndDate = this.endDate;
 
+    this.data = JSON.parse(localStorage.getItem('cartificates_data'));
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
     for (let obj of this.grower_extention) {
