@@ -77,7 +77,6 @@ const appRoutes: Routes = [
             (m) => m.ComponentsModule
           ),
         canActivate: [AuthGuard],
-        
       },
       {
         path: 'todo-app',
@@ -302,6 +301,7 @@ const appRoutes: Routes = [
 ];
 
 export const routing = RouterModule.forRoot(appRoutes, {
+  useHash: true,
   scrollOffset: [0, 0],
   scrollPositionRestoration: 'top',
 });
