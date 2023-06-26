@@ -59,10 +59,26 @@
           },
           "configurations": {
             "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+
               "budgets": [
                 {
+                  "type": "initial",
+
+                  "maximumWarning": "4mb",
+                  "maximumError": "6mb"
+                },
+                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "6kb"
                 }
               ],
               "fileReplacements": [
@@ -71,6 +87,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
