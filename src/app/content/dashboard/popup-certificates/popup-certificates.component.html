@@ -101,8 +101,22 @@
     <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
 
     <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-    <div *ngIf="!isLoading_FarmDetails" class="mainTableClass">
+    <div
+      *ngIf="!isLoading_FarmDetails"
+      class="mainTableClass"
+      style="
+        font-weight: bold;
+        font-size: 18px !important;
+        width: 100% !important;
+      "
+    >
       <ngx-datatable
+        style="
+          width: 100% !important;
+          height: auto;
+          font-weight: bold;
+          font-size: 18px !important;
+        "
         class="bootstrap ps"
         [limit]="20"
         [rows]="visibleData"
@@ -113,7 +127,7 @@
         fxFlex="auto"
         [perfectScrollbar]="config"
       >
-        <ngx-datatable-column name="תעודה" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="תעודה" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
               <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_teuda }}</a>
@@ -121,175 +135,153 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="אתר" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="אתר" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <ng-container *ngIf="row.farm_status_id === 1; else closedTemplate">
               <div [class]="'text-right'">
-                <a [routerLink]="['/dashboard/ecommerce']">
-                  <p style="">{{ row.Td_Atar }}</p></a
-                >
+                <p style="">{{ row.Td_Atar }}</p>
               </div>
             </ng-container>
             <ng-template #closedTemplate>
               <div [class]="'text-right'">
-                <a [routerLink]="['/dashboard/ecommerce', row.yz_IdReal]">
-                  <p style="">{{ row.Td_Atar }}</p></a
-                >
+                <p style="">{{ row.Td_Atar }}</p>
               </div>
             </ng-template>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="להקה" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="להקה" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">{{ row.flock_id }}</a>
+              {{ row.flock_id }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="תוצ" [flexGrow]="1" [minWidth]="30">
+        <ngx-datatable-column name="תוצ" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_tzrt }}</a>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="תאריך" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">
-                {{ row.td_date | date : "dd/MM/yyyy" }}</a
-              >
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="כמות" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">
-                {{ row.td_kamut_mishkal }}</a
-              >
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="מצטבר" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">{{
-                row.td_kamut_mishkal
-              }}</a>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="משווק" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"
-                >{{ row.td_msvk }} - {{ row.tb_name }}</a
-              >
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="דף" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">{{ row.td_daf }}</a>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="חודש" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce', row.yz_IdReal]">
-                {{ row.td_hodesh }}</a
-              >
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="רטרו" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_retro }}</a>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="בקיעה" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> </a>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="סיום שיווק" [flexGrow]="1" [minWidth]="90">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+              {{ row.td_tzrt }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column
-          name="הפרש ימי שיווק בקיעה"
+          name="תאריך"
           [flexGrow]="1"
-          [minWidth]="90"
+          style="width: 100% !important"
         >
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+          <ng-template
+            let-row="row"
+            ngx-datatable-cell-template
+            style="width: 100% !important"
+          >
+            <div [class]="'text-right'" style="width: 100% !important">
+              {{ row.td_date | date : "dd/MM/yyyy" }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="שם קבלן" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="כמות" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> </a>
+              {{ row.td_kamut_mishkal }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="אתר" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="מצטבר" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Atar_Id }}</a>
+              {{ row.td_kamut_mishkal }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="ID" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="משווק" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.id_td }}</a>
+              {{ row.td_msvk }} - {{ row.tb_name }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="דף" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">
-                {{ row.date_Creat | date : "dd/MM/yyyy" }}</a
-              >
+              {{ row.td_daf }}
             </div>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1" [minWidth]="90">
+        <ngx-datatable-column name="חודש" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']">
-                {{ row.date_Creat | date : "dd/MM/yyyy" }}</a
-              >
+              {{ row.td_hodesh }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="רטרו" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              {{ row.td_retro }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="בקיעה" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'"></div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="סיום שיווק" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'"></div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="הפרש ימי שיווק בקיעה" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'"></div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="שם קבלן" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'"></div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="אתר" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              {{ row.Atar_Id }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="ID" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              {{ row.id_td }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              {{ row.date_Creat | date : "dd/MM/yyyy" }}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div [class]="'text-right'">
+              {{ row.date_Creat | date : "dd/MM/yyyy" }}
             </div>
           </ng-template>
         </ngx-datatable-column>
@@ -300,13 +292,13 @@
       <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
         הבא
       </button>
-      <button>
+      <!-- <button>
         <div [class]="'text-right'">
           <a [routerLink]="['/dashboard/CertificatesPageComponent']">
             <p>test</p>
           </a>
         </div>
-      </button>
+      </button> -->
     </div>
   </div>
 </form>

@@ -1193,18 +1193,18 @@
                       ({{ Active_FarmDetails.length }}) פעילים
                     </div>
 
-                    <button
+                    <!-- <button
                       (click)="this.sort_site_by_shloha()"
                       style="margin-left: 20px; margin-right: 20px"
                     >
                       חיפוש לפי שלוחה
-                    </button>
+                    </button> -->
                   </div>
 
                   <div
+                    (click)="this.sort_site_by_shloha()"
                     style="margin-left: 30px"
                     class="site_by_shlohot_btn"
-                    *ngIf="keys_of_categorizedArrays.length > 0"
                   >
                     <div>
                       <select

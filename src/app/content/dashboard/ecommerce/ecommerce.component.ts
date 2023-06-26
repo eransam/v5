@@ -1049,7 +1049,6 @@ export class EcommerceComponent implements OnInit {
         targetObject4.yr,
         '04',
         this.userDetails[0].v_yzrn,
-
         '',
         '',
         0,
@@ -1076,9 +1075,8 @@ export class EcommerceComponent implements OnInit {
       var Teuda_Select_New11 = await this.megadelSearchService.Teuda_Select_New(
         6,
         targetObject11.yr,
-        targetObject11.tzrt,
+        targetObject11.tzrt.toString(),
         this.userDetails[0].v_yzrn,
-
         '',
         '',
         0,
@@ -1105,7 +1103,7 @@ export class EcommerceComponent implements OnInit {
       var Teuda_Select_New = await this.megadelSearchService.Teuda_Select_New(
         6,
         targetObject30.yr,
-        targetObject30.tzrt,
+        targetObject30.tzrt.toString(),
         this.userDetails[0].v_yzrn,
 
         '',
@@ -1128,7 +1126,7 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    if (targetObject1 !== -1 && targetObject1 !== null && targetObject1 !== 0) {
+    if (targetIndex1 !== -1 && targetIndex1 !== null && targetIndex1 !== 0) {
       uniqueObjects.splice(targetIndex1, 1);
 
       var Teuda_Select_New01 = await this.megadelSearchService.Teuda_Select_New(
@@ -1166,7 +1164,7 @@ export class EcommerceComponent implements OnInit {
       var Mdgrot_Teuda41 = await this.megadelSearchService.Mdgrot_Teuda(
         6,
         this.userDetails[0].v_yzrn,
-        targetObject41.tzrt,
+        targetObject41.tzrt.toString(),
         targetObject41.yr,
         '',
         '',
@@ -1197,7 +1195,7 @@ export class EcommerceComponent implements OnInit {
       var Mdgrot_Teuda44 = await this.megadelSearchService.Mdgrot_Teuda(
         6,
         this.userDetails[0].v_yzrn,
-        targetObject44.tzrt,
+        targetObject44.tzrt.toString(),
         targetObject44.yr,
         '',
         '',
@@ -1228,7 +1226,7 @@ export class EcommerceComponent implements OnInit {
       var Pargit_Teuda45 = await this.megadelSearchService.Pargit_Teuda(
         4,
         this.userDetails[0].v_yzrn,
-        targetObject45.tzrt,
+        targetObject45.tzrt.toString(),
         targetObject45.yr,
         '',
         '',
@@ -1259,7 +1257,7 @@ export class EcommerceComponent implements OnInit {
       var Pargit_Teuda46 = await this.megadelSearchService.Pargit_Teuda(
         4,
         this.userDetails[0].v_yzrn,
-        targetObject46.tzrt,
+        targetObject46.tzrt.toString(),
         targetObject46.yr,
         '',
         '',
@@ -1290,7 +1288,7 @@ export class EcommerceComponent implements OnInit {
         var Pargit_Teuda98 = await this.megadelSearchService.Pargit_Teuda(
           4,
           this.userDetails[0].v_yzrn,
-          targetObject98.tzrt,
+          targetObject98.tzrt.toString(),
           targetObject98.yr,
           '',
           '',

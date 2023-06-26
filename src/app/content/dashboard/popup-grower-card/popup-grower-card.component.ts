@@ -47,6 +47,7 @@ export class PopupGrowerCardComponent {
   userDetails: any[] = [];
   chosenSite: any = 0;
   certificates_by_grewernum: any[] = [];
+  loading_apinner:any = false
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
@@ -66,8 +67,8 @@ export class PopupGrowerCardComponent {
     console.log('this.userDetails: ', this.userDetails);
     this.chosenYear = 2023;
 
-    if (localStorage.getItem('userDetails')) {
-        this.theUserDet =  JSON.parse(localStorage.getItem('userDetails'));
+    if (localStorage.getItem('theDetails')) {
+        this.theUserDet =  JSON.parse(localStorage.getItem('theDetails'));
       }
       
 
@@ -81,7 +82,7 @@ export class PopupGrowerCardComponent {
   }
 
   async new_data_on_year_change() {
-    console.log('test');
+    this.loading_apinner = true
 
     var Yazran_Cartis_Select =
       await this.megadelSearchService.Yazran_Cartis_Select(
@@ -365,7 +366,8 @@ export class PopupGrowerCardComponent {
     this.isLoading_userDet = false;
 
     console.log('test');
-    this.isLoading_Cart = true;
+    this.loading_apinner = false
+
   }
 
   async add() {
