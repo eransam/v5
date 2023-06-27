@@ -62,6 +62,7 @@ export class PopupCertificatesComponent {
 
   public currentPage: number = 1; // Current page number
   public rowsPerPage: number = 20; // Number of rows per page
+  itemsPerPage = 20;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -94,6 +95,25 @@ export class PopupCertificatesComponent {
     this.siteName.push({ RishaionSts: '', code: 'כולם' });
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage() {
+    const totalPages = Math.ceil(this.data.length / this.itemsPerPage);
+    if (this.currentPage < totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  get paginatedData(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.data.slice(startIndex, endIndex);
   }
 
   public get totalPages(): number {
@@ -170,10 +190,6 @@ export class PopupCertificatesComponent {
         return '';
     }
   }
-
-
-
-  
 
   async add() {
     this.isLoading_FarmDetails = true;

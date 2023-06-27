@@ -93,8 +93,14 @@
         </select>
       </div>
 
-      <div class="col-md-1" style="padding-top: 23px">
-        <button type="submit">חפש</button>
+      <div class="col-md-1" style="">
+        <button
+          class="btn btn-warning"
+          style="margin: 15px !important; font-size: 25px !important"
+          type="submit"
+        >
+          חפש
+        </button>
       </div>
     </div>
 
@@ -110,195 +116,149 @@
         width: 100% !important;
       "
     >
-      <ngx-datatable
-        style="
-          width: 100% !important;
-          height: auto;
-          font-weight: bold;
-          font-size: 18px !important;
-        "
-        class="bootstrap ps"
-        [limit]="20"
-        [rows]="visibleData"
-        [columnMode]="'force'"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [rowHeight]="50"
-        fxFlex="auto"
-        [perfectScrollbar]="config"
-      >
-        <ngx-datatable-column name="תעודה" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_teuda }}</a>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+      <table class="" style="direction: rtl; width: 100%">
+        <thead class="detailsTable">
+          <tr>
+            <th scope="col" class="border-top-0">תעודה</th>
+            <th scope="col" class="border-top-0">אתר</th>
 
-        <ngx-datatable-column name="אתר" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
+            <th scope="col" class="border-top-0">להקה</th>
+            <th scope="col" class="border-top-0">תוצ</th>
+            <th scope="col" class="border-top-0">תאריך</th>
+            <th scope="col" class="border-top-0">כמות</th>
+            <th scope="col" class="border-top-0">מצטבר</th>
+            <th scope="col" class="border-top-0">משווק</th>
+            <th scope="col" class="border-top-0">דף</th>
+            <th scope="col" class="border-top-0">חודש</th>
+            <th scope="col" class="border-top-0">רטרו</th>
+            <th scope="col" class="border-top-0">בקיעה</th>
+            <th scope="col" class="border-top-0">סיום שיווק</th>
+            <th scope="col" class="border-top-0">הפרש ימי בקיעה</th>
+            <th scope="col" class="border-top-0">שם קבלן</th>
+            <th scope="col" class="border-top-0">אתר</th>
+            <th scope="col" class="border-top-0">ID</th>
+            <th scope="col" class="border-top-0">תאריך יצירה</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let row of paginatedData"
+            [class.green-background]="activeColor"
+            [class.red-background]="notActiveColor"
+          >
+            <!-- <th scope="col" class="border-top-0">תעודה</th> -->
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.td_teuda }}</a>
+            </td>
+            <!-- <th scope="col" class="border-top-0" אתר</th> -->
             <ng-container *ngIf="row.farm_status_id === 1; else closedTemplate">
-              <div [class]="'text-right'">
+              <td class="text-truncate row_padding">
                 <p style="">{{ row.Td_Atar }}</p>
-              </div>
+              </td>
             </ng-container>
             <ng-template #closedTemplate>
-              <div [class]="'text-right'">
+              <td class="text-truncate row_padding">
                 <p style="">{{ row.Td_Atar }}</p>
-              </div>
+              </td>
             </ng-template>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="להקה" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">להקה</th> -->
+            <td class="text-truncate row_padding">
               {{ row.flock_id }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="תוצ" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">תוצ </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_tzrt }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column
-          name="תאריך"
-          [flexGrow]="1"
-          style="width: 100% !important"
-        >
-          <ng-template
-            let-row="row"
-            ngx-datatable-cell-template
-            style="width: 100% !important"
-          >
-            <div [class]="'text-right'" style="width: 100% !important">
+            <!-- <th scope="col" class="border-top-0">תאריך </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_date | date : "dd/MM/yyyy" }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="כמות" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">כמות </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_kamut_mishkal }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="מצטבר" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_kamut_mishkal }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="משווק" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">משווק </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_msvk }} - {{ row.tb_name }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="דף" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">דף </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_daf }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="חודש" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            </td>
+            <!-- <th scope="col" class="border-top-0">חודש </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_hodesh }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="רטרו" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            </td>
+            <!-- <th scope="col" class="border-top-0">רטרו </th> -->
+            <td class="text-truncate row_padding">
               {{ row.td_retro }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
+            <!-- <th scope="col" class="border-top-0">בקיעה </th> -->
+            <td class="text-truncate row_padding">
+              <p></p>
+            </td>
 
-        <ngx-datatable-column name="בקיעה" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'"></div>
-          </ng-template>
-        </ngx-datatable-column>
+            <!-- <th scope="col" class="border-top-0">סיום שיווק" </th> -->
+            <td class="text-truncate row_padding">
+              <p></p>
+            </td>
 
-        <ngx-datatable-column name="סיום שיווק" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'"></div>
-          </ng-template>
-        </ngx-datatable-column>
+            <!-- <th scope="col" class="border-top-0">הפרש ימי שיווק בקיעה" </th> -->
+            <td class="text-truncate row_padding">
+              <p></p>
+            </td>
 
-        <ngx-datatable-column name="הפרש ימי שיווק בקיעה" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'"></div>
-          </ng-template>
-        </ngx-datatable-column>
+            <!-- <th scope="col" class="border-top-0">שם קבלן"</th> -->
+            <td class="text-truncate row_padding">
+              <p></p>
+            </td>
 
-        <ngx-datatable-column name="שם קבלן" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'"></div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="אתר" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">אתר איידי</th> -->
+            <td class="text-truncate row_padding">
               {{ row.Atar_Id }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="ID" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">ID /th> -->
+            <td class="text-truncate row_padding">
               {{ row.id_td }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+            </td>
 
-        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
+            <!-- <th scope="col" class="border-top-0">תאריך יצירה" /th> -->
+            <td class="text-truncate row_padding">
               {{ row.date_Creat | date : "dd/MM/yyyy" }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="תאריך יצירה" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div [class]="'text-right'">
-              {{ row.date_Creat | date : "dd/MM/yyyy" }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
-      <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
-        קודם
-      </button>
-      <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
-        הבא
-      </button>
-      <!-- <button>
-        <div [class]="'text-right'">
-          <a [routerLink]="['/dashboard/CertificatesPageComponent']">
-            <p>test</p>
-          </a>
-        </div>
-      </button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-pages">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="btn btn-warning"
+          style="margin: 15px !important; font-size: 25px !important"
+        >
+          קודם
+        </button>
+        <button
+          class="btn btn-warning"
+          style="margin: 15px !important; font-size: 25px !important"
+          (click)="nextPage()"
+          [disabled]="currentPage * itemsPerPage >= data.length"
+        >
+          הבא
+        </button>
+      </div>
     </div>
   </div>
 </form>

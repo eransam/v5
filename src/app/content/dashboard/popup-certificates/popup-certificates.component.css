@@ -15,3 +15,8 @@
   font-size: large !important;
   font-weight: 700 !important;
 }
+
+.btn-pages {
+  display: flex;
+  justify-content: center;
+}
