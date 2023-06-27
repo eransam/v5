@@ -614,7 +614,8 @@ export class EcommerceComponent implements OnInit {
       }
     }
     // הוספת שדה איכלוס 750- סיום
-
+    this.Active_FarmDetails = [];
+    this.Not_Active_FarmDetails = [];
     for (let item of this.FarmDetails) {
       if (item.farm_status_id === 1) {
         this.Active_FarmDetails.push(item);
