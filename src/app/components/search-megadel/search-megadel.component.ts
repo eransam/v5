@@ -833,7 +833,7 @@ export class SearchMegadelComponent implements OnInit {
                 '',
                 '%',
                 0,
-                '20,27',
+                '17,18,19,20,21,22,23,25,26,27,28',
                 item.v_yzrn,
                 99
               );

@@ -435,16 +435,16 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].v_yzrn,
           99
         );
-      this.length_of_total_site = this.siteName.length - 1;
+      this.length_of_total_site = this.siteName.length;
       console.log(this.siteName);
-      this.new_Small_Array = await this.siteName.slice(0, 3);
-      await this.siteName.splice(0, 3);
+      //   this.new_Small_Array = await this.siteName.slice(0, 3);
+      //   await this.siteName.splice(0, 3);
 
       localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
       if (this.siteName.length > 0) {
         // FarmId חילוץ - חילוץ איידי של כל אתר
-        this.FarmId = await this.getFarmIdArr(this.new_Small_Array);
+        this.FarmId = await this.getFarmIdArr(this.siteName);
         console.log('this.FarmId-end: ', this.FarmId);
 
         // חילוץ פרטי אתרים עי הפארם איידי של היצרן
@@ -530,6 +530,16 @@ export class EcommerceComponent implements OnInit {
       }
       // הוספת שדה איכלוס 750- סיום
 
+      this.FarmDetails.sort((a, b) => {
+        if (a.farm_code < b.farm_code) {
+          return -1;
+        } else if (a.farm_code > b.farm_code) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
       for (let item of this.FarmDetails) {
         if (item.farm_status_id === 1) {
           this.Active_FarmDetails.push(item);
@@ -539,10 +549,29 @@ export class EcommerceComponent implements OnInit {
       }
 
       if (this.Active_FarmDetails.length > 0) {
+        this.Active_FarmDetails.sort((a, b) => {
+          if (a.farm_code < b.farm_code) {
+            return -1;
+          } else if (a.farm_code > b.farm_code) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+
         this.rows = this.Active_FarmDetails;
         this.click_on_show_ActiveSite = true;
         this.click_on_not_show_ActiveSite = false;
       } else {
+        this.Active_FarmDetails.sort((a, b) => {
+          if (a.farm_code < b.farm_code) {
+            return -1;
+          } else if (a.farm_code > b.farm_code) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
         this.rows = this.Active_FarmDetails;
         this.isNotActiveSiteShown = true;
         this.click_on_show_ActiveSite = false;
@@ -613,6 +642,7 @@ export class EcommerceComponent implements OnInit {
         item.calc750 = hiclos750[0]?.calc750;
       }
     }
+
     // הוספת שדה איכלוס 750- סיום
     this.Active_FarmDetails = [];
     this.Not_Active_FarmDetails = [];
@@ -624,11 +654,41 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
+    this.FarmDetails.sort((a, b) => {
+      if (a.farm_code < b.farm_code) {
+        return -1;
+      } else if (a.farm_code > b.farm_code) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
     if (this.Active_FarmDetails.length > 0) {
+      this.Active_FarmDetails.sort((a, b) => {
+        if (a.farm_code < b.farm_code) {
+          return -1;
+        } else if (a.farm_code > b.farm_code) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
       this.rows = this.Active_FarmDetails;
       this.click_on_show_ActiveSite = true;
       this.click_on_not_show_ActiveSite = false;
     } else {
+      this.Active_FarmDetails.sort((a, b) => {
+        if (a.farm_code < b.farm_code) {
+          return -1;
+        } else if (a.farm_code > b.farm_code) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
       this.rows = this.Active_FarmDetails;
       this.isNotActiveSiteShown = true;
       this.click_on_show_ActiveSite = false;
@@ -638,6 +698,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   async sort_site_by_shloha() {
+    this.categorizedArrays = {};
     this.FarmDetails.sort((a, b) =>
       a.belonging_group_id > b.belonging_group_id ? 1 : -1
     );
@@ -766,8 +827,10 @@ export class EcommerceComponent implements OnInit {
     this.click_on_not_show_ActiveSite = false;
     this.click_on_show_ActiveSite = false;
     this.selectedCategory = category;
-    const value = this.categorizedArrays[category];
+    var value = [];
+    value = this.categorizedArrays[category];
     this.rows = value;
+    console.log('s');
   }
 
   show_ActiveSite() {
