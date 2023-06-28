@@ -11,6 +11,22 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Tz_By_Yzrn(
+    order: any,
+    start_yzrn: any,
+    start_year: any,
+    start_tz: any,
+    start_sg_mcsa: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Tz_By_Yzrn?order=${order}&start_yzrn=${start_yzrn}&start_year=${start_year}&start_tz=${start_tz}&start_sg_mcsa=${start_sg_mcsa}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Mdgrot_Teuda(
     Order: any,
     start_yzrn: any,

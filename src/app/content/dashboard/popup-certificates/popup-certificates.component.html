@@ -87,8 +87,11 @@
       <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
         שלוחה:
         <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
-          <option *ngFor="let obj of this.grower_extention_name" [value]="obj">
-            {{ obj }}
+          <option
+            *ngFor="let obj of this.shlohot_cartificate"
+            [value]="obj.code"
+          >
+            {{ obj.name }}
           </option>
         </select>
       </div>
@@ -174,7 +177,8 @@
 
             <!-- <th scope="col" class="border-top-0">תאריך </th> -->
             <td class="text-truncate row_padding">
-              {{ row.td_date | date : "dd/MM/yyyy" }}
+              <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
+              {{ row.td_date }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">כמות </th> -->
@@ -236,7 +240,8 @@
 
             <!-- <th scope="col" class="border-top-0">תאריך יצירה" /th> -->
             <td class="text-truncate row_padding">
-              {{ row.date_Creat | date : "dd/MM/yyyy" }}
+              <!-- {{ row.date_Creat | date : "dd/MM/yyyy" }} -->
+              {{ row.date_Creat }}
             </td>
           </tr>
         </tbody>

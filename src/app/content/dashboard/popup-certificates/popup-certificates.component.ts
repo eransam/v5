@@ -39,7 +39,7 @@ export class PopupCertificatesComponent {
   chosenSiteControl = new FormControl();
   chosenShlohaControl = new FormControl();
   isLoading_FarmDetails = false;
-
+  chosenyear_cartificate: any = '2023';
   chosenYear: any = '';
   years = ['2020', '2021', '2022', '2023'];
   siteName: any[] = [];
@@ -56,7 +56,8 @@ export class PopupCertificatesComponent {
   endDateControl_placeHolder: any = '20231231';
   grower_extention: any[] = [];
   grower_extention_name: any[] = [];
-
+  growerDet: any[] = [];
+  shlohot_cartificate: any[] = [];
   initialEndDate: any;
   chosenYear_placeHolder: any = 'בחר שנה';
 
@@ -83,12 +84,23 @@ export class PopupCertificatesComponent {
 
   async ngOnInit() {
     // this.initialEndDate = this.endDate;
+    this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
+
+    console.log('growerDet');
 
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
     for (let obj of this.grower_extention) {
       this.grower_extention_name.push(this.getCategoryLabel(obj));
     }
+
+    this.shlohot_cartificate = await this.megadelSearchService.Tz_By_Yzrn(
+      1,
+      this.growerDet[0].v_yzrn,
+      this.chosenyear_cartificate,
+      '',
+      ''
+    );
 
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
@@ -205,9 +217,6 @@ export class PopupCertificatesComponent {
     } else {
       if (this.chosenShlohaControl.value) {
         this.theChosenShlohaControl = this.chosenShlohaControl.value;
-        this.theChosenShlohaControl = this.getCategoryKey(
-          this.theChosenShlohaControl
-        );
       } else {
         this.theChosenShlohaControl = '30';
       }
@@ -215,14 +224,6 @@ export class PopupCertificatesComponent {
       if (this.theChosenShlohaControl === '20') {
         this.theChosenShlohaControl = '30';
       } else {
-        const shloha_Maaravi =
-          await this.megadelSearchService.convert_shlohaOshik_to_shlohaMaaravi(
-            this.theChosenShlohaControl
-          );
-        const tbCodeValues = shloha_Maaravi.map((obj) => obj.tb_code);
-        const tbCodeString = tbCodeValues.join(',');
-        this.theChosenShlohaControl = tbCodeString;
-        console.log(this.theChosenShlohaControl);
       }
     }
 
@@ -310,24 +311,115 @@ export class PopupCertificatesComponent {
       }
     }
 
-    this.certificates_by_grewernum =
-      await this.megadelSearchService.Teuda_Select_New(
-        1,
-        this.theChosenYearControl,
-        this.theChosenShlohaControl,
-        this.userDetails[0]?.v_yzrn,
-        this.theStartDate,
-        this.theEndDateControl,
-        0,
-        this.theChosenSiteControl
-      );
-    console.log(
-      'this.certificates_by_grewernum: ',
-      this.certificates_by_grewernum
-    );
+    if (
+      (parseInt(this.theChosenShlohaControl) >= 39 &&
+        parseInt(this.theChosenShlohaControl) < 45) ||
+      (parseInt(this.theChosenShlohaControl) >= 89 &&
+        parseInt(this.theChosenShlohaControl) < 94) ||
+      (parseInt(this.theChosenShlohaControl) >= 39 &&
+        parseInt(this.theChosenShlohaControl) <= 45) ||
+      parseInt(this.theChosenShlohaControl) === 47
+    ) {
+      this.certificates_by_grewernum =
+        await this.megadelSearchService.Mdgrot_Teuda(
+          3,
+          this.userDetails[0]?.v_yzrn,
+          this.theChosenShlohaControl,
+          this.theChosenYearControl,
+          this.theStartDate,
+          this.theEndDateControl,
+          0
+        );
 
-    this.data = this.certificates_by_grewernum;
-    this.isLoading_FarmDetails = false;
+      this.data = this.certificates_by_grewernum;
+      this.isLoading_FarmDetails = false;
+    } else {
+      if (
+        parseInt(this.theChosenShlohaControl) === 30 ||
+        parseInt(this.theChosenShlohaControl) === 31 ||
+        parseInt(this.theChosenShlohaControl) === 1 ||
+        parseInt(this.theChosenShlohaControl) === 10 ||
+        parseInt(this.theChosenShlohaControl) === 80
+      ) {
+        this.certificates_by_grewernum =
+          await this.megadelSearchService.Teuda_Select_New(
+            1,
+            this.theChosenYearControl,
+            this.theChosenShlohaControl,
+            this.userDetails[0]?.v_yzrn,
+            this.theStartDate,
+            this.theEndDateControl,
+            0,
+            this.theChosenSiteControl
+          );
+
+        this.data = this.certificates_by_grewernum;
+        this.isLoading_FarmDetails = false;
+      } else {
+        if (
+          parseInt(this.theChosenShlohaControl) > 19 &&
+          parseInt(this.theChosenShlohaControl) < 30
+        ) {
+          this.certificates_by_grewernum =
+            await this.megadelSearchService.Mdgrot_Teuda(
+              1,
+              this.userDetails[0]?.v_yzrn,
+              this.theChosenShlohaControl,
+              this.theChosenYearControl,
+              this.theStartDate,
+              this.theEndDateControl,
+              0
+            );
+
+          this.data = this.certificates_by_grewernum;
+          this.isLoading_FarmDetails = false;
+        } else {
+          if (
+            (this.theChosenShlohaControl >= 45 &&
+              this.theChosenShlohaControl < 50) ||
+            this.theChosenShlohaControl === 53 ||
+            this.theChosenShlohaControl === 56 ||
+            this.theChosenShlohaControl === 57 ||
+            this.theChosenShlohaControl === 59
+          ) {
+            if (
+              this.theChosenShlohaControl === 46 ||
+              this.theChosenShlohaControl === 45 ||
+              this.theChosenShlohaControl === 57
+            ) {
+              this.certificates_by_grewernum =
+                await this.megadelSearchService.Pargit_Teuda(
+                  5,
+                  this.userDetails[0]?.v_yzrn,
+                  this.theChosenShlohaControl,
+                  this.theChosenYearControl,
+                  this.theStartDate,
+                  this.theEndDateControl,
+                  0
+                );
+
+              this.data = this.certificates_by_grewernum;
+              this.isLoading_FarmDetails = false;
+            } else {
+              this.certificates_by_grewernum =
+                await this.megadelSearchService.Pargit_Teuda(
+                  1,
+                  this.userDetails[0]?.v_yzrn,
+                  this.theChosenShlohaControl,
+                  this.theChosenYearControl,
+                  this.theStartDate,
+                  this.theEndDateControl,
+                  0
+                );
+
+              this.data = this.certificates_by_grewernum;
+              this.isLoading_FarmDetails = false;
+            }
+          }
+        }
+      }
+    }
+
     // this.startDateControl.setValue(null); // Set the value to null
     // this.endDateControl.setValue(null); // Set the value to null
     // this.chosenYearControl.setValue(null); // Set the value to null
