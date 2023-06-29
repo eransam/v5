@@ -31,6 +31,7 @@ import { PopupCertificatesComponent } from './popup-certificates/popup-certifica
 import { ReactiveFormsModule } from '@angular/forms';
 import { PopupGrowerCardComponent } from './popup-grower-card/popup-grower-card.component';
 import { CertificatesPageComponent } from './certificates-page/certificates-page.component';
+import { PopupRavShnatiComponent } from './popup-rav-shnati/popup-rav-shnati.component';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { CertificatesPageComponent } from './certificates-page/certificates-page
     PopupCertificatesComponent,
     PopupGrowerCardComponent,
     CertificatesPageComponent,
+    PopupRavShnatiComponent,
   ],
 
   exports: [RouterModule],

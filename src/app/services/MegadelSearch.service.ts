@@ -11,6 +11,58 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Tables_Select_New(
+    order: any,
+    start_prefix: any,
+    start_code: any,
+    start_Year: any,
+    start_Tzrt: any,
+    start_Yzrn: any,
+    start_Status: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Tables_Select_New?order=${order}&start_prefix=${start_prefix}&start_code=${start_code}&start_Year=${start_Year}&start_Tzrt=${start_Tzrt}&start_Yzrn=${start_Yzrn}&start_Status=${start_Status}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  //   רב שנתי
+  async Bizua_Rav_Shnati_Scr(
+    YearCrnt: any,
+    YearBack: any,
+    Toz: any,
+    SvkDateFrom: any,
+    SvkDateTo: any,
+    Ezorfrom: any,
+    Ezorto: any,
+    YzrnFrom: any,
+    YzrnTo: any,
+    xsl: any,
+    Yr1: any,
+    Yr2: any,
+    Yr3: any,
+    Yr4: any,
+    Efr_Ptm: any,
+    Sug_Tslm: any,
+    atar_code: any,
+    show_svk_cdgdl: any,
+    SvkDateFrom_Rel: any,
+    SvkDateTo_Rel: any,
+    job: any,
+    ShowAhzBza: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Bizua_Rav_Shnati_Scr?YearCrnt=${YearCrnt}&YearBack=${YearBack}&Toz=${Toz}&SvkDateFrom=${SvkDateFrom}&SvkDateTo=${SvkDateTo}&Ezorfrom=${Ezorfrom}&Ezorto=${Ezorto}&YzrnFrom=${YzrnFrom}&YzrnTo=${YzrnTo}&xsl=${xsl}&Yr1=${Yr1}&Yr2=${Yr2}&Yr3=${Yr3}&Yr4=${Yr4}&Efr_Ptm=${Efr_Ptm}&Sug_Tslm=${Sug_Tslm}&atar_code=${atar_code}&show_svk_cdgdl=${show_svk_cdgdl}&SvkDateFrom_Rel=${SvkDateFrom_Rel}&SvkDateTo_Rel=${SvkDateTo_Rel}&job=${job}&ShowAhzBza=${ShowAhzBza}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Tz_By_Yzrn(
     order: any,
     start_yzrn: any,

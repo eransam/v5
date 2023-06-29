@@ -42,6 +42,7 @@ import { PopupGrowerCardComponent } from '../popup-grower-card/popup-grower-card
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OnDestroy } from '@angular/core';
+import { PopupRavShnatiComponent } from '../popup-rav-shnati/popup-rav-shnati.component';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
@@ -150,6 +151,8 @@ export class EcommerceComponent implements OnInit {
   public click_on_show_ActiveSite: boolean = true;
   public click_on_not_show_ActiveSite: boolean = false;
   certificates_by_grewernum: any[] = [];
+  rav_shnati_det: any[] = [];
+
   growerCard: any[] = [];
   Get_McsKvua_shloha_30: any[] = [];
   categorizedArrays: any = {};
@@ -767,6 +770,38 @@ export class EcommerceComponent implements OnInit {
 
     this.openPopup_certificates();
   }
+
+  // רב שנתי
+  async shows_rav_shnati() {
+    this.sort_site_by_shloha();
+
+    this.rav_shnati_det = await this.megadelSearchService.Bizua_Rav_Shnati_Scr(
+      this.chosenYear,
+      7,
+      this.shloha,
+      '20230101',
+      '20231231',
+      '00',
+      '99',
+      this.userDetails[0]?.v_yzrn,
+      this.userDetails[0]?.v_yzrn,
+      '2',
+      2019,
+      2020,
+      2021,
+      2022,
+      0,
+      '00',
+      0,
+      1,
+      '',
+      '',
+      '',
+      0
+    );
+    this.openPopup_rav_shnati();
+  }
+
   // Component class
 
   getCategoryLabel(key: string): string {
@@ -1425,6 +1460,16 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.panelClass = 'openPopup_grower_cart-dialog';
     dialogConfig.data = data;
     const dialogRef = this.dialog.open(PopupGrowerCardComponent, dialogConfig);
+  }
+
+  openPopup_rav_shnati() {
+    this.rav_shnati_det.push({
+      grower_Extensions: this.keys_of_categorizedArrays,
+    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    dialogConfig.data = this.rav_shnati_det;
+    const dialogRef = this.dialog.open(PopupRavShnatiComponent, dialogConfig);
   }
 
   openPopup_certificates() {

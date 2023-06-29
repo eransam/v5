@@ -16,11 +16,11 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
 @Component({
-  selector: 'app-popup-certificates',
-  templateUrl: './popup-certificates.component.html',
-  styleUrls: ['./popup-certificates.component.css'],
+  selector: 'app-popup-rav-shnati',
+  templateUrl: './popup-rav-shnati.component.html',
+  styleUrls: ['./popup-rav-shnati.component.css'],
 })
-export class PopupCertificatesComponent {
+export class PopupRavShnatiComponent {
   userTypeID;
   certificateSum = 0;
   startDate: Date;
@@ -38,17 +38,22 @@ export class PopupCertificatesComponent {
   startDateControl = new FormControl();
   endDateControl = new FormControl();
   chosenYearControl = new FormControl();
+  rav_shnati_payControl = new FormControl();
   chosenSiteControl = new FormControl();
   chosenShlohaControl = new FormControl();
   isLoading_FarmDetails = false;
   chosenyear_cartificate: any = '2023';
   chosenYear: any = '';
+  rav_shnati_pay: any = '';
+
   years = ['2020', '2021', '2022', '2023'];
   siteName: any[] = [];
   userDetails: any[] = [];
   chosenSite: any = 0;
   chosenShloha: any = 0;
   certificates_by_grewernum: any[] = [];
+  rav_shnati_det: any[] = [];
+  rav_shnati_tashlom: any[] = [];
   theStartDate: any = '';
   theEndDateControl: any = '';
   theChosenSiteControl: any = 0;
@@ -62,7 +67,7 @@ export class PopupCertificatesComponent {
   shlohot_cartificate: any[] = [];
   initialEndDate: any;
   chosenYear_placeHolder: any = 'בחר שנה';
-
+  theUserDet: any[] = [];
   public currentPage: number = 1; // Current page number
   public rowsPerPage: number = 20; // Number of rows per page
   itemsPerPage = 20;
@@ -86,6 +91,10 @@ export class PopupCertificatesComponent {
   }
 
   async ngOnInit() {
+    if (localStorage.getItem('theDetails')) {
+      this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
+    }
+
     // this.initialEndDate = this.endDate;
     this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
 
@@ -216,11 +225,10 @@ export class PopupCertificatesComponent {
 
   async add() {
     this.isLoading_FarmDetails = true;
-    console.log('startDateControl: ', this.startDateControl.value);
-    console.log('siteControl: ', this.endDateControl.value);
     console.log('chosenYearControl: ', this.chosenYearControl.value);
     console.log('chosenSiteControl: ', this.chosenSiteControl.value);
     console.log('chosenShlohaControl: ', this.chosenShlohaControl.value);
+    console.log('rav_shnati_payControl: ', this.rav_shnati_payControl.value);
 
     // chosenShlohaControl
     if (this.chosenShlohaControl.value === 0) {
@@ -252,65 +260,6 @@ export class PopupCertificatesComponent {
 
     this.chosenYear_placeHolder = await this.theChosenYearControl;
 
-    //   this.theStartDate
-    if (this.startDateControl?.value) {
-      this.theStartDate = this.startDateControl.value;
-
-      this.theStartDate.year = this.theStartDate.year.toString();
-      if (parseInt(this.theStartDate.month, 10) <= 9) {
-        this.theStartDate.month = '0' + this.theStartDate.month.toString();
-      } else {
-        this.theStartDate.month = this.theStartDate.month.toString();
-      }
-      this.theStartDate.month = await this.theStartDate.month.slice(-2);
-
-      if (this.theStartDate.day <= 9) {
-        this.theStartDate.day = '0' + this.theStartDate.day.toString();
-      } else {
-        this.theStartDate.day = this.theStartDate.day.toString();
-      }
-      this.theStartDate.day = await this.theStartDate.day.slice(-2);
-
-      this.theStartDate =
-        this.theStartDate.year.toString() +
-        this.theStartDate.month +
-        this.theStartDate.day;
-    } else {
-      this.theStartDate = `${this.chosenYearControl.value}0101`;
-    }
-
-    this.startDateControl_placeHolder = await this.theStartDate;
-
-    //   this.theEndDateControl
-    if (this.endDateControl.value) {
-      this.theEndDateControl = this.endDateControl.value;
-
-      if (this.theEndDateControl.month.length <= 9) {
-        this.theEndDateControl.month =
-          '0' + this.theEndDateControl.month.toString();
-      } else {
-        this.theEndDateControl.month = this.theEndDateControl.month.toString();
-      }
-      this.theEndDateControl.month = await this.theEndDateControl.month.slice(
-        -2
-      );
-
-      if (this.theEndDateControl.day <= 9) {
-        this.theEndDateControl.day =
-          '0' + this.theEndDateControl.day.toString();
-      } else {
-        this.theEndDateControl.day = this.theEndDateControl.day.toString();
-      }
-      this.theEndDateControl.day = await this.theEndDateControl.day.slice(-2);
-      this.theEndDateControl =
-        this.theEndDateControl.year.toString() +
-        this.theEndDateControl.month +
-        this.theEndDateControl.day;
-    } else {
-      this.theEndDateControl = `${this.chosenYearControl.value}1231`;
-    }
-    this.endDateControl_placeHolder = await this.theEndDateControl;
-
     //  this.theChosenSiteControl
     this.theChosenSiteControl = this.chosenSiteControl.value;
 
@@ -322,119 +271,45 @@ export class PopupCertificatesComponent {
       }
     }
 
-    if (
-      (parseInt(this.theChosenShlohaControl) >= 39 &&
-        parseInt(this.theChosenShlohaControl) < 45) ||
-      (parseInt(this.theChosenShlohaControl) >= 89 &&
-        parseInt(this.theChosenShlohaControl) < 94) ||
-      (parseInt(this.theChosenShlohaControl) >= 39 &&
-        parseInt(this.theChosenShlohaControl) <= 45) ||
-      parseInt(this.theChosenShlohaControl) === 47
-    ) {
-      this.certificates_by_grewernum =
-        await this.megadelSearchService.Mdgrot_Teuda(
-          3,
-          this.userDetails[0]?.v_yzrn,
-          this.theChosenShlohaControl,
-          this.theChosenYearControl,
-          this.theStartDate,
-          this.theEndDateControl,
-          0
-        );
+    this.rav_shnati_det = await this.megadelSearchService.Bizua_Rav_Shnati_Scr(
+      this.theChosenYearControl,
+      7,
+      this.theChosenShlohaControl,
+      `${this.theChosenYearControl}0101`,
+      `${this.theChosenYearControl}1231`,
+      '00',
+      '99',
+      this.userDetails[0]?.v_yzrn,
+      this.userDetails[0]?.v_yzrn,
+      '2',
+      parseInt(this.theChosenYearControl) - 1,
+      parseInt(this.theChosenYearControl) - 2,
+      parseInt(this.theChosenYearControl) - 3,
+      parseInt(this.theChosenYearControl) - 4,
+      0,
+      '00',
+      this.theChosenSiteControl,
+      1,
+      '',
+      '',
+      '',
+      0
+    );
 
-      this.data = this.certificates_by_grewernum;
-      this.isLoading_FarmDetails = false;
-    } else {
-      if (
-        parseInt(this.theChosenShlohaControl) === 30 ||
-        parseInt(this.theChosenShlohaControl) === 31 ||
-        parseInt(this.theChosenShlohaControl) === 1 ||
-        parseInt(this.theChosenShlohaControl) === 10 ||
-        parseInt(this.theChosenShlohaControl) === 11 ||
-        parseInt(this.theChosenShlohaControl) === 80
-      ) {
-        this.certificates_by_grewernum =
-          await this.megadelSearchService.Teuda_Select_New(
-            1,
-            this.theChosenYearControl,
-            this.theChosenShlohaControl,
-            this.userDetails[0]?.v_yzrn,
-            this.theStartDate,
-            this.theEndDateControl,
-            0,
-            this.theChosenSiteControl
-          );
+    this.data = this.rav_shnati_det;
+    this.isLoading_FarmDetails = false;
+  }
 
-        this.data = this.certificates_by_grewernum;
-        this.isLoading_FarmDetails = false;
-      } else {
-        if (
-          parseInt(this.theChosenShlohaControl) > 19 &&
-          parseInt(this.theChosenShlohaControl) < 30
-        ) {
-          this.certificates_by_grewernum =
-            await this.megadelSearchService.Mdgrot_Teuda(
-              1,
-              this.userDetails[0]?.v_yzrn,
-              this.theChosenShlohaControl,
-              this.theChosenYearControl,
-              this.theStartDate,
-              this.theEndDateControl,
-              0
-            );
-
-          this.data = this.certificates_by_grewernum;
-          this.isLoading_FarmDetails = false;
-        } else {
-          if (
-            (this.theChosenShlohaControl >= 45 &&
-              this.theChosenShlohaControl < 50) ||
-            this.theChosenShlohaControl === 53 ||
-            this.theChosenShlohaControl === 56 ||
-            this.theChosenShlohaControl === 57 ||
-            this.theChosenShlohaControl === 59
-          ) {
-            if (
-              this.theChosenShlohaControl === 46 ||
-              this.theChosenShlohaControl === 45 ||
-              this.theChosenShlohaControl === 57
-            ) {
-              this.certificates_by_grewernum =
-                await this.megadelSearchService.Pargit_Teuda(
-                  5,
-                  this.userDetails[0]?.v_yzrn,
-                  this.theChosenShlohaControl,
-                  this.theChosenYearControl,
-                  this.theStartDate,
-                  this.theEndDateControl,
-                  0
-                );
-
-              this.data = this.certificates_by_grewernum;
-              this.isLoading_FarmDetails = false;
-            } else {
-              this.certificates_by_grewernum =
-                await this.megadelSearchService.Pargit_Teuda(
-                  1,
-                  this.userDetails[0]?.v_yzrn,
-                  this.theChosenShlohaControl,
-                  this.theChosenYearControl,
-                  this.theStartDate,
-                  this.theEndDateControl,
-                  0
-                );
-
-              this.data = this.certificates_by_grewernum;
-              this.isLoading_FarmDetails = false;
-            }
-          }
-        }
-      }
-    }
-
-    // this.startDateControl.setValue(null); // Set the value to null
-    // this.endDateControl.setValue(null); // Set the value to null
-    // this.chosenYearControl.setValue(null); // Set the value to null
-    // this.chosenSiteControl.setValue(null); // Set the value to null
+  async get_pay_option() {
+    this.rav_shnati_tashlom = await this.megadelSearchService.Tables_Select_New(
+      78,
+      'SMHR',
+      '%',
+      0,
+      ' ',
+      ' ',
+      99
+    );
+    console.log('Df');
   }
 }

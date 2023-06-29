@@ -1,0 +1,123 @@
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 300px;
+  height: 300px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
+}
+
+.mainTableClass a {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  font-size: large !important;
+  font-weight: 700 !important;
+}
+
+.btn-pages {
+  display: flex;
+  justify-content: center;
+}
+
+.the_res_table > td {
+  border: solid #cecece 0.1px;
+  padding: 2px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.the_tatle_res_table > th {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.mainTableClass {
+  font-weight: bold;
+  font-size: 18px !important;
+  width: 100% !important;
+}
+
+.mainTableClass table {
+  direction: rtl;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mainTableClass th {
+  background-color: #3498db;
+  color: #333;
+  padding: 10px;
+}
+
+.mainTableClass td {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+}
+
+.mainTableClass .green-background {
+  background-color: #a4e7a6 !important;
+}
+
+.mainTableClass .red-background {
+  background-color: #ff8e8e !important;
+}
+
+.mainTableClass a {
+  color: #333;
+  text-decoration: none;
+}
+
+.btn-pages button {
+  background-color: #3498db;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 15px !important;
+  transition: background-color 0.3s ease;
+}
+
+.btn-pages button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-pages button:hover {
+  background-color: #3498db;
+}
+
+.btn-pages button:active {
+  background-color: #3498db;
+}
+
+.importBth_div {
+  display: flex;
+}
+.importBth_div > * {
+  margin-left: 10px;
+}
+.userDetDiv {
+  display: flex;
+  /* justify-content: space-between; */
+  margin: 15px;
+}
+
+.userDetDiv {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 15px;
+}
+
+.userDetDiv p {
+  /* margin: 10px 0; */
+  margin-left: 15px;
+}

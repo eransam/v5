@@ -1,0 +1,232 @@
+<div class="userDetDiv">
+  <div style="margin-left: 30px; display: flex">
+    <p class="userDetLabel">שם:</p>
+    <p class="userDetValue">{{ theUserDet[0]?.v_shem_yzrn }}</p>
+  </div>
+
+  <div style="margin-left: 30px; display: flex">
+    <p class="userDetLabel">מס מגדל:</p>
+    <p class="userDetValue">{{ theUserDet[0]?.v_yzrn }}</p>
+  </div>
+
+  <div style="margin-left: 30px; display: flex">
+    <p class="userDetLabel">כתובת:</p>
+    <p class="userDetValue">{{ theUserDet[0]?.v_shem_yeshuv }}</p>
+  </div>
+</div>
+
+<form
+  class="form form-horizontal row-separator"
+  (ngSubmit)="add()"
+  [formGroup]="DetailsForm"
+  (keyup.enter)="add()"
+>
+  <div class="form-body text-right">
+    <div class="row" style="margin-top: 40px">
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        סוג תשלום:
+        <select
+          (click)="get_pay_option()"
+          [(ngModel)]="rav_shnati_pay"
+          [formControl]="rav_shnati_payControl"
+        >
+          <option *ngFor="let obj of rav_shnati_tashlom" [value]="obj.tb_code">
+            {{ obj.tb_code }} - {{ obj.tb_name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר שנה -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        שנת עיבוד:
+        <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
+          <option *ngFor="let year of years" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר אתר -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        אתר:
+        <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
+          <option *ngFor="let obj of this.siteName" [value]="obj.code">
+            {{ obj.code }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר שלוחה -->
+      <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+        שלוחה:
+        <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
+          <option
+            *ngFor="let obj of this.shlohot_cartificate"
+            [value]="obj.code"
+          >
+            {{ obj.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-1" style="">
+        <button
+          class="btn btn-warning"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+          "
+          type="submit"
+        >
+          חפש
+        </button>
+      </div>
+      <!--EXEL כפתור-->
+      <div class="importBth">
+        <div class="justify-content importBth_div">
+          <img
+            style="height: 35px; margin-right: 10px"
+            class=""
+            src="assets/images/logo/excel.png"
+            alt="Image"
+            (click)="getExcelDataFarmDetails()"
+          />
+          <p>({{ this.data.length }})</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+    <div
+      *ngIf="!isLoading_FarmDetails"
+      class="mainTableClass"
+      style="
+        font-weight: bold;
+        font-size: 18px !important;
+        width: 100% !important;
+      "
+    >
+      <table class="" style="direction: rtl; width: 100%">
+        <thead class="detailsTable">
+          <tr class="the_tatle_res_table">
+            <th scope="col" class="border-top-0">שנה</th>
+            <th scope="col" class="border-top-0">שיווק</th>
+
+            <th scope="col" class="border-top-0">מכסת תשלום</th>
+            <th scope="col" class="border-top-0">מכסה קבועה</th>
+            <th scope="col" class="border-top-0">תוספת מכסה ארצית</th>
+            <th scope="col" class="border-top-0">תוספת תקנה 7</th>
+            <th scope="col" class="border-top-0">סוג תוספת 7</th>
+            <th scope="col" class="border-top-0">תוספת אורגני 9</th>
+            <th scope="col" class="border-top-0">תוספת תקנה 10 5</th>
+            <th scope="col" class="border-top-0">הקצאת ממשלה 12</th>
+            <th scope="col" class="border-top-0">העברת מכסה</th>
+            <th scope="col" class="border-top-0">שינוי שם</th>
+            <th scope="col" class="border-top-0">כמות שולם</th>
+            <th scope="col" class="border-top-0">תשלום</th>
+            <th scope="col" class="border-top-0">חלף</th>
+            <th scope="col" class="border-top-0">השבתה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="the_res_table"
+            *ngFor="let row of data"
+            [class.green-background]="activeColor"
+            [class.red-background]="notActiveColor"
+          >
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Yearmcs }}</a>
+            </td>
+
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.TotBza }}</a>
+            </td>
+
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.TotMcs11_4 }}</a
+              >
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.TotMcs1_3 }}</a
+              >
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Mcs2tos }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.TotBza }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Mcs7tos }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.Mcs7Sugtos }}</a
+              >
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Mcs9tos }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Mcs10tos }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Mcs12tos }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.Mcs3hvr }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.ch1 }}</a>
+            </td>
+
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.camshulam }}</a
+              >
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.tashlum }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.helef }}</a>
+            </td>
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.hsbt }}</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-pages">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="btn btn-warning"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+          "
+        >
+          קודם
+        </button>
+        <button
+          class="btn btn-warning"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+          "
+          (click)="nextPage()"
+          [disabled]="currentPage * itemsPerPage >= data.length"
+        >
+          הבא
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
