@@ -27,72 +27,72 @@
 }
 
 .testpop {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 9999;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  100% {
     transform: translate(-50%, -50%);
-    background-color: #ffe082;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 9999;
-    overflow: hidden;
-    animation: slideIn 0.3s ease-out;
   }
+}
 
-  @keyframes slideIn {
-    0% {
-      transform: translate(-50%, -100%);
-    }
-    100% {
-      transform: translate(-50%, -50%);
-    }
-  }
+.testpop table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  .testpop table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+.testpop thead tr {
+  background-color: #446bff;
+  color: #fff;
+  font-weight: bold;
+}
 
-  .testpop thead tr {
-    background-color: #000000;
-    color: #fff;
-    font-weight: bold;
-  }
+.testpop thead td {
+  padding: 10px;
+  text-align: right;
+  vertical-align: middle;
+}
 
-  .testpop thead td {
-    padding: 10px;
-    text-align: right;
-    vertical-align: middle;
-  }
+.testpop thead td button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+}
 
-  .testpop thead td button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-    color: #fff;
-  }
+.testpop thead td button:hover {
+  color: #ffffff;
+}
 
-  .testpop thead td button:hover {
-    color: #fff000;
-  }
+.testpop tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
 
-  .testpop tbody tr:nth-child(odd) {
-    background-color: #ffe082;
-  }
+.testpop tbody tr:hover {
+  background-color: #ffffff;
+}
 
-  .testpop tbody tr:hover {
-    background-color: #ffecb3;
-  }
+.testpop tbody td {
+  padding: 15px;
+  color: #333;
+  font-size: 18px;
+  text-align: right;
+}
 
-  .testpop tbody td {
-    padding: 15px;
-    color: #333;
-    font-size: 18px;
-    text-align: right;
-  }
-
-  .no-wrap-test-eran {
-    white-space: nowrap;
-  }
+.no-wrap-test-eran {
+  white-space: nowrap;
+}

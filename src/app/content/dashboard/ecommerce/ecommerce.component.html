@@ -171,13 +171,18 @@
                     style="
                       display: flex;
                       align-items: stretch;
-                      font-size: 16px;
+                      font-size: 25px;
+                      font-weight: bold;
                       margin: auto;
-                      padding-right: 17px;
-                      padding-left: 37%;
+                      /* padding-right: 106px; */
+                      padding-left: 21%;
                     "
                   >
-                    <select [(ngModel)]="chosenYear" (change)="onYearChange()">
+                    <select
+                      [(ngModel)]="chosenYear"
+                      (change)="onYearChange()"
+                      style="width: 200px; height: 60px"
+                    >
                       <option *ngFor="let year of years" [value]="year">
                         {{ year }}
                       </option>
@@ -396,13 +401,9 @@
 
                         <!--  עזבון -->
                         <tr *ngIf="checkIzavon">
-                          <th scope="col" class="border-top-0">
-                            עיזבון
-                            <span style="color: green; font-size: 2rem">
-                              √
-                            </span>
-                          </th>
                           <th
+                            scope="col"
+                            class="border-top-0"
                             scope="col"
                             class="border-top-0"
                             align="left"
@@ -410,7 +411,11 @@
                             (click)="Popup_Izavon()"
                             id="Popup_Izavon"
                           >
-                            <i class="fas fa-angle-left fa-lg"></i>
+                            עיזבון
+                            <span style="color: green; font-size: 2rem">
+                              √
+                              <i class="fas fa-angle-left fa-lg"></i>
+                            </span>
                           </th>
                         </tr>
 
@@ -436,13 +441,9 @@
 
                         <!-- התראה כתובת שונה למגדל-->
                         <tr *ngIf="yzrn_have_other_addr">
-                          <th scope="col" class="border-top-0">
-                            קיים למגדל כתובת מגורים שונה
-                            <span style="color: green; font-size: 2rem">
-                              √
-                            </span>
-                          </th>
                           <th
+                            scope="col"
+                            class="border-top-0"
                             scope="col"
                             class="border-top-0"
                             align="left"
@@ -450,19 +451,19 @@
                             (click)="Popup_Grower_Other_Addr()"
                             id="Popup_Grower_Other_Addr"
                           >
-                            <i class="fas fa-angle-left fa-lg"></i>
+                            קיים למגדל כתובת מגורים שונה
+                            <span style="color: green; font-size: 2rem">
+                              √
+                              <i class="fas fa-angle-left fa-lg"></i>
+                            </span>
                           </th>
                         </tr>
 
                         <!-- התראה שם מגדל ישן-->
                         <tr *ngIf="checkOldGrowerName">
-                          <th scope="col" class="border-top-0">
-                            שם מגדל ישן
-                            <span style="color: green; font-size: 2rem">
-                              √
-                            </span>
-                          </th>
                           <th
+                            scope="col"
+                            class="border-top-0"
                             scope="col"
                             class="border-top-0"
                             align="left"
@@ -470,7 +471,11 @@
                             (click)="Popup_Old_Grower_Name()"
                             id="Popup_Grower_Other_Addr"
                           >
-                            <i class="fas fa-angle-left fa-lg"></i>
+                            שם מגדל ישן
+                            <span style="color: green; font-size: 2rem">
+                              √
+                              <i class="fas fa-angle-left fa-lg"></i>
+                            </span>
                           </th>
                         </tr>
                       </thead>
@@ -1081,7 +1086,7 @@
                             <B>טלפון נוסף</B>
                           </td>
                           <td>
-                            {{ this.userDetails_more_info[0]?.tel }}
+                            {{ this.userDetails_more_info[0]?.v_tel }}
                           </td>
                         </tr>
                         <tr>
@@ -1137,6 +1142,7 @@
                             id="moreInfoBtn"
                           >
                             פרטים נוספים
+                            <i class="fas fa-angle-left fa-lg"></i>
                           </td>
                         </tr>
                       </tbody>
