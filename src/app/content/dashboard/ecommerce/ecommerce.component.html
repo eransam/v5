@@ -162,24 +162,27 @@
           <div class="card pull-up search_by_year">
             <div class="card-content">
               <div class="card-body card_padding">
-                <div class="media d-flex">
-                  <div class="media-body text-left"></div>
-                  <div class="year-select rtl_Style">
-                    שנה:
+                <div class="media d-flex" style="height: 99px">
+                  <div class="media-body text-left">
+                    <!-- Content for the media body -->
+                  </div>
+                  <div
+                    class="year-select rtl_Style"
+                    style="
+                      display: flex;
+                      align-items: stretch;
+                      font-size: 16px;
+                      margin: auto;
+                      padding-right: 17px;
+                      padding-left: 37%;
+                    "
+                  >
                     <select [(ngModel)]="chosenYear" (change)="onYearChange()">
                       <option *ngFor="let year of years" [value]="year">
                         {{ year }}
                       </option>
                     </select>
                   </div>
-                </div>
-                <div class="mb-0 mt-1">
-                  <ngb-progressbar
-                    height="7px"
-                    width="100%"
-                    type="gradient-x-danger"
-                    [value]="85"
-                  ></ngb-progressbar>
                 </div>
               </div>
             </div>
@@ -1009,7 +1012,10 @@
           >
             <ng-container mCardContent>
               <div id="new-orders" class="media-list position-relative">
-                <div class="table-responsive card-micsa">
+                <div
+                  class="table-responsive card-micsa"
+                  style="padding-right: 3%; padding-left: 3%"
+                >
                   <div>
                     <div class="card-header"></div>
                     <h1>פרטי מגדל</h1>
@@ -1226,10 +1232,16 @@
                   </div>
                 </div>
               </div>
- 
 
               <div *ngIf="isLoading_FarmDetails" class="loader"></div>
-              <div *ngIf="!isLoading_FarmDetails">
+              <div
+                *ngIf="!isLoading_FarmDetails"
+                style="
+                  overflow-y: auto !important;
+                  overflow-x: auto !important;
+                  height: 1140px !important;
+                "
+              >
                 <table class="" style="direction: rtl; width: 100%">
                   <thead class="detailsTable">
                     <tr>

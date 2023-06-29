@@ -121,7 +121,7 @@
     >
       <table class="" style="direction: rtl; width: 100%">
         <thead class="detailsTable">
-          <tr>
+          <tr class="the_tatle_res_table">
             <th scope="col" class="border-top-0">תעודה</th>
             <th scope="col" class="border-top-0">אתר</th>
 
@@ -146,6 +146,7 @@
 
         <tbody>
           <tr
+            class="the_res_table"
             *ngFor="let row of paginatedData"
             [class.green-background]="activeColor"
             [class.red-background]="notActiveColor"

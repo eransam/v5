@@ -431,6 +431,11 @@
   width: 300px;
   height: 300px;
   animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 .loader_grower_cart {
@@ -442,6 +447,7 @@
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
+  margin-bottom: 10%;
 }
 
 .logoIngStyle {
@@ -510,6 +516,7 @@
 
 .card-micsa {
   height: 485px !important;
+  padding-right: 1%;
 }
 
 .popup-dialog {
@@ -616,7 +623,7 @@
 }
 
 .search_by_year {
-  height: 113px;
+  height: 132px;
 }
 
 .site_by_shlohot_btn {
@@ -636,4 +643,43 @@
 
 .red-background {
   background-color: #ffebeb;
+}
+
+.media.d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.media-body.text-left {
+  flex: 1;
+  margin-right: 10px;
+  color: #333;
+  font-size: 16px;
+}
+
+.year-select.rtl_Style {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.year-select.rtl_Style select {
+  margin-left: 10px;
+  padding: 5px;
+  border: none;
+  background-color: #555;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.year-select.rtl_Style select option {
+  background-color: #555;
+  color: #fff;
 }

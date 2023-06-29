@@ -19,9 +19,7 @@
   </select>
 </div>
 
-<div class="loader-container" *ngIf="isLoading_userDet">
-  <div class="loader-gif"></div>
-</div>
+<div *ngIf="isLoading_userDet" class="loader-gif" style=""></div>
 
 <div class="table-container" *ngIf="!isLoading_userDet">
   <table class="data-table" dir="rtl">

@@ -429,6 +429,8 @@
   width: 30px;
   height: 30px;
   animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
 }
 
 .logoIngStyle {
