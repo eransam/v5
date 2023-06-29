@@ -5,8 +5,8 @@
   (keyup.enter)="add()"
 >
   <div class="form-body text-right">
-    <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4>
-    <div class="row">
+    <!-- <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4> -->
+    <div class="row" style="margin-top: 40px">
       <!-- date from -->
       <div class="col-md-2">
         <div class="form-group row mx-auto">
@@ -99,15 +99,30 @@
       <div class="col-md-1" style="">
         <button
           class="btn btn-warning"
-          style="margin: 15px !important; font-size: 25px !important"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+          "
           type="submit"
         >
           חפש
         </button>
       </div>
+      <!--EXEL כפתור-->
+      <div class="importBth">
+        <div class="justify-content importBth_div">
+          <img
+            style="height: 35px; margin-right: 10px"
+            class=""
+            src="assets/images/logo/excel.png"
+            alt="Image"
+            (click)="getExcelDataFarmDetails()"
+          />
+          <p>({{ this.data.length }})</p>
+        </div>
+      </div>
     </div>
-
-    <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
 
     <div *ngIf="isLoading_FarmDetails" class="loader"></div>
     <div
@@ -252,13 +267,21 @@
           (click)="previousPage()"
           [disabled]="currentPage === 1"
           class="btn btn-warning"
-          style="margin: 15px !important; font-size: 25px !important"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+          "
         >
           קודם
         </button>
         <button
           class="btn btn-warning"
-          style="margin: 15px !important; font-size: 25px !important"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+          "
           (click)="nextPage()"
           [disabled]="currentPage * itemsPerPage >= data.length"
         >

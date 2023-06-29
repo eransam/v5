@@ -10,6 +10,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { TableexcelService } from '../../../services/tableexcel.service';
+
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
@@ -69,7 +71,8 @@ export class PopupCertificatesComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
     private formBuilder: FormBuilder,
-    private megadelSearchService: MegadelSearchService
+    private megadelSearchService: MegadelSearchService,
+    private tableexcelService: TableexcelService
   ) {
     this.chosenYear = '2023';
     this.chosenSite = 'כולם';
@@ -107,6 +110,14 @@ export class PopupCertificatesComponent {
     this.siteName.push({ RishaionSts: '', code: 'כולם' });
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
+    console.log(this.paginatedData);
+  }
+
+  getExcelDataFarmDetails(): void {
+    this.tableexcelService.exportAsExcelFile(
+      this.paginatedData,
+      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+    );
   }
 
   previousPage() {

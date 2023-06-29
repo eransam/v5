@@ -48,7 +48,7 @@
 }
 
 .mainTableClass th {
-  background-color: #f8d95e;
+  background-color: #3498db;
   color: #333;
   padding: 10px;
 }
@@ -74,7 +74,7 @@
 }
 
 .btn-pages button {
-  background-color: #f8d95e;
+  background-color: #3498db;
   color: #333;
   border: none;
   padding: 10px 20px;
@@ -90,9 +90,16 @@
 }
 
 .btn-pages button:hover {
-  background-color: #ffd33b;
+  background-color: #3498db;
 }
 
 .btn-pages button:active {
-  background-color: #ffc300;
+  background-color: #3498db;
+}
+
+.importBth_div {
+  display: flex;
+}
+.importBth_div > * {
+  margin-left: 10px;
 }
