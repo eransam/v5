@@ -58,6 +58,7 @@ export class PopupRavShnatiComponent {
   theEndDateControl: any = '';
   theChosenSiteControl: any = 0;
   theChosenYearControl: any = 2023;
+  the_rav_shnati_payControl: any = '2';
   theChosenShlohaControl: any = '30';
   startDateControl_placeHolder: any = '20230101';
   endDateControl_placeHolder: any = '20231231';
@@ -82,6 +83,7 @@ export class PopupRavShnatiComponent {
     this.chosenYear = '2023';
     this.chosenSite = 'כולם';
     this.chosenShloha = 'תרנגולות - הטלה';
+    this.rav_shnati_pay = '2';
     // this.initialEndDate = '2023/12/31';
 
     console.log('data in constractor: ', data);
@@ -91,6 +93,7 @@ export class PopupRavShnatiComponent {
   }
 
   async ngOnInit() {
+    this.get_pay_option();
     if (localStorage.getItem('theDetails')) {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
@@ -281,7 +284,7 @@ export class PopupRavShnatiComponent {
       '99',
       this.userDetails[0]?.v_yzrn,
       this.userDetails[0]?.v_yzrn,
-      '2',
+      this.rav_shnati_pay,
       parseInt(this.theChosenYearControl) - 1,
       parseInt(this.theChosenYearControl) - 2,
       parseInt(this.theChosenYearControl) - 3,
