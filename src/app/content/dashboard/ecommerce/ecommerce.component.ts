@@ -188,7 +188,7 @@ export class EcommerceComponent implements OnInit {
     this.Check_v_name_kaful = false;
     this.newArray = [];
     this.newArrayEnd = [];
-
+    this.sort_site_by_shloha();
     this.route2.params.subscribe(async (params) => {
       this.farmID2Fromurl = params['farmid'];
       this.flockID2Fromurl = params['flockid'];
@@ -211,6 +211,8 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_FarmDetails = true;
       this.isLoading_userDet = true;
       this.isLoading_micsot = true;
+
+      this.sort_site_by_shloha();
 
       // Call any necessary functions or perform logic based on the new parameter value
       this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
@@ -453,9 +455,6 @@ export class EcommerceComponent implements OnInit {
         // חילוץ פרטי אתרים עי הפארם איידי של היצרן
         this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
 
-        // מיון המשקים לקבוצות שלוחה
-        // await this.sort_site_by_shloha();
-
         // מכניסים שדה גידול חוץ לפרטי יוזר
         if (
           this.userDetails[0]?.cdgdl.length === 0 ||
@@ -581,7 +580,49 @@ export class EcommerceComponent implements OnInit {
         this.click_on_not_show_ActiveSite = true;
       }
       this.isLoading_FarmDetails = false;
+
+      
+      this.categorizedArrays = {};
+      this.FarmDetails.sort((a, b) =>
+        a.belonging_group_id > b.belonging_group_id ? 1 : -1
+      );
+
+      for (let obj of this.FarmDetails) {
+        const belonging_group_id = obj.belonging_group_id;
+
+        // Check if the category array exists, otherwise create a new one
+        if (!this.categorizedArrays[belonging_group_id]) {
+          this.categorizedArrays[belonging_group_id] = [];
+        }
+
+        // Push the object into the respective category array
+        await this.categorizedArrays[belonging_group_id].push(obj);
+      }
+
+      this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+
+      console.log(this.keys_of_categorizedArrays);
+      
     });
+
+    this.categorizedArrays = {};
+    this.FarmDetails.sort((a, b) =>
+      a.belonging_group_id > b.belonging_group_id ? 1 : -1
+    );
+
+    for (let obj of this.FarmDetails) {
+      const belonging_group_id = obj.belonging_group_id;
+
+      // Check if the category array exists, otherwise create a new one
+      if (!this.categorizedArrays[belonging_group_id]) {
+        this.categorizedArrays[belonging_group_id] = [];
+      }
+
+      // Push the object into the respective category array
+      await this.categorizedArrays[belonging_group_id].push(obj);
+    }
+
+    this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------

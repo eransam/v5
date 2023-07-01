@@ -39,9 +39,7 @@
           </div>
         </div>
         <!-- רב שנתי -->
-        <div class="col-xl-2 col-lg-6 col-12"
-        (click)="shows_rav_shnati()"
-        >
+        <div class="col-xl-2 col-lg-6 col-12" (click)="shows_rav_shnati()">
           <div class="card pull-up">
             <div class="card-content">
               <div class="card-body card_padding">
@@ -1060,6 +1058,9 @@
                                 this.userDetails_more_info[0]?.v_ktovet1
                             }}
                           </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
                         </tr>
 
                         <tr>
@@ -1067,6 +1068,9 @@
                           <td>
                             {{ userDetails_more_info[0]?.v_msk }}
                           </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
                         </tr>
 
                         <tr>
@@ -1077,6 +1081,7 @@
                           <td>
                             {{ this.userDetails_more_info[0]?.v_tel1 }}
                           </td>
+                          <td></td>
                         </tr>
                         <tr>
                           <td><B>ישוב</B></td>
@@ -1090,6 +1095,7 @@
                           <td>
                             {{ this.userDetails_more_info[0]?.v_tel }}
                           </td>
+                          <td></td>
                         </tr>
                         <tr>
                           <td><B>סוג מגדל</B></td>
@@ -1126,6 +1132,7 @@
                           <td>
                             {{ this.userDetails_more_info[0]?.v_Email }}
                           </td>
+                          <td></td>
                         </tr>
 
                         <!-- <tr class="numKannat"></tr> -->
@@ -1135,6 +1142,9 @@
                         >
                           <th>{{ row.NameMsvkExt }}</th>
                           <th>{{ row.YazExtrnl }}</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
                         </tr>
 
                         <tr>
@@ -1146,6 +1156,10 @@
                             פרטים נוספים
                             <i class="fas fa-angle-left fa-lg"></i>
                           </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
                         </tr>
                       </tbody>
                     </table>
@@ -1206,11 +1220,10 @@
                     >
                       ({{ Active_FarmDetails.length }}) פעילים
                     </div>
-
                   </div>
 
                   <div
-                    (click)="this.sort_site_by_shloha()"
+                    *ngIf="keys_of_categorizedArrays.length > 1"
                     style="margin-left: 30px"
                     class="site_by_shlohot_btn"
                   >

@@ -673,13 +673,14 @@
   margin-left: 10px;
   padding: 5px;
   border: none;
-  background-color: #555;
+  background-color: #3498db;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 2px grey;
   cursor: pointer;
 }
 
 .year-select.rtl_Style select option {
-  background-color: #555;
+  background-color: #3498db;
+  border-radius: 2px grey;
   color: #fff;
 }

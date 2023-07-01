@@ -256,17 +256,19 @@
                             </div>
                           </ng-template>
                         </ngx-datatable-column>
-                        all_not_active
                         <ngx-datatable-column
+                          title="This is a tooltip"
                           name="מספר אתר"
                           [flexGrow]="1"
                           [minWidth]="90"
                         >
                           <ng-template
+                            title="This is a tooltip"
                             let-row="row"
                             ngx-datatable-cell-template
                           >
                             <ng-container
+                              title="This is a tooltip"
                               *ngIf="
                                 row.farm_status_id === 1;
                                 else closedTemplate
@@ -291,18 +293,30 @@
                               </div>
                             </ng-container>
                             <ng-template #closedTemplate>
-                              <div [class]="'text-right'">
+                              <div
+                                [class]="'text-right'"
+                                title="This is a tooltip"
+                              >
                                 <a
+                                  title="This is a tooltip"
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
                                     row.yz_IdReal
                                   ]"
                                 >
-                                  <div *ngIf="allInactive">
-                                    <p style="">{{ row.yz_Id }}</p>
+                                  <div
+                                    *ngIf="allInactive"
+                                    title="This is a tooltip"
+                                  >
+                                    <p style="" title="This is a tooltip">
+                                      {{ row.yz_Id }}
+                                    </p>
                                   </div>
-                                  <div *ngIf="!allInactive">
-                                    <p style="">
+                                  <div
+                                    *ngIf="!allInactive"
+                                    title="This is a tooltip"
+                                  >
+                                    <p style="" title="This is a tooltip">
                                       {{ row.yz_Id }}
                                     </p>
                                   </div>

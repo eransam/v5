@@ -103,6 +103,7 @@
             margin: 15px !important;
             font-size: 25px !important;
             background-color: #3498db !important;
+            border: none;
           "
           type="submit"
         >
@@ -194,7 +195,7 @@
             <!-- <th scope="col" class="border-top-0">תאריך </th> -->
             <td class="text-truncate row_padding">
               <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
-              {{ row.td_date }}
+              {{ row.td_date | date : "dd/MM/yyyy" }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">כמות </th> -->
@@ -226,22 +227,22 @@
             </td>
             <!-- <th scope="col" class="border-top-0">בקיעה </th> -->
             <td class="text-truncate row_padding">
-              <p></p>
+              {{ row.td_hanpaka }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">סיום שיווק" </th> -->
             <td class="text-truncate row_padding">
-              <p></p>
+              {{ row.dateupd }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">הפרש ימי שיווק בקיעה" </th> -->
             <td class="text-truncate row_padding">
-              <p></p>
+              {{ row.hanpaka }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">שם קבלן"</th> -->
             <td class="text-truncate row_padding">
-              <p></p>
+              {{ row.pr_kbln_name }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">אתר איידי</th> -->
