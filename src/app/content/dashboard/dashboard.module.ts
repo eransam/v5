@@ -32,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PopupGrowerCardComponent } from './popup-grower-card/popup-grower-card.component';
 import { CertificatesPageComponent } from './certificates-page/certificates-page.component';
 import { PopupRavShnatiComponent } from './popup-rav-shnati/popup-rav-shnati.component';
+import { PopupPaymentComponent } from './popup-payment/popup-payment.component';
 
 @NgModule({
   imports: [
@@ -101,6 +102,7 @@ import { PopupRavShnatiComponent } from './popup-rav-shnati/popup-rav-shnati.com
     PopupGrowerCardComponent,
     CertificatesPageComponent,
     PopupRavShnatiComponent,
+    PopupPaymentComponent,
   ],
 
   exports: [RouterModule],

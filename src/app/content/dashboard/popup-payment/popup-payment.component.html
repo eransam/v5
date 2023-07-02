@@ -1,0 +1,249 @@
+<form
+  class="form form-horizontal row-separator"
+  (ngSubmit)="add()"
+  [formGroup]="DetailsForm"
+  (keyup.enter)="add()"
+>
+  <div class="form-body text-right">
+    <!-- <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4> -->
+    <div class="row" style="margin-top: 40px">
+      <!-- בחר שנה -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        שנה:
+        <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
+          <option *ngFor="let year of years" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר שלוחה -->
+      <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+        שלוחה:
+        <select
+          [(ngModel)]="chosenShloha"
+          [formControl]="chosenShlohaControl"
+          (change)="change_shloha()"
+        >
+          <option
+            *ngFor="let obj of this.shlohot_cartificate"
+            [value]="obj.code"
+          >
+            {{ obj.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר סוג תשלום -->
+      <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+        סוג תשלום:
+        <select [(ngModel)]="payment" [formControl]="paymentControl">
+          <option *ngFor="let obj of this.type_of_payment" [value]="obj.code">
+            {{ obj.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-1">
+        <button
+          class="btn btn-warning"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+            border: none;
+          "
+          type="submit"
+        >
+          חפש
+        </button>
+      </div>
+      <!--EXEL כפתור-->
+      <div class="importBth">
+        <div class="justify-content importBth_div">
+          <img
+            style="height: 35px; margin-right: 10px"
+            class=""
+            src="assets/images/logo/excel.png"
+            alt="Image"
+            (click)="getExcelDataFarmDetails()"
+          />
+          <p>({{ this.data.length }})</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+    <div
+      *ngIf="!isLoading_FarmDetails"
+      class="mainTableClass"
+      style="
+        font-weight: bold;
+        font-size: 18px !important;
+        width: 100% !important;
+      "
+    >
+      <table class="" style="direction: rtl; width: 100%">
+        <thead class="detailsTable">
+          <tr class="the_tatle_res_table">
+            <th scope="col" class="border-top-0">חודש</th>
+            <th scope="col" class="border-top-0">משווק</th>
+            <th
+              *ngIf="this.paymentControl.value !== 10"
+              scope="col"
+              class="border-top-0"
+            >
+              שם משווק
+            </th>
+            <th
+              *ngIf="this.paymentControl.value === 10"
+              scope="col"
+              class="border-top-0"
+            >
+              שם משחטה
+            </th>
+            <th
+              *ngIf="this.paymentControl.value === 1"
+              scope="col"
+              class="border-top-0"
+            >
+              מכסה תשלום
+            </th>
+            <th
+              *ngIf="this.paymentControl.value !== 1"
+              scope="col"
+              class="border-top-0"
+            >
+              מכסה קבועה
+            </th>
+            <th scope="col" class="border-top-0">כמות בתקופה</th>
+            <th scope="col" class="border-top-0">מצטבר</th>
+            <th scope="col" class="border-top-0">רטרו</th>
+            <th scope="col" class="border-top-0">מחיר</th>
+            <th scope="col" class="border-top-0">כמות שולמה</th>
+            <th scope="col" class="border-top-0">תשלום</th>
+            <th scope="col" class="border-top-0">כמות תוספת</th>
+            <th scope="col" class="border-top-0">תוספת תשלום</th>
+            <th scope="col" class="border-top-0">סה''כ כמות שולמה</th>
+            <th scope="col" class="border-top-0">סהכ תשלום</th>
+            <th scope="col" class="border-top-0">הקפאה</th>
+            <th scope="col" class="border-top-0">סיבה</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="the_res_table"
+            *ngFor="let row of paginatedData"
+            [class.green-background]="activeColor"
+            [class.red-background]="notActiveColor"
+          >
+            <!-- <th scope="col" class="border-top-0">חודש</th> -->
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']">
+                {{ row.hodesh_name }}</a
+              >
+            </td>
+            <!-- <th scope="col" class="border-top-0" משווק</th> -->
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.kt_msvk }}</a>
+            </td>
+            <!-- <th scope="col" class="border-top-0">>שם משווק</th> -->
+            <td class="text-truncate row_padding">
+              {{ row.shem_msvk }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">>מכסה קבועה </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.micsa_tshlm }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">>כמות בתקופה </th> -->
+            <td class="text-truncate row_padding">
+              <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
+              {{ row.kamut_in_tkufa }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.kt_mztbr }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">רטרו </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.rtro }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">מחיר </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.kt_mhir }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">>כמות שולמה< </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.kamut_shtshlm }}
+            </td>
+            <!-- <th scope="col" class="border-top-0">תשלום </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.shum_tshlm }}
+            </td>
+            <!-- <th scope="col" class="border-top-0">>כמות תוספת </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.heftas }}
+            </td>
+            <!-- <th scope="col" class="border-top-0">>תוספת תשלום< </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.heftas_tshlm }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">סה''כ כמות שולמה< </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.tot_cam_tshlm }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">>סהכ תשלום </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.tot_shum_tshlm }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0 הקפאה</th> -->
+            <td class="text-truncate row_padding">
+              {{ row.sibahakpaa }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">סיבה/th> -->
+            <td class="text-truncate row_padding">
+              {{ row.kt_siba_not_tslm }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>
+<div class="btn-pages">
+  <button
+    (click)="previousPage()"
+    [disabled]="currentPage === 1"
+    class="btn btn-warning"
+    style="
+      margin: 15px !important;
+      font-size: 25px !important;
+      background-color: #3498db !important;
+    "
+  >
+    קודם
+  </button>
+  <button
+    class="btn btn-warning"
+    style="
+      margin: 15px !important;
+      font-size: 25px !important;
+      background-color: #3498db !important;
+    "
+    (click)="nextPage()"
+    [disabled]="currentPage * itemsPerPage >= data.length"
+  >
+    הבא
+  </button>
+</div>

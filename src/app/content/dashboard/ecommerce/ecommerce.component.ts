@@ -43,6 +43,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OnDestroy } from '@angular/core';
 import { PopupRavShnatiComponent } from '../popup-rav-shnati/popup-rav-shnati.component';
+import { PopupPaymentComponent } from '../popup-payment/popup-payment.component';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
@@ -99,6 +100,7 @@ export class EcommerceComponent implements OnInit {
   isLoading_FarmDetails = true;
   isLoading_userDet = true;
   isLoading_rav_shnati = false;
+  isLoading_grower_payment = false;
   isLoading_cartificate = false;
 
   isLoading_micsot = true;
@@ -155,6 +157,7 @@ export class EcommerceComponent implements OnInit {
   public click_on_not_show_ActiveSite: boolean = false;
   certificates_by_grewernum: any[] = [];
   rav_shnati_det: any[] = [];
+  grower_payment_det: any[] = [];
 
   growerCard: any[] = [];
   Get_McsKvua_shloha_30: any[] = [];
@@ -849,6 +852,22 @@ export class EcommerceComponent implements OnInit {
     this.isLoading_rav_shnati = false;
   }
 
+  // תשלום
+  async shows_grower_payment() {
+    this.isLoading_grower_payment = true;
+    this.grower_payment_det =
+      await this.megadelSearchService.Tkufa_Mhir_Select_New(
+        6,
+        this.userDetails[0]?.v_yzrn,
+        '30',
+        '02',
+        this.chosenYear,
+        ''
+      );
+    this.openPopup_grower_payment();
+    this.isLoading_grower_payment = false;
+  }
+
   // Component class
 
   getCategoryLabel(key: string): string {
@@ -1517,6 +1536,16 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.panelClass = 'openPopup_certificates-dialog';
     dialogConfig.data = this.rav_shnati_det;
     const dialogRef = this.dialog.open(PopupRavShnatiComponent, dialogConfig);
+  }
+
+  openPopup_grower_payment() {
+    this.grower_payment_det.push({
+      grower_Extensions: this.keys_of_categorizedArrays,
+    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    dialogConfig.data = this.grower_payment_det;
+    const dialogRef = this.dialog.open(PopupPaymentComponent, dialogConfig);
   }
 
   openPopup_certificates() {
