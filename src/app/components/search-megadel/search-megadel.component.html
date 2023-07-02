@@ -13,13 +13,12 @@
           <h4 class="form-section"><i class="la la-eye"></i>חיפוש מגדל:</h4>
           <div class="row">
             <div class="col-md-4">
-              <div class="form-group row mx-auto" [formGroup]="DetailsForm">
+              <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput1"
                   >שם מגדל</label
                 >
                 <div class="col-md-8">
                   <input
-                  formControlName="usernameBox"
                     name="username"
                     type="text"
                     id="username-input"
@@ -148,6 +147,7 @@
             </div>
           </div>
         </div>
+
         <!-- input text search end ---------------------------------------------------------------------------------------------------------------------->
 
         <!-- Color Checkboxes start ---------------------------------------------------------------------------------------------------------------------->
@@ -191,9 +191,7 @@
     <!-- table of results  ---------------------------------------------------------------------------------------------------------------------->
 
     <div class="content-body text-right">
-
       <div *ngIf="isLoading" class="isLoading"></div>
-
 
       <div *ngIf="!isLoading">
         <section id="base-style text-right">
