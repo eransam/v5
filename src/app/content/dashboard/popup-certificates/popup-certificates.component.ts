@@ -431,10 +431,5 @@ export class PopupCertificatesComponent {
         }
       }
     }
-
-    // this.startDateControl.setValue(null); // Set the value to null
-    // this.endDateControl.setValue(null); // Set the value to null
-    // this.chosenYearControl.setValue(null); // Set the value to null
-    // this.chosenSiteControl.setValue(null); // Set the value to null
   }
 }

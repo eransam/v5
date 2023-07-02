@@ -263,32 +263,32 @@
           </tr>
         </tbody>
       </table>
-      <div class="btn-pages">
-        <button
-          (click)="previousPage()"
-          [disabled]="currentPage === 1"
-          class="btn btn-warning"
-          style="
-            margin: 15px !important;
-            font-size: 25px !important;
-            background-color: #3498db !important;
-          "
-        >
-          קודם
-        </button>
-        <button
-          class="btn btn-warning"
-          style="
-            margin: 15px !important;
-            font-size: 25px !important;
-            background-color: #3498db !important;
-          "
-          (click)="nextPage()"
-          [disabled]="currentPage * itemsPerPage >= data.length"
-        >
-          הבא
-        </button>
-      </div>
     </div>
   </div>
 </form>
+<div class="btn-pages">
+  <button
+    (click)="previousPage()"
+    [disabled]="currentPage === 1"
+    class="btn btn-warning"
+    style="
+      margin: 15px !important;
+      font-size: 25px !important;
+      background-color: #3498db !important;
+    "
+  >
+    קודם
+  </button>
+  <button
+    class="btn btn-warning"
+    style="
+      margin: 15px !important;
+      font-size: 25px !important;
+      background-color: #3498db !important;
+    "
+    (click)="nextPage()"
+    [disabled]="currentPage * itemsPerPage >= data.length"
+  >
+    הבא
+  </button>
+</div>

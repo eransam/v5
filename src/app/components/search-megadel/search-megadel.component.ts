@@ -256,7 +256,7 @@ export class SearchMegadelComponent implements OnInit {
     this.gidolHotzInput = new FormControl();
     this.DetailsForm = new FormGroup({
       nameBox: this.monthInput,
-      priceBox: this.usernameInput,
+      usernameBox: this.usernameInput,
       yaerBox: this.yearInput,
     });
 
