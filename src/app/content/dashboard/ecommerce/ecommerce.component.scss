@@ -433,6 +433,18 @@
   animation: spin 1s linear infinite;
   margin: auto;
   margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.loader_grower_rav_shnati {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
   margin: auto;
   margin-top: 10%;
   margin-bottom: 10%;
@@ -447,6 +459,8 @@
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
   margin-bottom: 10%;
 }
 

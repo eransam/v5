@@ -42,7 +42,11 @@
         <div class="col-xl-2 col-lg-6 col-12" (click)="shows_rav_shnati()">
           <div class="card pull-up">
             <div class="card-content">
-              <div class="card-body card_padding">
+              <div
+                *ngIf="isLoading_rav_shnati"
+                class="loader_grower_rav_shnati"
+              ></div>
+              <div class="card-body card_padding" *ngIf="!isLoading_rav_shnati">
                 <div class="media d-flex">
                   <div class="media-body text-left">
                     <h3 class="info">רב שנתי</h3>
@@ -67,13 +71,21 @@
           </div>
         </div>
         <!-- תעודות -->
+
         <div
           class="col-xl-2 col-lg-6 col-12"
           (click)="shows_certificates_by_grewernum()"
         >
           <div class="card pull-up">
             <div class="card-content">
-              <div class="card-body card_padding">
+              <div
+                *ngIf="this.isLoading_cartificate"
+                class="loader_grower_cart"
+              ></div>
+              <div
+                class="card-body card_padding"
+                *ngIf="!this.isLoading_cartificate"
+              >
                 <div class="media d-flex">
                   <div class="media-body text-left">
                     <h3 class="warning">תעודות</h3>
@@ -127,15 +139,17 @@
           </div>
         </div>
         <!-- כרטיס מגדל -->
-        <div *ngIf="isLoading_userDet" class="loader_grower_cart"></div>
-        <div
-          *ngIf="!isLoading_userDet"
-          class="col-xl-2 col-lg-6 col-12"
-          (click)="testCart()"
-        >
+        <div class="col-xl-2 col-lg-6 col-12" (click)="testCart()">
           <div class="card pull-up">
             <div class="card-content">
-              <div class="card-body card_padding">
+              <div
+                *ngIf="this.isLoading_userDet"
+                class="loader_grower_cart"
+              ></div>
+              <div
+                class="card-body card_padding"
+                *ngIf="!this.isLoading_userDet"
+              >
                 <div class="media d-flex">
                   <div class="media-body text-left">
                     <h3 class="danger">כרטיס מגדל</h3>

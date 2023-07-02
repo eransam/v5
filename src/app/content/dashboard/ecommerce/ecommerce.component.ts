@@ -98,6 +98,9 @@ export class EcommerceComponent implements OnInit {
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = true;
   isLoading_userDet = true;
+  isLoading_rav_shnati = false;
+  isLoading_cartificate = false;
+
   isLoading_micsot = true;
 
   totalFarms: any;
@@ -211,6 +214,7 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_FarmDetails = true;
       this.isLoading_userDet = true;
       this.isLoading_micsot = true;
+      this.isLoading_cartificate = false;
 
       this.sort_site_by_shloha();
 
@@ -581,7 +585,6 @@ export class EcommerceComponent implements OnInit {
       }
       this.isLoading_FarmDetails = false;
 
-      
       this.categorizedArrays = {};
       this.FarmDetails.sort((a, b) =>
         a.belonging_group_id > b.belonging_group_id ? 1 : -1
@@ -602,7 +605,6 @@ export class EcommerceComponent implements OnInit {
       this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
 
       console.log(this.keys_of_categorizedArrays);
-      
     });
 
     this.categorizedArrays = {};
@@ -796,6 +798,7 @@ export class EcommerceComponent implements OnInit {
 
   //     -- exec Teuda_Select_New @order=1, @start_year=2023, @start_tzrt=30,@start_yzrn="02060341",@start_date="20230101",@end_date="20231231", @start_list=0,@Rishaion=0
   async shows_certificates_by_grewernum() {
+    this.isLoading_cartificate = true;
     this.sort_site_by_shloha();
     this.certificates_by_grewernum =
       await this.megadelSearchService.Teuda_Select_New(
@@ -810,10 +813,12 @@ export class EcommerceComponent implements OnInit {
       );
 
     this.openPopup_certificates();
+    this.isLoading_cartificate = false;
   }
 
   // רב שנתי
   async shows_rav_shnati() {
+    this.isLoading_rav_shnati = true;
     this.sort_site_by_shloha();
 
     this.rav_shnati_det = await this.megadelSearchService.Bizua_Rav_Shnati_Scr(
@@ -841,6 +846,7 @@ export class EcommerceComponent implements OnInit {
       0
     );
     this.openPopup_rav_shnati();
+    this.isLoading_rav_shnati = false;
   }
 
   // Component class
