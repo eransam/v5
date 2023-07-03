@@ -44,6 +44,7 @@ import { takeUntil } from 'rxjs/operators';
 import { OnDestroy } from '@angular/core';
 import { PopupRavShnatiComponent } from '../popup-rav-shnati/popup-rav-shnati.component';
 import { PopupPaymentComponent } from '../popup-payment/popup-payment.component';
+import { PopupMonthlySummaryComponent } from '../popup-monthly-summary/popup-monthly-summary.component';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
@@ -100,9 +101,11 @@ export class EcommerceComponent implements OnInit {
   isLoading_FarmDetails = true;
   isLoading_userDet = true;
   isLoading_rav_shnati = false;
+  isLoading_monthly = false;
+
   isLoading_grower_payment = false;
   isLoading_cartificate = false;
-
+  isLoading_grower_cart = false;
   isLoading_micsot = true;
 
   totalFarms: any;
@@ -157,6 +160,8 @@ export class EcommerceComponent implements OnInit {
   public click_on_not_show_ActiveSite: boolean = false;
   certificates_by_grewernum: any[] = [];
   rav_shnati_det: any[] = [];
+  monthly_det: any[] = [];
+
   grower_payment_det: any[] = [];
 
   growerCard: any[] = [];
@@ -252,6 +257,8 @@ export class EcommerceComponent implements OnInit {
           );
       }
 
+      localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
+
       //   מחלצים פרטים נוספים של היצרן
       this.userDetails_more_info =
         await this.megadelSearchService.Yzrn_Select_By_View_New(
@@ -265,6 +272,12 @@ export class EcommerceComponent implements OnInit {
           '%',
           '%'
         );
+
+      localStorage.setItem(
+        'userDetails_more_info',
+        JSON.stringify(this.userDetails_more_info)
+      );
+
       //   this.isLoading_userDet = false;
 
       //   לוגיקה התראות -------------------------------------------------------------------
@@ -819,6 +832,26 @@ export class EcommerceComponent implements OnInit {
     this.isLoading_cartificate = false;
   }
 
+  // סיכום חודשי
+  async shows_monthiy() {
+    this.isLoading_monthly = true;
+    this.sort_site_by_shloha();
+
+    this.monthly_det = await this.megadelSearchService.Teuda_Calendary(
+      4,
+      this.chosenYear,
+      '30',
+      this.userDetails[0]?.v_yzrn,
+      0,
+      '01',
+      '12'
+    );
+    this.openPopup_monthly();
+    console.log('d');
+
+    this.isLoading_monthly = false;
+  }
+
   // רב שנתי
   async shows_rav_shnati() {
     this.isLoading_rav_shnati = true;
@@ -995,6 +1028,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   async onYearChange() {
+    this.isLoading_userDet = true;
     // מכסות ביצים
     this.mihsot = await this.megadelSearchService.Micsa_Select_New(
       5,
@@ -1059,9 +1093,11 @@ export class EcommerceComponent implements OnInit {
         this.totalMicsaToPay += iterator.mi_kamut;
       }
     }
+    this.isLoading_userDet = false;
   }
 
   async getPartner(allTheFarmDet) {
+    this.isLoading_userDet = true;
     console.log('allTheFarmDet: ', allTheFarmDet);
     console.log('this.newArray2: ', this.newArray);
 
@@ -1181,8 +1217,10 @@ export class EcommerceComponent implements OnInit {
           flockID2: obj2?.active_flock_id,
           newArrayEnd: this.newArrayEnd,
         });
+        console.log('d');
 
         this.openPopup();
+        this.isLoading_userDet = false;
       }
     }
   }
@@ -1227,6 +1265,8 @@ export class EcommerceComponent implements OnInit {
   }
 
   async testCart() {
+    this.isLoading_grower_cart = true;
+
     var Yazran_Cartis_Select =
       await this.megadelSearchService.Yazran_Cartis_Select(
         2,
@@ -1519,6 +1559,7 @@ export class EcommerceComponent implements OnInit {
     }
     this.openPopup_grower_cart(uniqueObjects);
     console.log('test');
+    this.isLoading_grower_cart = false;
   }
 
   openPopup_grower_cart(data: any) {
@@ -1526,6 +1567,19 @@ export class EcommerceComponent implements OnInit {
     dialogConfig.panelClass = 'openPopup_grower_cart-dialog';
     dialogConfig.data = data;
     const dialogRef = this.dialog.open(PopupGrowerCardComponent, dialogConfig);
+  }
+
+  openPopup_monthly() {
+    this.monthly_det.push({
+      grower_Extensions: this.keys_of_categorizedArrays,
+    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    dialogConfig.data = this.monthly_det;
+    const dialogRef = this.dialog.open(
+      PopupMonthlySummaryComponent,
+      dialogConfig
+    );
   }
 
   openPopup_rav_shnati() {

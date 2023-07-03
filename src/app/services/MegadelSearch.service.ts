@@ -11,6 +11,25 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  //   סיכום חודשי
+  async Teuda_Calendary(
+    order: any,
+    year: any,
+    tz: any,
+    yzrn: any,
+    Rishaion: any,
+    HodFr: any,
+    HodTo: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Teuda_Calendary?order=${order}&year=${year}&tz=${tz}&yzrn=${yzrn}&Rishaion=${Rishaion}&HodFr=${HodFr}&HodTo=${HodTo}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Yzrn_Chk_Hok_Galil(
     Yzrn: any,
     Tzrt: any,

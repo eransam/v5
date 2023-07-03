@@ -1,20 +1,21 @@
-<!-- <div *ngIf="isLoading_FarmDetails" class="loader"></div> -->
-<!-- <div
-  *ngIf="!isLoading_FarmDetails"
-  class="app-content content"
-  [id]="'ecommerceId'"
-> -->
 <div class="app-content content" [id]="'ecommerceId'">
   <div class="content-wrapper">
     <div class="content-header row mb-1"></div>
     <div class="content-body">
       <!-- eCommerce statistic ------------------------------------------------------------------------------------------------------------------------>
       <!-- תשלום -->
-      <div class="row" style="direction: rtl" (click)="shows_grower_payment()">
-        <div class="col-xl-2 col-lg-6 col-12">
+      <div class="row" style="direction: rtl">
+        <div class="col-xl-2 col-lg-6 col-12" (click)="shows_grower_payment()">
           <div class="card pull-up">
             <div class="card-content">
-              <div class="card-body card_padding">
+              <div
+                *ngIf="isLoading_grower_payment"
+                class="loader_grower_cart"
+              ></div>
+              <div
+                *ngIf="!isLoading_grower_payment"
+                class="card-body card_padding"
+              >
                 <div class="media d-flex">
                   <div class="media-body text-left">
                     <h3 class="info">תשלום</h3>
@@ -44,7 +45,7 @@
             <div class="card-content">
               <div
                 *ngIf="isLoading_rav_shnati"
-                class="loader_grower_rav_shnati"
+                class="loader_grower_cart"
               ></div>
               <div class="card-body card_padding" *ngIf="!isLoading_rav_shnati">
                 <div class="media d-flex">
@@ -110,11 +111,19 @@
             </div>
           </div>
         </div>
+
         <!-- סיכום חודשי -->
-        <div class="col-xl-2 col-lg-6 col-12">
+        <div class="col-xl-2 col-lg-6 col-12" (click)="shows_monthiy()">
           <div class="card pull-up">
             <div class="card-content">
-              <div class="card-body card_padding">
+              <div
+                *ngIf="this.isLoading_monthly"
+                class="loader_grower_cart"
+              ></div>
+              <div
+                *ngIf="!this.isLoading_monthly"
+                class="card-body card_padding"
+              >
                 <div class="media d-flex">
                   <div class="media-body text-left">
                     <h3 class="success">סיכום חודשי</h3>
@@ -143,12 +152,12 @@
           <div class="card pull-up">
             <div class="card-content">
               <div
-                *ngIf="this.isLoading_userDet"
+                *ngIf="this.isLoading_grower_cart"
                 class="loader_grower_cart"
               ></div>
               <div
                 class="card-body card_padding"
-                *ngIf="!this.isLoading_userDet"
+                *ngIf="!this.isLoading_grower_cart"
               >
                 <div class="media d-flex">
                   <div class="media-body text-left">
@@ -177,9 +186,6 @@
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex" style="height: 99px">
-                  <div class="media-body text-left">
-                    <!-- Content for the media body -->
-                  </div>
                   <div
                     class="year-select rtl_Style"
                     style="
@@ -188,8 +194,6 @@
                       font-size: 25px;
                       font-weight: bold;
                       margin: auto;
-                      /* padding-right: 106px; */
-                      padding-left: 21%;
                     "
                   >
                     <select
@@ -303,11 +307,6 @@
                                   style="color: green; font-size: 2rem"
                                   >√</span
                                 >
-                                <!-- <span
-                                    *ngSwitchDefault
-                                    style="color: red; font-size: 2rem"
-                                    >X</span
-                                  > -->
                               </div>
                             </th>
                           </div>
@@ -532,7 +531,7 @@
                       </div>
 
                       <tr>
-                        <td><B>ג''ח</B></td>
+                        <td><B>שותפות:</B></td>
                         <td class="text-truncate row_padding">
                           <div
                             *ngFor="let obj of arrPartnersPetem; let i = index"
@@ -608,7 +607,7 @@
 
                     <!-- טבלת מכסות הודים -->
                     <div *ngIf="mihsotHodim.length > 0">
-                      <h3 class="rtl_Style">מכסת הודים</h3>
+                      <h1 class="rtl_Style">מכסת הודים:</h1>
                       <table
                         class="table table-hover border_bottom detailsTable"
                         style="direction: rtl"
@@ -690,7 +689,7 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngIf="theUserDetails?.pa_Counter > 0">
+                            <div *ngIf="this.userDetails[0]?.cdgdl.length > 0">
                               <button
                                 id="gidolHotzBtn"
                                 style="
@@ -700,7 +699,7 @@
                                 "
                                 (click)="getPartner([obj])"
                               >
-                                {{ theUserDetails.pa_Counter }} קיים ג''ח -
+                                {{ this.userDetails[0]?.cdgdl }} - קיים ג''ח
                               </button>
                             </div>
                           </td>
@@ -777,7 +776,7 @@
                         <h1 class="rtl_Style">מכסת פטם</h1>
                       </div>
                       <tr>
-                        <td><B>ג''ח</B></td>
+                        <td><B>שותפות:</B></td>
                         <td class="text-truncate row_padding">
                           <div
                             *ngFor="let obj of arrPartnersPetem; let i = index"
@@ -858,7 +857,7 @@
 
                     <!-- טבלת מכסות הודים -->
                     <div *ngIf="mihsotHodim.length > 0">
-                      <h3 class="rtl_Style">מכסת הודים</h3>
+                      <h1 class="rtl_Style">מכסת הודים:</h1>
                       <table
                         class="table table-hover border_bottom detailsTable"
                         style="direction: rtl"
@@ -909,10 +908,6 @@
         <!-- -------------------- תצוגה 3 ------------------------->
 
         <!-- טבלה מכסות ביצי הטלה------------------------------------------------------------------------------------------------------------------------>
-
-        <!-- <div *ngIf="isLoading_userDet" class="loader"></div>
-                <div *ngIf="!isLoading_userDet"> -->
-
         <div
           *ngIf="
             mihsot.length > 0 &&
@@ -930,7 +925,7 @@
                   <div class="exel_and_total">
                     <div>
                       <p style="direction: rtl">
-                        קבועה: {{ totalMicsaKvoha | numberFormat }}
+                        קבועה: {{ totalMicsaKvoha | numberFormat }}pa_Counter
                       </p>
                       <p style="direction: rtl">
                         לתשלום: {{ totalMicsaToPay | numberFormat }}
@@ -950,22 +945,18 @@
 
                           <td><B>ג''ח</B></td>
                           <td class="text-truncate row_padding">
-                            <div *ngIf="theUserDetails?.pa_Counter">
-                              <div *ngIf="theUserDetails?.pa_Counter > 0">
-                                <button
-                                  id="gidolHotzBtn"
-                                  style="
-                                    color: blue;
-                                    background-color: white !important;
-                                    border: none;
-                                    direction: rtl;
-                                  "
-                                  (click)="getPartner([obj])"
-                                >
-                                  קיים ג''ח -
-                                  {{ theUserDetails.pa_Counter }}
-                                </button>
-                              </div>
+                            <div *ngIf="this.userDetails[0]?.cdgdl.length > 0">
+                              <button
+                                id="gidolHotzBtn"
+                                style="
+                                  color: blue;
+                                  background-color: white !important;
+                                  border: none;
+                                "
+                                (click)="getPartner([obj])"
+                              >
+                                {{ this.userDetails[0]?.cdgdl }} - קיים ג''ח
+                              </button>
                             </div>
                           </td>
                         </tr>

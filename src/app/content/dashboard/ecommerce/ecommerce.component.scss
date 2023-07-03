@@ -451,17 +451,17 @@
 }
 
 .loader_grower_cart {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  padding-top: 50px;
-  margin-top: 50px;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-  margin: auto;
-  margin-top: 10%;
-  margin-bottom: 10%;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    padding-top: 50px;
+    margin-top: 50px;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+    margin-top: 6%;
+    margin-bottom: 5%;
 }
 
 .logoIngStyle {
@@ -687,14 +687,14 @@
   margin-left: 10px;
   padding: 5px;
   border: none;
-  background-color: #3498db;
+  background-color: #0d6efd;
   color: #fff;
   border-radius: 2px grey;
   cursor: pointer;
 }
 
 .year-select.rtl_Style select option {
-  background-color: #3498db;
+  background-color: #0d6efd;
   border-radius: 2px grey;
   color: #fff;
 }

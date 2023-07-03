@@ -1,0 +1,237 @@
+<div class="userDetDiv">
+    <div style="margin-left: 30px; display: flex">
+      <p class="userDetLabel">שם:</p>
+      <p class="userDetValue">{{ theUserDet[0]?.v_shem_yzrn }}</p>
+    </div>
+  
+    <div style="margin-left: 30px; display: flex">
+      <p class="userDetLabel">מס מגדל:</p>
+      <p class="userDetValue">{{ theUserDet[0]?.v_yzrn }}</p>
+    </div>
+  
+    <div style="margin-left: 30px; display: flex">
+      <p class="userDetLabel">כתובת:</p>
+      <p class="userDetValue">{{ theUserDet[0]?.v_shem_yeshuv }}</p>
+    </div>
+  </div>
+  
+<form
+  class="form form-horizontal row-separator"
+  (ngSubmit)="add()"
+  [formGroup]="DetailsForm"
+  (keyup.enter)="add()"
+>
+  <div class="form-body text-right">
+    <div class="row" style="margin-top: 40px">
+      <!-- בחר שנה -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        שנה:
+        <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
+          <option *ngFor="let year of years" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <!-- מחודש -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        מחודש:
+        <select [(ngModel)]="the_from_month" [formControl]="from_monthControl">
+          <option *ngFor="let month of from_month" [value]="month">
+            {{ month }}
+          </option>
+        </select>
+      </div>
+
+      <!-- עד חודש -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        עד חודש:
+        <select [(ngModel)]="the_to_month" [formControl]="to_monthControl">
+          <option *ngFor="let month of to_month" [value]="month">
+            {{ month }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר אתר -->
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        אתר:
+        <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
+          <option *ngFor="let obj of this.siteName" [value]="obj.code">
+            {{ obj.code }}
+          </option>
+        </select>
+      </div>
+
+      <!-- בחר שלוחה -->
+      <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+        שלוחה:
+        <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
+          <option
+            *ngFor="let obj of this.shlohot_cartificate"
+            [value]="obj.code"
+          >
+            {{ obj.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-1" style="">
+        <button
+          class="btn btn-warning"
+          style="
+            margin: 15px !important;
+            font-size: 25px !important;
+            background-color: #3498db !important;
+            border: none;
+          "
+          type="submit"
+        >
+          חפש
+        </button>
+      </div>
+      <!--EXEL כפתור-->
+      <div class="importBth">
+        <div class="justify-content importBth_div">
+          <img
+            style="height: 35px; margin-right: 10px"
+            class=""
+            src="assets/images/logo/excel.png"
+            alt="Image"
+            (click)="getExcelDataFarmDetails()"
+          />
+          <p>({{ this.data.length }})</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+    <div
+      *ngIf="!isLoading_FarmDetails"
+      class="mainTableClass"
+      style="
+        font-weight: bold;
+        font-size: 18px !important;
+        width: 100% !important;
+      "
+    >
+      <table class="" style="direction: rtl; width: 100%">
+        <thead class="detailsTable">
+          <tr class="the_tatle_res_table">
+            <th scope="col" class="border-top-0">חודש</th>
+            <th scope="col" class="border-top-0">שם חודש</th>
+            <th scope="col" class="border-top-0">רישיון משק</th>
+            <th scope="col" class="border-top-0">כמות</th>
+            <th scope="col" class="border-top-0">מצטבר</th>
+            <th scope="col" class="border-top-0">משווק</th>
+            <th scope="col" class="border-top-0">מצטבר</th>
+            <th scope="col" class="border-top-0">משווק</th>
+            <th scope="col" class="border-top-0">atarId</th>
+            <th scope="col" class="border-top-0">שם אתר</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="the_res_table"
+            *ngFor="let row of paginatedData"
+            [class.green-background]="activeColor"
+            [class.red-background]="notActiveColor"
+          >
+            <!-- <th scope="col" class="border-top-0">חודש</th> -->
+            <td class="text-truncate row_padding">
+              <a [routerLink]="['/dashboard/ecommerce']"> {{ row.mon }}</a>
+            </td>
+            <!-- <th scope="col" class="border-top-0" שם חודש</th> -->
+            <td *ngIf="row.mon === 1" class="text-truncate row_padding">
+              ינואר
+            </td>
+            <td *ngIf="row.mon === 2" class="text-truncate row_padding">
+              פברואר
+            </td>
+            <td *ngIf="row.mon === 3" class="text-truncate row_padding">מרץ</td>
+            <td *ngIf="row.mon === 4" class="text-truncate row_padding">
+              אפריל
+            </td>
+            <td *ngIf="row.mon === 5" class="text-truncate row_padding">מאי</td>
+            <td *ngIf="row.mon === 6" class="text-truncate row_padding">
+              יוני
+            </td>
+            <td *ngIf="row.mon === 7" class="text-truncate row_padding">
+              יולי
+            </td>
+            <td *ngIf="row.mon === 8" class="text-truncate row_padding">
+              אוגוסט
+            </td>
+            <td *ngIf="row.mon === 9" class="text-truncate row_padding">
+              ספטמבר
+            </td>
+            <td *ngIf="row.mon === 10" class="text-truncate row_padding">
+              אוקטובר
+            </td>
+            <td *ngIf="row.mon === 11" class="text-truncate row_padding">
+              נובמבר
+            </td>
+            <td *ngIf="row.mon === 12" class="text-truncate row_padding">
+              דצמבר
+            </td>
+            <!-- <th scope="col" class="border-top-0">רישיון משק</th> -->
+            <td class="text-truncate row_padding">
+              {{ row.atar_code }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">כמות </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.mcsa }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.Kamut }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">משווק </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.msvk }}
+            </td>
+
+            <!-- <th scope="col" class="border-top-0">atarId </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.atar_id }}
+            </td>
+            <!-- <th scope="col" class="border-top-0">שם אתר nmatar </th> -->
+            <td class="text-truncate row_padding">
+              {{ row.nmatar }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>
+<div class="btn-pages">
+  <button
+    (click)="previousPage()"
+    [disabled]="currentPage === 1"
+    class="btn btn-warning"
+    style="
+      margin: 15px !important;
+      font-size: 25px !important;
+      background-color: #3498db !important;
+    "
+  >
+    קודם
+  </button>
+  <button
+    class="btn btn-warning"
+    style="
+      margin: 15px !important;
+      font-size: 25px !important;
+      background-color: #3498db !important;
+    "
+    (click)="nextPage()"
+    [disabled]="currentPage * itemsPerPage >= data.length"
+  >
+    הבא
+  </button>
+</div>

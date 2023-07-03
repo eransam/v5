@@ -33,6 +33,7 @@ import { PopupGrowerCardComponent } from './popup-grower-card/popup-grower-card.
 import { CertificatesPageComponent } from './certificates-page/certificates-page.component';
 import { PopupRavShnatiComponent } from './popup-rav-shnati/popup-rav-shnati.component';
 import { PopupPaymentComponent } from './popup-payment/popup-payment.component';
+import { PopupMonthlySummaryComponent } from './popup-monthly-summary/popup-monthly-summary.component';
 
 @NgModule({
   imports: [
@@ -103,6 +104,7 @@ import { PopupPaymentComponent } from './popup-payment/popup-payment.component';
     CertificatesPageComponent,
     PopupRavShnatiComponent,
     PopupPaymentComponent,
+    PopupMonthlySummaryComponent,
   ],
 
   exports: [RouterModule],

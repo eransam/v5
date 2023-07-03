@@ -49,7 +49,7 @@
   }
   
   .mainTableClass th {
-    background-color: #3498db;
+    background-color: #0d6efd;
     color: #333;
     padding: 10px;
   }
@@ -75,7 +75,7 @@
   }
   
   .btn-pages button {
-    background-color: #3498db;
+    background-color: #0d6efd;
     color: #333;
     border: none;
     padding: 10px 20px;
@@ -91,11 +91,11 @@
   }
   
   .btn-pages button:hover {
-    background-color: #3498db;
+    background-color: #0d6efd;
   }
   
   .btn-pages button:active {
-    background-color: #3498db;
+    background-color: #0d6efd;
   }
   
   .importBth_div {
@@ -105,3 +105,23 @@
     margin-left: 10px;
   }
   
+
+
+  .userDetDiv {
+    display: flex;
+    /* justify-content: space-between; */
+    margin: 15px;
+  }
+  
+  .userDetDiv {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 15px;
+  }
+  
+  .userDetDiv p {
+    /* margin: 10px 0; */
+    margin-left: 15px;
+  }
