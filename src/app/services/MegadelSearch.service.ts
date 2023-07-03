@@ -11,6 +11,38 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Yzrn_Chk_Hok_Galil(
+    Yzrn: any,
+    Tzrt: any,
+    yr: any,
+    dateHzmd: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Yzrn_Chk_Hok_Galil?Yzrn=${Yzrn}&Tzrt=${Tzrt}&yr=${yr}&dateHzmd=${dateHzmd}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async Tkufa_Mhir_Select_New(
+    order: any,
+    start_code_yzrn: any,
+    start_tzrt: any,
+    start_sug_mhir: any,
+    start_shana: any,
+    Job: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Tkufa_Mhir_Select_New?order=${order}&start_code_yzrn=${start_code_yzrn}&start_tzrt=${start_tzrt}&start_sug_mhir=${start_sug_mhir}&start_shana=${start_shana}&Job=${Job}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Tables_Select_New(
     order: any,
     start_prefix: any,

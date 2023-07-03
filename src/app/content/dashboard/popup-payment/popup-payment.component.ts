@@ -136,8 +136,11 @@ export class PopupPaymentComponent {
           { name: 'סובסידיה', code: '01' },
           { name: 'היטלים', code: '02' },
         ];
+
+        this.paymentControl.setValue('01');
       } else {
         this.type_of_payment = [{ name: 'היטלים', code: '02' }];
+        this.paymentControl.setValue('02');
       }
     } else {
       if (this.the_change_shloha === '01') {
@@ -152,6 +155,7 @@ export class PopupPaymentComponent {
           (this.the_change_shloha >= '90' && this.the_change_shloha <= '93')
         ) {
           this.type_of_payment = [{ name: 'פרמיה', code: '07' }];
+          this.paymentControl.setValue('07');
         } else {
           this.type_of_payment = [{ name: '', code: '' }];
         }
@@ -297,17 +301,33 @@ export class PopupPaymentComponent {
     console.log(this.theChosenYearControl);
     console.log(this.paymentControl.value);
 
-    this.payment_by_grewernum =
-      await this.megadelSearchService.Tkufa_Mhir_Select_New(
-        6,
-        this.userDetails[0]?.v_yzrn,
-        this.theChosenShlohaControl,
-        this.paymentControl.value,
-        this.theChosenYearControl,
-        ''
-      );
+    if (this.paymentControl.value === '07') {
+      this.payment_by_grewernum =
+        await this.megadelSearchService.Tkufa_Mhir_Select_New(
+          40,
+          this.userDetails[0]?.v_yzrn,
+          this.theChosenShlohaControl,
+          this.paymentControl.value,
+          this.theChosenYearControl,
+          ''
+        );
 
-    this.data = this.payment_by_grewernum;
-    this.isLoading_FarmDetails = false;
+      this.data = this.payment_by_grewernum;
+      this.isLoading_FarmDetails = false;
+    } else {
+      this.payment_by_grewernum =
+        await this.megadelSearchService.Tkufa_Mhir_Select_New(
+          6,
+          this.userDetails[0]?.v_yzrn,
+          this.theChosenShlohaControl,
+          this.paymentControl.value,
+          this.theChosenYearControl,
+          ''
+        );
+
+      this.data = this.payment_by_grewernum;
+      this.isLoading_FarmDetails = false;
+    }
+    this.paymentControl.setValue('');
   }
 }
