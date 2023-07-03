@@ -145,6 +145,7 @@ export class PopupPaymentComponent {
     } else {
       if (this.the_change_shloha === '01') {
         this.type_of_payment = [{ name: 'היטלים', code: '02' }];
+        this.paymentControl.setValue('02');
       } else {
         if (
           this.the_change_shloha === '01' ||
