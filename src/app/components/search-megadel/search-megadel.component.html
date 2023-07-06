@@ -215,7 +215,15 @@
                       />
                     </div>
                   </div>
-                  <div class="card-dashboard text-right">
+                  <div
+                    class="card-dashboard text-right"
+                    *ngIf="isLoading_search_megadel"
+                    class="loader"
+                  ></div>
+                  <div
+                    class="card-dashboard text-right"
+                    *ngIf="!isLoading_search_megadel"
+                  >
                     <div class="table table-striped table-bordered base-style">
                       <ngx-datatable
                         class="bootstrap ps"

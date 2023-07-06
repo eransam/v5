@@ -11,6 +11,58 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+  
+  async Get_gidul_hotz_num_by_farm_num(farm_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_gidul_hotz_num_by_farm_num?farm_num=${farm_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+
+
+
+  async Get_zan_num(farm_num: any, grower_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_zan_num?farm_num=${farm_num}&grower_num=${grower_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_farm_det_v2(
+    yzrn_num: any,
+    yzrn_id: any,
+    farm_num: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_farm_det_v2?yzrn_num=${yzrn_num}&yzrn_id=${yzrn_id}&farm_num=${farm_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async farm_start_det(grower_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/farm_start_det?grower_id=${grower_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   //   סיכום חודשי
   async Teuda_Calendary(
     order: any,

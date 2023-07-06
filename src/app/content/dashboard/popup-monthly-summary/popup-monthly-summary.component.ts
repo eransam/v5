@@ -113,26 +113,19 @@ export class PopupMonthlySummaryComponent {
     private tableexcelService: TableexcelService
   ) {
     this.chosenYear = '2023';
+    this.the_from_month = '01';
+    this.the_to_month = '12';
     this.chosenSite = 'כולם';
-    this.chosenShloha = 'תרנגולות - הטלה';
-    // this.initialEndDate = '2023/12/31';
+    this.chosenShloha = ' ביצי מאכל';
 
     console.log('data in constractor: ', data);
     localStorage.setItem('cartificates_data', JSON.stringify(data));
-
-    // console.log('typeof data[0].id: ', typeof data[0].id);
   }
-
   async ngOnInit() {
     if (localStorage.getItem('theDetails')) {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
-
-    // this.initialEndDate = this.endDate;
     this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
-
-    console.log('growerDet');
-
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
     for (let obj of this.grower_extention) {

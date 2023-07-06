@@ -77,7 +77,7 @@ export class PopupCertificatesComponent {
   ) {
     this.chosenYear = '2023';
     this.chosenSite = 'כולם';
-    this.chosenShloha = 'תרנגולות - הטלה';
+    this.chosenShloha = 'ביצי מאכל';
     // this.initialEndDate = '2023/12/31';
 
     console.log('data in constractor: ', data);
@@ -87,8 +87,6 @@ export class PopupCertificatesComponent {
   }
 
   async ngOnInit() {
-
-
     if (localStorage.getItem('theDetails')) {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
@@ -103,7 +101,7 @@ export class PopupCertificatesComponent {
 
     this.shlohot_cartificate = await this.megadelSearchService.Tz_By_Yzrn(
       1,
-      this.growerDet[0].v_yzrn,
+      this.theUserDet[0].v_yzrn,
       this.chosenyear_cartificate,
       '',
       ''

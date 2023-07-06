@@ -451,17 +451,17 @@
 }
 
 .loader_grower_cart {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    padding-top: 50px;
-    margin-top: 50px;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-    margin: auto;
-    margin-top: 6%;
-    margin-bottom: 5%;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 6%;
+  margin-bottom: 5%;
 }
 
 .logoIngStyle {
@@ -697,4 +697,39 @@
   background-color: #0d6efd;
   border-radius: 2px grey;
   color: #fff;
+}
+
+.chosen_site {
+  font-size: larger !important;
+  color: green !important;
+  cursor: pointer;
+}
+
+.not_chosen_site {
+  color: blue !important;
+  cursor: pointer;
+}
+
+.avtice_site_class {
+  background-color: #efffef;
+}
+
+.not_avtice_site_class {
+  background-color: #ffebeb;
+}
+
+.farm-det {
+  display: flex;
+}
+
+.farm_more_det {
+  display: flex !important;
+  width: 75% !important;
+  justify-content: end !important;
+}
+
+.sort_farms {
+  display: flex !important;
+  width: 30% !important;
+  justify-content: end !important;
 }

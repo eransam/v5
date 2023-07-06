@@ -1,19 +1,29 @@
-<div class="userDetDiv">
-    <div style="margin-left: 30px; display: flex">
-      <p class="userDetLabel">שם:</p>
-      <p class="userDetValue">{{ theUserDet[0]?.v_shem_yzrn }}</p>
-    </div>
-  
-    <div style="margin-left: 30px; display: flex">
-      <p class="userDetLabel">מס מגדל:</p>
-      <p class="userDetValue">{{ theUserDet[0]?.v_yzrn }}</p>
-    </div>
-  
-    <div style="margin-left: 30px; display: flex">
-      <p class="userDetLabel">כתובת:</p>
-      <p class="userDetValue">{{ theUserDet[0]?.v_shem_yeshuv }}</p>
-    </div>
+<div class="userDetDiv_tatle">
+  <div
+    style="margin-left: 30px; display: flex; justify-content: center !important"
+  >
+    <h3 class="userDetLabel" style="justify-content: center !important">
+      תעודות:
+    </h3>
   </div>
+</div>
+
+<div class="userDetDiv">
+  <div style="margin-left: 30px; display: flex">
+    <p class="userDetLabel">שם:</p>
+    <p class="userDetValue">{{ theUserDet[0]?.v_shem_yzrn }}</p>
+  </div>
+
+  <div style="margin-left: 30px; display: flex">
+    <p class="userDetLabel">מס מגדל:</p>
+    <p class="userDetValue">{{ theUserDet[0]?.v_yzrn }}</p>
+  </div>
+
+  <div style="margin-left: 30px; display: flex">
+    <p class="userDetLabel">כתובת:</p>
+    <p class="userDetValue">{{ theUserDet[0]?.v_shem_yeshuv }}</p>
+  </div>
+</div>
 
 <form
   class="form form-horizontal row-separator"

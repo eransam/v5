@@ -72,6 +72,7 @@ export class PopupPaymentComponent {
   public currentPage: number = 1; // Current page number
   public rowsPerPage: number = 20; // Number of rows per page
   itemsPerPage = 20;
+  theUserDet: any[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -82,7 +83,7 @@ export class PopupPaymentComponent {
   ) {
     this.chosenYear = '2023';
     this.chosenSite = 'כולם';
-    this.chosenShloha = 'תרנגולות - הטלה';
+    this.chosenShloha = 'ביצי מאכל';
     this.payment = 2;
     // this.initialEndDate = '2023/12/31';
 
@@ -94,7 +95,10 @@ export class PopupPaymentComponent {
 
   async ngOnInit() {
     // this.initialEndDate = this.endDate;
-    this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
+
+    if (localStorage.getItem('theDetails')) {
+      this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
+    }
 
     console.log('growerDet');
 
@@ -106,7 +110,7 @@ export class PopupPaymentComponent {
 
     this.shlohot_cartificate = await this.megadelSearchService.Tz_By_Yzrn(
       1,
-      this.growerDet[0].v_yzrn,
+      this.theUserDet[0].v_yzrn,
       this.chosenyear_cartificate,
       '',
       ''
@@ -125,7 +129,7 @@ export class PopupPaymentComponent {
     console.log(this.the_change_shloha);
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.Hok_Galil = await this.megadelSearchService.Yzrn_Chk_Hok_Galil(
-        this.growerDet[0].v_yzrn,
+        this.userDetails[0].v_yzrn,
         this.the_change_shloha,
         this.chosenyear_cartificate,
         '19000101'

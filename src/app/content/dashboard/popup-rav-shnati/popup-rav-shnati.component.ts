@@ -83,13 +83,10 @@ export class PopupRavShnatiComponent {
     this.chosenYear = '2023';
     this.chosenSite = 'כולם';
     this.chosenShloha = 'תרנגולות - הטלה';
-    this.rav_shnati_pay = '2';
-    // this.initialEndDate = '2023/12/31';
+    this.rav_shnati_pay = '02';
 
     console.log('data in constractor: ', data);
     localStorage.setItem('cartificates_data', JSON.stringify(data));
-
-    // console.log('typeof data[0].id: ', typeof data[0].id);
   }
 
   async ngOnInit() {
@@ -97,9 +94,7 @@ export class PopupRavShnatiComponent {
     if (localStorage.getItem('theDetails')) {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
-
-    // this.initialEndDate = this.endDate;
-    this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
+    // this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
 
     console.log('growerDet');
 
@@ -111,7 +106,7 @@ export class PopupRavShnatiComponent {
 
     this.shlohot_cartificate = await this.megadelSearchService.Tz_By_Yzrn(
       1,
-      this.growerDet[0].v_yzrn,
+      this.theUserDet[0].v_yzrn,
       this.chosenyear_cartificate,
       '',
       ''

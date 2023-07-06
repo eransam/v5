@@ -67,7 +67,6 @@ export class SearchMegadelComponent implements OnInit {
   mihsot = [];
   settlement1: any[] = [];
   settlement2: any[];
-
   site1: any[] = [];
   site2: any[];
 
@@ -586,6 +585,7 @@ export class SearchMegadelComponent implements OnInit {
     return parts.slice(0, -1).join('-');
   }
   isLoading = false;
+  isLoading_search_megadel = false;
 
   extractNumber(value: string): number {
     // Split the string based on the '/'
@@ -602,6 +602,8 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   async add() {
+    this.isLoading_search_megadel = true;
+
     this.theDetails = [];
     this.isLoading = true; // Start loading
     let SettlementName = '%';
@@ -871,6 +873,7 @@ export class SearchMegadelComponent implements OnInit {
       }
     }
     this.isLoading = false; // Stop loading
+    this.isLoading_search_megadel = false;
   }
 }
 // #F1B80B

@@ -45,6 +45,7 @@ import { OnDestroy } from '@angular/core';
 import { PopupRavShnatiComponent } from '../popup-rav-shnati/popup-rav-shnati.component';
 import { PopupPaymentComponent } from '../popup-payment/popup-payment.component';
 import { PopupMonthlySummaryComponent } from '../popup-monthly-summary/popup-monthly-summary.component';
+import { log } from 'console';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
@@ -86,12 +87,14 @@ export class EcommerceComponent implements OnInit {
   theDetails: any[];
   userDetails: any[];
   userDetails_more_info: any[];
+  farm_det_new: any[];
   businessLicense: any[];
   theUserDetails: any[];
   FarmId: any[];
   FarmIdOfTheMaingrower: any[];
   FarmDetailsOfTheMaingrower: any[];
   siteName: any = '';
+  farm_start_det: any[] = [];
   FarmDetails: any[] = [];
   newArray: any[] = [];
   newArrayEnd: any[] = [];
@@ -107,7 +110,7 @@ export class EcommerceComponent implements OnInit {
   isLoading_cartificate = false;
   isLoading_grower_cart = false;
   isLoading_micsot = true;
-
+  the_chosen_farm: any;
   totalFarms: any;
   growerData = [];
   contactPersonFarmData = [];
@@ -155,6 +158,10 @@ export class EcommerceComponent implements OnInit {
   arrPartnersPetem: any[] = [];
   Active_FarmDetails: any[] = [];
   Not_Active_FarmDetails: any[] = [];
+
+  new_Active_FarmDetails: any[] = [];
+  new_Not_Active_FarmDetails: any[] = [];
+
   public isNotActiveSiteShown: boolean = false;
   public click_on_show_ActiveSite: boolean = true;
   public click_on_not_show_ActiveSite: boolean = false;
@@ -223,7 +230,6 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_userDet = true;
       this.isLoading_micsot = true;
       this.isLoading_cartificate = false;
-
       this.sort_site_by_shloha();
 
       // Call any necessary functions or perform logic based on the new parameter value
@@ -278,7 +284,7 @@ export class EcommerceComponent implements OnInit {
         JSON.stringify(this.userDetails_more_info)
       );
 
-      //   this.isLoading_userDet = false;
+      this.isLoading_userDet = false;
 
       //   לוגיקה התראות -------------------------------------------------------------------
 
@@ -288,18 +294,15 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].v_yzrn,
           'yz_shem'
         );
-
       // התראה של שם ישן
       if (this.oldNameGrower[0]?.Old_Name_Yazran.length > 0) {
         this.checkOldGrowerName = true;
       }
-
       // v_SelfConsum_piece4 - אישור שוט וחילוץ מס האישור
       if (this.userDetails_more_info[0]?.v_SelfConsum) {
         const pieces = this.userDetails_more_info[0]?.v_SelfConsum.split(',');
         this.v_SelfConsum_piece4 = pieces[3];
       }
-
       //  עיזבון - בדיקה האם יש ובמידה ויש יצירת אובייקט לפופאפ
       if (
         this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900' &&
@@ -313,7 +316,6 @@ export class EcommerceComponent implements OnInit {
           },
         ];
       }
-
       //   v_Ben_Zug_Shutaf - בן זוג שותף התראה
       if (this.userDetails_more_info[0]?.v_Ben_Zug_Shutaf !== '0') {
         this.Check_Ben_Zug_Shotaf = true;
@@ -327,12 +329,10 @@ export class EcommerceComponent implements OnInit {
         await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
           this.userDetails[0].v_yzrn
         );
-
       if (this.check_if_Yzrn_have_Other_Addr.length > 0) {
         this.yzrn_have_other_addr = true;
       }
       //התראה על כתובת שונה של היצרן - סיום
-
       function getCurrentDateAsString(): string {
         const today = new Date();
         const year = today.getFullYear();
@@ -342,9 +342,7 @@ export class EcommerceComponent implements OnInit {
         const currentDate = `${year}${month}${day}`;
         return currentDate;
       }
-
       const CurrentDate = await getCurrentDateAsString();
-
       // רישיון עסק התראה
       this.businessLicense =
         await this.megadelSearchService.Yzrn_Get_Rishaion_Esek(
@@ -354,15 +352,12 @@ export class EcommerceComponent implements OnInit {
           CurrentDate,
           0
         );
-
       const pieces = this.businessLicense[0]?.McsRishaion_Esek.split(',');
       const piece4 = pieces[3];
       const piece1_kamot = pieces[0];
       const piece1_until_date = pieces[2];
       this.businessLicense_all_details = ` רישיון עסק ${piece1_kamot}  עד ${piece1_until_date} `;
-
       this.shot_confirmation = pieces[3];
-
       this.McsRishaion_Esek_number_type = parseFloat(
         this.businessLicense[0]?.McsRishaion_Esek
       );
@@ -449,21 +444,117 @@ export class EcommerceComponent implements OnInit {
 
       //   סיום התראות-----------------------------------------------------------------------------------------------------------------------------------------
 
-      //   מחלצים את מספרי האתרים של היצרן
-      this.siteName =
-        await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
-          50,
-          '',
-          '%',
-          0,
-          '17,18,19,20,21,22,23,25,26,27,28',
-          this.userDetails[0].v_yzrn,
-          99
+      this.farm_start_det = await this.megadelSearchService.farm_start_det(
+        this.idFromurl
+      );
+
+      if (this.farm_start_det.length > 0) {
+        for (let obj of this.farm_start_det) {
+          var shloha_name = this.getCategoryLabel(
+            obj.belonging_group_id.toString()
+          );
+          obj.shloha_name = shloha_name;
+        }
+      }
+
+      this.farm_start_det.sort((a, b) => {
+        if (a.farm_status_id < b.farm_status_id) {
+          return -1;
+        } else if (a.farm_status_id > b.farm_status_id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      console.log(this.farm_start_det);
+
+      this.categorizedArrays = {};
+
+      for (let obj of this.farm_start_det) {
+        const belonging_group_id = obj.belonging_group_id;
+
+        // Check if the category array exists, otherwise create a new one
+        if (!this.categorizedArrays[belonging_group_id]) {
+          this.categorizedArrays[belonging_group_id] = [];
+        }
+
+        // Push the object into the respective category array
+        await this.categorizedArrays[belonging_group_id].push(obj);
+      }
+
+      this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+
+      console.log(this.keys_of_categorizedArrays);
+
+      for (let item of this.farm_start_det) {
+        if (item.farm_status_id === 1) {
+          this.new_Active_FarmDetails.push(item);
+        } else {
+          this.new_Not_Active_FarmDetails.push(item);
+        }
+      }
+
+      this.the_chosen_farm = this.farm_start_det[0].code;
+
+      this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
+        this.userDetails[0].v_yzrn,
+        this.idFromurl,
+        this.the_chosen_farm
+      );
+      console.log(this.farm_det_new);
+
+      //   הוספת זנים
+      for (let obj of this.farm_det_new) {
+        var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+          obj.farm_num,
+          this.userDetails[0].v_yzrn
         );
-      this.length_of_total_site = this.siteName.length;
-      console.log(this.siteName);
-      //   this.new_Small_Array = await this.siteName.slice(0, 3);
-      //   await this.siteName.splice(0, 3);
+        obj.zan_det = Get_zan_num;
+      }
+
+      //   הוספת מכסת פרגיות
+      for (let obj of this.farm_det_new) {
+        var zan_num = obj.zan_det[0].number;
+        obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+      }
+
+      //   הוספת ג''ח פר אתר
+      for (let obj of this.farm_det_new) {
+        var gidul_hotz =
+          await this.megadelSearchService.Get_gidul_hotz_num_by_farm_num(
+            obj.farm_id
+          );
+        obj.pa_Counter = gidul_hotz[0].pa_Counter;
+      }
+
+      // הוספת שדה איכלוס
+      for (let obj of this.farm_det_new) {
+        var hiclos =
+          await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
+            obj.farm_id,
+            this.idFromurl
+          );
+        if (hiclos[0]?.female_number_f) {
+          obj.hiclos_number = hiclos[0].female_number_f;
+        } else {
+          obj.hiclos_number = '';
+        }
+      }
+
+      // הוספת שדה איכלוס - 750
+      for (let obj of this.farm_det_new) {
+        const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
+          obj.farm_id
+        );
+        if (hiclos750[0]?.calc750) {
+          obj.calc750 = hiclos750[0]?.calc750;
+        }
+      }
+
+      console.log(this.farm_det_new);
+
+      //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
       localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
@@ -600,50 +691,20 @@ export class EcommerceComponent implements OnInit {
         this.click_on_not_show_ActiveSite = true;
       }
       this.isLoading_FarmDetails = false;
-
-      this.categorizedArrays = {};
-      this.FarmDetails.sort((a, b) =>
-        a.belonging_group_id > b.belonging_group_id ? 1 : -1
-      );
-
-      for (let obj of this.FarmDetails) {
-        const belonging_group_id = obj.belonging_group_id;
-
-        // Check if the category array exists, otherwise create a new one
-        if (!this.categorizedArrays[belonging_group_id]) {
-          this.categorizedArrays[belonging_group_id] = [];
-        }
-
-        // Push the object into the respective category array
-        await this.categorizedArrays[belonging_group_id].push(obj);
-      }
-
-      this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
-
-      console.log(this.keys_of_categorizedArrays);
     });
-
-    this.categorizedArrays = {};
-    this.FarmDetails.sort((a, b) =>
-      a.belonging_group_id > b.belonging_group_id ? 1 : -1
-    );
-
-    for (let obj of this.FarmDetails) {
-      const belonging_group_id = obj.belonging_group_id;
-
-      // Check if the category array exists, otherwise create a new one
-      if (!this.categorizedArrays[belonging_group_id]) {
-        this.categorizedArrays[belonging_group_id] = [];
-      }
-
-      // Push the object into the respective category array
-      await this.categorizedArrays[belonging_group_id].push(obj);
-    }
-
-    this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+
+  async get_more_farm_det_by_farm_num(farm_num: any) {
+    this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
+      this.userDetails[0].v_yzrn,
+      this.idFromurl,
+      farm_num
+    );
+
+    this.the_chosen_farm = farm_num;
+  }
 
   async display_all_sites() {
     this.isLoading_FarmDetails = true;
@@ -737,7 +798,7 @@ export class EcommerceComponent implements OnInit {
         }
       });
 
-      this.rows = this.Active_FarmDetails;
+      this.rows = this.farm_start_det;
       this.click_on_show_ActiveSite = true;
       this.click_on_not_show_ActiveSite = false;
     } else {
@@ -751,7 +812,7 @@ export class EcommerceComponent implements OnInit {
         }
       });
 
-      this.rows = this.Active_FarmDetails;
+      this.rows = this.farm_start_det;
       this.isNotActiveSiteShown = true;
       this.click_on_show_ActiveSite = false;
       this.click_on_not_show_ActiveSite = true;
@@ -760,24 +821,20 @@ export class EcommerceComponent implements OnInit {
   }
 
   async sort_site_by_shloha() {
-    this.categorizedArrays = {};
-    this.FarmDetails.sort((a, b) =>
-      a.belonging_group_id > b.belonging_group_id ? 1 : -1
-    );
-
-    for (let obj of this.FarmDetails) {
-      const belonging_group_id = obj.belonging_group_id;
-
-      // Check if the category array exists, otherwise create a new one
-      if (!this.categorizedArrays[belonging_group_id]) {
-        this.categorizedArrays[belonging_group_id] = [];
-      }
-
-      // Push the object into the respective category array
-      await this.categorizedArrays[belonging_group_id].push(obj);
-    }
-
-    this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+    // this.categorizedArrays = {};
+    // this.FarmDetails.sort((a, b) =>
+    //   a.belonging_group_id > b.belonging_group_id ? 1 : -1
+    // );
+    // for (let obj of this.FarmDetails) {
+    //   const belonging_group_id = obj.belonging_group_id;
+    //   // Check if the category array exists, otherwise create a new one
+    //   if (!this.categorizedArrays[belonging_group_id]) {
+    //     this.categorizedArrays[belonging_group_id] = [];
+    //   }
+    //   // Push the object into the respective category array
+    //   await this.categorizedArrays[belonging_group_id].push(obj);
+    // }
+    // this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
   }
   //   --exec Micsa_Get_McsKvua_New @ORDER 	=2 ,@YZRN 	="11303047",@TZ   ='30',@YEAR  =2023, @MCS1 ='1' , @MCS3  ='3' ,@DtSvk='', @tik_McsSys=0
   async Micsa_Get_McsKvua_New_shloha_30_to_Get_McsKvua_shloha_30() {
@@ -963,7 +1020,7 @@ export class EcommerceComponent implements OnInit {
     this.selectedCategory = category;
     var value = [];
     value = this.categorizedArrays[category];
-    this.rows = value;
+    this.farm_start_det = value;
     console.log('s');
   }
 
@@ -1097,7 +1154,6 @@ export class EcommerceComponent implements OnInit {
   }
 
   async getPartner(allTheFarmDet) {
-    this.isLoading_userDet = true;
     console.log('allTheFarmDet: ', allTheFarmDet);
     console.log('this.newArray2: ', this.newArray);
 
@@ -1217,10 +1273,7 @@ export class EcommerceComponent implements OnInit {
           flockID2: obj2?.active_flock_id,
           newArrayEnd: this.newArrayEnd,
         });
-        console.log('d');
-
         this.openPopup();
-        this.isLoading_userDet = false;
       }
     }
   }
@@ -1264,7 +1317,7 @@ export class EcommerceComponent implements OnInit {
     const dialogRef = this.dialog.open(PopupGrowerCardComponent, dialogConfig);
   }
 
-  async testCart() {
+  async grower_cart() {
     this.isLoading_grower_cart = true;
 
     var Yazran_Cartis_Select =

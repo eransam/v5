@@ -325,6 +325,10 @@ body div.cdk-overlay-container .popup-dialog {
   left: 50%;
   transform: translate(-50%, -50%);
   margin: auto;
+  /* overflow-x: auto; */
+  max-width: 80vw;
+  position: static;
+  max-height: 80vw;
 }
 
 body div.cdk-overlay-container .popup-dialog-more-info {

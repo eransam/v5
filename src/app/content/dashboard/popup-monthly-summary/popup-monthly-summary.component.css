@@ -125,3 +125,11 @@
     /* margin: 10px 0; */
     margin-left: 15px;
   }
+
+  .userDetDiv_tatle{
+    background-color: #057eff12;
+    padding: 7px;
+    margin-right: 15px;
+    justify-content: center !important;
+  }
+  
