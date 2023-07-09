@@ -1204,125 +1204,254 @@
                     height: 658px !important;
                   "
                 >
-                  <table class="" style="direction: rtl; width: 100%">
-                    <thead class="detailsTable">
+                  <table
+                    class=""
+                    style="direction: rtl; width: 100%; margin-bottom: 50px"
+                  >
+                    <thead
+                      class="detailsTable"
+                      style="border-bottom: grey solid 1px"
+                    >
                       <tr>
-                        <th scope="col" class="border-top-0">מס אתר</th>
-                        <th scope="col" class="border-top-0">שם אתר</th>
-                        <th scope="col" class="border-top-0">ישוב</th>
-                        <th scope="col" class="border-top-0">שלוחה</th>
-                        <th scope="col" class="border-top-0">סוג אתר</th>
-                        <th scope="col" class="border-top-0">סוג מבנה</th>
-                        <th scope="col" class="border-top-0">היתר איכלוס</th>
-                        <th scope="col" class="border-top-0">תנאי אימון</th>
-                        <th scope="col" class="border-top-0">מס גוש</th>
-                        <th scope="col" class="border-top-0">ג''ח</th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מס אתר
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          שם אתר
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          ישוב
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          שלוחה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          סוג אתר
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          סוג מבנה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          היתר איכלוס
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תנאי אימון
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מס גוש
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          ג''ח
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td>
-                          {{ row.farm_num }}
-                        </td>
-
-                        <!-- <th scope="col" class="border-top-0">שם אתר</th> -->
-                        <td>
-                          {{ row.farm_name }}
-                        </td>
-
-                        <!-- <th scope="col" class="border-top-0">שם ישוב</th> -->
-                        <td>
-                          {{ row.settlement_name }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">שלוחה</th> -->
-                        <td>
+                        <td style="width: 100px">{{ row.farm_num }}</td>
+                        <td style="width: 100px">{{ row.farm_name }}</td>
+                        <td style="width: 100px">{{ row.settlement_name }}</td>
+                        <td style="width: 100px">
                           {{ row.belonging_group_name }}
                         </td>
-                        <!-- <th scope="col" class="border-top-0">סוג אתר</th> -->
-                        <td>
-                          {{ row.farm_type }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">מבנה</th> -->
-                        <td>
-                          {{ row.building_name }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">היתר איכלוס</th> -->
-                        <td>
-                          {{ row.itar_hiclos }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">תנאי אימון</th> -->
-                        <td>
-                          {{ row.tnahi_imon }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">מס גוש</th> -->
-                        <td>
-                          {{ row.block_num }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">ג''ח</th> -->
-                        <td>
-                          {{ row.pa_Counter }}
-                        </td>
+                        <td style="width: 100px">{{ row.farm_type }}</td>
+                        <td style="width: 100px">{{ row.building_name }}</td>
+                        <td style="width: 100px">{{ row.itar_hiclos }}</td>
+                        <td style="width: 100px">{{ row.tnahi_imon }}</td>
+                        <td style="width: 100px">{{ row.block_num }}</td>
+                        <td style="width: 100px">{{ row.pa_Counter }}</td>
                       </tr>
                     </tbody>
                   </table>
 
-                  <table class="" style="direction: rtl; width: 100%">
-                    <thead class="detailsTable">
+                  <table
+                    class=""
+                    style="direction: rtl; width: 100%; margin-bottom: 50px"
+                  >
+                    <thead
+                      class="detailsTable"
+                      style="border-bottom: grey solid 1px"
+                    >
                       <tr>
-                        <th scope="col" class="border-top-0">איכלוס</th>
-                        <th scope="col" class="border-top-0">קיבולת 750</th>
-                        <th scope="col" class="border-top-0">מכסת פרגיות</th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          איכלוס
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          קיבולת 750
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מכסת פרגיות
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          זן
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מקדם
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        ></th>
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <!-- <th scope="col" class="border-top-0">איכלוס</th> -->
-                        <td>
-                          {{ row.hiclos_number }}
+                        <td style="width: 100px">{{ row.hiclos_number }}</td>
+                        <td style="width: 100px">{{ row.calc750 }}</td>
+                        <td style="width: 100px">{{ row.micsat_pargiot }}</td>
+                        <td style="width: 100px">{{ row.zan_det[0]?.zan }}</td>
+                        <td style="width: 100px">
+                          {{ row.zan_det[0]?.number }}
                         </td>
-                        <!-- <th scope="col" class="border-top-0">קיבולת 750</th> -->
-                        <td>
-                          {{ row.calc750 }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">מכסת פרגיות</th> -->
-                        <td>
-                          {{ row.micsat_pargiot }}
-                        </td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
                       </tr>
                     </tbody>
                   </table>
 
-                  <table class="" style="direction: rtl; width: 100%">
-                    <thead class="detailsTable">
+                  <table
+                    class=""
+                    style="direction: rtl; width: 100%; margin-bottom: 50px"
+                  >
+                    <thead
+                      class="detailsTable"
+                      style="border-bottom: grey solid 1px"
+                    >
                       <tr>
-                        <th scope="col" class="border-top-0">מס להקה</th>
-                        <th scope="col" class="border-top-0">תאריך בקיעה</th>
-                        <th scope="col" class="border-top-0">גיל בחודשים</th>
-                        <th scope="col" class="border-top-0">גיל בשבועות</th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מס להקה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תאריך בקיעה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          גיל בחודשים
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          גיל בשבועות
+                        </th>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <!-- <th scope="col" class="border-top-0">מס להקה</th> -->
-                        <td>
-                          {{ row.flock_num }}
-                        </td>
-
-                        <!-- <th scope="col" class="border-top-0">תאריך בקיעה</th> -->
-                        <td>
-                          {{ row.flock_hatch_date }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">גיל בחודשים</th> -->
-                        <td>
-                          {{ row.flock_month_age }}
-                        </td>
-                        <!-- <th scope="col" class="border-top-0">גיל בשבועות</th> -->
-                        <td>
-                          {{ row.flock_week_age }}
-                        </td>
+                        <td style="width: 100px">{{ row.flock_num }}</td>
+                        <td style="width: 100px">{{ row.flock_hatch_date }}</td>
+                        <td style="width: 100px">{{ row.flock_month_age }}</td>
+                        <td style="width: 100px">{{ row.flock_week_age }}</td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -1360,11 +1489,35 @@
                     </div>
                   </div>
                   <div class="check">
-                    <div style="display: flex">
+                    <div style="display: flex; padding-top: 10px">
                       <div style="direction: rtl">
                         פעילים: {{ this.new_Active_FarmDetails.length }} לא
                         פעילים:
                         {{ this.new_Not_Active_FarmDetails.length }}
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="keys_of_categorizedArrays.length > 1"
+                      style="margin-left: 30px"
+                      class="site_by_shlohot_btn"
+                    >
+                      <div>
+                        <select
+                          [(ngModel)]="selectedCategory"
+                          (change)="selectCategory($event.target.value)"
+                          class="form-select form-select-lg"
+                          style="font-size: larger"
+                        >
+                          <option value="" disabled selected>שלוחה</option>
+                          <option
+                            *ngFor="let obj of keys_of_categorizedArrays"
+                            [value]="obj"
+                            [selected]="selectedCategory === obj"
+                          >
+                            {{ getCategoryLabel(obj) }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>

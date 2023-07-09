@@ -61,8 +61,8 @@ export class PopupGrowerCardComponent {
 
   async ngOnInit() {
     this.DetailsForm = new FormGroup({});
-    this.siteName = JSON.parse(localStorage.getItem('siteName'));
-    this.siteName.push({ code: 'כולם' });
+    // this.siteName = JSON.parse(localStorage.getItem('siteName'));
+    // this.siteName.push({ code: 'כולם' });
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
     this.chosenYear = 2023;

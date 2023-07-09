@@ -525,7 +525,11 @@ export class EcommerceComponent implements OnInit {
           await this.megadelSearchService.Get_gidul_hotz_num_by_farm_num(
             obj.farm_id
           );
-        obj.pa_Counter = gidul_hotz[0].pa_Counter;
+        if (gidul_hotz[0]?.pa_Counter) {
+          obj.pa_Counter = gidul_hotz[0].pa_Counter;
+        } else {
+          obj.pa_Counter = '';
+        }
       }
 
       // הוספת שדה איכלוס

@@ -11,11 +11,6 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-  
   async Get_gidul_hotz_num_by_farm_num(farm_num: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -25,9 +20,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-
-
 
   async Get_zan_num(farm_num: any, grower_num: any): Promise<any[]> {
     const item = await firstValueFrom(

@@ -620,6 +620,7 @@
 }
 .check {
   display: flex !important;
+  justify-content: end;
 }
 
 /* Component styles or separate stylesheet */
@@ -732,4 +733,8 @@
   display: flex !important;
   width: 30% !important;
   justify-content: end !important;
+}
+
+.table_tatle {
+  padding: unset !important;
 }
