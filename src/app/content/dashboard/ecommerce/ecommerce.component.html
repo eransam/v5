@@ -1183,7 +1183,7 @@
               <div class="card-header"></div>
               <div class="card-content">
                 <div class="exel_and_total">
-                  <div class="importBth">
+                  <!-- <div class="importBth">
                     <div class="justify-content">
                       <img
                         class="logoIngStyle"
@@ -1192,7 +1192,7 @@
                         (click)="getExcelDataFarmDetails()"
                       />
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
                 <div *ngIf="isLoading_FarmDetails" class="loader"></div>
@@ -1204,6 +1204,7 @@
                     height: 658px !important;
                   "
                 >
+                  <h3 class="main_table_tatle">פרטי אתר</h3>
                   <table
                     class=""
                     style="direction: rtl; width: 100%; margin-bottom: 50px"
@@ -1255,6 +1256,7 @@
                         >
                           סוג מבנה
                         </th>
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1262,6 +1264,7 @@
                         >
                           היתר איכלוס
                         </th>
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1296,9 +1299,36 @@
                         </td>
                         <td style="width: 100px">{{ row.farm_type }}</td>
                         <td style="width: 100px">{{ row.building_name }}</td>
-                        <td style="width: 100px">{{ row.itar_hiclos }}</td>
-                        <td style="width: 100px">{{ row.tnahi_imon }}</td>
+                        <td style="width: 100px">
+                          <div [ngSwitch]="row.itar_hiclos">
+                            <span
+                              *ngSwitchCase="'1'"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
+                        <td style="width: 100px">
+                          <div [ngSwitch]="row.tnahi_imon">
+                            <span
+                              *ngSwitchCase="'1'"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
                         <td style="width: 100px">{{ row.block_num }}</td>
+
                         <td style="width: 100px">{{ row.pa_Counter }}</td>
                       </tr>
                     </tbody>
@@ -1338,16 +1368,12 @@
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 100px"
-                        >
-                          זן
-                        </th>
+                        ></th>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 100px"
-                        >
-                          מקדם
-                        </th>
+                        ></th>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1380,11 +1406,11 @@
                       <tr *ngFor="let row of this.farm_det_new">
                         <td style="width: 100px">{{ row.hiclos_number }}</td>
                         <td style="width: 100px">{{ row.calc750 }}</td>
-                        <td style="width: 100px">{{ row.micsat_pargiot }}</td>
-                        <td style="width: 100px">{{ row.zan_det[0]?.zan }}</td>
                         <td style="width: 100px">
-                          {{ row.zan_det[0]?.number }}
+                          {{ row.micsat_pargiot | number : "1.2-2" }}
                         </td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -1393,7 +1419,7 @@
                       </tr>
                     </tbody>
                   </table>
-
+                  <h3 class="main_table_tatle">פרטי להקה</h3>
                   <table
                     class=""
                     style="direction: rtl; width: 100%; margin-bottom: 50px"
@@ -1410,6 +1436,7 @@
                         >
                           מס להקה
                         </th>
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1443,7 +1470,9 @@
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
                         <td style="width: 100px">{{ row.flock_num }}</td>
-                        <td style="width: 100px">{{ row.flock_hatch_date }}</td>
+                        <td style="width: 100px">
+                          {{ row.flock_hatch_date | date: 'yyyy-MM-dd'}}
+                        </td>
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
                         <td style="width: 100px"></td>
@@ -1489,7 +1518,7 @@
                     </div>
                   </div>
                   <div class="check">
-                    <div style="display: flex; padding-top: 10px">
+                    <div style="display: flex">
                       <div style="direction: rtl">
                         פעילים: {{ this.new_Active_FarmDetails.length }} לא
                         פעילים:
