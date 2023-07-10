@@ -531,7 +531,7 @@ export class EcommerceComponent implements OnInit {
         if (gidul_hotz[0]?.pa_Counter) {
           obj.pa_Counter = gidul_hotz[0].pa_Counter;
         } else {
-          obj.pa_Counter = '';
+          obj.pa_Counter = this.userDetails[0]?.cdgdl;
         }
       }
 
@@ -734,7 +734,7 @@ export class EcommerceComponent implements OnInit {
       if (gidul_hotz[0]?.pa_Counter) {
         obj.pa_Counter = gidul_hotz[0].pa_Counter;
       } else {
-        obj.pa_Counter = '';
+        obj.pa_Counter = this.userDetails[0]?.cdgdl;
       }
     }
 

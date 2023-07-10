@@ -1219,10 +1219,7 @@
                     class=""
                     style="direction: rtl; width: 100%; margin-bottom: 50px"
                   >
-                    <thead
-                      class="detailsTable"
-                     
-                    >
+                    <thead class="detailsTable">
                       <tr>
                         <th
                           scope="col"
@@ -1326,7 +1323,7 @@
                         <td style="width: 100px">
                           <div [ngSwitch]="row.tnahi_imon">
                             <span
-                              *ngSwitchCase="'1'"
+                              *ngSwitchCase="'0'"
                               style="color: green; font-size: 2rem"
                               >√</span
                             >
@@ -1342,26 +1339,15 @@
                         <td style="width: 100px">{{ row.pa_Counter }}</td>
                       </tr>
                     </tbody>
-                  </table>
-                  <h3
-                    class="main_table_tatle"
-                    style="
-                      text-align: end;
-                      font-size: 30px;
-                      font-weight: bold;
-                      color: #5b5bf8;
-                    "
-                  >
-                    פרטי להקה
-                  </h3>
-
-                  <table
-                    class=""
-                    style="direction: rtl; width: 100%; margin-bottom: 50px"
-                  >
-                    <thead
-                      class="detailsTable"
+                    <br />
+                    <h3
+                      class="main_table_tatle"
+                      style="font-size: 30px; font-weight: bold; color: #5b5bf8"
                     >
+                      פרטי להקה
+                    </h3>
+
+                    <thead class="detailsTable">
                       <tr>
                         <th
                           scope="col"
@@ -1392,7 +1378,13 @@
                         >
                           גיל בשבועות
                         </th>
-                        <td style="width: 100px"></td>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          איכלוס
+                        </th>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -1409,7 +1401,9 @@
                         </td>
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
-                        <td style="width: 100px"></td>
+                        <td style="width: 100px">
+                          {{ row.hiclos_number | number : "1.0-0" }}
+                        </td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -1417,23 +1411,17 @@
                         <td style="width: 100px"></td>
                       </tr>
                     </tbody>
-                  </table>
+                    <br />
 
-                  <table
-                    class=""
-                    style="direction: rtl; width: 100%; margin-bottom: 50px"
-                  >
                     <thead
+                      *ngIf="
+                        farm_det_new[0]?.belonging_group_name ===
+                          'תרנגולות - הטלה' &&
+                        farm_det_new[0]?.farm_type === 'אחר'
+                      "
                       class="detailsTable"
                     >
                       <tr>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          איכלוס
-                        </th>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1502,21 +1490,22 @@
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         ></th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        ></th>
                       </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody
+                      *ngIf="
+                        this.farm_det_new[0]?.belonging_group_name ==
+                        'תרנגולות - הטלה'
+                      "
+                    >
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px">{{ row.hiclos_number  | number : "1.0-0"}}</td>
                         <td style="width: 100px">
                           {{ row.kibolet_lul | number : "1.0-0" }}
                         </td>
-                        <td style="width: 100px">{{ row.calc750  | number : "1.0-0"}}</td>
+                        <td style="width: 100px">
+                          {{ row.calc750 | number : "1.0-0" }}
+                        </td>
                         <td style="width: 100px">
                           {{ row.zan_det[0]?.zan }} -
                           {{ row.zan_det[0]?.zan_name }}
@@ -1531,11 +1520,9 @@
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
                       </tr>
                     </tbody>
                   </table>
-
                   <div></div>
                 </div>
               </div>
