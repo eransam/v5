@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -10,6 +11,129 @@ export class MegadelSearchService {
   constructor(private http: HttpClient) {}
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
+
+  //     var paramData = [
+  //         { 'name' : 'msvk_code' ,
+  //           'value' : params.data['קוד משווק']
+  //         },
+  //         { 'name' : 'month' ,
+  //           'value' : params.data['חודש']
+  //         },
+  //         { 'name' : 'year' ,
+  //           'value' : params.data['שנה']
+  //         },
+  //       ]
+  //       var jsonFinal = [
+  //         { reportName : '\\\\epb-iis22\\Report\\ChickenHealth\\FlockHistory.rpt',
+  //           pdfName: '\\\\epb-iis22\\Scan\\ChickenHealth\\flock\\' + params.data.id + '.pdf',
+  //           connectionString: 'ChickenHealth',
+  //           param: paramData }]
+
+  //       this.http.post<any>(`${environment.baseUrl}/growerService.asmx/exportPDFWithHebrewDate`,JSON.stringify(jsonFinal), { headers: this.headers }).subscribe(data => {
+
+  //         console.log("data error=" + JSON.stringify(data))
+
+  //         if(data) {
+  //           window.open('http://epb-iis22:8006/ChickenHealth/flock/' + params.data.id + '.pdf');
+
+  //        } else {
+  //          console.log("FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE")
+  //        }
+  //    });
+
+  //   async exportPDFWithHebrewDate(
+  //     grower_id: any
+  //   ): Promise<any[]> {
+  //     const item = await firstValueFrom(
+  //       this.http.post<any[]>(
+  //         `${environment.apiPath}growerService.asmx/exportPDFWithHebrewDate`,JSON.stringify(jsonFinal), { headers: this.headers }
+  //       )
+  //     );
+  //     console.log('item: ', item);
+  //     return item;
+  //   }
+
+  //  test_eran(): Promise<any[]> {
+  //     const headers = new HttpHeaders({
+  //         'Content-Type': 'application/json'
+  //       });
+
+  //     var paramData = [
+  //         { 'name' : 'flock_id' ,
+  //           'value' : '104,831'
+  //         },
+  //         { 'name' : 'from_date' ,
+  //           'value' : '2022-11-22 00:00:00'
+  //         },
+  //         { 'name' : 'to_date' ,
+  //           'value' : '2023-07-10 00:00:00'
+  //         },
+  //         { 'name' : 'isLive(PM)' ,
+  //           'value' : 0
+  //         },
+  //         { 'name' : 'bacteria_id(sensitivity)' ,
+  //           'value' : 0
+  //         },
+  //       ]
+  //       var jsonFinal = [
+  //         { reportName : '\\\\epb-iis22\\Report\\ChickenHealth\\FlockHistory.rpt',
+  //           pdfName: '\\\\epb-iis22\\Scan\\ChickenHealth\\flock\\' + 'params.data.id' + '.pdf',
+  //           connectionString: 'ChickenHealth',
+  //           param: paramData }]
+
+  //     const item = firstValueFrom(
+  //         this.http.post<any[]>(
+  //             `${environment.apiPath}growerService.asmx/exportPDFWithHebrewDate`,
+  //             JSON.stringify(jsonFinal),
+  //             { headers: headers }
+  //           )
+  //         )
+  //     console.log('item: ', item);
+  //     return item;
+  //   }
+
+  test_eran() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    var paramData = [
+      { name: 'flock_id', value: '104,831' },
+      { name: 'from_date', value: '2022-11-22 00:00:00' },
+      { name: 'to_date', value: '2023-07-10 00:00:00' },
+      { name: 'isLive(PM)', value: 0 },
+      { name: 'bacteria_id(sensitivity)', value: 0 },
+    ];
+    var jsonFinal = [
+      {
+        reportName: '\\\\epb-iis22\\Report\\ChickenHealth\\FlockHistory.rpt',
+        pdfName:
+          '\\\\epb-iis22\\Scan\\ChickenHealth\\flock\\' +
+          'params.data.id' +
+          '.pdf',
+        connectionString: 'ChickenHealth',
+        param: paramData,
+      },
+    ];
+
+    this.http
+      .post<any>(
+        `${environment.apiPath}/growerService.asmx/exportPDFWithHebrewDate`,
+        JSON.stringify(jsonFinal),
+        { headers: headers }
+      )
+      .subscribe((data) => {
+        console.log('data error=' + JSON.stringify(data));
+
+        if (data) {
+          window.open(
+            'http://epb-iis22:8006/EggMovements/' + 'params.data.id' + '.pdf'
+          );
+        } else {
+          console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
+        }
+      });
+  }
 
   async Get_grower_num_and_grower_id_by_grower_id_new(
     grower_id: any

@@ -39,6 +39,8 @@
             </div>
           </div>
         </div>
+
+        <!-- <button (click)="test_eran()">test_eran()</button> -->
         <!-- רב שנתי -->
         <div class="col-xl-2 col-lg-6 col-12" (click)="shows_rav_shnati()">
           <div class="card pull-up">
@@ -1194,7 +1196,6 @@
                     </div>
                   </div> -->
                 </div>
-
                 <div *ngIf="isLoading_FarmDetails" class="loader"></div>
                 <div
                   *ngIf="!isLoading_FarmDetails"
@@ -1610,6 +1611,7 @@
                       <tbody>
                         <tr *ngFor="let row of this.farm_start_det">
                           <td
+                            *ngIf="row.code && !row.code.includes('\1')"
                             [ngClass]="[
                               row.farm_status_id === 1
                                 ? 'avtice_site_class'
@@ -1625,6 +1627,7 @@
                           </td>
 
                           <td
+                            *ngIf="row.code && !row.code.includes('\1')"
                             [ngClass]="[
                               row.farm_status_id === 1
                                 ? 'avtice_site_class'

@@ -723,6 +723,18 @@ export class EcommerceComponent implements OnInit {
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+  
+
+
+  async test_eran() {
+    var growerId = await this.megadelSearchService.test_eran();
+}
+
+
   async get_more_farm_det_by_farm_num(farm_num: any) {
     var newVariable;
 
