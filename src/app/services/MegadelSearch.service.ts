@@ -11,6 +11,28 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Get_grower_num_and_grower_id_by_grower_id_new(
+    grower_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_grower_num_and_grower_id_by_grower_id_new?grower_id=${grower_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_growerId_By_code_atar(ycode: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_growerId_By_code_atar?ycode=${ycode}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Get_gidul_hotz_num_by_farm_num(farm_num: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -1023,17 +1045,6 @@ export class MegadelSearchService {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/Get_All_Shloha_Id_By_NAME?name=${name}`
-      )
-    );
-    console.log('item: ', item);
-
-    return item;
-  }
-
-  async get_growerId_By_code_atar(ycode: any): Promise<any[]> {
-    const item = await firstValueFrom(
-      this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_growerId_By_code_atar?ycode=${ycode}`
       )
     );
     console.log('item: ', item);

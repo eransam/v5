@@ -839,6 +839,8 @@ export class SearchMegadelComponent implements OnInit {
                 item.v_yzrn,
                 99
               );
+              console.log("sdfsdf");
+              
             this.allInactive = results3.every(
               (obj) => obj.RishaionSts === 'לא פעיל'
             );
@@ -876,4 +878,3 @@ export class SearchMegadelComponent implements OnInit {
     this.isLoading_search_megadel = false;
   }
 }
-// #F1B80B

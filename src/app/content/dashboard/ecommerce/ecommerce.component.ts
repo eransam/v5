@@ -450,6 +450,7 @@ export class EcommerceComponent implements OnInit {
       this.farm_start_det = await this.megadelSearchService.farm_start_det(
         this.idFromurl
       );
+      console.log('fd');
 
       if (this.farm_start_det.length > 0) {
         for (let obj of this.farm_start_det) {
@@ -500,10 +501,29 @@ export class EcommerceComponent implements OnInit {
 
       this.the_chosen_farm = this.farm_start_det[0].code;
 
+      var newVariable;
+
+      if (this.the_chosen_farm.includes('/')) {
+        newVariable = this.the_chosen_farm.split('/')[0];
+      } else {
+        newVariable = this.the_chosen_farm;
+      }
+
+      var growerId = await this.megadelSearchService.get_growerId_By_code_atar(
+        newVariable
+      );
+
+      var growerId_and_grower_num =
+        await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
+          growerId[0].grower_id
+        );
+
+      console.log('df');
+
       this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
-        this.userDetails[0].v_yzrn,
-        this.idFromurl,
-        this.the_chosen_farm
+        growerId_and_grower_num[0].yz_yzrn,
+        growerId_and_grower_num[0].grower_id,
+        newVariable
       );
       console.log(this.farm_det_new);
 
@@ -704,10 +724,27 @@ export class EcommerceComponent implements OnInit {
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
   async get_more_farm_det_by_farm_num(farm_num: any) {
+    var newVariable;
+
+    if (farm_num.includes('/')) {
+      newVariable = farm_num.split('/')[0];
+    } else {
+      newVariable = farm_num;
+    }
+
+    var growerId = await this.megadelSearchService.get_growerId_By_code_atar(
+      newVariable
+    );
+
+    var growerId_and_grower_num =
+      await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
+        growerId[0].grower_id
+      );
+
     this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
-      this.userDetails[0].v_yzrn,
-      this.idFromurl,
-      farm_num
+      growerId_and_grower_num[0].yz_yzrn,
+      growerId_and_grower_num[0].grower_id,
+      newVariable
     );
 
     //   הוספת זנים
