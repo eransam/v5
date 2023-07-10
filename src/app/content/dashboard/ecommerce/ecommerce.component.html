@@ -1204,14 +1204,24 @@
                     height: 658px !important;
                   "
                 >
-                  <h3 class="main_table_tatle">פרטי אתר</h3>
+                  <h3
+                    class="main_table_tatle"
+                    style="
+                      text-align: end;
+                      font-size: 30px;
+                      font-weight: bold;
+                      color: #5b5bf8;
+                    "
+                  >
+                    פרטי אתר
+                  </h3>
                   <table
                     class=""
                     style="direction: rtl; width: 100%; margin-bottom: 50px"
                   >
                     <thead
                       class="detailsTable"
-                      style="border-bottom: grey solid 1px"
+                     
                     >
                       <tr>
                         <th
@@ -1333,6 +1343,17 @@
                       </tr>
                     </tbody>
                   </table>
+                  <h3
+                    class="main_table_tatle"
+                    style="
+                      text-align: end;
+                      font-size: 30px;
+                      font-weight: bold;
+                      color: #5b5bf8;
+                    "
+                  >
+                    פרטי להקה
+                  </h3>
 
                   <table
                     class=""
@@ -1340,7 +1361,70 @@
                   >
                     <thead
                       class="detailsTable"
-                      style="border-bottom: grey solid 1px"
+                    >
+                      <tr>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מס להקה
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תאריך בקיעה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          גיל בחודשים
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          גיל בשבועות
+                        </th>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let row of this.farm_det_new">
+                        <td style="width: 100px">{{ row.flock_num }}</td>
+                        <td style="width: 100px">
+                          {{ row.flock_hatch_date | date : "dd/MM/yyyy" }}
+                        </td>
+                        <td style="width: 100px">{{ row.flock_month_age }}</td>
+                        <td style="width: 100px">{{ row.flock_week_age }}</td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                        <td style="width: 100px"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <table
+                    class=""
+                    style="direction: rtl; width: 100%; margin-bottom: 50px"
+                  >
+                    <thead
+                      class="detailsTable"
                     >
                       <tr>
                         <th
@@ -1355,8 +1439,32 @@
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         >
+                          קיבולת 350
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
                           קיבולת 750
                         </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          זן
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מקדם
+                        </th>
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1404,78 +1512,21 @@
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px">{{ row.hiclos_number }}</td>
-                        <td style="width: 100px">{{ row.calc750 }}</td>
+                        <td style="width: 100px">{{ row.hiclos_number  | number : "1.0-0"}}</td>
                         <td style="width: 100px">
-                          {{ row.micsat_pargiot | number : "1.2-2" }}
+                          {{ row.kibolet_lul | number : "1.0-0" }}
                         </td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <h3 class="main_table_tatle">פרטי להקה</h3>
-                  <table
-                    class=""
-                    style="direction: rtl; width: 100%; margin-bottom: 50px"
-                  >
-                    <thead
-                      class="detailsTable"
-                      style="border-bottom: grey solid 1px"
-                    >
-                      <tr>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          מס להקה
-                        </th>
-
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          תאריך בקיעה
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          גיל בחודשים
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          גיל בשבועות
-                        </th>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                        <td style="width: 100px"></td>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px">{{ row.flock_num }}</td>
+                        <td style="width: 100px">{{ row.calc750  | number : "1.0-0"}}</td>
                         <td style="width: 100px">
-                          {{ row.flock_hatch_date | date: 'yyyy-MM-dd'}}
+                          {{ row.zan_det[0]?.zan }} -
+                          {{ row.zan_det[0]?.zan_name }}
                         </td>
-                        <td style="width: 100px">{{ row.flock_month_age }}</td>
-                        <td style="width: 100px">{{ row.flock_week_age }}</td>
-                        <td style="width: 100px"></td>
+                        <td style="width: 100px">
+                          {{ row.zan_det[0].number }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.micsat_pargiot | number : "1.0-0" }}
+                        </td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>

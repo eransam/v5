@@ -21,6 +21,8 @@ export interface Chart {
   responsiveOptions?: any;
   events?: ChartEvent;
 }
+import { forkJoin } from 'rxjs';
+
 import { combineLatest } from 'rxjs';
 
 import { TableexcelService } from '../../../services/tableexcel.service';
@@ -207,6 +209,7 @@ export class EcommerceComponent implements OnInit {
     this.newArray = [];
     this.newArrayEnd = [];
     this.sort_site_by_shloha();
+
     this.route2.params.subscribe(async (params) => {
       this.farmID2Fromurl = params['farmid'];
       this.flockID2Fromurl = params['flockid'];
@@ -556,7 +559,7 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
-    console.log(this.farm_det_new);
+      console.log(this.farm_det_new);
 
       //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -706,6 +709,60 @@ export class EcommerceComponent implements OnInit {
       this.idFromurl,
       farm_num
     );
+
+    //   הוספת זנים
+    for (let obj of this.farm_det_new) {
+      var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+        obj.farm_num,
+        this.userDetails[0].v_yzrn
+      );
+      obj.zan_det = Get_zan_num;
+    }
+
+    //   הוספת מכסת פרגיות
+    for (let obj of this.farm_det_new) {
+      var zan_num = obj.zan_det[0].number;
+      obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+    }
+
+    //   הוספת ג''ח פר אתר
+    for (let obj of this.farm_det_new) {
+      var gidul_hotz =
+        await this.megadelSearchService.Get_gidul_hotz_num_by_farm_num(
+          obj.farm_id
+        );
+      if (gidul_hotz[0]?.pa_Counter) {
+        obj.pa_Counter = gidul_hotz[0].pa_Counter;
+      } else {
+        obj.pa_Counter = '';
+      }
+    }
+
+    // הוספת שדה איכלוס
+    for (let obj of this.farm_det_new) {
+      var hiclos =
+        await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
+          obj.farm_id,
+          this.idFromurl
+        );
+      if (hiclos[0]?.female_number_f) {
+        obj.hiclos_number = hiclos[0].female_number_f;
+      } else {
+        obj.hiclos_number = '';
+      }
+    }
+
+    // הוספת שדה איכלוס - 750
+    for (let obj of this.farm_det_new) {
+      const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
+        obj.farm_id
+      );
+      if (hiclos750[0]?.calc750) {
+        obj.calc750 = hiclos750[0]?.calc750;
+      }
+    }
+
+    console.log(this.farm_det_new);
 
     this.the_chosen_farm = farm_num;
   }
