@@ -1416,6 +1416,8 @@
 
                     <thead
                       *ngIf="
+                        farm_det_new &&
+                        farm_det_new[0] &&
                         farm_det_new[0]?.belonging_group_name ===
                           'תרנגולות - הטלה' &&
                         farm_det_new[0]?.farm_type === 'אחר'
@@ -1496,8 +1498,11 @@
 
                     <tbody
                       *ngIf="
-                        this.farm_det_new[0]?.belonging_group_name ==
-                        'תרנגולות - הטלה'
+                        farm_det_new &&
+                        farm_det_new[0] &&
+                        farm_det_new[0]?.belonging_group_name ===
+                          'תרנגולות - הטלה' &&
+                        farm_det_new[0]?.farm_type === 'אחר'
                       "
                     >
                       <tr *ngFor="let row of this.farm_det_new">
@@ -1548,12 +1553,12 @@
                 <div class="" style="padding: 15px">
                   <div class="importBth">
                     <div class="justify-content">
-                      <img
+                      <!-- <img
                         class="logoIngStyle"
                         src="assets/images/logo/excel.png"
                         alt="Image"
                         (click)="getExcelDataFarmDetails()"
-                      />
+                      /> -->
                     </div>
                   </div>
                   <div class="check">
@@ -1611,7 +1616,7 @@
                       <tbody>
                         <tr *ngFor="let row of this.farm_start_det">
                           <td
-                            *ngIf="row.code && !row.code.includes('\1')"
+                            *ngIf="row.is_hen_house_split !== 1"
                             [ngClass]="[
                               row.farm_status_id === 1
                                 ? 'avtice_site_class'
@@ -1627,7 +1632,7 @@
                           </td>
 
                           <td
-                            *ngIf="row.code && !row.code.includes('\1')"
+                            *ngIf="row.is_hen_house_split !== 1"
                             [ngClass]="[
                               row.farm_status_id === 1
                                 ? 'avtice_site_class'

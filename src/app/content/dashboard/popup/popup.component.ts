@@ -24,7 +24,6 @@ export class PopupComponent implements OnInit {
     console.log('test');
     // data[data.length - 1].newArrayEnd
     // const uniqueArr: number[] = [...new Set(data)];
-    const arr: any[] = [1, 2, 3, 4, 2, 3, 5];
     const uniqueArr: any[] = [
       ...new Set(this.data[this.data.length - 1].newArrayEnd),
     ];

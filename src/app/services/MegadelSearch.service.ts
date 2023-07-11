@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Get_split_site_name_by_grower_id(growerId: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_split_site_name_by_grower_id?growerId=${growerId}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   //     var paramData = [
   //         { 'name' : 'msvk_code' ,
   //           'value' : params.data['קוד משווק']

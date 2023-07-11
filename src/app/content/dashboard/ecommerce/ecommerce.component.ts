@@ -208,6 +208,8 @@ export class EcommerceComponent implements OnInit {
     this.Check_v_name_kaful = false;
     this.newArray = [];
     this.newArrayEnd = [];
+    this.new_Active_FarmDetails = [];
+    this.new_Not_Active_FarmDetails = [];
     this.sort_site_by_shloha();
 
     this.route2.params.subscribe(async (params) => {
@@ -233,6 +235,8 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_userDet = true;
       this.isLoading_micsot = true;
       this.isLoading_cartificate = false;
+      this.new_Active_FarmDetails = [];
+      this.new_Not_Active_FarmDetails = [];
       this.sort_site_by_shloha();
 
       // Call any necessary functions or perform logic based on the new parameter value
@@ -450,6 +454,13 @@ export class EcommerceComponent implements OnInit {
       this.farm_start_det = await this.megadelSearchService.farm_start_det(
         this.idFromurl
       );
+
+      //   הוספת שם יצרן ללולי מחיצה ראשיים שאין להם שם מגדל
+      for (let obj of this.farm_start_det) {
+        if (obj.name === null) {
+          obj.name = this.userDetails[0].v_shem_yzrn;
+        }
+      }
       console.log('fd');
 
       if (this.farm_start_det.length > 0) {
@@ -498,88 +509,125 @@ export class EcommerceComponent implements OnInit {
           this.new_Not_Active_FarmDetails.push(item);
         }
       }
+      if (this.farm_start_det && this.farm_start_det[0]) {
+        this.the_chosen_farm = this.farm_start_det[0]?.code;
 
-      this.the_chosen_farm = this.farm_start_det[0].code;
+        var newVariable;
 
-      var newVariable;
+        if (this.the_chosen_farm.includes('/')) {
+          newVariable = this.the_chosen_farm.split('/')[0];
+        } else {
+          newVariable = this.the_chosen_farm;
+        }
 
-      if (this.the_chosen_farm.includes('/')) {
-        newVariable = this.the_chosen_farm.split('/')[0];
-      } else {
-        newVariable = this.the_chosen_farm;
-      }
+        var growerId =
+          await this.megadelSearchService.get_growerId_By_code_atar(
+            newVariable
+          );
 
-      var growerId = await this.megadelSearchService.get_growerId_By_code_atar(
-        newVariable
-      );
+        var growerId_and_grower_num =
+          await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
+            growerId[0].grower_id
+          );
 
-      var growerId_and_grower_num =
-        await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
-          growerId[0].grower_id
+        console.log('df');
+
+        this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
+          growerId_and_grower_num[0].yz_yzrn,
+          growerId_and_grower_num[0].grower_id,
+          newVariable
         );
-
-      console.log('df');
-
-      this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
-        growerId_and_grower_num[0].yz_yzrn,
-        growerId_and_grower_num[0].grower_id,
-        newVariable
-      );
-      console.log(this.farm_det_new);
-
-      //   הוספת זנים
-      for (let obj of this.farm_det_new) {
-        var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-          obj.farm_num,
-          this.userDetails[0].v_yzrn
-        );
-        obj.zan_det = Get_zan_num;
       }
+      if (this.farm_det_new) {
+        for (let obj of this.farm_det_new) {
+          if (obj.is_hen_house_split === 1) {
+            var split_site_name =
+              await this.megadelSearchService.Get_split_site_name_by_grower_id(
+                growerId[0].grower_id
+              );
 
-      //   הוספת מכסת פרגיות
-      for (let obj of this.farm_det_new) {
-        var zan_num = obj.zan_det[0].number;
-        obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
-      }
+            console.log(split_site_name);
 
-      //   הוספת ג''ח פר אתר
-      for (let obj of this.farm_det_new) {
-        var gidul_hotz =
-          await this.megadelSearchService.Get_gidul_hotz_num_by_farm_num(
+            obj.farm_num = split_site_name[0].code;
+          }
+        }
+
+        console.log(this.farm_det_new);
+
+        //   הוספת זנים
+        for (let obj of this.farm_det_new) {
+          if (obj.farm_num.toString().includes('/')) {
+            var parts = obj.farm_num.split('/');
+            var extractedValue = parts[0];
+
+            var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+              extractedValue,
+              this.userDetails[0].v_yzrn
+            );
+            obj.zan_det = Get_zan_num;
+          } else {
+            var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+              obj.farm_num,
+              this.userDetails[0].v_yzrn
+            );
+            obj.zan_det = Get_zan_num;
+          }
+        }
+
+        //   הוספת מכסת פרגיות
+        for (let obj of this.farm_det_new) {
+          var zan_num = obj.zan_det[0].number;
+          obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+        }
+
+        //   הוספת ג''ח פר אתר
+        for (let obj of this.farm_det_new) {
+          var gidul_hotz =
+            await this.megadelSearchService.Get_gidul_hotz_num_by_farm_num(
+              obj.farm_id
+            );
+          if (gidul_hotz[0]?.pa_Counter) {
+            obj.pa_Counter = gidul_hotz[0].pa_Counter;
+          } else {
+            obj.pa_Counter = this.userDetails[0]?.cdgdl;
+          }
+        }
+
+        // הוספת שדה איכלוס
+        for (let obj of this.farm_det_new) {
+          var hiclos =
+            await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
+              obj.farm_id,
+              this.idFromurl
+            );
+          if (hiclos[0]?.female_number_f) {
+            obj.hiclos_number = hiclos[0].female_number_f;
+          } else {
+            obj.hiclos_number = '';
+          }
+        }
+
+        // הוספת שדה איכלוס - 750
+        for (let obj of this.farm_det_new) {
+          const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
             obj.farm_id
           );
-        if (gidul_hotz[0]?.pa_Counter) {
-          obj.pa_Counter = gidul_hotz[0].pa_Counter;
-        } else {
-          obj.pa_Counter = this.userDetails[0]?.cdgdl;
+          if (hiclos750[0]?.calc750) {
+            obj.calc750 = hiclos750[0]?.calc750;
+          }
         }
-      }
 
-      // הוספת שדה איכלוס
-      for (let obj of this.farm_det_new) {
-        var hiclos =
-          await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
-            obj.farm_id,
-            this.idFromurl
-          );
-        if (hiclos[0]?.female_number_f) {
-          obj.hiclos_number = hiclos[0].female_number_f;
-        } else {
-          obj.hiclos_number = '';
+        for (let obj of this.farm_det_new) {
+          if (this.userDetails_more_info[0]?.v_shem_yzrn !== obj.farm_name) {
+            obj.farm_name = this.userDetails_more_info[0]?.v_shem_yzrn;
+            obj.farm_num = obj.farm_num.toString().slice(0, -1) + '2';
+
+            console.log('Sd');
+          }
         }
-      }
 
-      // הוספת שדה איכלוס - 750
-      for (let obj of this.farm_det_new) {
-        const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
-          obj.farm_id
-        );
-        if (hiclos750[0]?.calc750) {
-          obj.calc750 = hiclos750[0]?.calc750;
-        }
+        console.log(this.farm_det_new);
       }
-
-      console.log(this.farm_det_new);
 
       //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -718,22 +766,27 @@ export class EcommerceComponent implements OnInit {
         this.click_on_not_show_ActiveSite = true;
       }
       this.isLoading_FarmDetails = false;
+
+      if (
+        this.new_Active_FarmDetails.length === 0 &&
+        this.new_Not_Active_FarmDetails.length === 0
+      ) {
+        this.isLoading_FarmDetails = false;
+      }
     });
+    if (
+      this.new_Active_FarmDetails.length === 0 &&
+      this.new_Not_Active_FarmDetails.length === 0
+    ) {
+      this.isLoading_FarmDetails = false;
+    }
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-  
-
-
+  // isLoading_FarmDetails
   async test_eran() {
     var growerId = await this.megadelSearchService.test_eran();
-}
-
+  }
 
   async get_more_farm_det_by_farm_num(farm_num: any) {
     var newVariable;
