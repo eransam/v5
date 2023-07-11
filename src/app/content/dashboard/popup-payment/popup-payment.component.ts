@@ -166,6 +166,8 @@ export class PopupPaymentComponent {
         }
       }
     }
+    console.log(this.type_of_payment);
+    
   }
 
   getExcelDataFarmDetails(): void {

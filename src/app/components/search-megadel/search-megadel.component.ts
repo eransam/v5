@@ -710,23 +710,26 @@ export class SearchMegadelComponent implements OnInit {
           // הוספה לפרטי האתר שדה המכיל גידול חוץ
           for (let item of resultsMaaravi) {
             let YazRishaion = item.YazRishaion;
-            const extractedNumber_YazRishaion = this.extractNumber(YazRishaion);
-            item.yz_Id += ' ,' + extractedNumber_YazRishaion.toString();
+            if (!YazRishaion.includes('/')) {
+              const extractedNumber_YazRishaion =
+                this.extractNumber(YazRishaion);
+              item.yz_Id += ' ,' + extractedNumber_YazRishaion.toString();
 
-            const numbersString = item.yz_Id;
+              const numbersString = item.yz_Id;
 
-            // Step 1: Split the string into an array
-            const numbersArray = await numbersString.split(',');
+              // Step 1: Split the string into an array
+              const numbersArray = await numbersString.split(',');
 
-            // Step 2: Create a Set to remove duplicate values
-            const uniqueNumbersSet = new Set(numbersArray);
+              // Step 2: Create a Set to remove duplicate values
+              const uniqueNumbersSet = new Set(numbersArray);
 
-            // Step 3: Convert the Set back to an array
-            const uniqueNumbersArray = [...uniqueNumbersSet];
+              // Step 3: Convert the Set back to an array
+              const uniqueNumbersArray = [...uniqueNumbersSet];
 
-            // Step 4: Join the array elements back into a string
-            const uniqueNumbersString = uniqueNumbersArray.join(',');
-            item.yz_Id = uniqueNumbersString;
+              // Step 4: Join the array elements back into a string
+              const uniqueNumbersString = uniqueNumbersArray.join(',');
+              item.yz_Id = uniqueNumbersString;
+            }
 
             let yz_yzrn = item.v_yzrn;
             const results2 =
@@ -751,7 +754,7 @@ export class SearchMegadelComponent implements OnInit {
             );
             item444.micsa = this.mihsot3[0]?.mi_kamut;
           });
-
+          // הוספת מיכסה
           for (let item of resultsMaaravi) {
             this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
               5,
@@ -763,9 +766,17 @@ export class SearchMegadelComponent implements OnInit {
             item.micsa = this.mihsot3[0]?.mi_kamut;
           }
 
+          // הוספת מספר אתר מחיצה לרשימת סטרינג אתרים
+          for (let item of resultsMaaravi) {
+            if (item.YazRishaion.length > 0) {
+              item.yz_Id += ' ,' + item.YazRishaion;
+            }
+          }
+
           console.log('resultsMaaravi426: ', resultsMaaravi);
 
           this.theDetails = resultsMaaravi;
+
           localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
         }
       }
@@ -824,10 +835,7 @@ export class SearchMegadelComponent implements OnInit {
 
           // יוצר שדה המכיל מספרי אתרים
           for (let item of resultsMaaravi2) {
-            // const results3 =
-            //   await this.megadelSearchService.get_siteName_by_yzId(
-            //     item.v_yzrn_id
-            //   );
+
 
             const results3 =
               await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
@@ -839,14 +847,18 @@ export class SearchMegadelComponent implements OnInit {
                 item.v_yzrn,
                 99
               );
-              console.log("sdfsdf");
-              
+            console.log('sdfsdf');
+            const filteredArray = results3.filter(
+              (obj) => obj.RishaionSts !== 'לא פעיל'
+            );
+            console.log(filteredArray);
+
             this.allInactive = results3.every(
               (obj) => obj.RishaionSts === 'לא פעיל'
             );
             console.log(this.allInactive);
 
-            const codes = results3.map((obj) => obj.code);
+            const codes = filteredArray.map((obj) => obj.code);
             const joinedString = codes.join(', ');
             item.yz_IdReal = item.v_yzrn_id;
             item.yz_Id = joinedString;

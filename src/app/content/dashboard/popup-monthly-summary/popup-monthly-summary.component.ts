@@ -140,6 +140,8 @@ export class PopupMonthlySummaryComponent {
       ''
     );
 
+    console.log('de');
+
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
     this.siteName.push({ RishaionSts: '', code: 'כולם' });

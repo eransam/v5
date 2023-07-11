@@ -62,8 +62,9 @@
       </div>
 
       <!-- בחר סוג תשלום -->
-      <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+      <div class="year-select rtl_Style col-md-5" style="padding-top: 23px">
         סוג תשלום:
+
         <select [(ngModel)]="payment" [formControl]="paymentControl">
           <option *ngFor="let obj of this.type_of_payment" [value]="obj.code">
             {{ obj.name }}

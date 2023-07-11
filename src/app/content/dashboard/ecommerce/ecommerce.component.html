@@ -1420,7 +1420,8 @@
                         farm_det_new[0] &&
                         farm_det_new[0]?.belonging_group_name ===
                           'תרנגולות - הטלה' &&
-                        farm_det_new[0]?.farm_type === 'אחר'
+                        (farm_det_new[0]?.farm_type === 'אחר' ||
+                        farm_det_new[0]?.farm_type === 'חופש')
                       "
                       class="detailsTable"
                     >
@@ -1502,7 +1503,8 @@
                         farm_det_new[0] &&
                         farm_det_new[0]?.belonging_group_name ===
                           'תרנגולות - הטלה' &&
-                        farm_det_new[0]?.farm_type === 'אחר'
+                        (farm_det_new[0]?.farm_type === 'אחר' ||
+                        farm_det_new[0]?.farm_type === 'חופש')
                       "
                     >
                       <tr *ngFor="let row of this.farm_det_new">
@@ -1610,9 +1612,14 @@
                           <th scope="col" class="border-top-0">אתרים</th>
 
                           <th scope="col" class="border-top-0">שלוחה</th>
+
+                          <th scope="col" class="border-top-0">סטטוס</th>
+
+
                         </tr>
                       </thead>
 
+                      
                       <tbody>
                         <tr *ngFor="let row of this.farm_start_det">
                           <td
@@ -1644,6 +1651,25 @@
                           >
                             {{ row.shloha_name }}
                           </td>
+
+
+                          <td
+                          *ngIf="row.is_hen_house_split !== 1"
+                          [ngClass]="[
+                            row.farm_status_id === 1
+                              ? 'avtice_site_class'
+                              : 'not_avtice_site_class',
+                            row.code === the_chosen_farm
+                              ? 'chosen_site'
+                              : 'not_chosen_site'
+                          ]"
+                        >
+                          <p *ngIf="row.farm_status_id === 2 ">לא פעיל</p>
+                          <p *ngIf="row.farm_status_id === 1 "> פעיל</p>
+
+                        </td>
+
+
                         </tr>
                       </tbody>
                     </table>

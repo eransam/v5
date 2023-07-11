@@ -236,35 +236,7 @@
                         fxFlex="auto"
                         [perfectScrollbar]="config"
                       >
-                        <ngx-datatable-column
-                          name="מחצה"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                              >
-                                {{ row.YazRishaion }}</a
-                              >
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-
-
-
-
-
-
-
-
+                        <!-- מס אתר -->
                         <ngx-datatable-column
                           title="This is a tooltip"
                           name="מספר אתר"
@@ -335,94 +307,7 @@
                           </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column
-                          name="הערה"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                              >
-                                <p *ngIf="row.all_not_active">לא פעילים</p>
-                                <p *ngIf="!row.all_not_active">קיימים פעילים</p>
-                              </a>
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column
-                          name="שם יצרן"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                                >{{ row.v_shem_yzrn }}</a
-                              >
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column
-                          name="שם פרטי"
-                          [flexGrow]="1"
-                          [minWidth]="30"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                              >
-                                {{ row.v_first_name }}</a
-                              >
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column
-                          name="שם משפחה"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                              >
-                                {{ row.v_last_name }}</a
-                              >
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-
+                        <!-- מס מגדל -->
                         <ngx-datatable-column
                           name="מספר מגדל"
                           [flexGrow]="1"
@@ -445,8 +330,9 @@
                           </ng-template>
                         </ngx-datatable-column>
 
+                        <!-- שם מגדל -->
                         <ngx-datatable-column
-                          name="ת.ז"
+                          name="שם יצרן"
                           [flexGrow]="1"
                           [minWidth]="90"
                         >
@@ -460,77 +346,36 @@
                                   '/dashboard/ecommerce',
                                   row.yz_IdReal
                                 ]"
-                                >{{ row.v_zehut }}</a
+                                >{{ row.v_shem_yzrn }}</a
                               >
                             </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column
-                          name="ישוב"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                                >{{ row.v_shem_yeshuv }}</a
-                              >
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column
-                          name="סוג מגדל"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <ng-container *ngIf="row.v_sug === 1">
-                              <div [class]="'text-right'">
-                                <a
-                                  [routerLink]="[
-                                    '/dashboard/ecommerce',
-                                    row.yz_IdReal
-                                  ]"
-                                  >ראשי</a
-                                >
-                              </div>
-                            </ng-container>
-                            <ng-container *ngIf="row.v_sug === 2">
-                              <div [class]="'text-right'">
-                                <a
-                                  [routerLink]="[
-                                    '/dashboard/ecommerce',
-                                    row.yz_IdReal
-                                  ]"
-                                >
-                                  שותף</a
-                                >
-                              </div>
-                            </ng-container>
-                            <ng-container *ngIf="row.v_sug === 3">
-                              <div [class]="'text-right'">
-                                <a
-                                  [routerLink]="[
-                                    '/dashboard/ecommerce',
-                                    row.yz_IdReal
-                                  ]"
-                                  >פרטני</a
-                                >
-                              </div>
-                            </ng-container>
                           </ng-template>
                         </ngx-datatable-column>
 
+                        <!-- מכסה -->
+                        <ngx-datatable-column
+                          name="מיכסה"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                              >
+                                {{ row.micsa | numberFormat }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- ג''ח' -->
                         <ngx-datatable-column
                           name="ג''ח"
                           [flexGrow]="1"
@@ -553,6 +398,144 @@
                           </ng-template>
                         </ngx-datatable-column>
 
+                        <!-- ישוב -->
+                        <ngx-datatable-column
+                          name="ישוב"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                                >{{ row.v_shem_yeshuv }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- שם פרטי -->
+                        <ngx-datatable-column
+                          name="שם פרטי"
+                          [flexGrow]="1"
+                          [minWidth]="30"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                              >
+                                {{ row.v_first_name }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- שם משפחה -->
+                        <ngx-datatable-column
+                          name="שם משפחה"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                              >
+                                {{ row.v_last_name }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- תז -->
+                        <ngx-datatable-column
+                          name="ת.ז"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <div [class]="'text-right'">
+                              <a
+                                [routerLink]="[
+                                  '/dashboard/ecommerce',
+                                  row.yz_IdReal
+                                ]"
+                                >{{ row.v_zehut }}</a
+                              >
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- סוג מגדל -->
+                        <ngx-datatable-column
+                          name="סוג מגדל"
+                          [flexGrow]="1"
+                          [minWidth]="90"
+                        >
+                          <ng-template
+                            let-row="row"
+                            ngx-datatable-cell-template
+                          >
+                            <ng-container *ngIf="row.Rashi === '1'">
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_IdReal
+                                  ]"
+                                  >ראשי</a
+                                >
+                              </div>
+                            </ng-container>
+                            <ng-container *ngIf="row.Rashi === '0'">
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_IdReal
+                                  ]"
+                                >
+                                  שותף</a
+                                >
+                              </div>
+                            </ng-container>
+                            <ng-container *ngIf="row.Rashi === '2'">
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_IdReal
+                                  ]"
+                                  >פרטני</a
+                                >
+                              </div>
+                            </ng-container>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- סטטוס -->
                         <ngx-datatable-column
                           name="סטטוס"
                           [flexGrow]="1"
@@ -588,28 +571,6 @@
                                 >
                               </div>
                             </ng-template>
-                          </ng-template>
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column
-                          name="מיכסה"
-                          [flexGrow]="1"
-                          [minWidth]="90"
-                        >
-                          <ng-template
-                            let-row="row"
-                            ngx-datatable-cell-template
-                          >
-                            <div [class]="'text-right'">
-                              <a
-                                [routerLink]="[
-                                  '/dashboard/ecommerce',
-                                  row.yz_IdReal
-                                ]"
-                              >
-                                {{ row.micsa | numberFormat }}</a
-                              >
-                            </div>
                           </ng-template>
                         </ngx-datatable-column>
                       </ngx-datatable>

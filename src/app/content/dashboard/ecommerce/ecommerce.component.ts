@@ -451,6 +451,24 @@ export class EcommerceComponent implements OnInit {
 
       //   סיום התראות-----------------------------------------------------------------------------------------------------------------------------------------
 
+      //   מחלצים את מספרי האתרים של היצרן
+      this.siteName =
+        await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
+          50,
+          '',
+          '%',
+          0,
+          '17,18,19,20,21,22,23,25,26,27,28',
+          this.userDetails[0].v_yzrn,
+          99
+        );
+      this.length_of_total_site = this.siteName.length;
+      console.log(this.siteName);
+      //   this.new_Small_Array = await this.siteName.slice(0, 3);
+      //   await this.siteName.splice(0, 3);
+
+      localStorage.setItem('siteName', JSON.stringify(this.siteName));
+
       this.farm_start_det = await this.megadelSearchService.farm_start_det(
         this.idFromurl
       );
@@ -510,7 +528,11 @@ export class EcommerceComponent implements OnInit {
         }
       }
       if (this.farm_start_det && this.farm_start_det[0]) {
-        this.the_chosen_farm = this.farm_start_det[0]?.code;
+        if (this.farm_start_det[0].farm_status_id === 2) {
+          this.the_chosen_farm = '';
+        } else {
+          this.the_chosen_farm = this.farm_start_det[0]?.code;
+        }
 
         var newVariable;
 
@@ -610,7 +632,7 @@ export class EcommerceComponent implements OnInit {
         // הוספת שדה איכלוס - 750
         for (let obj of this.farm_det_new) {
           const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
-            obj.farm_id
+            obj.farm_num
           );
           if (hiclos750[0]?.calc750) {
             obj.calc750 = hiclos750[0]?.calc750;
@@ -630,8 +652,6 @@ export class EcommerceComponent implements OnInit {
       }
 
       //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-      localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
       if (this.siteName.length > 0) {
         // FarmId חילוץ - חילוץ איידי של כל אתר
@@ -783,7 +803,6 @@ export class EcommerceComponent implements OnInit {
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
-  // isLoading_FarmDetails
   async test_eran() {
     var growerId = await this.megadelSearchService.test_eran();
   }
@@ -861,6 +880,15 @@ export class EcommerceComponent implements OnInit {
       );
       if (hiclos750[0]?.calc750) {
         obj.calc750 = hiclos750[0]?.calc750;
+      }
+    }
+
+    for (let obj of this.farm_det_new) {
+      if (this.userDetails_more_info[0]?.v_shem_yzrn !== obj.farm_name) {
+        obj.farm_name = this.userDetails_more_info[0]?.v_shem_yzrn;
+        obj.farm_num = obj.farm_num.toString() + '/2';
+
+        console.log('Sd');
       }
     }
 
