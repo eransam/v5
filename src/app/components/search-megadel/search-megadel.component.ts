@@ -53,6 +53,7 @@ export class SearchMegadelComponent implements OnInit {
   selectedMonth: string;
   selectedYear: string;
   username: string;
+  username_test: string;
   numName: any;
 
   site: string;
@@ -69,7 +70,7 @@ export class SearchMegadelComponent implements OnInit {
   settlement2: any[];
   site1: any[] = [];
   site2: any[];
-
+  new_arr_growers_det: any[] = [];
   extension1: any[] = [];
   extension2: any[];
 
@@ -107,6 +108,8 @@ export class SearchMegadelComponent implements OnInit {
   selectedCheckbox = '';
   numNameControl = new FormControl();
   usernameControl = new FormControl();
+  usernameControl_test = new FormControl();
+
   siteControl = new FormControl();
   settlementControl = new FormControl();
   extensionControl = new FormControl();
@@ -339,6 +342,8 @@ export class SearchMegadelComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       userName: ['', Validators.required],
+      username_test: ['', Validators.required],
+
       nickName: ['', Validators.required],
       email: ['', Validators.required],
       website: ['', Validators.required],
@@ -601,6 +606,128 @@ export class SearchMegadelComponent implements OnInit {
     return number;
   }
 
+  async add_test() {
+    this.new_arr_growers_det = [];
+    console.log(this.usernameControl_test.value);
+    var the_growers_id_by_name =
+      await this.megadelSearchService.Get_grower_id_by_name(
+        this.usernameControl_test.value
+      );
+    console.log(the_growers_id_by_name);
+
+    for (let obj of the_growers_id_by_name) {
+      var the_grower_det = await this.megadelSearchService.get_start_grower_det(
+        obj.yz_Id
+      );
+
+      this.new_arr_growers_det.push(the_grower_det[0]);
+    }
+
+    console.log(this.new_arr_growers_det);
+
+    for (let obj of this.new_arr_growers_det) {
+      obj.farms = '';
+      var the_growers_farms = await this.megadelSearchService.getFarm(
+        -1,
+        -1,
+        obj.yz_Id,
+        -1,
+        -1,
+        '1',
+        '19000101',
+        '21000101',
+        '0',
+        -1,
+        -1,
+        '0',
+        '0',
+        '-1',
+        '-1',
+        -1,
+        '-1'
+      );
+
+      console.log(the_growers_farms);
+      for (let obj1 of the_growers_farms) {
+        if (obj1.farm_code) {
+          obj.farms += obj1.farm_code + ' ,';
+        }
+      }
+
+      console.log(this.new_arr_growers_det);
+    }
+
+    console.log(this.new_arr_growers_det);
+
+    // יוצר שדה מיכסה
+    for (let item of this.new_arr_growers_det) {
+      this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        item?.yz_yzrn,
+        this.chosenYear,
+        '30 - ביצי מאכל',
+        88
+      );
+      item.micsa = this.mihsot3[0]?.mi_kamut;
+    }
+
+    console.log(this.new_arr_growers_det);
+
+    // הוספה לפרטי האתר שדה המכיל גידול חוץ
+    for (let item of this.new_arr_growers_det) {
+      if (item?.YazRishaion !== undefined) {
+        let YazRishaion = item?.YazRishaion;
+        const extractedNumber_YazRishaion = this.extractNumber(YazRishaion);
+        item.yz_Id += ' ,' + extractedNumber_YazRishaion.toString();
+      }
+
+      let yz_yzrn = item.yz_yzrn;
+      const results2 =
+        await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
+          yz_yzrn
+        );
+      if (results2[0]?.pa_Counter) {
+        item.pa_Counter = results2[0].pa_Counter;
+      } else {
+        item.pa_Counter = '';
+      }
+    }
+
+    console.log(this.new_arr_growers_det);
+
+    // יוצר שדה שם ישוב
+    for (let item of this.new_arr_growers_det) {
+      var shem_yeshuv =
+        await this.megadelSearchService.get_shem_yeshov_by_code_yeshov(
+          item.yz_yeshuv
+        );
+      console.log(shem_yeshuv);
+
+      item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
+    }
+
+    console.log(this.new_arr_growers_det);
+
+    // הוספת אתרי מחיצה
+    for (let item of this.new_arr_growers_det) {
+      var split_farms =
+        await this.megadelSearchService.get_split_farm_by_grower_id(item.yz_Id);
+      console.log(split_farms);
+
+      item.farms += split_farms[0].code;
+      //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
+    }
+
+    console.log(this.new_arr_growers_det);
+
+    // הוספת מספר אתר מחיצה לרשימת סטרינג אתרים
+    // for (let item of this.new_arr_growers_det) {
+    //     if (item.YazRishaion.length > 0) {
+    //       item.yz_Id += ' ,' + item.YazRishaion;
+    //     }
+    //   }
+  }
+
   async add() {
     this.isLoading_search_megadel = true;
 
@@ -695,16 +822,21 @@ export class SearchMegadelComponent implements OnInit {
               await this.megadelSearchService.get_siteName_by_yzId(
                 item.v_yzrn_id
               );
+            const filteredArray = results3.filter(
+              (obj) => obj?.farm_status_id !== 2
+            );
+            console.log(filteredArray);
 
-            console.log(' item444.YazRishaion: ', item.YazRishaion);
-            const codes = [];
-            for (let obj of results3) {
-              const code = await obj.code;
-              codes.push(code);
-            }
+            this.allInactive = results3.every(
+              (obj) => obj.farm_status_id !== 2
+            );
+            console.log(this.allInactive);
+
+            const codes = filteredArray.map((obj) => obj.code);
             const joinedString = codes.join(', ');
             item.yz_IdReal = item.v_yzrn_id;
             item.yz_Id = joinedString;
+            item.all_not_active = this.allInactive;
           }
 
           // הוספה לפרטי האתר שדה המכיל גידול חוץ
@@ -805,6 +937,7 @@ export class SearchMegadelComponent implements OnInit {
             1,
             '%'
           );
+
         console.log('resultsMaaravi2: ', resultsMaaravi2);
 
         if (resultsMaaravi2.length === 0) {
@@ -835,8 +968,6 @@ export class SearchMegadelComponent implements OnInit {
 
           // יוצר שדה המכיל מספרי אתרים
           for (let item of resultsMaaravi2) {
-
-
             const results3 =
               await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
                 50,

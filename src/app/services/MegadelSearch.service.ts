@@ -12,6 +12,80 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_split_farm_by_grower_id(grower_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_split_farm_by_grower_id?grower_id=${grower_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_shem_yeshov_by_code_yeshov(code_yeshov: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shem_yeshov_by_code_yeshov?code_yeshov=${code_yeshov}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_start_grower_det(grower_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_start_grower_det?grower_id=${grower_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async getFarm(
+    farmID,
+    settlementID,
+    growerID,
+    fundingCustomerID,
+    farmTypeID,
+    farmStatusID,
+    fromDate,
+    toDate,
+    isFarmBlockFunder,
+    labID,
+    belongingGroupID,
+    isDeleted,
+    isQuarantine,
+    blockID,
+    isNotBlock,
+    henHouseType,
+    splitHenHouse
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/getFarm` +
+          `?farmID=${farmID}` +
+          `&settlementID=${settlementID}` +
+          `&growerID=${growerID}&fundingCustomerID=${fundingCustomerID}&farmTypeID=${farmTypeID}` +
+          `&farmStatusID=${farmStatusID}&fromDate=${fromDate}&toDate=${toDate}&isFarmBlockFunder=${isFarmBlockFunder}` +
+          `&labID=${labID}&belongingGroupID=${belongingGroupID}&isDeleted=${isDeleted}&isQuarantine=${isQuarantine}` +
+          `&blockID=${blockID}&isNotBlock=${isNotBlock}&henHouseType=${henHouseType}&splitHenHouse=${splitHenHouse}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async Get_grower_id_by_name(grower_name: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_grower_id_by_name?grower_name=${grower_name}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Get_split_site_name_by_grower_id(growerId: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(

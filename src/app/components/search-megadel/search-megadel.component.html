@@ -2,6 +2,37 @@
   <div class="content-wrapper">
     <div class="searchInput" style="direction: rtl">
       <form
+        action="
+        "
+      >
+        <div class="col-md-4">
+          <div class="form-group row mx-auto">
+            <label class="col-md-4 label-control" for="userinput1"
+              >שם מגדל טסט</label
+            >
+            <div class="col-md-8">
+              <input
+                name="username"
+                type="text"
+                id="username-input"
+                class="form-control border-primary textUserInput"
+                placeholder="שם"
+                [(ngModel)]="username_test"
+                [formControl]="usernameControl_test"
+                (keydown.enter)="add_test()"
+              />
+              <span class="delete-icon" (click)="clearInput('username')">
+                <i class="fa fa-times"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- [(ngModel)]="username_test"
+      [formControl]="username_test_Control" -->
+
+      <form
         class="form form-horizontal row-separator"
         (ngSubmit)="add()"
         [formGroup]="DetailsForm"
@@ -122,6 +153,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-md-4" style="display: none">
               <div class="form-group row last mx-auto">
                 <label class="col-md-4 label-control" for="userinput4"
