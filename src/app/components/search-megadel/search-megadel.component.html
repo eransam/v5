@@ -2,176 +2,142 @@
   <div class="content-wrapper">
     <div class="searchInput" style="direction: rtl">
       <form
-        action="
-        "
-      >
-        <div class="col-md-4">
-          <div class="form-group row mx-auto">
-            <label class="col-md-4 label-control" for="userinput1"
-              >שם מגדל טסט</label
-            >
-            <div class="col-md-8">
-              <input
-                name="username"
-                type="text"
-                id="username-input"
-                class="form-control border-primary textUserInput"
-                placeholder="שם"
-                [(ngModel)]="username_test"
-                [formControl]="usernameControl_test"
-                (keydown.enter)="add_test()"
-              />
-              <span class="delete-icon" (click)="clearInput('username')">
-                <i class="fa fa-times"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <!-- [(ngModel)]="username_test"
-      [formControl]="username_test_Control" -->
-
-      <form
         class="form form-horizontal row-separator"
-        (ngSubmit)="add()"
+        (ngSubmit)="add_test()"
         [formGroup]="DetailsForm"
-        (keyup.enter)="add()"
+        (keyup.enter)="add_test()"
       >
         <!-- input text search start ---------------------------------------------------------------------------------------------------------------------->
 
         <div class="form-body text-right">
           <h4 class="form-section"><i class="la la-eye"></i>חיפוש מגדל:</h4>
           <div class="row">
+            <!-- שם מגדל טסט -->
             <div class="col-md-4">
               <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput1"
-                  >שם מגדל</label
+                  >שם מגדל טסט</label
                 >
                 <div class="col-md-8">
                   <input
-                    name="username"
+                    name="username_test"
                     type="text"
                     id="username-input"
                     class="form-control border-primary textUserInput"
                     placeholder="שם"
-                    [(ngModel)]="username"
-                    [formControl]="usernameControl"
-                    (keydown.enter)="$event.preventDefault()"
+                    [(ngModel)]="username_test"
+                    [formControl]="usernameControl_test"
+                    (keydown.enter)="add_test()"
                   />
-                  <span class="delete-icon" (click)="clearInput('username')">
-                    <i class="fa fa-times"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group row mx-auto">
-                <label class="col-md-4 label-control" for="userinput1"
-                  >מספר מגדל</label
-                >
-                <div class="col-md-8">
-                  <input
-                    name="numName"
-                    type="text"
-                    id="numName-input"
-                    class="form-control border-primary textUserInput"
-                    placeholder="מספר מגדל"
-                    [(ngModel)]="numName"
-                    [formControl]="numNameControl"
-                    (keydown.enter)="$event.preventDefault()"
-                  />
-                  <span class="delete-icon" (click)="clearInput('numName')">
-                    <i class="fa fa-times"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group row mx-auto">
-                <label class="col-md-4 label-control" for="userinput2"
-                  >מספר אתר</label
-                >
-                <div class="col-md-8">
-                  <input
-                    type="text"
-                    id="age-input"
-                    name="site"
-                    class="form-control border-primary textUserInput"
-                    placeholder="מס אתר"
-                    [(ngModel)]="site"
-                    [formControl]="siteControl"
-                    (keydown.enter)="$event.preventDefault()"
-                  />
-                  <span class="delete-icon" (click)="clearInput('site')">
-                    <i class="fa fa-times"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4" style="display: none">
-              <div class="form-group row mx-auto">
-                <label class="col-md-4 label-control" for="userinput3"
-                  >שלוחה</label
-                >
-                <div class="col-md-8">
-                  <ng-select
-                    style="
-                      direction: rtl;
-                      justify-content: right;
-                      text-align: right;
-                    "
-                    [items]="extension1"
-                    [searchable]="true"
-                    [formControl]="extensionControl"
-                    placeholder="בחר שלוחה"
-                    [(ngModel)]="extension"
-                  ></ng-select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group row last mx-auto">
-                <label class="col-md-4 label-control" for="userinput4"
-                  >ישוב</label
-                >
-                <div class="col-md-8">
-                  <input
-                    type="text"
-                    id="settlement-input"
-                    name="settlement"
-                    class="form-control border-primary textUserInput"
-                    [formControl]="settlementInput"
-                    placeholder="ישוב"
-                    [(ngModel)]="settlement"
-                    [formControl]="settlementControl"
-                    (keydown.enter)="$event.preventDefault()"
-                  />
-                  <span class="delete-icon" (click)="clearInput('settlement')">
+                  <span
+                    class="delete-icon"
+                    (click)="clearInput('username_test')"
+                  >
                     <i class="fa fa-times"></i>
                   </span>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-4" style="display: none">
-              <div class="form-group row last mx-auto">
-                <label class="col-md-4 label-control" for="userinput4"
-                  >גידול חוץ</label
+            <!-- מס אתר טסט-->
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput1"
+                  >מספר אתר טסט</label
                 >
                 <div class="col-md-8">
                   <input
+                    name="siteNum_test"
                     type="text"
-                    id="gidolHotz-input"
-                    name="gidolHotz"
-                    class="form-control border-primary"
-                    [formControl]="gidolHotzInput"
-                    placeholder="גידול חוץ"
-                    [(ngModel)]="gidolHotz"
-                    [formControl]="gidolHotzControl"
-                    (keydown.enter)="$event.preventDefault()"
+                    id="siteNum-input"
+                    class="form-control border-primary textUserInput"
+                    placeholder="מס אתר"
+                    [(ngModel)]="siteNum_test"
+                    [formControl]="siteNumControl_test"
+                    (keydown.enter)="add_test()"
                   />
-                  <span class="delete-icon" (click)="clearInput('gidolHotz')">
+                  <span
+                    class="delete-icon"
+                    (click)="clearInput('siteNum_test')"
+                  >
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- מס ג''ח' טסט -->
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput1"
+                  >מספר גח טסט</label
+                >
+                <div class="col-md-8">
+                  <input
+                    name="gidulHotzNum_test"
+                    type="text"
+                    id="gidulHotzNum-input"
+                    class="form-control border-primary textUserInput"
+                    placeholder="מס גח"
+                    [(ngModel)]="gidulHotzNum_test"
+                    [formControl]="gidulHotzNumControl_test"
+                    (keydown.enter)="add_test()"
+                  />
+                  <span
+                    class="delete-icon"
+                    (click)="clearInput('gidulHotzNum_test')"
+                  >
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- מס מגדל -->
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput1"
+                  >מס מגדל</label
+                >
+                <div class="col-md-8">
+                  <input
+                    name="growerNum_test"
+                    type="text"
+                    id="growerNum-input"
+                    class="form-control border-primary textUserInput"
+                    placeholder="מס מגדל"
+                    [(ngModel)]="growerNum_test"
+                    [formControl]="growerNumControl_test"
+                    (keydown.enter)="add_test()"
+                  />
+                  <span
+                    class="delete-icon"
+                    (click)="clearInput('growerNum_test')"
+                  >
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!--ישוב  טסט-->
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput1"
+                  >ישוב טסט</label
+                >
+                <div class="col-md-8">
+                  <input
+                    name="yeshuv_test"
+                    type="text"
+                    id="yeshuv-input"
+                    class="form-control border-primary textUserInput"
+                    placeholder="ישוב"
+                    [(ngModel)]="yeshuv_test"
+                    [formControl]="yeshuvControl_test"
+                    (keydown.enter)="add_test()"
+                  />
+                  <span class="delete-icon" (click)="clearInput('yeshuv_test')">
                     <i class="fa fa-times"></i>
                   </span>
                 </div>
@@ -260,7 +226,7 @@
                       <ngx-datatable
                         class="bootstrap ps"
                         [limit]="20"
-                        [rows]="theDetails"
+                        [rows]="the_new_det"
                         [columnMode]="'force'"
                         [headerHeight]="50"
                         [footerHeight]="50"
@@ -291,7 +257,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                 >
                                   <div *ngIf="allInactive">
@@ -314,7 +280,7 @@
                                   title="This is a tooltip"
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                 >
                                   <div
@@ -353,10 +319,10 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
                               >
-                                {{ row.v_yzrn }}</a
+                                {{ row.yz_yzrn }}</a
                               >
                             </div>
                           </ng-template>
@@ -376,9 +342,9 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
-                                >{{ row.v_shem_yzrn }}</a
+                                >{{ row.yz_shem }}</a
                               >
                             </div>
                           </ng-template>
@@ -398,7 +364,7 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
                               >
                                 {{ row.micsa | numberFormat }}</a
@@ -421,10 +387,10 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
                               >
-                                {{ row.cdgdl }}</a
+                                {{ row.pa_Counter }}</a
                               >
                             </div>
                           </ng-template>
@@ -444,9 +410,9 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
-                                >{{ row.v_shem_yeshuv }}</a
+                                >{{ row.shem_yeshuv }}</a
                               >
                             </div>
                           </ng-template>
@@ -466,10 +432,10 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
                               >
-                                {{ row.v_first_name }}</a
+                                {{ row.yz_first_name }}</a
                               >
                             </div>
                           </ng-template>
@@ -489,10 +455,10 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
                               >
-                                {{ row.v_last_name }}</a
+                                {{ row.yz_last_name }}</a
                               >
                             </div>
                           </ng-template>
@@ -512,9 +478,9 @@
                               <a
                                 [routerLink]="[
                                   '/dashboard/ecommerce',
-                                  row.yz_IdReal
+                                  row.yz_Id
                                 ]"
-                                >{{ row.v_zehut }}</a
+                                >{{ row.yz_zehut }}</a
                               >
                             </div>
                           </ng-template>
@@ -530,35 +496,35 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <ng-container *ngIf="row.Rashi === '1'">
+                            <ng-container *ngIf="row.yz_sug === 1">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                   >ראשי</a
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.Rashi === '0'">
+                            <ng-container *ngIf="row.yz_sug === 0">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                 >
                                   שותף</a
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.Rashi === '2'">
+                            <ng-container *ngIf="row.yz_sug === 2">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                   >פרטני</a
                                 >
@@ -578,13 +544,13 @@
                             ngx-datatable-cell-template
                           >
                             <ng-container
-                              *ngIf="row.v_status === 1; else closedTemplate"
+                              *ngIf="row.yz_status === 1; else closedTemplate"
                             >
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                 >
                                   לא פעיל</a
@@ -596,7 +562,7 @@
                                 <a
                                   [routerLink]="[
                                     '/dashboard/ecommerce',
-                                    row.yz_IdReal
+                                    row.yz_Id
                                   ]"
                                 >
                                   פעיל</a

@@ -32,10 +32,14 @@ export class MegadelSearchService {
     return item;
   }
 
-  async get_start_grower_det(grower_id: any): Promise<any[]> {
+
+
+
+
+  async get_start_grower_det(grower_id: any, siteNum: any,gidulNum: any,growerNum: any,yz_shem_yeshuv: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_start_grower_det?grower_id=${grower_id}`
+        `${environment.apiPath}growerService.asmx/get_start_grower_det?grower_id=${grower_id}&siteNum=${siteNum}&gidulNum=${gidulNum}&growerNum=${growerNum}&yz_shem_yeshuv=${yz_shem_yeshuv}`
       )
     );
     console.log('item: ', item);

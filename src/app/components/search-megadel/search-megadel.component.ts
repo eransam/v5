@@ -54,6 +54,10 @@ export class SearchMegadelComponent implements OnInit {
   selectedYear: string;
   username: string;
   username_test: string;
+  siteNum_test: string;
+  gidulHotzNum_test: string;
+  yeshuv_test: string;
+  growerNum_test: string;
   numName: any;
 
   site: string;
@@ -71,6 +75,7 @@ export class SearchMegadelComponent implements OnInit {
   site1: any[] = [];
   site2: any[];
   new_arr_growers_det: any[] = [];
+  the_new_det: any[] = [];
   extension1: any[] = [];
   extension2: any[];
 
@@ -109,6 +114,12 @@ export class SearchMegadelComponent implements OnInit {
   numNameControl = new FormControl();
   usernameControl = new FormControl();
   usernameControl_test = new FormControl();
+
+  siteNumControl_test = new FormControl();
+  gidulHotzNumControl_test = new FormControl();
+
+  yeshuvControl_test = new FormControl();
+  growerNumControl_test = new FormControl();
 
   siteControl = new FormControl();
   settlementControl = new FormControl();
@@ -285,26 +296,20 @@ export class SearchMegadelComponent implements OnInit {
     }
 
     this.site2 = await this.megadelSearchService.getAllNameSiteIdstatus();
-    console.log('this.site2: ', this.site2);
-
     for (let i = 0; i < this.site2.length; i++) {
       this.site1.push(
         `${this.site2[i].name}-${this.site2[i].code}-${this.site2[i].farm_status_id}`
       );
-      console.log();
     }
 
     this.settlement2 =
       await this.megadelSearchService.getAllYeshovimAndEzurim();
-    console.log('this.settlement2: ', this.settlement2);
 
     for (let i = 0; i < this.settlement2.length; i++) {
       this.settlement1.push(
         `${this.settlement2[i].yv_Shem}-${this.settlement2[i].yv_Ezor}`
       );
     }
-
-    console.log('settlement1: ', this.settlement1);
 
     this.breadcrumb = {
       mainlabel: 'Row Reparator Forms',
@@ -343,6 +348,10 @@ export class SearchMegadelComponent implements OnInit {
       lastName: ['', Validators.required],
       userName: ['', Validators.required],
       username_test: ['', Validators.required],
+      siteNum_test: ['', Validators.required],
+      gidulHotzNum_test: ['', Validators.required],
+      yeshuv_test: ['', Validators.required],
+      growerNum_test: ['', Validators.required],
 
       nickName: ['', Validators.required],
       email: ['', Validators.required],
@@ -392,8 +401,6 @@ export class SearchMegadelComponent implements OnInit {
       this.data = Response;
       this.getTabledata();
     });
-
-    console.log('filteredextension: ', this.filteredextension);
   }
 
   checkBox1: boolean = false;
@@ -414,13 +421,12 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   cleanInputFild() {
-    this.theDetails = [];
-    this.username = '';
-    this.site = '';
-    this.settlement = '';
-    this.numName = '';
-    // this.gidolHotz = '';
-    // this.extension = '';
+    this.the_new_det = [];
+    this.username_test = '';
+    this.siteNum_test = '';
+    this.gidulHotzNum_test = '';
+    this.growerNum_test = '';
+    this.yeshuv_test = '';
   }
 
   getTabledata() {
@@ -523,20 +529,20 @@ export class SearchMegadelComponent implements OnInit {
 
   clearInput(inputName: string): void {
     switch (inputName) {
-      case 'username':
-        this.username = '';
+      case 'yeshuv_test':
+        this.yeshuv_test = '';
         break;
-      case 'numName':
-        this.numName = '';
+      case 'growerNum_test':
+        this.growerNum_test = '';
         break;
-      case 'site':
-        this.site = '';
+      case 'gidulHotzNum_test':
+        this.gidulHotzNum_test = '';
         break;
-      case 'settlement':
-        this.settlement = '';
+      case 'siteNum_test':
+        this.siteNum_test = '';
         break;
-      case 'gidolHotz':
-        this.gidolHotz = '';
+      case 'username_test':
+        this.username_test = '';
         break;
 
       // Add cases for other input names if needed
@@ -607,20 +613,86 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   async add_test() {
+    this.the_new_det = [];
     this.new_arr_growers_det = [];
-    console.log(this.usernameControl_test.value);
-    var the_growers_id_by_name =
+
+    // איידי מגדל
+    var the_growers_id_by_name: any =
       await this.megadelSearchService.Get_grower_id_by_name(
         this.usernameControl_test.value
       );
+    if (the_growers_id_by_name.length < 1) {
+      the_growers_id_by_name = '';
+    }
+
+    //   מס אתר
+    var the_siteNumControl_test_val = this.siteNumControl_test.value;
+    if (
+      the_siteNumControl_test_val === undefined ||
+      the_siteNumControl_test_val === null
+    ) {
+      the_siteNumControl_test_val = '';
+    }
+    console.log(the_siteNumControl_test_val);
+
+    //   מס גידול חוץ
+    var the_gidulHotzNumControl_test_val = this.gidulHotzNumControl_test.value;
+    if (
+      the_gidulHotzNumControl_test_val === undefined ||
+      the_gidulHotzNumControl_test_val === null
+    ) {
+      the_gidulHotzNumControl_test_val = '';
+    }
+    console.log(the_gidulHotzNumControl_test_val);
+
+    //     ישוב
+    var the_yeshuvControl_test_val = this.yeshuvControl_test.value;
+    if (
+      the_yeshuvControl_test_val === undefined ||
+      the_yeshuvControl_test_val === null
+    ) {
+      the_yeshuvControl_test_val = '';
+    }
+    console.log(the_yeshuvControl_test_val);
+
+    //   מס מגדל
+    var growerNumControl_test_val = this.growerNumControl_test.value;
+    if (
+      growerNumControl_test_val === undefined ||
+      growerNumControl_test_val === null
+    ) {
+      growerNumControl_test_val = '';
+    }
+    console.log(growerNumControl_test_val);
+    console.log(the_yeshuvControl_test_val);
+    console.log(the_gidulHotzNumControl_test_val);
+    console.log(the_siteNumControl_test_val);
     console.log(the_growers_id_by_name);
 
-    for (let obj of the_growers_id_by_name) {
+    if (the_growers_id_by_name !== '') {
+      for (let obj of the_growers_id_by_name) {
+        var the_grower_det =
+          await this.megadelSearchService.get_start_grower_det(
+            obj.yz_Id,
+            the_siteNumControl_test_val,
+            the_gidulHotzNumControl_test_val,
+            growerNumControl_test_val,
+            the_yeshuvControl_test_val
+          );
+          
+        this.new_arr_growers_det.push(the_grower_det[0]);
+      }
+    } else {
       var the_grower_det = await this.megadelSearchService.get_start_grower_det(
-        obj.yz_Id
+        '',
+        the_siteNumControl_test_val,
+        the_gidulHotzNumControl_test_val,
+        growerNumControl_test_val,
+        the_yeshuvControl_test_val
       );
 
-      this.new_arr_growers_det.push(the_grower_det[0]);
+      for(let obj of the_grower_det)
+      this.new_arr_growers_det.push(obj);
     }
 
     console.log(this.new_arr_growers_det);
@@ -714,11 +786,13 @@ export class SearchMegadelComponent implements OnInit {
         await this.megadelSearchService.get_split_farm_by_grower_id(item.yz_Id);
       console.log(split_farms);
 
-      item.farms += split_farms[0].code;
+      item.farms += split_farms[0]?.code;
       //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
     }
 
     console.log(this.new_arr_growers_det);
+
+    this.the_new_det = this.new_arr_growers_det;
 
     // הוספת מספר אתר מחיצה לרשימת סטרינג אתרים
     // for (let item of this.new_arr_growers_det) {
