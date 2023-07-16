@@ -65,6 +65,7 @@ export class SearchMegadelComponent implements OnInit {
   extension: string;
   theDetails: any[];
   gidolHotz: string;
+  isLoading_FarmDetails = false;
 
   // the input box
   users: any[] = [];
@@ -613,6 +614,8 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   async add_test() {
+    this.isLoading_FarmDetails = true;
+
     this.the_new_det = [];
     this.new_arr_growers_det = [];
 
@@ -679,7 +682,7 @@ export class SearchMegadelComponent implements OnInit {
             growerNumControl_test_val,
             the_yeshuvControl_test_val
           );
-          
+
         this.new_arr_growers_det.push(the_grower_det[0]);
       }
     } else {
@@ -691,8 +694,7 @@ export class SearchMegadelComponent implements OnInit {
         the_yeshuvControl_test_val
       );
 
-      for(let obj of the_grower_det)
-      this.new_arr_growers_det.push(obj);
+      for (let obj of the_grower_det) this.new_arr_growers_det.push(obj);
     }
 
     console.log(this.new_arr_growers_det);
@@ -725,11 +727,7 @@ export class SearchMegadelComponent implements OnInit {
           obj.farms += obj1.farm_code + ' ,';
         }
       }
-
-      console.log(this.new_arr_growers_det);
     }
-
-    console.log(this.new_arr_growers_det);
 
     // יוצר שדה מיכסה
     for (let item of this.new_arr_growers_det) {
@@ -742,8 +740,6 @@ export class SearchMegadelComponent implements OnInit {
       );
       item.micsa = this.mihsot3[0]?.mi_kamut;
     }
-
-    console.log(this.new_arr_growers_det);
 
     // הוספה לפרטי האתר שדה המכיל גידול חוץ
     for (let item of this.new_arr_growers_det) {
@@ -765,8 +761,6 @@ export class SearchMegadelComponent implements OnInit {
       }
     }
 
-    console.log(this.new_arr_growers_det);
-
     // יוצר שדה שם ישוב
     for (let item of this.new_arr_growers_det) {
       var shem_yeshuv =
@@ -778,10 +772,19 @@ export class SearchMegadelComponent implements OnInit {
       item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
     }
 
-    console.log(this.new_arr_growers_det);
-
     // הוספת אתרי מחיצה
     for (let item of this.new_arr_growers_det) {
+      var check_sug = await this.megadelSearchService.check_sug_megadel2(
+        item.yz_yzrn
+      );
+      console.log(check_sug);
+
+      if (check_sug.length === 0) {
+        item.sug_megadel = 0;
+      } else {
+        item.sug_megadel = 1;
+      }
+
       var split_farms =
         await this.megadelSearchService.get_split_farm_by_grower_id(item.yz_Id);
       console.log(split_farms);
@@ -790,16 +793,20 @@ export class SearchMegadelComponent implements OnInit {
       //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
     }
 
+    // הורדת אנדיפיינד מהאתרים
+    for (let item of this.new_arr_growers_det) {
+      const arr = item.farms
+        .split(',')
+        .filter((item) => item.trim() !== 'undefined');
+      const newStr = arr.join(',');
+      item.farms = newStr;
+      //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
+    }
+
+    console.log(this.the_new_det);
     console.log(this.new_arr_growers_det);
-
     this.the_new_det = this.new_arr_growers_det;
-
-    // הוספת מספר אתר מחיצה לרשימת סטרינג אתרים
-    // for (let item of this.new_arr_growers_det) {
-    //     if (item.YazRishaion.length > 0) {
-    //       item.yz_Id += ' ,' + item.YazRishaion;
-    //     }
-    //   }
+    this.isLoading_FarmDetails = false;
   }
 
   async add() {

@@ -2026,20 +2026,15 @@ export class EcommerceComponent implements OnInit {
     document.addEventListener('click', handleDocumentClick);
 
     dialogRef.afterClosed().subscribe((result) => {
-      // Handle actions when the dialog is closed
       console.log('Dialog closed with result:', result);
-      // Perform any necessary actions based on the result
-
-      // Reset the flag when the dialog is closed
       isSecondClick = false;
-      // Remove the event listener when the dialog is closed
       document.removeEventListener('click', handleDocumentClick);
     });
   }
 
   Popup_Old_Grower_Name() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'Popup_Old_Grower_Name'; // Apply the CSS class to center the dialog
+    dialogConfig.panelClass = 'Popup_Old_Grower_Name'; 
     dialogConfig.data = this.oldNameGrower;
     const dialogRef = this.dialog.open(
       PopupOldGrowerNameComponent,
@@ -2047,8 +2042,6 @@ export class EcommerceComponent implements OnInit {
     );
 
     let isSecondClick = false;
-
-    // Add event listener to the document for 'click' event
     const handleDocumentClick = () => {
       if (isSecondClick) {
         dialogRef.close();
@@ -2060,31 +2053,22 @@ export class EcommerceComponent implements OnInit {
     document.addEventListener('click', handleDocumentClick);
 
     dialogRef.afterClosed().subscribe((result) => {
-      // Handle actions when the dialog is closed
       console.log('Dialog closed with result:', result);
-      // Perform any necessary actions based on the result
-
-      // Reset the flag when the dialog is closed
       isSecondClick = false;
-      // Remove the event listener when the dialog is closed
       document.removeEventListener('click', handleDocumentClick);
     });
   }
-
   toggleAdditionalDetails() {
     this.showAdditionalDetails = !this.showAdditionalDetails;
   }
-
   dblClickGrower(growerID) {
     console.log('growerID=' + growerID);
     this.modalGrowerID = growerID;
     document.getElementById('btnModalGrower').click();
     console.log('this.modalGrowerID: ', this.modalGrowerID);
   }
-
   async getFarmIdArr(siteNames: any[]): Promise<any[]> {
     const farmIds: any[] = [];
-
     for (const item of siteNames) {
       if (item && item.code) {
         if (item.code.includes('/')) {
@@ -2105,22 +2089,15 @@ export class EcommerceComponent implements OnInit {
   extractNumber(value: any): number {
     if (typeof value === 'string') {
       if (value.includes('/')) {
-        // Split the string based on the '/'
         const parts = value.split('/');
 
-        // Retrieve the first part which represents the number
         const numberPart = parts[0];
 
-        // Convert the number part to a numeric value
         const number = Number(numberPart);
 
-        // Return the extracted number
         return number;
       } else {
-        // Convert the number part to a numeric value
         const number = Number(value);
-
-        // Return the extracted number
         return number;
       }
     } else {
@@ -2131,10 +2108,8 @@ export class EcommerceComponent implements OnInit {
   extractNumber_In_Type_Number(value: any): number {
     if (typeof value === 'string') {
       if (value.includes('/')) {
-        // Split the string based on the '/'
         const parts = value.split('/');
 
-        // Retrieve the first part which represents the number
         const numberPart = parts[0];
 
         // Convert the number part to a numeric value
@@ -2146,6 +2121,7 @@ export class EcommerceComponent implements OnInit {
         // Convert the number part to a numeric value
         const number = Number(value);
 
+        
         // Return the extracted number as a number
         return number;
       }

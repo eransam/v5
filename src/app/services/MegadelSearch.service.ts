@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async check_sug_megadel2(growerNum: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/check_sug_megadel2?growerNum=${growerNum}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_split_farm_by_grower_id(grower_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -32,11 +42,13 @@ export class MegadelSearchService {
     return item;
   }
 
-
-
-
-
-  async get_start_grower_det(grower_id: any, siteNum: any,gidulNum: any,growerNum: any,yz_shem_yeshuv: any): Promise<any[]> {
+  async get_start_grower_det(
+    grower_id: any,
+    siteNum: any,
+    gidulNum: any,
+    growerNum: any,
+    yz_shem_yeshuv: any
+  ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_start_grower_det?grower_id=${grower_id}&siteNum=${siteNum}&gidulNum=${gidulNum}&growerNum=${growerNum}&yz_shem_yeshuv=${yz_shem_yeshuv}`

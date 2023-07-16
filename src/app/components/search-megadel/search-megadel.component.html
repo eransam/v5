@@ -3,9 +3,7 @@
     <div class="searchInput" style="direction: rtl">
       <form
         class="form form-horizontal row-separator"
-        (ngSubmit)="add_test()"
         [formGroup]="DetailsForm"
-        (keyup.enter)="add_test()"
       >
         <!-- input text search start ---------------------------------------------------------------------------------------------------------------------->
 
@@ -16,7 +14,7 @@
             <div class="col-md-4">
               <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput1"
-                  >שם מגדל טסט</label
+                  >שם מגדל</label
                 >
                 <div class="col-md-8">
                   <input
@@ -27,7 +25,6 @@
                     placeholder="שם"
                     [(ngModel)]="username_test"
                     [formControl]="usernameControl_test"
-                    (keydown.enter)="add_test()"
                   />
                   <span
                     class="delete-icon"
@@ -39,11 +36,11 @@
               </div>
             </div>
 
-            <!-- מס אתר טסט-->
+            <!-- מס אתר -->
             <div class="col-md-4">
               <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput1"
-                  >מספר אתר טסט</label
+                  >מספר אתר</label
                 >
                 <div class="col-md-8">
                   <input
@@ -54,7 +51,6 @@
                     placeholder="מס אתר"
                     [(ngModel)]="siteNum_test"
                     [formControl]="siteNumControl_test"
-                    (keydown.enter)="add_test()"
                   />
                   <span
                     class="delete-icon"
@@ -66,11 +62,11 @@
               </div>
             </div>
 
-            <!-- מס ג''ח' טסט -->
+            <!-- מס ג''ח' -->
             <div class="col-md-4">
               <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput1"
-                  >מספר גח טסט</label
+                  >מספר גח</label
                 >
                 <div class="col-md-8">
                   <input
@@ -81,7 +77,6 @@
                     placeholder="מס גח"
                     [(ngModel)]="gidulHotzNum_test"
                     [formControl]="gidulHotzNumControl_test"
-                    (keydown.enter)="add_test()"
                   />
                   <span
                     class="delete-icon"
@@ -108,7 +103,6 @@
                     placeholder="מס מגדל"
                     [(ngModel)]="growerNum_test"
                     [formControl]="growerNumControl_test"
-                    (keydown.enter)="add_test()"
                   />
                   <span
                     class="delete-icon"
@@ -120,11 +114,11 @@
               </div>
             </div>
 
-            <!--ישוב  טסט-->
+            <!--ישוב-->
             <div class="col-md-4">
               <div class="form-group row mx-auto">
                 <label class="col-md-4 label-control" for="userinput1"
-                  >ישוב טסט</label
+                  >ישוב</label
                 >
                 <div class="col-md-8">
                   <input
@@ -135,7 +129,6 @@
                     placeholder="ישוב"
                     [(ngModel)]="yeshuv_test"
                     [formControl]="yeshuvControl_test"
-                    (keydown.enter)="add_test()"
                   />
                   <span class="delete-icon" (click)="clearInput('yeshuv_test')">
                     <i class="fa fa-times"></i>
@@ -170,7 +163,11 @@
                             <i class="feather ft-x"></i> נקה
                           </button>
 
-                          <button type="submit" class="btn btn-primary">
+                          <button
+                            type="submit"
+                            (click)="add_test()"
+                            class="btn btn-primary"
+                          >
                             <i class="la la-check"></i> חפש
                           </button>
                         </div>
@@ -222,7 +219,11 @@
                     class="card-dashboard text-right"
                     *ngIf="!isLoading_search_megadel"
                   >
-                    <div class="table table-striped table-bordered base-style">
+                    <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+                    <div
+                      *ngIf="!isLoading_FarmDetails"
+                      class="table table-striped table-bordered base-style"
+                    >
                       <ngx-datatable
                         class="bootstrap ps"
                         [limit]="20"
@@ -261,11 +262,11 @@
                                   ]"
                                 >
                                   <div *ngIf="allInactive">
-                                    <p style="">{{ row.yz_Id }}</p>
+                                    <p style="">{{ row.farms }}</p>
                                   </div>
                                   <div *ngIf="!allInactive">
                                     <p style="">
-                                      {{ row.yz_Id }}
+                                      {{ row.farms }}
                                     </p>
                                   </div>
                                 </a>
@@ -288,7 +289,7 @@
                                     title="This is a tooltip"
                                   >
                                     <p style="" title="This is a tooltip">
-                                      {{ row.yz_Id }}
+                                      {{ row.farms }}
                                     </p>
                                   </div>
                                   <div
@@ -296,7 +297,7 @@
                                     title="This is a tooltip"
                                   >
                                     <p style="" title="This is a tooltip">
-                                      {{ row.yz_Id }}
+                                      {{ row.farms }}
                                     </p>
                                   </div>
                                 </a>
@@ -496,7 +497,7 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <ng-container *ngIf="row.yz_sug === 1">
+                            <ng-container *ngIf="row.sug_megadel === 1">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -507,7 +508,7 @@
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.yz_sug === 0">
+                            <ng-container *ngIf="row.sug_megadel === 0">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
