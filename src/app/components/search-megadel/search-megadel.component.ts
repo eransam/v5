@@ -615,7 +615,6 @@ export class SearchMegadelComponent implements OnInit {
 
   async add_test() {
     this.isLoading_FarmDetails = true;
-
     this.the_new_det = [];
     this.new_arr_growers_det = [];
 
@@ -656,7 +655,6 @@ export class SearchMegadelComponent implements OnInit {
     ) {
       the_yeshuvControl_test_val = '';
     }
-    console.log(the_yeshuvControl_test_val);
 
     //   מס מגדל
     var growerNumControl_test_val = this.growerNumControl_test.value;
@@ -671,21 +669,53 @@ export class SearchMegadelComponent implements OnInit {
     console.log(the_gidulHotzNumControl_test_val);
     console.log(the_siteNumControl_test_val);
     console.log(the_growers_id_by_name);
+    if (the_growers_id_by_name === '') {
+      the_growers_id_by_name = [];
+    }
+
+    if (the_siteNumControl_test_val.length > 0) {
+      var the_grower_ids_from_farm_num =
+        await this.megadelSearchService.get_growers_id_with_splite_by_farm_num(
+          the_siteNumControl_test_val
+        );
+
+      if (the_grower_ids_from_farm_num[0].yz_Id !== null) {
+        for (let obj of the_grower_ids_from_farm_num) {
+          the_growers_id_by_name.push(obj);
+        }
+      }
+
+      console.log(the_growers_id_by_name);
+    }
 
     if (the_growers_id_by_name !== '') {
       for (let obj of the_growers_id_by_name) {
-        var the_grower_det =
-          await this.megadelSearchService.get_start_grower_det(
-            obj.yz_Id,
-            the_siteNumControl_test_val,
-            the_gidulHotzNumControl_test_val,
-            growerNumControl_test_val,
-            the_yeshuvControl_test_val
-          );
+        if (obj?.splite) {
+            var the_grower_det =
+            await this.megadelSearchService.get_start_grower_det(
+              obj.yz_Id,
+              '',
+              the_gidulHotzNumControl_test_val,
+              growerNumControl_test_val,
+              the_yeshuvControl_test_val
+            );
+            
+        }else{
+            var the_grower_det =
+            await this.megadelSearchService.get_start_grower_det(
+              obj.yz_Id,
+              the_siteNumControl_test_val,
+              the_gidulHotzNumControl_test_val,
+              growerNumControl_test_val,
+              the_yeshuvControl_test_val
+            );
+
+        }
 
         this.new_arr_growers_det.push(the_grower_det[0]);
       }
     } else {
+      // מביא את פרטי המגדל
       var the_grower_det = await this.megadelSearchService.get_start_grower_det(
         '',
         the_siteNumControl_test_val,
@@ -697,10 +727,13 @@ export class SearchMegadelComponent implements OnInit {
       for (let obj of the_grower_det) this.new_arr_growers_det.push(obj);
     }
 
-    console.log(this.new_arr_growers_det);
+    this.new_arr_growers_det = this.new_arr_growers_det.filter(element => element !== undefined);
+
 
     for (let obj of this.new_arr_growers_det) {
       obj.farms = '';
+
+      //   מביאים את האתרים של המגדל
       var the_growers_farms = await this.megadelSearchService.getFarm(
         -1,
         -1,
@@ -720,14 +753,24 @@ export class SearchMegadelComponent implements OnInit {
         -1,
         '-1'
       );
-
       console.log(the_growers_farms);
+
       for (let obj1 of the_growers_farms) {
-        if (obj1.farm_code) {
-          obj.farms += obj1.farm_code + ' ,';
+        obj1.farms = [];
+      }
+
+      //  עוברים על כל האתרים של המגדל ומוציאים מהאובייקט את מספרי האתרים לסטרינג
+      for (let obj1 of the_growers_farms) {
+        if (obj1.hen_house_active_count === 1) {
+          if (obj1.farm_code) {
+            obj.farms += obj1.farm_code + ' ,';
+          }
         }
       }
     }
+
+    console.log(the_growers_farms);
+    console.log(this.new_arr_growers_det);
 
     // יוצר שדה מיכסה
     for (let item of this.new_arr_growers_det) {
@@ -785,12 +828,12 @@ export class SearchMegadelComponent implements OnInit {
         item.sug_megadel = 1;
       }
 
+      //   מביאים אתרים מחיצה במידה ויש
       var split_farms =
         await this.megadelSearchService.get_split_farm_by_grower_id(item.yz_Id);
       console.log(split_farms);
 
       item.farms += split_farms[0]?.code;
-      //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
     }
 
     // הורדת אנדיפיינד מהאתרים
@@ -820,6 +863,7 @@ export class SearchMegadelComponent implements OnInit {
     let numName = '%';
     let gidolHotzName = ' ';
     this.SitetNameTomaaravi = ' ';
+
     // טיפול בערך בתיבת השלוחה
     let extension = this.extensionControl.value;
     if (extension === undefined) {
@@ -865,18 +909,10 @@ export class SearchMegadelComponent implements OnInit {
     if (this.usernameControl.value) {
       Username = this.usernameControl.value;
     }
+
+    // במידה והוכנס שדה מספר אתר אנו נכנס לפה
     if (this.SitetNameTomaaravi !== ' ') {
-      console.log('in the if SitetNameTomaaravi');
-      console.log('this.SitetNameTomaaravi: ', this.SitetNameTomaaravi);
-
       if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
-        console.log('gidolHotzName: ', gidolHotzName);
-
-        console.log('numName9: ', numName);
-        console.log('Username9: ', Username);
-        console.log('SettlementName9: ', SettlementName);
-        console.log('this.SitetNameTomaaravi9: ', this.SitetNameTomaaravi);
-
         const resultsMaaravi =
           await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn_Atar(
             0,
@@ -891,30 +927,32 @@ export class SearchMegadelComponent implements OnInit {
             this.SitetNameTomaaravi,
             0
           );
-        console.log('resultsMaaravi: ', resultsMaaravi);
 
         if (resultsMaaravi.length === 0) {
           this.theDetails = resultsMaaravi;
         } else {
-          console.log('resultsMaaravi: ', resultsMaaravi);
-
           for (let item of resultsMaaravi) {
+            // מביאים את כל האתרים של המגדל
             const results3 =
               await this.megadelSearchService.get_siteName_by_yzId(
                 item.v_yzrn_id
               );
+
+            // מוציאים רק את האתרים הפעילים למערך חדש
             const filteredArray = results3.filter(
               (obj) => obj?.farm_status_id !== 2
             );
-            console.log(filteredArray);
 
             this.allInactive = results3.every(
               (obj) => obj.farm_status_id !== 2
             );
-            console.log(this.allInactive);
 
+            // מוציאים את קודי האתרים למערך חדש
             const codes = filteredArray.map((obj) => obj.code);
+
+            // הופכים אותם לסטרינג ומכניסים אותם למשתנה
             const joinedString = codes.join(', ');
+
             item.yz_IdReal = item.v_yzrn_id;
             item.yz_Id = joinedString;
             item.all_not_active = this.allInactive;
@@ -985,23 +1023,15 @@ export class SearchMegadelComponent implements OnInit {
               item.yz_Id += ' ,' + item.YazRishaion;
             }
           }
-
-          console.log('resultsMaaravi426: ', resultsMaaravi);
-
           this.theDetails = resultsMaaravi;
 
           localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
         }
       }
     } else {
+      // במידה ולא הוכנס שדה מספר אתר אנו נגיע לפה
       if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
-        console.log('gidolHotzName: ', gidolHotzName);
-
-        console.log('numName9: ', numName);
-        console.log('Username9: ', Username);
-        console.log('SettlementName9: ', SettlementName);
-        console.log('this.SitetNameTomaaravi9: ', this.SitetNameTomaaravi);
-
+        // מביאים את כל האתרים
         const resultsMaaravi2 =
           await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
             18,
@@ -1019,13 +1049,9 @@ export class SearchMegadelComponent implements OnInit {
             '%'
           );
 
-        console.log('resultsMaaravi2: ', resultsMaaravi2);
-
         if (resultsMaaravi2.length === 0) {
           this.theDetails = resultsMaaravi2;
         } else {
-          console.log('resultsMaaravi2: ', resultsMaaravi2);
-
           // הוספה לפרטי האתר שדה המכיל גידול חוץ
           for (let item of resultsMaaravi2) {
             if (item?.YazRishaion !== undefined) {
@@ -1059,20 +1085,22 @@ export class SearchMegadelComponent implements OnInit {
                 item.v_yzrn,
                 99
               );
-            console.log('sdfsdf');
+
+            // ממיין למערך חדש רק את האתרים הפעילים
             const filteredArray = results3.filter(
               (obj) => obj.RishaionSts !== 'לא פעיל'
             );
-            console.log(filteredArray);
 
             this.allInactive = results3.every(
               (obj) => obj.RishaionSts === 'לא פעיל'
             );
-            console.log(this.allInactive);
 
+            // מוציא את מספרי האתרים למערך חדש
             const codes = filteredArray.map((obj) => obj.code);
+            // יוצר מהם סטרינג
             const joinedString = codes.join(', ');
             item.yz_IdReal = item.v_yzrn_id;
+
             item.yz_Id = joinedString;
             item.all_not_active = this.allInactive;
           }
@@ -1089,13 +1117,9 @@ export class SearchMegadelComponent implements OnInit {
             item.micsa = this.mihsot3[0]?.mi_kamut;
           }
 
-          console.log('resultsMaaravi after micsa: ', resultsMaaravi2);
-
           this.theDetails = resultsMaaravi2;
           localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
         }
-
-        console.log('resultsMaaravi999: ', resultsMaaravi2);
       }
     }
     this.isLoading = false; // Stop loading
