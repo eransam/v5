@@ -669,9 +669,6 @@ export class SearchMegadelComponent implements OnInit {
     console.log(the_gidulHotzNumControl_test_val);
     console.log(the_siteNumControl_test_val);
     console.log(the_growers_id_by_name);
-    if (the_growers_id_by_name === '') {
-      the_growers_id_by_name = [];
-    }
 
     if (the_siteNumControl_test_val.length > 0) {
       var the_grower_ids_from_farm_num =
@@ -680,6 +677,9 @@ export class SearchMegadelComponent implements OnInit {
         );
 
       if (the_grower_ids_from_farm_num[0].yz_Id !== null) {
+        if (the_growers_id_by_name === '') {
+          the_growers_id_by_name = [];
+        }
         for (let obj of the_grower_ids_from_farm_num) {
           the_growers_id_by_name.push(obj);
         }
@@ -691,7 +691,7 @@ export class SearchMegadelComponent implements OnInit {
     if (the_growers_id_by_name !== '') {
       for (let obj of the_growers_id_by_name) {
         if (obj?.splite) {
-            var the_grower_det =
+          var the_grower_det =
             await this.megadelSearchService.get_start_grower_det(
               obj.yz_Id,
               '',
@@ -699,9 +699,8 @@ export class SearchMegadelComponent implements OnInit {
               growerNumControl_test_val,
               the_yeshuvControl_test_val
             );
-            
-        }else{
-            var the_grower_det =
+        } else {
+          var the_grower_det =
             await this.megadelSearchService.get_start_grower_det(
               obj.yz_Id,
               the_siteNumControl_test_val,
@@ -709,7 +708,6 @@ export class SearchMegadelComponent implements OnInit {
               growerNumControl_test_val,
               the_yeshuvControl_test_val
             );
-
         }
 
         this.new_arr_growers_det.push(the_grower_det[0]);
@@ -727,8 +725,9 @@ export class SearchMegadelComponent implements OnInit {
       for (let obj of the_grower_det) this.new_arr_growers_det.push(obj);
     }
 
-    this.new_arr_growers_det = this.new_arr_growers_det.filter(element => element !== undefined);
-
+    this.new_arr_growers_det = this.new_arr_growers_det.filter(
+      (element) => element !== undefined
+    );
 
     for (let obj of this.new_arr_growers_det) {
       obj.farms = '';
