@@ -12,6 +12,26 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_main_grower_by_code_gidul(code_gidul: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_main_grower_by_code_gidul?code_gidul=${code_gidul}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_grower_id_by_farm_num(farm_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_grower_id_by_farm_num?farm_num=${farm_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_growers_id_with_splite_by_farm_num(farm_num: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(

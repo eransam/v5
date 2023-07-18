@@ -668,6 +668,22 @@ export class SearchMegadelComponent implements OnInit {
     ) {
       growerNumControl_test_val = '';
     }
+
+    if (
+      growerNumControl_test_val === '' &&
+      the_yeshuvControl_test_val === '' &&
+      the_gidulHotzNumControl_test_val !== '' &&
+      the_growers_id_by_name === ''
+    ) {
+      var main_grower_gidul_hotz =
+        await this.megadelSearchService.get_main_grower_by_code_gidul(
+          the_gidulHotzNumControl_test_val
+        );
+      console.log(main_grower_gidul_hotz);
+      growerNumControl_test_val = main_grower_gidul_hotz[0]?.pa_YzrnHead;
+      the_gidulHotzNumControl_test_val = '';
+    }
+
     console.log(growerNumControl_test_val);
     console.log(the_yeshuvControl_test_val);
     console.log(the_gidulHotzNumControl_test_val);
@@ -679,6 +695,15 @@ export class SearchMegadelComponent implements OnInit {
         await this.megadelSearchService.get_growers_id_with_splite_by_farm_num(
           the_siteNumControl_test_val
         );
+
+      if (the_grower_ids_from_farm_num.length === 0) {
+        var the_grower_ids_from_farm_num =
+          await this.megadelSearchService.get_grower_id_by_farm_num(
+            the_siteNumControl_test_val
+          );
+      }
+
+      console.log(the_grower_ids_from_farm_num);
 
       if (the_grower_ids_from_farm_num[0].yz_Id !== null) {
         if (the_growers_id_by_name === '') {
@@ -851,6 +876,7 @@ export class SearchMegadelComponent implements OnInit {
 
     console.log(this.the_new_det);
     console.log(this.new_arr_growers_det);
+
     this.the_new_det = this.new_arr_growers_det;
     localStorage.setItem('the_new_det', JSON.stringify(this.the_new_det));
 

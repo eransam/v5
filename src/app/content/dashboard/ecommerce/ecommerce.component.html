@@ -691,6 +691,16 @@
                       <p style="direction: rtl">
                         לתשלום: {{ totalMicsaToPay | numberFormat }}
                       </p>
+                      <p style="direction: rtl">
+                        סהכ שותפים: {{ this.partnerData.length }}
+                      </p>
+                      <p style="direction: rtl">
+                        סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        סהכ מכסת פרגיות:
+                        {{ this.total_pargiot | numberFormat }}
+                      </p>
                     </div>
                     <div>
                       <h1 class="rtl_Style">מכסת ביצים</h1>
@@ -947,6 +957,16 @@
                       <p style="direction: rtl">
                         לתשלום: {{ totalMicsaToPay | numberFormat }}
                       </p>
+                      <p style="direction: rtl">
+                        סהכ שותפים: {{ this.partnerData.length }}
+                      </p>
+                      <p style="direction: rtl">
+                        סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        סהכ מכסת פרגיות:
+                        {{ this.total_pargiot | numberFormat }}
+                      </p>
                     </div>
                     <div>
                       <h1 class="rtl_Style">מכסת ביצים</h1>
@@ -1095,7 +1115,7 @@
                           <td></td>
                         </tr>
 
-                        <tr>
+                        <tr *ngIf="this.oldNameGrower">
                           <td><B>שם מגדל ישן</B></td>
                           <td>
                             {{ this.oldNameGrower[0]?.Old_Name_Yazran }}
@@ -1560,11 +1580,11 @@
                         >
                           {{ row.calc750 }}
                         </td>
-                        <td style="width: 100px">
+                        <td *ngIf="row.zan_det" style="width: 100px">
                           {{ row.zan_det[0]?.zan }} -
                           {{ row.zan_det[0]?.zan_name }}
                         </td>
-                        <td style="width: 100px">
+                        <td *ngIf="row.zan_det" style="width: 100px">
                           {{ row.zan_det[0].number }}
                         </td>
                         <td style="width: 100px">
