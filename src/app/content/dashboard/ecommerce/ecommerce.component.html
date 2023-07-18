@@ -363,6 +363,21 @@
                           </div>
                         </tr>
 
+                        <!-- תאריך סיום שותפות -->
+                        <tr *ngIf="this.the_user_end_partner?.end_date">
+                          <div>
+                            <th scope="col" class="border-top-0">
+                              תאריך סיום שותפות:
+                            </th>
+                            <th scope="col" class="border-top-0">
+                              {{ this.the_user_end_partner?.end_date }}
+                            </th>
+                            <th>
+                              <div></div>
+                            </th>
+                          </div>
+                        </tr>
+
                         <!-- מגדל צריכה עצמית -->
 
                         <tr
@@ -402,7 +417,7 @@
                         </tr>
 
                         <!-- אישור שוט -->
-                        <tr *ngIf="shot_confirmation === '1'">
+                        <tr *ngIf="shot_confirmation === '999999'">
                           <th scope="col" class="border-top-0">אישור שוט</th>
 
                           <th>
@@ -1081,6 +1096,18 @@
                         </tr>
 
                         <tr>
+                          <td><B>שם מגדל ישן</B></td>
+                          <td>
+                            {{ this.oldNameGrower[0]?.Old_Name_Yazran }}
+                          </td>
+                          <td>תאריך שינוי</td>
+                          <td>
+                            {{ this.oldNameGrower[0]?.chgdate }}
+                          </td>
+                          <td></td>
+                        </tr>
+
+                        <tr>
                           <td><B>ת.ז</B></td>
                           <td>{{ this.userDetails_more_info[0]?.v_zehut }}</td>
 
@@ -1421,7 +1448,7 @@
                         farm_det_new[0]?.belonging_group_name ===
                           'תרנגולות - הטלה' &&
                         (farm_det_new[0]?.farm_type === 'אחר' ||
-                        farm_det_new[0]?.farm_type === 'חופש')
+                          farm_det_new[0]?.farm_type === 'חופש')
                       "
                       class="detailsTable"
                     >
@@ -1504,15 +1531,34 @@
                         farm_det_new[0]?.belonging_group_name ===
                           'תרנגולות - הטלה' &&
                         (farm_det_new[0]?.farm_type === 'אחר' ||
-                        farm_det_new[0]?.farm_type === 'חופש')
+                          farm_det_new[0]?.farm_type === 'חופש')
                       "
                     >
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px">
+                        <td
+                          *ngIf="row.is_hen_house_split === 1"
+                          style="width: 100px"
+                        >
+                          {{ row.kibolet_lul / 2 | number : "1.0-0" }}
+                        </td>
+                        <td
+                          *ngIf="row.is_hen_house_split === 0"
+                          style="width: 100px"
+                        >
                           {{ row.kibolet_lul | number : "1.0-0" }}
                         </td>
-                        <td style="width: 100px">
-                          {{ row.calc750 | number : "1.0-0" }}
+
+                        <td
+                          *ngIf="row.is_hen_house_split === 1"
+                          style="width: 100px"
+                        >
+                          {{ row.calc750 / 2 }}
+                        </td>
+                        <td
+                          *ngIf="row.is_hen_house_split === 0"
+                          style="width: 100px"
+                        >
+                          {{ row.calc750 }}
                         </td>
                         <td style="width: 100px">
                           {{ row.zan_det[0]?.zan }} -
@@ -1614,12 +1660,9 @@
                           <th scope="col" class="border-top-0">שלוחה</th>
 
                           <th scope="col" class="border-top-0">סטטוס</th>
-
-
                         </tr>
                       </thead>
 
-                      
                       <tbody>
                         <tr *ngFor="let row of this.farm_start_det">
                           <td
@@ -1652,24 +1695,20 @@
                             {{ row.shloha_name }}
                           </td>
 
-
                           <td
-                          *ngIf="row.is_hen_house_split !== 1"
-                          [ngClass]="[
-                            row.farm_status_id === 1
-                              ? 'avtice_site_class'
-                              : 'not_avtice_site_class',
-                            row.code === the_chosen_farm
-                              ? 'chosen_site'
-                              : 'not_chosen_site'
-                          ]"
-                        >
-                          <p *ngIf="row.farm_status_id === 2 ">לא פעיל</p>
-                          <p *ngIf="row.farm_status_id === 1 "> פעיל</p>
-
-                        </td>
-
-
+                            *ngIf="row.is_hen_house_split !== 1"
+                            [ngClass]="[
+                              row.farm_status_id === 1
+                                ? 'avtice_site_class'
+                                : 'not_avtice_site_class',
+                              row.code === the_chosen_farm
+                                ? 'chosen_site'
+                                : 'not_chosen_site'
+                            ]"
+                          >
+                            <p *ngIf="row.farm_status_id === 2">לא פעיל</p>
+                            <p *ngIf="row.farm_status_id === 1">פעיל</p>
+                          </td>
                         </tr>
                       </tbody>
                     </table>

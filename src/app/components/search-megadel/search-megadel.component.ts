@@ -274,6 +274,10 @@ export class SearchMegadelComponent implements OnInit {
       yaerBox: this.yearInput,
     });
 
+    if (JSON.parse(localStorage.getItem('the_new_det'))) {
+      this.the_new_det = JSON.parse(localStorage.getItem('the_new_det'));
+    }
+
     this.extension2 = await this.megadelSearchService.GetAllShlohaNAME();
     console.log('this.extension2: ', this.extension2);
 
@@ -848,6 +852,8 @@ export class SearchMegadelComponent implements OnInit {
     console.log(this.the_new_det);
     console.log(this.new_arr_growers_det);
     this.the_new_det = this.new_arr_growers_det;
+    localStorage.setItem('the_new_det', JSON.stringify(this.the_new_det));
+
     this.isLoading_FarmDetails = false;
   }
 
