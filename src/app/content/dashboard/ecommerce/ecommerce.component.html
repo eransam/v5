@@ -202,7 +202,7 @@
                     <select
                       [(ngModel)]="chosenYear"
                       (change)="onYearChange()"
-                      style="width: 200px; height: 60px"
+                      style="width: 125px; height: 60px"
                     >
                       <option *ngFor="let year of years" [value]="year">
                         {{ year }}
@@ -714,7 +714,7 @@
                 <div class="card-content">
                   <div class="exel_and_total" style="justify-content: end">
                     <div>
-                      <h1 class="rtl_Style">מכסת ג''ח</h1>
+                      <h1 class="rtl_Style">מכסת ביצים ג''ח</h1>
                     </div>
                   </div>
 
@@ -754,7 +754,11 @@
                           </p>
                           <p style="direction: rtl">
                             סהכ מכסת פרגיות:
-                            {{ this.total_pargiot | numberFormat }}
+                            {{ this.total_pargiot | number : "1.0-0" }}
+                          </p>
+                          <p style="direction: rtl">
+                            סהכ מכסת שותפים:
+                            {{ this.mcsaSum | numberFormat }}
                           </p>
                         </div>
                       </div>
@@ -789,7 +793,7 @@
                       </p>
                     </div>
                     <div>
-                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                      <h1 class="rtl_Style">מכסת ביצים אישית</h1>
                     </div>
                   </div>
 
@@ -940,10 +944,6 @@
                               {{ row.nameSugMcsa }}
                             </td>
 
-                            <!-- <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa7 }}
-                            </td> -->
-
                             <td class="text-truncate row_padding">
                               {{ row.mi_kamut | numberFormat }}
                             </td>
@@ -1028,7 +1028,7 @@
                 <div class="card-content">
                   <div class="exel_and_total" style="justify-content: end">
                     <div>
-                      <h1 class="rtl_Style">מכסת ג''ח</h1>
+                      <h1 class="rtl_Style">מכסת ביצים ג''ח</h1>
                     </div>
                   </div>
 
@@ -1065,7 +1065,11 @@
                           </p>
                           <p style="direction: rtl">
                             סהכ מכסת פרגיות:
-                            {{ this.total_pargiot | numberFormat }}
+                            {{ this.total_pargiot | number : "1.0-0" }}
+                          </p>
+                          <p style="direction: rtl">
+                            סהכ מכסת שותפים:
+                            {{ this.mcsaSum | numberFormat }}
                           </p>
                         </div>
                       </div>
@@ -1102,7 +1106,7 @@
                       </p>
                     </div>
                     <div>
-                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                      <h1 class="rtl_Style">מכסת ביצים אישית</h1>
                     </div>
                   </div>
 
@@ -1457,6 +1461,21 @@
                         >
                           ג''ח
                         </th>
+
+
+                        <th
+                        scope="col"
+                        class="border-top-0 table_tatle"
+                        style="width: 100px"
+                      >
+                        משווק צמוד
+                      </th>
+
+
+
+
+
+                        
                       </tr>
                     </thead>
 
@@ -1501,7 +1520,12 @@
                         <td style="width: 100px">{{ row.block_num }}</td>
 
                         <td style="width: 100px">{{ row.pa_Counter }}</td>
+                        <td style="width: 100px">{{ row.msvk_zamud }}</td>
+                        
                       </tr>
+
+
+
                     </tbody>
                     <br />
                     <h3

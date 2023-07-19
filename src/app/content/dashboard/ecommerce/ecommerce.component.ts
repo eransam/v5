@@ -179,7 +179,7 @@ export class EcommerceComponent implements OnInit {
   categorizedArrays: any = {};
   keys_of_categorizedArrays: any[] = [];
   thefarmdetOfThemainGrower: any[] = [];
-  selectedCategory: string = '';
+  selectedCategory: string = '20';
   notActiveColor: any = false;
   activeColor: any = true;
   new_Small_Array: any[] = [];
@@ -318,6 +318,22 @@ export class EcommerceComponent implements OnInit {
         );
       }
 
+      this.mcsaSum = 0;
+      this.eggSum = 0;
+      this.certificateSum = 0;
+
+      for (var i = 0; i < this.partnerData.length; i++) {
+        this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+        this.certificateSum += parseFloat(
+          this.partnerData[i]['certificate_sum']
+        );
+        this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+      }
+
+      console.log(this.mcsaSum);
+      console.log(this.eggSum);
+      console.log(this.certificateSum);
+
       //   לוגיקה התראות -------------------------------------------------------------------
 
       // התראה של שם ישן --- מבוטללללללל
@@ -404,28 +420,6 @@ export class EcommerceComponent implements OnInit {
         '30 - ביצי מאכל',
         88
       );
-      // מכסות ביצים - סיום
-
-      // מכסות פטם
-      //   this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
-      //     5,
-      //     this.userDetails[0]?.v_yzrn,
-      //     this.chosenYear,
-      //     '10',
-      //     88
-      //   );
-      //   // מכסות פטם - סיום
-
-      //   // מכסות הודים
-      //   this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
-      //     5,
-      //     this.userDetails[0]?.v_yzrn,
-      //     this.chosenYear,
-      //     '01',
-      //     88
-      //   );
-      //   console.log('this.mihsotPetem: ', this.mihsotHodim);
-      // מכסות הודים - סיום
 
       //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
       this.totalMicsaKvoha = 0;
@@ -591,8 +585,22 @@ export class EcommerceComponent implements OnInit {
       }
 
       for (let obj of this.new_Active_FarmDetails) {
-        this.total_hiclos += parseFloat(obj.hiclos_number.toFixed(2));
-        this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
+        if (obj.code.includes('/')) {
+          obj.is_splite = 1;
+        } else {
+          obj.is_splite = 0;
+        }
+      }
+
+      for (let obj of this.new_Active_FarmDetails) {
+        if (obj.is_not_allow_population_hatcher === 1 || obj.is_splite === 1) {
+          if (typeof obj.hiclos_number === 'number') {
+            this.total_hiclos += parseFloat(obj.hiclos_number.toFixed(2));
+          }
+          if (typeof obj.micsat_pargiot === 'number') {
+            this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
+          }
+        }
       }
 
       console.log(this.new_Active_FarmDetails);
@@ -723,6 +731,19 @@ export class EcommerceComponent implements OnInit {
           }
         }
 
+        // הוספת משווק צמוד
+        for (let obj of this.farm_det_new) {
+          var msvk_zamud = await this.megadelSearchService.get_msvk_zamud(
+            this.userDetails[0].v_yzrn,
+            obj.farm_id
+          );
+          if (msvk_zamud[0]?.msvk_zamud) {
+            obj.msvk_zamud = msvk_zamud[0]?.msvk_zamud;
+          } else {
+            obj.msvk_zamud = '';
+          }
+        }
+
         console.log(this.farm_det_new);
       }
 
@@ -777,7 +798,6 @@ export class EcommerceComponent implements OnInit {
             '20180101',
             '99991231'
           );
-        console.log('checkPartners: ', checkPartners);
         if (checkPartners.length > 1) {
           this.arrPartnersPetem.push({
             numGroup: item.farm_code,
@@ -958,14 +978,18 @@ export class EcommerceComponent implements OnInit {
       }
     }
 
-    // for (let obj of this.farm_det_new) {
-    //   if (this.userDetails_more_info[0]?.v_shem_yzrn !== obj.farm_name) {
-    //     obj.farm_name = this.userDetails_more_info[0]?.v_shem_yzrn;
-    //     obj.farm_num = obj.farm_num.toString() + '/2';
-
-    //     console.log('Sd');
-    //   }
-    // }
+    // הוספת משווק צמוד
+    for (let obj of this.farm_det_new) {
+      var msvk_zamud = await this.megadelSearchService.get_msvk_zamud(
+        this.userDetails[0].v_yzrn,
+        obj.farm_id
+      );
+      if (msvk_zamud[0]?.msvk_zamud) {
+        obj.msvk_zamud = msvk_zamud[0]?.msvk_zamud;
+      } else {
+        obj.msvk_zamud = '';
+      }
+    }
 
     console.log(this.farm_det_new);
 
@@ -1510,6 +1534,8 @@ export class EcommerceComponent implements OnInit {
           );
           this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
         }
+
+        console.log(this.partnerData);
 
         let obj = {
           mcsaSum: this.mcsaSum,

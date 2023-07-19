@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_msvk_zamud(Yzrn_num: any, site_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_msvk_zamud?Yzrn_num=${Yzrn_num}&site_num=${site_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_main_grower_by_code_gidul(code_gidul: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -141,86 +151,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-  //     var paramData = [
-  //         { 'name' : 'msvk_code' ,
-  //           'value' : params.data['קוד משווק']
-  //         },
-  //         { 'name' : 'month' ,
-  //           'value' : params.data['חודש']
-  //         },
-  //         { 'name' : 'year' ,
-  //           'value' : params.data['שנה']
-  //         },
-  //       ]
-  //       var jsonFinal = [
-  //         { reportName : '\\\\epb-iis22\\Report\\ChickenHealth\\FlockHistory.rpt',
-  //           pdfName: '\\\\epb-iis22\\Scan\\ChickenHealth\\flock\\' + params.data.id + '.pdf',
-  //           connectionString: 'ChickenHealth',
-  //           param: paramData }]
-
-  //       this.http.post<any>(`${environment.baseUrl}/growerService.asmx/exportPDFWithHebrewDate`,JSON.stringify(jsonFinal), { headers: this.headers }).subscribe(data => {
-
-  //         console.log("data error=" + JSON.stringify(data))
-
-  //         if(data) {
-  //           window.open('http://epb-iis22:8006/ChickenHealth/flock/' + params.data.id + '.pdf');
-
-  //        } else {
-  //          console.log("FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE")
-  //        }
-  //    });
-
-  //   async exportPDFWithHebrewDate(
-  //     grower_id: any
-  //   ): Promise<any[]> {
-  //     const item = await firstValueFrom(
-  //       this.http.post<any[]>(
-  //         `${environment.apiPath}growerService.asmx/exportPDFWithHebrewDate`,JSON.stringify(jsonFinal), { headers: this.headers }
-  //       )
-  //     );
-  //     console.log('item: ', item);
-  //     return item;
-  //   }
-
-  //  test_eran(): Promise<any[]> {
-  //     const headers = new HttpHeaders({
-  //         'Content-Type': 'application/json'
-  //       });
-
-  //     var paramData = [
-  //         { 'name' : 'flock_id' ,
-  //           'value' : '104,831'
-  //         },
-  //         { 'name' : 'from_date' ,
-  //           'value' : '2022-11-22 00:00:00'
-  //         },
-  //         { 'name' : 'to_date' ,
-  //           'value' : '2023-07-10 00:00:00'
-  //         },
-  //         { 'name' : 'isLive(PM)' ,
-  //           'value' : 0
-  //         },
-  //         { 'name' : 'bacteria_id(sensitivity)' ,
-  //           'value' : 0
-  //         },
-  //       ]
-  //       var jsonFinal = [
-  //         { reportName : '\\\\epb-iis22\\Report\\ChickenHealth\\FlockHistory.rpt',
-  //           pdfName: '\\\\epb-iis22\\Scan\\ChickenHealth\\flock\\' + 'params.data.id' + '.pdf',
-  //           connectionString: 'ChickenHealth',
-  //           param: paramData }]
-
-  //     const item = firstValueFrom(
-  //         this.http.post<any[]>(
-  //             `${environment.apiPath}growerService.asmx/exportPDFWithHebrewDate`,
-  //             JSON.stringify(jsonFinal),
-  //             { headers: headers }
-  //           )
-  //         )
-  //     console.log('item: ', item);
-  //     return item;
-  //   }
 
   test_eran() {
     const headers = new HttpHeaders({
