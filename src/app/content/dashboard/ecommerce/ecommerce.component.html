@@ -188,6 +188,7 @@
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex" style="height: 99px">
+                  <!-- שנה חיפוש -->
                   <div
                     class="year-select rtl_Style"
                     style="
@@ -205,6 +206,34 @@
                     >
                       <option *ngFor="let year of years" [value]="year">
                         {{ year }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- שלוחה חיפוש-->
+                  <div
+                    class="year-select rtl_Style"
+                    style="
+                      display: flex;
+                      align-items: stretch;
+                      font-size: 25px;
+                      font-weight: bold;
+                      margin: auto;
+                    "
+                  >
+                    <select
+                      [(ngModel)]="selectedCategory"
+                      (change)="selectCategory($event.target.value)"
+                      class="form-select form-select-lg"
+                      style="font-size: larger"
+                    >
+                      <option value="" disabled selected>שלוחה</option>
+                      <option
+                        *ngFor="let obj of keys_of_categorizedArrays"
+                        [value]="obj"
+                        [selected]="selectedCategory === obj"
+                      >
+                        {{ getCategoryLabel(obj) }}
                       </option>
                     </select>
                   </div>
@@ -527,7 +556,7 @@
             (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
             mihsot.length > 0
           "
-          class="col-xl-3 col-12"
+          class="col-xl-2 col-12"
         >
           <div *ngIf="isLoading_userDet" class="loader"></div>
           <div class="row match_height" *ngIf="!isLoading_userDet">
@@ -675,7 +704,7 @@
             (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
             mihsot.length > 0
           "
-          class="col-xl-3 col-12"
+          class="col-xl-2 col-12"
         >
           <div *ngIf="isLoading_userDet" class="loader"></div>
           <div class="row match_height" *ngIf="!isLoading_userDet">
@@ -683,32 +712,16 @@
               <div class="card card-micsa">
                 <div class="card-header"></div>
                 <div class="card-content">
-                  <div class="exel_and_total">
+                  <div class="exel_and_total" style="justify-content: end">
                     <div>
-                      <p style="direction: rtl">
-                        קבועה: {{ totalMicsaKvoha | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        לתשלום: {{ totalMicsaToPay | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        סהכ שותפים: {{ this.partnerData.length }}
-                      </p>
-                      <p style="direction: rtl">
-                        סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        סהכ מכסת פרגיות:
-                        {{ this.total_pargiot | numberFormat }}
-                      </p>
-                    </div>
-                    <div>
-                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                      <h1 class="rtl_Style">מכסת ג''ח</h1>
                     </div>
                   </div>
 
-                  <div class="table-container micsotStyle">
-                    <!-- טבלת מכסות ביצים  -->
+                  <div
+                    class="table-container micsotStyle"
+                    style="height: 275px; padding-right: 15px"
+                  >
                     <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
                       <div class="rtl_Style">
                         <tr>
@@ -730,6 +743,69 @@
                               </button>
                             </div>
                           </td>
+                        </tr>
+
+                        <div>
+                          <p style="direction: rtl">
+                            סהכ שותפים: {{ this.partnerData.length }}
+                          </p>
+                          <p style="direction: rtl">
+                            סהכ איכלוס: {{ this.total_hiclos }}
+                          </p>
+                          <p style="direction: rtl">
+                            סהכ מכסת פרגיות:
+                            {{ this.total_pargiot | numberFormat }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="
+            (mihsotPetem.length > 0 || mihsotHodim.length > 0) &&
+            mihsot.length > 0
+          "
+          class="col-xl-2 col-12"
+        >
+          <div *ngIf="isLoading_userDet" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_userDet">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total">
+                    <div>
+                      <p style="direction: rtl">
+                        קבועה: {{ totalMicsaKvoha | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        לתשלום: {{ totalMicsaToPay | numberFormat }}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                    </div>
+                  </div>
+
+                  <div
+                    class="table-container micsotStyle"
+                    style="
+                      height: fit-content;
+                      padding-right: 15px;
+                      overflow-y: auto !important;
+                      overflow-x: auto !important;
+                    "
+                  >
+                    <div style="" *ngIf="mihsot.length > 0">
+                      <div class="rtl_Style">
+                        <tr>
+                          <td style="margin-left: 50px"></td>
                         </tr>
                       </div>
                       <table
@@ -767,7 +843,6 @@
                         </tbody>
                       </table>
                     </div>
-                    <!-- טבלת מכסות ביצים סיום -->
                   </div>
                 </div>
               </div>
@@ -935,46 +1010,29 @@
         <!-- -------------------- תצוגה 3 ------------------------->
 
         <!-- טבלה מכסות ביצי הטלה------------------------------------------------------------------------------------------------------------------------>
+
+        <!-- מכסת ג''ח מכסת ביצים' -->
         <div
           *ngIf="
             mihsot.length > 0 &&
             mihsotPetem.length === 0 &&
             mihsotHodim.length === 0
           "
-          class="col-xl-6 col-12"
+          class="col-xl-3 col-12"
         >
           <div *ngIf="isLoading_userDet" class="loader"></div>
           <div class="row match_height" *ngIf="!isLoading_userDet">
             <div id="recent-transactions" class="col-12">
-              <div class="card card-micsa">
+              <div class="card card-micsa" style="padding-right: 2%">
                 <div class="card-header"></div>
                 <div class="card-content">
-                  <div class="exel_and_total">
+                  <div class="exel_and_total" style="justify-content: end">
                     <div>
-                      <p style="direction: rtl">
-                        קבועה: {{ totalMicsaKvoha | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        לתשלום: {{ totalMicsaToPay | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        סהכ שותפים: {{ this.partnerData.length }}
-                      </p>
-                      <p style="direction: rtl">
-                        סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
-                      </p>
-                      <p style="direction: rtl">
-                        סהכ מכסת פרגיות:
-                        {{ this.total_pargiot | numberFormat }}
-                      </p>
-                    </div>
-                    <div>
-                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                      <h1 class="rtl_Style">מכסת ג''ח</h1>
                     </div>
                   </div>
 
                   <div class="table-container micsotStyle">
-                    <!-- טבלת מכסות ביצים  -->
                     <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
                       <div class="rtl_Style">
                         <tr>
@@ -996,6 +1054,64 @@
                               </button>
                             </div>
                           </td>
+                        </tr>
+
+                        <div>
+                          <p style="direction: rtl">
+                            סהכ שותפים: {{ this.partnerData.length }}
+                          </p>
+                          <p style="direction: rtl">
+                            סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
+                          </p>
+                          <p style="direction: rtl">
+                            סהכ מכסת פרגיות:
+                            {{ this.total_pargiot | numberFormat }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- מכסת ביצים -->
+        <div
+          *ngIf="
+            mihsot.length > 0 &&
+            mihsotPetem.length === 0 &&
+            mihsotHodim.length === 0
+          "
+          class="col-xl-3 col-12"
+        >
+          <div *ngIf="isLoading_userDet" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_userDet">
+            <div id="recent-transactions" class="col-12">
+              <div class="card card-micsa">
+                <div class="card-header"></div>
+                <div class="card-content">
+                  <div class="exel_and_total">
+                    <div>
+                      <p style="direction: rtl">
+                        קבועה: {{ totalMicsaKvoha | numberFormat }}
+                      </p>
+                      <p style="direction: rtl">
+                        לתשלום: {{ totalMicsaToPay | numberFormat }}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 class="rtl_Style">מכסת ביצים</h1>
+                    </div>
+                  </div>
+
+                  <div class="table-container micsotStyle">
+                    <!-- טבלת מכסות ביצים  -->
+                    <div style="overflow-x: hidden" *ngIf="mihsot.length > 0">
+                      <div class="rtl_Style">
+                        <tr>
+                          <td style="margin-left: 50px"></td>
                         </tr>
                       </div>
                       <table
@@ -1228,7 +1344,7 @@
         <!-- פרטי אתר מורחבים -->
         <div class="row match_height farm_more_det">
           <div id="recent-transactions" class="col-12">
-            <div class="card" style="padding-right: 30px">
+            <div class="card" style="padding-right: 30px; min-height: 780px">
               <div class="card-header"></div>
               <div class="card-content">
                 <div class="exel_and_total">

@@ -407,29 +407,29 @@ export class EcommerceComponent implements OnInit {
       // מכסות ביצים - סיום
 
       // מכסות פטם
-      this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
-        5,
-        this.userDetails[0]?.v_yzrn,
-        this.chosenYear,
-        '10',
-        88
-      );
-      // מכסות פטם - סיום
+      //   this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
+      //     5,
+      //     this.userDetails[0]?.v_yzrn,
+      //     this.chosenYear,
+      //     '10',
+      //     88
+      //   );
+      //   // מכסות פטם - סיום
 
-      // מכסות הודים
-      this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
-        5,
-        this.userDetails[0]?.v_yzrn,
-        this.chosenYear,
-        '01',
-        88
-      );
-      console.log('this.mihsotPetem: ', this.mihsotHodim);
+      //   // מכסות הודים
+      //   this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
+      //     5,
+      //     this.userDetails[0]?.v_yzrn,
+      //     this.chosenYear,
+      //     '01',
+      //     88
+      //   );
+      //   console.log('this.mihsotPetem: ', this.mihsotHodim);
       // מכסות הודים - סיום
 
       //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
-      this.totalMicsaKvoha = 0; // Initialize the variable to 0
-      this.totalMicsaToPay = 0; // Initialize the variable to 0
+      this.totalMicsaKvoha = 0;
+      this.totalMicsaToPay = 0;
 
       for (const iterator of this.mihsot) {
         if (
@@ -591,8 +591,8 @@ export class EcommerceComponent implements OnInit {
       }
 
       for (let obj of this.new_Active_FarmDetails) {
-        this.total_hiclos += obj.hiclos_number;
-        this.total_pargiot += obj.micsat_pargiot;
+        this.total_hiclos += parseFloat(obj.hiclos_number.toFixed(2));
+        this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
       }
 
       console.log(this.new_Active_FarmDetails);
@@ -1282,7 +1282,38 @@ export class EcommerceComponent implements OnInit {
     }
   }
 
-  selectCategory(category: string) {
+  async selectCategory(category: string) {
+    if (category !== '20') {
+      this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.v_yzrn,
+        this.chosenYear,
+        '10',
+        88
+      );
+      // מכסות פטם - סיום
+
+      // מכסות הודים
+      this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.v_yzrn,
+        this.chosenYear,
+        '01',
+        88
+      );
+      this.mihsot = [];
+      console.log('this.mihsotPetem: ', this.mihsotHodim);
+    } else {
+      this.mihsotHodim = [];
+      this.mihsotPetem = [];
+      this.mihsot = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.v_yzrn,
+        this.chosenYear,
+        '30 - ביצי מאכל',
+        88
+      );
+    }
     this.click_on_not_show_ActiveSite = false;
     this.click_on_show_ActiveSite = false;
     this.selectedCategory = category;
@@ -1291,6 +1322,17 @@ export class EcommerceComponent implements OnInit {
     this.farm_start_det = value;
     console.log('s');
   }
+
+  //   selectCategory(category: string) {
+  //     this.click_on_not_show_ActiveSite = false;
+  //     this.click_on_show_ActiveSite = false;
+  //     this.selectedCategory = category;
+  //     var value = [];
+  //     value = this.categorizedArrays[category];
+  //     this.farm_start_det = value;
+  //     console.log('s');
+
+  //   }
 
   show_ActiveSite() {
     this.selectedCategory = '';
