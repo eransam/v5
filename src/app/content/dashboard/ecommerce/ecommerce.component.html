@@ -188,7 +188,6 @@
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex" style="height: 99px">
-                  <!-- שנה חיפוש -->
                   <div
                     class="year-select rtl_Style"
                     style="
@@ -1463,19 +1462,6 @@
                         </th>
 
 
-                        <th
-                        scope="col"
-                        class="border-top-0 table_tatle"
-                        style="width: 100px"
-                      >
-                        משווק צמוד
-                      </th>
-
-
-
-
-
-                        
                       </tr>
                     </thead>
 
@@ -1520,12 +1506,7 @@
                         <td style="width: 100px">{{ row.block_num }}</td>
 
                         <td style="width: 100px">{{ row.pa_Counter }}</td>
-                        <td style="width: 100px">{{ row.msvk_zamud }}</td>
-                        
                       </tr>
-
-
-
                     </tbody>
                     <br />
                     <h3
@@ -1736,7 +1717,49 @@
                         <td style="width: 100px"></td>
                       </tr>
                     </tbody>
+
+
+                    <h3
+                    class="main_table_tatle"
+                    style="
+                      font-size: 30px;
+                      font-weight: bold;
+                      color: #5b5bf8;
+                    "
+                  >
+                 הצמדות
+                  </h3>
+     
+                    <thead class="detailsTable">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          משווק צמוד
+                        </th>
+                        
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let row of this.farm_det_new">
+
+                        <td style="width: 100px">{{ row.msvk_zamud }}</td>
+                      </tr>
+
+
+
+                    </tbody>
+                    <br />
+
+
+
                   </table>
+
+
+
                   <div></div>
                 </div>
               </div>
