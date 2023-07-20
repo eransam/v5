@@ -840,7 +840,7 @@ export class SearchMegadelComponent implements OnInit {
         );
       console.log(shem_yeshuv);
 
-      item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
+      item.shem_yeshuv = shem_yeshuv[0]?.yv_Shem;
     }
 
     // הוספת אתרי מחיצה

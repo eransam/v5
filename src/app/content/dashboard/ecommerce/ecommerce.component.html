@@ -705,8 +705,8 @@
           "
           class="col-xl-2 col-12"
         >
-          <div *ngIf="isLoading_userDet" class="loader"></div>
-          <div class="row match_height" *ngIf="!isLoading_userDet">
+          <div *ngIf="isLoading_micsa_egg_gach" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_micsa_egg_gach">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
                 <div class="card-header"></div>
@@ -746,7 +746,7 @@
 
                         <div>
                           <p style="direction: rtl">
-                            סהכ שותפים: {{ this.partnerData.length }}
+                            סהכ שותפים: {{ this.partnerData?.length }}
                           </p>
                           <p style="direction: rtl">
                             סהכ איכלוס: {{ this.total_hiclos }}
@@ -776,8 +776,8 @@
           "
           class="col-xl-2 col-12"
         >
-          <div *ngIf="isLoading_userDet" class="loader"></div>
-          <div class="row match_height" *ngIf="!isLoading_userDet">
+          <div *ngIf="isLoading_micsa_egg_ishit" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_micsa_egg_ishit">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
                 <div class="card-header"></div>
@@ -1057,7 +1057,7 @@
 
                         <div>
                           <p style="direction: rtl">
-                            סהכ שותפים: {{ this.partnerData.length }}
+                            סהכ שותפים: {{ this.partnerData?.length }}
                           </p>
                           <p style="direction: rtl">
                             סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
@@ -1089,8 +1089,8 @@
           "
           class="col-xl-3 col-12"
         >
-          <div *ngIf="isLoading_userDet" class="loader"></div>
-          <div class="row match_height" *ngIf="!isLoading_userDet">
+          <div *ngIf="isLoading_micsa_egg_ishit" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_micsa_egg_ishit">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
                 <div class="card-header"></div>
@@ -1211,13 +1211,9 @@
                           </td>
                         </tr>
                         <tr>
-                          <td><B>כתובת</B></td>
+                          <td><B>ישוב</B></td>
                           <td>
-                            {{
-                              this.userDetails_more_info[0]?.v_ktovet +
-                                "," +
-                                this.userDetails_more_info[0]?.v_ktovet1
-                            }}
+                            {{ this.userDetails_more_info[0]?.v_shem_yeshuv }}
                           </td>
                           <td></td>
                           <td></td>
@@ -1257,9 +1253,13 @@
                           <td></td>
                         </tr>
                         <tr>
-                          <td><B>ישוב</B></td>
+                          <td><B>כתובת</B></td>
                           <td>
-                            {{ this.userDetails_more_info[0]?.v_shem_yeshuv }}
+                            {{
+                              this.userDetails_more_info[0]?.v_ktovet +
+                                "," +
+                                this.userDetails_more_info[0]?.v_ktovet1
+                            }}
                           </td>
 
                           <td>
@@ -1460,8 +1460,6 @@
                         >
                           ג''ח
                         </th>
-
-
                       </tr>
                     </thead>
 
@@ -1505,7 +1503,12 @@
                         </td>
                         <td style="width: 100px">{{ row.block_num }}</td>
 
-                        <td style="width: 100px">{{ row.pa_Counter }}</td>
+                        <td
+                          *ngIf="row.farm_status_id === 1"
+                          style="width: 100px"
+                        >
+                          {{ row.pa_Counter }}
+                        </td>
                       </tr>
                     </tbody>
                     <br />
@@ -1693,13 +1696,13 @@
                           *ngIf="row.is_hen_house_split === 1"
                           style="width: 100px"
                         >
-                          {{ row.calc750 / 2 }}
+                          {{ row.calc750 / 2 | number : "1.0-0" }}
                         </td>
                         <td
                           *ngIf="row.is_hen_house_split === 0"
                           style="width: 100px"
                         >
-                          {{ row.calc750 }}
+                          {{ row.calc750 | number : "1.0-0" }}
                         </td>
                         <td *ngIf="row.zan_det" style="width: 100px">
                           {{ row.zan_det[0]?.zan }} -
@@ -1717,19 +1720,15 @@
                         <td style="width: 100px"></td>
                       </tr>
                     </tbody>
-
+                    <br>
 
                     <h3
-                    class="main_table_tatle"
-                    style="
-                      font-size: 30px;
-                      font-weight: bold;
-                      color: #5b5bf8;
-                    "
-                  >
-                 הצמדות
-                  </h3>
-     
+                      class="main_table_tatle"
+                      style="font-size: 30px; font-weight: bold; color: #5b5bf8"
+                    >
+                      הצמדות
+                    </h3>
+
                     <thead class="detailsTable">
                       <tr>
                         <th
@@ -1739,26 +1738,16 @@
                         >
                           משווק צמוד
                         </th>
-                        
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-
                         <td style="width: 100px">{{ row.msvk_zamud }}</td>
                       </tr>
-
-
-
                     </tbody>
                     <br />
-
-
-
                   </table>
-
-
 
                   <div></div>
                 </div>
@@ -1768,7 +1757,9 @@
         </div>
 
         <!-- טבלת פרטי אתרים מקוצרת -->
+        <div *ngIf="isLoading_short_site" class="loader"></div>
         <div
+          *ngIf="!isLoading_short_site"
           class="row match_height sort_farms"
           style="
             display: flex;

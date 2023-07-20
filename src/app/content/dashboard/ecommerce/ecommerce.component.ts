@@ -103,6 +103,9 @@ export class EcommerceComponent implements OnInit {
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = true;
   isLoading_userDet = true;
+  isLoading_micsa_egg_ishit = true;
+  isLoading_short_site = true;
+  isLoading_micsa_egg_gach = true;
   isLoading_rav_shnati = false;
   isLoading_monthly = false;
 
@@ -318,19 +321,15 @@ export class EcommerceComponent implements OnInit {
       this.mcsaSum = 0;
       this.eggSum = 0;
       this.certificateSum = 0;
-
-      for (var i = 0; i < this.partnerData.length; i++) {
-        this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
-        this.certificateSum += parseFloat(
-          this.partnerData[i]['certificate_sum']
-        );
-        this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+      if (this.partnerData && this.partnerData.length > 0) {
+        for (var i = 0; i < this.partnerData.length; i++) {
+          this.mcsaSum += parseFloat(this.partnerData[i]['mcsa_sum']);
+          this.certificateSum += parseFloat(
+            this.partnerData[i]['certificate_sum']
+          );
+          this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
+        }
       }
-
-      console.log(this.mcsaSum);
-      console.log(this.eggSum);
-      console.log(this.certificateSum);
-
       //   לוגיקה התראות -------------------------------------------------------------------
 
       // התראה של שם ישן --- מבוטללללללל
@@ -444,7 +443,7 @@ export class EcommerceComponent implements OnInit {
           this.totalMicsaToPay += iterator.mi_kamut;
         }
       }
-      this.isLoading_micsot = true;
+      this.isLoading_micsa_egg_ishit = false;
 
       //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום: -  סיום
 
@@ -481,8 +480,6 @@ export class EcommerceComponent implements OnInit {
         );
       this.length_of_total_site = this.siteName.length;
       console.log(this.siteName);
-      //   this.new_Small_Array = await this.siteName.slice(0, 3);
-      //   await this.siteName.splice(0, 3);
 
       localStorage.setItem('siteName', JSON.stringify(this.siteName));
 
@@ -531,6 +528,8 @@ export class EcommerceComponent implements OnInit {
       //   יצירת מערך המחזיר את קודי השלוחות של אתרי המגדל
       this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
 
+      this.selectedCategory = this.keys_of_categorizedArrays[0];
+
       //   חילוק אתרים לפי פעילים ולא פעילים
       for (let item of this.farm_start_det) {
         if (item.farm_status_id === 1) {
@@ -541,9 +540,13 @@ export class EcommerceComponent implements OnInit {
       }
 
       console.log(this.farm_start_det);
+      var test2 = this.categorizedArrays[20];
+      console.log(test2);
+
       if (this.categorizedArrays[20].length > 0) {
         this.farm_start_det = this.categorizedArrays[20];
       }
+      this.isLoading_short_site = false;
 
       // הוספת שדה איכלוס
       for (let obj of this.new_Active_FarmDetails) {
@@ -605,6 +608,8 @@ export class EcommerceComponent implements OnInit {
           }
         }
       }
+
+      this.isLoading_micsa_egg_gach = false;
 
       console.log(this.new_Active_FarmDetails);
 
@@ -748,6 +753,7 @@ export class EcommerceComponent implements OnInit {
         }
 
         console.log(this.farm_det_new);
+        this.isLoading_FarmDetails = false;
       }
 
       //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -883,20 +889,17 @@ export class EcommerceComponent implements OnInit {
         this.click_on_show_ActiveSite = false;
         this.click_on_not_show_ActiveSite = true;
       }
-      this.isLoading_FarmDetails = false;
 
       if (
         this.new_Active_FarmDetails.length === 0 &&
         this.new_Not_Active_FarmDetails.length === 0
       ) {
-        this.isLoading_FarmDetails = false;
       }
     });
     if (
       this.new_Active_FarmDetails.length === 0 &&
       this.new_Not_Active_FarmDetails.length === 0
     ) {
-      this.isLoading_FarmDetails = false;
     }
   }
 
@@ -1054,8 +1057,6 @@ export class EcommerceComponent implements OnInit {
       const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
         item.farm_code
       );
-      console.log('hiclos750: ', hiclos750);
-      console.log('hiclos750[0]?.calc750: ', hiclos750[0]?.calc750);
       if (hiclos750[0]?.calc750) {
         item.calc750 = hiclos750[0]?.calc750;
       }
@@ -1112,7 +1113,6 @@ export class EcommerceComponent implements OnInit {
       this.click_on_show_ActiveSite = false;
       this.click_on_not_show_ActiveSite = true;
     }
-    this.isLoading_FarmDetails = false;
   }
 
   async sort_site_by_shloha() {}
@@ -1129,7 +1129,6 @@ export class EcommerceComponent implements OnInit {
         '',
         0
       );
-    console.log('this.Get_McsKvua_shloha_30: ', this.Get_McsKvua_shloha_30);
   }
 
   async shows_grower_card() {
@@ -1334,6 +1333,8 @@ export class EcommerceComponent implements OnInit {
     this.farm_start_det = value;
 
     this.the_chosen_farm = this.farm_start_det[0]?.code;
+
+    this.isLoading_short_site = false;
 
     var newVariable;
 
@@ -1601,13 +1602,11 @@ export class EcommerceComponent implements OnInit {
         this.click_on_show_ActiveSite = false;
         this.click_on_not_show_ActiveSite = true;
       }
-      this.isLoading_FarmDetails = false;
 
       if (
         this.new_Active_FarmDetails.length === 0 &&
         this.new_Not_Active_FarmDetails.length === 0
       ) {
-        this.isLoading_FarmDetails = false;
       }
     }
   }
@@ -1742,9 +1741,6 @@ export class EcommerceComponent implements OnInit {
   }
 
   async getPartner(allTheFarmDet) {
-    console.log('allTheFarmDet: ', allTheFarmDet);
-    console.log('this.newArray2: ', this.newArray);
-
     for (let obj2 of allTheFarmDet) {
       if (
         obj2?.farm_id !== null &&
