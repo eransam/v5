@@ -497,7 +497,7 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <ng-container *ngIf="row.sug_megadel === 1">
+                            <ng-container *ngIf="row.sug_megadel === 2">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -508,7 +508,7 @@
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.sug_megadel === 0">
+                            <ng-container *ngIf="row.sug_megadel === 1">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -520,7 +520,7 @@
                                 >
                               </div>
                             </ng-container>
-                            <ng-container *ngIf="row.yz_sug === 2">
+                            <ng-container *ngIf="row.sug_megadel === 0">
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[

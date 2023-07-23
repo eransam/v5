@@ -12,6 +12,30 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_real_hiclos_in_site(
+    site_num: any,
+    flock_id: any,
+    grower_num: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site?site_num=${site_num}&flock_id=${flock_id}&grower_num=${grower_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_main_partner_id_from_partner_num(grower_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_main_partner_id_from_partner_num?grower_num=${grower_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_msvk_zamud(Yzrn_num: any, site_num: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
