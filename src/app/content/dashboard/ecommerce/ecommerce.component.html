@@ -890,31 +890,40 @@
                         </tbody>
                       </table>
                       <br /><br />
-                      <div>
-                        <h1 class="rtl_Style" style="padding-right: 15px;">איכלוס מגדל לפי אתר</h1>
+                      <div *ngIf="all_full_farm_det_partner.length > 0">
+                        <div>
+                          <h1 class="rtl_Style" style="padding-right: 15px">
+                            איכלוס מגדל לפי אתר
+                          </h1>
+                        </div>
+                        <table
+                          class="table table-hover border_bottom detailsTable"
+                          style="direction: rtl"
+                        >
+                          <thead class="detailsTable">
+                            <tr>
+                              <th scope="col" class="border-top-0">אתר:</th>
+                              <th scope="col" class="border-top-0">איכלוס</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of all_full_farm_det_partner">
+                              <td
+                                *ngIf="row.count_hiclos !== 0"
+                                class="text-truncate row_padding"
+                              >
+                                {{ row?.farm_num }}
+                              </td>
+                              <td
+                                *ngIf="row.count_hiclos !== 0"
+                                class="text-truncate row_padding"
+                              >
+                                {{ row?.count_hiclos | numberFormat }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
-                      <table
-                        *ngIf="all_full_farm_det"
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">אתר:</th>
-                            <th scope="col" class="border-top-0">איכלוס</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of all_full_farm_det">
-                            <td class="text-truncate row_padding">
-                              {{ row?.farm_num }}
-                            </td>
-                            <td class="text-truncate row_padding">
-                              {{ row?.count_hiclos }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                   </div>
                 </div>
@@ -1038,10 +1047,16 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let row of all_full_farm_det">
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="row.count_hiclos !== 0"
+                              class="text-truncate row_padding"
+                            >
                               {{ row.farm_num }}
                             </td>
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="row.count_hiclos !== 0"
+                              class="text-truncate row_padding"
+                            >
                               {{ row.count_hiclos }}
                             </td>
                           </tr>
@@ -1100,10 +1115,16 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let row of all_full_farm_det">
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="row.count_hiclos !== 0"
+                              class="text-truncate row_padding"
+                            >
                               {{ row.farm_num }}
                             </td>
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="row.count_hiclos !== 0"
+                              class="text-truncate row_padding"
+                            >
                               {{ row.count_hiclos }}
                             </td>
                           </tr>
@@ -1268,31 +1289,42 @@
                         </tbody>
                       </table>
                       <br /><br />
-                      <div>
-                        <h1 class="rtl_Style" style="padding-right: 15px;">איכלוס מגדל לפי אתר</h1>
+
+                      <div *ngIf="all_full_farm_det_partner.length > 0">
+                        <div>
+                          <h1 class="rtl_Style" style="padding-right: 15px">
+                            איכלוס מגדל לפי אתר
+                          </h1>
+                        </div>
+                        <table
+                          class="table table-hover border_bottom detailsTable"
+                          style="direction: rtl"
+                        >
+                          <thead class="detailsTable">
+                            <tr>
+                              <th scope="col" class="border-top-0">אתר:</th>
+                              <th scope="col" class="border-top-0">איכלוס</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of all_full_farm_det_partner">
+                              <td
+                                *ngIf="row.count_hiclos !== 0"
+                                class="text-truncate row_padding"
+                              >
+                                {{ row?.farm_num }}
+                              </td>
+                              <td
+                                *ngIf="row.count_hiclos !== 0"
+                                class="text-truncate row_padding"
+                              >
+                                {{ row?.count_hiclos | numberFormat }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
-                      <table
-                        *ngIf="all_full_farm_det"
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">אתר:</th>
-                            <th scope="col" class="border-top-0">איכלוס</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of all_full_farm_det">
-                            <td class="text-truncate row_padding">
-                              {{ row?.farm_num }}
-                            </td>
-                            <td class="text-truncate row_padding">
-                              {{ row?.count_hiclos }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+
                       <!-- טבלת מכסות ביצים סיום -->
                     </div>
                   </div>
@@ -1487,11 +1519,11 @@
       <!-- טבלת פרטי משקים ------------------------------------------------------------------------------------------------------------------------>
       <div class="farm-det">
         <!-- פרטי אתר מורחבים -->
-        <div class="row match_height farm_more_det">
+        <div class="row match_height farm_more_det" style="display: none">
           <div id="recent-transactions" class="col-12">
             <div class="card" style="padding-right: 30px; min-height: 780px">
               <div class="card-header"></div>
-              <div class="card-content">
+              <div class="card-content" *ngIf="this.farm_det_new.length !== 0">
                 <div class="exel_and_total">
                   <!-- <div class="importBth">
                     <div class="justify-content">
@@ -1645,10 +1677,7 @@
                         </td>
                         <td style="width: 100px">{{ row.block_num }}</td>
 
-                        <td
-                          *ngIf="row.farm_status_id === 1"
-                          style="width: 100px"
-                        >
+                        <td style="width: 100px">
                           {{ row.pa_Counter }}
                         </td>
                       </tr>
