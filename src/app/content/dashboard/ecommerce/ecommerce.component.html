@@ -1317,9 +1317,19 @@
                                     row.count_hiclos !== undefined
                                   "
                                   class="text-truncate row_padding"
-                                >
-                                  אתר: {{ row?.house_num_int }} \
-                                   {{ row?.farm_num }} 
+                                > 
+                                <p  *ngIf="row.
+                                is_hen_house_split === 1">
+                                    אתר: {{ row?.house_num_int }} \
+                                    {{ row?.farm_num }} 
+                                </p>
+                                <p  *ngIf="row.
+                                is_hen_house_split !== 1">
+                                    אתר: {{ row?.farm_num }} 
+                                </p>
+
+                                
+
                                 </td>
                                 <td
                                   *ngIf="
