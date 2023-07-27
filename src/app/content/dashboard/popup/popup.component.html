@@ -45,12 +45,21 @@
           </tr>
         </thead>
         <tbody style="white-space: nowrap">
-          <tr
-            *ngFor="let p of data"
-            [ngStyle]="{ color: p.is_main_grower ? 'green' : 'black' }"
-          >
-            <td>{{ p.lull2000_code }}</td>
-            <td>
+          <tr *ngFor="let p of data">
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
+              {{ p.lull2000_code }}
+            </td>
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
               <a
                 [routerLink]="[
                   '/dashboard/ecommerce',
@@ -63,16 +72,55 @@
               </a>
             </td>
 
-            <td>{{ p.yeshuv }}</td>
-            <td>{{ p.mcsa_sum | number : "0.0" }}</td>
-            <td>
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
+              {{ p.yeshuv }}
+            </td>
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
+              {{ p.mcsa_sum | number : "0.0" }}
+            </td>
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
               {{ p.percent_ | number : "0.0" }}
             </td>
 
-            <td>{{ p.start_date }}</td>
-            <td>{{ p.end_date }}</td>
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
+              {{ p.start_date }}
+            </td>
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+            >
+              {{ p.end_date }}
+            </td>
 
-            <td class="no-wrap-test-eran">
+            <td
+              [ngStyle]="{
+                'background-color':
+                  p.is_main_grower === 1 ? '#deffde' : 'transparent'
+              }"
+              class="no-wrap-test-eran"
+            >
               <span
                 *ngIf="p.is_main_grower"
                 class="label label-success no-wrap-test-eran"

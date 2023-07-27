@@ -1200,7 +1200,7 @@
 
                         <div>
                           <p style="direction: rtl">
-                            סהכ שותפים: {{ this.partnerData?.length }}
+                            סהכ שותפים: {{ partners_length }}
                           </p>
                           <p style="direction: rtl">
                             סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
@@ -1317,19 +1317,14 @@
                                     row.count_hiclos !== undefined
                                   "
                                   class="text-truncate row_padding"
-                                > 
-                                <p  *ngIf="row.
-                                is_hen_house_split === 1">
+                                >
+                                  <p *ngIf="row.is_hen_house_split === 1">
                                     אתר: {{ row?.house_num_int }} \
-                                    {{ row?.farm_num }} 
-                                </p>
-                                <p  *ngIf="row.
-                                is_hen_house_split !== 1">
-                                    אתר: {{ row?.farm_num }} 
-                                </p>
-
-                                
-
+                                    {{ row?.farm_num }}
+                                  </p>
+                                  <p *ngIf="row.is_hen_house_split !== 1">
+                                    אתר: {{ row?.farm_num }}
+                                  </p>
                                 </td>
                                 <td
                                   *ngIf="
@@ -1771,7 +1766,7 @@
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
                         <td style="width: 100px">
-                          {{ row.hiclos_number | number : "1.0-0" }}
+                          {{ row.count_hiclos_total_site | number : "1.0-0" }}
                         </td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>

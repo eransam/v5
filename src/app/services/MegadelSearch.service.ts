@@ -12,6 +12,32 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_real_hiclos_in_site_the_all_site(
+    site_num: any,
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site_the_all_site?site_num=${site_num}&flock_id=${flock_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_hiclos_gidul_hotz_by_partner(
+    grower_num: any,
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_hiclos_gidul_hotz_by_partner?grower_num=${grower_num}&flock_id=${flock_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_real_hiclos_in_site(
     site_num: any,
     flock_id: any,
