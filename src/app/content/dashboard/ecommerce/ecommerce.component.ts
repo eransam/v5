@@ -219,6 +219,7 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_theUserDetails = true;
       this.isLoading_FarmDetails = true;
       this.isLoading_userDet = true;
+      0;
       this.isLoading_micsot = true;
       this.isLoading_cartificate = false;
       this.new_Active_FarmDetails = [];
@@ -226,12 +227,13 @@ export class EcommerceComponent implements OnInit {
       this.sort_site_by_shloha();
 
       // הבאת פרטי היוזר מהלוקל סטורג'
-      this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
-      this.userDetails = this.userDetails.filter(
-        (obj) => obj.v_yzrn_id.toString() === this.idFromurl
-      );
-      localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
+    //   this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
+    //   this.userDetails = this.userDetails.filter(
+    //     (obj) => obj.v_yzrn_id.toString() === this.idFromurl
+    //   );
+    //   localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
 
+      this.userDetails = [];
       //   במידה והוא לא קיים בסטורג' אנו נביא אותו מהיואר אל
       if (this.userDetails.length === 0) {
         this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
@@ -760,7 +762,9 @@ export class EcommerceComponent implements OnInit {
           console.log(this.all_full_farm_det_partner);
 
           function isObjectEqual(obj1: any, obj2: any): boolean {
-            return obj1.farm_num === obj2.farm_num;
+            if (obj1 !== undefined) {
+              return obj1.farm_num === obj2.farm_num;
+            }
           }
 
           const uniqueArrayOfObjects = this.all_full_farm_det_partner.filter(
@@ -996,14 +1000,14 @@ export class EcommerceComponent implements OnInit {
         console.log(this.farm_det_new);
 
         for (let obj of this.growers_num_partners_Array) {
-          var get_hiclos_gidul_hotz_by_partner =
-            await this.megadelSearchService.get_hiclos_gidul_hotz_by_partner(
-              obj.grower_num,
-              this.farm_det_new[0]?.flock_num
-            );
-
-          this.total_hiclos += get_hiclos_gidul_hotz_by_partner[0].Column1;
-          console.log(get_hiclos_gidul_hotz_by_partner);
+          if (this.farm_det_new.length !== 0) {
+            var get_hiclos_gidul_hotz_by_partner =
+              await this.megadelSearchService.get_hiclos_gidul_hotz_by_partner(
+                obj.grower_num,
+                this.farm_det_new[0]?.flock_num
+              );
+            this.total_hiclos += get_hiclos_gidul_hotz_by_partner[0].Column1;
+          }
         }
 
         if (this.farm_det_new.length === 0) {
@@ -1246,7 +1250,7 @@ export class EcommerceComponent implements OnInit {
         var extractedValue = parts[0];
 
         var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-            obj.farm_id,
+          obj.farm_id,
           this.userDetails[0].v_yzrn
         );
         obj.zan_det = Get_zan_num;
@@ -3319,6 +3323,7 @@ export class EcommerceComponent implements OnInit {
       },
     };
   }
+
   ///////////////////// End barchart////////////////
 
   reloadNewOrders() {

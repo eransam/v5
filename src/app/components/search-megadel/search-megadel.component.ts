@@ -639,7 +639,6 @@ export class SearchMegadelComponent implements OnInit {
     ) {
       the_siteNumControl_test_val = '';
     }
-    console.log(the_siteNumControl_test_val);
 
     //   מס גידול חוץ
     var the_gidulHotzNumControl_test_val = this.gidulHotzNumControl_test.value;
@@ -649,7 +648,6 @@ export class SearchMegadelComponent implements OnInit {
     ) {
       the_gidulHotzNumControl_test_val = '';
     }
-    console.log(the_gidulHotzNumControl_test_val);
 
     //     ישוב
     var the_yeshuvControl_test_val = this.yeshuvControl_test.value;
@@ -675,11 +673,11 @@ export class SearchMegadelComponent implements OnInit {
       the_gidulHotzNumControl_test_val !== '' &&
       the_growers_id_by_name === ''
     ) {
+      //הבאת מגדל ראשי
       var main_grower_gidul_hotz =
         await this.megadelSearchService.get_main_grower_by_code_gidul(
           the_gidulHotzNumControl_test_val
         );
-      console.log(main_grower_gidul_hotz);
       growerNumControl_test_val = main_grower_gidul_hotz[0]?.pa_YzrnHead;
       the_gidulHotzNumControl_test_val = '';
     }
@@ -691,6 +689,7 @@ export class SearchMegadelComponent implements OnInit {
     console.log(the_growers_id_by_name);
 
     if (the_siteNumControl_test_val.length > 0) {
+      //
       var the_grower_ids_from_farm_num =
         await this.megadelSearchService.get_growers_id_with_splite_by_farm_num(
           the_siteNumControl_test_val
@@ -749,8 +748,16 @@ export class SearchMegadelComponent implements OnInit {
         the_yeshuvControl_test_val
       );
 
-      for (let obj of the_grower_det) this.new_arr_growers_det.push(obj);
+      for (let obj of the_grower_det) {
+        this.new_arr_growers_det.push(obj);
+      }
     }
+    console.log(the_grower_det);
+    console.log(this.new_arr_growers_det);
+    localStorage.setItem(
+      'theDetails',
+      JSON.stringify(this.new_arr_growers_det)
+    );
 
     this.new_arr_growers_det = this.new_arr_growers_det.filter(
       (element) => element !== undefined
