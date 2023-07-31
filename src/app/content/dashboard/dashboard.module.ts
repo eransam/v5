@@ -34,6 +34,7 @@ import { CertificatesPageComponent } from './certificates-page/certificates-page
 import { PopupRavShnatiComponent } from './popup-rav-shnati/popup-rav-shnati.component';
 import { PopupPaymentComponent } from './popup-payment/popup-payment.component';
 import { PopupMonthlySummaryComponent } from './popup-monthly-summary/popup-monthly-summary.component';
+import { PopupPartnersHodimComponent } from './popup-partners-hodim/popup-partners-hodim.component';
 
 @NgModule({
   imports: [
@@ -105,6 +106,7 @@ import { PopupMonthlySummaryComponent } from './popup-monthly-summary/popup-mont
     PopupRavShnatiComponent,
     PopupPaymentComponent,
     PopupMonthlySummaryComponent,
+    PopupPartnersHodimComponent,
   ],
 
   exports: [RouterModule],

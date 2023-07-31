@@ -577,6 +577,10 @@
 
                       <tr>
                         <td><B>שותפות:</B></td>
+                        <td *ngFor="let row of site_partners_hodim_pitom">
+                          {{ row }}
+                        </td>
+
                         <td class="text-truncate row_padding">
                           <div
                             *ngFor="let obj of arrPartnersPetem; let i = index"
@@ -793,7 +797,8 @@
                             סהכ שותפים: {{ this.partnerData?.length }}
                           </p>
                           <p style="direction: rtl">
-                            סהכ איכלוס: {{ this.total_hiclos }}
+                            סהכ איכלוס:
+                            {{ this.total_hiclos | number : "1.0-0" }}
                           </p>
                           <p style="direction: rtl">
                             סהכ מכסת פרגיות:
@@ -965,44 +970,40 @@
                       <div>
                         <h1 class="rtl_Style">מכסת פטם</h1>
                       </div>
-                      <tr>
-                        <td><B>שותפות:</B></td>
-                        <td class="text-truncate row_padding">
-                          <div
-                            *ngFor="let obj of arrPartnersPetem; let i = index"
+                      <B>שותפות הודים:</B>
+                      <tr *ngFor="let row of site_partners_hodim_pitom">
+                        <td>
+                          <button
+                            id="gidolHotzBtn_hodin"
+                            style="
+                              color: blue;
+                              background-color: white !important;
+                              border: none;
+                            "
+                            (click)="getPartner_pitom_or_hodim(row)"
                           >
-                            <div *ngIf="!obj?.numGroup; else elseBlock"></div>
-                            <ng-template
-                              #elseBlock
-                              style="padding: none !important"
-                            >
-                              <ng-container *ngIf="isFirstUniqueValue(obj, i)">
-                                <div *ngIf="obj.numGroup">
-                                  <button
-                                    id="gidolHotzBtn"
-                                    style="
-                                      color: blue;
-                                      background-color: white !important;
-                                      border: none;
-                                    "
-                                    (click)="open_PopupPetemPartnersComponent()"
-                                  >
-                                    {{ obj.partners.length }} ({{
-                                      obj.numGroup
-                                    }})
-                                  </button>
-                                </div>
-                                <ng-container
-                                  *ngIf="hasMultipleUniqueValues(obj)"
-                                >
-                                  <span>,</span>
-                                </ng-container>
-                              </ng-container>
-                            </ng-template>
-                          </div>
+                            {{ row }}
+                          </button>
+                        </td>
+                      </tr>
+                      <B *ngIf="site_partners_petem.length > 0">שותפות פטם:</B>
+                      <tr *ngFor="let row of site_partners_petem">
+                        <td>
+                          <button
+                            id="gidolHotzBtn"
+                            style="
+                              color: blue;
+                              background-color: white !important;
+                              border: none;
+                            "
+                            (click)="getPartner_pitom_or_hodim(row)"
+                          >
+                            {{ row }}
+                          </button>
                         </td>
                       </tr>
 
+                      <B>נתוני מכסה:</B>
                       <table
                         class="table table-hover border_bottom detailsTable"
                         style="direction: rtl"
@@ -1039,7 +1040,7 @@
                         </tbody>
                       </table>
 
-                      <br /><br />
+                      <B>אכלוס לפי אתר:</B>
                       <table
                         *ngIf="all_full_farm_det"
                         class="table table-hover border_bottom detailsTable"
@@ -1109,33 +1110,6 @@
                         </tbody>
                       </table>
                       <br /><br />
-                      <table
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">אתר:</th>
-                            <th scope="col" class="border-top-0">איכלוס</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of all_full_farm_det">
-                            <td
-                              *ngIf="row.count_hiclos && row.count_hiclos !== 0"
-                              class="text-truncate row_padding"
-                            >
-                              {{ row.farm_num }}
-                            </td>
-                            <td
-                              *ngIf="row.count_hiclos && row.count_hiclos !== 0"
-                              class="text-truncate row_padding"
-                            >
-                              {{ row.count_hiclos }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                     <!-- טבלת מכסות הודים סיום-->
                   </div>
@@ -1203,7 +1177,8 @@
                             סהכ שותפים: {{ partners_length }}
                           </p>
                           <p style="direction: rtl">
-                            סהכ איכלוס: {{ this.total_hiclos | numberFormat }}
+                            סהכ איכלוס:
+                            {{ this.total_hiclos | number : "1.0-0" }}
                           </p>
                           <p style="direction: rtl">
                             סהכ מכסת פרגיות:
@@ -1930,12 +1905,34 @@
                         >
                           משווק צמוד
                         </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          שיווק באמצעות מחסן
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
                         <td style="width: 100px">{{ row.msvk_zamud }}</td>
+
+                        <td style="width: 100px">
+                          <div [ngSwitch]="row.were_house">
+                            <span
+                              *ngSwitchCase="1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                     <br />
@@ -2008,10 +2005,7 @@
                       </div>
                     </div>
                   </div>
-
-                  <div *ngIf="isLoading_FarmDetails" class="loader"></div>
                   <div
-                    *ngIf="!isLoading_FarmDetails"
                     style="
                       overflow-y: auto !important;
                       overflow-x: auto !important;

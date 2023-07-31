@@ -1,0 +1,60 @@
+<table class="cool-table" dir="rtl" style="padding: 5px" border="0">
+  <thead>
+    <tr>
+      <th style="font-weight: bold; text-align: right">
+        &nbsp;סה"כ שותפים {{ data.length - 1 }}
+      </th>
+
+      <!-- <th style="font-weight: bold; text-align: right">
+          &nbsp;קוד קבוצה {{ data[data.length - 1]?.newArrayEnd?.cd_gidul }}
+        </th> -->
+
+      <!-- <th style="font-weight: bold; text-align: right">גידול משותף ביצים</th> -->
+      <th style="font-weight: bold; text-align: right">
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>X</mat-icon>
+        </button>
+      </th>
+    </tr>
+
+    <tr style="display: flex">
+      <!-- <th>&nbsp; אתרי שותפות:</th> -->
+
+      <!-- <th
+          *ngFor="let obj of data[data.length - 1].newArrayEnd"
+          style="font-weight: bold; text-align: right"
+        >
+          <span> {{ obj.farm_code }} &nbsp; , </span>
+        </th> -->
+    </tr>
+  </thead>
+
+  <tr>
+    <td colspan="2">
+      <table class="table no-margin">
+        <thead>
+          <tr>
+            <th style="font-weight: bold; text-align: right">מס מגדל</th>
+            <th style="font-weight: bold; text-align: right">
+              תאריך תחילת שותפות
+            </th>
+            <th style="font-weight: bold; text-align: right">
+              תאריך סיום שותפות
+            </th>
+          </tr>
+        </thead>
+        <tbody style="white-space: nowrap">
+          <tr *ngFor="let p of data">
+            <th style="font-weight: bold; text-align: right">{{ p.Yzrn }}</th>
+            <th style="font-weight: bold; text-align: right">
+              {{ p.date_from }}
+            </th>
+            <th style="font-weight: bold; text-align: right">
+              {{ p.date_to }}
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>

@@ -33,6 +33,7 @@ import { PopupGrowerCardComponent } from '../popup-grower-card/popup-grower-card
 import { PopupRavShnatiComponent } from '../popup-rav-shnati/popup-rav-shnati.component';
 import { PopupPaymentComponent } from '../popup-payment/popup-payment.component';
 import { PopupMonthlySummaryComponent } from '../popup-monthly-summary/popup-monthly-summary.component';
+import { PopupPartnersHodimComponent } from '../popup-partners-hodim/popup-partners-hodim.component';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
@@ -88,6 +89,9 @@ export class EcommerceComponent implements OnInit {
   siteNameOfTheMaingrower: any[] = [];
   all_full_farm_det: any[] = [];
   all_full_farm_det_partner: any[] = [];
+  site_partners_petem: any[] = [];
+
+  site_partners_hodim_pitom: any[] = [];
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = true;
@@ -169,6 +173,8 @@ export class EcommerceComponent implements OnInit {
   length_of_total_site: any;
   total_hiclos: any = 0;
   total_pargiot: any = 0;
+  groupedArray: any = {};
+  partners_hodim_by_site: any = [];
 
   constructor(
     private megadelSearchService: MegadelSearchService,
@@ -179,6 +185,8 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.partners_hodim_by_site = [];
+    this.groupedArray = {};
     this.total_hiclos = 0;
     this.total_pargiot = 0;
     this.Active_FarmDetails = [];
@@ -195,8 +203,14 @@ export class EcommerceComponent implements OnInit {
     this.new_Active_FarmDetails = [];
     this.new_Not_Active_FarmDetails = [];
     this.all_full_farm_det_partner = [];
+    this.site_partners_hodim_pitom = [];
+    this.site_partners_petem = [];
     this.sort_site_by_shloha();
     this.route2.params.subscribe(async (params) => {
+      this.partners_hodim_by_site = [];
+      this.groupedArray = {};
+      this.site_partners_hodim_pitom = [];
+      this.site_partners_petem = [];
       this.all_full_farm_det_partner = [];
       this.partners_length = 0;
       this.total_hiclos = 0;
@@ -227,11 +241,11 @@ export class EcommerceComponent implements OnInit {
       this.sort_site_by_shloha();
 
       // הבאת פרטי היוזר מהלוקל סטורג'
-    //   this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
-    //   this.userDetails = this.userDetails.filter(
-    //     (obj) => obj.v_yzrn_id.toString() === this.idFromurl
-    //   );
-    //   localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
+      //   this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
+      //   this.userDetails = this.userDetails.filter(
+      //     (obj) => obj.v_yzrn_id.toString() === this.idFromurl
+      //   );
+      //   localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
 
       this.userDetails = [];
       //   במידה והוא לא קיים בסטורג' אנו נביא אותו מהיואר אל
@@ -545,7 +559,68 @@ export class EcommerceComponent implements OnInit {
         } else {
           obj.hiclos_number = '';
         }
+        let farm_code_without_slesh = this.extractNumber(obj.code);
+
+        const checkPartners =
+          await this.megadelSearchService.Partners_By_Farm_Select(
+            7,
+            farm_code_without_slesh,
+            '19',
+            '',
+            '20180101',
+            '99991231'
+          );
+        console.log(checkPartners);
+
+        if (checkPartners.length > 1) {
+          this.arrPartnersPetem.push({
+            numGroup: obj.farm_code,
+            partners: checkPartners,
+          });
+        }
       }
+
+      const checkPartners2 =
+        await this.megadelSearchService.get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
+          this.userDetails[0]?.v_yzrn
+        );
+      console.log(checkPartners2);
+
+      this.groupedArray = {};
+      checkPartners2.forEach((obj) => {
+        const tzrt = obj.Tzrt;
+        if (!this.groupedArray[tzrt]) {
+          this.groupedArray[tzrt] = [];
+        }
+        this.groupedArray[tzrt].push(obj);
+      });
+
+      console.log(this.groupedArray);
+
+      if (this.groupedArray[22]) {
+        const uniqueTzrtSet = new Set();
+
+        this.groupedArray[22].forEach((obj) => {
+          uniqueTzrtSet.add(obj.atar_id);
+        });
+        const uniqueTzrtArray = Array.from(uniqueTzrtSet);
+        console.log(uniqueTzrtArray);
+        this.site_partners_hodim_pitom = uniqueTzrtArray;
+      }
+
+      if (this.groupedArray[19]) {
+        const uniqueTzrtSet2 = new Set();
+
+        this.groupedArray[19].forEach((obj) => {
+          uniqueTzrtSet2.add(obj.atar_id);
+        });
+        const uniqueTzrtArray2 = Array.from(uniqueTzrtSet2);
+        console.log(uniqueTzrtArray2);
+        this.site_partners_petem = uniqueTzrtArray2;
+      }
+
+      console.log(this.site_partners_hodim_pitom);
+      console.log(this.site_partners_petem);
 
       //   הוספת זנים
       for (let obj of this.new_Active_FarmDetails) {
@@ -619,6 +694,9 @@ export class EcommerceComponent implements OnInit {
                   growerId_and_grower_num[0]?.grower_id,
                   extractedValue
                 );
+
+              farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+
               this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
             } else {
               var farm_det_new_to_count =
@@ -633,7 +711,7 @@ export class EcommerceComponent implements OnInit {
 
           if (this.all_full_farm_det_partner[0] !== undefined) {
             if (this.userDetails[0].Rashi !== '2') {
-              // עורים על כל אתר ומוסיפים לו שדה איכלוס פר אתר
+              // הוספת שדה איכלוס
               for (let obj of this.all_full_farm_det_partner) {
                 if (obj !== undefined) {
                   var real_hiclos_by_site =
@@ -749,9 +827,6 @@ export class EcommerceComponent implements OnInit {
               obj.is_not_allow_population_hatcher === 1 ||
               obj.is_splite === 1
             ) {
-              //   if (typeof obj.hiclos_number === 'number') {
-              //     this.total_hiclos += parseFloat(obj.hiclos_number.toFixed(2));
-              //   }
               if (typeof obj.micsat_pargiot === 'number') {
                 this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
               }
@@ -778,6 +853,7 @@ export class EcommerceComponent implements OnInit {
           console.log(uniqueArrayOfObjects);
 
           this.all_full_farm_det_partner = uniqueArrayOfObjects;
+          console.log(this.all_full_farm_det_partner);
         }
       } else {
         // חישוב טוטל איכלוס וטוטל איכלוס פרגיות מהאתרים הפעילים העומדים בתנאים
@@ -786,9 +862,6 @@ export class EcommerceComponent implements OnInit {
             obj.is_not_allow_population_hatcher === 1 ||
             obj.is_splite === 1
           ) {
-            // if (typeof obj.hiclos_number === 'number') {
-            //   this.total_hiclos += parseFloat(obj.hiclos_number.toFixed(2));
-            // }
             if (typeof obj.micsat_pargiot === 'number') {
               this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
             }
@@ -865,7 +938,7 @@ export class EcommerceComponent implements OnInit {
           if (obj.is_hen_house_split === 1) {
             var split_site_name =
               await this.megadelSearchService.Get_split_site_name_by_grower_id(
-                growerId[0].grower_id
+                this.userDetails[0]?.v_yzrn_id
               );
 
             console.log(split_site_name);
@@ -957,10 +1030,14 @@ export class EcommerceComponent implements OnInit {
             obj.farm_id
           );
 
-          if (msvk_zamud[0]?.msvk_zamud) {
-            obj.msvk_zamud = msvk_zamud[0]?.msvk_zamud;
+          if (msvk_zamud[0]) {
+            var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
+            console.log(splitArray);
+            obj.msvk_zamud = splitArray[1];
+            obj.were_house = splitArray[3];
           } else {
             obj.msvk_zamud = '';
+            obj.were_house = '';
           }
         }
 
@@ -972,9 +1049,11 @@ export class EcommerceComponent implements OnInit {
               var farm_num = parts[0];
 
               var real_hiclos_by_site =
-                await this.megadelSearchService.get_real_hiclos_in_site_the_all_site(
+                await this.megadelSearchService.get_real_hiclos_in_site_splite(
                   farm_num,
-                  obj?.flock_num
+                  obj?.flock_num,
+                  this.userDetails[0]?.v_yzrn,
+                  obj.farm_num
                 );
               console.log(real_hiclos_by_site);
             } else {
@@ -999,22 +1078,11 @@ export class EcommerceComponent implements OnInit {
 
         console.log(this.farm_det_new);
 
-        for (let obj of this.growers_num_partners_Array) {
-          if (this.farm_det_new.length !== 0) {
-            var get_hiclos_gidul_hotz_by_partner =
-              await this.megadelSearchService.get_hiclos_gidul_hotz_by_partner(
-                obj.grower_num,
-                this.farm_det_new[0]?.flock_num
-              );
-            this.total_hiclos += get_hiclos_gidul_hotz_by_partner[0].Column1;
-          }
-        }
-
         if (this.farm_det_new.length === 0) {
         }
 
         if (growerId_and_grower_num) {
-          // כאן אנו עובדים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
+          //   עובדים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
           for (let obj of this.farm_start_det) {
             if (obj.code.toString().includes('/')) {
               var parts = obj.code.split('/');
@@ -1025,6 +1093,9 @@ export class EcommerceComponent implements OnInit {
                   growerId_and_grower_num[0]?.grower_id,
                   extractedValue
                 );
+
+              farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+
               this.all_full_farm_det.push(farm_det_new_to_count[0]);
             } else {
               var farm_det_new_to_count =
@@ -1037,10 +1108,30 @@ export class EcommerceComponent implements OnInit {
             }
           }
 
+          //   הוספת שדה איכלוס ומשתנה איכלוס טוטל כל האתרים
           if (this.all_full_farm_det[0] !== undefined) {
-            if (this.userDetails[0].Rashi !== '2') {
-              for (let obj of this.all_full_farm_det) {
-                if (obj !== undefined) {
+            // if (this.userDetails[0].Rashi !== '2') {
+            for (let obj of this.all_full_farm_det) {
+              if (obj !== undefined) {
+                if (obj.farm_code_with_slesh) {
+                  var real_hiclos_by_site =
+                    await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                      obj?.farm_num,
+                      obj?.flock_num,
+                      this.userDetails[0]?.v_yzrn,
+                      obj.farm_code_with_slesh
+                    );
+
+                  console.log(real_hiclos_by_site);
+                  var count_hiclos = 0;
+                  for (let obj2 of real_hiclos_by_site) {
+                    if (obj2.chicken_sum_female) {
+                      count_hiclos += Number(obj2.chicken_sum_female);
+                    }
+                  }
+                  console.log(count_hiclos);
+                  obj.count_hiclos = count_hiclos;
+                } else {
                   var real_hiclos_by_site =
                     await this.megadelSearchService.get_real_hiclos_in_site(
                       obj?.farm_num,
@@ -1060,7 +1151,14 @@ export class EcommerceComponent implements OnInit {
               }
             }
 
-            // עורים על כל אתר ומוסיפים לו שדה איכלוס פר אתר
+            console.log(this.all_full_farm_det);
+            for (let obj of this.all_full_farm_det) {
+              if (obj !== undefined) {
+                if (obj.count_hiclos) {
+                  this.total_hiclos += obj.count_hiclos;
+                }
+              }
+            }
           }
         }
 
@@ -1069,149 +1167,147 @@ export class EcommerceComponent implements OnInit {
 
       //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-      if (this.siteName.length > 0) {
-        // FarmId חילוץ - חילוץ איידי של כל אתר
-        this.FarmId = await this.getFarmIdArr(this.siteName);
-        console.log('this.FarmId-end: ', this.FarmId);
+      //   if (this.siteName.length > 0) {
+      //     // FarmId חילוץ - חילוץ איידי של כל אתר
+      //     this.FarmId = await this.getFarmIdArr(this.siteName);
+      //     console.log('this.FarmId-end: ', this.FarmId);
 
-        // חילוץ פרטי אתרים עי הפארם איידי של היצרן
-        this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
+      //     // חילוץ פרטי אתרים עי הפארם איידי של היצרן
+      //     this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
 
-        // מכניסים שדה גידול חוץ לפרטי יוזר
-        if (
-          this.userDetails[0]?.cdgdl.length === 0 ||
-          this.userDetails[0].cdgdl === undefined
-        ) {
-          this.mainGrower =
-            await this.megadelSearchService.Partners_Get_CodeGidul(
-              11,
-              this.userDetails[0].v_yzrn,
-              30,
-              this.chosenYear
-            );
-          if (this.mainGrower[0]?.cdgdl) {
-            this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
-          }
-        }
+      //     // מכניסים שדה גידול חוץ לפרטי יוזר
+      //     if (
+      //       this.userDetails[0]?.cdgdl.length === 0 ||
+      //       this.userDetails[0].cdgdl === undefined
+      //     ) {
+      //       this.mainGrower =
+      //         await this.megadelSearchService.Partners_Get_CodeGidul(
+      //           11,
+      //           this.userDetails[0].v_yzrn,
+      //           30,
+      //           this.chosenYear
+      //         );
+      //       if (this.mainGrower[0]?.cdgdl) {
+      //         this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
+      //       }
+      //     }
 
-        this.theUserDetails = this.userDetails[0];
-        this.isLoading_userDet = false;
-        this.totalFarms = this.FarmDetails.length;
-      } else {
-        this.FarmDetails = [];
-      }
+      //     this.theUserDetails = this.userDetails[0];
+      //     this.isLoading_userDet = false;
+      //     this.totalFarms = this.FarmDetails.length;
+      //   } else {
+      //     this.FarmDetails = [];
+      //   }
 
       // חילוץ פרטי אתר עי הפארם איידי -  סיום-----------------------------------------------------------------------------------------
 
       // הוספת שדה איכלוס -
-      for (let item of this.FarmDetails) {
-        let grower_id = item.grower_id;
-        let farm_id = item.farm_id;
-        let farm_code_without_slesh = this.extractNumber(item.farm_code);
-        // בדיקת שותפים מכסת פטם
-        const checkPartners =
-          await this.megadelSearchService.Partners_By_Farm_Select(
-            7,
-            farm_code_without_slesh,
-            '19',
-            '',
-            '20180101',
-            '99991231'
-          );
-        if (checkPartners.length > 1) {
-          this.arrPartnersPetem.push({
-            numGroup: item.farm_code,
-            partners: checkPartners,
-          });
-        }
-        const results2 =
-          await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
-            farm_id,
-            grower_id
-          );
+      //   for (let item of this.FarmDetails) {
+      //     let grower_id = item.grower_id;
+      //     let farm_id = item.farm_id;
+      //     let farm_code_without_slesh = this.extractNumber(item.farm_code);
+      //     // בדיקת שותפים מכסת פטם
+      //     const checkPartners =
+      //       await this.megadelSearchService.Partners_By_Farm_Select(
+      //         7,
+      //         farm_code_without_slesh,
+      //         '19',
+      //         '',
+      //         '20180101',
+      //         '99991231'
+      //       );
+      //     if (checkPartners.length > 1) {
+      //       this.arrPartnersPetem.push({
+      //         numGroup: item.farm_code,
+      //         partners: checkPartners,
+      //       });
+      //     }
+      //     const results2 =
+      //       await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
+      //         farm_id,
+      //         grower_id
+      //       );
 
-        if (results2[0]?.female_number_f) {
-          item.hiclos_number = results2[0].female_number_f;
-        } else {
-          item.hiclos_number = '';
-        }
-      }
-      // הוספת שדה איכלוס - סיום
+      //     if (results2[0]?.female_number_f) {
+      //       item.hiclos_number = results2[0].female_number_f;
+      //     } else {
+      //       item.hiclos_number = '';
+      //     }
+      //   }
+      //   // הוספת שדה איכלוס - 750
+      //   for (let item of this.FarmDetails) {
+      //     let grower_id = item.grower_id;
+      //     let farm_id = item.farm_id;
+      //     const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
+      //       item.farm_code
+      //     );
+      //     console.log('hiclos750: ', hiclos750);
+      //     console.log('hiclos750[0]?.calc750: ', hiclos750[0]?.calc750);
+      //     if (hiclos750[0]?.calc750) {
+      //       item.calc750 = hiclos750[0]?.calc750;
+      //     }
+      //   }
+      //   // הוספת שדה איכלוס 750- סיום
 
-      // הוספת שדה איכלוס - 750
-      for (let item of this.FarmDetails) {
-        let grower_id = item.grower_id;
-        let farm_id = item.farm_id;
-        const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
-          item.farm_code
-        );
-        console.log('hiclos750: ', hiclos750);
-        console.log('hiclos750[0]?.calc750: ', hiclos750[0]?.calc750);
-        if (hiclos750[0]?.calc750) {
-          item.calc750 = hiclos750[0]?.calc750;
-        }
-      }
-      // הוספת שדה איכלוס 750- סיום
+      //   this.FarmDetails.sort((a, b) => {
+      //     if (a.farm_code < b.farm_code) {
+      //       return -1;
+      //     } else if (a.farm_code > b.farm_code) {
+      //       return 1;
+      //     } else {
+      //       return 0;
+      //     }
+      //   });
 
-      this.FarmDetails.sort((a, b) => {
-        if (a.farm_code < b.farm_code) {
-          return -1;
-        } else if (a.farm_code > b.farm_code) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      //   for (let item of this.FarmDetails) {
+      //     if (item.farm_status_id === 1) {
+      //       this.Active_FarmDetails.push(item);
+      //     } else {
+      //       this.Not_Active_FarmDetails.push(item);
+      //     }
+      //   }
 
-      for (let item of this.FarmDetails) {
-        if (item.farm_status_id === 1) {
-          this.Active_FarmDetails.push(item);
-        } else {
-          this.Not_Active_FarmDetails.push(item);
-        }
-      }
+      //   if (this.Active_FarmDetails.length > 0) {
+      //     this.Active_FarmDetails.sort((a, b) => {
+      //       if (a.farm_code < b.farm_code) {
+      //         return -1;
+      //       } else if (a.farm_code > b.farm_code) {
+      //         return 1;
+      //       } else {
+      //         return 0;
+      //       }
+      //     });
 
-      if (this.Active_FarmDetails.length > 0) {
-        this.Active_FarmDetails.sort((a, b) => {
-          if (a.farm_code < b.farm_code) {
-            return -1;
-          } else if (a.farm_code > b.farm_code) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
+      //     this.rows = this.Active_FarmDetails;
+      //     this.click_on_show_ActiveSite = true;
+      //     this.click_on_not_show_ActiveSite = false;
+      //   } else {
+      //     this.Active_FarmDetails.sort((a, b) => {
+      //       if (a.farm_code < b.farm_code) {
+      //         return -1;
+      //       } else if (a.farm_code > b.farm_code) {
+      //         return 1;
+      //       } else {
+      //         return 0;
+      //       }
+      //     });
+      //     this.rows = this.Active_FarmDetails;
+      //     this.isNotActiveSiteShown = true;
+      //     this.click_on_show_ActiveSite = false;
+      //     this.click_on_not_show_ActiveSite = true;
+      //   }
 
-        this.rows = this.Active_FarmDetails;
-        this.click_on_show_ActiveSite = true;
-        this.click_on_not_show_ActiveSite = false;
-      } else {
-        this.Active_FarmDetails.sort((a, b) => {
-          if (a.farm_code < b.farm_code) {
-            return -1;
-          } else if (a.farm_code > b.farm_code) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-        this.rows = this.Active_FarmDetails;
-        this.isNotActiveSiteShown = true;
-        this.click_on_show_ActiveSite = false;
-        this.click_on_not_show_ActiveSite = true;
-      }
-
-      if (
-        this.new_Active_FarmDetails.length === 0 &&
-        this.new_Not_Active_FarmDetails.length === 0
-      ) {
-      }
+      //   if (
+      //     this.new_Active_FarmDetails.length === 0 &&
+      //     this.new_Not_Active_FarmDetails.length === 0
+      //   ) {
+      //   }
     });
-    if (
-      this.new_Active_FarmDetails.length === 0 &&
-      this.new_Not_Active_FarmDetails.length === 0
-    ) {
-    }
+    // if (
+    //   this.new_Active_FarmDetails.length === 0 &&
+    //   this.new_Not_Active_FarmDetails.length === 0
+    // ) {
+    // }
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
@@ -1312,10 +1408,15 @@ export class EcommerceComponent implements OnInit {
         this.userDetails[0].v_yzrn,
         obj.farm_id
       );
-      if (msvk_zamud[0]?.msvk_zamud) {
-        obj.msvk_zamud = msvk_zamud[0]?.msvk_zamud;
+
+      if (msvk_zamud[0]) {
+        var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
+        console.log(splitArray);
+        obj.msvk_zamud = splitArray[1];
+        obj.were_house = splitArray[3];
       } else {
         obj.msvk_zamud = '';
+        obj.were_house = '';
       }
     }
 
@@ -1327,9 +1428,11 @@ export class EcommerceComponent implements OnInit {
           var farm_num = parts[0];
 
           var real_hiclos_by_site =
-            await this.megadelSearchService.get_real_hiclos_in_site_the_all_site(
+            await this.megadelSearchService.get_real_hiclos_in_site_splite(
               farm_num,
-              obj?.flock_num
+              obj?.flock_num,
+              this.userDetails[0]?.v_yzrn,
+              obj.farm_num
             );
           console.log(real_hiclos_by_site);
         } else {
@@ -1722,7 +1825,7 @@ export class EcommerceComponent implements OnInit {
         if (obj.is_hen_house_split === 1) {
           var split_site_name =
             await this.megadelSearchService.Get_split_site_name_by_grower_id(
-              growerId[0].grower_id
+              this.userDetails[0]?.v_yzrn_id
             );
 
           console.log(split_site_name);
@@ -1730,8 +1833,6 @@ export class EcommerceComponent implements OnInit {
           obj.farm_num = split_site_name[0].code;
         }
       }
-
-      console.log(this.farm_det_new);
 
       //   הוספת זנים
       for (let obj of this.farm_det_new) {
@@ -1815,10 +1916,14 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].v_yzrn,
           obj.farm_id
         );
-        if (msvk_zamud[0]?.msvk_zamud) {
-          obj.msvk_zamud = msvk_zamud[0]?.msvk_zamud;
+        if (msvk_zamud[0]) {
+          var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
+          console.log(splitArray);
+          obj.msvk_zamud = splitArray[1];
+          obj.were_house = splitArray[3];
         } else {
           obj.msvk_zamud = '';
+          obj.were_house = '';
         }
       }
 
@@ -1830,9 +1935,11 @@ export class EcommerceComponent implements OnInit {
             var farm_num = parts[0];
 
             var real_hiclos_by_site =
-              await this.megadelSearchService.get_real_hiclos_in_site_the_all_site(
+              await this.megadelSearchService.get_real_hiclos_in_site_splite(
                 farm_num,
-                obj?.flock_num
+                obj?.flock_num,
+                this.userDetails[0]?.v_yzrn,
+                obj.farm_num
               );
             console.log(real_hiclos_by_site);
           } else {
@@ -1899,21 +2006,21 @@ export class EcommerceComponent implements OnInit {
         let farm_id = item.farm_id;
         let farm_code_without_slesh = this.extractNumber(item.farm_code);
         // בדיקת שותפים מכסת פטם
-        const checkPartners =
-          await this.megadelSearchService.Partners_By_Farm_Select(
-            7,
-            farm_code_without_slesh,
-            '19',
-            '',
-            '20180101',
-            '99991231'
-          );
-        if (checkPartners.length > 1) {
-          this.arrPartnersPetem.push({
-            numGroup: item.farm_code,
-            partners: checkPartners,
-          });
-        }
+        // const checkPartners =
+        //   await this.megadelSearchService.Partners_By_Farm_Select(
+        //     7,
+        //     farm_code_without_slesh,
+        //     '19',
+        //     '',
+        //     '20180101',
+        //     '99991231'
+        //   );
+        // if (checkPartners.length > 1) {
+        //   this.arrPartnersPetem.push({
+        //     numGroup: item.farm_code,
+        //     partners: checkPartners,
+        //   });
+        // }
         const results2 =
           await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
             farm_id,
@@ -1926,7 +2033,6 @@ export class EcommerceComponent implements OnInit {
           item.hiclos_number = '';
         }
       }
-      // הוספת שדה איכלוס - סיום
 
       // הוספת שדה איכלוס - 750
       for (let item of this.FarmDetails) {
@@ -1941,8 +2047,8 @@ export class EcommerceComponent implements OnInit {
           item.calc750 = hiclos750[0]?.calc750;
         }
       }
-      // הוספת שדה איכלוס 750- סיום
 
+      //   מיון לפי מספרי אתרים
       this.FarmDetails.sort((a, b) => {
         if (a.farm_code < b.farm_code) {
           return -1;
@@ -1953,6 +2059,7 @@ export class EcommerceComponent implements OnInit {
         }
       });
 
+      //   מיון למערכי אתרים פעילים לא פעילים
       for (let item of this.FarmDetails) {
         if (item.farm_status_id === 1) {
           this.Active_FarmDetails.push(item);
@@ -1962,6 +2069,7 @@ export class EcommerceComponent implements OnInit {
       }
 
       if (this.Active_FarmDetails.length > 0) {
+        //   מיון אתרים פעילים לפי קוד
         this.Active_FarmDetails.sort((a, b) => {
           if (a.farm_code < b.farm_code) {
             return -1;
@@ -1976,6 +2084,7 @@ export class EcommerceComponent implements OnInit {
         this.click_on_show_ActiveSite = true;
         this.click_on_not_show_ActiveSite = false;
       } else {
+        //   מיון אתרים פעילים לפי קוד
         this.Active_FarmDetails.sort((a, b) => {
           if (a.farm_code < b.farm_code) {
             return -1;
@@ -1999,6 +2108,7 @@ export class EcommerceComponent implements OnInit {
     }
   }
 
+  //   פונ המראה רק אתרים פעילים
   show_ActiveSite() {
     this.selectedCategory = '';
     this.isNotActiveSiteShown = false;
@@ -2009,11 +2119,13 @@ export class EcommerceComponent implements OnInit {
     this.activeColor = true;
   }
 
+  //   פונ המראה את כל האתרים
   showAllSite() {
     this.selectedCategory = '';
     this.rows = this.FarmDetails;
   }
 
+  //   פונ המראה אתרים לא פעילים
   show_not_ActiveSite() {
     this.selectedCategory = '';
     this.isNotActiveSiteShown = true;
@@ -2023,6 +2135,7 @@ export class EcommerceComponent implements OnInit {
     this.notActiveColor = true;
     this.activeColor = false;
   }
+
   isFirstUniqueValue(obj: any, currentIndex: number): boolean {
     for (let i = 0; i < currentIndex; i++) {
       if (
@@ -2059,6 +2172,7 @@ export class EcommerceComponent implements OnInit {
     return count > 1;
   }
 
+  //   פונ המראה נתונים אחרים כאשר בוחרים שנה
   async onYearChange() {
     this.isLoading_userDet = true;
     // מכסות ביצים
@@ -2069,10 +2183,6 @@ export class EcommerceComponent implements OnInit {
       '30 - ביצי מאכל',
       88
     );
-    console.log('this.mihsot: ', this.mihsot);
-
-    console.log('this.mihsot.length: ', this.mihsot.length);
-    // מכסות ביצים - סיום
 
     // מכסות פטם
     this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
@@ -2083,11 +2193,6 @@ export class EcommerceComponent implements OnInit {
       88
     );
 
-    console.log('this.mihsotPetem: ', this.mihsotPetem);
-    console.log('this.mihsotPetem.length: ', this.mihsotPetem.length);
-
-    // מכסות פטם - סיום
-
     // מכסות הודים
     this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
       5,
@@ -2097,13 +2202,8 @@ export class EcommerceComponent implements OnInit {
       88
     );
 
-    console.log('this.mihsotHodim: ', this.mihsotHodim);
-    console.log('this.mihsotHodim.length: ', this.mihsotHodim.length);
-
-    // מכסות הודים - סיום
-
-    this.totalMicsaKvoha = 0; // Initialize the variable to 0
-    this.totalMicsaToPay = 0; // Initialize the variable to 0
+    this.totalMicsaKvoha = 0;
+    this.totalMicsaToPay = 0;
 
     for (const iterator of this.mihsot) {
       if (
@@ -2126,6 +2226,16 @@ export class EcommerceComponent implements OnInit {
       }
     }
     this.isLoading_userDet = false;
+  }
+
+  async getPartner_pitom_or_hodim(atar_num) {
+    console.log('atar_num: ', atar_num);
+    console.log(this.groupedArray[22]);
+    this.partners_hodim_by_site = this.groupedArray[22].filter(
+      (obj) => obj.atar_id === atar_num
+    );
+    console.log(this.partners_hodim_by_site);
+    this.open_PopupPartnersHodimComponent(this.partners_hodim_by_site);
   }
 
   async getPartner(allTheFarmDet) {
@@ -2251,6 +2361,16 @@ export class EcommerceComponent implements OnInit {
         this.openPopup();
       }
     }
+  }
+
+  open_PopupPartnersHodimComponent(data) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog';
+    dialogConfig.data = data;
+    const dialogRef = this.dialog.open(
+      PopupPartnersHodimComponent,
+      dialogConfig
+    );
   }
 
   openPopup() {
@@ -2652,33 +2772,28 @@ export class EcommerceComponent implements OnInit {
       dialogConfig
     );
 
-    let isSecondClick = false;
+    let isClickedInside = false;
 
     const handleDocumentClick = () => {
-      if (isSecondClick) {
+      if (!isClickedInside) {
         dialogRef.close();
         document.removeEventListener('click', handleDocumentClick);
-      } else {
-        isSecondClick = true;
       }
+      isClickedInside = false;
     };
 
     const handleButtonClick = () => {
-      if (dialogRef) {
-        dialogRef.close();
-        document.removeEventListener('click', handleDocumentClick);
-      }
+      isClickedInside = true;
     };
 
     document.addEventListener('click', handleDocumentClick);
 
     // Add a click event listener to the button that triggers the main function
-    const buttonElement = document.querySelector('#gidolHotzBtn'); // Replace 'your-button-id' with the actual ID of your button
+    const buttonElement = document.querySelector('#gidolHotzBtn_hodin'); // Replace 'your-button-id' with the actual ID of your button
     buttonElement.addEventListener('click', handleButtonClick);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog closed with result:', result);
-      isSecondClick = false;
       document.removeEventListener('click', handleDocumentClick);
       buttonElement.removeEventListener('click', handleButtonClick);
     });

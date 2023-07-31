@@ -12,6 +12,47 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_real_hiclos_in_site_splite(
+    site_num: any,
+    flock_id: any,
+    grower_num: any,
+    site_num_splite: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site_splite?site_num=${site_num}&flock_id=${flock_id}&grower_num=${grower_num}&site_num_splite=${site_num_splite}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_real_hiclos_in_site(
+    site_num: any,
+    flock_id: any,
+    grower_num: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site?site_num=${site_num}&flock_id=${flock_id}&grower_num=${grower_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
+    num_yzrn: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn?num_yzrn=${num_yzrn}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_real_hiclos_in_site_the_all_site(
     site_num: any,
     flock_id: any
@@ -32,20 +73,6 @@ export class MegadelSearchService {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_hiclos_gidul_hotz_by_partner?grower_num=${grower_num}&flock_id=${flock_id}`
-      )
-    );
-    console.log('item: ', item);
-    return item;
-  }
-
-  async get_real_hiclos_in_site(
-    site_num: any,
-    flock_id: any,
-    grower_num: any
-  ): Promise<any[]> {
-    const item = await firstValueFrom(
-      this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site?site_num=${site_num}&flock_id=${flock_id}&grower_num=${grower_num}`
       )
     );
     console.log('item: ', item);
