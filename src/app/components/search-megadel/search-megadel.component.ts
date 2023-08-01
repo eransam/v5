@@ -83,7 +83,7 @@ export class SearchMegadelComponent implements OnInit {
   detailsFromformcheckbox: any = '';
   detailsFromformMonth: any = '';
   detailsFromformYear: any = '';
-
+  totalMicsaKvoha: any = 0;
   //מגדירים פילטר חיפוש לכל שדה אינפוט
   filteredUsers: Observable<string[]>;
   filteredsite: Observable<string[]>;
@@ -382,7 +382,7 @@ export class SearchMegadelComponent implements OnInit {
       phone: ['', Validators.required],
       customer1: ['', Validators.required],
     });
-
+    this.totalMicsaKvoha = 0;
     this.breadcrumb = {
       mainlabel: 'Styling DataTable',
       links: [
@@ -809,7 +809,23 @@ export class SearchMegadelComponent implements OnInit {
         '30 - ביצי מאכל',
         88
       );
-      item.micsa = this.mihsot3[0]?.mi_kamut;
+      //   item.micsa = this.mihsot3[0]?.mi_kamut;
+
+      for (const iterator of this.mihsot3) {
+        if (
+          iterator.mi_sug_mcsa === '1 ' ||
+          iterator.mi_sug_mcsa === '2 ' ||
+          iterator.mi_sug_mcsa === '3 ' ||
+          iterator.mi_sug_mcsa === '1' ||
+          iterator.mi_sug_mcsa === '2' ||
+          iterator.mi_sug_mcsa === '3'
+        ) {
+          this.totalMicsaKvoha += iterator.mi_kamut;
+        }
+      }
+
+      console.log(this.totalMicsaKvoha);
+      item.micsa = this.totalMicsaKvoha;
     }
 
     // הוספה לפרטי האתר שדה המכיל גידול חוץ
@@ -890,227 +906,6 @@ export class SearchMegadelComponent implements OnInit {
     this.isLoading_FarmDetails = false;
   }
 
-  //   async add() {
-  //     this.isLoading_search_megadel = true;
-
-  //     this.theDetails = [];
-  //     this.isLoading = true; // Start loading
-  //     let SettlementName = '%';
-  //     let SitetName: any = ' ';
-  //     let Username = '%';
-  //     let numName = '%';
-  //     let gidolHotzName = ' ';
-  //     this.SitetNameTomaaravi = ' ';
-
-  //     // טיפול בערך בתיבת השלוחה
-  //     let extension = this.extensionControl.value;
-  //     if (extension === undefined) {
-  //       extension = '';
-  //     } else {
-  //       const resultsCodeShloha =
-  //         await this.megadelSearchService.Get_All_Shloha_Id_By_NAME(extension);
-  //       extension = resultsCodeShloha[0]?.id;
-  //     }
-
-  //     // טיפול בערך מספר מגדל
-  //     if (this.numNameControl.value) {
-  //       numName = this.numNameControl.value;
-  //     }
-
-  //     // טיפול בערך התיבה שם ישוב
-  //     if (this.settlementControl.value) {
-  //       SettlementName = this.settlementControl.value;
-  //     }
-
-  //     // טיפול בערך התיבה ג''ח
-  //     if (this.gidolHotzControl.value) {
-  //       gidolHotzName = this.gidolHotzControl.value;
-  //     }
-
-  //     // טיפול בערך התיבה מס אתר
-  //     if (this.siteControl.value) {
-  //       SitetName = this.siteControl.value.split('-').pop();
-  //       this.SitetNameTomaaravi = SitetName;
-
-  //       //   מוציא את האיידי של המגדל כאשר מכניסים קוד אתר
-  //       const results88 =
-  //         await this.megadelSearchService.get_growerId_By_code_atar(SitetName);
-
-  //       console.log('results88-test: ', results88);
-  //       if (results88[0]?.grower_id) {
-  //         SitetName = results88[0].grower_id;
-  //       } else {
-  //         SitetName = 'מספר לא קיים';
-  //       }
-  //     }
-
-  //     if (this.usernameControl.value) {
-  //       Username = this.usernameControl.value;
-  //     }
-
-  //     // במידה והוכנס שדה מספר אתר אנו נכנס לפה
-  //     if (this.SitetNameTomaaravi !== ' ') {
-  //       if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
-  //         const resultsMaaravi =
-  //           await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn_Atar(
-  //             0,
-  //             numName,
-  //             Username,
-  //             SettlementName,
-  //             '%',
-  //             '%',
-  //             '',
-  //             2023,
-  //             '%',
-  //             this.SitetNameTomaaravi,
-  //             0
-  //           );
-
-  //         if (resultsMaaravi.length === 0) {
-  //           this.theDetails = resultsMaaravi;
-  //         } else {
-  //           for (let item of resultsMaaravi) {
-  //             // מביאים את כל האתרים של המגדל
-  //             const results3 =
-  //               await this.megadelSearchService.get_siteName_by_yzId(
-  //                 item.v_yzrn_id
-  //               );
-
-  //             // מוציאים רק את האתרים הפעילים למערך חדש
-  //             const filteredArray = results3.filter(
-  //               (obj) => obj?.farm_status_id !== 2
-  //             );
-
-  //             this.allInactive = results3.every(
-  //               (obj) => obj.farm_status_id !== 2
-  //             );
-
-  //             // מוציאים את קודי האתרים למערך חדש
-  //             const codes = filteredArray.map((obj) => obj.code);
-
-  //             // הופכים אותם לסטרינג ומכניסים אותם למשתנה
-  //             const joinedString = codes.join(', ');
-
-  //             item.yz_IdReal = item.v_yzrn_id;
-  //             item.yz_Id = joinedString;
-  //             item.all_not_active = this.allInactive;
-  //           }
-
-  //           // הוספה לפרטי האתר שדה המכיל גידול חוץ
-  //           for (let item of resultsMaaravi) {
-  //             let YazRishaion = item.YazRishaion;
-  //             if (!YazRishaion.includes('/')) {
-  //               const extractedNumber_YazRishaion =
-  //                 this.extractNumber(YazRishaion);
-  //               item.yz_Id += ' ,' + extractedNumber_YazRishaion.toString();
-
-  //               const numbersString = item.yz_Id;
-
-  //               // Step 1: Split the string into an array
-  //               const numbersArray = await numbersString.split(',');
-
-  //               // Step 2: Create a Set to remove duplicate values
-  //               const uniqueNumbersSet = new Set(numbersArray);
-
-  //               // Step 3: Convert the Set back to an array
-  //               const uniqueNumbersArray = [...uniqueNumbersSet];
-
-  //               // Step 4: Join the array elements back into a string
-  //               const uniqueNumbersString = uniqueNumbersArray.join(',');
-  //               item.yz_Id = uniqueNumbersString;
-  //             }
-
-  //             let yz_yzrn = item.v_yzrn;
-  //             const results2 =
-  //               await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-  //                 yz_yzrn
-  //               );
-  //             if (results2[0]?.pa_Counter) {
-  //               item.pa_Counter = results2[0].pa_Counter;
-  //             } else {
-  //               item.pa_Counter = '';
-  //             }
-  //           }
-
-  //           // יוצר שדה מיכסה
-  //           resultsMaaravi.forEach(async (item444) => {
-  //             this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
-  //               5,
-  //               item444?.v_yzrn,
-  //               this.chosenYear,
-  //               '30 - ביצי מאכל',
-  //               88
-  //             );
-  //             item444.micsa = this.mihsot3[0]?.mi_kamut;
-  //           });
-  //           // הוספת מיכסה
-  //           for (let item of resultsMaaravi) {
-  //             this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
-  //               5,
-  //               item?.v_yzrn,
-  //               this.chosenYear,
-  //               '30 - ביצי מאכל',
-  //               88
-  //             );
-  //             item.micsa = this.mihsot3[0]?.mi_kamut;
-  //           }
-
-  //           // הוספת מספר אתר מחיצה לרשימת סטרינג אתרים
-  //           for (let item of resultsMaaravi) {
-  //             if (item.YazRishaion.length > 0) {
-  //               item.yz_Id += ' ,' + item.YazRishaion;
-  //             }
-  //           }
-  //           this.theDetails = resultsMaaravi;
-
-  //           localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
-  //         }
-  //       }
-  //     } else {
-  //       // במידה ולא הוכנס שדה מספר אתר אנו נגיע לפה
-  //       if (this.selectedCheckbox === '' || this.selectedCheckbox === 'active') {
-  //         // מביאים את כל האתרים
-  //         const resultsMaaravi2 =
-  //           await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
-  //             18,
-  //             numName,
-  //             Username,
-  //             SettlementName,
-  //             1,
-  //             '%',
-  //             30,
-  //             this.chosenYear,
-  //             '%',
-  //             '%',
-  //             '%',
-  //             1,
-  //             '%'
-  //           );
-
-  //         if (resultsMaaravi2.length === 0) {
-  //           this.theDetails = resultsMaaravi2;
-  //         } else {
-  //           // הוספה לפרטי האתר שדה המכיל גידול חוץ
-  //           for (let item of resultsMaaravi2) {
-  //             if (item?.YazRishaion !== undefined) {
-  //               let YazRishaion = item?.YazRishaion;
-  //               const extractedNumber_YazRishaion =
-  //                 this.extractNumber(YazRishaion);
-  //               item.yz_Id += ' ,' + extractedNumber_YazRishaion.toString();
-  //             }
-
-  //             let yz_yzrn = item.v_yzrn;
-  //             const results2 =
-  //               await this.megadelSearchService.Get_num_of_gidol_hotz_from_yz_yzrn(
-  //                 yz_yzrn
-  //               );
-  //             if (results2[0]?.pa_Counter) {
-  //               item.pa_Counter = results2[0].pa_Counter;
-  //             } else {
-  //               item.pa_Counter = '';
-  //             }
-  //           }
-
   //           // יוצר שדה המכיל מספרי אתרים
   //           for (let item of resultsMaaravi2) {
   //             const results3 =
@@ -1123,44 +918,4 @@ export class SearchMegadelComponent implements OnInit {
   //                 item.v_yzrn,
   //                 99
   //               );
-
-  //             // ממיין למערך חדש רק את האתרים הפעילים
-  //             const filteredArray = results3.filter(
-  //               (obj) => obj.RishaionSts !== 'לא פעיל'
-  //             );
-
-  //             this.allInactive = results3.every(
-  //               (obj) => obj.RishaionSts === 'לא פעיל'
-  //             );
-
-  //             // מוציא את מספרי האתרים למערך חדש
-  //             const codes = filteredArray.map((obj) => obj.code);
-  //             // יוצר מהם סטרינג
-  //             const joinedString = codes.join(', ');
-  //             item.yz_IdReal = item.v_yzrn_id;
-
-  //             item.yz_Id = joinedString;
-  //             item.all_not_active = this.allInactive;
-  //           }
-
-  //           // יוצר שדה מיכסה
-  //           for (let item of resultsMaaravi2) {
-  //             this.mihsot3 = await this.megadelSearchService.Micsa_Select_New(
-  //               5,
-  //               item?.v_yzrn,
-  //               this.chosenYear,
-  //               '30 - ביצי מאכל',
-  //               88
-  //             );
-  //             item.micsa = this.mihsot3[0]?.mi_kamut;
-  //           }
-
-  //           this.theDetails = resultsMaaravi2;
-  //           localStorage.setItem('theDetails', JSON.stringify(this.theDetails));
-  //         }
-  //       }
-  //     }
-  //     this.isLoading = false; // Stop loading
-  //     this.isLoading_search_megadel = false;
-  //   }
 }
