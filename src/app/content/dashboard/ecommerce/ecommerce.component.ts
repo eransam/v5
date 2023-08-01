@@ -10,6 +10,9 @@ import {
   PerfectScrollbarConfigInterface,
 } from 'ngx-perfect-scrollbar';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+import { SharedServiceService } from '../../../services/shared-service.service';
+
 export interface Chart {
   type: ChartType;
   data: Chartist.IChartistData;
@@ -17,6 +20,8 @@ export interface Chart {
   responsiveOptions?: any;
   events?: ChartEvent;
 }
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { TableexcelService } from '../../../services/tableexcel.service';
 import { ActivatedRoute } from '@angular/router';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
@@ -175,8 +180,11 @@ export class EcommerceComponent implements OnInit {
   total_pargiot: any = 0;
   groupedArray: any = {};
   partners_hodim_by_site: any = [];
-
+  chosenYear$ = new BehaviorSubject<any>(2023); // Set your initial value here
+  private chosenYearSubscription: Subscription;
   constructor(
+    private SharedServiceService: SharedServiceService,
+    private cdr: ChangeDetectorRef,
     private megadelSearchService: MegadelSearchService,
     private route: Router,
     private route2: ActivatedRoute,
@@ -185,6 +193,13 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.chosenYearSubscription =
+      this.SharedServiceService.chosenYear$.subscribe((year) => {
+        this.chosenYear = year;
+      });
+
+    this.chosenYear$ = new BehaviorSubject<any>(2023); // Set your initial value here
+
     this.partners_hodim_by_site = [];
     this.groupedArray = {};
     this.total_hiclos = 0;
@@ -206,6 +221,8 @@ export class EcommerceComponent implements OnInit {
     this.site_partners_hodim_pitom = [];
     this.site_partners_petem = [];
     this.sort_site_by_shloha();
+    this.chosenYear$ = new BehaviorSubject<any>(2023); // Set your initial value here
+
     this.route2.params.subscribe(async (params) => {
       this.partners_hodim_by_site = [];
       this.groupedArray = {};
@@ -240,12 +257,11 @@ export class EcommerceComponent implements OnInit {
       this.new_Not_Active_FarmDetails = [];
       this.sort_site_by_shloha();
 
-      // הבאת פרטי היוזר מהלוקל סטורג'
-      //   this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
-      //   this.userDetails = this.userDetails.filter(
-      //     (obj) => obj.v_yzrn_id.toString() === this.idFromurl
-      //   );
-      //   localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
+      const chosenYearObservable = of(this.chosenYear);
+
+      chosenYearObservable.subscribe((year) => {
+        console.log('Received:', year);
+      });
 
       this.userDetails = [];
       //   במידה והוא לא קיים בסטורג' אנו נביא אותו מהיואר אל
@@ -318,13 +334,10 @@ export class EcommerceComponent implements OnInit {
           (item) => item.lull2000_code === this.userDetails[0].v_yzrn
         );
 
-        console.log(this.partnerData);
-
         this.growers_num_partners_Array = this.partnerData.map((obj) => ({
           grower_num: obj.lull2000_code,
         }));
 
-        console.log(this.growers_num_partners_Array);
       }
 
       //   הבאת מכסה שותפים
@@ -985,6 +998,22 @@ export class EcommerceComponent implements OnInit {
           obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
         }
 
+        //   הוספת מספר מבנים
+        for (let obj of this.farm_det_new) {
+          var num_lolim =
+            await this.megadelSearchService.get_num_of_lolim_by_farm_id(
+              obj.farm_id
+            );
+
+          if (num_lolim[0]?.Column1) {
+            obj.num_lolim = num_lolim[0]?.Column1;
+          } else {
+            obj.num_lolim = '';
+          }
+        }
+
+        console.log(this.farm_det_new);
+
         //   הוספת ג''ח פר אתר
         for (let obj of this.farm_det_new) {
           var gidul_hotz =
@@ -1083,6 +1112,7 @@ export class EcommerceComponent implements OnInit {
         }
 
         console.log(this.farm_det_new);
+        // סיום ותצוגה של הפרטי אתר המורחבים
 
         if (this.farm_det_new.length === 0) {
         }
@@ -1170,9 +1200,6 @@ export class EcommerceComponent implements OnInit {
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
-  async test_eran() {
-    var growerId = await this.megadelSearchService.test_eran();
-  }
 
   async get_more_farm_det_by_farm_num(farm_num: any) {
     console.log(farm_num);
@@ -1224,6 +1251,22 @@ export class EcommerceComponent implements OnInit {
         var zan_num = obj.zan_det[0].number;
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
       }
+
+              //   הוספת מספר מבנים
+              for (let obj of this.farm_det_new) {
+                var num_lolim =
+                  await this.megadelSearchService.get_num_of_lolim_by_farm_id(
+                    obj.farm_id
+                  );
+      
+                if (num_lolim[0]?.Column1) {
+                  obj.num_lolim = num_lolim[0]?.Column1;
+                } else {
+                  obj.num_lolim = '';
+                }
+              }
+
+
 
       //   הוספת ג''ח פר אתר
       for (let obj of this.farm_det_new) {
@@ -1316,8 +1359,6 @@ export class EcommerceComponent implements OnInit {
       }
 
       this.farm_det_new[0].farm_num = farm_num;
-
-
     }
     this.the_chosen_farm = farm_num;
   }
@@ -1720,6 +1761,22 @@ export class EcommerceComponent implements OnInit {
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
       }
 
+
+              //   הוספת מספר מבנים
+              for (let obj of this.farm_det_new) {
+                var num_lolim =
+                  await this.megadelSearchService.get_num_of_lolim_by_farm_id(
+                    obj.farm_id
+                  );
+      
+                if (num_lolim[0]?.Column1) {
+                  obj.num_lolim = num_lolim[0]?.Column1;
+                } else {
+                  obj.num_lolim = '';
+                }
+              }
+
+
       //   הוספת ג''ח פר אתר
       for (let obj of this.farm_det_new) {
         var gidul_hotz =
@@ -2085,6 +2142,7 @@ export class EcommerceComponent implements OnInit {
         this.totalMicsaToPay += iterator.mi_kamut;
       }
     }
+    this.cdr.detectChanges();
     this.isLoading_userDet = false;
   }
 

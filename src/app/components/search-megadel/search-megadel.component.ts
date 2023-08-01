@@ -810,7 +810,7 @@ export class SearchMegadelComponent implements OnInit {
         88
       );
       //   item.micsa = this.mihsot3[0]?.mi_kamut;
-
+      this.totalMicsaKvoha = 0;
       for (const iterator of this.mihsot3) {
         if (
           iterator.mi_sug_mcsa === '1 ' ||
