@@ -436,6 +436,40 @@ body div.cdk-overlay-container .Popup_Old_Grower_Name {
   transform: translate(-50%, -50%);
   margin: auto;
 }
+
+
+
+body div.cdk-overlay-container .openPopup_certificate_transfer {
+    background-color: white !important;
+    max-width: 60vw;
+    color: black !important;
+    background-color: silver;
+    font-size: 20px;
+    margin: auto;
+    color: black !important;
+    background-color: silver;
+    font-size: 20px;
+    direction: rtl;
+    padding: 4px;
+    width: -moz-fit-content;
+    width: 50%;
+    position: absolute !important;
+    top: 41%;
+    /* left: 52%; */
+    height: 50%;
+    right: 0%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+  }
+
+
+
+
+
+
+
+
+
 body {
   zoom: 0.75;
 }

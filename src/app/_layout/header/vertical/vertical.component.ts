@@ -412,6 +412,8 @@ export class VerticalComponent implements OnInit, AfterViewInit {
   }
 
   toggleNavigation(e) {
+    console.log(e);
+    
     const sidenav = document.getElementById('sidenav-overlay');
     const sidebarLeft = document.getElementById('sidebar-left') || document.getElementById('email-app-menu') ||
       document.getElementById('sidebar-todo');

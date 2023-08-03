@@ -248,6 +248,8 @@
         </div>
       </div>
 
+      <!-- <button (click)="eransam_test()">test</button> -->
+
       <!--/ eCommerce statistic ------   ------------------------------------------------------------------------------------------------------------------>
 
       <!-- Products sell and New Orders ------------------------------------------------------------------------------------------------------------------------>
@@ -805,6 +807,20 @@
                             סהכ איכלוס:
                             {{ this.total_hiclos | number : "1.0-0" }}
                           </p>
+
+                          <button
+                            *ngIf="this.total_hiclos > 0"
+                            id="cartificate_hiclos"
+                            style="
+                              color: blue;
+                              background-color: white !important;
+                              border: none;
+                            "
+                            (click)="openPopup_certificate_transfer()"
+                          >
+                            הצגת תעודות
+                          </button>
+
                           <p style="direction: rtl">
                             סהכ מכסת פרגיות:
                             {{ this.total_pargiot | number : "1.0-0" }}
@@ -955,8 +971,7 @@
           "
           class="col-xl-6 col-12"
         >
-          <div *ngIf="isLoading_userDet" class="loader"></div>
-          <div class="row match_height" *ngIf="!isLoading_userDet">
+          <div class="row match_height">
             <div id="recent-transactions" class="col-12">
               <div
                 class="card card-micsa"
@@ -967,114 +982,6 @@
                   <div class="exel_and_total"></div>
 
                   <div class="table-container micsotStyle">
-                    <!-- טבלת מכסות פטם -->
-                    <div *ngIf="mihsotPetem.length > 0">
-                      <div>
-                        <h1 class="rtl_Style">מכסת פטם</h1>
-                      </div>
-                      <B>שותפות הודים:</B>
-                      <tr *ngFor="let row of site_partners_hodim_pitom">
-                        <td>
-                          <button
-                            id="gidolHotzBtn_hodin"
-                            style="
-                              color: blue;
-                              background-color: white !important;
-                              border: none;
-                            "
-                            (click)="getPartner_pitom_or_hodim(row)"
-                          >
-                            {{ row }}
-                          </button>
-                        </td>
-                      </tr>
-
-                      <br />
-
-                      <B *ngIf="site_partners_petem.length > 0">שותפות פטם:</B>
-                      <tr *ngFor="let row of site_partners_petem">
-                        <td>
-                          <button
-                            id="gidolHotzBtn"
-                            style="
-                              color: blue;
-                              background-color: white !important;
-                              border: none;
-                            "
-                            (click)="getPartner_pitom_or_hodim(row)"
-                          >
-                            {{ row }}
-                          </button>
-                        </td>
-                      </tr>
-
-                      <B>נתוני מכסה:</B>
-                      <table
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">סוג:</th>
-                            <th scope="col" class="border-top-0">
-                              שם סוג מכסה:
-                            </th>
-                            <!-- <th scope="col" class="border-top-0">סוג תוספת:</th> -->
-                            <th scope="col" class="border-top-0">כמות</th>
-                            <th scope="col" class="border-top-0">מתאריך</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of mihsotPetem">
-                            <td class="text-truncate row_padding">
-                              {{ row.mi_sug_mcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.nameSugMcsa }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.mi_kamut | numberFormat }}
-                            </td>
-
-                            <td class="text-truncate row_padding">
-                              {{ row.mi_date_from | date : "dd/MM/yyyy" }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-
-                      <B>אכלוס לפי אתר:</B>
-                      <table
-                        *ngIf="all_full_farm_det"
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">אתר:</th>
-                            <th scope="col" class="border-top-0">איכלוס</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of all_full_farm_det">
-                            <td
-                              *ngIf="row.count_hiclos && row.count_hiclos !== 0"
-                              class="text-truncate row_padding"
-                            >
-                              {{ row.farm_num }}
-                            </td>
-                            <td
-                              *ngIf="row.count_hiclos && row.count_hiclos !== 0"
-                              class="text-truncate row_padding"
-                            >
-                              {{ row.count_hiclos }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                     <!-- טבלת מכסות פטם סיום-->
 
                     <!-- טבלת מכסות הודים -->
@@ -1364,6 +1271,19 @@
                             סהכ איכלוס:
                             {{ this.total_hiclos | number : "1.0-0" }}
                           </p>
+                          <button
+                            *ngIf="this.total_hiclos > 0"
+                            id="cartificate_hiclos"
+                            style="
+                              color: blue;
+                              background-color: white !important;
+                              border: none;
+                            "
+                            (click)="openPopup_certificate_transfer()"
+                          >
+                            הצגת תעודות
+                          </button>
+
                           <p style="direction: rtl">
                             סהכ מכסת פרגיות:
                             {{ this.total_pargiot | number : "1.0-0" }}
@@ -1652,7 +1572,11 @@
                             <td></td>
                           </tr> -->
 
-                        <tr *ngIf="this.oldNameGrower.length > 0">
+                        <tr
+                          *ngIf="
+                            this.oldNameGrower && this.oldNameGrower.length > 0
+                          "
+                        >
                           <td
                             style="cursor: pointer; color: green"
                             (click)="Popup_Old_Grower_Name()"

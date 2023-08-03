@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_current_partners_by_cdgdl(cdgdl: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_current_partners_by_cdgdl?cdgdl=${cdgdl}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_num_of_lolim_by_farm_id(farm_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -314,10 +324,14 @@ export class MegadelSearchService {
     return item;
   }
 
-  async Get_zan_num(farm_num: any, grower_num: any): Promise<any[]> {
+  async Get_zan_num(
+    farm_num: any,
+    grower_num: any,
+    min_date_hiclos: any
+  ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/Get_zan_num?farm_num=${farm_num}&grower_num=${grower_num}`
+        `${environment.apiPath}growerService.asmx/Get_zan_num?farm_num=${farm_num}&grower_num=${grower_num}&min_date_hiclos=${min_date_hiclos}`
       )
     );
     console.log('item: ', item);

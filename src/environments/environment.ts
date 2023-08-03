@@ -6,8 +6,8 @@
 // If left as is, it firbase and google map related functionality will not work on LIVE instance.
 export const environment = {
   production: false,
-//   apiPath: window.location.protocol + '//' + window.location.host + '/',
-    apiPath: 'https://localhost:44380/',
+  //   apiPath: window.location.protocol + '//' + window.location.host + '/',
+  apiPath: 'https://localhost:44380/',
   //   apiPathEggMmovments: 'http://localhost:61414/',
 
   firebase: {
