@@ -182,11 +182,7 @@ export class EcommerceComponent implements OnInit {
   total_pargiot: any = 0;
   groupedArray: any = {};
   partners_hodim_by_site: any = [];
-  chosenYear$ = new BehaviorSubject<any>(2023); // Set your initial value here
-  private chosenYearSubscription: Subscription;
-
   min_date_cartificate_transfer: any;
-
   constructor(
     private SharedServiceService: SharedServiceService,
     private cdr: ChangeDetectorRef,
@@ -198,12 +194,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.chosenYearSubscription =
-      this.SharedServiceService.chosenYear$.subscribe((year) => {
-        this.chosenYear = year;
-      });
     this.min_date_cartificate_transfer = '';
-    this.chosenYear$ = new BehaviorSubject<any>(2023); // Set your initial value here
     this.all_certificate_det = [];
     this.partners_hodim_by_site = [];
     this.groupedArray = {};
@@ -225,9 +216,13 @@ export class EcommerceComponent implements OnInit {
     this.all_full_farm_det_partner = [];
     this.site_partners_hodim_pitom = [];
     this.site_partners_petem = [];
-    this.sort_site_by_shloha();
-    this.chosenYear$ = new BehaviorSubject<any>(2023); // Set your initial value here
+    // this.sort_site_by_shloha();
+    this.subscribe_func();
+  }
 
+  //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
+
+  async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
       this.min_date_cartificate_transfer = '';
       this.all_certificate_det = [];
@@ -263,13 +258,6 @@ export class EcommerceComponent implements OnInit {
       this.new_Active_FarmDetails = [];
       this.new_Not_Active_FarmDetails = [];
       this.sort_site_by_shloha();
-
-      const chosenYearObservable = of(this.chosenYear);
-
-      chosenYearObservable.subscribe((year) => {
-        console.log('Received:', year);
-      });
-
       this.userDetails = [];
       //   במידה והוא לא קיים בסטורג' אנו נביא אותו מהיואר אל
       if (this.userDetails.length === 0) {
@@ -325,16 +313,31 @@ export class EcommerceComponent implements OnInit {
         this.chosenYear
       );
 
+      if (this.mainGrower.length > 0) {
+        this.userDetails[0].cdgdl = this.mainGrower[0].cdgdl.toString();
+      }
+
       //חילוץ פרטי אתר אחד של המגדל
       if (this.mainGrower.length > 0) {
         const thefarmdet = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
         ]);
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the year to 2022
+        currentDate.setFullYear(this.chosenYear);
+
+        // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
+        const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
+
         // הבאת שותפים של ג''ח
         this.partnerData = await this.megadelSearchService.getPartner(
           thefarmdet[0]?.farm_id,
           thefarmdet[0]?.active_flock_id,
-          this.mainGrower[0]?.YzrnHead
+          this.mainGrower[0]?.YzrnHead,
+          formattedDateTime
         );
         this.partners_length = this.partnerData.length;
         this.the_user_end_partner = this.partnerData.find(
@@ -412,16 +415,19 @@ export class EcommerceComponent implements OnInit {
         this.yzrn_have_other_addr = true;
       }
       //התראה על כתובת שונה של היצרן - סיום
-      function getCurrentDateAsString(): string {
+      function getCurrentDateAsString(chosenYear): string {
         const today = new Date();
-        const year = today.getFullYear();
+        // const year = today.getFullYear();
+        console.log(chosenYear);
+        // const year = today.getFullYear();
+        const year = chosenYear;
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
-
         const currentDate = `${year}${month}${day}`;
         return currentDate;
       }
-      const CurrentDate = await getCurrentDateAsString();
+      const CurrentDate = await getCurrentDateAsString(this.chosenYear);
+      console.log(CurrentDate);
 
       // רישיון עסק התראה
       this.businessLicense =
@@ -627,6 +633,7 @@ export class EcommerceComponent implements OnInit {
         const uniqueTzrtArray = Array.from(uniqueTzrtSet);
         console.log(uniqueTzrtArray);
         this.site_partners_hodim_pitom = uniqueTzrtArray;
+        console.log(this.site_partners_hodim_pitom);
       }
 
       if (this.groupedArray[19]) {
@@ -639,9 +646,6 @@ export class EcommerceComponent implements OnInit {
         console.log(uniqueTzrtArray2);
         this.site_partners_petem = uniqueTzrtArray2;
       }
-
-      console.log(this.site_partners_hodim_pitom);
-      console.log(this.site_partners_petem);
 
       //   הוספת זנים
       for (let obj of this.new_Active_FarmDetails) {
@@ -1105,20 +1109,21 @@ export class EcommerceComponent implements OnInit {
                   obj?.flock_num,
                   this.userDetails[0]?.v_yzrn
                 );
-              const dateArray = real_hiclos_by_site.map(
-                (item) => item.create_date
-              );
-              const minDate = dateArray.reduce((min, current) =>
-                current < min ? current : min
-              );
-              console.log(minDate);
-              this.min_date_cartificate_transfer = minDate;
+              if (real_hiclos_by_site.length > 0) {
+                const dateArray = real_hiclos_by_site.map(
+                  (item) => item.create_date
+                );
+                const minDate = dateArray.reduce((min, current) =>
+                  current < min ? current : min
+                );
+                console.log(minDate);
+                this.min_date_cartificate_transfer = minDate;
+              }
 
               this.all_certificate_det = [
                 ...this.all_certificate_det,
                 ...real_hiclos_by_site,
               ];
-              console.log(this.all_certificate_det);
             }
             var count_hiclos = 0;
             for (let obj2 of real_hiclos_by_site) {
@@ -1126,7 +1131,6 @@ export class EcommerceComponent implements OnInit {
                 count_hiclos += Number(obj2.chicken_sum_female);
               }
             }
-            console.log(count_hiclos);
             obj.count_hiclos_total_site = count_hiclos;
           }
         }
@@ -1159,18 +1163,13 @@ export class EcommerceComponent implements OnInit {
           obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
         }
 
+        // טוטל איכלוס פרגיות
         for (let obj of this.farm_det_new) {
           if (typeof obj.micsat_pargiot === 'number') {
             this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
           }
         }
-        //   this.total_pargiot = this.mcsaSum / zan_num;
-
-        console.log(this.total_pargiot);
         // סיום ותצוגה של הפרטי אתר המורחבים
-
-        if (this.farm_det_new.length === 0) {
-        }
 
         if (growerId_and_grower_num) {
           //   עובדים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
@@ -1218,7 +1217,6 @@ export class EcommerceComponent implements OnInit {
                       count_hiclos += Number(obj2.chicken_sum_female);
                     }
                   }
-                  console.log(count_hiclos);
                   obj.count_hiclos = count_hiclos;
                 } else {
                   var real_hiclos_by_site =
@@ -1232,7 +1230,6 @@ export class EcommerceComponent implements OnInit {
                     ...this.all_certificate_det,
                     ...real_hiclos_by_site,
                   ];
-                  console.log(this.all_certificate_det);
 
                   var count_hiclos = 0;
                   for (let obj2 of real_hiclos_by_site) {
@@ -1240,7 +1237,6 @@ export class EcommerceComponent implements OnInit {
                       count_hiclos += Number(obj2.chicken_sum_female);
                     }
                   }
-                  console.log(count_hiclos);
 
                   obj.count_hiclos = count_hiclos;
                 }
@@ -1249,23 +1245,22 @@ export class EcommerceComponent implements OnInit {
 
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
-                if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
-                  if (obj.count_hiclos) {
-                    this.total_hiclos += obj.count_hiclos;
-                  }
+                // if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
+                if (obj.count_hiclos) {
+                  this.total_hiclos += obj.count_hiclos;
                 }
+                // }
               }
-              console.log(this.total_hiclos);
             }
           }
         }
+
+        this.farm_det_new[0].farm_num = farm_num;
 
         this.isLoading_FarmDetails = false;
       }
     });
   }
-
-  //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
   async get_more_farm_det_by_farm_num(farm_num: any) {
     console.log(farm_num);
@@ -1413,14 +1408,12 @@ export class EcommerceComponent implements OnInit {
             const minDate = dateArray.reduce((min, current) =>
               current < min ? current : min
             );
-            console.log(minDate);
             this.min_date_cartificate_transfer = minDate;
 
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
             ];
-            console.log(this.all_certificate_det);
           } else {
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site(
@@ -1442,7 +1435,6 @@ export class EcommerceComponent implements OnInit {
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
             ];
-            console.log(this.all_certificate_det);
           }
           var count_hiclos = 0;
           for (let obj2 of real_hiclos_by_site) {
@@ -1450,8 +1442,126 @@ export class EcommerceComponent implements OnInit {
               count_hiclos += Number(obj2.chicken_sum_female);
             }
           }
-          console.log(count_hiclos);
           obj.count_hiclos_total_site = count_hiclos;
+        }
+      }
+
+      //   הוספת זנים
+      for (let obj of this.farm_det_new) {
+        if (obj.farm_num.toString().includes('/')) {
+          var parts = obj.farm_num.split('/');
+          var extractedValue = parts[0];
+
+          var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+            obj.farm_id,
+            this.userDetails[0].v_yzrn,
+            this.min_date_cartificate_transfer
+          );
+          obj.zan_det = Get_zan_num;
+        } else {
+          var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+            obj.farm_id,
+            this.userDetails[0].v_yzrn,
+            this.min_date_cartificate_transfer
+          );
+          obj.zan_det = Get_zan_num;
+        }
+      }
+
+      //   הוספת מכסת פרגיות
+      for (let obj of this.farm_det_new) {
+        var zan_num = obj.zan_det[0].number;
+        obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+      }
+
+      //   טוטל איכלוס פרגיות
+      for (let obj of this.farm_det_new) {
+        if (typeof obj.micsat_pargiot === 'number') {
+          this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
+        }
+      }
+
+      if (growerId_and_grower_num) {
+        //   עובדים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
+        for (let obj of this.farm_start_det) {
+          if (obj.code.toString().includes('/')) {
+            var parts = obj.code.split('/');
+            var extractedValue = parts[0];
+            var farm_det_new_to_count =
+              await this.megadelSearchService.get_farm_det_v2(
+                growerId_and_grower_num[0]?.yz_yzrn,
+                growerId_and_grower_num[0]?.grower_id,
+                extractedValue
+              );
+
+            farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+
+            this.all_full_farm_det.push(farm_det_new_to_count[0]);
+          } else {
+            var farm_det_new_to_count =
+              await this.megadelSearchService.get_farm_det_v2(
+                growerId_and_grower_num[0]?.yz_yzrn,
+                growerId_and_grower_num[0]?.grower_id,
+                obj.code
+              );
+            this.all_full_farm_det.push(farm_det_new_to_count[0]);
+          }
+        }
+
+        //   הוספת שדה איכלוס ומשתנה איכלוס טוטל כל האתרים
+        if (this.all_full_farm_det[0] !== undefined) {
+          for (let obj of this.all_full_farm_det) {
+            if (obj !== undefined) {
+              if (obj.farm_code_with_slesh) {
+                var real_hiclos_by_site =
+                  await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                    obj?.farm_num,
+                    obj?.flock_num,
+                    this.userDetails[0]?.v_yzrn,
+                    obj.farm_code_with_slesh
+                  );
+
+                var count_hiclos = 0;
+                for (let obj2 of real_hiclos_by_site) {
+                  if (obj2.chicken_sum_female) {
+                    count_hiclos += Number(obj2.chicken_sum_female);
+                  }
+                }
+                obj.count_hiclos = count_hiclos;
+              } else {
+                var real_hiclos_by_site =
+                  await this.megadelSearchService.get_real_hiclos_in_site(
+                    obj?.farm_num,
+                    obj?.flock_num,
+                    this.userDetails[0]?.v_yzrn
+                  );
+
+                this.all_certificate_det = [
+                  ...this.all_certificate_det,
+                  ...real_hiclos_by_site,
+                ];
+
+                var count_hiclos = 0;
+                for (let obj2 of real_hiclos_by_site) {
+                  if (obj2.chicken_sum_female) {
+                    count_hiclos += Number(obj2.chicken_sum_female);
+                  }
+                }
+
+                obj.count_hiclos = count_hiclos;
+              }
+            }
+          }
+
+          for (let obj of this.all_full_farm_det) {
+            if (obj !== undefined) {
+              // if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
+              if (obj.count_hiclos) {
+                this.total_hiclos += obj.count_hiclos;
+              }
+              // }
+            }
+          }
         }
       }
 
@@ -1467,7 +1577,6 @@ export class EcommerceComponent implements OnInit {
     }
 
     this.FarmId = await this.getFarmIdArr(this.new_Small_Array);
-    console.log('this.FarmId-end: ', this.FarmId);
 
     // חילוץ פרטי אתרים עי הפארם איידי של היצרן
     this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
@@ -1485,7 +1594,6 @@ export class EcommerceComponent implements OnInit {
           '20180101',
           '99991231'
         );
-      console.log('checkPartners: ', checkPartners);
       if (checkPartners.length > 1) {
         this.arrPartnersPetem.push({
           numGroup: item.farm_code,
@@ -1614,8 +1722,8 @@ export class EcommerceComponent implements OnInit {
         this.chosenYear,
         30,
         this.userDetails[0]?.v_yzrn,
-        '20230101',
-        '20231231',
+        `${this.chosenYear}0101`,
+        `${this.chosenYear}1231`,
         0,
         0
       );
@@ -1653,8 +1761,8 @@ export class EcommerceComponent implements OnInit {
       this.chosenYear,
       7,
       this.shloha,
-      '20230101',
-      '20231231',
+      `${this.chosenYear}0101`,
+      `${this.chosenYear}1231`,
       '00',
       '99',
       this.userDetails[0]?.v_yzrn,
@@ -1825,9 +1933,6 @@ export class EcommerceComponent implements OnInit {
             await this.megadelSearchService.Get_split_site_name_by_grower_id(
               this.userDetails[0]?.v_yzrn_id
             );
-
-          console.log(split_site_name);
-
           obj.farm_num = split_site_name[0].code;
         }
       }
@@ -1853,7 +1958,6 @@ export class EcommerceComponent implements OnInit {
           obj.zan_det = Get_zan_num;
         }
       }
-
       //   הוספת מכסת פרגיות
       for (let obj of this.farm_det_new) {
         var zan_num = obj.zan_det[0].number;
@@ -1903,9 +2007,6 @@ export class EcommerceComponent implements OnInit {
 
       // הוספת שדה איכלוס - 750
       for (let obj of this.farm_det_new) {
-        var test = obj.farm_num.toString();
-        console.log(test);
-
         if (obj.farm_num.toString().includes('/')) {
           newVariable = obj.farm_num.split('/')[0];
           const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
@@ -1962,14 +2063,11 @@ export class EcommerceComponent implements OnInit {
             const minDate = dateArray.reduce((min, current) =>
               current < min ? current : min
             );
-            console.log(minDate);
             this.min_date_cartificate_transfer = minDate;
-
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
             ];
-            console.log(this.all_certificate_det);
           } else {
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site(
@@ -1991,7 +2089,6 @@ export class EcommerceComponent implements OnInit {
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
             ];
-            console.log(this.all_certificate_det);
           }
           var count_hiclos = 0;
           for (let obj2 of real_hiclos_by_site) {
@@ -1999,154 +2096,51 @@ export class EcommerceComponent implements OnInit {
               count_hiclos += Number(obj2.chicken_sum_female);
             }
           }
-          console.log(count_hiclos);
           obj.count_hiclos_total_site = count_hiclos;
         }
       }
 
-      console.log(this.farm_det_new);
+      //   הוספת זנים
+      for (let obj of this.farm_det_new) {
+        if (obj.farm_num.toString().includes('/')) {
+          var parts = obj.farm_num.split('/');
+          var extractedValue = parts[0];
+
+          var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+            obj.farm_id,
+            this.userDetails[0].v_yzrn,
+            this.min_date_cartificate_transfer
+          );
+          obj.zan_det = Get_zan_num;
+        } else {
+          var Get_zan_num = await this.megadelSearchService.Get_zan_num(
+            obj.farm_id,
+            this.userDetails[0].v_yzrn,
+            this.min_date_cartificate_transfer
+          );
+          obj.zan_det = Get_zan_num;
+        }
+      }
+
+      //   הוספת מכסת פרגיות
+      for (let obj of this.farm_det_new) {
+        var zan_num = obj.zan_det[0].number;
+        obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+      }
+
+      //טוטל איכלוס פרגיות
+      for (let obj of this.farm_det_new) {
+        if (typeof obj.micsat_pargiot === 'number') {
+          this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
+        }
+      }
+
+      this.farm_det_new[0].farm_num = farm_num;
+
+      console.log(this.all_full_farm_det);
 
       //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-      if (this.siteName.length > 0) {
-        // FarmId חילוץ - חילוץ איידי של כל אתר
-        this.FarmId = await this.getFarmIdArr(this.siteName);
-        console.log('this.FarmId-end: ', this.FarmId);
-
-        // חילוץ פרטי אתרים עי הפארם איידי של היצרן
-        this.FarmDetails = await this.getFarmDetailsArr(this.FarmId);
-
-        // מכניסים שדה גידול חוץ לפרטי יוזר
-        if (
-          this.userDetails[0]?.cdgdl.length === 0 ||
-          this.userDetails[0].cdgdl === undefined
-        ) {
-          this.mainGrower =
-            await this.megadelSearchService.Partners_Get_CodeGidul(
-              11,
-              this.userDetails[0].v_yzrn,
-              30,
-              this.chosenYear
-            );
-          if (this.mainGrower[0]?.cdgdl) {
-            this.userDetails[0].pa_Counter = this.mainGrower[0].cdgdl;
-          }
-        }
-
-        this.theUserDetails = this.userDetails[0];
-        this.isLoading_userDet = false;
-        this.totalFarms = this.FarmDetails.length;
-      } else {
-        this.FarmDetails = [];
-      }
-
       // חילוץ פרטי אתר עי הפארם איידי -  סיום-----------------------------------------------------------------------------------------
-
-      // הוספת שדה איכלוס -
-      for (let item of this.FarmDetails) {
-        let grower_id = item.grower_id;
-        let farm_id = item.farm_id;
-        let farm_code_without_slesh = this.extractNumber(item.farm_code);
-        // בדיקת שותפים מכסת פטם
-        // const checkPartners =
-        //   await this.megadelSearchService.Partners_By_Farm_Select(
-        //     7,
-        //     farm_code_without_slesh,
-        //     '19',
-        //     '',
-        //     '20180101',
-        //     '99991231'
-        //   );
-        // if (checkPartners.length > 1) {
-        //   this.arrPartnersPetem.push({
-        //     numGroup: item.farm_code,
-        //     partners: checkPartners,
-        //   });
-        // }
-        const results2 =
-          await this.megadelSearchService.get_hiclos_by_growerId_and_farmId(
-            farm_id,
-            grower_id
-          );
-
-        if (results2[0]?.female_number_f) {
-          item.hiclos_number = results2[0].female_number_f;
-        } else {
-          item.hiclos_number = '';
-        }
-      }
-
-      // הוספת שדה איכלוס - 750
-      for (let item of this.FarmDetails) {
-        let grower_id = item.grower_id;
-        let farm_id = item.farm_id;
-        const hiclos750 = await this.megadelSearchService.get_calc_750_eran(
-          item.farm_code
-        );
-        console.log('hiclos750: ', hiclos750);
-        console.log('hiclos750[0]?.calc750: ', hiclos750[0]?.calc750);
-        if (hiclos750[0]?.calc750) {
-          item.calc750 = hiclos750[0]?.calc750;
-        }
-      }
-
-      //   מיון לפי מספרי אתרים
-      this.FarmDetails.sort((a, b) => {
-        if (a.farm_code < b.farm_code) {
-          return -1;
-        } else if (a.farm_code > b.farm_code) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-
-      //   מיון למערכי אתרים פעילים לא פעילים
-      for (let item of this.FarmDetails) {
-        if (item.farm_status_id === 1) {
-          this.Active_FarmDetails.push(item);
-        } else {
-          this.Not_Active_FarmDetails.push(item);
-        }
-      }
-
-      if (this.Active_FarmDetails.length > 0) {
-        //   מיון אתרים פעילים לפי קוד
-        this.Active_FarmDetails.sort((a, b) => {
-          if (a.farm_code < b.farm_code) {
-            return -1;
-          } else if (a.farm_code > b.farm_code) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-
-        this.rows = this.Active_FarmDetails;
-        this.click_on_show_ActiveSite = true;
-        this.click_on_not_show_ActiveSite = false;
-      } else {
-        //   מיון אתרים פעילים לפי קוד
-        this.Active_FarmDetails.sort((a, b) => {
-          if (a.farm_code < b.farm_code) {
-            return -1;
-          } else if (a.farm_code > b.farm_code) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-        this.rows = this.Active_FarmDetails;
-        this.isNotActiveSiteShown = true;
-        this.click_on_show_ActiveSite = false;
-        this.click_on_not_show_ActiveSite = true;
-      }
-
-      if (
-        this.new_Active_FarmDetails.length === 0 &&
-        this.new_Not_Active_FarmDetails.length === 0
-      ) {
-      }
     }
   }
 
@@ -2212,6 +2206,11 @@ export class EcommerceComponent implements OnInit {
       }
     }
     return count > 1;
+  }
+
+  async onYearChange2() {
+    console.log(this.chosenYear);
+    this.subscribe_func();
   }
 
   //   פונ המראה נתונים אחרים כאשר בוחרים שנה
@@ -2288,6 +2287,8 @@ export class EcommerceComponent implements OnInit {
         obj2?.active_flock_id !== null &&
         obj2?.lull2000_code !== null
       ) {
+        this.isLoading_micsa_egg_gach = true;
+
         this.mainGrower =
           await this.megadelSearchService.Partners_Get_CodeGidul(
             11,
@@ -2300,10 +2301,20 @@ export class EcommerceComponent implements OnInit {
           this.mainGrower[0].atar_id,
         ]);
 
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the year to 2022
+        currentDate.setFullYear(this.chosenYear);
+
+        // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
+        const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
+
         this.partnerData = await this.megadelSearchService.getPartner(
           thefarmdet[0]?.farm_id,
           thefarmdet[0]?.active_flock_id,
-          this.mainGrower[0]?.YzrnHead
+          this.mainGrower[0]?.YzrnHead,
+          formattedDateTime
         );
         this.partners_length = this.partnerData.length;
 
@@ -2348,7 +2359,10 @@ export class EcommerceComponent implements OnInit {
         });
 
         await this.openPopup();
+        this.isLoading_micsa_egg_gach = false;
       } else {
+        this.isLoading_micsa_egg_gach = true;
+
         this.mainGrower =
           await this.megadelSearchService.Partners_Get_CodeGidul(
             11,
@@ -2358,10 +2372,21 @@ export class EcommerceComponent implements OnInit {
           );
 
         const thefarmdet = [];
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the year to 2022
+        currentDate.setFullYear(this.chosenYear);
+
+        // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
+        const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
+
         this.partnerData = await this.megadelSearchService.getPartner(
           thefarmdet[0]?.farm_id,
           thefarmdet[0]?.active_flock_id,
-          this.mainGrower[0]?.YzrnHead
+          this.mainGrower[0]?.YzrnHead,
+          formattedDateTime
         );
 
         for (let obj of this.partnerData) {
@@ -2402,6 +2427,7 @@ export class EcommerceComponent implements OnInit {
           newArrayEnd: this.newArrayEnd,
         });
         this.openPopup();
+        this.isLoading_micsa_egg_gach = false;
       }
     }
   }

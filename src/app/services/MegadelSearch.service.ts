@@ -828,11 +828,12 @@ export class MegadelSearchService {
   async getPartner(
     farmID: any,
     flockID: any,
-    lull2000Code: any
+    lull2000Code: any,
+    date_entry: any
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/getPartner?farmID=${farmID}&flockID=${flockID}&lull2000Code=${lull2000Code}`
+        `${environment.apiPath}growerService.asmx/getPartner?farmID=${farmID}&flockID=${flockID}&lull2000Code=${lull2000Code}&date_entry=${date_entry}`
       )
     );
     console.log('item: ', item);

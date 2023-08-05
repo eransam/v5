@@ -198,14 +198,9 @@
                       margin: auto;
                     "
                   >
-                    <!-- <select
-                      [(ngModel)]="chosenYear"
-                      (change)="onYearChange()"
-                      style="width: 125px; height: 60px"
-                    > -->
                     <select
                       [(ngModel)]="chosenYear"
-                      (change)="onYearChange()"
+                      (change)="onYearChange2()"
                       style="width: 125px; height: 60px"
                     >
                       <option *ngFor="let year of years" [value]="year">
@@ -671,10 +666,24 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let row of all_full_farm_det">
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="
+                                row !== undefined &&
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0
+                              "
+                              class="text-truncate row_padding"
+                            >
                               {{ row.farm_num }}
                             </td>
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="
+                                row !== undefined &&
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0
+                              "
+                              class="text-truncate row_padding"
+                            >
                               {{ row.count_hiclos }}
                             </td>
                           </tr>
@@ -733,10 +742,24 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let row of all_full_farm_det">
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="
+                                row !== undefined &&
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0
+                              "
+                              class="text-truncate row_padding"
+                            >
                               {{ row.farm_num }}
                             </td>
-                            <td class="text-truncate row_padding">
+                            <td
+                              *ngIf="
+                                row !== undefined &&
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0
+                              "
+                              class="text-truncate row_padding"
+                            >
                               {{ row.count_hiclos }}
                             </td>
                           </tr>
@@ -1146,13 +1169,21 @@
                         <tbody>
                           <tr *ngFor="let row of all_full_farm_det">
                             <td
-                              *ngIf="row.count_hiclos && row.count_hiclos !== 0"
+                              *ngIf="
+                                row !== undefined &&
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0
+                              "
                               class="text-truncate row_padding"
                             >
                               {{ row.farm_num }}
                             </td>
                             <td
-                              *ngIf="row.count_hiclos && row.count_hiclos !== 0"
+                              *ngIf="
+                                row !== undefined &&
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0
+                              "
                               class="text-truncate row_padding"
                             >
                               {{ row.count_hiclos }}
@@ -1227,8 +1258,8 @@
           "
           class="col-xl-3 col-12"
         >
-          <div *ngIf="isLoading_userDet" class="loader"></div>
-          <div class="row match_height" *ngIf="!isLoading_userDet">
+          <div *ngIf="isLoading_micsa_egg_gach" class="loader"></div>
+          <div class="row match_height" *ngIf="!isLoading_micsa_egg_gach">
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa" style="padding-right: 2%">
                 <div class="card-header"></div>
