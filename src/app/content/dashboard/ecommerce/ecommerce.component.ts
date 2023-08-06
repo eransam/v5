@@ -1194,7 +1194,9 @@ export class EcommerceComponent implements OnInit {
         // טוטל איכלוס פרגיות
         for (let obj of this.farm_det_new) {
           if (typeof obj.micsat_pargiot === 'number') {
-            this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
+            this.total_pargiot += parseFloat(
+              obj.count_hiclos_total_site.toFixed(2)
+            );
           }
         }
         // סיום ותצוגה של הפרטי אתר המורחבים
