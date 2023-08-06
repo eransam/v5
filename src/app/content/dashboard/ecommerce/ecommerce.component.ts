@@ -1115,15 +1115,16 @@ export class EcommerceComponent implements OnInit {
                   this.userDetails[0]?.v_yzrn,
                   obj.farm_num
                 );
-
-              const dateArray = real_hiclos_by_site.map(
-                (item) => item.create_date
-              );
-              const minDate = dateArray.reduce((min, current) =>
-                current < min ? current : min
-              );
-              console.log(minDate);
-              this.min_date_cartificate_transfer = minDate;
+              if (real_hiclos_by_site.length > 0) {
+                const dateArray = real_hiclos_by_site.map(
+                  (item) => item.create_date
+                );
+                const minDate = dateArray.reduce((min, current) =>
+                  current < min ? current : min
+                );
+                console.log(minDate);
+                this.min_date_cartificate_transfer = minDate;
+              }
 
               this.all_certificate_det = [
                 ...this.all_certificate_det,
@@ -1451,13 +1452,15 @@ export class EcommerceComponent implements OnInit {
                 obj.farm_num
               );
 
-            const dateArray = real_hiclos_by_site.map(
-              (item) => item.create_date
-            );
-            const minDate = dateArray.reduce((min, current) =>
-              current < min ? current : min
-            );
-            this.min_date_cartificate_transfer = minDate;
+            if (real_hiclos_by_site.length > 0) {
+              const dateArray = real_hiclos_by_site.map(
+                (item) => item.create_date
+              );
+              const minDate = dateArray.reduce((min, current) =>
+                current < min ? current : min
+              );
+              this.min_date_cartificate_transfer = minDate;
+            }
 
             this.all_certificate_det = [
               ...this.all_certificate_det,
@@ -1470,16 +1473,16 @@ export class EcommerceComponent implements OnInit {
                 obj?.flock_num,
                 this.userDetails[0]?.v_yzrn
               );
-
-            const dateArray = real_hiclos_by_site.map(
-              (item) => item.create_date
-            );
-            const minDate = dateArray.reduce((min, current) =>
-              current < min ? current : min
-            );
-            console.log(minDate);
-            this.min_date_cartificate_transfer = minDate;
-
+            if (real_hiclos_by_site.length > 0) {
+              const dateArray = real_hiclos_by_site.map(
+                (item) => item.create_date
+              );
+              const minDate = dateArray.reduce((min, current) =>
+                current < min ? current : min
+              );
+              console.log(minDate);
+              this.min_date_cartificate_transfer = minDate;
+            }
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
@@ -2105,14 +2108,15 @@ export class EcommerceComponent implements OnInit {
                 this.userDetails[0]?.v_yzrn,
                 obj.farm_num
               );
-
-            const dateArray = real_hiclos_by_site.map(
-              (item) => item.create_date
-            );
-            const minDate = dateArray.reduce((min, current) =>
-              current < min ? current : min
-            );
-            this.min_date_cartificate_transfer = minDate;
+            if (real_hiclos_by_site.length > 0) {
+              const dateArray = real_hiclos_by_site.map(
+                (item) => item.create_date
+              );
+              const minDate = dateArray.reduce((min, current) =>
+                current < min ? current : min
+              );
+              this.min_date_cartificate_transfer = minDate;
+            }
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
@@ -2124,16 +2128,16 @@ export class EcommerceComponent implements OnInit {
                 obj?.flock_num,
                 this.userDetails[0]?.v_yzrn
               );
-
-            const dateArray = real_hiclos_by_site.map(
-              (item) => item.create_date
-            );
-            const minDate = dateArray.reduce((min, current) =>
-              current < min ? current : min
-            );
-            console.log(minDate);
-            this.min_date_cartificate_transfer = minDate;
-
+            if (real_hiclos_by_site.length > 0) {
+              const dateArray = real_hiclos_by_site.map(
+                (item) => item.create_date
+              );
+              const minDate = dateArray.reduce((min, current) =>
+                current < min ? current : min
+              );
+              console.log(minDate);
+              this.min_date_cartificate_transfer = minDate;
+            }
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
