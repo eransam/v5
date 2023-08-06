@@ -1094,7 +1094,7 @@ export class EcommerceComponent implements OnInit {
           if (msvk_zamud[0]) {
             var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
             obj.msvk_zamud = splitArray[1];
-            obj.were_house = splitArray[3];
+            obj.were_house = splitArray[4];
           } else {
             obj.msvk_zamud = '';
             obj.were_house = '';
@@ -1408,7 +1408,7 @@ export class EcommerceComponent implements OnInit {
           var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
           console.log(splitArray);
           obj.msvk_zamud = splitArray[1];
-          obj.were_house = splitArray[3];
+          obj.were_house = splitArray[4];
         } else {
           obj.msvk_zamud = '';
           obj.were_house = '';
@@ -2063,7 +2063,7 @@ export class EcommerceComponent implements OnInit {
           var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
           console.log(splitArray);
           obj.msvk_zamud = splitArray[1];
-          obj.were_house = splitArray[3];
+          obj.were_house = splitArray[4];
         } else {
           obj.msvk_zamud = '';
           obj.were_house = '';
