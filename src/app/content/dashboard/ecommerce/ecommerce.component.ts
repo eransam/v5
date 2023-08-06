@@ -285,6 +285,36 @@ export class EcommerceComponent implements OnInit {
 
       localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
 
+      // מביא את מספרי אתרי המגדל
+      var the_growers_farms = await this.megadelSearchService.getFarm(
+        -1,
+        -1,
+        this.userDetails[0].v_yzrn_id,
+        -1,
+        -1,
+        '1',
+        '19000101',
+        '21000101',
+        '0',
+        -1,
+        -1,
+        '0',
+        '0',
+        '-1',
+        '-1',
+        -1,
+        '-1'
+      );
+
+      const siteName = the_growers_farms.map((obj) => obj.farm_code);
+      console.log(siteName);
+      localStorage.setItem('siteName', JSON.stringify(siteName));
+
+      //   מביאים אתרים מחיצה במידה ויש
+      //   var split_farms =
+      //     await this.megadelSearchService.get_split_farm_by_grower_id(this.userDetails[0].v_yzrn_id);
+      //   console.log(split_farms);
+
       //   מחלצים פרטים נוספים של היצרן
       this.userDetails_more_info =
         await this.megadelSearchService.Yzrn_Select_By_View_New(
@@ -362,8 +392,6 @@ export class EcommerceComponent implements OnInit {
           this.eggSum += parseFloat(this.partnerData[i]['egg_sum']);
         }
       }
-
-      console.log(this.mcsaSum);
 
       // -------------------------------------------------------------------------------------------------------------------------
       //   לוגיקה התראות --------------------------------------------------------------------------------------------------------

@@ -19,8 +19,6 @@
     <p class="userDetValue">{{ theUserDet[0]?.v_yzrn }}</p>
   </div>
 
-
-  
   <div style="margin-left: 30px; display: flex">
     <p class="userDetLabel">יישוב:</p>
     <p class="userDetValue">{{ theUserDet[0]?.v_shem_yeshuv }}</p>
@@ -61,8 +59,8 @@
       <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         אתר:
         <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
-          <option *ngFor="let obj of this.siteName" [value]="obj.code">
-            {{ obj.code }}
+          <option *ngFor="let obj of this.siteName" [value]="obj">
+            {{ obj }}
           </option>
         </select>
       </div>

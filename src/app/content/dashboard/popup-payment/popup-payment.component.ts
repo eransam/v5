@@ -115,13 +115,12 @@ export class PopupPaymentComponent {
       '',
       ''
     );
-    console.log('v');
 
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
     this.siteName.push({ RishaionSts: '', code: 'כולם' });
-    this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
-    console.log('this.userDetails: ', this.userDetails);
+    this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
+    console.log('this.userDetails: ', this.theUserDet);
   }
 
   async change_shloha() {
@@ -129,7 +128,7 @@ export class PopupPaymentComponent {
     console.log(this.the_change_shloha);
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.Hok_Galil = await this.megadelSearchService.Yzrn_Chk_Hok_Galil(
-        this.userDetails[0].v_yzrn,
+        this.theUserDet[0].v_yzrn,
         this.the_change_shloha,
         this.chosenyear_cartificate,
         '19000101'
@@ -167,7 +166,6 @@ export class PopupPaymentComponent {
       }
     }
     console.log(this.type_of_payment);
-    
   }
 
   getExcelDataFarmDetails(): void {
@@ -312,7 +310,7 @@ export class PopupPaymentComponent {
       this.payment_by_grewernum =
         await this.megadelSearchService.Tkufa_Mhir_Select_New(
           40,
-          this.userDetails[0]?.v_yzrn,
+          this.theUserDet[0]?.v_yzrn,
           this.theChosenShlohaControl,
           this.paymentControl.value,
           this.theChosenYearControl,
@@ -325,7 +323,7 @@ export class PopupPaymentComponent {
       this.payment_by_grewernum =
         await this.megadelSearchService.Tkufa_Mhir_Select_New(
           6,
-          this.userDetails[0]?.v_yzrn,
+          this.theUserDet[0]?.v_yzrn,
           this.theChosenShlohaControl,
           this.paymentControl.value,
           this.theChosenYearControl,

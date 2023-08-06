@@ -94,9 +94,6 @@ export class PopupRavShnatiComponent {
     if (localStorage.getItem('theDetails')) {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
-    // this.growerDet = JSON.parse(localStorage.getItem('theDetails'));
-
-    console.log('growerDet');
 
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
@@ -114,7 +111,7 @@ export class PopupRavShnatiComponent {
 
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
-    this.siteName.push({ RishaionSts: '', code: 'כולם' });
+    this.siteName.push('כולם');
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
     console.log(this.paginatedData);

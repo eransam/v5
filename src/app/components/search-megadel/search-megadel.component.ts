@@ -824,7 +824,6 @@ export class SearchMegadelComponent implements OnInit {
         }
       }
 
-      console.log(this.totalMicsaKvoha);
       item.micsa = this.totalMicsaKvoha;
     }
 
