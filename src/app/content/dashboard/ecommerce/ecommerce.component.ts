@@ -1112,7 +1112,6 @@ export class EcommerceComponent implements OnInit {
                 await this.megadelSearchService.get_real_hiclos_in_site_splite(
                   farm_num,
                   obj?.flock_num,
-                  this.userDetails[0]?.v_yzrn,
                   obj.farm_num
                 );
               if (real_hiclos_by_site.length > 0) {
@@ -1257,7 +1256,6 @@ export class EcommerceComponent implements OnInit {
                     await this.megadelSearchService.get_real_hiclos_in_site_splite(
                       obj?.farm_num,
                       obj?.flock_num,
-                      this.userDetails[0]?.v_yzrn,
                       obj.farm_code_with_slesh
                     );
 
@@ -1293,6 +1291,31 @@ export class EcommerceComponent implements OnInit {
               }
             }
 
+            // Create a new array to store the merged objects
+            const mergedArray = [];
+
+            // Loop through the original array
+            for (const obj of this.all_full_farm_det) {
+              if (obj !== undefined) {
+                // Check if the object already exists in the merged array
+                const existingObj = mergedArray.find(
+                  (item) => item.farm_num === obj.farm_num
+                );
+
+                if (existingObj) {
+                  // If the object exists, update the is_hen_house_split property
+                  existingObj.is_hen_house_split += obj.is_hen_house_split;
+                } else {
+                  // If the object doesn't exist, add it to the merged array
+                  mergedArray.push(obj);
+                }
+
+                // The mergedArray will now contain merged objects based on farm_num
+                console.log(mergedArray);
+                this.all_full_farm_det = mergedArray;
+              }
+            }
+
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
                 // if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
@@ -1303,6 +1326,7 @@ export class EcommerceComponent implements OnInit {
               }
             }
           }
+          console.log(this.total_hiclos);
         }
 
         this.farm_det_new[0].farm_num = farm_num;
@@ -1448,7 +1472,6 @@ export class EcommerceComponent implements OnInit {
               await this.megadelSearchService.get_real_hiclos_in_site_splite(
                 farm_num,
                 obj?.flock_num,
-                this.userDetails[0]?.v_yzrn,
                 obj.farm_num
               );
 
@@ -1569,7 +1592,6 @@ export class EcommerceComponent implements OnInit {
                   await this.megadelSearchService.get_real_hiclos_in_site_splite(
                     obj?.farm_num,
                     obj?.flock_num,
-                    this.userDetails[0]?.v_yzrn,
                     obj.farm_code_with_slesh
                   );
 
@@ -2105,7 +2127,6 @@ export class EcommerceComponent implements OnInit {
               await this.megadelSearchService.get_real_hiclos_in_site_splite(
                 farm_num,
                 obj?.flock_num,
-                this.userDetails[0]?.v_yzrn,
                 obj.farm_num
               );
             if (real_hiclos_by_site.length > 0) {

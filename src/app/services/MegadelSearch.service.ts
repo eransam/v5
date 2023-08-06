@@ -47,12 +47,11 @@ export class MegadelSearchService {
   async get_real_hiclos_in_site_splite(
     site_num: any,
     flock_id: any,
-    grower_num: any,
     site_num_splite: any
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site_splite?site_num=${site_num}&flock_id=${flock_id}&grower_num=${grower_num}&site_num_splite=${site_num_splite}`
+        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site_splite?site_num=${site_num}&flock_id=${flock_id}&site_num_splite=${site_num_splite}`
       )
     );
     console.log('item: ', item);
