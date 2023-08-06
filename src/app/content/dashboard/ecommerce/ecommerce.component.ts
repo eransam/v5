@@ -1185,20 +1185,39 @@ export class EcommerceComponent implements OnInit {
           }
         }
 
+        // //   הוספת מכסת פרגיות
+        // for (let obj of this.farm_det_new) {
+        //   var zan_num = obj.zan_det[0].number;
+        //   obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+        // }
+
+        // // טוטל איכלוס פרגיות
+        // for (let obj of this.farm_det_new) {
+        //   if (typeof obj.micsat_pargiot === 'number') {
+        //     this.total_pargiot += parseFloat(
+        //       obj.count_hiclos_total_site.toFixed(2)
+        //     );
+        //   }
+        // }
+
         //   הוספת מכסת פרגיות
         for (let obj of this.farm_det_new) {
           var zan_num = obj.zan_det[0].number;
-          obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+          obj.micsat_pargiot = totalMicsaKvoha / zan_num;
         }
 
-        // טוטל איכלוס פרגיות
         for (let obj of this.farm_det_new) {
-          if (typeof obj.micsat_pargiot === 'number') {
-            this.total_pargiot += parseFloat(
-              obj.count_hiclos_total_site.toFixed(2)
-            );
+          if (
+            obj.is_not_allow_population_hatcher === 1 ||
+            obj.is_splite === 1
+          ) {
+            if (typeof obj.micsat_pargiot === 'number') {
+              this.total_pargiot += parseFloat(obj.micsat_pargiot.toFixed(2));
+            }
           }
         }
+        this.total_pargiot = this.mcsaSum / zan_num;
+
         // סיום ותצוגה של הפרטי אתר המורחבים
 
         if (growerId_and_grower_num) {
