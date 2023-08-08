@@ -104,8 +104,8 @@
       <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         אתר:
         <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
-          <option *ngFor="let obj of this.siteName" [value]="obj.code">
-            {{ obj.code }}
+          <option *ngFor="let obj of this.siteName" [value]="obj">
+            {{ obj }}
           </option>
         </select>
       </div>

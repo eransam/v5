@@ -53,6 +53,7 @@ export class SearchMegadelComponent implements OnInit {
   selectedMonth: string;
   selectedYear: string;
   username: string;
+  selectedStatus: string = 'active';
   username_test: string;
   siteNum_test: string;
   gidulHotzNum_test: string;
@@ -96,6 +97,7 @@ export class SearchMegadelComponent implements OnInit {
   selectedDepartmentControl = new FormControl();
   monthInput: FormControl;
   usernameInput: FormControl;
+  selectedStatusInput: FormControl;
   settlementInput: FormControl;
   gidolHotzInput: FormControl;
   siteInput: FormControl;
@@ -114,8 +116,9 @@ export class SearchMegadelComponent implements OnInit {
   selectedCheckbox = '';
   numNameControl = new FormControl();
   usernameControl = new FormControl();
+  selectedStatusControl = new FormControl();
   usernameControl_test = new FormControl();
-
+  selectedStatusControl_test = new FormControl();
   siteNumControl_test = new FormControl();
   gidulHotzNumControl_test = new FormControl();
 
@@ -264,6 +267,8 @@ export class SearchMegadelComponent implements OnInit {
     (this.monthInput = new FormControl('', Validators.required)),
       (this.yearInput = new FormControl('', Validators.required)),
       (this.usernameInput = new FormControl());
+    this.selectedStatusInput = new FormControl();
+
     this.siteInput = new FormControl();
     this.settlementInput = new FormControl();
     this.extensionInput = new FormControl();
@@ -271,6 +276,7 @@ export class SearchMegadelComponent implements OnInit {
     this.DetailsForm = new FormGroup({
       nameBox: this.monthInput,
       usernameBox: this.usernameInput,
+      selectedStatusBox: this.selectedStatusInput,
       yaerBox: this.yearInput,
     });
 
@@ -432,6 +438,7 @@ export class SearchMegadelComponent implements OnInit {
     this.gidulHotzNum_test = '';
     this.growerNum_test = '';
     this.yeshuv_test = '';
+    this.selectedStatus = 'active';
   }
 
   getTabledata() {
@@ -549,6 +556,9 @@ export class SearchMegadelComponent implements OnInit {
       case 'username_test':
         this.username_test = '';
         break;
+      case 'selectedStatus':
+        this.selectedStatus = 'active';
+        break;
 
       // Add cases for other input names if needed
     }
@@ -618,6 +628,8 @@ export class SearchMegadelComponent implements OnInit {
   }
 
   async add_test() {
+    console.log('Selected Status:', this.selectedStatusControl.value);
+
     this.isLoading_FarmDetails = true;
     this.the_new_det = [];
     this.new_arr_growers_det = [];
@@ -754,6 +766,7 @@ export class SearchMegadelComponent implements OnInit {
     }
     console.log(the_grower_det);
     console.log(this.new_arr_growers_det);
+
     localStorage.setItem(
       'theDetails',
       JSON.stringify(this.new_arr_growers_det)
@@ -899,7 +912,44 @@ export class SearchMegadelComponent implements OnInit {
       //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
     }
 
+    for (let item of this.new_arr_growers_det) {
+      var active_check = await this.megadelSearchService.check_active_growers(
+        item.yz_yzrn
+      );
+      console.log(active_check);
+
+      if (active_check.length > 0) {
+        item.is_real_active = active_check[0].code;
+      } else {
+        item.is_real_active = 9;
+      }
+    }
+
+    if (this.selectedStatusControl.value === 'active') {
+      var new_arr_growers_det_active = this.new_arr_growers_det.filter(
+        (obj) => obj.is_real_active === 1
+      );
+      this.new_arr_growers_det = new_arr_growers_det_active;
+    }
+    if (this.selectedStatusControl.value === 'inactive') {
+      var new_arr_growers_det_inactive = this.new_arr_growers_det.filter(
+        (obj) => obj.is_real_active === 2
+      );
+      this.new_arr_growers_det = new_arr_growers_det_inactive;
+    }
+    if (this.selectedStatusControl.value === 'historicallyActive') {
+      var new_arr_growers_det_historicallyActive =
+        this.new_arr_growers_det.filter((obj) => obj.is_real_active === 9);
+      this.new_arr_growers_det = new_arr_growers_det_historicallyActive;
+    }
+    if (this.selectedStatusControl.value === 'all') {
+      var new_arr_growers_det_all = this.new_arr_growers_det;
+      this.new_arr_growers_det = new_arr_growers_det_all;
+    }
+
     this.the_new_det = this.new_arr_growers_det;
+
+    // this.the_new_det = this.new_arr_growers_det;
     localStorage.setItem('the_new_det', JSON.stringify(this.the_new_det));
 
     this.isLoading_FarmDetails = false;

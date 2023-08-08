@@ -987,7 +987,7 @@
         <!-- ---------- תצוגה 2 ----------->
 
         <!--תצוגת מגדלים ללא אתרים -->
-        <div
+        <!-- <div
           *ngIf="
             (mihsotPetem.length === 0 || mihsotHodim.length === 0) &&
             mihsot.length === 0
@@ -1004,11 +1004,11 @@
                 <div class="card-content">
                   <div class="exel_and_total"></div>
 
-                  <div class="table-container micsotStyle">
-                    <!-- טבלת מכסות פטם סיום-->
+                  <div class="table-container micsotStyle"> -->
+        <!-- טבלת מכסות פטם סיום-->
 
-                    <!-- טבלת מכסות הודים -->
-                    <div *ngIf="mihsotHodim.length > 0">
+        <!-- טבלת מכסות הודים -->
+        <!-- <div *ngIf="mihsotHodim.length > 0">
                       <h1 class="rtl_Style">מכסת הודים:</h1>
                       <table
                         class="table table-hover border_bottom detailsTable"
@@ -1045,16 +1045,16 @@
                         </tbody>
                       </table>
                       <br /><br />
-                    </div>
-                    <!-- טבלת מכסות הודים סיום-->
-                  </div>
+                    </div> -->
+        <!-- טבלת מכסות הודים סיום-->
+        <!-- </div>
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <!--סיום טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
-        </div>
+        <!--סיום טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
+        <!-- </div> -->
 
         <!-- טבלה מכסות פטם והודים------------------------------------------------------------------------------------------------------------------------>
         <div
@@ -1830,8 +1830,12 @@
 
                         <td style="width: 100px">
                           <div [ngSwitch]="row.tnahi_imon">
-                            <span *ngSwitchCase="'0'" style="">בית אימון</span>
-                            <span *ngSwitchDefault style="">משק סופי</span>
+                            <span *ngSwitchCase="'0'" style="font-size: 19px"
+                              >בית אימון</span
+                            >
+                            <span *ngSwitchDefault style="font-size: 19px"
+                              >משק סופי</span
+                            >
                           </div>
                         </td>
 
@@ -1888,7 +1892,14 @@
                         >
                           איכלוס
                         </th>
-                        <td style="width: 100px"></td>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          איכלוס ראשוני
+                        </th>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -1907,7 +1918,9 @@
                         <td style="width: 100px">
                           {{ row.count_hiclos_total_site | number : "1.0-0" }}
                         </td>
-                        <td style="width: 100px"></td>
+                        <td style="width: 100px">
+                          {{ row.minDate_hiclos | date : "dd/MM/yyyy" }}
+                        </td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -2081,17 +2094,19 @@
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px">{{ row.msvk_zamud }}</td>
-
                         <td style="width: 100px">
-                          <div [ngSwitch]="row.were_house">
+                          {{ row.code_msvk_zamud }} - {{ row.msvk_zamud }}
+                        </td>
+                        <td style="width: 100px">
+                          <div>
                             <span
-                              *ngSwitchCase="1"
-                              style="color: green; font-size: 2rem"
-                              >√</span
-                            >
+                              style="font-size: 21px; font-weight: 600"
+                              *ngIf="row.were_house_Name !== ''"
+                              >{{ row.were_house_license_number }} -
+                              {{ row.were_house_Name }}
+                            </span>
                             <span
-                              *ngSwitchDefault
+                              *ngIf="row.were_house_Name === ''"
                               style="color: red; font-size: 2rem"
                               >X</span
                             >

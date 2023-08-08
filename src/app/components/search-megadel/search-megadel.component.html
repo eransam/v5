@@ -9,6 +9,7 @@
 
         <div class="form-body text-right">
           <h4 class="form-section"><i class="la la-eye"></i>חיפוש מגדל:</h4>
+
           <div class="row">
             <!-- שם מגדל טסט -->
             <div class="col-md-4">
@@ -29,6 +30,34 @@
                   <span
                     class="delete-icon"
                     (click)="clearInput('username_test')"
+                  >
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- סטטוס -->
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput1"
+                  >סטטוס</label
+                >
+                <div class="col-md-8">
+                  <select
+                    class="form-control"
+                    name="statusSelect"
+                    [(ngModel)]="selectedStatus"
+                    [formControl]="selectedStatusControl"
+                  >
+                    <option value="active">פעיל</option>
+                    <option value="inactive">לא פעיל</option>
+                    <option value="historicallyActive">פעיל היסטורית</option>
+                    <option value="all">כולם</option>
+                  </select>
+                  <span
+                    class="delete-icon"
+                    (click)="clearInput('selectedStatus')"
                   >
                     <i class="fa fa-times"></i>
                   </span>
@@ -544,8 +573,45 @@
                             let-row="row"
                             ngx-datatable-cell-template
                           >
-                            <ng-container
-                              *ngIf="row.yz_status === 1; else closedTemplate"
+                            <ng-container *ngIf="row.is_real_active === 9">
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_Id
+                                  ]"
+                                  >לא פעיל</a
+                                >
+                              </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="row.is_real_active === 1">
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_Id
+                                  ]"
+                                  >פעיל</a
+                                >
+                              </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="row.is_real_active === 2">
+                              <div [class]="'text-right'">
+                                <a
+                                  [routerLink]="[
+                                    '/dashboard/ecommerce',
+                                    row.yz_Id
+                                  ]"
+                                  >פעיל היסטורית</a
+                                >
+                              </div>
+                            </ng-container>
+
+                            <!-- <ng-container
+                              *ngIf="row.
+                              is_real_active === 9; else closedTemplate"
                             >
                               <div [class]="'text-right'">
                                 <a
@@ -557,8 +623,8 @@
                                   לא פעיל</a
                                 >
                               </div>
-                            </ng-container>
-                            <ng-template #closedTemplate>
+                            </ng-container> -->
+                            <!-- <ng-template #closedTemplate>
                               <div [class]="'text-right'">
                                 <a
                                   [routerLink]="[
@@ -569,7 +635,7 @@
                                   פעיל</a
                                 >
                               </div>
-                            </ng-template>
+                            </ng-template> -->
                           </ng-template>
                         </ngx-datatable-column>
                       </ngx-datatable>

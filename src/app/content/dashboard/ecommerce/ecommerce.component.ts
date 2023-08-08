@@ -120,8 +120,8 @@ export class EcommerceComponent implements OnInit {
   yzrnHead;
   kannatNum_and_oldMegadelNum = [];
   mihsot = [];
-  mihsotPetem = [];
-  mihsotHodim = [];
+  mihsotPetem: any = [];
+  mihsotHodim: any = [];
   chosenYear: any = 2023;
   shloha: any = '30';
   startDay: any = '';
@@ -217,7 +217,8 @@ export class EcommerceComponent implements OnInit {
     this.site_partners_hodim_pitom = [];
     this.site_partners_petem = [];
     // this.sort_site_by_shloha();
-    this.subscribe_func();
+    await this.subscribe_func();
+    console.log(this.mihsot);
   }
 
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
@@ -307,13 +308,7 @@ export class EcommerceComponent implements OnInit {
       );
 
       const siteName = the_growers_farms.map((obj) => obj.farm_code);
-      console.log(siteName);
       localStorage.setItem('siteName', JSON.stringify(siteName));
-
-      //   מביאים אתרים מחיצה במידה ויש
-      //   var split_farms =
-      //     await this.megadelSearchService.get_split_farm_by_grower_id(this.userDetails[0].v_yzrn_id);
-      //   console.log(split_farms);
 
       //   מחלצים פרטים נוספים של היצרן
       this.userDetails_more_info =
@@ -343,6 +338,7 @@ export class EcommerceComponent implements OnInit {
         this.chosenYear
       );
 
+      //   עדכון מס קבוצת גידול חוץ
       if (this.mainGrower.length > 0) {
         this.userDetails[0].cdgdl = this.mainGrower[0].cdgdl.toString();
       }
@@ -484,6 +480,26 @@ export class EcommerceComponent implements OnInit {
         '30 - ביצי מאכל',
         88
       );
+
+      if (this.mihsot.length === 0) {
+        // מכסות פטם
+        this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
+          5,
+          this.userDetails[0]?.v_yzrn,
+          this.chosenYear,
+          '10',
+          88
+        );
+
+        // מכסות הודים
+        this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
+          5,
+          this.userDetails[0]?.v_yzrn,
+          this.chosenYear,
+          '01',
+          88
+        );
+      }
 
       //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
       this.totalMicsaKvoha = 0;
@@ -750,9 +766,10 @@ export class EcommerceComponent implements OnInit {
                   extractedValue
                 );
 
-              farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
-
-              this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
+              if (farm_det_new_to_count.length > 0) {
+                farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+                this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
+              }
             } else {
               var farm_det_new_to_count =
                 await this.megadelSearchService.get_farm_det_v2(
@@ -888,7 +905,6 @@ export class EcommerceComponent implements OnInit {
               totalMicsaToPay += iterator.mi_kamut;
             }
           }
-
           //   הוספת מכסת פרגיות
           for (let obj of new_Active_FarmDetails) {
             var zan_num = obj.zan_det[0].number;
@@ -1094,10 +1110,23 @@ export class EcommerceComponent implements OnInit {
           if (msvk_zamud[0]) {
             var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
             obj.msvk_zamud = splitArray[1];
-            obj.were_house = splitArray[4];
+            obj.code_msvk_zamud = splitArray[0];
+
+            // obj.were_house = splitArray[4];
+            if (splitArray[3] !== '0') {
+              var were_house_det =
+                await this.megadelSearchService.get_were_house_name_and_code_by_id_were_house(
+                  Number(splitArray[3])
+                );
+              console.log(were_house_det);
+              obj.were_house_Name = were_house_det[0].Last_Name;
+              obj.were_house_license_number = were_house_det[0].license_number;
+            } else {
+              obj.were_house_Name = '';
+            }
           } else {
             obj.msvk_zamud = '';
-            obj.were_house = '';
+            obj.were_house_Name = '';
           }
         }
 
@@ -1122,6 +1151,7 @@ export class EcommerceComponent implements OnInit {
                   current < min ? current : min
                 );
                 console.log(minDate);
+                obj.minDate_hiclos = minDate;
                 this.min_date_cartificate_transfer = minDate;
               }
 
@@ -1145,6 +1175,7 @@ export class EcommerceComponent implements OnInit {
                   current < min ? current : min
                 );
                 console.log(minDate);
+                obj.minDate_hiclos = minDate;
                 this.min_date_cartificate_transfer = minDate;
               }
 
@@ -1185,25 +1216,10 @@ export class EcommerceComponent implements OnInit {
           }
         }
 
-        // //   הוספת מכסת פרגיות
-        // for (let obj of this.farm_det_new) {
-        //   var zan_num = obj.zan_det[0].number;
-        //   obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
-        // }
-
-        // // טוטל איכלוס פרגיות
-        // for (let obj of this.farm_det_new) {
-        //   if (typeof obj.micsat_pargiot === 'number') {
-        //     this.total_pargiot += parseFloat(
-        //       obj.count_hiclos_total_site.toFixed(2)
-        //     );
-        //   }
-        // }
-
         //   הוספת מכסת פרגיות
         for (let obj of this.farm_det_new) {
           var zan_num = obj.zan_det[0].number;
-          obj.micsat_pargiot = totalMicsaKvoha / zan_num;
+          obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
         }
 
         for (let obj of this.farm_det_new) {
@@ -1233,9 +1249,10 @@ export class EcommerceComponent implements OnInit {
                   extractedValue
                 );
 
-              farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
-
-              this.all_full_farm_det.push(farm_det_new_to_count[0]);
+              if (farm_det_new_to_count.length > 0) {
+                farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+                this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
+              }
             } else {
               var farm_det_new_to_count =
                 await this.megadelSearchService.get_farm_det_v2(
@@ -1326,13 +1343,15 @@ export class EcommerceComponent implements OnInit {
               }
             }
           }
-          console.log(this.total_hiclos);
         }
+
+        console.log('end oninit');
 
         this.farm_det_new[0].farm_num = farm_num;
 
         this.isLoading_FarmDetails = false;
       }
+      console.log('end oninit');
     });
   }
 
@@ -1452,12 +1471,24 @@ export class EcommerceComponent implements OnInit {
 
         if (msvk_zamud[0]) {
           var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
-          console.log(splitArray);
           obj.msvk_zamud = splitArray[1];
-          obj.were_house = splitArray[4];
+          obj.code_msvk_zamud = splitArray[0];
+
+          // obj.were_house = splitArray[4];
+          if (splitArray[3] !== '0') {
+            var were_house_det =
+              await this.megadelSearchService.get_were_house_name_and_code_by_id_were_house(
+                Number(splitArray[3])
+              );
+            console.log(were_house_det);
+            obj.were_house_Name = were_house_det[0].Last_Name;
+            obj.were_house_license_number = were_house_det[0].license_number;
+          } else {
+            obj.were_house_Name = '';
+          }
         } else {
           obj.msvk_zamud = '';
-          obj.were_house = '';
+          obj.were_house_Name = '';
         }
       }
 
@@ -1504,6 +1535,7 @@ export class EcommerceComponent implements OnInit {
                 current < min ? current : min
               );
               console.log(minDate);
+              obj.minDate_hiclos = minDate;
               this.min_date_cartificate_transfer = minDate;
             }
             this.all_certificate_det = [
@@ -1569,9 +1601,10 @@ export class EcommerceComponent implements OnInit {
                 extractedValue
               );
 
-            farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
-
-            this.all_full_farm_det.push(farm_det_new_to_count[0]);
+            if (farm_det_new_to_count.length > 0) {
+              farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+              this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
+            }
           } else {
             var farm_det_new_to_count =
               await this.megadelSearchService.get_farm_det_v2(
@@ -1867,7 +1900,7 @@ export class EcommerceComponent implements OnInit {
         6,
         this.userDetails[0]?.v_yzrn,
         '30',
-        '02',
+        '01',
         this.chosenYear,
         ''
       );
@@ -1951,7 +1984,6 @@ export class EcommerceComponent implements OnInit {
         88
       );
       this.mihsot = [];
-      console.log('this.mihsotPetem: ', this.mihsotHodim);
     } else {
       this.mihsotHodim = [];
       this.mihsotPetem = [];
@@ -2105,14 +2137,27 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0].v_yzrn,
           obj.farm_id
         );
+
         if (msvk_zamud[0]) {
           var splitArray: any[] = msvk_zamud[0].msvk_zamud.split('-');
-          console.log(splitArray);
           obj.msvk_zamud = splitArray[1];
-          obj.were_house = splitArray[4];
+          obj.code_msvk_zamud = splitArray[0];
+
+          // obj.were_house = splitArray[4];
+          if (splitArray[3] !== '0') {
+            var were_house_det =
+              await this.megadelSearchService.get_were_house_name_and_code_by_id_were_house(
+                Number(splitArray[3])
+              );
+            console.log(were_house_det);
+            obj.were_house_Name = were_house_det[0].Last_Name;
+            obj.were_house_license_number = were_house_det[0].license_number;
+          } else {
+            obj.were_house_Name = '';
+          }
         } else {
           obj.msvk_zamud = '';
-          obj.were_house = '';
+          obj.were_house_Name = '';
         }
       }
 
@@ -2157,6 +2202,7 @@ export class EcommerceComponent implements OnInit {
                 current < min ? current : min
               );
               console.log(minDate);
+              obj.minDate_hiclos = minDate;
               this.min_date_cartificate_transfer = minDate;
             }
             this.all_certificate_det = [

@@ -12,6 +12,28 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async check_active_growers(yz_yzrn: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/check_active_growers?yz_yzrn=${yz_yzrn}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_were_house_name_and_code_by_id_were_house(
+    id_were_house: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_were_house_name_and_code_by_id_were_house?id_were_house=${id_were_house}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_name_of_wereHouse_to_nsvk_from_grower(
     flock_id: any
   ): Promise<any[]> {

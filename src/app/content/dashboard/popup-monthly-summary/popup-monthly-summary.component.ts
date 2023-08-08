@@ -41,7 +41,7 @@ export class PopupMonthlySummaryComponent {
   from_monthControl = new FormControl();
 
   to_monthControl = new FormControl();
-
+  mztaber: any = 0;
   chosenSiteControl = new FormControl();
   chosenShlohaControl = new FormControl();
   isLoading_FarmDetails = false;
@@ -144,10 +144,39 @@ export class PopupMonthlySummaryComponent {
 
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
-    this.siteName.push({ RishaionSts: '', code: 'כולם' });
+    this.siteName.push('כולם');
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
     console.log(this.paginatedData);
+
+    this.monthly_by_grewer = this.data.reduce((groups, item) => {
+      const atar_id = item.atar_id;
+      if (!groups[atar_id]) {
+        groups[atar_id] = [];
+      }
+      groups[atar_id].push(item);
+      return groups;
+    }, {});
+
+    console.log(this.monthly_by_grewer);
+
+    for (const key of Object.keys(this.monthly_by_grewer)) {
+      this.mztaber = 0;
+      if (key !== undefined) {
+        const array = this.monthly_by_grewer[key];
+        for (const obj of array) {
+          this.mztaber += obj.Kamut;
+          obj.mztaber = this.mztaber; // Add a new parameter to each object
+        }
+      }
+    }
+
+    console.log(this.monthly_by_grewer);
+
+    this.monthly_by_grewer = Object.values(this.monthly_by_grewer).reduce(
+      (acc, currentArray) => acc.concat(currentArray),
+      []
+    );
   }
 
   getExcelDataFarmDetails(): void {
@@ -367,6 +396,39 @@ export class PopupMonthlySummaryComponent {
       this.theChosenSiteControl,
       this.from_monthControl.value,
       this.to_monthControl.value
+    );
+
+    // console.log(this.monthly_by_grewer);
+    // this.monthly_by_grewer.sort((a, b) => a.atar_id - b.atar_id);
+    // console.log(this.monthly_by_grewer);
+
+    this.monthly_by_grewer = this.monthly_by_grewer.reduce((groups, item) => {
+      const atar_id = item.atar_id;
+      if (!groups[atar_id]) {
+        groups[atar_id] = [];
+      }
+      groups[atar_id].push(item);
+      return groups;
+    }, {});
+
+    console.log(this.monthly_by_grewer);
+
+    for (const key of Object.keys(this.monthly_by_grewer)) {
+      this.mztaber = 0;
+      if (key !== undefined) {
+        const array = this.monthly_by_grewer[key];
+        for (const obj of array) {
+          this.mztaber += obj.Kamut;
+          obj.mztaber = this.mztaber; // Add a new parameter to each object
+        }
+      }
+    }
+
+    console.log(this.monthly_by_grewer);
+
+    this.monthly_by_grewer = Object.values(this.monthly_by_grewer).reduce(
+      (acc, currentArray) => acc.concat(currentArray),
+      []
     );
 
     this.data = this.monthly_by_grewer;

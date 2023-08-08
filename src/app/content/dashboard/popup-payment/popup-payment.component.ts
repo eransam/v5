@@ -45,6 +45,7 @@ export class PopupPaymentComponent {
   isLoading_FarmDetails = false;
   chosenyear_cartificate: any = '2023';
   chosenYear: any = '';
+  enteredYear: any = '2023';
   years = ['2020', '2021', '2022', '2023'];
   siteName: any[] = [];
   userDetails: any[] = [];
@@ -82,6 +83,7 @@ export class PopupPaymentComponent {
     private tableexcelService: TableexcelService
   ) {
     this.chosenYear = '2023';
+    this.enteredYear = '2023';
     this.chosenSite = 'כולם';
     this.chosenShloha = 'ביצי מאכל';
     this.payment = 2;
@@ -100,14 +102,16 @@ export class PopupPaymentComponent {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
 
-    console.log('growerDet');
-
+    // משתנה המכיל את מספרי השלוחות של המגדל
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
+
+    // משתנה המכיל את שמות השלוחות של המגדל
     for (let obj of this.grower_extention) {
       this.grower_extention_name.push(this.getCategoryLabel(obj));
     }
 
+    // מציג את השלוחות של המגדל
     this.shlohot_cartificate = await this.megadelSearchService.Tz_By_Yzrn(
       1,
       this.theUserDet[0].v_yzrn,
@@ -117,10 +121,20 @@ export class PopupPaymentComponent {
     );
 
     this.DetailsForm = new FormGroup({});
+
+    // מספרי אתרי המגדל
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
     this.siteName.push({ RishaionSts: '', code: 'כולם' });
+
     this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.theUserDet);
+  }
+
+  onSelectChange() {
+    if (this.chosenYear === '2023' && this.enteredYear !== undefined) {
+      // Set chosenYear to the entered custom year
+      this.chosenYear = this.enteredYear.toString();
+    }
   }
 
   async change_shloha() {

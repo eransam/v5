@@ -35,13 +35,28 @@
     <!-- <h4 class="form-section"><i class="la la-eye"></i> תעודות:</h4> -->
     <div class="row" style="margin-top: 40px">
       <!-- בחר שנה -->
-      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+      <!-- <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         שנה:
         <select [(ngModel)]="chosenYear" [formControl]="chosenYearControl">
           <option *ngFor="let year of years" [value]="year">
             {{ year }}
           </option>
         </select>
+      </div> -->
+
+      <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        שנה:
+        <select [(ngModel)]="chosenYear" (ngModelChange)="onSelectChange()">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          <option value="custom">הכנס שנה ידנית</option>
+        </select>
+        <input
+          *ngIf="chosenYear === '2023'"
+          [(ngModel)]="enteredYear"
+          type="any"
+          placeholder="הזן שנה ידני"
+          style="margin-top: 10px"
+        />
       </div>
 
       <!-- בחר שלוחה -->
@@ -72,6 +87,7 @@
         </select>
       </div>
 
+      <!-- כפתור חיפוש -->
       <div class="col-md-1">
         <button
           class="btn btn-warning"
@@ -86,6 +102,7 @@
           חפש
         </button>
       </div>
+
       <!--EXEL כפתור-->
       <div class="importBth">
         <div class="justify-content importBth_div">
@@ -111,6 +128,7 @@
         width: 100% !important;
       "
     >
+      <!-- טבלה שמוצגת בתנאי שסוג התשלום הוא פרמיה -->
       <table
         class=""
         style="direction: rtl; width: 100%"
@@ -143,80 +161,81 @@
             [class.red-background]="notActiveColor"
           >
             <!-- <th scope="col" class="border-top-0">חודש</th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               <a [routerLink]="['/dashboard/ecommerce']">
                 {{ row.hodesh_name }}</a
               >
             </td>
 
             <!-- <th scope="col" class="border-top-0" >חודש רטרו</th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               <a [routerLink]="['/dashboard/ecommerce']">
                 {{ row.kt_hodesh_rtr }}</a
               >
             </td>
 
             <!-- <th scope="col" class="border-top-0">> מדגיר</th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kt_mdgr }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">>שם מדגיר </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.madgir_name }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">> קבלן </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
               {{ row.kt_kbln }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">שם קבלן </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.shem_kbln }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">כמות </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kamut }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">מחיר רגיל </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kt_mhir }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">> תשלום רגיל< </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.shum_tshlm }}
             </td>
             <!-- <th scope="col" class="border-top-0">מחיר ניוקאסל </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kt_mhir_nk }}
             </td>
             <!-- <th scope="col" class="border-top-0">>>תשלום ניוקאסל  </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.shum_tshlm_nk }}
             </td>
             <!-- <th scope="col" class="border-top-0">>מחיר סלמונלה< </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kt_mhir_sl }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">תשלום סלמונלה </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.shum_tshlm_sl }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">>סהכ תשלום </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.total }}
             </td>
           </tr>
         </tbody>
       </table>
 
+      <!-- טבלה שמוצגת בתנאי שסוג התשלום הוא שונה מפרמיה -->
       <table
         class=""
         style="direction: rtl; width: 100%"
@@ -226,23 +245,10 @@
           <tr class="the_tatle_res_table">
             <th scope="col" class="border-top-0">חודש</th>
             <th scope="col" class="border-top-0">משווק</th>
+            <th scope="col" class="border-top-0">שם משווק</th>
             <th
-              *ngIf="this.paymentControl.value !== 10"
               scope="col"
-              class="border-top-0"
-            >
-              שם משווק
-            </th>
-            <th
-              *ngIf="this.paymentControl.value === 10"
-              scope="col"
-              class="border-top-0"
-            >
-              שם משחטה
-            </th>
-            <th
               *ngIf="this.paymentControl.value === 1"
-              scope="col"
               class="border-top-0"
             >
               מכסה תשלום
@@ -271,86 +277,85 @@
 
         <tbody>
           <tr
-            class="the_res_table"
-            *ngFor="let row of paginatedData"
+            *ngFor="let row of data"
             [class.green-background]="activeColor"
             [class.red-background]="notActiveColor"
           >
             <!-- <th scope="col" class="border-top-0">חודש</th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               <a [routerLink]="['/dashboard/ecommerce']">
                 {{ row.hodesh_name }}</a
               >
             </td>
             <!-- <th scope="col" class="border-top-0" משווק</th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               <a [routerLink]="['/dashboard/ecommerce']"> {{ row.kt_Msvk }}</a>
             </td>
+
             <!-- <th scope="col" class="border-top-0">>שם משווק</th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.shem_msvk }}
             </td>
 
-            <!-- <th scope="col" class="border-top-0">>מכסת תשלום  </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.micsa_tshlm }}
+            <!-- <th scope="col" class="border-top-0">>או מכסה קבועה מכסה לתשלום</th> -->
+            <td class="">
+              {{ row.Micsa_Tshlm }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">>כמות בתקופה </th> -->
-            <td class="text-truncate row_padding">
-              <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
-              {{ row.kamut_in_tkufa }}
+            <td class="">
+              {{ row.Kamut_In_Tkufa }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.kt_mztbr }}
+            <td class="">
+              {{ row.kt_Mztbr }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">רטרו </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.rtro }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">מחיר </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kt_mhir }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">>כמות שולמה< </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.kamut_shtshlm }}
+            <td class="">
+              {{ row.Kamut_SHTshlm }}
             </td>
             <!-- <th scope="col" class="border-top-0">תשלום </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.shum_tshlm }}
+            <td class="">
+              {{ row.Shum_Tshlm }}
             </td>
             <!-- <th scope="col" class="border-top-0">>כמות תוספת </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.heftas }}
+            <td class="">
+              {{ row.HefTas }}
             </td>
             <!-- <th scope="col" class="border-top-0">>תוספת תשלום< </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.heftas_tshlm }}
+            <td class="">
+              {{ row.HefTas_Tshlm }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">סה''כ כמות שולמה< </th> -->
-            <td class="text-truncate row_padding">
-              {{ row.tot_cam_tshlm }}
+            <td class="">
+              {{ row.tot_Cam_tshlm }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">>סהכ תשלום </th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.tot_shum_tshlm }}
             </td>
 
             <!-- <th scope="col" class="border-top-0 הקפאה</th> -->
-            <td class="text-truncate row_padding">
-              {{ row.sibahakpaa }}
+            <td class="">
+              {{ row.SibaHakpaa }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">סיבה/th> -->
-            <td class="text-truncate row_padding">
+            <td class="">
               {{ row.kt_siba_not_tslm }}
             </td>
           </tr>

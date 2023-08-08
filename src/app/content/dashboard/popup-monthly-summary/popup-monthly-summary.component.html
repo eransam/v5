@@ -67,8 +67,8 @@
       <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
         אתר:
         <select [(ngModel)]="chosenSite" [formControl]="chosenSiteControl">
-          <option *ngFor="let obj of this.siteName" [value]="obj.code">
-            {{ obj.code }}
+          <option *ngFor="let obj of this.siteName" [value]="obj">
+            {{ obj }}
           </option>
         </select>
       </div>
@@ -134,17 +134,17 @@
             <th scope="col" class="border-top-0">כמות</th>
             <th scope="col" class="border-top-0">מצטבר</th>
             <th scope="col" class="border-top-0">משווק</th>
-            <th scope="col" class="border-top-0">מצטבר</th>
-            <th scope="col" class="border-top-0">משווק</th>
-            <th scope="col" class="border-top-0">atarId</th>
-            <th scope="col" class="border-top-0">שם אתר</th>
+            <th scope="col" class="border-top-0">ישוב אתר</th>
+            <!-- <th scope="col" class="border-top-0">משווק</th> -->
+            <!-- <th scope="col" class="border-top-0">atarId</th> -->
+            <!-- <th scope="col" class="border-top-0">שם אתר</th> -->
           </tr>
         </thead>
 
         <tbody>
           <tr
             class="the_res_table"
-            *ngFor="let row of paginatedData"
+            *ngFor="let row of data"
             [class.green-background]="activeColor"
             [class.red-background]="notActiveColor"
           >
@@ -192,12 +192,12 @@
 
             <!-- <th scope="col" class="border-top-0">כמות </th> -->
             <td class="text-truncate row_padding">
-              {{ row.mcsa }}
+              {{ row.Kamut }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
             <td class="text-truncate row_padding">
-              {{ row.Kamut }}
+              {{ row.mztaber }}
             </td>
 
             <!-- <th scope="col" class="border-top-0">משווק </th> -->
@@ -206,9 +206,9 @@
             </td>
 
             <!-- <th scope="col" class="border-top-0">atarId </th> -->
-            <td class="text-truncate row_padding">
+            <!-- <td class="text-truncate row_padding">
               {{ row.atar_id }}
-            </td>
+            </td> -->
             <!-- <th scope="col" class="border-top-0">שם אתר nmatar </th> -->
             <td class="text-truncate row_padding">
               {{ row.nmatar }}

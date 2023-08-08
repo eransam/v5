@@ -144,3 +144,27 @@
   margin-right: 15px;
   justify-content: center !important;
 }
+
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 120px; /* Set the width of your dropdown */
+  }
+  
+  .custom-select select {
+    width: 100%;
+    padding: 6px;
+  }
+  
+  .custom-select::before {
+    content: '\25BC';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  /* Style the input field as needed */
+  

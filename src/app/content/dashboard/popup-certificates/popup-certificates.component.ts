@@ -109,7 +109,9 @@ export class PopupCertificatesComponent {
 
     this.DetailsForm = new FormGroup({});
     this.siteName = JSON.parse(localStorage.getItem('siteName'));
-    this.siteName.push({ RishaionSts: '', code: 'כולם' });
+    this.siteName.push('כולם');
+    console.log(this.siteName);
+
     this.userDetails = JSON.parse(localStorage.getItem('theDetails'));
     console.log('this.userDetails: ', this.userDetails);
     console.log(this.paginatedData);
