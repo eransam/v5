@@ -59,6 +59,9 @@ export class SearchMegadelComponent implements OnInit {
   gidulHotzNum_test: string;
   yeshuv_test: string;
   growerNum_test: string;
+
+  grower_zeut_test: string;
+
   numName: any;
 
   site: string;
@@ -124,7 +127,7 @@ export class SearchMegadelComponent implements OnInit {
 
   yeshuvControl_test = new FormControl();
   growerNumControl_test = new FormControl();
-
+  grower_zeut_testControl_test = new FormControl();
   siteControl = new FormControl();
   settlementControl = new FormControl();
   extensionControl = new FormControl();
@@ -363,7 +366,9 @@ export class SearchMegadelComponent implements OnInit {
       gidulHotzNum_test: ['', Validators.required],
       yeshuv_test: ['', Validators.required],
       growerNum_test: ['', Validators.required],
+      grower_zeut_test: ['', Validators.required],
 
+      
       nickName: ['', Validators.required],
       email: ['', Validators.required],
       website: ['', Validators.required],
@@ -437,6 +442,9 @@ export class SearchMegadelComponent implements OnInit {
     this.siteNum_test = '';
     this.gidulHotzNum_test = '';
     this.growerNum_test = '';
+    this.grower_zeut_test = '';
+
+    
     this.yeshuv_test = '';
     this.selectedStatus = 'active';
   }
@@ -547,6 +555,14 @@ export class SearchMegadelComponent implements OnInit {
       case 'growerNum_test':
         this.growerNum_test = '';
         break;
+
+
+        case 'grower_zeut_test':
+            this.grower_zeut_test = '';
+            break;
+
+
+        
       case 'gidulHotzNum_test':
         this.gidulHotzNum_test = '';
         break;
@@ -679,7 +695,28 @@ export class SearchMegadelComponent implements OnInit {
       growerNumControl_test_val = '';
     }
 
+
+
+        //   תז מגדל
+        var grower_zeut_testControl_test = this.grower_zeut_testControl_test.value;
+        if (
+            grower_zeut_testControl_test === undefined ||
+            grower_zeut_testControl_test === null
+        ) {
+            grower_zeut_testControl_test = '';
+        }
+
+
+
+
+
+
+    
+
+
+
     if (
+        grower_zeut_testControl_test === '' &&
       growerNumControl_test_val === '' &&
       the_yeshuvControl_test_val === '' &&
       the_gidulHotzNumControl_test_val !== '' &&
@@ -735,7 +772,8 @@ export class SearchMegadelComponent implements OnInit {
               '',
               the_gidulHotzNumControl_test_val,
               growerNumControl_test_val,
-              the_yeshuvControl_test_val
+              the_yeshuvControl_test_val,
+              grower_zeut_testControl_test
             );
         } else {
           var the_grower_det =
@@ -744,11 +782,13 @@ export class SearchMegadelComponent implements OnInit {
               the_siteNumControl_test_val,
               the_gidulHotzNumControl_test_val,
               growerNumControl_test_val,
-              the_yeshuvControl_test_val
+              the_yeshuvControl_test_val,
+              grower_zeut_testControl_test
             );
         }
-
-        this.new_arr_growers_det.push(the_grower_det[0]);
+        if (the_grower_det.length !== 0) {
+          this.new_arr_growers_det.push(the_grower_det[0]);
+        }
       }
     } else {
       // מביא את פרטי המגדל
@@ -761,22 +801,27 @@ export class SearchMegadelComponent implements OnInit {
       );
 
       for (let obj of the_grower_det) {
-        this.new_arr_growers_det.push(obj);
+        if (obj !== undefined) {
+          this.new_arr_growers_det.push(obj);
+        }
       }
     }
+
     console.log(the_grower_det);
     console.log(this.new_arr_growers_det);
 
     for (let item of this.new_arr_growers_det) {
-      var active_check = await this.megadelSearchService.check_active_growers(
-        item.yz_yzrn
-      );
-      console.log(active_check);
+      if (item !== undefined) {
+        var active_check = await this.megadelSearchService.check_active_growers(
+          item.yz_yzrn
+        );
+        console.log(active_check);
 
-      if (active_check.length > 0) {
-        item.is_real_active = active_check[0].code;
-      } else {
-        item.is_real_active = 9;
+        if (active_check.length > 0) {
+          item.is_real_active = active_check[0].code;
+        } else {
+          item.is_real_active = 9;
+        }
       }
     }
 
@@ -801,6 +846,8 @@ export class SearchMegadelComponent implements OnInit {
       var new_arr_growers_det_all = this.new_arr_growers_det;
       this.new_arr_growers_det = new_arr_growers_det_all;
     }
+
+    console.log(this.new_arr_growers_det);
 
     //   this.the_new_det = this.new_arr_growers_det;
 

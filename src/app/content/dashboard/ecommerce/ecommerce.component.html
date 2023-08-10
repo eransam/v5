@@ -1444,7 +1444,11 @@
                                   "
                                   class="text-truncate row_padding"
                                 >
-                                  איכלוס: {{ row?.count_hiclos | numberFormat }}
+                                  איכלוס:
+                                  {{
+                                    row?.real_hiclos_by_site_by_partner
+                                      | numberFormat
+                                  }}
                                 </td>
                               </div>
                             </tr>
@@ -1743,6 +1747,22 @@
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         >
+                          תאריך הקמה
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          איכלוס ראשוני
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
                           היתר איכלוס
                         </th>
 
@@ -1797,6 +1817,13 @@
                         </td>
                         <td style="width: 100px">{{ row.farm_type }}</td>
                         <td style="width: 100px">{{ row.building_name }}</td>
+                        <td style="width: 100px">
+                          {{ row.date_created | date : "dd/MM/yyyy" }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.first_hiclos | date : "dd/MM/yyyy" }}
+                        </td>
+
                         <td style="width: 100px">
                           <div [ngSwitch]="row.itar_hiclos">
                             <span
@@ -1876,6 +1903,13 @@
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         >
+                          תאריך איכלוס
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
                           גיל בחודשים
                         </th>
                         <th
@@ -1893,13 +1927,6 @@
                           איכלוס
                         </th>
 
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          איכלוס ראשוני
-                        </th>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -1913,13 +1940,13 @@
                         <td style="width: 100px">
                           {{ row.flock_hatch_date | date : "dd/MM/yyyy" }}
                         </td>
+                        <td style="width: 100px">
+                          {{ row.minDate_hiclos | date : "dd/MM/yyyy" }}
+                        </td>
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
                         <td style="width: 100px">
                           {{ row.count_hiclos_total_site | number : "1.0-0" }}
-                        </td>
-                        <td style="width: 100px">
-                          {{ row.minDate_hiclos | date : "dd/MM/yyyy" }}
                         </td>
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>

@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_first_hicls_by_farm_code(farm_code: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_first_hicls_by_farm_code?farm_code=${farm_code}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async check_active_growers(yz_yzrn: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -217,11 +227,12 @@ export class MegadelSearchService {
     siteNum: any,
     gidulNum: any,
     growerNum: any,
-    yz_shem_yeshuv: any
+    yz_shem_yeshuv: any,
+    grower_yz_zehut: any
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_start_grower_det?grower_id=${grower_id}&siteNum=${siteNum}&gidulNum=${gidulNum}&growerNum=${growerNum}&yz_shem_yeshuv=${yz_shem_yeshuv}`
+        `${environment.apiPath}growerService.asmx/get_start_grower_det?grower_id=${grower_id}&siteNum=${siteNum}&gidulNum=${gidulNum}&growerNum=${growerNum}&yz_shem_yeshuv=${yz_shem_yeshuv}&grower_yz_zehut=${grower_yz_zehut}`
       )
     );
     console.log('item: ', item);
