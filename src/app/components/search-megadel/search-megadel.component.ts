@@ -368,7 +368,6 @@ export class SearchMegadelComponent implements OnInit {
       growerNum_test: ['', Validators.required],
       grower_zeut_test: ['', Validators.required],
 
-      
       nickName: ['', Validators.required],
       email: ['', Validators.required],
       website: ['', Validators.required],
@@ -444,7 +443,6 @@ export class SearchMegadelComponent implements OnInit {
     this.growerNum_test = '';
     this.grower_zeut_test = '';
 
-    
     this.yeshuv_test = '';
     this.selectedStatus = 'active';
   }
@@ -556,13 +554,10 @@ export class SearchMegadelComponent implements OnInit {
         this.growerNum_test = '';
         break;
 
+      case 'grower_zeut_test':
+        this.grower_zeut_test = '';
+        break;
 
-        case 'grower_zeut_test':
-            this.grower_zeut_test = '';
-            break;
-
-
-        
       case 'gidulHotzNum_test':
         this.gidulHotzNum_test = '';
         break;
@@ -695,28 +690,17 @@ export class SearchMegadelComponent implements OnInit {
       growerNumControl_test_val = '';
     }
 
-
-
-        //   תז מגדל
-        var grower_zeut_testControl_test = this.grower_zeut_testControl_test.value;
-        if (
-            grower_zeut_testControl_test === undefined ||
-            grower_zeut_testControl_test === null
-        ) {
-            grower_zeut_testControl_test = '';
-        }
-
-
-
-
-
-
-    
-
-
+    //   תז מגדל
+    var grower_zeut_testControl_test = this.grower_zeut_testControl_test.value;
+    if (
+      grower_zeut_testControl_test === undefined ||
+      grower_zeut_testControl_test === null
+    ) {
+      grower_zeut_testControl_test = '';
+    }
 
     if (
-        grower_zeut_testControl_test === '' &&
+      grower_zeut_testControl_test === '' &&
       growerNumControl_test_val === '' &&
       the_yeshuvControl_test_val === '' &&
       the_gidulHotzNumControl_test_val !== '' &&
@@ -797,7 +781,8 @@ export class SearchMegadelComponent implements OnInit {
         the_siteNumControl_test_val,
         the_gidulHotzNumControl_test_val,
         growerNumControl_test_val,
-        the_yeshuvControl_test_val
+        the_yeshuvControl_test_val,
+        grower_zeut_testControl_test
       );
 
       for (let obj of the_grower_det) {
