@@ -574,7 +574,7 @@
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
                       <div>
-                        <h1 class="rtl_Style">מכסת פטם :</h1>
+                        <h1 class="rtl_Style">{{ this.shloha_tatle }}</h1>
                       </div>
 
                       <tr>
@@ -1079,7 +1079,7 @@
                     <!-- טבלת מכסות פטם -->
                     <div *ngIf="mihsotPetem.length > 0">
                       <div>
-                        <h1 class="rtl_Style">מכסת פטם</h1>
+                        <h1 class="rtl_Style">{{ this.shloha_tatle }}</h1>
                       </div>
                       <B>שותפות הודים:</B>
                       <tr *ngFor="let row of site_partners_hodim_pitom">
@@ -2094,13 +2094,17 @@
                     <br />
 
                     <h3
+                      *ngIf="this.farm_det_new[0].code_msvk_zamud !== '000'"
                       class="main_table_tatle"
                       style="font-size: 30px; font-weight: bold; color: #5b5bf8"
                     >
                       הצמדות
                     </h3>
 
-                    <thead class="detailsTable">
+                    <thead
+                      class="detailsTable"
+                      *ngIf="this.farm_det_new[0].code_msvk_zamud !== '000'"
+                    >
                       <tr>
                         <th
                           scope="col"
@@ -2119,7 +2123,9 @@
                       </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody
+                      *ngIf="this.farm_det_new[0].code_msvk_zamud !== '000'"
+                    >
                       <tr *ngFor="let row of this.farm_det_new">
                         <td style="width: 100px">
                           {{ row.code_msvk_zamud }} - {{ row.msvk_zamud }}

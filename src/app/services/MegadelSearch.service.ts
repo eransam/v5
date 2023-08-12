@@ -92,12 +92,11 @@ export class MegadelSearchService {
 
   async get_real_hiclos_in_site(
     site_num: any,
-    flock_id: any,
-    grower_num: any
+    flock_id: any
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site?site_num=${site_num}&flock_id=${flock_id}&grower_num=${grower_num}`
+        `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site?site_num=${site_num}&flock_id=${flock_id}`
       )
     );
     console.log('item: ', item);
@@ -362,6 +361,20 @@ export class MegadelSearchService {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/Get_gidul_hotz_num_by_farm_num?farm_num=${farm_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async Get_zan_num_new(
+    farm_num: any,
+    grower_num: any,
+    min_date_hiclos: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Get_zan_num_new?farm_num=${farm_num}&grower_num=${grower_num}&min_date_hiclos=${min_date_hiclos}`
       )
     );
     console.log('item: ', item);
