@@ -287,7 +287,7 @@ export class EcommerceComponent implements OnInit {
             1,
             '%',
             30,
-            this.chosenYear,
+            this.chosenYear.toString(),
             '%',
             '%',
             '%',
@@ -348,7 +348,7 @@ export class EcommerceComponent implements OnInit {
         11,
         this.userDetails[0].v_yzrn,
         30,
-        this.chosenYear
+        this.chosenYear.toString()
       );
 
       //   עדכון מס קבוצת גידול חוץ
@@ -366,7 +366,7 @@ export class EcommerceComponent implements OnInit {
         const currentDate = new Date();
 
         // Set the year to 2022
-        currentDate.setFullYear(this.chosenYear);
+        currentDate.setFullYear(this.chosenYear.toString());
 
         // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
         const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
@@ -464,7 +464,9 @@ export class EcommerceComponent implements OnInit {
         const currentDate = `${year}${month}${day}`;
         return currentDate;
       }
-      const CurrentDate = await getCurrentDateAsString(this.chosenYear);
+      const CurrentDate = await getCurrentDateAsString(
+        this.chosenYear.toString()
+      );
       console.log(CurrentDate);
 
       // רישיון עסק התראה
@@ -490,7 +492,7 @@ export class EcommerceComponent implements OnInit {
       this.mihsot = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
-        this.chosenYear,
+        this.chosenYear.toString(),
         '30 - ביצי מאכל',
         88
       );
@@ -500,7 +502,7 @@ export class EcommerceComponent implements OnInit {
         this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
           5,
           this.userDetails[0]?.v_yzrn,
-          this.chosenYear,
+          this.chosenYear.toString(),
           '10',
           88
         );
@@ -509,7 +511,7 @@ export class EcommerceComponent implements OnInit {
         this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
           5,
           this.userDetails[0]?.v_yzrn,
-          this.chosenYear,
+          this.chosenYear.toString(),
           '01',
           88
         );
@@ -1053,7 +1055,7 @@ export class EcommerceComponent implements OnInit {
           var mihsot = await this.megadelSearchService.Micsa_Select_New(
             5,
             main_grower[0]?.pa_YzrnHead,
-            this.chosenYear,
+            this.chosenYear.toString(),
             '30 - ביצי מאכל',
             88
           );
@@ -2014,7 +2016,7 @@ export class EcommerceComponent implements OnInit {
         2,
         this.userDetails[0]?.v_yzrn,
         this.shloha,
-        this.chosenYear,
+        this.chosenYear.toString(),
         1,
         3,
         '',
@@ -2028,7 +2030,7 @@ export class EcommerceComponent implements OnInit {
         2,
         this.userDetails[0]?.v_yzrn,
         this.shloha,
-        this.chosenYear,
+        this.chosenYear.toString(),
         1,
         3,
         '',
@@ -2046,7 +2048,7 @@ export class EcommerceComponent implements OnInit {
     this.certificates_by_grewernum =
       await this.megadelSearchService.Teuda_Select_New(
         1,
-        this.chosenYear,
+        this.chosenYear.toString(),
         30,
         this.userDetails[0]?.v_yzrn,
         `${this.chosenYear}0101`,
@@ -2066,7 +2068,7 @@ export class EcommerceComponent implements OnInit {
 
     this.monthly_det = await this.megadelSearchService.Teuda_Calendary(
       4,
-      this.chosenYear,
+      this.chosenYear.toString(),
       '30',
       this.userDetails[0]?.v_yzrn,
       0,
@@ -2085,11 +2087,11 @@ export class EcommerceComponent implements OnInit {
     this.sort_site_by_shloha();
 
     this.rav_shnati_det = await this.megadelSearchService.Bizua_Rav_Shnati_Scr(
-      this.chosenYear,
+      this.chosenYear.toString(),
       7,
       this.shloha,
-      `${this.chosenYear}0101`,
-      `${this.chosenYear}1231`,
+      `${this.chosenYear.toString()}0101`,
+      `${this.chosenYear.toString()}1231`,
       '00',
       '99',
       this.userDetails[0]?.v_yzrn,
@@ -2121,7 +2123,7 @@ export class EcommerceComponent implements OnInit {
         this.userDetails[0]?.v_yzrn,
         '30',
         '01',
-        this.chosenYear,
+        this.chosenYear.toString(),
         ''
       );
     this.openPopup_grower_payment();
@@ -2189,7 +2191,7 @@ export class EcommerceComponent implements OnInit {
       this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
-        this.chosenYear,
+        this.chosenYear.toString(),
         '10',
         88
       );
@@ -2199,7 +2201,7 @@ export class EcommerceComponent implements OnInit {
       this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
-        this.chosenYear,
+        this.chosenYear.toString(),
         '01',
         88
       );
@@ -2210,7 +2212,7 @@ export class EcommerceComponent implements OnInit {
       this.mihsot = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
-        this.chosenYear,
+        this.chosenYear.toString(),
         '30 - ביצי מאכל',
         88
       );
@@ -2584,7 +2586,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   async onYearChange2() {
-    console.log(this.chosenYear);
+    console.log(this.chosenYear.toString());
     this.subscribe_func();
   }
 
@@ -2595,7 +2597,7 @@ export class EcommerceComponent implements OnInit {
     this.mihsot = await this.megadelSearchService.Micsa_Select_New(
       5,
       this.userDetails[0]?.v_yzrn,
-      this.chosenYear,
+      this.chosenYear.toString(),
       '30 - ביצי מאכל',
       88
     );
@@ -2604,7 +2606,7 @@ export class EcommerceComponent implements OnInit {
     this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
       5,
       this.userDetails[0]?.v_yzrn,
-      this.chosenYear,
+      this.chosenYear.toString(),
       '10',
       88
     );
@@ -2613,7 +2615,7 @@ export class EcommerceComponent implements OnInit {
     this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
       5,
       this.userDetails[0]?.v_yzrn,
-      this.chosenYear,
+      this.chosenYear.toString(),
       '01',
       88
     );
@@ -2669,7 +2671,7 @@ export class EcommerceComponent implements OnInit {
             11,
             this.userDetails[0].v_yzrn,
             30,
-            this.chosenYear
+            this.chosenYear.toString()
           );
 
         const thefarmdet = await this.getFarmDetailsArr([
@@ -2680,7 +2682,7 @@ export class EcommerceComponent implements OnInit {
         const currentDate = new Date();
 
         // Set the year to 2022
-        currentDate.setFullYear(this.chosenYear);
+        currentDate.setFullYear(this.chosenYear.toString());
 
         // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
         const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
@@ -2743,7 +2745,7 @@ export class EcommerceComponent implements OnInit {
             11,
             this.userDetails[0].v_yzrn,
             30,
-            this.chosenYear
+            this.chosenYear.toString()
           );
 
         const thefarmdet = [];
@@ -2752,7 +2754,7 @@ export class EcommerceComponent implements OnInit {
         const currentDate = new Date();
 
         // Set the year to 2022
-        currentDate.setFullYear(this.chosenYear);
+        currentDate.setFullYear(this.chosenYear.toString());
 
         // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
         const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
