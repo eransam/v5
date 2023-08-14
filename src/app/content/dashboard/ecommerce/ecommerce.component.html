@@ -814,7 +814,13 @@
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa">
                 <div class="card-header"></div>
-                <div class="card-content">
+                <div
+                  class="card-content"
+                  style="
+                    overflow-y: auto !important;
+                    overflow-x: auto !important;
+                  "
+                >
                   <div class="exel_and_total" style="justify-content: end">
                     <div>
                       <h1 class="rtl_Style">מכסת ביצים ג''ח</h1>
@@ -881,6 +887,59 @@
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <br /><br />
+
+                  <div *ngIf="all_full_farm_det_partner.length > 0">
+                    <div>
+                      <h1 class="rtl_Style" style="padding-right: 15px">
+                        אכלוס פרגיות למגדל שותף
+                      </h1>
+                    </div>
+                    <table
+                      class="table table-hover border_bottom detailsTable"
+                      style="direction: rtl"
+                    >
+                      <thead class="detailsTable"></thead>
+                      <tbody>
+                        <tr *ngFor="let row of all_full_farm_det_partner">
+                          <div *ngIf="row !== undefined">
+                            <td
+                              *ngIf="
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0 &&
+                                row.count_hiclos !== undefined &&
+                                row.real_hiclos_by_site_by_partner !== undefined
+                              "
+                              class="text-truncate row_padding"
+                            >
+                              <p *ngIf="row.is_hen_house_split === 1">
+                                אתר: {{ row?.house_num_int }} \
+                                {{ row?.farm_num }}
+                              </p>
+                              <p *ngIf="row.is_hen_house_split !== 1">
+                                אתר: {{ row?.farm_num }}
+                              </p>
+                            </td>
+                            <td
+                              *ngIf="
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0 &&
+                                row.count_hiclos !== undefined &&
+                                row.real_hiclos_by_site_by_partner !== undefined
+                              "
+                              class="text-truncate row_padding"
+                            >
+                              איכלוס:
+                              {{
+                                row?.real_hiclos_by_site_by_partner
+                                  | numberFormat
+                              }}
+                            </td>
+                          </div>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -1289,7 +1348,13 @@
             <div id="recent-transactions" class="col-12">
               <div class="card card-micsa" style="padding-right: 2%">
                 <div class="card-header"></div>
-                <div class="card-content">
+                <div
+                  class="card-content"
+                  style="
+                    overflow-y: auto !important;
+                    overflow-x: auto !important;
+                  "
+                >
                   <div class="exel_and_total" style="justify-content: end">
                     <div>
                       <h1 class="rtl_Style">מכסת ביצים ג''ח</h1>
@@ -1352,6 +1417,58 @@
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <br /><br />
+                  <div *ngIf="all_full_farm_det_partner.length > 0">
+                    <div>
+                      <h1 class="rtl_Style" style="padding-right: 15px">
+                        אכלוס פרגיות למגדל שותף
+                      </h1>
+                    </div>
+                    <table
+                      class="table table-hover border_bottom detailsTable"
+                      style="direction: rtl"
+                    >
+                      <thead class="detailsTable"></thead>
+                      <tbody>
+                        <tr *ngFor="let row of all_full_farm_det_partner">
+                          <div *ngIf="row !== undefined">
+                            <td
+                              *ngIf="
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0 &&
+                                row.count_hiclos !== undefined &&
+                                row.real_hiclos_by_site_by_partner !== undefined
+                              "
+                              class="text-truncate row_padding"
+                            >
+                              <p *ngIf="row.is_hen_house_split === 1">
+                                אתר: {{ row?.house_num_int }} \
+                                {{ row?.farm_num }}
+                              </p>
+                              <p *ngIf="row.is_hen_house_split !== 1">
+                                אתר: {{ row?.farm_num }}
+                              </p>
+                            </td>
+                            <td
+                              *ngIf="
+                                row.count_hiclos &&
+                                row.count_hiclos !== 0 &&
+                                row.count_hiclos !== undefined &&
+                                row.real_hiclos_by_site_by_partner !== undefined
+                              "
+                              class="text-truncate row_padding"
+                            >
+                              איכלוס:
+                              {{
+                                row?.real_hiclos_by_site_by_partner
+                                  | numberFormat
+                              }}
+                            </td>
+                          </div>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -1430,57 +1547,6 @@
                           </tr>
                         </tbody>
                       </table>
-                      <br /><br />
-
-                      <div *ngIf="all_full_farm_det_partner.length > 0">
-                        <div>
-                          <h1 class="rtl_Style" style="padding-right: 15px">
-                            אכלוס פרגיות למגדל שותף
-                          </h1>
-                        </div>
-                        <table
-                          class="table table-hover border_bottom detailsTable"
-                          style="direction: rtl"
-                        >
-                          <thead class="detailsTable"></thead>
-                          <tbody>
-                            <tr *ngFor="let row of all_full_farm_det_partner">
-                              <div *ngIf="row !== undefined">
-                                <td
-                                  *ngIf="
-                                    row.count_hiclos &&
-                                    row.count_hiclos !== 0 &&
-                                    row.count_hiclos !== undefined
-                                  "
-                                  class="text-truncate row_padding"
-                                >
-                                  <p *ngIf="row.is_hen_house_split === 1">
-                                    אתר: {{ row?.house_num_int }} \
-                                    {{ row?.farm_num }}
-                                  </p>
-                                  <p *ngIf="row.is_hen_house_split !== 1">
-                                    אתר: {{ row?.farm_num }}
-                                  </p>
-                                </td>
-                                <td
-                                  *ngIf="
-                                    row.count_hiclos &&
-                                    row.count_hiclos !== 0 &&
-                                    row.count_hiclos !== undefined
-                                  "
-                                  class="text-truncate row_padding"
-                                >
-                                  איכלוס:
-                                  {{
-                                    row?.real_hiclos_by_site_by_partner
-                                      | numberFormat
-                                  }}
-                                </td>
-                              </div>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
 
                       <!-- טבלת מכסות ביצים סיום -->
                     </div>

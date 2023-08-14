@@ -411,163 +411,7 @@ export class EcommerceComponent implements OnInit {
       // -------------------------------------------------------------------------------------------------------------------------
       //   לוגיקה התראות --------------------------------------------------------------------------------------------------------
       // -------------------------------------------------------------------------------------------------------------------------
-
-      // התראה של שם ישן --- מבוטללללללל
-      this.oldNameGrower =
-        await this.megadelSearchService.Yazran_History_Get_Data(
-          this.userDetails[0].v_yzrn,
-          'yz_shem'
-        );
-      if (this.oldNameGrower[0]?.Old_Name_Yazran.length > 0) {
-        this.checkOldGrowerName = false;
-      }
-
-      // v_SelfConsum_piece4 - אישור שוט וחילוץ מס האישור --------- מבוטלללללללללללל
-      if (this.userDetails_more_info[0]?.v_SelfConsum) {
-        const pieces = this.userDetails_more_info[0]?.v_SelfConsum.split(',');
-        this.v_SelfConsum_piece4 = pieces[3];
-      }
-
-      //  עיזבון - בדיקה האם יש ובמידה ויש יצירת אובייקט לפופאפ
-      if (
-        this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900' &&
-        this.userDetails_more_info[0]?.v_DtPtira !== ''
-      ) {
-        this.checkIzavon = true;
-        this.objIzavon = [
-          {
-            v_dtUpdIzavon: this.userDetails_more_info[0]?.v_dtUpdIzavon,
-            v_DtPtira: this.userDetails_more_info[0]?.v_DtPtira,
-          },
-        ];
-      }
-      //   v_Ben_Zug_Shutaf - בן זוג שותף התראה
-      if (this.userDetails_more_info[0]?.v_Ben_Zug_Shutaf !== '0') {
-        this.Check_Ben_Zug_Shotaf = true;
-      }
-      //   v_name_kaful - כפל גידול
-      if (this.userDetails_more_info[0]?.v_name_kaful !== '0') {
-        this.Check_v_name_kaful = true;
-      }
-      //התראה על כתובת שונה של היצרן
-      this.check_if_Yzrn_have_Other_Addr =
-        await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
-          this.userDetails[0].v_yzrn
-        );
-      if (this.check_if_Yzrn_have_Other_Addr.length > 0) {
-        this.yzrn_have_other_addr = true;
-      }
-
-      //התראה על כתובת שונה של היצרן - סיום
-      function getCurrentDateAsString(chosenYear): string {
-        const today = new Date();
-        const year = chosenYear;
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        const currentDate = `${year}${month}${day}`;
-        return currentDate;
-      }
-      const CurrentDate = await getCurrentDateAsString(
-        this.chosenYear.toString()
-      );
-      console.log(CurrentDate);
-
-      // רישיון עסק התראה
-      this.businessLicense =
-        await this.megadelSearchService.Yzrn_Get_Rishaion_Esek(
-          2,
-          30,
-          this.userDetails[0].v_yzrn,
-          CurrentDate,
-          0
-        );
-      const pieces = this.businessLicense[0]?.McsRishaion_Esek.split(',');
-      const piece4 = pieces[3];
-      const piece1_kamot = pieces[0];
-      const piece1_until_date = pieces[2];
-      this.businessLicense_all_details = ` רישיון עסק ${piece1_kamot}  עד ${piece1_until_date} `;
-      this.shot_confirmation = pieces[3];
-      this.McsRishaion_Esek_number_type = parseFloat(
-        this.businessLicense[0]?.McsRishaion_Esek
-      );
-
-      // מכסות ביצים
-      this.mihsot = await this.megadelSearchService.Micsa_Select_New(
-        5,
-        this.userDetails[0]?.v_yzrn,
-        this.chosenYear.toString(),
-        '30 - ביצי מאכל',
-        88
-      );
-
-      if (this.mihsot.length === 0) {
-        // מכסות פטם
-        this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
-          5,
-          this.userDetails[0]?.v_yzrn,
-          this.chosenYear.toString(),
-          '10',
-          88
-        );
-
-        // מכסות הודים
-        this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
-          5,
-          this.userDetails[0]?.v_yzrn,
-          this.chosenYear.toString(),
-          '01',
-          88
-        );
-      }
-
-      //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
-      this.totalMicsaKvoha = 0;
-      this.totalMicsaToPay = 0;
-
-      for (const iterator of this.mihsot) {
-        if (
-          iterator.mi_sug_mcsa === '1 ' ||
-          iterator.mi_sug_mcsa === '2 ' ||
-          iterator.mi_sug_mcsa === '3 ' ||
-          iterator.mi_sug_mcsa === '1' ||
-          iterator.mi_sug_mcsa === '2' ||
-          iterator.mi_sug_mcsa === '3'
-        ) {
-          this.totalMicsaKvoha += iterator.mi_kamut;
-        }
-        if (
-          iterator.mi_sug_mcsa === '4 ' ||
-          iterator.mi_sug_mcsa === '4' ||
-          iterator.mi_sug_mcsa === '11' ||
-          iterator.mi_sug_mcsa === '11 ' ||
-          iterator.mi_sug_mcsa === '5' ||
-          iterator.mi_sug_mcsa === '5 '
-        ) {
-          this.totalMicsaToPay += iterator.mi_kamut;
-        }
-      }
-      this.isLoading_micsa_egg_ishit = false;
-
-      // קנט ושם מגדל ישן
-      this.kannatNum_and_oldMegadelNum =
-        await this.megadelSearchService.YazrnExtrnl_Get_Code(
-          2,
-          '',
-          this.userDetails[0]?.v_yzrn
-        );
-
-      for (let i = 0; i < this.kannatNum_and_oldMegadelNum.length; i++) {
-        let item = this.kannatNum_and_oldMegadelNum[i];
-        if (item.NameMsvkExt === 'מספר מגדל ישן') {
-          this.arrOfOldGrower.push(item);
-          this.kannatNum_and_oldMegadelNum.splice(i, 1);
-          i--;
-        }
-      }
-
-      // -------------------------------------------------------------------------------------------------------------------------
-      //  סיום לוגיקה התראות ----------------------------------------------------------------------------------------------------
-      // -------------------------------------------------------------------------------------------------------------------------
+      await this.alarm_func();
 
       // חילוץ אתרי המגדל
       this.farm_start_det = await this.megadelSearchService.farm_start_det(
@@ -711,8 +555,6 @@ export class EcommerceComponent implements OnInit {
         this.groupedArray[tzrt].push(obj);
       });
 
-      console.log(this.groupedArray);
-
       if (this.groupedArray[22]) {
         const uniqueTzrtSet = new Set();
 
@@ -756,14 +598,14 @@ export class EcommerceComponent implements OnInit {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         } else {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         }
@@ -849,43 +691,6 @@ export class EcommerceComponent implements OnInit {
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
               if (this.userDetails[0].Rashi !== '2') {
-                // if (obj.farm_code_with_slesh) {
-                //     var real_hiclos_by_site =
-                //       await this.megadelSearchService.get_real_hiclos_in_site_splite(
-                //         obj?.farm_num,
-                //         obj?.flock_num,
-                //         obj.farm_code_with_slesh
-                //       );
-
-                //     var count_hiclos = 0;
-                //     for (let obj2 of real_hiclos_by_site) {
-                //       if (obj2.chicken_sum_female) {
-                //         count_hiclos += Number(obj2.chicken_sum_female);
-                //       }
-                //     }
-                //     obj.count_hiclos = count_hiclos;
-                //   } else {
-                //     var real_hiclos_by_site =
-                //       await this.megadelSearchService.get_real_hiclos_in_site(
-                //         obj?.farm_num,
-                //         obj?.flock_num
-                //       );
-
-                //     this.all_certificate_det = [
-                //       ...this.all_certificate_det,
-                //       ...real_hiclos_by_site,
-                //     ];
-
-                //     var count_hiclos = 0;
-                //     for (let obj2 of real_hiclos_by_site) {
-                //       if (obj2.chicken_sum_female) {
-                //         count_hiclos += Number(obj2.chicken_sum_female);
-                //       }
-                //     }
-
-                //     obj.count_hiclos = count_hiclos;
-                //   }
-
                 if (obj.farm_code_with_slesh) {
                   var real_hiclos_by_site =
                     await this.megadelSearchService.get_real_hiclos_in_site_splite(
@@ -939,6 +744,8 @@ export class EcommerceComponent implements OnInit {
               }
             }
           }
+
+          //   טוטל איכלוס
           this.total_hiclos = 0;
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
@@ -1061,14 +868,14 @@ export class EcommerceComponent implements OnInit {
               var Get_zan_num = await this.megadelSearchService.Get_zan_num(
                 obj.id,
                 main_grower[0]?.pa_YzrnHead,
-                this.min_date_cartificate_transfer
+                the_min_date_cartificate_transfer
               );
               obj.zan_det = Get_zan_num;
             } else {
               var Get_zan_num = await this.megadelSearchService.Get_zan_num(
                 obj.id,
                 main_grower[0]?.pa_YzrnHead,
-                this.min_date_cartificate_transfer
+                the_min_date_cartificate_transfer
               );
               obj.zan_det = Get_zan_num;
             }
@@ -1435,10 +1242,16 @@ export class EcommerceComponent implements OnInit {
           if (obj.farm_num.toString().includes('/')) {
             var parts = obj.farm_num.split('/');
             var extractedValue = parts[0];
+            var main_split_grower =
+              await this.megadelSearchService.Get_grower_num_and_grower_id_by_farm_code(
+                extractedValue
+              );
+
+            console.log(main_split_grower);
 
             var Get_zan_num = await this.megadelSearchService.Get_zan_num(
               obj.farm_id,
-              this.userDetails[0].v_yzrn,
+              main_split_grower[0].yz_yzrn,
               the_min_date_cartificate_transfer
             );
             obj.zan_det = Get_zan_num;
@@ -1570,7 +1383,7 @@ export class EcommerceComponent implements OnInit {
               }
             }
 
-            // יצירת סהכ איכלוס
+            // יצירת טוטל איכלוס
             this.total_hiclos = 0;
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
@@ -1615,6 +1428,161 @@ export class EcommerceComponent implements OnInit {
     });
   }
 
+  async alarm_func() {
+    // התראה של שם ישן --- מבוטללללללל
+    this.oldNameGrower =
+      await this.megadelSearchService.Yazran_History_Get_Data(
+        this.userDetails[0].v_yzrn,
+        'yz_shem'
+      );
+    if (this.oldNameGrower[0]?.Old_Name_Yazran.length > 0) {
+      this.checkOldGrowerName = false;
+    }
+
+    // v_SelfConsum_piece4 - אישור שוט וחילוץ מס האישור --------- מבוטלללללללללללל
+    if (this.userDetails_more_info[0]?.v_SelfConsum) {
+      const pieces = this.userDetails_more_info[0]?.v_SelfConsum.split(',');
+      this.v_SelfConsum_piece4 = pieces[3];
+    }
+
+    //  עיזבון - בדיקה האם יש ובמידה ויש יצירת אובייקט לפופאפ
+    if (
+      this.userDetails_more_info[0]?.v_DtPtira !== '01/01/1900' &&
+      this.userDetails_more_info[0]?.v_DtPtira !== ''
+    ) {
+      this.checkIzavon = true;
+      this.objIzavon = [
+        {
+          v_dtUpdIzavon: this.userDetails_more_info[0]?.v_dtUpdIzavon,
+          v_DtPtira: this.userDetails_more_info[0]?.v_DtPtira,
+        },
+      ];
+    }
+    //   v_Ben_Zug_Shutaf - בן זוג שותף התראה
+    if (this.userDetails_more_info[0]?.v_Ben_Zug_Shutaf !== '0') {
+      this.Check_Ben_Zug_Shotaf = true;
+    }
+    //   v_name_kaful - כפל גידול
+    if (this.userDetails_more_info[0]?.v_name_kaful !== '0') {
+      this.Check_v_name_kaful = true;
+    }
+    //התראה על כתובת שונה של היצרן
+    this.check_if_Yzrn_have_Other_Addr =
+      await this.megadelSearchService.Yzrn_Other_Addr_Get_Data(
+        this.userDetails[0].v_yzrn
+      );
+    if (this.check_if_Yzrn_have_Other_Addr.length > 0) {
+      this.yzrn_have_other_addr = true;
+    }
+
+    //התראה על כתובת שונה של היצרן - סיום
+    function getCurrentDateAsString(chosenYear): string {
+      const today = new Date();
+      const year = chosenYear;
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      const currentDate = `${year}${month}${day}`;
+      return currentDate;
+    }
+    const CurrentDate = await getCurrentDateAsString(
+      this.chosenYear.toString()
+    );
+    console.log(CurrentDate);
+
+    // רישיון עסק התראה
+    this.businessLicense =
+      await this.megadelSearchService.Yzrn_Get_Rishaion_Esek(
+        2,
+        30,
+        this.userDetails[0].v_yzrn,
+        CurrentDate,
+        0
+      );
+    const pieces = this.businessLicense[0]?.McsRishaion_Esek.split(',');
+    const piece4 = pieces[3];
+    const piece1_kamot = pieces[0];
+    const piece1_until_date = pieces[2];
+    this.businessLicense_all_details = ` רישיון עסק ${piece1_kamot}  עד ${piece1_until_date} `;
+    this.shot_confirmation = pieces[3];
+    this.McsRishaion_Esek_number_type = parseFloat(
+      this.businessLicense[0]?.McsRishaion_Esek
+    );
+
+    // מכסות ביצים
+    this.mihsot = await this.megadelSearchService.Micsa_Select_New(
+      5,
+      this.userDetails[0]?.v_yzrn,
+      this.chosenYear.toString(),
+      '30 - ביצי מאכל',
+      88
+    );
+
+    if (this.mihsot.length === 0) {
+      // מכסות פטם
+      this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.v_yzrn,
+        this.chosenYear.toString(),
+        '10',
+        88
+      );
+
+      // מכסות הודים
+      this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
+        5,
+        this.userDetails[0]?.v_yzrn,
+        this.chosenYear.toString(),
+        '01',
+        88
+      );
+    }
+
+    //סה''כ מכסה קבועה:  + סה''כ מכסה לתשלום:
+    this.totalMicsaKvoha = 0;
+    this.totalMicsaToPay = 0;
+
+    for (const iterator of this.mihsot) {
+      if (
+        iterator.mi_sug_mcsa === '1 ' ||
+        iterator.mi_sug_mcsa === '2 ' ||
+        iterator.mi_sug_mcsa === '3 ' ||
+        iterator.mi_sug_mcsa === '1' ||
+        iterator.mi_sug_mcsa === '2' ||
+        iterator.mi_sug_mcsa === '3'
+      ) {
+        this.totalMicsaKvoha += iterator.mi_kamut;
+      }
+      if (
+        iterator.mi_sug_mcsa === '4 ' ||
+        iterator.mi_sug_mcsa === '4' ||
+        iterator.mi_sug_mcsa === '11' ||
+        iterator.mi_sug_mcsa === '11 ' ||
+        iterator.mi_sug_mcsa === '5' ||
+        iterator.mi_sug_mcsa === '5 '
+      ) {
+        this.totalMicsaToPay += iterator.mi_kamut;
+      }
+    }
+    this.isLoading_micsa_egg_ishit = false;
+
+    // קנט ושם מגדל ישן
+    this.kannatNum_and_oldMegadelNum =
+      await this.megadelSearchService.YazrnExtrnl_Get_Code(
+        2,
+        '',
+        this.userDetails[0]?.v_yzrn
+      );
+
+    for (let i = 0; i < this.kannatNum_and_oldMegadelNum.length; i++) {
+      let item = this.kannatNum_and_oldMegadelNum[i];
+      if (item.NameMsvkExt === 'מספר מגדל ישן') {
+        this.arrOfOldGrower.push(item);
+        this.kannatNum_and_oldMegadelNum.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
   async get_more_farm_det_by_farm_num(farm_num: any) {
     console.log(farm_num);
 
@@ -1646,6 +1614,18 @@ export class EcommerceComponent implements OnInit {
     if (this.farm_det_new.length > 0) {
       // הוספת זנים
       for (let obj of this.farm_det_new) {
+        var the_min_date_cartificate_transfer: any;
+        if (this.min_date_cartificate_transfer === '') {
+          the_min_date_cartificate_transfer = new Date();
+          the_min_date_cartificate_transfer = this.datePipe.transform(
+            the_min_date_cartificate_transfer,
+            'yyyy-MM-dd HH:mm:ss.SSS'
+          );
+        } else {
+          the_min_date_cartificate_transfer =
+            this.min_date_cartificate_transfer;
+        }
+
         if (obj.farm_num.toString().includes('/')) {
           var parts = obj.farm_num.split('/');
           var extractedValue = parts[0];
@@ -1653,14 +1633,14 @@ export class EcommerceComponent implements OnInit {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         } else {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         }
@@ -1848,14 +1828,14 @@ export class EcommerceComponent implements OnInit {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         } else {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         }
@@ -2335,14 +2315,14 @@ export class EcommerceComponent implements OnInit {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         } else {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         }
@@ -2538,14 +2518,14 @@ export class EcommerceComponent implements OnInit {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         } else {
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
             obj.farm_id,
             this.userDetails[0].v_yzrn,
-            this.min_date_cartificate_transfer
+            the_min_date_cartificate_transfer
           );
           obj.zan_det = Get_zan_num;
         }
