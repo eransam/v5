@@ -819,11 +819,16 @@ export class EcommerceComponent implements OnInit {
             if (obj.code.toString().includes('/')) {
               var parts = obj.code.split('/');
               var extractedValue = parts[0];
+              var grower_num_and_grower_id_by_farm_code =
+                await this.megadelSearchService.Get_grower_num_and_grower_id_by_farm_code(
+                  extractedValue
+                );
+              console.log(grower_num_and_grower_id_by_farm_code);
 
               var farm_det_new_to_count =
                 await this.megadelSearchService.get_farm_det_v2(
-                  growerId_and_grower_num[0]?.yz_yzrn,
-                  growerId_and_grower_num[0]?.grower_id,
+                  grower_num_and_grower_id_by_farm_code[0]?.yz_yzrn,
+                  grower_num_and_grower_id_by_farm_code[0]?.grower_id,
                   extractedValue
                 );
 
@@ -844,12 +849,58 @@ export class EcommerceComponent implements OnInit {
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
               if (this.userDetails[0].Rashi !== '2') {
-                // הוספת שדה איכלוס
-                var real_hiclos_by_site =
-                  await this.megadelSearchService.get_real_hiclos_in_site(
-                    obj?.farm_num,
-                    obj?.flock_num
-                  );
+                // if (obj.farm_code_with_slesh) {
+                //     var real_hiclos_by_site =
+                //       await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                //         obj?.farm_num,
+                //         obj?.flock_num,
+                //         obj.farm_code_with_slesh
+                //       );
+
+                //     var count_hiclos = 0;
+                //     for (let obj2 of real_hiclos_by_site) {
+                //       if (obj2.chicken_sum_female) {
+                //         count_hiclos += Number(obj2.chicken_sum_female);
+                //       }
+                //     }
+                //     obj.count_hiclos = count_hiclos;
+                //   } else {
+                //     var real_hiclos_by_site =
+                //       await this.megadelSearchService.get_real_hiclos_in_site(
+                //         obj?.farm_num,
+                //         obj?.flock_num
+                //       );
+
+                //     this.all_certificate_det = [
+                //       ...this.all_certificate_det,
+                //       ...real_hiclos_by_site,
+                //     ];
+
+                //     var count_hiclos = 0;
+                //     for (let obj2 of real_hiclos_by_site) {
+                //       if (obj2.chicken_sum_female) {
+                //         count_hiclos += Number(obj2.chicken_sum_female);
+                //       }
+                //     }
+
+                //     obj.count_hiclos = count_hiclos;
+                //   }
+
+                if (obj.farm_code_with_slesh) {
+                  var real_hiclos_by_site =
+                    await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                      obj?.farm_num,
+                      obj?.flock_num,
+                      obj.farm_code_with_slesh
+                    );
+                } else {
+                  // הוספת שדה איכלוס
+                  var real_hiclos_by_site =
+                    await this.megadelSearchService.get_real_hiclos_in_site(
+                      obj?.farm_num,
+                      obj?.flock_num
+                    );
+                }
 
                 this.real_hiclos_by_site_by_partner =
                   real_hiclos_by_site.filter(
@@ -888,7 +939,7 @@ export class EcommerceComponent implements OnInit {
               }
             }
           }
-
+          this.total_hiclos = 0;
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
               //   if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
@@ -1520,6 +1571,7 @@ export class EcommerceComponent implements OnInit {
             }
 
             // יצירת סהכ איכלוס
+            this.total_hiclos = 0;
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
                 if (obj.count_hiclos) {
@@ -1636,9 +1688,14 @@ export class EcommerceComponent implements OnInit {
 
       // הוספת תאריך איכלוס ראשוני
       for (let obj of this.farm_det_new) {
+        if (obj.farm_num.includes('/')) {
+          newVariable = obj.farm_num.split('/')[0];
+        } else {
+          newVariable = obj.farm_num;
+        }
         var first_hiclos =
           await this.megadelSearchService.get_first_hicls_by_farm_code(
-            obj.farm_num
+            newVariable
           );
         console.log(first_hiclos);
         obj.first_hiclos = first_hiclos[0].MinimumDate;
@@ -2312,9 +2369,15 @@ export class EcommerceComponent implements OnInit {
 
       // הוספת תאריך איכלוס ראשוני
       for (let obj of this.farm_det_new) {
+        if (obj.farm_num.includes('/')) {
+          newVariable = obj.farm_num.split('/')[0];
+        } else {
+          newVariable = obj.farm_num;
+        }
+
         var first_hiclos =
           await this.megadelSearchService.get_first_hicls_by_farm_code(
-            obj.farm_num
+            newVariable
           );
         console.log(first_hiclos);
         obj.first_hiclos = first_hiclos[0].MinimumDate;
