@@ -1528,6 +1528,24 @@ export class EcommerceComponent implements OnInit {
               }
             }
 
+            // יצירת סהכ העברות
+            for (let obj of this.all_full_farm_det) {
+              if (obj !== undefined) {
+                var more_hiclos_pargit =
+                  await this.megadelSearchService.get_more_hiclos_pargit(
+                    obj?.farm_id,
+                    obj?.flock_num,
+                    this.userDetails[0].cdgdl
+                  );
+                console.log(more_hiclos_pargit);
+                if (more_hiclos_pargit.length > 0) {
+                  for (let obj of more_hiclos_pargit) {
+                    this.count_more_hiclos += obj.pr_Kamut;
+                  }
+                }
+              }
+            }
+
             this.total_hiclos += this.count_more_hiclos;
           }
         }
