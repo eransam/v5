@@ -1128,13 +1128,14 @@ export class EcommerceComponent implements OnInit {
 
         var newVariable;
 
+        // במידה והאתר להצגה הוא מחיצה אנו נחלץ את האתר הכולל
         if (this.the_chosen_farm.includes('/')) {
           newVariable = this.the_chosen_farm.split('/')[0];
         } else {
           newVariable = this.the_chosen_farm;
         }
 
-        // חילוץ איידי מגדל לפי מס אתר
+        // אנו נחלץ את האיידי של המגדל הראשי , במידה והאתר הוא מחיצה והמגדל שלנו הוא לא ראשי זה יביא את האיידי של המגדל הראשי
         var growerId =
           await this.megadelSearchService.get_growerId_By_code_atar(
             newVariable
@@ -1170,6 +1171,7 @@ export class EcommerceComponent implements OnInit {
               growerId[0]?.grower_id
             );
 
+          // חילוץ פרטי האתר שלי האתר הכללי בעזרת המגדל הראשי במידה וזה אתר מחיצה ואנו ללא המגדל הראשי
           this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
             growerId_and_grower_num[0]?.yz_yzrn,
             growerId_and_grower_num[0]?.grower_id,
@@ -1179,17 +1181,15 @@ export class EcommerceComponent implements OnInit {
       }
 
       if (this.farm_det_new) {
-        // הוספת שם אתר מחיצה
+        // הוספת שם אתר מחיצה ושינוי שם אתר נכון לפי מגדל שותף באתר מחיצה
         for (let obj of this.farm_det_new) {
           if (obj.is_hen_house_split === 1) {
             var split_site_name =
               await this.megadelSearchService.Get_split_site_name_by_grower_id(
                 this.userDetails[0]?.v_yzrn_id
               );
-
-            console.log(split_site_name);
-
             obj.farm_num = split_site_name[0].code;
+            obj.farm_name = this.userDetails[0]?.v_shem_yzrn;
           }
         }
 
@@ -1428,6 +1428,8 @@ export class EcommerceComponent implements OnInit {
         if (growerId_and_grower_num) {
           //   עוברים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
           for (let obj of this.farm_start_det) {
+            
+            //במידה והאתר הוא מחיצה אנו נחלץ נתוני אתר לפי האתר הכולל
             if (obj.code.toString().includes('/')) {
               var parts = obj.code.split('/');
               var extractedValue = parts[0];
@@ -1437,9 +1439,11 @@ export class EcommerceComponent implements OnInit {
                   growerId_and_grower_num[0]?.grower_id,
                   extractedValue
                 );
-
+              // נוסיף לאובייקט  עוד שדה המכיל את מספר האתר עם המחיצה
               if (farm_det_new_to_count.length > 0) {
                 farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+
+                // לאחר מכן אנו נכניס את האובייקט הגמור למערך
                 this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
               }
             } else {
@@ -1449,9 +1453,12 @@ export class EcommerceComponent implements OnInit {
                   growerId_and_grower_num[0]?.grower_id,
                   obj.code
                 );
+
               this.all_full_farm_det.push(farm_det_new_to_count[0]);
             }
           }
+
+          console.log(this.all_full_farm_det);
 
           //   הוספת שדה איכלוס ומשתנה איכלוס טוטל כל האתרים
           if (this.all_full_farm_det[0] !== undefined) {
