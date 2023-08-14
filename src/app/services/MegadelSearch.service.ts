@@ -12,6 +12,50 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_grower_id_by_grower_number(grower_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_grower_id_by_grower_number?grower_num=${grower_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_farm_id_by_farm_code(farm_code: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_farm_id_by_farm_code?farm_code=${farm_code}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_flock_num_by_farm_id(farm_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_flock_num_by_farm_id?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_more_hiclos_pargit(
+    id_atar: any,
+    flock_num: any,
+    cdgdl: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_more_hiclos_pargit?id_atar=${id_atar}&flock_num=${flock_num}&cdgdl=${cdgdl}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_first_hicls_by_farm_code(farm_code: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -90,10 +134,7 @@ export class MegadelSearchService {
     return item;
   }
 
-  async get_real_hiclos_in_site(
-    site_num: any,
-    flock_id: any
-  ): Promise<any[]> {
+  async get_real_hiclos_in_site(site_num: any, flock_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site?site_num=${site_num}&flock_id=${flock_id}`

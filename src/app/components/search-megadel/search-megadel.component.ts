@@ -29,6 +29,7 @@ import * as XLSX from 'xlsx';
 
 import { Router } from '@angular/router';
 import { NotifyService } from '../../services/notify.service';
+import { log } from 'console';
 const { jsPDF } = require('jspdf');
 require('jspdf-autotable');
 
@@ -750,6 +751,7 @@ export class SearchMegadelComponent implements OnInit {
     if (the_growers_id_by_name !== '') {
       for (let obj of the_growers_id_by_name) {
         if (obj?.splite) {
+          // מביא את פרטי המגדל
           var the_grower_det =
             await this.megadelSearchService.get_start_grower_det(
               obj.yz_Id,
@@ -795,6 +797,7 @@ export class SearchMegadelComponent implements OnInit {
     console.log(the_grower_det);
     console.log(this.new_arr_growers_det);
 
+    // הוספת שדה פעיל לא פעיל למגדל
     for (let item of this.new_arr_growers_det) {
       if (item !== undefined) {
         var active_check = await this.megadelSearchService.check_active_growers(
@@ -802,31 +805,44 @@ export class SearchMegadelComponent implements OnInit {
         );
         console.log(active_check);
 
-        if (active_check.length > 0) {
+        if (active_check.length === 2) {
           item.is_real_active = active_check[0].code;
+          item.is_real_active_2 = active_check[1].code;
         } else {
-          item.is_real_active = 9;
+          if (active_check.length > 0) {
+            item.is_real_active = active_check[0].code;
+          } else {
+            item.is_real_active = 9;
+          }
         }
       }
     }
 
+    console.log(this.new_arr_growers_det);
+    // במידה והיוזר בחר לראות את המגדלים הפעילים אנו מחלצים רק את הפעילים
     if (this.selectedStatusControl.value === 'active') {
       var new_arr_growers_det_active = this.new_arr_growers_det.filter(
-        (obj) => obj.is_real_active === 1
+        (obj) => obj.is_real_active === 1 || obj.is_real_active_2
       );
       this.new_arr_growers_det = new_arr_growers_det_active;
     }
+
+    // כנל
     if (this.selectedStatusControl.value === 'inactive') {
       var new_arr_growers_det_inactive = this.new_arr_growers_det.filter(
-        (obj) => obj.is_real_active === 2
+        (obj) => obj.is_real_active === 9
       );
       this.new_arr_growers_det = new_arr_growers_det_inactive;
     }
+
+    // כנל
     if (this.selectedStatusControl.value === 'historicallyActive') {
       var new_arr_growers_det_historicallyActive =
-        this.new_arr_growers_det.filter((obj) => obj.is_real_active === 9);
+        this.new_arr_growers_det.filter((obj) => obj.is_real_active === 2);
       this.new_arr_growers_det = new_arr_growers_det_historicallyActive;
     }
+
+    // כנל
     if (this.selectedStatusControl.value === 'all') {
       var new_arr_growers_det_all = this.new_arr_growers_det;
       this.new_arr_growers_det = new_arr_growers_det_all;
