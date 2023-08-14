@@ -1428,7 +1428,6 @@ export class EcommerceComponent implements OnInit {
         if (growerId_and_grower_num) {
           //   עוברים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
           for (let obj of this.farm_start_det) {
-            
             //במידה והאתר הוא מחיצה אנו נחלץ נתוני אתר לפי האתר הכולל
             if (obj.code.toString().includes('/')) {
               var parts = obj.code.split('/');
@@ -1444,13 +1443,13 @@ export class EcommerceComponent implements OnInit {
                 farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
 
                 // לאחר מכן אנו נכניס את האובייקט הגמור למערך
-                this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
+                this.all_full_farm_det.push(farm_det_new_to_count[0]);
               }
             } else {
               var farm_det_new_to_count =
                 await this.megadelSearchService.get_farm_det_v2(
-                  growerId_and_grower_num[0]?.yz_yzrn,
-                  growerId_and_grower_num[0]?.grower_id,
+                  this.userDetails[0].v_yzrn,
+                  this.userDetails[0].v_yzrn_id,
                   obj.code
                 );
 
