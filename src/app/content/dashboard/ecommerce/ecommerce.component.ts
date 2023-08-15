@@ -189,6 +189,7 @@ export class EcommerceComponent implements OnInit {
   partners_hodim_by_site: any = [];
   min_date_cartificate_transfer: any;
   count_more_hiclos: any = 0;
+  more_hiclos_pargit_after_kizuz: any = 0;
   constructor(
     private SharedServiceService: SharedServiceService,
     private cdr: ChangeDetectorRef,
@@ -202,6 +203,8 @@ export class EcommerceComponent implements OnInit {
 
   async ngOnInit() {
     this.count_more_hiclos = 0;
+    this.more_hiclos_pargit_after_kizuz = 0;
+
     this.shloha_tatle = '';
     this.min_date_cartificate_transfer = '';
     this.all_certificate_det = [];
@@ -236,6 +239,8 @@ export class EcommerceComponent implements OnInit {
   async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
       this.count_more_hiclos = 0;
+      this.more_hiclos_pargit_after_kizuz = 0;
+
       this.min_date_cartificate_transfer = '';
       this.shloha_tatle = '';
       this.all_certificate_det = [];
@@ -578,6 +583,69 @@ export class EcommerceComponent implements OnInit {
         this.site_partners_petem = uniqueTzrtArray2;
       }
 
+      // הוספת איכלוס טוטל פר אתר כולל מחיצות
+      for (let obj of this.new_Active_FarmDetails) {
+        if (obj !== undefined) {
+          if (obj.code.toString().includes('/')) {
+            var parts = obj.code.split('/');
+            var farm_num = parts[0];
+
+            var real_hiclos_by_site =
+              await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                farm_num,
+                obj?.flock_num,
+                obj.farm_num
+              );
+            if (real_hiclos_by_site.length > 0) {
+              const dateArray = real_hiclos_by_site.map(
+                (item) => item.create_date
+              );
+              const minDate = dateArray.reduce((min, current) =>
+                current < min ? current : min
+              );
+              console.log(minDate);
+              obj.minDate_hiclos = minDate;
+              this.min_date_cartificate_transfer = minDate;
+            }
+
+            this.all_certificate_det = [
+              ...this.all_certificate_det,
+              ...real_hiclos_by_site,
+            ];
+            console.log(this.all_certificate_det);
+          } else {
+            var real_hiclos_by_site =
+              await this.megadelSearchService.get_real_hiclos_in_site(
+                obj?.code,
+                obj?.flock_num
+              );
+            if (real_hiclos_by_site.length > 0) {
+              const dateArray = real_hiclos_by_site.map(
+                (item) => item.create_date
+              );
+              const minDate = dateArray.reduce((min, current) =>
+                current < min ? current : min
+              );
+              console.log(minDate);
+              obj.minDate_hiclos = minDate;
+              this.min_date_cartificate_transfer = minDate;
+            }
+
+            this.all_certificate_det = [
+              ...this.all_certificate_det,
+              ...real_hiclos_by_site,
+            ];
+          }
+          var count_hiclos = 0;
+          for (let obj2 of real_hiclos_by_site) {
+            if (obj2.chicken_sum_female) {
+              count_hiclos += Number(obj2.chicken_sum_female);
+            }
+          }
+          obj.count_hiclos_total_site = count_hiclos;
+        }
+      }
+
       //   הוספת זנים
       for (let obj of this.new_Active_FarmDetails) {
         var the_min_date_cartificate_transfer: any;
@@ -595,8 +663,13 @@ export class EcommerceComponent implements OnInit {
           var parts = obj.code.split('/');
           var extractedValue = parts[0];
 
+          var farm_id_new =
+            await this.megadelSearchService.get_farm_id_by_farm_code(
+              extractedValue
+            );
+
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-            obj.id,
+            farm_id_new[0].id,
             this.userDetails[0].v_yzrn,
             the_min_date_cartificate_transfer
           );
@@ -627,7 +700,7 @@ export class EcommerceComponent implements OnInit {
       }
 
       //   במידה והמגדל הוא לא ראשי
-      if (this.userDetails_more_info[0]?.Rashi === '0') {
+      if (this.userDetails_more_info[0]?.Rashi == '0') {
         this.total_hiclos = 0;
         this.real_hiclos_by_site_by_partner = 0;
         this.total_pargiot = 0;
@@ -655,18 +728,112 @@ export class EcommerceComponent implements OnInit {
           grower_id[0]?.yz_id
         );
 
+        // הוספת מספרי להקה
+        for (let obj of farm_start_det) {
+          if (obj.code.toString().includes('/')) {
+            var parts = obj.code.split('/');
+            var extractedValue = parts[0];
+            var farm_id =
+              await this.megadelSearchService.get_farm_id_by_farm_code(
+                extractedValue
+              );
+            console.log(farm_id);
+            var flock_num =
+              await this.megadelSearchService.get_flock_num_by_farm_id(
+                farm_id[0].id
+              );
+            console.log(flock_num);
+            if (flock_num.length > 0) {
+              obj.flock_num = flock_num[0].id;
+            }
+          }
+          var flock_num =
+            await this.megadelSearchService.get_flock_num_by_farm_id(obj.id);
+          console.log(flock_num);
+          if (flock_num.length > 0) {
+            obj.flock_num = flock_num[0].id;
+          }
+        }
+
+        //   הוספת שם יצרן ללולי מחיצה ראשיים שאין להם שם מגדל
+        for (let obj of farm_start_det) {
+          if (obj.name === null) {
+            obj.name = this.userDetails[0].v_shem_yzrn;
+          }
+        }
+
+        //   יצירת שלוחות של אתרי המגדל
+        if (farm_start_det.length > 0) {
+          for (let obj of this.farm_start_det) {
+            var shloha_name = this.getCategoryLabel(
+              obj.belonging_group_id.toString()
+            );
+            obj.shloha_name = shloha_name;
+          }
+        }
+
+        //   מיון האתרים במערך לפי פעילים לא פעילים
+        farm_start_det.sort((a, b) => {
+          if (a.farm_status_id < b.farm_status_id) {
+            return -1;
+          } else if (a.farm_status_id > b.farm_status_id) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+
+        //   חילוק אתרים לפי קטגוריות שלוחה
+        this.categorizedArrays = {};
+        for (let obj of farm_start_det) {
+          const belonging_group_id = obj.belonging_group_id;
+          if (!this.categorizedArrays[belonging_group_id]) {
+            this.categorizedArrays[belonging_group_id] = [];
+          }
+          await this.categorizedArrays[belonging_group_id].push(obj);
+        }
+
+        //   יצירת מערך המחזיר את קודי השלוחות של אתרי המגדל
+        this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+        const hasValueTwenty = this.keys_of_categorizedArrays.includes('20');
+        if (hasValueTwenty) {
+          this.selectedCategory = '20';
+        } else {
+          this.selectedCategory = this.keys_of_categorizedArrays[0];
+        }
+
+        //   חילוק אתרים לפי פעילים ולא פעילים
+        for (let item of farm_start_det) {
+          if (item.farm_status_id === 1) {
+            this.new_Active_FarmDetails.push(item);
+          } else {
+            this.new_Not_Active_FarmDetails.push(item);
+          }
+        }
+        if (
+          this.categorizedArrays[20] &&
+          this.categorizedArrays[20].length > 0
+        ) {
+          farm_start_det = this.categorizedArrays[20];
+        }
+
+        console.log(farm_start_det);
+
         if (growerId_and_grower_num) {
           //   עוברים על האתרים ההתחלתיים של המגדל ומחזירים מערך עם נתונים המאפשרים לחשב את האיכלוס האישי
           for (let obj of farm_start_det) {
+            // במידה והאתר הוא מחיצה
             if (obj.code.toString().includes('/')) {
               var parts = obj.code.split('/');
               var extractedValue = parts[0];
+
+              //   נוציא את מס המגדל הראשי כולל האיידי שלו
               var grower_num_and_grower_id_by_farm_code =
                 await this.megadelSearchService.Get_grower_num_and_grower_id_by_farm_code(
                   extractedValue
                 );
-              console.log(grower_num_and_grower_id_by_farm_code);
 
+              //   נוציא את פרטי האתר של המגדל הראשי
               var farm_det_new_to_count =
                 await this.megadelSearchService.get_farm_det_v2(
                   grower_num_and_grower_id_by_farm_code[0]?.yz_yzrn,
@@ -674,11 +841,15 @@ export class EcommerceComponent implements OnInit {
                   extractedValue
                 );
 
+              // נוסיף לפרטי האתר שדה המכיל את מספר האתר למחצה
               if (farm_det_new_to_count.length > 0) {
                 farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
+
+                // נוסיף את האתר של המגדל הראשי למערך הזה
                 this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
               }
             } else {
+              // במידה והאתר הוא לא למחצה אנו נעשה את אותה פעולה
               var farm_det_new_to_count =
                 await this.megadelSearchService.get_farm_det_v2(
                   growerId_and_grower_num[0]?.yz_yzrn,
@@ -688,10 +859,14 @@ export class EcommerceComponent implements OnInit {
               this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
             }
           }
+
+          //   נעבור על אתרי המגדל הראשי
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
               if (this.userDetails[0].Rashi !== '2') {
+                // במידה והאתר הוא מחצה
                 if (obj.farm_code_with_slesh) {
+                  // נביא את האיכלוס שלו
                   var real_hiclos_by_site =
                     await this.megadelSearchService.get_real_hiclos_in_site_splite(
                       obj?.farm_num,
@@ -707,6 +882,7 @@ export class EcommerceComponent implements OnInit {
                     );
                 }
 
+                // נחלץ את האיכלוס האישי של המגדל הנ''ל בג''ח
                 this.real_hiclos_by_site_by_partner =
                   real_hiclos_by_site.filter(
                     (obj) => obj.lull2000_code === this.userDetails[0].v_yzrn
@@ -714,6 +890,7 @@ export class EcommerceComponent implements OnInit {
 
                 var count_hiclos2 = 0;
 
+                // נחשב את כלל האיכלוס האישי של המגדל בג''ח
                 for (let obj2 of this.real_hiclos_by_site_by_partner) {
                   if (obj2 !== undefined) {
                     if (obj2.chicken_sum_female) {
@@ -723,15 +900,17 @@ export class EcommerceComponent implements OnInit {
                   }
                 }
 
+                // נוסיף שדה באתרי המגדל הראשי של האיכלוס האישי של המגדל הנ''ל
                 obj.real_hiclos_by_site_by_partner =
                   this.real_hiclos_by_site_by_partner[0]?.count_hiclos;
 
+                // משתנה המכיל את האיכלוס הכולל של כל השותפים
                 this.all_certificate_det = [
                   ...this.all_certificate_det,
                   ...real_hiclos_by_site,
                 ];
-                console.log(this.all_certificate_det);
 
+                // הוספת שדה המכיל את הטוטל איכלוס של כל השותפים פר אתר
                 var count_hiclos = 0;
                 for (let obj2 of real_hiclos_by_site) {
                   if (obj2.chicken_sum_female) {
@@ -745,8 +924,9 @@ export class EcommerceComponent implements OnInit {
             }
           }
 
-          //   טוטל איכלוס
+          //   יצירת משתנה המכיל את האיכלוס הכולל של כל האתרים טוטל איכלוס כולל
           this.total_hiclos = 0;
+          this.more_hiclos_pargit_after_kizuz = 0;
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
               //   if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
@@ -757,7 +937,7 @@ export class EcommerceComponent implements OnInit {
             }
           }
 
-          this.total_hiclos += this.count_more_hiclos;
+          this.total_hiclos += this.more_hiclos_pargit_after_kizuz;
 
           var new_Active_FarmDetails = [];
           var new_Not_Active_FarmDetails = [];
@@ -865,8 +1045,13 @@ export class EcommerceComponent implements OnInit {
               var parts = obj.code.split('/');
               var extractedValue = parts[0];
 
+              var farm_id_new =
+                await this.megadelSearchService.get_farm_id_by_farm_code(
+                  extractedValue
+                );
+
               var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-                obj.id,
+                farm_id_new[0].id,
                 main_grower[0]?.pa_YzrnHead,
                 the_min_date_cartificate_transfer
               );
@@ -1029,7 +1214,7 @@ export class EcommerceComponent implements OnInit {
               growerId[0]?.grower_id
             );
 
-          // חילוץ פרטי האתר שלי האתר הכללי בעזרת המגדל הראשי במידה וזה אתר מחיצה ואנו ללא המגדל הראשי
+          // חילוץ פרטי האתר של האתר הכללי בעזרת המגדל הראשי במידה וזה אתר מחיצה ואנו ללא המגדל הראשי
           this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
             growerId_and_grower_num[0]?.yz_yzrn,
             growerId_and_grower_num[0]?.grower_id,
@@ -1246,11 +1431,15 @@ export class EcommerceComponent implements OnInit {
               await this.megadelSearchService.Get_grower_num_and_grower_id_by_farm_code(
                 extractedValue
               );
+            var farm_id_new =
+              await this.megadelSearchService.get_farm_id_by_farm_code(
+                extractedValue
+              );
 
             console.log(main_split_grower);
 
             var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-              obj.farm_id,
+              farm_id_new[0].id,
               main_split_grower[0].yz_yzrn,
               the_min_date_cartificate_transfer
             );
@@ -1385,6 +1574,7 @@ export class EcommerceComponent implements OnInit {
 
             // יצירת טוטל איכלוס
             this.total_hiclos = 0;
+            this.more_hiclos_pargit_after_kizuz = 0;
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
                 if (obj.count_hiclos) {
@@ -1402,16 +1592,23 @@ export class EcommerceComponent implements OnInit {
                     obj?.flock_num,
                     this.userDetails[0].cdgdl
                   );
-                console.log(more_hiclos_pargit);
-                if (more_hiclos_pargit.length > 0) {
-                  for (let obj of more_hiclos_pargit) {
-                    this.count_more_hiclos += obj.pr_Kamut;
+
+                var more_hiclos_pargit_after_kizuz =
+                  await this.megadelSearchService.get_more_hiclos_pargit_after_kizuz(
+                    obj?.farm_id,
+                    obj?.flock_num
+                  );
+
+                console.log(more_hiclos_pargit_after_kizuz);
+                if (more_hiclos_pargit_after_kizuz.length > 0) {
+                  for (let obj of more_hiclos_pargit_after_kizuz) {
+                    this.more_hiclos_pargit_after_kizuz += obj.pr_Kamut;
                   }
                 }
               }
             }
 
-            this.total_hiclos += this.count_more_hiclos;
+            this.total_hiclos += this.more_hiclos_pargit_after_kizuz;
           }
         }
 
@@ -1629,9 +1826,13 @@ export class EcommerceComponent implements OnInit {
         if (obj.farm_num.toString().includes('/')) {
           var parts = obj.farm_num.split('/');
           var extractedValue = parts[0];
+          var farm_id_new =
+            await this.megadelSearchService.get_farm_id_by_farm_code(
+              extractedValue
+            );
 
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-            obj.farm_id,
+            farm_id_new[0].id,
             this.userDetails[0].v_yzrn,
             the_min_date_cartificate_transfer
           );
@@ -1751,10 +1952,12 @@ export class EcommerceComponent implements OnInit {
       // הוספת איכלוס טוטל פר אתר כולל מחיצות
       for (let obj of this.farm_det_new) {
         if (obj !== undefined) {
+          // במידה והאתר הוא מחיצה נחלץ את האתר הכולל
           if (obj.farm_num.toString().includes('/')) {
             var parts = obj.farm_num.split('/');
             var farm_num = parts[0];
 
+            // נחלץ אץ הץעודות העברה של האתר למחצה
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site_splite(
                 farm_num,
@@ -1763,41 +1966,63 @@ export class EcommerceComponent implements OnInit {
               );
 
             if (real_hiclos_by_site.length > 0) {
+              // ניצור מערך המכיל את תאריכי התעודות
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
               );
+
+              //נחלץ את התעודה עם התאריך המינימלי
               const minDate = dateArray.reduce((min, current) =>
                 current < min ? current : min
               );
+
               this.min_date_cartificate_transfer = minDate;
             }
 
+            console.log(this.min_date_cartificate_transfer);
+
+            // משתנה המכיל את כל תעודות הההעברה
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
             ];
           } else {
+            //נחלץ אץ כל התעודות
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site(
                 obj?.farm_num,
                 obj?.flock_num
               );
+
             if (real_hiclos_by_site.length > 0) {
+              // ניצור מערך המכיל את תאריכי התעודות
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
               );
+
+              //נחלץ את התעודה עם התאריך המינימלי
               const minDate = dateArray.reduce((min, current) =>
                 current < min ? current : min
               );
+
               console.log(minDate);
+
+              //שדה המכיל ערך איכלוס ראשוני
               obj.minDate_hiclos = minDate;
+
+              // משתנה המכיל את כל תעודות הההעברה
               this.min_date_cartificate_transfer = minDate;
             }
+
+            console.log(this.min_date_cartificate_transfer);
+
+            // משתנה המכיל את כל תעודות הההעברה
             this.all_certificate_det = [
               ...this.all_certificate_det,
               ...real_hiclos_by_site,
             ];
           }
+
           var count_hiclos = 0;
           for (let obj2 of real_hiclos_by_site) {
             if (obj2.chicken_sum_female) {
@@ -1825,8 +2050,13 @@ export class EcommerceComponent implements OnInit {
           var parts = obj.farm_num.split('/');
           var extractedValue = parts[0];
 
+          var farm_id_new =
+            await this.megadelSearchService.get_farm_id_by_farm_code(
+              extractedValue
+            );
+
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-            obj.farm_id,
+            farm_id_new[0].id,
             this.userDetails[0].v_yzrn,
             the_min_date_cartificate_transfer
           );
@@ -2312,8 +2542,13 @@ export class EcommerceComponent implements OnInit {
           var parts = obj.farm_num.split('/');
           var extractedValue = parts[0];
 
+          var farm_id_new =
+            await this.megadelSearchService.get_farm_id_by_farm_code(
+              extractedValue
+            );
+
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-            obj.farm_id,
+            farm_id_new[0].id,
             this.userDetails[0].v_yzrn,
             the_min_date_cartificate_transfer
           );
@@ -2515,8 +2750,13 @@ export class EcommerceComponent implements OnInit {
           var parts = obj.farm_num.split('/');
           var extractedValue = parts[0];
 
+          var farm_id_new =
+            await this.megadelSearchService.get_farm_id_by_farm_code(
+              extractedValue
+            );
+
           var Get_zan_num = await this.megadelSearchService.Get_zan_num(
-            obj.farm_id,
+            farm_id_new[0].id,
             this.userDetails[0].v_yzrn,
             the_min_date_cartificate_transfer
           );

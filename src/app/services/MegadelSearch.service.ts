@@ -12,6 +12,19 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_more_hiclos_pargit_after_kizuz(
+    id_atar: any,
+    flock_num: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_more_hiclos_pargit_after_kizuz?id_atar=${id_atar}&flock_num=${flock_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async Get_grower_num_and_grower_id_by_farm_code(
     farm_code: any
   ): Promise<any[]> {
