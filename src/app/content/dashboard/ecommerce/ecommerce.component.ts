@@ -700,7 +700,7 @@ export class EcommerceComponent implements OnInit {
       }
 
       //   במידה והמגדל הוא לא ראשי
-      if (this.userDetails_more_info[0]?.Rashi == '0') {
+      if (this.userDetails_more_info[0]?.Rashi === '0' || this.userDetails_more_info[0]?.Rashi === '1') {
         this.total_hiclos = 0;
         this.real_hiclos_by_site_by_partner = 0;
         this.total_pargiot = 0;
@@ -1122,17 +1122,16 @@ export class EcommerceComponent implements OnInit {
           console.log(this.all_full_farm_det_partner);
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
-                if (obj.is_hen_house_split && obj.is_hen_house_split=== 1) {
-                    newVariable = obj.farm_code_with_slesh.split('/')[1];
-                    obj.house_num_int = newVariable
-                }   
+              if (obj.is_hen_house_split && obj.is_hen_house_split === 1) {
+                if (obj.farm_code_with_slesh) {
+                  newVariable = obj.farm_code_with_slesh.split('/')[1];
+                  obj.house_num_int = newVariable;
+                }
+              }
             }
-            }
+          }
 
-            console.log(this.all_full_farm_det_partner);
-
-
-
+          console.log(this.all_full_farm_det_partner);
 
           function isObjectEqual(obj1: any, obj2: any): boolean {
             console.log(obj1);
@@ -1155,6 +1154,9 @@ export class EcommerceComponent implements OnInit {
 
           this.all_full_farm_det_partner = uniqueArrayOfObjects;
           console.log(this.all_full_farm_det_partner);
+
+        this.all_full_farm_det_partner = this.all_full_farm_det_partner.filter(obj => obj.real_hiclos_by_site_by_partner !== undefined);
+
         }
       } else {
         // חישוב טוטל איכלוס וטוטל איכלוס פרגיות מהאתרים הפעילים העומדים בתנאים
@@ -2106,6 +2108,8 @@ export class EcommerceComponent implements OnInit {
             if (farm_det_new_to_count.length > 0) {
               farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
               this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
+              this.all_full_farm_det_partner = this.all_full_farm_det_partner.filter(obj => obj.real_hiclos_by_site_by_partner !== undefined);
+
             }
           } else {
             var farm_det_new_to_count =
