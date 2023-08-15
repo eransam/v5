@@ -1120,6 +1120,19 @@ export class EcommerceComponent implements OnInit {
           this.total_pargiot = this.mcsaSum / zan_num;
 
           console.log(this.all_full_farm_det_partner);
+          for (let obj of this.all_full_farm_det_partner) {
+            if (obj !== undefined) {
+                if (obj.is_hen_house_split && obj.is_hen_house_split=== 1) {
+                    newVariable = obj.farm_code_with_slesh.split('/')[1];
+                    obj.house_num_int = newVariable
+                }   
+            }
+            }
+
+            console.log(this.all_full_farm_det_partner);
+
+
+
 
           function isObjectEqual(obj1: any, obj2: any): boolean {
             console.log(obj1);

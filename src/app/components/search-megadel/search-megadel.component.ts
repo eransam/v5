@@ -850,8 +850,6 @@ export class SearchMegadelComponent implements OnInit {
 
     console.log(this.new_arr_growers_det);
 
-    //   this.the_new_det = this.new_arr_growers_det;
-
     localStorage.setItem(
       'theDetails',
       JSON.stringify(this.new_arr_growers_det)
@@ -961,21 +959,15 @@ export class SearchMegadelComponent implements OnInit {
       var check_sug = await this.megadelSearchService.check_sug_megadel2(
         item.yz_yzrn
       );
+
       console.log(check_sug);
-      if (check_sug.length === 0) {
-        item.sug_megadel = 0;
+      if (check_sug[0].pa_YzrnHead) {
+        item.sug_megadel = 1;
       } else {
-        if (check_sug[0].pa_YzrnHead === item.yz_yzrn) {
+        if (check_sug[0].pa_Yzrn) {
           item.sug_megadel = 2;
         } else {
-          if (
-            check_sug[0].pa_YzrnHead !== item.yz_yzrn &&
-            check_sug[0].pa_yzrn === item.yz_yzrn
-          ) {
-            item.sug_megadel = 1;
-          } else {
-            item.sug_megadel = 0;
-          }
+          item.sug_megadel = 3;
         }
       }
 
@@ -994,47 +986,10 @@ export class SearchMegadelComponent implements OnInit {
         .filter((item) => item.trim() !== 'undefined');
       const newStr = arr.join(',');
       item.farms = newStr;
-      //   item.shem_yeshuv = shem_yeshuv[0].yv_Shem;
     }
-
-    // for (let item of this.new_arr_growers_det) {
-    //   var active_check = await this.megadelSearchService.check_active_growers(
-    //     item.yz_yzrn
-    //   );
-    //   console.log(active_check);
-
-    //   if (active_check.length > 0) {
-    //     item.is_real_active = active_check[0].code;
-    //   } else {
-    //     item.is_real_active = 9;
-    //   }
-    // }
-
-    // if (this.selectedStatusControl.value === 'active') {
-    //   var new_arr_growers_det_active = this.new_arr_growers_det.filter(
-    //     (obj) => obj.is_real_active === 1
-    //   );
-    //   this.new_arr_growers_det = new_arr_growers_det_active;
-    // }
-    // if (this.selectedStatusControl.value === 'inactive') {
-    //   var new_arr_growers_det_inactive = this.new_arr_growers_det.filter(
-    //     (obj) => obj.is_real_active === 2
-    //   );
-    //   this.new_arr_growers_det = new_arr_growers_det_inactive;
-    // }
-    // if (this.selectedStatusControl.value === 'historicallyActive') {
-    //   var new_arr_growers_det_historicallyActive =
-    //     this.new_arr_growers_det.filter((obj) => obj.is_real_active === 9);
-    //   this.new_arr_growers_det = new_arr_growers_det_historicallyActive;
-    // }
-    // if (this.selectedStatusControl.value === 'all') {
-    //   var new_arr_growers_det_all = this.new_arr_growers_det;
-    //   this.new_arr_growers_det = new_arr_growers_det_all;
-    // }
 
     this.the_new_det = this.new_arr_growers_det;
 
-    // this.the_new_det = this.new_arr_growers_det;
     localStorage.setItem('the_new_det', JSON.stringify(this.the_new_det));
 
     this.isLoading_FarmDetails = false;
