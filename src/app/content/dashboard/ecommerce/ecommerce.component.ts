@@ -564,7 +564,7 @@ export class EcommerceComponent implements OnInit {
         const uniqueTzrtSet = new Set();
 
         this.groupedArray[22].forEach((obj) => {
-          uniqueTzrtSet.add(obj.atar_id);
+          uniqueTzrtSet.add(obj.code);
         });
         const uniqueTzrtArray = Array.from(uniqueTzrtSet);
         console.log(uniqueTzrtArray);
@@ -589,14 +589,15 @@ export class EcommerceComponent implements OnInit {
           if (obj.code.toString().includes('/')) {
             var parts = obj.code.split('/');
             var farm_num = parts[0];
-
-            var real_hiclos_by_site =
-              await this.megadelSearchService.get_real_hiclos_in_site_splite(
-                farm_num,
-                obj?.flock_num,
-                obj.farm_num
-              );
-            if (real_hiclos_by_site.length > 0) {
+            if (obj.flock_num) {
+              var real_hiclos_by_site =
+                await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                  farm_num,
+                  obj?.flock_num,
+                  obj.farm_num
+                );
+            }
+            if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
               );
@@ -608,18 +609,23 @@ export class EcommerceComponent implements OnInit {
               this.min_date_cartificate_transfer = minDate;
             }
 
-            this.all_certificate_det = [
-              ...this.all_certificate_det,
-              ...real_hiclos_by_site,
-            ];
+            if (real_hiclos_by_site) {
+              this.all_certificate_det = [
+                ...this.all_certificate_det,
+                ...real_hiclos_by_site,
+              ];
+            }
             console.log(this.all_certificate_det);
           } else {
-            var real_hiclos_by_site =
-              await this.megadelSearchService.get_real_hiclos_in_site(
-                obj?.code,
-                obj?.flock_num
-              );
-            if (real_hiclos_by_site.length > 0) {
+            if (obj.flock_num) {
+              var real_hiclos_by_site =
+                await this.megadelSearchService.get_real_hiclos_in_site(
+                  obj?.code,
+                  obj?.flock_num
+                );
+            }
+
+            if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
               );
@@ -630,19 +636,22 @@ export class EcommerceComponent implements OnInit {
               obj.minDate_hiclos = minDate;
               this.min_date_cartificate_transfer = minDate;
             }
-
-            this.all_certificate_det = [
-              ...this.all_certificate_det,
-              ...real_hiclos_by_site,
-            ];
-          }
-          var count_hiclos = 0;
-          for (let obj2 of real_hiclos_by_site) {
-            if (obj2.chicken_sum_female) {
-              count_hiclos += Number(obj2.chicken_sum_female);
+            if (real_hiclos_by_site) {
+              this.all_certificate_det = [
+                ...this.all_certificate_det,
+                ...real_hiclos_by_site,
+              ];
             }
           }
-          obj.count_hiclos_total_site = count_hiclos;
+          var count_hiclos = 0;
+          if (real_hiclos_by_site) {
+            for (let obj2 of real_hiclos_by_site) {
+              if (obj2.chicken_sum_female) {
+                count_hiclos += Number(obj2.chicken_sum_female);
+              }
+            }
+            obj.count_hiclos_total_site = count_hiclos;
+          }
         }
       }
 
@@ -700,7 +709,10 @@ export class EcommerceComponent implements OnInit {
       }
 
       //   במידה והמגדל הוא לא ראשי
-      if (this.userDetails_more_info[0]?.Rashi === '0' || this.userDetails_more_info[0]?.Rashi === '1') {
+      if (
+        this.userDetails_more_info[0]?.Rashi === '0' ||
+        this.userDetails_more_info[0]?.Rashi === '1'
+      ) {
         this.total_hiclos = 0;
         this.real_hiclos_by_site_by_partner = 0;
         this.total_pargiot = 0;
@@ -727,6 +739,12 @@ export class EcommerceComponent implements OnInit {
         var farm_start_det = await this.megadelSearchService.farm_start_det(
           grower_id[0]?.yz_id
         );
+
+        farm_start_det = farm_start_det.filter(
+          (obj) => obj.is_hen_house_split === 0
+        );
+
+        console.log(farm_start_det);
 
         // הוספת מספרי להקה
         for (let obj of farm_start_det) {
@@ -803,19 +821,19 @@ export class EcommerceComponent implements OnInit {
         }
 
         //   חילוק אתרים לפי פעילים ולא פעילים
-        for (let item of farm_start_det) {
-          if (item.farm_status_id === 1) {
-            this.new_Active_FarmDetails.push(item);
-          } else {
-            this.new_Not_Active_FarmDetails.push(item);
-          }
-        }
-        if (
-          this.categorizedArrays[20] &&
-          this.categorizedArrays[20].length > 0
-        ) {
-          farm_start_det = this.categorizedArrays[20];
-        }
+        // for (let item of farm_start_det) {
+        //   if (item.farm_status_id === 1) {
+        //     this.new_Active_FarmDetails.push(item);
+        //   } else {
+        //     this.new_Not_Active_FarmDetails.push(item);
+        //   }
+        // }
+        // if (
+        //   this.categorizedArrays[20] &&
+        //   this.categorizedArrays[20].length > 0
+        // ) {
+        //   farm_start_det = this.categorizedArrays[20];
+        // }
 
         console.log(farm_start_det);
 
@@ -912,12 +930,16 @@ export class EcommerceComponent implements OnInit {
 
                 // הוספת שדה המכיל את הטוטל איכלוס של כל השותפים פר אתר
                 var count_hiclos = 0;
-                for (let obj2 of real_hiclos_by_site) {
-                  if (obj2.chicken_sum_female) {
-                    count_hiclos += Number(obj2.chicken_sum_female);
+
+                if (real_hiclos_by_site) {
+                  for (let obj2 of real_hiclos_by_site) {
+                    if (obj2.chicken_sum_female) {
+                      count_hiclos += Number(obj2.chicken_sum_female);
+                    }
                   }
+                  obj.count_hiclos = count_hiclos;
                 }
-                obj.count_hiclos = count_hiclos;
+
                 //   }
                 // }
               }
@@ -978,7 +1000,7 @@ export class EcommerceComponent implements OnInit {
                     obj?.flock_num,
                     obj.farm_num
                   );
-                if (real_hiclos_by_site.length > 0) {
+                if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                   const dateArray = real_hiclos_by_site.map(
                     (item) => item.create_date
                   );
@@ -996,12 +1018,15 @@ export class EcommerceComponent implements OnInit {
                 ];
                 console.log(this.all_certificate_det);
               } else {
-                var real_hiclos_by_site =
-                  await this.megadelSearchService.get_real_hiclos_in_site(
-                    obj?.code,
-                    obj?.flock_num
-                  );
-                if (real_hiclos_by_site.length > 0) {
+                if (obj.flock_num) {
+                  var real_hiclos_by_site =
+                    await this.megadelSearchService.get_real_hiclos_in_site(
+                      obj?.code,
+                      obj?.flock_num
+                    );
+                }
+
+                if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                   const dateArray = real_hiclos_by_site.map(
                     (item) => item.create_date
                   );
@@ -1019,12 +1044,14 @@ export class EcommerceComponent implements OnInit {
                 ];
               }
               var count_hiclos = 0;
-              for (let obj2 of real_hiclos_by_site) {
-                if (obj2.chicken_sum_female) {
-                  count_hiclos += Number(obj2.chicken_sum_female);
+              if (real_hiclos_by_site) {
+                for (let obj2 of real_hiclos_by_site) {
+                  if (obj2.chicken_sum_female) {
+                    count_hiclos += Number(obj2.chicken_sum_female);
+                  }
                 }
+                obj.count_hiclos_total_site = count_hiclos;
               }
-              obj.count_hiclos_total_site = count_hiclos;
             }
           }
 
@@ -1155,8 +1182,10 @@ export class EcommerceComponent implements OnInit {
           this.all_full_farm_det_partner = uniqueArrayOfObjects;
           console.log(this.all_full_farm_det_partner);
 
-        this.all_full_farm_det_partner = this.all_full_farm_det_partner.filter(obj => obj.real_hiclos_by_site_by_partner !== undefined);
-
+          this.all_full_farm_det_partner =
+            this.all_full_farm_det_partner.filter(
+              (obj) => obj.real_hiclos_by_site_by_partner !== undefined
+            );
         }
       } else {
         // חישוב טוטל איכלוס וטוטל איכלוס פרגיות מהאתרים הפעילים העומדים בתנאים
@@ -1376,7 +1405,7 @@ export class EcommerceComponent implements OnInit {
                   obj?.flock_num,
                   obj.farm_num
                 );
-              if (real_hiclos_by_site.length > 0) {
+              if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                 const dateArray = real_hiclos_by_site.map(
                   (item) => item.create_date
                 );
@@ -1399,7 +1428,7 @@ export class EcommerceComponent implements OnInit {
                   obj?.farm_num,
                   obj?.flock_num
                 );
-              if (real_hiclos_by_site.length > 0) {
+              if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                 const dateArray = real_hiclos_by_site.map(
                   (item) => item.create_date
                 );
@@ -1417,12 +1446,14 @@ export class EcommerceComponent implements OnInit {
               ];
             }
             var count_hiclos = 0;
-            for (let obj2 of real_hiclos_by_site) {
-              if (obj2.chicken_sum_female) {
-                count_hiclos += Number(obj2.chicken_sum_female);
+            if (real_hiclos_by_site) {
+              for (let obj2 of real_hiclos_by_site) {
+                if (obj2.chicken_sum_female) {
+                  count_hiclos += Number(obj2.chicken_sum_female);
+                }
               }
+              obj.count_hiclos_total_site = count_hiclos;
             }
-            obj.count_hiclos_total_site = count_hiclos;
           }
         }
 
@@ -1540,12 +1571,14 @@ export class EcommerceComponent implements OnInit {
                     );
 
                   var count_hiclos = 0;
-                  for (let obj2 of real_hiclos_by_site) {
-                    if (obj2.chicken_sum_female) {
-                      count_hiclos += Number(obj2.chicken_sum_female);
+                  if (real_hiclos_by_site) {
+                    for (let obj2 of real_hiclos_by_site) {
+                      if (obj2.chicken_sum_female) {
+                        count_hiclos += Number(obj2.chicken_sum_female);
+                      }
                     }
+                    obj.count_hiclos = count_hiclos;
                   }
-                  obj.count_hiclos = count_hiclos;
                 } else {
                   var real_hiclos_by_site =
                     await this.megadelSearchService.get_real_hiclos_in_site(
@@ -1559,13 +1592,15 @@ export class EcommerceComponent implements OnInit {
                   ];
 
                   var count_hiclos = 0;
-                  for (let obj2 of real_hiclos_by_site) {
-                    if (obj2.chicken_sum_female) {
-                      count_hiclos += Number(obj2.chicken_sum_female);
+                  if (real_hiclos_by_site) {
+                    for (let obj2 of real_hiclos_by_site) {
+                      if (obj2.chicken_sum_female) {
+                        count_hiclos += Number(obj2.chicken_sum_female);
+                      }
                     }
-                  }
 
-                  obj.count_hiclos = count_hiclos;
+                    obj.count_hiclos = count_hiclos;
+                  }
                 }
               }
             }
@@ -1821,9 +1856,9 @@ export class EcommerceComponent implements OnInit {
       newVariable
     );
 
-    this.farm_det_new[0].farm_num = farm_num;
-
     if (this.farm_det_new.length > 0) {
+      this.farm_det_new[0].farm_num = farm_num;
+
       // הוספת זנים
       for (let obj of this.farm_det_new) {
         var the_min_date_cartificate_transfer: any;
@@ -1980,7 +2015,7 @@ export class EcommerceComponent implements OnInit {
                 obj.farm_num
               );
 
-            if (real_hiclos_by_site.length > 0) {
+            if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               // ניצור מערך המכיל את תאריכי התעודות
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
@@ -2009,7 +2044,7 @@ export class EcommerceComponent implements OnInit {
                 obj?.flock_num
               );
 
-            if (real_hiclos_by_site.length > 0) {
+            if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               // ניצור מערך המכיל את תאריכי התעודות
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
@@ -2039,12 +2074,14 @@ export class EcommerceComponent implements OnInit {
           }
 
           var count_hiclos = 0;
-          for (let obj2 of real_hiclos_by_site) {
-            if (obj2.chicken_sum_female) {
-              count_hiclos += Number(obj2.chicken_sum_female);
+          if (real_hiclos_by_site) {
+            for (let obj2 of real_hiclos_by_site) {
+              if (obj2.chicken_sum_female) {
+                count_hiclos += Number(obj2.chicken_sum_female);
+              }
             }
+            obj.count_hiclos_total_site = count_hiclos;
           }
-          obj.count_hiclos_total_site = count_hiclos;
         }
       }
 
@@ -2108,8 +2145,10 @@ export class EcommerceComponent implements OnInit {
             if (farm_det_new_to_count.length > 0) {
               farm_det_new_to_count[0].farm_code_with_slesh = obj.code;
               this.all_full_farm_det_partner.push(farm_det_new_to_count[0]);
-              this.all_full_farm_det_partner = this.all_full_farm_det_partner.filter(obj => obj.real_hiclos_by_site_by_partner !== undefined);
-
+              this.all_full_farm_det_partner =
+                this.all_full_farm_det_partner.filter(
+                  (obj) => obj.real_hiclos_by_site_by_partner !== undefined
+                );
             }
           } else {
             var farm_det_new_to_count =
@@ -2135,12 +2174,14 @@ export class EcommerceComponent implements OnInit {
                   );
 
                 var count_hiclos = 0;
-                for (let obj2 of real_hiclos_by_site) {
-                  if (obj2.chicken_sum_female) {
-                    count_hiclos += Number(obj2.chicken_sum_female);
+                if (real_hiclos_by_site) {
+                  for (let obj2 of real_hiclos_by_site) {
+                    if (obj2.chicken_sum_female) {
+                      count_hiclos += Number(obj2.chicken_sum_female);
+                    }
                   }
+                  obj.count_hiclos = count_hiclos;
                 }
-                obj.count_hiclos = count_hiclos;
               } else {
                 var real_hiclos_by_site =
                   await this.megadelSearchService.get_real_hiclos_in_site(
@@ -2154,13 +2195,15 @@ export class EcommerceComponent implements OnInit {
                 ];
 
                 var count_hiclos = 0;
-                for (let obj2 of real_hiclos_by_site) {
-                  if (obj2.chicken_sum_female) {
-                    count_hiclos += Number(obj2.chicken_sum_female);
+                if (real_hiclos_by_site) {
+                  for (let obj2 of real_hiclos_by_site) {
+                    if (obj2.chicken_sum_female) {
+                      count_hiclos += Number(obj2.chicken_sum_female);
+                    }
                   }
-                }
 
-                obj.count_hiclos = count_hiclos;
+                  obj.count_hiclos = count_hiclos;
+                }
               }
             }
           }
@@ -2705,7 +2748,7 @@ export class EcommerceComponent implements OnInit {
                 obj?.flock_num,
                 obj.farm_num
               );
-            if (real_hiclos_by_site.length > 0) {
+            if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
               );
@@ -2724,7 +2767,7 @@ export class EcommerceComponent implements OnInit {
                 obj?.farm_num,
                 obj?.flock_num
               );
-            if (real_hiclos_by_site.length > 0) {
+            if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
               );
@@ -2741,12 +2784,14 @@ export class EcommerceComponent implements OnInit {
             ];
           }
           var count_hiclos = 0;
-          for (let obj2 of real_hiclos_by_site) {
-            if (obj2.chicken_sum_female) {
-              count_hiclos += Number(obj2.chicken_sum_female);
+          if (real_hiclos_by_site) {
+            for (let obj2 of real_hiclos_by_site) {
+              if (obj2.chicken_sum_female) {
+                count_hiclos += Number(obj2.chicken_sum_female);
+              }
             }
+            obj.count_hiclos_total_site = count_hiclos;
           }
-          obj.count_hiclos_total_site = count_hiclos;
         }
       }
 
