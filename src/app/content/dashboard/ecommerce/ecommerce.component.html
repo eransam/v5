@@ -1425,7 +1425,11 @@
                   <br /><br />
                   <div>
                     <div>
-                      <h1 class="rtl_Style" style="padding-right: 15px">
+                      <h1
+                        *ngIf="all_full_farm_det_partner.length > 0"
+                        class="rtl_Style"
+                        style="padding-right: 15px"
+                      >
                         אכלוס פרגיות למגדל
                       </h1>
                     </div>
@@ -1893,13 +1897,6 @@
                         >
                           מס גוש
                         </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          ג''ח
-                        </th>
                       </tr>
                     </thead>
 
@@ -1963,13 +1960,46 @@
                         </td>
 
                         <td style="width: 100px">{{ row.block_num }}</td>
+                      </tr>
+                    </tbody>
+                    <br />
 
+                    <thead class="detailsTable">
+                      <tr>
+                        <th
+                          *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                          style="cursor: pointer; color: green"
+                          (click)="
+                            openPopup_mifkadim_Component(
+                              this.farm_det_new[0].mifkadim
+                            )
+                          "
+                          id="mifkadim"
+                        >
+                          קיים מפקדים
+                          <i class="fas fa-angle-left fa-lg"></i>
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          ג''ח
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let row of this.farm_det_new">
+                        <td style="width: 100px"></td>
                         <td *ngIf="row.tnahi_imon !== 0" style="width: 100px">
                           {{ row.pa_Counter }}
                         </td>
                       </tr>
                     </tbody>
                     <br />
+
                     <h3
                       class="main_table_tatle"
                       style="font-size: 30px; font-weight: bold; color: #5b5bf8"

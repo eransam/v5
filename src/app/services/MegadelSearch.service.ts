@@ -12,6 +12,42 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_farm_code_by_farm_id(farm_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_farm_code_by_farm_id?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_mifkadim_by_atar_id_and_flock_num(
+    flock_num: any,
+    atar_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_mifkadim_by_atar_id_and_flock_num?flock_num=${flock_num}&atar_id=${atar_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_pinoyim_by_flock_num_and_atar_id(
+    flock_num: any,
+    atar_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_pinoyim_by_flock_num_and_atar_id?flock_num=${flock_num}&atar_id=${atar_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_more_hiclos_pargit_after_kizuz(
     id_atar: any,
     flock_num: any
