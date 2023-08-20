@@ -910,9 +910,9 @@
                           <div *ngIf="row !== undefined">
                             <td
                               *ngIf="
-                                row.count_hiclos &&
-                                row.count_hiclos !== 0 &&
-                                row.count_hiclos !== undefined &&
+                                row.count_hiclos_total_site &&
+                                row.count_hiclos_total_site !== 0 &&
+                                row.count_hiclos_total_site !== undefined &&
                                 row.real_hiclos_by_site_by_partner !== undefined
                               "
                               class="text-truncate row_padding"
@@ -1042,9 +1042,9 @@
                               <div *ngIf="row !== undefined">
                                 <td
                                   *ngIf="
-                                    row.count_hiclos &&
-                                    row.count_hiclos !== 0 &&
-                                    row.count_hiclos !== undefined
+                                    row.count_hiclos_total_site &&
+                                    row.count_hiclos_total_site !== 0 &&
+                                    row.count_hiclos_total_site !== undefined
                                   "
                                   class="text-truncate row_padding"
                                 >
@@ -1052,13 +1052,16 @@
                                 </td>
                                 <td
                                   *ngIf="
-                                    row.count_hiclos &&
-                                    row.count_hiclos !== 0 &&
-                                    row.count_hiclos !== undefined
+                                    row.count_hiclos_total_site &&
+                                    row.count_hiclos_total_site !== 0 &&
+                                    row.count_hiclos_total_site !== undefined
                                   "
                                   class="text-truncate row_padding"
                                 >
-                                  איכלוס: {{ row?.count_hiclos | numberFormat }}
+                                  איכלוס:
+                                  {{
+                                    row?.count_hiclos_total_site | numberFormat
+                                  }}
                                 </td>
                               </div>
                             </tr>
@@ -1443,9 +1446,9 @@
                           <div *ngIf="row !== undefined">
                             <td
                               *ngIf="
-                                row.count_hiclos &&
-                                row.count_hiclos !== 0 &&
-                                row.count_hiclos !== undefined &&
+                                row.count_hiclos_total_site &&
+                                row.count_hiclos_total_site !== 0 &&
+                                row.count_hiclos_total_site !== undefined &&
                                 row.real_hiclos_by_site_by_partner !== undefined
                               "
                               class="text-truncate row_padding"
@@ -1460,9 +1463,9 @@
                             </td>
                             <td
                               *ngIf="
-                                row.count_hiclos &&
-                                row.count_hiclos !== 0 &&
-                                row.count_hiclos !== undefined &&
+                                row.count_hiclos_total_site &&
+                                row.count_hiclos_total_site !== 0 &&
+                                row.count_hiclos_total_site !== undefined &&
                                 row.real_hiclos_by_site_by_partner !== undefined
                               "
                               class="text-truncate row_padding"
@@ -1967,6 +1970,14 @@
                     <thead class="detailsTable">
                       <tr>
                         <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          ג''ח
+                        </th>
+
+                        <th
                           *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                           style="cursor: pointer; color: green"
                           (click)="
@@ -1981,21 +1992,17 @@
                         </th>
 
                         <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          ג''ח
-                        </th>
+                          *ngIf="this.farm_det_new[0]?.pinoyim?.length === 0"
+                        ></th>
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px"></td>
                         <td *ngIf="row.tnahi_imon !== 0" style="width: 100px">
                           {{ row.pa_Counter }}
                         </td>
+                        <td style="width: 100px"></td>
                       </tr>
                     </tbody>
                     <br />

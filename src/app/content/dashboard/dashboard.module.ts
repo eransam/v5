@@ -37,6 +37,7 @@ import { PopupMonthlySummaryComponent } from './popup-monthly-summary/popup-mont
 import { PopupPartnersHodimComponent } from './popup-partners-hodim/popup-partners-hodim.component';
 import { PopupShowAllCertificateTransferComponent } from './popup-show-all-certificate-transfer/popup-show-all-certificate-transfer.component';
 import { PopupMifkadimComponent } from './ecommerce/popup-mifkadim/popup-mifkadim.component';
+import { PopupPinoyimComponent } from './ecommerce/popup-pinoyim/popup-pinoyim.component';
 
 @NgModule({
   imports: [
@@ -111,6 +112,7 @@ import { PopupMifkadimComponent } from './ecommerce/popup-mifkadim/popup-mifkadi
     PopupPartnersHodimComponent,
     PopupShowAllCertificateTransferComponent,
     PopupMifkadimComponent,
+    PopupPinoyimComponent,
   ],
 
   exports: [RouterModule],
