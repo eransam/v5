@@ -54,10 +54,18 @@
               {{ p.td_yzrn }}
             </td>
 
-        
             <td>
-                <a [href]="'file://tlv-data/scan/LulSln_net/Pinuiim_New/TdMs_' + p.td_daf + '_' + p.id_path + '.pdf'">file</a>
-              </td>
+              <a
+                [href]="
+                  'http:////epb-iis12:8006//LulSln_net//Mifkadim_New//TdMs_' +
+                  p.td_daf +
+                  '_' +
+                  p.id_path +
+                  '.pdf'
+                "
+                >file</a
+              >
+            </td>
           </tr>
         </tbody>
       </table>

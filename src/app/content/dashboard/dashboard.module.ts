@@ -38,6 +38,7 @@ import { PopupPartnersHodimComponent } from './popup-partners-hodim/popup-partne
 import { PopupShowAllCertificateTransferComponent } from './popup-show-all-certificate-transfer/popup-show-all-certificate-transfer.component';
 import { PopupMifkadimComponent } from './ecommerce/popup-mifkadim/popup-mifkadim.component';
 import { PopupPinoyimComponent } from './ecommerce/popup-pinoyim/popup-pinoyim.component';
+import { PopupHiclosBySiteComponent } from './ecommerce/popup-hiclos-by-site/popup-hiclos-by-site.component';
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { PopupPinoyimComponent } from './ecommerce/popup-pinoyim/popup-pinoyim.c
     PopupShowAllCertificateTransferComponent,
     PopupMifkadimComponent,
     PopupPinoyimComponent,
+    PopupHiclosBySiteComponent,
   ],
 
   exports: [RouterModule],

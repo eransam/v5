@@ -1,0 +1,96 @@
+.popup-dialog {
+    max-width: 60vw;
+    color: black !important;
+    background-color: silver;
+    font-size: 20px;
+    /* direction: rtl; */
+    margin: auto;
+    color: black !important;
+    background-color: silver;
+    font-size: 20px;
+    direction: rtl;
+    position: relative;
+    top: -1621px;
+    left: 164px;
+  }
+  .no-wrap-test-eran {
+    white-space: nowrap;
+  }
+  
+  /* General Styles */
+  .cool-table {
+    width: 100%;
+    border-collapse: collapse;
+    direction: rtl;
+    padding: 5px;
+  }
+  
+  .cool-table th {
+    font-weight: bold;
+    text-align: right;
+  }
+  
+  .cool-table td {
+    text-align: right;
+    vertical-align: top;
+  }
+  
+  /* Popup Header Styles */
+  .cool-table .popup-header {
+    width: 10px;
+  }
+  
+  .cool-table button.mat-icon-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Popup Title Styles */
+  .cool-table .popup-title {
+    font-size: 20px;
+    color: #333;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Table Body Styles */
+  .cool-table tbody tr:nth-child(odd) {
+    background-color: #fff8e1;
+  }
+  
+  .cool-table .bordered {
+    border: 1px solid #ffd54f;
+    padding: 5px;
+  }
+  
+  /* Red X Styles */
+  .cool-table span.red-x {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Cool Effects */
+  .cool-table {
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .cool-table th,
+  .cool-table td {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .cool-table th:hover,
+  .cool-table td:hover {
+    background-color: #fff3e0;
+  }
+  
+  .cool-table button.mat-icon-button:hover {
+    color: #ff5722;
+  }
+  
+  .cool-table span.red-x:hover {
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+  }
+  
