@@ -1002,8 +1002,8 @@ export class EcommerceComponent implements OnInit {
           for (let obj of this.all_full_farm_det_partner) {
             if (obj !== undefined) {
               //   if (obj.is_hen_house_split === 1 && obj.farm_code_with_slesh) {
-              if (obj.count_hiclos) {
-                this.total_hiclos += obj.count_hiclos;
+              if (obj.count_hiclos_total_site) {
+                this.total_hiclos += obj.count_hiclos_total_site;
               }
               //   }
             }
@@ -1815,11 +1815,12 @@ export class EcommerceComponent implements OnInit {
             this.more_hiclos_pargit_after_kizuz = 0;
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
-                if (obj.count_hiclos) {
-                  this.total_hiclos += obj.count_hiclos;
+                if (obj.count_hiclos_total_site) {
+                  this.total_hiclos += obj.count_hiclos_total_site;
                 }
               }
             }
+            console.log(this.total_hiclos);
 
             // יצירת סהכ העברות
             for (let obj of this.all_full_farm_det) {
@@ -1847,6 +1848,7 @@ export class EcommerceComponent implements OnInit {
             }
 
             this.total_hiclos += this.more_hiclos_pargit_after_kizuz;
+            console.log(this.total_hiclos);
           }
         }
 
