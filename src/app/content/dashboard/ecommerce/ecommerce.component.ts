@@ -208,7 +208,7 @@ export class EcommerceComponent implements OnInit {
   async ngOnInit() {
     this.count_more_hiclos = 0;
     this.more_hiclos_pargit_after_kizuz = 0;
-    this.hiclos_by_site = 0
+    this.hiclos_by_site = 0;
     this.shloha_tatle = '';
     this.min_date_cartificate_transfer = '';
     this.all_certificate_det = [];
@@ -244,7 +244,7 @@ export class EcommerceComponent implements OnInit {
     this.route2.params.subscribe(async (params) => {
       this.count_more_hiclos = 0;
       this.more_hiclos_pargit_after_kizuz = 0;
-      this.hiclos_by_site = 0
+      this.hiclos_by_site = 0;
       this.min_date_cartificate_transfer = '';
       this.shloha_tatle = '';
       this.all_certificate_det = [];
@@ -532,7 +532,7 @@ export class EcommerceComponent implements OnInit {
         }
 
         // שותפים בשלוחת פטם
-        let farm_code_without_slesh = this.extractNumber(obj.code);
+        let farm_code_without_slesh = this.return_num_withot_slesh(obj.code);
         const checkPartners =
           await this.megadelSearchService.Partners_By_Farm_Select(
             7,
@@ -551,10 +551,11 @@ export class EcommerceComponent implements OnInit {
       }
 
       const checkPartners2 =
-        await this.megadelSearchService.get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
+        עןא שגג .await this.megadelSearchService.get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
           this.userDetails[0]?.v_yzrn
         );
 
+      //מערך המכיל השותפים  לפי שלוחה
       this.groupedArray = {};
       checkPartners2.forEach((obj) => {
         const tzrt = obj.Tzrt;
@@ -564,14 +565,21 @@ export class EcommerceComponent implements OnInit {
         this.groupedArray[tzrt].push(obj);
       });
 
-      if (this.groupedArray[22]) {
-        const uniqueTzrtSet = new Set();
+      console.log(this.groupedArray);
 
+      //   במידה ויש שותפים לשלוחה 22 הודים
+      if (this.groupedArray[22]) {
+        //new Set() מערך שיכיל את מספרי האתרים של השותפים ללא שיכפולי ערך בעזרת ה
+        const uniqueTzrtSet = new Set();
         this.groupedArray[22].forEach((obj) => {
           uniqueTzrtSet.add(obj.code);
         });
+
+        // הופכים את הסט למערך
         const uniqueTzrtArray = Array.from(uniqueTzrtSet);
         console.log(uniqueTzrtArray);
+
+        // משתנה המכיל את מספרי אתרי השותפות
         this.site_partners_hodim_pitom = uniqueTzrtArray;
         console.log(this.site_partners_hodim_pitom);
       }
@@ -611,7 +619,7 @@ export class EcommerceComponent implements OnInit {
                 real_hiclos_by_site = real_hiclos_in_site_from_madgera;
               }
             }
-            this.hiclos_by_site = real_hiclos_by_site
+            this.hiclos_by_site = real_hiclos_by_site;
             if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
@@ -640,7 +648,6 @@ export class EcommerceComponent implements OnInit {
                   obj?.flock_num
                 );
 
-
               if (real_hiclos_by_site.length === 0) {
                 // חילוץ כל תעודות ההעברה ממדגרה
                 var real_hiclos_in_site_from_madgera =
@@ -652,7 +659,12 @@ export class EcommerceComponent implements OnInit {
               }
             }
 
-                 this.hiclos_by_site = real_hiclos_by_site
+            console.log(real_hiclos_by_site);
+
+            this.hiclos_by_site = real_hiclos_by_site;
+
+            console.log(this.hiclos_by_site);
+
             if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
@@ -677,7 +689,6 @@ export class EcommerceComponent implements OnInit {
           var count_hiclos = 0;
           if (real_hiclos_by_site.length > 0) {
             if (real_hiclos_by_site[0].chicken_sum) {
-
               for (let obj2 of real_hiclos_by_site) {
                 count_hiclos += Number(obj2.chicken_sum);
                 count_hiclos += Number(obj2.chicken_sum_female);
@@ -698,7 +709,6 @@ export class EcommerceComponent implements OnInit {
       }
 
       console.log(real_hiclos_by_site);
-      
 
       //   הוספת זנים
       for (let obj of this.new_Active_FarmDetails) {
@@ -931,7 +941,7 @@ export class EcommerceComponent implements OnInit {
                       );
                     real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                   }
-                  this.hiclos_by_site = real_hiclos_by_site
+                  this.hiclos_by_site = real_hiclos_by_site;
                 } else {
                   // הוספת שדה איכלוס
                   var real_hiclos_by_site =
@@ -940,7 +950,7 @@ export class EcommerceComponent implements OnInit {
                       obj?.flock_num
                     );
 
-                    this.hiclos_by_site = real_hiclos_by_site
+                  this.hiclos_by_site = real_hiclos_by_site;
                 }
                 if (real_hiclos_by_site.length === 0) {
                   // חילוץ כל תעודות ההעברה ממדגרה
@@ -951,7 +961,7 @@ export class EcommerceComponent implements OnInit {
                     );
                   real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                 }
-                this.hiclos_by_site = real_hiclos_by_site
+                this.hiclos_by_site = real_hiclos_by_site;
                 // נחלץ את האיכלוס האישי של המגדל הנ''ל בג''ח
                 this.real_hiclos_by_site_by_partner =
                   real_hiclos_by_site.filter(
@@ -1072,7 +1082,7 @@ export class EcommerceComponent implements OnInit {
                     );
                   real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                 }
-                this.hiclos_by_site = real_hiclos_by_site
+                this.hiclos_by_site = real_hiclos_by_site;
 
                 if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                   const dateArray = real_hiclos_by_site.map(
@@ -1108,7 +1118,7 @@ export class EcommerceComponent implements OnInit {
                     real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                   }
                 }
-                this.hiclos_by_site = real_hiclos_by_site
+                this.hiclos_by_site = real_hiclos_by_site;
                 if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                   const dateArray = real_hiclos_by_site.map(
                     (item) => item.create_date
@@ -1508,7 +1518,7 @@ export class EcommerceComponent implements OnInit {
                   );
                 real_hiclos_by_site = real_hiclos_in_site_from_madgera;
               }
-              this.hiclos_by_site = real_hiclos_by_site
+              this.hiclos_by_site = real_hiclos_by_site;
               if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                 const dateArray = real_hiclos_by_site.map(
                   (item) => item.create_date
@@ -1532,7 +1542,7 @@ export class EcommerceComponent implements OnInit {
                   obj?.farm_num,
                   obj?.flock_num
                 );
-                this.hiclos_by_site = real_hiclos_by_site
+              this.hiclos_by_site = real_hiclos_by_site;
               if (real_hiclos_by_site.length === 0) {
                 // חילוץ כל תעודות ההעברה ממדגרה
                 var real_hiclos_in_site_from_madgera =
@@ -1542,7 +1552,7 @@ export class EcommerceComponent implements OnInit {
                   );
                 real_hiclos_by_site = real_hiclos_in_site_from_madgera;
               }
-              this.hiclos_by_site = real_hiclos_by_site
+              this.hiclos_by_site = real_hiclos_by_site;
               if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
                 const dateArray = real_hiclos_by_site.map(
                   (item) => item.create_date
@@ -1742,7 +1752,7 @@ export class EcommerceComponent implements OnInit {
                       );
                     real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                   }
-                  this.hiclos_by_site = real_hiclos_by_site
+                  this.hiclos_by_site = real_hiclos_by_site;
                   var count_hiclos = 0;
                   if (real_hiclos_by_site) {
                     if (real_hiclos_by_site[0]?.chicken_sum) {
@@ -1778,7 +1788,7 @@ export class EcommerceComponent implements OnInit {
                       );
                     real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                   }
-                  this.hiclos_by_site = real_hiclos_by_site
+                  this.hiclos_by_site = real_hiclos_by_site;
                   this.all_certificate_det = [
                     ...this.all_certificate_det,
                     ...real_hiclos_by_site,
@@ -2263,7 +2273,7 @@ export class EcommerceComponent implements OnInit {
                 );
               real_hiclos_by_site = real_hiclos_in_site_from_madgera;
             }
-            this.hiclos_by_site = real_hiclos_by_site
+            this.hiclos_by_site = real_hiclos_by_site;
             if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               // ניצור מערך המכיל את תאריכי התעודות
               const dateArray = real_hiclos_by_site.map(
@@ -2293,7 +2303,6 @@ export class EcommerceComponent implements OnInit {
                 obj?.flock_num
               );
 
-
             if (real_hiclos_by_site.length === 0) {
               // חילוץ כל תעודות ההעברה ממדגרה
               var real_hiclos_in_site_from_madgera =
@@ -2303,7 +2312,7 @@ export class EcommerceComponent implements OnInit {
                 );
               real_hiclos_by_site = real_hiclos_in_site_from_madgera;
             }
-            this.hiclos_by_site = real_hiclos_by_site
+            this.hiclos_by_site = real_hiclos_by_site;
             if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               // ניצור מערך המכיל את תאריכי התעודות
               const dateArray = real_hiclos_by_site.map(
@@ -2486,7 +2495,6 @@ export class EcommerceComponent implements OnInit {
                     );
                   real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                 }
-                this.hiclos_by_site = real_hiclos_by_site
                 var count_hiclos = 0;
                 if (real_hiclos_by_site) {
                   if (real_hiclos_by_site[0]?.chicken_sum) {
@@ -2521,7 +2529,6 @@ export class EcommerceComponent implements OnInit {
                     );
                   real_hiclos_by_site = real_hiclos_in_site_from_madgera;
                 }
-                this.hiclos_by_site = real_hiclos_by_site
                 this.all_certificate_det = [
                   ...this.all_certificate_det,
                   ...real_hiclos_by_site,
@@ -2570,7 +2577,9 @@ export class EcommerceComponent implements OnInit {
     for (let item of this.FarmDetails) {
       let grower_id = item.grower_id;
       let farm_id = item.farm_id;
-      let farm_code_without_slesh = this.extractNumber(item.farm_code);
+      let farm_code_without_slesh = this.return_num_withot_slesh(
+        item.farm_code
+      );
       // בדיקת שותפים מכסת פטם
       const checkPartners =
         await this.megadelSearchService.Partners_By_Farm_Select(
@@ -2845,7 +2854,9 @@ export class EcommerceComponent implements OnInit {
   }
 
   async selectCategory(category: string) {
+    // במידה והשלוחה היא לא שלוחת הטלה
     if (category !== '20') {
+      // נבדוק מכסות פטם
       this.mihsotPetem = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
@@ -2853,9 +2864,8 @@ export class EcommerceComponent implements OnInit {
         '10',
         88
       );
-      // מכסות פטם - סיום
 
-      // מכסות הודים
+      // נבדוק מכסות הודים
       this.mihsotHodim = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
@@ -2863,10 +2873,17 @@ export class EcommerceComponent implements OnInit {
         '01',
         88
       );
+
+      // איפוס מיכסות הטלה
       this.mihsot = [];
+
+      // במידה ונבחרה שלוחת הטלה
     } else {
+      // איפוס מכסת פטם והודים
       this.mihsotHodim = [];
       this.mihsotPetem = [];
+
+      //בדיקת מכסות הטלה
       this.mihsot = await this.megadelSearchService.Micsa_Select_New(
         5,
         this.userDetails[0]?.v_yzrn,
@@ -2875,12 +2892,15 @@ export class EcommerceComponent implements OnInit {
         88
       );
     }
+
     this.click_on_not_show_ActiveSite = false;
     this.click_on_show_ActiveSite = false;
+
+    // הקטגוריה הנבחרה
     this.selectedCategory = category;
 
+    // הוצאת הכותרת של השלוחה
     this.shloha_tatle = this.getCategoryLabel(this.selectedCategory);
-    console.log(this.shloha_tatle);
 
     var value = [];
     value = this.categorizedArrays[category];
@@ -3093,7 +3113,6 @@ export class EcommerceComponent implements OnInit {
           obj.msvk_zamud = splitArray[1];
           obj.code_msvk_zamud = splitArray[0];
 
-          // obj.were_house = splitArray[4];
           if (splitArray[3] !== '0') {
             var were_house_det =
               await this.megadelSearchService.get_were_house_name_and_code_by_id_were_house(
@@ -3134,7 +3153,7 @@ export class EcommerceComponent implements OnInit {
                 );
               real_hiclos_by_site = real_hiclos_in_site_from_madgera;
             }
-            this.hiclos_by_site = real_hiclos_by_site
+            this.hiclos_by_site = real_hiclos_by_site;
             if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
@@ -3163,7 +3182,7 @@ export class EcommerceComponent implements OnInit {
                 );
               real_hiclos_by_site = real_hiclos_in_site_from_madgera;
             }
-            this.hiclos_by_site = real_hiclos_by_site
+            this.hiclos_by_site = real_hiclos_by_site;
             if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
               const dateArray = real_hiclos_by_site.map(
                 (item) => item.create_date
@@ -3428,7 +3447,7 @@ export class EcommerceComponent implements OnInit {
     console.log('atar_num: ', atar_num);
     console.log(this.groupedArray[22]);
     this.partners_hodim_by_site = this.groupedArray[22].filter(
-      (obj) => obj.atar_id === atar_num
+      (obj) => obj.code === atar_num
     );
     console.log(this.partners_hodim_by_site);
     this.open_PopupPartnersHodimComponent(this.partners_hodim_by_site);
@@ -3667,28 +3686,14 @@ export class EcommerceComponent implements OnInit {
   }
 
   async openPopup_hiclos_by_site(data: any) {
-    console.log(data);
-    for (let item of data) {
-      var parts = item.pr_User.split('-');
-      var pr_User = parts[0];
-      item.pr_User = pr_User;
-
-      var farm_code = await this.megadelSearchService.get_farm_code_by_farm_id(
-        item.pr_atar
-      );
-      item.farm_code = farm_code[0]?.code;
-
-      console.log(item);
-    }
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = '';
     dialogConfig.data = data;
-    const dialogRef = this.dialog.open(PopupHiclosBySiteComponent, dialogConfig);
+    const dialogRef = this.dialog.open(
+      PopupHiclosBySiteComponent,
+      dialogConfig
+    );
   }
-
-
-
 
   async openPopup_mifkadim_Component(data: any) {
     console.log(data);
@@ -4288,7 +4293,7 @@ export class EcommerceComponent implements OnInit {
         if (item.code.toString().includes('/')) {
           this.arrLulMehetza.push(item.code);
         }
-        const extractedNumber = this.extractNumber(item.code);
+        const extractedNumber = this.return_num_withot_slesh(item.code);
 
         const farmId = await this.megadelSearchService.Get_farmId_By_siteName(
           extractedNumber
@@ -4300,7 +4305,7 @@ export class EcommerceComponent implements OnInit {
     return farmIds;
   }
 
-  extractNumber(value: any): number {
+  return_num_withot_slesh(value: any): number {
     if (typeof value === 'string') {
       if (value.toString().includes('/')) {
         const parts = value.split('/');

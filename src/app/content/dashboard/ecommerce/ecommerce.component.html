@@ -188,26 +188,6 @@
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex" style="height: 99px">
-                  <!-- <div
-                    class="year-select rtl_Style"
-                    style="
-                      display: flex;
-                      align-items: stretch;
-                      font-size: 25px;
-                      font-weight: bold;
-                      margin: auto;
-                    "
-                  >
-                    <select
-                      [(ngModel)]="chosenYear"
-                      (change)="onYearChange2()"
-                      style="width: 125px; height: 60px"
-                    >
-                      <option *ngFor="let year of years" [value]="year">
-                        {{ year }}
-                      </option>
-                    </select>
-                  </div> -->
                   <div
                     class="year-select rtl_Style"
                     style="
@@ -1208,9 +1188,12 @@
                           </button>
                         </td>
                       </tr>
+                      <div *ngIf="mihsotPetem.length > 0">
+                        <h1 class="rtl_Style">מכסת פטם:</h1>
+                      </div>
 
-                      <B>נתוני מכסה:</B>
                       <table
+                        *ngIf="mihsotPetem.length > 0"
                         class="table table-hover border_bottom detailsTable"
                         style="direction: rtl"
                       >
@@ -1246,7 +1229,9 @@
                         </tbody>
                       </table>
 
-                      <B>אכלוס לפי אתר:</B>
+                      <!-- <div *ngIf="all_full_farm_det">
+                        <B>אכלוס לפי אתר:</B>
+                      </div>
                       <table
                         *ngIf="all_full_farm_det"
                         class="table table-hover border_bottom detailsTable"
@@ -1282,7 +1267,7 @@
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> -->
                     </div>
                     <!-- טבלת מכסות פטם סיום-->
 
@@ -1783,6 +1768,7 @@
                     overflow-y: auto !important;
                     overflow-x: auto !important;
                     height: 658px !important;
+                    padding-right: 30px;
                   "
                 >
                   <h3
@@ -2078,24 +2064,16 @@
                         </td>
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
-                        <td style="width: 100px"
-                        (click)="
-                        openPopup_hiclos_by_site(
-                            this.hiclos_by_site
-                        )
-                      "
-                      style="cursor: pointer; color: green"
+                        <td
+                          style="width: 100px"
+                          (click)="
+                            openPopup_hiclos_by_site(this.hiclos_by_site)
+                          "
+                          style="cursor: pointer; color: green"
                         >
                           {{ row.count_hiclos_total_site | number : "1.0-0" }}
                           <i class="fas fa-angle-left fa-lg"></i>
                         </td>
-
-
-
-                        
-
-
-
 
                         <td style="width: 100px"></td>
                         <td style="width: 100px"></td>
@@ -2334,7 +2312,7 @@
                     </div>
                   </div>
                   <div class="check">
-                    <div style="display: flex">
+                    <div style="display: flex; padding-top: 10px">
                       <div style="direction: rtl">
                         פעילים: {{ this.new_Active_FarmDetails.length }} לא
                         פעילים:
@@ -2371,6 +2349,7 @@
                       overflow-y: auto !important;
                       overflow-x: auto !important;
                       height: 700px !important;
+                      padding-right: 20px;
                     "
                   >
                     <table class="" style="direction: rtl; width: 100%">
