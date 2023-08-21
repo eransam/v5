@@ -551,7 +551,7 @@ export class EcommerceComponent implements OnInit {
       }
 
       const checkPartners2 =
-        עןא שגג .await this.megadelSearchService.get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
+        await this.megadelSearchService.get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
           this.userDetails[0]?.v_yzrn
         );
 
