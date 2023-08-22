@@ -1153,7 +1153,7 @@
                       <div>
                         <h1 class="rtl_Style">{{ this.shloha_tatle }}</h1>
                       </div>
-                      <B>שותפות הודים:</B>
+                      <B *ngIf="site_partners_hodim_pitom.length > 0">שותפות הודים:</B>
                       <tr *ngFor="let row of site_partners_hodim_pitom">
                         <td>
                           <button
@@ -1163,7 +1163,7 @@
                               background-color: white !important;
                               border: none;
                             "
-                            (click)="getPartner_pitom_or_hodim(row)"
+                            (click)="getPartner_hodim(row)"
                           >
                             {{ row }}
                           </button>
@@ -1182,7 +1182,7 @@
                               background-color: white !important;
                               border: none;
                             "
-                            (click)="getPartner_pitom_or_hodim(row)"
+                            (click)="getPartner_pitom(row)"
                           >
                             {{ row }}
                           </button>
@@ -2055,7 +2055,27 @@
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
-                        <td style="width: 100px">{{ row.flock_num }}</td>
+
+
+
+
+
+
+                        <td
+                        style="width: 100px"
+                        (click)="
+                          get_old_flocks_by_siteId_and_growerId_func(
+                            this.farm_det_new
+                          )
+                        "
+                        style="cursor: pointer; color: green"
+                      >
+                        {{ row.flock_num }}
+                        <i class="fas fa-angle-left fa-lg"></i>
+                      </td>
+
+
+
                         <td style="width: 100px">
                           {{ row.flock_hatch_date | date : "dd/MM/yyyy" }}
                         </td>

@@ -12,6 +12,32 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_Internal_transfer_certificates(
+    site_num: any,
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_Internal_transfer_certificates?site_num=${site_num}&flock_id=${flock_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_old_flocks_by_siteId_and_growerId(
+    farm_id: any,
+    growerId: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_old_flocks_by_siteId_and_growerId?farm_id=${farm_id}&growerId=${growerId}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_real_hiclos_in_site_from_madgera(
     farm_id: any,
     flock_id: any

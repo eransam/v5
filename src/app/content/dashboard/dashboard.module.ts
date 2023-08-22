@@ -39,6 +39,7 @@ import { PopupShowAllCertificateTransferComponent } from './popup-show-all-certi
 import { PopupMifkadimComponent } from './ecommerce/popup-mifkadim/popup-mifkadim.component';
 import { PopupPinoyimComponent } from './ecommerce/popup-pinoyim/popup-pinoyim.component';
 import { PopupHiclosBySiteComponent } from './ecommerce/popup-hiclos-by-site/popup-hiclos-by-site.component';
+import { PopupOldFlocksComponent } from './ecommerce/popup-old-flocks/popup-old-flocks.component';
 
 @NgModule({
   imports: [
@@ -115,6 +116,7 @@ import { PopupHiclosBySiteComponent } from './ecommerce/popup-hiclos-by-site/pop
     PopupMifkadimComponent,
     PopupPinoyimComponent,
     PopupHiclosBySiteComponent,
+    PopupOldFlocksComponent,
   ],
 
   exports: [RouterModule],

@@ -53,6 +53,7 @@
             <td>
               {{ p.car_number }}
             </td>
+
             <td>
               {{ p.farm_settlement_name }}
             </td>
@@ -75,7 +76,7 @@
               {{ p.grower_comments }}
             </td>
             <td>
-              {{ p.create_date }}
+              {{ p.create_date | date : "dd/MM/yyyy" }}
             </td>
           </tr>
         </tbody>
