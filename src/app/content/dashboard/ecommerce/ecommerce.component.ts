@@ -88,6 +88,7 @@ export class EcommerceComponent implements OnInit {
   Monthgraph = false;
   theDetails: any[];
   userDetails: any[];
+  selectedObject:any
   userDetails_more_info: any[];
   farm_det_new: any[];
   businessLicense: any[];
@@ -207,6 +208,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.selectedObject = 0
     this.count_more_hiclos = 0;
     this.more_hiclos_pargit_after_kizuz = 0;
     this.hiclos_by_site = 0;
@@ -244,6 +246,7 @@ export class EcommerceComponent implements OnInit {
   async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
       this.count_more_hiclos = 0;
+      this.selectedObject =0 
       this.more_hiclos_pargit_after_kizuz = 0;
       this.hiclos_by_site = 0;
       this.min_date_cartificate_transfer = '';
@@ -445,14 +448,45 @@ export class EcommerceComponent implements OnInit {
           if (flock_num.length > 0) {
             obj.flock_num = flock_num[0].id;
           }
+
+        //   var old_flocks =
+        //   await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+        //     farm_id[0].id,
+        //     this.userDetails[0].v_yzrn_id
+        //   );
+
+        //   console.log(old_flocks);
+        //   obj.old_flocks = old_flocks;
+
+        
+        }else{
+            var flock_num =
+            await this.megadelSearchService.get_flock_num_by_farm_id(obj.id);
+          console.log(flock_num);
+          if (flock_num.length > 0) {
+            obj.flock_num = flock_num[0].id;
+          }
+        //   var old_flocks =
+        //   await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+        //     obj.id,
+        //     this.userDetails[0].v_yzrn_id
+        //   );
+
+
+
+        //   console.log(old_flocks);
+        //   obj.old_flocks = old_flocks;
+          
+
         }
-        var flock_num =
-          await this.megadelSearchService.get_flock_num_by_farm_id(obj.id);
-        console.log(flock_num);
-        if (flock_num.length > 0) {
-          obj.flock_num = flock_num[0].id;
-        }
+
+
+
       }
+
+      console.log(this.farm_start_det);
+      
+      
 
       //   מכיל את מס כמות האתרים
       this.length_of_total_site = this.farm_start_det.length;
@@ -839,31 +873,45 @@ export class EcommerceComponent implements OnInit {
         console.log(farm_start_det);
 
         // הוספת מספרי להקה
-        for (let obj of farm_start_det) {
-          if (obj.code.toString().includes('/')) {
-            var parts = obj.code.split('/');
-            var extractedValue = parts[0];
-            var farm_id =
-              await this.megadelSearchService.get_farm_id_by_farm_code(
-                extractedValue
-              );
-            console.log(farm_id);
-            var flock_num =
-              await this.megadelSearchService.get_flock_num_by_farm_id(
-                farm_id[0].id
-              );
-            console.log(flock_num);
-            if (flock_num.length > 0) {
-              obj.flock_num = flock_num[0].id;
-            }
-          }
-          var flock_num =
-            await this.megadelSearchService.get_flock_num_by_farm_id(obj.id);
-          console.log(flock_num);
-          if (flock_num.length > 0) {
-            obj.flock_num = flock_num[0].id;
-          }
-        }
+        // for (let obj of farm_start_det) {
+        //   if (obj.code.toString().includes('/')) {
+        //     var parts = obj.code.split('/');
+        //     var extractedValue = parts[0];
+        //     var farm_id =
+        //       await this.megadelSearchService.get_farm_id_by_farm_code(
+        //         extractedValue
+        //       );
+        //     console.log(farm_id);
+        //     var flock_num =
+        //       await this.megadelSearchService.get_flock_num_by_farm_id(
+        //         farm_id[0].id
+        //       );
+        //     console.log(flock_num);
+        //     if (flock_num.length > 0) {
+        //       obj.flock_num = flock_num[0].id;
+        //     }
+
+
+        //     var old_flocks =
+        //     await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+        //       farm_id[0].id,"d"
+        //     );
+
+
+
+
+
+        //   }else{
+        //     var flock_num =
+        //     await this.megadelSearchService.get_flock_num_by_farm_id(obj.id);
+        //   console.log(flock_num);
+        //   if (flock_num.length > 0) {
+        //     obj.flock_num = flock_num[0].id;
+        //   }
+
+        //   }
+
+        // }
 
         //   הוספת שם יצרן ללולי מחיצה ראשיים שאין להם שם מגדל
         for (let obj of farm_start_det) {
@@ -2004,11 +2052,31 @@ export class EcommerceComponent implements OnInit {
           }
         }
 
-        console.log('end oninit');
+       
 
         // this.farm_det_new[0].farm_num = farm_num;
 
         console.log(this.farm_det_new);
+
+
+        var old_flocks =
+        await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+          
+            this.farm_det_new[0]?.farm_id,
+          this.userDetails[0].v_yzrn_id
+        );
+
+        console.log(old_flocks);
+        
+        this.farm_det_new[0].old_flocks = old_flocks
+
+        console.log(this.farm_det_new);
+
+        this.selectedObject = this.farm_det_new[0].old_flocks.find(item => item.flock_status_id === 1);
+
+        console.log(this.selectedObject);
+        
+
 
         this.isLoading_FarmDetails = false;
       }
@@ -2953,15 +3021,15 @@ export class EcommerceComponent implements OnInit {
     this.isLoading_rav_shnati = false;
   }
 
-  async get_old_flocks_by_siteId_and_growerId_func(farm_det_new: any) {
-    var old_flocks =
-      await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
-        farm_det_new[0]?.farm_id,
-        this.userDetails[0]?.v_yzrn_id
-      );
-    console.log(old_flocks);
-    this.openPopup_OldFlocksComponent(old_flocks);
-  }
+//   async get_old_flocks_by_siteId_and_growerId_func(farm_det_new: any) {
+//     var old_flocks =
+//       await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+//         farm_det_new[0]?.farm_id,
+//         this.userDetails[0]?.v_yzrn_id
+//       );
+//     console.log(old_flocks);
+//     this.openPopup_OldFlocksComponent(old_flocks);
+//   }
 
   // תשלום
   async shows_grower_payment() {
