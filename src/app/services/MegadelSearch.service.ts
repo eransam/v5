@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_flock_ages_by_flock_id(flock_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_flock_ages_by_flock_id?flock_id=${flock_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_Internal_transfer_certificates(
     site_num: any,
     flock_id: any

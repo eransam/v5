@@ -1153,7 +1153,9 @@
                       <div>
                         <h1 class="rtl_Style">{{ this.shloha_tatle }}</h1>
                       </div>
-                      <B *ngIf="site_partners_hodim_pitom.length > 0">שותפות הודים:</B>
+                      <B *ngIf="site_partners_hodim_pitom.length > 0"
+                        >שותפות הודים:</B
+                      >
                       <tr *ngFor="let row of site_partners_hodim_pitom">
                         <td>
                           <button
@@ -2002,21 +2004,23 @@
 
                     <thead class="detailsTable">
                       <tr>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          מס להקה
-                        </th>
+
 
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         >
-                          תאריך בקיעה
+                           מס להקה - תאריך בקיעה
                         </th>
+
+                        <!-- <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תאריך בקיעה
+                        </th> -->
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -2056,33 +2060,32 @@
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
 
-
-
-
-
-
-                        <!-- <td
-                        style="width: 100px"
-                        (click)="
-                          get_old_flocks_by_siteId_and_growerId_func(
-                            this.farm_det_new
-                          )
+                        <td
+                        scope="col"
+                        class="border-top-0 table_tatle"
+                        style="width: 100px;
+                            width: 192px;
+                        padding-left: 39px !important;
                         "
-                        style="cursor: pointer; color: green"
                       >
-                        {{ row.flock_num }}
-                        <i class="fas fa-angle-left fa-lg"></i>
-                      </td> -->
+                            <div class="form-group">
+                            <select
+                            style="    font-size: 20px;
+                            font-weight: 700;"
+                                class="form-control"
+                                [(ngModel)]="selectedObject"
+                                (ngModelChange)="onOptionSelected()"
+                            >
+                                <option
+                                *ngFor="let item of farm_det_new[0].old_flocks"
+                                [ngValue]="item"
+                                >
+                                {{ item.id }} -
+                                {{ item.date_created | date : "dd/MM/yyyy" }}
+                                </option>
+                            </select>
+                            </div>
 
-                      <td
-                      style="width: 100px"
-                    >
-                      {{ row.flock_num }}
-                    </td>
-
-
-                        <td style="width: 100px">
-                          {{ row.flock_hatch_date | date : "dd/MM/yyyy" }}
                         </td>
                         <td style="width: 100px">
                           {{ row.minDate_hiclos | date : "dd/MM/yyyy" }}
