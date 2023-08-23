@@ -1975,9 +1975,15 @@
                           "
                           id="mifkadim"
                         >
-                          קיים מפקדים
-                          <i class="fas fa-angle-left fa-lg"></i>
-                        </th>
+                         ת.מפקד אחרון ({{this.farm_det_new[0].mifkadim.length}})
+                        </th>        
+                        <th
+                        *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                        id="mifkadim"
+                      >
+                       כמות 
+                      </th> 
+
 
                         <th
                           *ngIf="this.farm_det_new[0]?.pinoyim?.length === 0"
@@ -1990,7 +1996,31 @@
                         <td *ngIf="row.tnahi_imon !== 0" style="width: 100px">
                           {{ row.pa_Counter }}
                         </td>
-                        <td style="width: 100px"></td>
+
+
+                        <td style="width: 100px"
+                        style="cursor: pointer; color: green"
+                        (click)="
+                        openPopup_mifkadim_Component(
+                          this.farm_det_new[0].mifkadim
+                        )
+                      "
+                        >
+                        {{this.latestObject_in_array_mifkadim_short.pr_Datemsira | date : "dd/MM/yyyy"}}
+                        </td>
+
+                        <td style="width: 100px"
+                        
+                        >
+                        {{this.latestObject_in_array_mifkadim_short.total_pr_Kamut | number : "1.0-0"}}
+                        </td>
+
+
+
+                        <td *ngIf="this.farm_det_new[0]?.pinoyim?.length === 0" style="width: 100px">
+                          </td>
+
+                          
                       </tr>
                     </tbody>
                     <br />
@@ -2014,13 +2044,7 @@
                            מס להקה - תאריך בקיעה
                         </th>
 
-                        <!-- <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          תאריך בקיעה
-                        </th> -->
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -2092,6 +2116,8 @@
                         </td>
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
+
+
                         <td
                           style="width: 100px"
                           (click)="

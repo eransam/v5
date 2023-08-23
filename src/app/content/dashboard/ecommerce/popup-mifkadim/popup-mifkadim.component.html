@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2">
       <table class="table no-margin">
-        <thead>
+        <!-- <thead>
           <tr>
             <th style="font-weight: bold; text-align: right">קוד אתר</th>
             <th style="font-weight: bold; text-align: right">תאריך מפקד</th>
@@ -27,42 +27,120 @@
             <th style="font-weight: bold; text-align: right">מס מגדל</th>
             <th style="font-weight: bold; text-align: right">pdf</th>
           </tr>
-        </thead>
-        <tbody style="white-space: nowrap">
-          <tr *ngFor="let p of data">
-            <td>
-              {{ p.farm_code }}
-            </td>
+        </thead> -->
 
-            <td>
-              {{ p.pr_Datemsira | date : "dd/MM/yyyy" }}
-            </td>
-            <td>
-              {{ p.pr_Kamut }}
-            </td>
-            <td>
-              {{ p.pr_lhk_mkbl }}
-            </td>
-            <td>
-              {{ p.pr_User }}
-            </td>
-            <td>
-              {{ p.pr_Yzrn }}
-            </td>
-            <td>
-              <a
-                [href]="
-                  'http:\\\\epb-iis12:8006\\LulSln_net\\Mifkadim_New\\TdMs_' +
-                  p.Mifkad_pdf +
-                  '_' +
-                  p.id_pdf +
-                  '.pdf'
-                "
-                >file</a
-              >
-            </td>
+        <thead>
+          <tr>
+            <th style="font-weight: bold; text-align: right"></th>
+            <th style="font-weight: bold; text-align: right">מס מפקד</th>
+            <th style="font-weight: bold; text-align: right">תאריך מפקד</th>
+            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
+            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
+            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
+            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
+            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
+
           </tr>
+        </thead>
+
+        <tbody style="white-space: nowrap">
+          <ng-container
+            *ngFor="
+              let p of this.data[this.data.length - 1]['array_mifkadim_short'];
+              let i = index
+            "
+          >
+            <tr>
+              <td (click)="toggleExpansion(p)">
+                <!-- Add this line -->
+                <span class="expand-symbol" [class.expanded]="p.expanded"
+                  >+</span
+                >
+              </td>
+
+              <td>
+                {{ p.Mifkad_id }}
+              </td>
+
+              <td>
+                {{ p.pr_Datemsira | date : "dd/MM/yyyy" }}
+              </td>
+              <td>
+                {{ p.total_pr_Kamut }}
+              </td>
+              <td>
+                {{ p.total_pr_Kamut }}
+              </td>              <td>
+                {{ p.total_pr_Kamut }}
+              </td>              <td>
+                {{ p.total_pr_Kamut }}
+              </td>              <td>
+                {{ p.total_pr_Kamut }}
+              </td>              <td>
+                {{ p.total_pr_Kamut }}
+              </td>
+            </tr>
+
+
+            <div *ngIf="p.expanded">
+             <tr *ngFor="let p of this.objectsToShow">
+
+              <td colspan="4">
+
+                {{ p.pr_Yzrn }}
+              </td>
+
+              <td colspan="4">
+
+                {{ p.pr_Datemsira }}
+              </td>
+
+              <td colspan="4">
+
+                {{ p.pr_Kamut }}
+              </td>
+
+
+              <td colspan="4">
+
+                {{ p.pr_atar }}
+              </td>
+
+
+              <td colspan="4">
+
+                {{ p.pr_lhk_mkbl }}
+              </td>
+
+
+              <td colspan="4">
+
+                {{ p.pr_User }}
+              </td>
+
+
+              <td colspan="4">
+
+                {{ p.Mifkad_id }}
+              </td>
+
+
+
+              <td colspan="4">
+
+                {{ p.farm_code }}
+              </td>
+
+            </tr>
+
+            </div>
+
+
+
+          </ng-container>
         </tbody>
+
+
       </table>
     </td>
   </tr>

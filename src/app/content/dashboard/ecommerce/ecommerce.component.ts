@@ -89,6 +89,7 @@ export class EcommerceComponent implements OnInit {
   theDetails: any[];
   userDetails: any[];
   selectedObject: any;
+  selectedObject_mifkadim: any;
   userDetails_more_info: any[];
   farm_det_new: any[];
   businessLicense: any[];
@@ -108,6 +109,7 @@ export class EcommerceComponent implements OnInit {
   site_partners_petem: any[] = [];
   all_certificate_det: any[] = [];
   site_partners_hodim_pitom: any[] = [];
+  latestObject_in_array_mifkadim_short: any;
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = true;
@@ -128,6 +130,7 @@ export class EcommerceComponent implements OnInit {
   ContactPersonLength;
   yzrnHead;
   kannatNum_and_oldMegadelNum = [];
+  array_mifkadim_short: any = [];
   mihsot = [];
   mihsotPetem: any = [];
   mihsotHodim: any = [];
@@ -196,6 +199,7 @@ export class EcommerceComponent implements OnInit {
   count_more_hiclos: any = 0;
   hiclos_by_site: any = 0;
   more_hiclos_pargit_after_kizuz: any = 0;
+  mifkadim: any;
   constructor(
     private SharedServiceService: SharedServiceService,
     private cdr: ChangeDetectorRef,
@@ -208,7 +212,10 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.mifkadim = [];
+    this.latestObject_in_array_mifkadim_short = {};
     this.selectedObject = 0;
+    this.array_mifkadim_short = [];
     this.count_more_hiclos = 0;
     this.more_hiclos_pargit_after_kizuz = 0;
     this.hiclos_by_site = 0;
@@ -244,8 +251,12 @@ export class EcommerceComponent implements OnInit {
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
   async subscribe_func() {
+    this.latestObject_in_array_mifkadim_short = {};
     this.route2.params.subscribe(async (params) => {
       this.count_more_hiclos = 0;
+
+      this.mifkadim = [];
+      this.array_mifkadim_short = [];
       this.selectedObject = 0;
       this.more_hiclos_pargit_after_kizuz = 0;
       this.hiclos_by_site = 0;
@@ -448,8 +459,6 @@ export class EcommerceComponent implements OnInit {
           if (flock_num.length > 0) {
             obj.flock_num = flock_num[0].id;
           }
-
-
         } else {
           var flock_num =
             await this.megadelSearchService.get_flock_num_by_farm_id(obj.id);
@@ -576,8 +585,7 @@ export class EcommerceComponent implements OnInit {
           this.userDetails[0]?.v_yzrn
         );
 
-        console.log(checkPartners2);
-        
+      console.log(checkPartners2);
 
       //מערך המכיל השותפים  לפי שלוחה
       this.groupedArray = {};
@@ -847,8 +855,6 @@ export class EcommerceComponent implements OnInit {
         );
 
         console.log(farm_start_det);
-
-
 
         //   הוספת שם יצרן ללולי מחיצה ראשיים שאין להם שם מגדל
         for (let obj of farm_start_det) {
@@ -1754,18 +1760,18 @@ export class EcommerceComponent implements OnInit {
           }
         }
 
-        //   הוספת תאריך פינויים
-        for (let obj of this.farm_det_new) {
-          if (obj.flock_num) {
-            var pinoyim =
-              await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
-                obj.flock_num,
-                obj.farm_id
-              );
-            console.log(pinoyim);
-            obj.pinoyim = pinoyim;
-          }
-        }
+        // //   הוספת תאריך פינויים
+        // for (let obj of this.farm_det_new) {
+        //   if (obj.flock_num) {
+        //     var pinoyim =
+        //       await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
+        //         obj.flock_num,
+        //         obj.farm_id
+        //       );
+        //     console.log(pinoyim);
+        //     obj.pinoyim = pinoyim;
+        //   }
+        // }
 
         //   הוספת תאריך מפקדים
         for (let obj of this.farm_det_new) {
@@ -1787,7 +1793,7 @@ export class EcommerceComponent implements OnInit {
             obj.pinoyim = pinoyim;
           }
         }
-
+        mifkadim;
         console.log(this.farm_det_new);
 
         // יצירת סהכ מכסת פרגיות
@@ -2006,27 +2012,24 @@ export class EcommerceComponent implements OnInit {
 
         console.log(this.farm_det_new);
         if (this.farm_det_new.length > 0) {
-            var old_flocks =
+          var old_flocks =
             await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
               this.farm_det_new[0]?.farm_id,
               this.userDetails[0].v_yzrn_id
             );
-  
+
           console.log(old_flocks);
-  
+
           this.farm_det_new[0].old_flocks = old_flocks;
-  
+
           console.log(this.farm_det_new);
-  
+
           this.selectedObject = this.farm_det_new[0].old_flocks.find(
             (item) => item.flock_status_id === 1
           );
-  
+
           console.log(this.selectedObject);
-
-            
         }
-
 
         this.isLoading_FarmDetails = false;
       }
@@ -2432,18 +2435,18 @@ export class EcommerceComponent implements OnInit {
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
       }
 
-      //   הוספת תאריך פינויים
-      for (let obj of this.farm_det_new) {
-        if (obj.flock_num) {
-          var pinoyim =
-            await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
-              obj.flock_num,
-              obj.farm_id
-            );
-          console.log(pinoyim);
-          obj.pinoyim = pinoyim;
-        }
-      }
+      //   //   הוספת תאריך פינויים
+      //   for (let obj of this.farm_det_new) {
+      //     if (obj.flock_num) {
+      //       var pinoyim =
+      //         await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
+      //           obj.flock_num,
+      //           obj.farm_id
+      //         );
+      //       console.log(pinoyim);
+      //       obj.pinoyim = pinoyim;
+      //     }
+      //   }
 
       //   הוספת תאריך מפקדים
       for (let obj of this.farm_det_new) {
@@ -2454,7 +2457,44 @@ export class EcommerceComponent implements OnInit {
               obj.farm_id
             );
           console.log(mifkadim);
+          this.mifkadim = mifkadim;
+
+          this.array_mifkadim_short = mifkadim.reduce((result, currentItem) => {
+            if (!result[0]) {
+              result.push({
+                Mifkad_id: currentItem.Mifkad_id,
+                total_pr_Kamut: currentItem.pr_Kamut,
+                pr_Datemsira: currentItem.pr_Datemsira,
+              });
+            } else {
+              result[0].total_pr_Kamut += currentItem.pr_Kamut;
+            }
+            return result;
+          }, []);
+
+          console.log(this.array_mifkadim_short);
+
+          const latestObject = this.array_mifkadim_short.reduce(
+            (latest, currentItem) => {
+              const currentDate = new Date(currentItem.pr_Datemsira);
+              const latestDate = new Date(latest.pr_Datemsira);
+
+              return currentDate > latestDate ? currentItem : latest;
+            },
+            this.array_mifkadim_short[0]
+          ); // Initialize with the first object
+
+          this.latestObject_in_array_mifkadim_short = latestObject;
           obj.mifkadim = mifkadim;
+
+          //מפקדים המחולקים לשותפים
+          console.log(this.mifkadim);
+
+          //   מפתקדים טוטל כמות מקוצרים
+          console.log(this.array_mifkadim_short);
+
+          //   המפקד הטווטל המקוצר האחרון
+          console.log(this.latestObject_in_array_mifkadim_short);
 
           var pinoyim =
             await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
@@ -2465,6 +2505,21 @@ export class EcommerceComponent implements OnInit {
           obj.pinoyim = pinoyim;
         }
       }
+
+      console.log(this.farm_det_new);
+
+      const maxDateObject = mifkadim.reduce((prev, current) => {
+        const prevDate = new Date(prev.pr_Datemsira).getTime();
+        const currentDate = new Date(current.pr_Datemsira).getTime();
+        return prevDate > currentDate ? prev : current;
+      }, mifkadim[0]);
+
+      console.log(maxDateObject);
+      this.selectedObject_mifkadim = maxDateObject;
+
+      const objectsToShow = mifkadim.filter((item) => item !== maxDateObject);
+      // מביא את משתנה לתחילת המערך - unshift
+      objectsToShow.unshift(maxDateObject);
 
       console.log(this.farm_det_new);
       //   הוספת מספר מבנים
@@ -2746,18 +2801,18 @@ export class EcommerceComponent implements OnInit {
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
       }
 
-      //   הוספת תאריך פינויים
-      for (let obj of this.farm_det_new) {
-        if (obj.flock_num) {
-          var pinoyim =
-            await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
-              obj.flock_num,
-              obj.farm_id
-            );
-          console.log(pinoyim);
-          obj.pinoyim = pinoyim;
-        }
-      }
+      //   //   הוספת תאריך פינויים
+      //   for (let obj of this.farm_det_new) {
+      //     if (obj.flock_num) {
+      //       var pinoyim =
+      //         await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
+      //           obj.flock_num,
+      //           obj.farm_id
+      //         );
+      //       console.log(pinoyim);
+      //       obj.pinoyim = pinoyim;
+      //     }
+      //   }
 
       //   הוספת תאריך מפקדים
       for (let obj of this.farm_det_new) {
@@ -2918,6 +2973,27 @@ export class EcommerceComponent implements OnInit {
       }
 
       this.farm_det_new[0].farm_num = farm_num;
+
+      console.log(this.farm_det_new);
+      if (this.farm_det_new.length > 0) {
+        var old_flocks =
+          await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+            this.farm_det_new[0]?.farm_id,
+            this.userDetails[0].v_yzrn_id
+          );
+
+        console.log(old_flocks);
+
+        this.farm_det_new[0].old_flocks = old_flocks;
+
+        console.log(this.farm_det_new);
+
+        this.selectedObject = this.farm_det_new[0].old_flocks.find(
+          (item) => item.flock_status_id === 1
+        );
+
+        console.log(this.selectedObject);
+      }
     }
     this.the_chosen_farm = farm_num;
   }
@@ -3140,8 +3216,6 @@ export class EcommerceComponent implements OnInit {
     this.isLoading_rav_shnati = false;
   }
 
-
-
   // תשלום
   async shows_grower_payment() {
     this.isLoading_grower_payment = true;
@@ -3351,18 +3425,18 @@ export class EcommerceComponent implements OnInit {
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
       }
 
-      //   הוספת תאריך פינויים
-      for (let obj of this.farm_det_new) {
-        if (obj.flock_num) {
-          var pinoyim =
-            await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
-              obj.flock_num,
-              obj.farm_id
-            );
-          console.log(pinoyim);
-          obj.pinoyim = pinoyim;
-        }
-      }
+      //   //   הוספת תאריך פינויים
+      //   for (let obj of this.farm_det_new) {
+      //     if (obj.flock_num) {
+      //       var pinoyim =
+      //         await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
+      //           obj.flock_num,
+      //           obj.farm_id
+      //         );
+      //       console.log(pinoyim);
+      //       obj.pinoyim = pinoyim;
+      //     }
+      //   }
 
       //   הוספת תאריך מפקדים
       for (let obj of this.farm_det_new) {
@@ -3648,18 +3722,18 @@ export class EcommerceComponent implements OnInit {
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
       }
 
-      //   הוספת תאריך פינויים
-      for (let obj of this.farm_det_new) {
-        if (obj.flock_num) {
-          var pinoyim =
-            await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
-              obj.flock_num,
-              obj.farm_id
-            );
-          console.log(pinoyim);
-          obj.pinoyim = pinoyim;
-        }
-      }
+      //   //   הוספת תאריך פינויים
+      //   for (let obj of this.farm_det_new) {
+      //     if (obj.flock_num) {
+      //       var pinoyim =
+      //         await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
+      //           obj.flock_num,
+      //           obj.farm_id
+      //         );
+      //       console.log(pinoyim);
+      //       obj.pinoyim = pinoyim;
+      //     }
+      //   }
 
       //   הוספת תאריך מפקדים
       for (let obj of this.farm_det_new) {
@@ -4031,7 +4105,7 @@ export class EcommerceComponent implements OnInit {
     let isClickedInside = false;
 
     const handleDocumentClick = () => {
-        this.isLoading_micsa_egg_gach = false;
+      this.isLoading_micsa_egg_gach = false;
       if (!isClickedInside) {
         dialogRef.close();
         document.removeEventListener('click', handleDocumentClick);
@@ -4041,8 +4115,7 @@ export class EcommerceComponent implements OnInit {
 
     const handleButtonClick = () => {
       isClickedInside = true;
-      console.log("ff");
-
+      console.log('ff');
     };
 
     document.addEventListener('click', handleDocumentClick);
@@ -4055,13 +4128,9 @@ export class EcommerceComponent implements OnInit {
       console.log('Dialog closed with result:', result);
       document.removeEventListener('click', handleDocumentClick);
       buttonElement.removeEventListener('click', handleButtonClick);
-      console.log("ff");
-      
+      console.log('ff');
     });
   }
-
-
-
 
   openPopup_GrowerCard_Component() {
     const dialogConfig = new MatDialogConfig();
@@ -4081,7 +4150,6 @@ export class EcommerceComponent implements OnInit {
   }
 
   async openPopup_mifkadim_Component(data: any) {
-    console.log(data);
     for (let item of data) {
       var parts = item.pr_User.split('-');
       var pr_User = parts[0];
@@ -4091,13 +4159,19 @@ export class EcommerceComponent implements OnInit {
         item.pr_atar
       );
       item.farm_code = farm_code[0]?.code;
-
-      console.log(item);
     }
+
+    var main_arr = data;
+    main_arr = [
+      ...main_arr,
+      { array_mifkadim_short: this.array_mifkadim_short },
+    ];
+
+    console.log(main_arr);
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = '';
-    dialogConfig.data = data;
+    dialogConfig.data = main_arr;
     const dialogRef = this.dialog.open(PopupMifkadimComponent, dialogConfig);
   }
 

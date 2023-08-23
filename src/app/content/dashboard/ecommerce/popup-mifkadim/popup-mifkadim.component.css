@@ -93,3 +93,19 @@
 .cool-table span.red-x:hover {
   text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
 }
+
+
+.expand-symbol {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .expanded::before {
+    content: "-";
+  }
+
+  
+
+
+
+  
