@@ -36,12 +36,11 @@ export class MegadelSearchService {
   }
 
   async get_old_flocks_by_siteId_and_growerId(
-    farm_id: any,
-    growerId: any
+    farm_id: any
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_old_flocks_by_siteId_and_growerId?farm_id=${farm_id}&growerId=${growerId}`
+        `${environment.apiPath}growerService.asmx/get_old_flocks_by_siteId_and_growerId?farm_id=${farm_id}`
       )
     );
     console.log('item: ', item);

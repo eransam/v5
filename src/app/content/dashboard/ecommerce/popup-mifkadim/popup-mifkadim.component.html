@@ -13,36 +13,18 @@
       </th>
     </tr>
   </thead>
-
   <tr>
     <td colspan="2">
       <table class="table no-margin">
-        <!-- <thead>
-          <tr>
-            <th style="font-weight: bold; text-align: right">קוד אתר</th>
-            <th style="font-weight: bold; text-align: right">תאריך מפקד</th>
-            <th style="font-weight: bold; text-align: right">כמות</th>
-            <th style="font-weight: bold; text-align: right">מס להקה</th>
-            <th style="font-weight: bold; text-align: right">פקח מבצע</th>
-            <th style="font-weight: bold; text-align: right">מס מגדל</th>
-            <th style="font-weight: bold; text-align: right">pdf</th>
-          </tr>
-        </thead> -->
-
         <thead>
           <tr>
             <th style="font-weight: bold; text-align: right"></th>
             <th style="font-weight: bold; text-align: right">מס מפקד</th>
             <th style="font-weight: bold; text-align: right">תאריך מפקד</th>
             <th style="font-weight: bold; text-align: right">כמות מפקד</th>
-            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
-            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
-            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
-            <th style="font-weight: bold; text-align: right">כמות מפקד</th>
 
           </tr>
         </thead>
-
         <tbody style="white-space: nowrap">
           <ng-container
             *ngFor="
@@ -68,20 +50,8 @@
               <td>
                 {{ p.total_pr_Kamut }}
               </td>
-              <td>
-                {{ p.total_pr_Kamut }}
-              </td>              <td>
-                {{ p.total_pr_Kamut }}
-              </td>              <td>
-                {{ p.total_pr_Kamut }}
-              </td>              <td>
-                {{ p.total_pr_Kamut }}
-              </td>              <td>
-                {{ p.total_pr_Kamut }}
-              </td>
+
             </tr>
-
-
             <div *ngIf="p.expanded">
              <tr *ngFor="let p of this.objectsToShow">
 
@@ -111,37 +81,23 @@
 
                 {{ p.pr_lhk_mkbl }}
               </td>
-
-
               <td colspan="4">
-
                 {{ p.pr_User }}
               </td>
-
-
               <td colspan="4">
-
                 {{ p.Mifkad_id }}
               </td>
-
-
-
               <td colspan="4">
-
                 {{ p.farm_code }}
               </td>
-
             </tr>
-
             </div>
-
-
-
           </ng-container>
         </tbody>
-
-
       </table>
     </td>
   </tr>
 </table>
+
+
+

@@ -9,6 +9,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./popup-mifkadim.component.css']
 })
 export class PopupMifkadimComponent {
+    items = [
+        {
+          id: 1,
+          name: 'John',
+          email: 'john@example.com',
+          subTableData: [
+            { subId: 101, subName: 'Sub John 1' },
+            { subId: 102, subName: 'Sub John 2' }
+          ]
+        },
+        // ... other items ...
+      ];
+    
+      showSubTableIndex = -1;
+    
+      toggleSubTable(index: number): void {
+        this.showSubTableIndex = (this.showSubTableIndex === index) ? -1 : index;
+      }
+
+
+
+      
     userTypeID;
     certificateSum = 0;
     objectsToShow:any
