@@ -4,23 +4,19 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-popup-show-all-certificate-transfer',
-  templateUrl: './popup-show-all-certificate-transfer.component.html',
-  styleUrls: ['./popup-show-all-certificate-transfer.component.css'],
+  selector: 'app-popup-page',
+  templateUrl: './popup-page.component.html',
+  styleUrls: ['./popup-page.component.css'],
 })
-export class PopupShowAllCertificateTransferComponent implements OnInit {
+export class PopupPageComponent {
+  data: any[];
   userTypeID;
   certificateSum = 0;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public router: Router
-  ) {
-    console.log('data in constractor: ', data);
-  }
+  constructor(public router: Router) {}
 
   async ngOnInit() {
-    console.log('test');
+    this.data = JSON.parse(localStorage.getItem('this.partnerData'));
     const uniqueArr: any[] = [
       ...new Set(this.data[this.data.length - 1].newArrayEnd),
     ];
@@ -36,10 +32,11 @@ export class PopupShowAllCertificateTransferComponent implements OnInit {
         return 0; // Leave them in the same order as they are (maintain stability)
       }
     }
-    this.data.sort(customComparator);
+
+    // Sort the array using the custom comparator function
+    this.
+    data.sort(customComparator);
 
     console.log('this.data: ', this.data);
   }
 }
-
-

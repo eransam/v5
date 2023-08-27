@@ -1,0 +1,97 @@
+
+
+<div class="cool-table-container">
+    <table class="cool-table main_table" dir="rtl" border="0">
+            <thead>
+              <tr>
+                <th style="font-weight: bold; text-align: right">
+                  &nbsp;סה"כ מפקדים {{ this.data[this.data.length - 1]['array_mifkadim_short'].length }}
+                </th>
+          
+                <th style="font-weight: bold; text-align: right">מפקדים</th>
+              </tr>
+            </thead>
+            <tr>
+              <td colspan="2">
+                <table class="table no-margin table_inside">
+                  <thead>
+                    <tr>
+                      <th style="font-weight: bold; text-align: right; width: 50px"></th>
+                      <th style="font-weight: bold; text-align: right; width: 145px">
+                        מס מפקד
+                      </th>
+                      <th style="font-weight: bold; text-align: right; width: 145px">
+                        תאריך מפקד
+                      </th>
+                      <th style="font-weight: bold; text-align: right; width: 145px">
+                        כמות מפקד
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody style="white-space: nowrap">
+                    <ng-container
+                      *ngFor="
+                        let p of this.data[this.data.length - 1]['array_mifkadim_short'];
+                        let i = index
+                      "
+                    >
+                      <tr>
+                        <td style="width: 50px" (click)="toggleExpansion(p)">
+                          <!-- Add this line -->
+                          <span class="expand-symbol" [class.expanded]="p.expanded"
+                            >+</span
+                          >
+                        </td>
+          
+                        <td style="width: 145px">
+                          {{ p.Mifkad_id }}
+                        </td>
+          
+                        <td style="width: 145px">
+                          {{ p.pr_Datemsira | date : "dd/MM/yyyy" }}
+                        </td>
+                        <td style="width: 145px">
+                          {{ p.total_pr_Kamut }}
+                        </td>
+                      </tr>
+                      <div *ngIf="p.expanded">
+                        <tr *ngFor="let p of this.objectsToShow">
+                          <td colspan="4">
+                            {{ p.pr_Yzrn }}
+                          </td>
+          
+                          <td colspan="4">
+                            {{ p.pr_Datemsira }}
+                          </td>
+          
+                          <td colspan="4">
+                            {{ p.pr_Kamut }}
+                          </td>
+          
+                          <td colspan="4">
+                            {{ p.pr_atar }}
+                          </td>
+          
+                          <td colspan="4">
+                            {{ p.pr_lhk_mkbl }}
+                          </td>
+                          <td colspan="4">
+                            {{ p.pr_User }}
+                          </td>
+                          <td colspan="4">
+                            {{ p.Mifkad_id }}
+                          </td>
+                          <td colspan="4">
+                            {{ p.farm_code }}
+                          </td>
+                        </tr>
+                      </div>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+    </table>
+  </div>
+
+  

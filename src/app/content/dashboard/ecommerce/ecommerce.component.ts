@@ -9,10 +9,10 @@ import {
   PerfectScrollbarComponent,
   PerfectScrollbarConfigInterface,
 } from 'ngx-perfect-scrollbar';
+
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { SharedServiceService } from '../../../services/shared-service.service';
-
 export interface Chart {
   type: ChartType;
   data: Chartist.IChartistData;
@@ -110,7 +110,7 @@ export class EcommerceComponent implements OnInit {
   all_certificate_det: any[] = [];
   site_partners_hodim_pitom: any[] = [];
   latestObject_in_array_mifkadim_short: any;
-latestObject_in_array_pinoyim_short: any;
+  latestObject_in_array_pinoyim_short: any;
   henHouseID: any = '-1';
   isLoading_theUserDetails = false;
   isLoading_FarmDetails = true;
@@ -203,6 +203,7 @@ latestObject_in_array_pinoyim_short: any;
   more_hiclos_pargit_after_kizuz: any = 0;
   mifkadim: any;
   constructor(
+    private router: Router,
     private SharedServiceService: SharedServiceService,
     private cdr: ChangeDetectorRef,
     private megadelSearchService: MegadelSearchService,
@@ -216,16 +217,12 @@ latestObject_in_array_pinoyim_short: any;
   async ngOnInit() {
     this.mifkadim = [];
     this.latestObject_in_array_mifkadim_short = {};
-    this.latestObject_in_array_pinoyim_short ={}
+    this.latestObject_in_array_pinoyim_short = {};
     this.selectedObject = 0;
     this.array_mifkadim_short = [];
 
     this.array_pinoyim_short = [];
 
-
-
-
-    
     this.count_more_hiclos = 0;
     this.more_hiclos_pargit_after_kizuz = 0;
     this.hiclos_by_site = 0;
@@ -261,12 +258,11 @@ latestObject_in_array_pinoyim_short: any;
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
   async subscribe_func() {
-
     this.route2.params.subscribe(async (params) => {
       this.count_more_hiclos = 0;
       this.array_pinoyim_short = [];
       this.latestObject_in_array_mifkadim_short = {};
-      this.latestObject_in_array_pinoyim_short = {}
+      this.latestObject_in_array_pinoyim_short = {};
       this.mifkadim = [];
       this.array_mifkadim_short = [];
       this.selectedObject = 0;
@@ -1783,7 +1779,7 @@ latestObject_in_array_pinoyim_short: any;
             console.log(mifkadim);
             obj.mifkadim = mifkadim;
 
-        //   הוספת פינויים
+            //   הוספת פינויים
             var pinoyim =
               await this.megadelSearchService.get_pinoyim_by_flock_num_and_atar_id(
                 obj.flock_num,
@@ -2041,58 +2037,47 @@ latestObject_in_array_pinoyim_short: any;
 
     // הוספת מפקדים
     var mifkadim =
-    await this.megadelSearchService.get_mifkadim_by_atar_id_and_flock_num(
+      await this.megadelSearchService.get_mifkadim_by_atar_id_and_flock_num(
         this.selectedObject.id,
         this.selectedObject.farm_id
-    );
-
-
+      );
 
     if (mifkadim.length > 0) {
+      // יצירת מערך מפקדים מקוצר עם טוטל כמות פר מפקד
+      this.array_mifkadim_short = mifkadim.reduce((result, currentItem) => {
+        if (!result[0]) {
+          result.push({
+            Mifkad_id: currentItem.Mifkad_id,
+            total_pr_Kamut: currentItem.pr_Kamut,
+            pr_Datemsira: currentItem.pr_Datemsira,
+          });
+        } else {
+          result[0].total_pr_Kamut += currentItem.pr_Kamut;
+        }
+        return result;
+      }, []);
 
-        // יצירת מערך מפקדים מקוצר עם טוטל כמות פר מפקד
-        this.array_mifkadim_short = mifkadim.reduce(
-          (result, currentItem) => {
-            if (!result[0]) {
-              result.push({
-                Mifkad_id: currentItem.Mifkad_id,
-                total_pr_Kamut: currentItem.pr_Kamut,
-                pr_Datemsira: currentItem.pr_Datemsira,
-              });
-            } else {
-              result[0].total_pr_Kamut += currentItem.pr_Kamut;
-            }
-            return result;
-          },
-          []
-        );
+      console.log(this.array_mifkadim_short);
 
-        console.log(this.array_mifkadim_short);
+      // משתנה המכיל את המפקד האחרון המקוצר
+      const latestObject = this.array_mifkadim_short.reduce(
+        (latest, currentItem) => {
+          const currentDate = new Date(currentItem.pr_Datemsira);
+          const latestDate = new Date(latest.pr_Datemsira);
 
-        // משתנה המכיל את המפקד האחרון המקוצר
-        const latestObject = this.array_mifkadim_short.reduce(
-          (latest, currentItem) => {
-            const currentDate = new Date(currentItem.pr_Datemsira);
-            const latestDate = new Date(latest.pr_Datemsira);
+          return currentDate > latestDate ? currentItem : latest;
+        },
+        this.array_mifkadim_short[0]
+      ); // Initialize with the first object
 
-            return currentDate > latestDate ? currentItem : latest;
-          },
-          this.array_mifkadim_short[0]
-        ); // Initialize with the first object
+      this.latestObject_in_array_mifkadim_short = latestObject;
 
-        this.latestObject_in_array_mifkadim_short = latestObject;
+      //   מפתקדים טוטל כמות מקוצרים
+      console.log(this.array_mifkadim_short);
 
-
-
-        //   מפתקדים טוטל כמות מקוצרים
-        console.log(this.array_mifkadim_short);
-
-        //   המפקד הטווטל המקוצר האחרון
-        console.log(this.latestObject_in_array_mifkadim_short);
-      }
-
-
-
+      //   המפקד הטווטל המקוצר האחרון
+      console.log(this.latestObject_in_array_mifkadim_short);
+    }
 
     // הוספת פינויים
     var get_pinoyim =
@@ -2101,103 +2086,84 @@ latestObject_in_array_pinoyim_short: any;
         this.selectedObject.farm_id
       );
 
+    if (get_pinoyim.length > 0) {
+      this.array_pinoyim_short = get_pinoyim.reduce((result, currentItem) => {
+        if (!result[0]) {
+          result.push({
+            pinoy_id: currentItem.td_daf,
+            total_pr_Kamut: currentItem.td_Kamut_Mishkal,
+            pr_Datemsira: currentItem.td_date,
+          });
+        } else {
+          result[0].total_pr_Kamut += currentItem.td_Kamut_Mishkal;
+        }
+        return result;
+      }, []);
 
-      if (get_pinoyim.length > 0) {
-        this.array_pinoyim_short = get_pinoyim.reduce(
-          (result, currentItem) => {
-            if (!result[0]) {
-              result.push({
-                pinoy_id: currentItem.
-                td_daf,
-                total_pr_Kamut: currentItem.  
-                td_Kamut_Mishkal,
-                pr_Datemsira: currentItem.
-                td_date,
-              });
-            } else {
-              result[0].total_pr_Kamut += currentItem.
-              td_Kamut_Mishkal;
-            }
-            return result;
-          },
-          []
-        );
+      // משתנה המכיל את הפינוי האחרון המקוצר
+      const Pinoy_latestObject = this.array_pinoyim_short.reduce(
+        (latest, currentItem) => {
+          const currentDate = new Date(currentItem.td_date);
+          const latestDate = new Date(latest.td_date);
 
-                // משתנה המכיל את הפינוי האחרון המקוצר
-                const Pinoy_latestObject = this.array_pinoyim_short.reduce(
-                    (latest, currentItem) => {
-                      const currentDate = new Date(currentItem.td_date);
-                      const latestDate = new Date(latest.td_date);
-          
-                      return currentDate > latestDate ? currentItem : latest;
-                    },
-                    this.array_pinoyim_short[0]
-                  ); // Initialize with the first object
-          
-                  this.latestObject_in_array_pinoyim_short = Pinoy_latestObject;
+          return currentDate > latestDate ? currentItem : latest;
+        },
+        this.array_pinoyim_short[0]
+      ); // Initialize with the first object
 
-                  console.log(this.latestObject_in_array_pinoyim_short);
+      this.latestObject_in_array_pinoyim_short = Pinoy_latestObject;
 
+      console.log(this.latestObject_in_array_pinoyim_short);
 
-        console.log(this.array_pinoyim_short);
+      console.log(this.array_pinoyim_short);
 
-        const latestObject = this.array_mifkadim_short.reduce(
-          (latest, currentItem) => {
-            const currentDate = new Date(currentItem.pr_Datemsira);
-            const latestDate = new Date(latest.pr_Datemsira);
+      const latestObject = this.array_mifkadim_short.reduce(
+        (latest, currentItem) => {
+          const currentDate = new Date(currentItem.pr_Datemsira);
+          const latestDate = new Date(latest.pr_Datemsira);
 
-            return currentDate > latestDate ? currentItem : latest;
-          },
-          this.array_mifkadim_short[0]
-        ); // Initialize with the first object
+          return currentDate > latestDate ? currentItem : latest;
+        },
+        this.array_mifkadim_short[0]
+      ); // Initialize with the first object
 
-        this.latestObject_in_array_mifkadim_short = latestObject;
+      this.latestObject_in_array_mifkadim_short = latestObject;
 
+      //   מפתקדים טוטל כמות מקוצרים
+      console.log(this.array_mifkadim_short);
 
+      //   המפקד הטווטל המקוצר האחרון
+      console.log(this.latestObject_in_array_mifkadim_short);
+    }
 
-        //   מפתקדים טוטל כמות מקוצרים
-        console.log(this.array_mifkadim_short);
-
-        //   המפקד הטווטל המקוצר האחרון
-        console.log(this.latestObject_in_array_mifkadim_short);
-      }
-
-
-      
-
-    // הוספת גיל הלהקה 
-      var get_flock_ages_by_flock_id =
+    // הוספת גיל הלהקה
+    var get_flock_ages_by_flock_id =
       await this.megadelSearchService.get_flock_ages_by_flock_id(
         this.selectedObject.id
       );
 
-
     //   מפקדים
-    get_flock_ages_by_flock_id[0].mifkadim = mifkadim; 
-
+    get_flock_ages_by_flock_id[0].mifkadim = mifkadim;
 
     //   פינויים
-    get_flock_ages_by_flock_id[0].pinoyim = get_pinoyim; 
-
+    get_flock_ages_by_flock_id[0].pinoyim = get_pinoyim;
 
     // get_flock_ages_by_flock_id[0].date_created = this.selectedObject.date_created;
 
     // מס להקה
     get_flock_ages_by_flock_id[0].id = this.selectedObject.id;
-    
+
     // איידי אתר
     get_flock_ages_by_flock_id[0].farm_id = this.selectedObject.farm_id;
-    
-    // מס אתר 
-    get_flock_ages_by_flock_id[0].farm_num = this.farm_det_new[0].farm_num;
 
+    // מס אתר
+    get_flock_ages_by_flock_id[0].farm_num = this.farm_det_new[0].farm_num;
 
     if (get_flock_ages_by_flock_id[0].farm_num.toString().includes('/')) {
       var newVariable = get_flock_ages_by_flock_id[0].farm_num.split('/')[0];
     } else {
       newVariable = get_flock_ages_by_flock_id[0].farm_num;
     }
-
 
     // תאריך איכלוס
     var first_hiclos =
@@ -2332,46 +2298,43 @@ latestObject_in_array_pinoyim_short: any;
         }
 
         // חילוץ כמות איכלוס פר אתר
-        get_flock_ages_by_flock_id[0].count_hiclos_total_site = count_hiclos; 
+        get_flock_ages_by_flock_id[0].count_hiclos_total_site = count_hiclos;
         get_flock_ages_by_flock_id[0].count_hiclos_total_site;
 
+        //   מפקדים
+        get_flock_ages_by_flock_id[0].mifkadim = mifkadim;
 
-
-            //   מפקדים
-    get_flock_ages_by_flock_id[0].mifkadim = mifkadim; 
-
-
-    //   פינויים
-    get_flock_ages_by_flock_id[0].pinoyim = get_pinoyim; 
-
-
+        //   פינויים
+        get_flock_ages_by_flock_id[0].pinoyim = get_pinoyim;
 
         // העברת פרטים חדשים לפרטי אתר המורחבים
-        
-        //מפקדים 
-        this.farm_det_new[0].mifkadim = get_flock_ages_by_flock_id[0].mifkadim
-        
+
+        //מפקדים
+        this.farm_det_new[0].mifkadim = get_flock_ages_by_flock_id[0].mifkadim;
+
         // פינויים
         this.farm_det_new[0].pinoyim = get_flock_ages_by_flock_id[0].pinoyim;
-        
+
         // אתר איידי
         this.farm_det_new[0].farm_id = get_flock_ages_by_flock_id[0].farm_id;
-        
+
         // מס אתר
         this.farm_det_new[0].farm_num = get_flock_ages_by_flock_id[0].farm_num;
-        
+
         // גיל להקה
-        this.farm_det_new[0].flock_month_age = get_flock_ages_by_flock_id[0].flock_month_age;
-        
+        this.farm_det_new[0].flock_month_age =
+          get_flock_ages_by_flock_id[0].flock_month_age;
+
         // גיל להקה בשבועות
-        this.farm_det_new[0].flock_week_age = get_flock_ages_by_flock_id[0].flock_week_age;
-        
+        this.farm_det_new[0].flock_week_age =
+          get_flock_ages_by_flock_id[0].flock_week_age;
+
         // מס להקה
         this.farm_det_new[0].flock_num = get_flock_ages_by_flock_id[0].id;
-        
+
         // תאריך איכלוס
-        this.farm_det_new[0].minDate_hiclos = get_flock_ages_by_flock_id[0].minDate_first_hiclos;
-        
+        this.farm_det_new[0].minDate_hiclos =
+          get_flock_ages_by_flock_id[0].minDate_first_hiclos;
 
         console.log(this.farm_det_new);
       }
@@ -2974,7 +2937,6 @@ latestObject_in_array_pinoyim_short: any;
             );
           console.log(mifkadim);
           obj.mifkadim = mifkadim;
-
 
           //   הוספת פינויים
           var pinoyim =
@@ -3601,7 +3563,6 @@ latestObject_in_array_pinoyim_short: any;
             );
           console.log(mifkadim);
           obj.mifkadim = mifkadim;
-
 
           //   הוספת פינויים
           var pinoyim =
@@ -4230,49 +4191,59 @@ latestObject_in_array_pinoyim_short: any;
   }
 
   openPopup_certificate_transfer() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'openPopup_certificate_transfer';
-    dialogConfig.data = this.all_certificate_det;
-    const dialogRef = this.dialog.open(
-      PopupShowAllCertificateTransferComponent,
-      dialogConfig
+    localStorage.setItem(
+      'this.all_certificate_det',
+      JSON.stringify(this.all_certificate_det)
     );
+    this.router.navigate([
+      '/dashboard/PagePopupShowAllCertificateTransferComponent',
+    ]);
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = 'openPopup_certificate_transfer';
+    // dialogConfig.data = this.all_certificate_det;
+    // const dialogRef = this.dialog.open(
+    //   PopupShowAllCertificateTransferComponent,
+    //   dialogConfig
+    // );
   }
 
   openPopup() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'popup-dialog';
-    dialogConfig.data = this.partnerData;
-    const dialogRef = this.dialog.open(PopupComponent, dialogConfig);
+    localStorage.setItem('this.partnerData', JSON.stringify(this.partnerData));
+    this.router.navigate(['/dashboard/PopupPageComponent']);
 
-    let isClickedInside = false;
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = 'popup-dialog';
+    // dialogConfig.data = this.partnerData;
+    // const dialogRef = this.dialog.open(PopupComponent, dialogConfig);
 
-    const handleDocumentClick = () => {
-      this.isLoading_micsa_egg_gach = false;
-      if (!isClickedInside) {
-        dialogRef.close();
-        document.removeEventListener('click', handleDocumentClick);
-      }
-      isClickedInside = false;
-    };
+    // let isClickedInside = false;
 
-    const handleButtonClick = () => {
-      isClickedInside = true;
-      console.log('ff');
-    };
+    // const handleDocumentClick = () => {
+    //   this.isLoading_micsa_egg_gach = false;
+    //   if (!isClickedInside) {
+    //     dialogRef.close();
+    //     document.removeEventListener('click', handleDocumentClick);
+    //   }
+    //   isClickedInside = false;
+    // };
 
-    document.addEventListener('click', handleDocumentClick);
+    // const handleButtonClick = () => {
+    //   isClickedInside = true;
+    //   console.log('ff');
+    // };
+
+    // document.addEventListener('click', handleDocumentClick);
 
     // Add a click event listener to the button that triggers the main function
-    const buttonElement = document.querySelector('#gidolHotzBtn'); // Replace 'your-button-id' with the actual ID of your button
-    buttonElement.addEventListener('click', handleButtonClick);
+    // const buttonElement = document.querySelector('#gidolHotzBtn'); // Replace 'your-button-id' with the actual ID of your button
+    // buttonElement.addEventListener('click', handleButtonClick);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed with result:', result);
-      document.removeEventListener('click', handleDocumentClick);
-      buttonElement.removeEventListener('click', handleButtonClick);
-      console.log('ff');
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log('Dialog closed with result:', result);
+    //   document.removeEventListener('click', handleDocumentClick);
+    //   buttonElement.removeEventListener('click', handleButtonClick);
+    //   console.log('ff');
+    // });
   }
 
   openPopup_GrowerCard_Component() {
@@ -4283,13 +4254,16 @@ latestObject_in_array_pinoyim_short: any;
   }
 
   async openPopup_hiclos_by_site(data: any) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = '';
-    dialogConfig.data = data;
-    const dialogRef = this.dialog.open(
-      PopupHiclosBySiteComponent,
-      dialogConfig
-    );
+    localStorage.setItem('data_hiclos_by_site', JSON.stringify(data));
+    this.router.navigate(['/dashboard/PageHiclosBySiteComponent']);
+
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = '';
+    // dialogConfig.data = data;
+    // const dialogRef = this.dialog.open(
+    //   PopupHiclosBySiteComponent,
+    //   dialogConfig
+    // );
   }
 
   async openPopup_mifkadim_Component(data: any) {
@@ -4311,28 +4285,33 @@ latestObject_in_array_pinoyim_short: any;
     ];
 
     console.log(main_arr);
+    localStorage.setItem('main_arr', JSON.stringify(main_arr));
+    this.router.navigate(['/dashboard/PopupMifkadimComponentPageComponent']);
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = '';
-    dialogConfig.data = main_arr;
-    const dialogRef = this.dialog.open(PopupMifkadimComponent, dialogConfig);
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = '';
+    // dialogConfig.data = main_arr;
+    // const dialogRef = this.dialog.open(PopupMifkadimComponent, dialogConfig);
+
+    // this.router.navigate(['/PopupMifkadimComponentPageComponent'], {
+    //     queryParams: { data: JSON.stringify(main_arr) },
+    //   });
   }
 
   async openPopup_pinoyim_Component(data: any) {
     console.log(data);
     for (let item of data) {
       var farm_code = await this.megadelSearchService.get_farm_code_by_farm_id(
-        item.
-        td_atar
+        item.td_atar
       );
       item.farm_code = farm_code[0]?.code;
-      console.log(item);
     }
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = '';
-    dialogConfig.data = data;
-    const dialogRef = this.dialog.open(PopupPinoyimComponent, dialogConfig);
+    localStorage.setItem('pinoyim_data', JSON.stringify(data));
+    this.router.navigate(['/dashboard/PagePopupPinoyimComponent']);
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = '';
+    // dialogConfig.data = data;
+    // const dialogRef = this.dialog.open(PopupPinoyimComponent, dialogConfig);
   }
 
   async grower_cart() {

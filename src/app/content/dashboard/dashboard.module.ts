@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { EcommerceComponent } from './ecommerce/ecommerce.component';
 import { ChartistModule } from 'ng-chartist';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -40,6 +39,12 @@ import { PopupMifkadimComponent } from './ecommerce/popup-mifkadim/popup-mifkadi
 import { PopupPinoyimComponent } from './ecommerce/popup-pinoyim/popup-pinoyim.component';
 import { PopupHiclosBySiteComponent } from './ecommerce/popup-hiclos-by-site/popup-hiclos-by-site.component';
 import { PopupOldFlocksComponent } from './ecommerce/popup-old-flocks/popup-old-flocks.component';
+import { PopupMifkadimComponentPageComponent } from './ecommerce/popup-mifkadim-component-page/popup-mifkadim-component-page.component';
+import { RouterModule, Routes } from '@angular/router';
+import { PopupPageComponent } from './ecommerce/popup-page/popup-page.component';
+import { PagePopupShowAllCertificateTransferComponent } from './ecommerce/page-popup-show-all-certificate-transfer/page-popup-show-all-certificate-transfer.component';
+import { PagePopupPinoyimComponent } from './ecommerce/page-popup-pinoyim/page-popup-pinoyim.component';
+import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-hiclos-by-site.component';
 
 @NgModule({
   imports: [
@@ -78,7 +83,28 @@ import { PopupOldFlocksComponent } from './ecommerce/popup-old-flocks/popup-old-
         path: 'CertificatesPageComponent',
         component: CertificatesPageComponent,
       },
+      {
+        path: 'PopupPageComponent',
+        component: PopupPageComponent,
+      },
+      {
+        path: 'PagePopupPinoyimComponent',
+        component: PagePopupPinoyimComponent,
+      },
+      {
+        path: 'PageHiclosBySiteComponent',
+        component: PageHiclosBySiteComponent,
+      },
 
+      {
+        path: 'PopupMifkadimComponentPageComponent',
+        component: PopupMifkadimComponentPageComponent,
+      },
+
+      {
+        path: 'PagePopupShowAllCertificateTransferComponent',
+        component: PagePopupShowAllCertificateTransferComponent,
+      },
       {
         path: 'sales',
         component: SalesComponent,
@@ -117,6 +143,11 @@ import { PopupOldFlocksComponent } from './ecommerce/popup-old-flocks/popup-old-
     PopupPinoyimComponent,
     PopupHiclosBySiteComponent,
     PopupOldFlocksComponent,
+    PopupMifkadimComponentPageComponent,
+    PopupPageComponent,
+    PagePopupShowAllCertificateTransferComponent,
+    PagePopupPinoyimComponent,
+    PageHiclosBySiteComponent,
   ],
 
   exports: [RouterModule],

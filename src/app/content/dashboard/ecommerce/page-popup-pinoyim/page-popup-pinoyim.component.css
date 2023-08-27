@@ -1,0 +1,148 @@
+
+  
+    
+  
+  
+    .main_table {
+        width: fit-content;
+        padding: 5px;
+        margin: auto;
+        margin-top: 5%;
+      }
+
+      .table_inside {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+      }
+
+      .cool-table-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f5fa; /* Light blue background */
+      }
+      
+      .cool-table {
+        background-color: #ffffff; /* White background for the table */
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      
+      .main_table {
+        padding: 20px;
+      }
+      
+      /* Add more styling to the table headers and rows */
+      .main_table th {
+        font-weight: bold;
+        text-align: right;
+        padding: 10px;
+      }
+      
+      .main_table td {
+        text-align: right;
+        padding: 10px;
+      }
+      
+      /* Add a hover effect on rows */
+      .main_table tbody tr:hover {
+        background-color: #e1ebf4; /* Light blue hover background */
+      }
+      
+      /* Styling for the expand symbol */
+      .expand-symbol {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-color: #3498db; /* Blue color for the symbol */
+        color: white;
+        text-align: center;
+        line-height: 24px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+      }
+      
+      .expand-symbol.expanded {
+        background-color: #2c3e50; /* Darker blue when expanded */
+      }.cool-table-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f5fa; /* Light blue background */
+      }
+      
+      .cool-table {
+        background-color: #ffffff; /* White background for the table */
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      
+      .main_table {
+        padding: 20px;
+      }
+      
+      /* Add more styling to the table headers and rows */
+      .main_table th {
+        font-weight: bold;
+        text-align: right;
+        padding: 10px;
+      }
+      
+      .main_table td {
+        text-align: right;
+        padding: 10px;
+      }
+      
+      /* Add a hover effect on rows */
+      .main_table tbody tr:hover {
+        background-color: #e1ebf4; /* Light blue hover background */
+      }
+      
+      /* Styling for the expand symbol */
+      .expand-symbol {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-color: #3498db; /* Blue color for the symbol */
+        color: white;
+        text-align: center;
+        line-height: 24px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+      }
+      
+      .expand-symbol.expanded {
+        background-color: #2c3e50; /* Darker blue when expanded */
+      }
+      
+      /* Add animations to the expanded content */
+      .expand-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      
+      .expand-symbol.expanded + .expand-content {
+        max-height: 500px; /* Adjust the value based on your content */
+        padding: 10px 0;
+      }
+      
+      
+      /* Add animations to the expanded content */
+      .expand-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      
+      .expand-symbol.expanded + .expand-content {
+        max-height: 500px; /* Adjust the value based on your content */
+        padding: 10px 0;
+      }

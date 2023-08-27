@@ -1,0 +1,146 @@
+<div class="cool-table-container main_div">
+  <table class="cool-table" dir="rtl" style="padding: 5px" border="0">
+    <thead style="display: flex; justify-content: space-around">
+      <tr class="thead_tr_class">
+        <th style="font-weight: bold; text-align: right">
+          &nbsp;סה"כ שותפים {{ data.length - 1 }}
+        </th>
+
+        <th style="font-weight: bold; text-align: right">
+          &nbsp;קוד קבוצה {{ data[0]?.cd_gidul }}
+        </th>
+
+        <th style="font-weight: bold; text-align: right">גידול משותף ביצים</th>
+      </tr>
+
+      <tr style="display: flex">
+        <!-- אתרי שותפות -->
+        <th *ngIf="data[data.length - 1].newArrayEnd.length > 0">
+          &nbsp; אתרי שותפות:
+        </th>
+        <th
+          *ngFor="let obj of data[data.length - 1].newArrayEnd"
+          style="font-weight: bold; text-align: right"
+        >
+          <span> {{ obj.farm_code }} &nbsp; , </span>
+        </th>
+      </tr>
+    </thead>
+
+    <tr>
+      <td colspan="2">
+        <table class="table no-margin">
+          <thead>
+            <tr>
+              <th style="font-weight: bold; text-align: right">מס מגדל</th>
+              <th style="font-weight: bold; text-align: right">שם מגדל</th>
+              <th style="font-weight: bold; text-align: right">ישוב</th>
+              <th style="font-weight: bold; text-align: right">מכסה</th>
+              <th style="font-weight: bold; text-align: right">אחוז</th>
+              <th style="font-weight: bold; text-align: right">תחילת שותפות</th>
+              <th style="font-weight: bold; text-align: right">סיום שותפות</th>
+              <th style="font-weight: bold; text-align: right"></th>
+            </tr>
+          </thead>
+          <tbody style="white-space: nowrap">
+            <tr *ngFor="let p of data">
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                {{ p.lull2000_code }}
+              </td>
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                <a
+                  [routerLink]="[
+                    '/dashboard/ecommerce',
+                    p.id,
+                    data[data.length - 1].farmID2,
+                    data[data.length - 1].flockID2
+                  ]"
+                >
+                  {{ p.grower_name }}
+                </a>
+              </td>
+
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                {{ p.yeshuv }}
+              </td>
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                {{ p.mcsa_sum | number : "0.0" }}
+              </td>
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                {{ p.percent_ | number : "0.0" }}
+              </td>
+
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                {{ p.start_date }}
+              </td>
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+              >
+                {{ p.end_date }}
+              </td>
+
+              <td
+                [ngStyle]="{
+                  'background-color':
+                    p.is_main_grower === 1 ? '#deffde' : 'transparent'
+                }"
+                class="no-wrap-test-eran"
+              >
+                <span
+                  *ngIf="p.is_main_grower"
+                  class="label label-success no-wrap-test-eran"
+                  >מגדל ראשי</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+
+              <td></td>
+              <td>{{ data[data.length - 1].obj2.mcsaSum | number : "0.0" }}</td>
+              <td>100%</td>
+              <td></td>
+
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

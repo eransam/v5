@@ -1818,12 +1818,12 @@
                           מס גוש
                         </th> -->
                         <th
-                        scope="col"
-                        class="border-top-0 table_tatle"
-                        style="width: 100px"
-                      >
-                        ג''ח
-                      </th>
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          ג''ח
+                        </th>
                       </tr>
                     </thead>
 
@@ -1888,12 +1888,11 @@
                         <!-- <td style="width: 100px">{{ row.block_num }}</td> -->
 
                         <td *ngIf="row.tnahi_imon !== 0" style="width: 100px">
-                            {{ row.pa_Counter }}
-                          </td>
+                          {{ row.pa_Counter }}
+                        </td>
                       </tr>
                     </tbody>
                     <br />
-
 
                     <h3
                       class="main_table_tatle"
@@ -1942,6 +1941,7 @@
                         </th>
 
                         <div
+                          *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                           style="
                             border-top: solid grey 1px;
                             border-right: solid grey 1px;
@@ -1965,6 +1965,7 @@
                           </th>
 
                           <th
+                            *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                             style="cursor: pointer; color: green"
                             scope="col"
                             (click)="
@@ -2038,6 +2039,7 @@
                           <i class="fas fa-angle-left fa-lg"></i>
                         </td>
                         <div
+                          *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                           style="
                             border-bottom: solid grey 1px;
                             border-right: solid grey 1px;
@@ -2046,8 +2048,11 @@
                           "
                         >
                           <td
-                            style="width: 100px"
-                            style="cursor: pointer; color: green"
+                            style="
+                              cursor: pointer;
+                              color: green;
+                              width: 150px !important;
+                            "
                             (click)="
                               openPopup_mifkadim_Component(
                                 this.farm_det_new[0].mifkadim
@@ -2069,6 +2074,7 @@
                         </div>
 
                         <td
+                          *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
                           style="width: 100px"
                           style="cursor: pointer; color: green"
                           (click)="
