@@ -45,6 +45,7 @@ import { PopupPageComponent } from './ecommerce/popup-page/popup-page.component'
 import { PagePopupShowAllCertificateTransferComponent } from './ecommerce/page-popup-show-all-certificate-transfer/page-popup-show-all-certificate-transfer.component';
 import { PagePopupPinoyimComponent } from './ecommerce/page-popup-pinoyim/page-popup-pinoyim.component';
 import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-hiclos-by-site.component';
+import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quarantine.component';
 
 @NgModule({
   imports: [
@@ -65,6 +66,10 @@ import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-
       template: BlockTemplateComponent,
     }),
     RouterModule.forChild([
+      {
+        path: 'PageQuarantineComponent',
+        component: PageQuarantineComponent,
+      },
       {
         path: 'ecommerce/:id',
         component: EcommerceComponent,
@@ -148,6 +153,7 @@ import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-
     PagePopupShowAllCertificateTransferComponent,
     PagePopupPinoyimComponent,
     PageHiclosBySiteComponent,
+    PageQuarantineComponent,
   ],
 
   exports: [RouterModule],

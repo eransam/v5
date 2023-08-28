@@ -1,0 +1,155 @@
+<table class="cool-table main_table" dir="rtl" style="padding: 5px" border="0">
+  <thead>
+    <tr style="    display: flex;
+    justify-content: space-around;">
+      <th style="font-weight: bold; text-align: right">
+        &nbsp;סה"כ הסגרים {{ data.length }}
+      </th>
+
+      <th style="font-weight: bold; text-align: right">הסגרים</th>
+    </tr>
+  </thead>
+
+  <tr>
+    <td colspan="2">
+      <table class="table no-margin">
+        <thead>
+          <tr>
+            <th style="font-weight: bold; text-align: right">תחילת הסגר</th>
+            <th style="font-weight: bold; text-align: right">מס הסגר</th>
+            <th style="font-weight: bold; text-align: right">שם אתר</th>
+            <th style="font-weight: bold; text-align: right">שם הסגר</th>
+            <th style="font-weight: bold; text-align: right">סוג הסגר</th>
+            <th style="font-weight: bold; text-align: right">
+              אישור הוצאה בארץ
+            </th>
+            <th style="font-weight: bold; text-align: right">
+              אישור הכנסה בארץ
+            </th>
+            <th style="font-weight: bold; text-align: right">
+              אישור הכנסה בחו'ל
+            </th>
+            <th style="font-weight: bold; text-align: right">
+              אישור הוצאה בחו'ל
+            </th>
+            <th style="font-weight: bold; text-align: right">PDF</th>
+          </tr>
+        </thead>
+
+        <tbody style="white-space: nowrap">
+          <tr *ngFor="let p of data">
+            <td>
+              {{ p.start_date }}
+            </td>
+
+            <td>
+              {{ p.quarantine_id }}
+            </td>
+
+            <td>
+              {{ p.farm_code_name }}
+            </td>
+
+            <td>
+              {{ p.quarantine_name }}
+            </td>
+
+            <td>
+              {{ p.quarantine_type_name }}
+            </td>
+
+
+
+            <td >
+                <div [ngSwitch]="p.authorization_out_Israel">
+                  <span
+                    *ngSwitchCase="1"
+                    style="color: green; font-size: 2rem"
+                    >√</span
+                  >
+                  <span
+                    *ngSwitchDefault
+                    style="color: red; font-size: 2rem"
+                    >X</span
+                  >
+                </div>
+              </td>
+            <!-- <td>
+              {{ p.authorization_out_Israel }}
+            </td> -->
+
+            <td >
+                <div [ngSwitch]="p.authorization_in_Israel">
+                  <span
+                    *ngSwitchCase="1"
+                    style="color: green; font-size: 2rem"
+                    >√</span
+                  >
+                  <span
+                    *ngSwitchDefault
+                    style="color: red; font-size: 2rem"
+                    >X</span
+                  >
+                </div>
+              </td>
+              <!-- <td>
+                {{ p.authorization_in_Israel }}
+              </td> -->
+
+
+              <td >
+                <div [ngSwitch]="p.authorization_in_out_Israel">
+                  <span
+                    *ngSwitchCase="1"
+                    style="color: green; font-size: 2rem"
+                    >√</span
+                  >
+                  <span
+                    *ngSwitchDefault
+                    style="color: red; font-size: 2rem"
+                    >X</span
+                  >
+                </div>
+              </td>
+              <!-- <td>
+                {{ p.authorization_in_out_Israel }}
+              </td> -->
+
+              <td >
+                <div [ngSwitch]="p.authorization_out_out_Israel">
+                  <span
+                    *ngSwitchCase="1"
+                    style="color: green; font-size: 2rem"
+                    >√</span
+                  >
+                  <span
+                    *ngSwitchDefault
+                    style="color: red; font-size: 2rem"
+                    >X</span
+                  >
+                </div>
+              </td>
+              <!-- <td>
+                {{ p.authorization_out_out_Israel }}
+              </td> -->
+
+
+
+            <td>
+              <a
+                [href]="
+                  'http:////epb-iis12:8006//LulSln_net//Mifkadim_New//TdMs_' +
+                  p.td_daf +
+                  '_' +
+                  p.id_path +
+                  '.pdf'
+                "
+                >file</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>

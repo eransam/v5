@@ -202,6 +202,7 @@ export class EcommerceComponent implements OnInit {
   hiclos_by_site: any = 0;
   more_hiclos_pargit_after_kizuz: any = 0;
   mifkadim: any;
+  quarantine:any = []
   constructor(
     private router: Router,
     private SharedServiceService: SharedServiceService,
@@ -215,6 +216,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.quarantine= [];
     this.mifkadim = [];
     this.latestObject_in_array_mifkadim_short = {};
     this.latestObject_in_array_pinoyim_short = {};
@@ -259,6 +261,7 @@ export class EcommerceComponent implements OnInit {
 
   async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
+        this.quarantine= [];
       this.count_more_hiclos = 0;
       this.array_pinoyim_short = [];
       this.latestObject_in_array_mifkadim_short = {};
@@ -2013,6 +2016,22 @@ export class EcommerceComponent implements OnInit {
 
           console.log(old_flocks);
 
+          old_flocks.sort((a, b) => {
+            const dateA = new Date(a.date_created);
+            const dateB = new Date(b.date_created);
+
+            // Compare the dates
+            if (dateA < dateB) {
+              return 1;
+            }
+            if (dateA > dateB) {
+              return -1;
+            }
+            return 0;
+          });
+
+          console.log(old_flocks);
+
           this.farm_det_new[0].old_flocks = old_flocks;
 
           console.log(this.farm_det_new);
@@ -2027,8 +2046,17 @@ export class EcommerceComponent implements OnInit {
         this.isLoading_FarmDetails = false;
       }
 
-      console.log('end oninit');
+
+       this.quarantine =
+      await this.megadelSearchService.prc_quarantine_details_to_eran(
+        this.farm_det_new[0]?.farm_id
+      );
+      console.log(this.quarantine);
+
       console.log(this.farm_det_new);
+
+      console.log('end oninit');
+
     });
   }
 
@@ -4011,6 +4039,7 @@ export class EcommerceComponent implements OnInit {
       (obj) => obj.code === atar_num
     );
     console.log(this.partners_hodim_by_site);
+    
     this.open_PopupPartnersHodimComponent(this.partners_hodim_by_site);
   }
 
@@ -4189,6 +4218,23 @@ export class EcommerceComponent implements OnInit {
   async eransam_test() {
     await this.megadelSearchService.test_eran();
   }
+
+
+
+  
+
+  openPopup_PageQuarantineComponent_page(data:any) {
+    localStorage.setItem(
+      'this.quarantine',
+      JSON.stringify(data)
+    );
+    this.router.navigate([
+      '/dashboard/PageQuarantineComponent',
+    ]);
+  }
+
+
+
 
   openPopup_certificate_transfer() {
     localStorage.setItem(

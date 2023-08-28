@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th style="font-weight: bold; text-align: right">
-        &nbsp;סה"כ שותפים {{ data.length  }}
+        &nbsp;סה"כ שותפים {{ data.length }}
       </th>
 
       <!-- <th style="font-weight: bold; text-align: right">
@@ -56,14 +56,25 @@
               {{ p.yv_Shem }}
             </th>
             <th style="font-weight: bold; text-align: right">
-              {{ p.AhzIclus }}
+              {{ p.AhzIclus }}%
             </th>
             <th style="font-weight: bold; text-align: right">
-              {{ p.date_from | date : "dd/MM/yyyy"}}
+              {{ p.date_from | date : "dd/MM/yyyy" }}
             </th>
             <th style="font-weight: bold; text-align: right">
-              {{ p.date_to | date : "dd/MM/yyyy"}}
+              {{ p.date_to | date : "dd/MM/yyyy" }}
             </th>
+          </tr>
+
+          <tr>
+            <th style="font-weight: bold; text-align: right"></th>
+            <th style="font-weight: bold; text-align: right"></th>
+            <th style="font-weight: bold; text-align: right">סהכ איכלוס:</th>
+            <th style="font-weight: bold; text-align: right">
+              {{ this.totalAhzIclus }}%
+            </th>
+            <th style="font-weight: bold; text-align: right"></th>
+            <th style="font-weight: bold; text-align: right"></th>
           </tr>
         </tbody>
       </table>

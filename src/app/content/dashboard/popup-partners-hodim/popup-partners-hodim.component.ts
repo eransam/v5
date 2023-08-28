@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class PopupPartnersHodimComponent {
   userTypeID;
   certificateSum = 0;
-
+  totalAhzIclus:any = 0
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router
@@ -43,5 +43,10 @@ export class PopupPartnersHodimComponent {
     this.data.sort(customComparator);
 
     console.log('this.data: ', this.data);
+    this.totalAhzIclus = this.data.reduce((sum, obj) => sum + obj.AhzIclus, 0);
+console.log(this.totalAhzIclus);
+
+
+    
   }
 }

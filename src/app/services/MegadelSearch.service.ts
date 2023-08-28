@@ -12,6 +12,16 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async prc_quarantine_details_to_eran(farm_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/prc_quarantine_details_to_eran?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async get_flock_ages_by_flock_id(flock_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -35,9 +45,7 @@ export class MegadelSearchService {
     return item;
   }
 
-  async get_old_flocks_by_siteId_and_growerId(
-    farm_id: any
-  ): Promise<any[]> {
+  async get_old_flocks_by_siteId_and_growerId(farm_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_old_flocks_by_siteId_and_growerId?farm_id=${farm_id}`

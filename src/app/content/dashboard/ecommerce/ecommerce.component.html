@@ -1727,6 +1727,21 @@
                           מס אתר
                         </th>
                         <th
+                          *ngIf="this.quarantine.length > 0"
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="color: red; width: 100px"
+                          (click)="
+                            openPopup_PageQuarantineComponent_page(
+                              this.quarantine
+                            )
+                          "
+                        >
+                          הסגר
+
+                          <i class="fas fa-angle-left fa-lg"></i>
+                        </th>
+                        <th
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 100px"
@@ -1830,6 +1845,14 @@
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
                         <td style="width: 100px">{{ row.farm_num }}</td>
+                        <td
+                          *ngIf="this.quarantine.length > 0"
+                          style="color: red; font-size: 2rem; width: 100px"
+                        >
+                          {{
+                            this.quarantine[0].start_date | date : "dd/MM/yyyy"
+                          }}
+                        </td>
                         <td style="width: 100px">{{ row.farm_name }}</td>
                         <td style="width: 100px">{{ row.settlement_name }}</td>
                         <td style="width: 100px">
@@ -1995,6 +2018,7 @@
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
+                        <!--  מס להקה - תאריך בקיעה -->
                         <td
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -2022,12 +2046,18 @@
                           </div>
                         </td>
 
+                        <!-- תאריך איכלוס -->
                         <td style="width: 100px">
                           {{ row.minDate_hiclos | date : "dd/MM/yyyy" }}
                         </td>
+
+                        <!-- גיל בחודשים -->
                         <td style="width: 100px">{{ row.flock_month_age }}</td>
+
+                        <!-- גיל בשבועות -->
                         <td style="width: 100px">{{ row.flock_week_age }}</td>
 
+                        <!-- איכלוס -->
                         <td
                           style="width: 100px"
                           (click)="
