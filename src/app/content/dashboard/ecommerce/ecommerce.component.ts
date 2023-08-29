@@ -202,7 +202,7 @@ export class EcommerceComponent implements OnInit {
   hiclos_by_site: any = 0;
   more_hiclos_pargit_after_kizuz: any = 0;
   mifkadim: any;
-  quarantine:any = []
+  quarantine: any = [];
   constructor(
     private router: Router,
     private SharedServiceService: SharedServiceService,
@@ -216,7 +216,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.quarantine= [];
+    this.quarantine = [];
     this.mifkadim = [];
     this.latestObject_in_array_mifkadim_short = {};
     this.latestObject_in_array_pinoyim_short = {};
@@ -261,7 +261,7 @@ export class EcommerceComponent implements OnInit {
 
   async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
-        this.quarantine= [];
+      this.quarantine = [];
       this.count_more_hiclos = 0;
       this.array_pinoyim_short = [];
       this.latestObject_in_array_mifkadim_short = {};
@@ -1993,6 +1993,8 @@ export class EcommerceComponent implements OnInit {
                   ...real_hiclos_by_site,
                 ];
 
+                console.log(this.all_certificate_det);
+
                 console.log(more_hiclos_pargit_after_kizuz);
                 if (more_hiclos_pargit_after_kizuz.length > 0) {
                   for (let obj of more_hiclos_pargit_after_kizuz) {
@@ -2043,20 +2045,24 @@ export class EcommerceComponent implements OnInit {
           console.log(this.selectedObject);
         }
 
+
+        console.log(this.farm_det_new);
+
         this.isLoading_FarmDetails = false;
       }
 
-
-       this.quarantine =
-      await this.megadelSearchService.prc_quarantine_details_to_eran(
-        this.farm_det_new[0]?.farm_id
-      );
+      this.quarantine =
+        await this.megadelSearchService.prc_quarantine_details_to_eran(
+          this.farm_det_new[0]?.farm_id
+        );
       console.log(this.quarantine);
 
       console.log(this.farm_det_new);
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////////////////////////   console.log('end oninit')/////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       console.log('end oninit');
-
     });
   }
 
@@ -2524,6 +2530,7 @@ export class EcommerceComponent implements OnInit {
     }
   }
 
+//   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר
   async get_more_farm_det_by_farm_num(farm_num: any) {
     console.log(farm_num);
 
@@ -3139,6 +3146,19 @@ export class EcommerceComponent implements OnInit {
           );
 
         console.log(old_flocks);
+        old_flocks.sort((a, b) => {
+          const dateA = new Date(a.date_created);
+          const dateB = new Date(b.date_created);
+
+          // Compare the dates
+          if (dateA < dateB) {
+            return 1;
+          }
+          if (dateA > dateB) {
+            return -1;
+          }
+          return 0;
+        });
 
         this.farm_det_new[0].old_flocks = old_flocks;
 
@@ -3153,6 +3173,7 @@ export class EcommerceComponent implements OnInit {
     }
     this.the_chosen_farm = farm_num;
   }
+//   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר - סיום
 
   async display_all_sites() {
     this.isLoading_FarmDetails = true;
@@ -4039,7 +4060,7 @@ export class EcommerceComponent implements OnInit {
       (obj) => obj.code === atar_num
     );
     console.log(this.partners_hodim_by_site);
-    
+
     this.open_PopupPartnersHodimComponent(this.partners_hodim_by_site);
   }
 
@@ -4219,43 +4240,64 @@ export class EcommerceComponent implements OnInit {
     await this.megadelSearchService.test_eran();
   }
 
-
-
-  
-
-  openPopup_PageQuarantineComponent_page(data:any) {
-    localStorage.setItem(
-      'this.quarantine',
-      JSON.stringify(data)
-    );
-    this.router.navigate([
-      '/dashboard/PageQuarantineComponent',
-    ]);
+  openPopup_PageQuarantineComponent_page(data: any) {
+    localStorage.setItem('this.quarantine', JSON.stringify(data));
+    this.router.navigate(['/dashboard/PageQuarantineComponent']);
   }
 
+  //   openPopup_certificate_transfer() {
+  //     console.log(this.all_certificate_det);
 
-
+  //     localStorage.setItem(
+  //       'this.all_certificate_det',
+  //       JSON.stringify(this.all_certificate_det)
+  //     );
+  //     this.router.navigate([
+  //       '/dashboard/PagePopupShowAllCertificateTransferComponent',
+  //     ]);
+  //     // const dialogConfig = new MatDialogConfig();
+  //     // dialogConfig.panelClass = 'openPopup_certificate_transfer';
+  //     // dialogConfig.data = this.all_certificate_det;
+  //     // const dialogRef = this.dialog.open(
+  //     //   PopupShowAllCertificateTransferComponent,
+  //     //   dialogConfig
+  //     // );
+  //   }
 
   openPopup_certificate_transfer() {
+    console.log(this.all_certificate_det);
+
     localStorage.setItem(
       'this.all_certificate_det',
       JSON.stringify(this.all_certificate_det)
     );
-    this.router.navigate([
-      '/dashboard/PagePopupShowAllCertificateTransferComponent',
-    ]);
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = 'openPopup_certificate_transfer';
-    // dialogConfig.data = this.all_certificate_det;
-    // const dialogRef = this.dialog.open(
-    //   PopupShowAllCertificateTransferComponent,
-    //   dialogConfig
-    // );
+
+    var newWindow = window.open(
+      '/#/dashboard/PagePopupShowAllCertificateTransferComponent',
+      '_blank'
+    );
+
+    if (newWindow) {
+      // If the new window was successfully opened
+      newWindow.focus(); // Focus on the new window
+    } else {
+      // Handle the case where the new window was blocked by a popup blocker
+      console.log('New window was blocked by a popup blocker.');
+    }
   }
 
   openPopup() {
     localStorage.setItem('this.partnerData', JSON.stringify(this.partnerData));
-    this.router.navigate(['/dashboard/PopupPageComponent']);
+    // this.router.navigate(['/dashboard/PopupPageComponent']);
+    var newWindow = window.open('/#/dashboard/PopupPageComponent', '_blank');
+
+    if (newWindow) {
+      // If the new window was successfully opened
+      newWindow.focus(); // Focus on the new window
+    } else {
+      // Handle the case where the new window was blocked by a popup blocker
+      console.log('New window was blocked by a popup blocker.');
+    }
 
     // const dialogConfig = new MatDialogConfig();
     // dialogConfig.panelClass = 'popup-dialog';
@@ -4301,15 +4343,20 @@ export class EcommerceComponent implements OnInit {
 
   async openPopup_hiclos_by_site(data: any) {
     localStorage.setItem('data_hiclos_by_site', JSON.stringify(data));
-    this.router.navigate(['/dashboard/PageHiclosBySiteComponent']);
+    // this.router.navigate(['/dashboard/PageHiclosBySiteComponent']);
 
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = '';
-    // dialogConfig.data = data;
-    // const dialogRef = this.dialog.open(
-    //   PopupHiclosBySiteComponent,
-    //   dialogConfig
-    // );
+    var newWindow = window.open(
+      '/#/dashboard/PageHiclosBySiteComponent',
+      '_blank'
+    );
+
+    if (newWindow) {
+      // If the new window was successfully opened
+      newWindow.focus(); // Focus on the new window
+    } else {
+      // Handle the case where the new window was blocked by a popup blocker
+      console.log('New window was blocked by a popup blocker.');
+    }
   }
 
   async openPopup_mifkadim_Component(data: any) {
@@ -4332,16 +4379,17 @@ export class EcommerceComponent implements OnInit {
 
     console.log(main_arr);
     localStorage.setItem('main_arr', JSON.stringify(main_arr));
-    this.router.navigate(['/dashboard/PopupMifkadimComponentPageComponent']);
 
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = '';
-    // dialogConfig.data = main_arr;
-    // const dialogRef = this.dialog.open(PopupMifkadimComponent, dialogConfig);
+    var newWindow = window.open(
+      '/#/dashboard/PopupMifkadimComponentPageComponent',
+      '_blank'
+    );
 
-    // this.router.navigate(['/PopupMifkadimComponentPageComponent'], {
-    //     queryParams: { data: JSON.stringify(main_arr) },
-    //   });
+    if (newWindow) {
+      newWindow.focus();
+    } else {
+      console.log('New window was blocked by a popup blocker.');
+    }
   }
 
   async openPopup_pinoyim_Component(data: any) {
@@ -4352,12 +4400,28 @@ export class EcommerceComponent implements OnInit {
       );
       item.farm_code = farm_code[0]?.code;
     }
-    localStorage.setItem('pinoyim_data', JSON.stringify(data));
-    this.router.navigate(['/dashboard/PagePopupPinoyimComponent']);
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = '';
-    // dialogConfig.data = data;
-    // const dialogRef = this.dialog.open(PopupPinoyimComponent, dialogConfig);
+
+    var main_arr_pinoyim = data;
+    main_arr_pinoyim = [
+      ...main_arr_pinoyim,
+      { array_pinoyim_short: this.array_pinoyim_short },
+    ];
+
+    localStorage.setItem('pinoyim_data', JSON.stringify(main_arr_pinoyim));
+    // this.router.navigate(['/dashboard/PagePopupPinoyimComponent']);
+
+    var newWindow = window.open(
+      '/#/dashboard/PagePopupPinoyimComponent',
+      '_blank'
+    );
+
+    if (newWindow) {
+      // If the new window was successfully opened
+      newWindow.focus(); // Focus on the new window
+    } else {
+      // Handle the case where the new window was blocked by a popup blocker
+      console.log('New window was blocked by a popup blocker.');
+    }
   }
 
   async grower_cart() {

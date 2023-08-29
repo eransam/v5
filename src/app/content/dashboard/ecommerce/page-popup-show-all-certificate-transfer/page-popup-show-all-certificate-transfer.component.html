@@ -1,83 +1,143 @@
 <div class="cool-table-container">
-    <table class="cool-table main_table" dir="rtl" border="0">
-  <thead>
+  <table class="cool-table main_table" dir="rtl" border="0">
+    <thead>
+      <tr style="display: flex; justify-content: space-between; padding: 40px">
+        <th style="font-weight: bold; text-align: right">תעודות העברה</th>
+        <div class="importBth">
+          <div class="justify-content">
+            <img
+              style="width: 40px"
+              class="logoIngStyle"
+              src="assets/images/logo/excel.png"
+              alt="Image"
+              (click)="getExcelData()"
+            />
+          </div>
+        </div>
+      </tr>
+    </thead>
+
     <tr>
-      <th style="font-weight: bold; text-align: right">תעודות העברה</th>
+      <td colspan="2">
+        <table class="table no-margin">
+          <thead>
+            <tr>
+              <th style="font-weight: bold; text-align: right">תאריך העברה</th>
+              <th style="font-weight: bold; text-align: right">מס תעודה</th>
+              <th style="font-weight: bold; text-align: right">מס רישיון משק מקור</th>
+              <th style="font-weight: bold; text-align: right">שם משק מקור</th>
+              <th style="font-weight: bold; text-align: right">מס להקת משק מקור</th>
+              <th style="font-weight: bold; text-align: right">מס רישיון משק יעד</th>
+              <th style="font-weight: bold; text-align: right">שם משק יעד</th>
+              <th style="font-weight: bold; text-align: right">ישוב משק יעד</th>
+              <th style="font-weight: bold; text-align: right">מס להקת יעד</th>
+              <th style="font-weight: bold; text-align: right">מס מגדל יעד</th>
+              <th style="font-weight: bold; text-align: right">שם מגדל יעד</th>
+              <th style="font-weight: bold; text-align: right">כלובים</th>
+              <th style="font-weight: bold; text-align: right">כמות עופות</th>
+
+              <!-- <th style="font-weight: bold; text-align: right">  pdf</th> -->
+            </tr>
+
+            <!-- {
+  source_flock_id: 103210,
+  source_farm_name: "אילן רפאל ",
+  create_date: "2023-03-08T19:01:18.243",
+  grower_comments: null,
+  weight: null,
+  package_sum: 468,
+  chicken_sum_female: 7488,
+  contact_mobile_phone: null,
+  contact_person_name: null,
+  farm_settlement_name: "רמות השבים",
+  car_number: 4753715,
+  grower_settlement_name: "רמות השבים",
+  farm_name: "קליימן יוסף",
+  certificate_id: 633903,
+  is_deleted: 0,
+  chicken_sum_female1: 7488,
+  dest_flock_id: 104831,
+  source_farm_code: 609,
+  farm_id: 256,
+  farm_code: 2128,
+  grower_name: "קליימן יוסף",
+  grower_id: 1456,
+  lull2000_code: "02060341",
+  dest_flock_id1: 104831,
+}-->
+          </thead>
+          <tbody style="white-space: nowrap">
+            <tr *ngFor="let p of data">
+              <!-- תאריך העברה -->
+              <td>{{ p.create_date | date : "HH:mm dd/MM/yyyy " }}</td>
+
+              <!-- >מס תעודה< -->
+              <td>{{ p.certificate_id }}</td>
+
+              <!-- מס רישיון משק מקור -->
+              <td>{{ p.source_farm_code }}</td>
+
+              <!-- שם משק מקור -->
+              <td>{{ p.source_farm_name }}</td>
+
+              <!-- מס להקת מקור -->
+              <td>{{ p.source_flock_id }}</td>
+
+              <!-- מס רישיון משק יעד -->
+              <td>{{ p.farm_code }}</td>
+
+              <!-- >שם משק יעד -->
+              <td>{{ p.farm_name }}</td>
+
+              <!-- >ישוב משק יעד -->
+              <td>{{ p.farm_settlement_name }}</td>
+
+
+
+              <!-- מס להקת יעד -->
+              <td>{{ p.dest_flock_id }}</td>
+
+              <!-- מס מגדל יעד -->
+              <td>{{ p.lull2000_code }}</td>
+
+              <!-- שם מגדל יעד -->
+              <td>{{ p.grower_name }}</td>
+
+              <!-- כלובים -->
+              <td>{{ p.package_sum | number : "0.0" }}</td>
+
+              <!-- >כמות עופות -->
+              <td>{{ p.chicken_sum_female | number : "0.0" }}</td>
+            </tr>
+            <tr>
+              <td>סה''כ:</td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td>
+                {{ total_packege_sum | number : "0.0"}}
+              </td>
+              <td>
+                {{ total_chicken_sum | number : "0.0"}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
     </tr>
-  </thead>
-
-  <tr>
-    <td colspan="2">
-      <table class="table no-margin">
-        <thead>
-          <tr>
-            <th style="font-weight: bold; text-align: right">מס תעודה</th>
-            <th style="font-weight: bold; text-align: right">רישיון משק יעד</th>
-            <th style="font-weight: bold; text-align: right">שם משק יעד</th>
-            <th style="font-weight: bold; text-align: right">שם מגדל</th>
-            <th style="font-weight: bold; text-align: right">יישוב המגדל</th>
-            <th style="font-weight: bold; text-align: right">מס רכב</th>
-            <th style="font-weight: bold; text-align: right">ישוב המשק</th>
-            <th style="font-weight: bold; text-align: right">איש קשר</th>
-            <th style="font-weight: bold; text-align: right">טלפון</th>
-            <th style="font-weight: bold; text-align: right">מס עופות</th>
-            <th style="font-weight: bold; text-align: right">מס כלובים</th>
-            <th style="font-weight: bold; text-align: right">משקל</th>
-            <th style="font-weight: bold; text-align: right">הערות למגדל</th>
-            <th style="font-weight: bold; text-align: right">
-              תאריך הפקת תעודה
-            </th>
-          </tr>
-        </thead>
-        <tbody style="white-space: nowrap">
-          <tr *ngFor="let p of data">
-            <td>
-              {{ p.certificate_id }}
-            </td>
-            <td>
-              {{ p.farm_code }}
-            </td>
-            <td>
-              {{ p.farm_name }}
-            </td>
-            <td>
-              {{ p.grower_name }}
-            </td>
-            <td>
-              {{ p.grower_settlement_name }}
-            </td>
-            <td>
-              {{ p.car_number }}
-            </td>
-
-            <td>
-              {{ p.farm_settlement_name }}
-            </td>
-            <td>
-              {{ p.contact_person_name }}
-            </td>
-            <td>
-              {{ p.contact_mobile_phone }}
-            </td>
-            <td>
-              {{ p.chicken_sum_female }}
-            </td>
-            <td>
-              {{ p.package_sum }}
-            </td>
-            <td>
-              {{ p.weight }}
-            </td>
-            <td>
-              {{ p.grower_comments }}
-            </td>
-            <td>
-              {{ p.create_date | date : "dd/MM/yyyy" }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-</table>
+  </table>
 </div>

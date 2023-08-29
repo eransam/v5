@@ -1929,7 +1929,7 @@
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
-                          style="width: 100px"
+                          style="width: 270px"
                         >
                           מס להקה - תאריך בקיעה
                         </th>
@@ -1937,81 +1937,111 @@
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
-                          style="width: 100px"
+                          style="width: 150px"
                         >
                           תאריך איכלוס
                         </th>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
-                          style="width: 100px"
+                          style="width: 150px"
                         >
                           גיל בחודשים
                         </th>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
-                          style="width: 100px"
+                          style="width: 150px"
                         >
                           גיל בשבועות
                         </th>
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
-                          style="width: 100px"
+                          style="width: 150px"
                         >
                           איכלוס
                         </th>
 
-                        <div
-                          *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
-                          style="
-                            border-top: solid grey 1px;
-                            border-right: solid grey 1px;
-                            border-left: solid grey 1px;
-                            margin-left: 30px;
-                          "
-                        >
-                          <th
+                        <th>
+                          <div
                             *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
-                            style="cursor: pointer; color: green"
-                            (click)="
-                              openPopup_mifkadim_Component(
-                                this.farm_det_new[0].mifkadim
-                              )
-                            "
-                            id="mifkadim"
-                          >
-                            ת.מפקד אחרון ({{
-                              this.array_mifkadim_short.length
-                            }})
-                          </th>
-
-                          <th
-                            *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
-                            style="cursor: pointer; color: green"
-                            scope="col"
-                            (click)="
-                              openPopup_mifkadim_Component(
-                                this.farm_det_new[0].mifkadim
-                              )
+                            style="
+                              border-top: solid grey 1px;
+                              border-right: solid grey 1px;
+                              border-left: solid grey 1px;
+                              margin-left: 30px;
                             "
                           >
-                            כמות
-                          </th>
-                        </div>
+                            <th
+                              *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                              style="cursor: pointer; color: green"
+                              (click)="
+                                openPopup_mifkadim_Component(
+                                  this.farm_det_new[0].mifkadim
+                                )
+                              "
+                              id="mifkadim"
+                            >
+                              ת.מפקד אחרון ({{
+                                this.array_mifkadim_short.length
+                              }})
+                            </th>
 
-                        <th
-                          *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
-                          style="cursor: pointer; color: green"
-                          (click)="
-                            openPopup_pinoyim_Component(
-                              this.farm_det_new[0].pinoyim
-                            )
-                          "
-                          id="mifkadim"
-                        >
-                          ת.פינוי אחרון ({{ this.array_pinoyim_short.length }})
+                            <th
+                              *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                              style="cursor: pointer; color: green"
+                              scope="col"
+                              (click)="
+                                openPopup_mifkadim_Component(
+                                  this.farm_det_new[0].mifkadim
+                                )
+                              "
+                            >
+                              כמות
+                            </th>
+                          </div>
+                        </th>
+
+                        <th>
+                          <div
+                            *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                            style="
+                              border-top: solid grey 1px;
+                              border-right: solid grey 1px;
+                              border-left: solid grey 1px;
+                              margin-left: 30px;
+                            "
+                          >
+                            <th
+                              *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                              style="cursor: pointer; color: green"
+                              (click)="
+                                openPopup_pinoyim_Component(
+                                  this.farm_det_new[0].pinoyim
+                                )
+                              "
+                              id="mifkadim"
+                            >
+                              ת.פינוי אחרון ({{
+                                this.array_pinoyim_short.length
+                              }})
+                            </th>
+
+                            <th
+                              *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                              style="cursor: pointer; color: green"
+                              scope="col"
+                              (click)="
+                                openPopup_pinoyim_Component(
+                                  this.farm_det_new[0].mifkadim
+                                )
+                              "
+                            >
+                              כמות
+                            </th>
+                          </div>
                         </th>
                       </tr>
                     </thead>
@@ -2048,7 +2078,13 @@
 
                         <!-- תאריך איכלוס -->
                         <td style="width: 100px">
-                          {{ row.minDate_hiclos | date : "dd/MM/yyyy" }}
+                            {{ row.first_hiclos | date : "dd/MM/yyyy" }}
+                        </td>
+
+
+                        <!-- תאריך איכלוס -->
+                        <td style="width: 100px">
+                          {{ row.first_hiclos | date : "dd/MM/yyyy" }}
                         </td>
 
                         <!-- גיל בחודשים -->
@@ -2068,55 +2104,73 @@
                           {{ row.count_hiclos_total_site | number : "1.0-0" }}
                           <i class="fas fa-angle-left fa-lg"></i>
                         </td>
-                        <div
-                          *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
-                          style="
-                            border-bottom: solid grey 1px;
-                            border-right: solid grey 1px;
-                            border-left: solid grey 1px;
-                            margin-left: 30px;
-                          "
-                        >
-                          <td
+                        <td style="width: 100px">
+                          <div
+                            *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                             style="
-                              cursor: pointer;
-                              color: green;
-                              width: 150px !important;
-                            "
-                            (click)="
-                              openPopup_mifkadim_Component(
-                                this.farm_det_new[0].mifkadim
-                              )
+                              border-bottom: solid grey 1px;
+                              border-right: solid grey 1px;
+                              border-left: solid grey 1px;
+                              margin-left: 30px;
                             "
                           >
-                            {{
-                              this.latestObject_in_array_mifkadim_short
-                                .pr_Datemsira | date : "dd/MM/yyyy"
-                            }}
-                          </td>
+                            <td
+                              style="
+                                cursor: pointer;
+                                color: green;
+                                width: 150px !important;
+                              "
+                              (click)="
+                                openPopup_mifkadim_Component(
+                                  this.farm_det_new[0].mifkadim
+                                )
+                              "
+                            >
+                              {{
+                                this.latestObject_in_array_mifkadim_short
+                                  .pr_Datemsira | date : "dd/MM/yyyy"
+                              }}
+                            </td>
 
-                          <td style="cursor: pointer; color: green">
-                            {{
-                              this.latestObject_in_array_mifkadim_short
-                                .total_pr_Kamut | number : "1.0-0"
-                            }}
-                          </td>
-                        </div>
+                            <td style="cursor: pointer; color: green">
+                              {{
+                                this.latestObject_in_array_mifkadim_short
+                                  .total_pr_Kamut | number : "1.0-0"
+                              }}
+                            </td>
+                          </div>
+                        </td>
 
-                        <td
-                          *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
-                          style="width: 100px"
-                          style="cursor: pointer; color: green"
-                          (click)="
-                            openPopup_pinoyim_Component(
-                              this.farm_det_new[0].pinoyim
-                            )
-                          "
-                        >
-                          {{
-                            this.latestObject_in_array_pinoyim_short
-                              .pr_Datemsira | date : "dd/MM/yyyy"
-                          }}
+                        <td>
+                          <div
+                            *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                            style="
+                              border-bottom: solid grey 1px;
+                              border-right: solid grey 1px;
+                              border-left: solid grey 1px;
+                              margin-left: 30px;
+                            "
+                          >
+                            <td
+                              *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                              style="width: 100px"
+                              style="cursor: pointer; color: green"
+                              (click)="
+                                openPopup_pinoyim_Component(
+                                  this.farm_det_new[0].pinoyim
+                                )
+                              "
+                            >
+                              {{
+                                this.latestObject_in_array_pinoyim_short
+                                  .pr_Datemsira | date : "dd/MM/yyyy"
+                              }}
+                            </td>
+
+                            <td style="cursor: pointer; color: green">
+                              {{ this.array_pinoyim_short[0]?.total_pr_Kamut }}
+                            </td>
+                          </div>
                         </td>
                       </tr>
                     </tbody>

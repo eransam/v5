@@ -7,6 +7,17 @@
           <th style="font-weight: bold; text-align: right">
             תעודות משלוח למשק {{ data[0].farm_code }}
           </th>
+          <div class="importBth">
+            <div class="justify-content">
+              <img
+              style="width: 40px;"
+                class="logoIngStyle"
+                src="assets/images/logo/excel.png"
+                alt="Image"
+                (click)="getExcelData()"
+              />
+            </div>
+          </div>
         </tr>
       </thead>
 
@@ -15,33 +26,21 @@
           <table class="table no-margin">
             <thead>
               <tr>
-                <th style="font-weight: bold; text-align: right">
-                  תאריך העברה
-                </th>
+                <th style="font-weight: bold; text-align: right">תאריך העברה</th>
 
                 <th style="font-weight: bold; text-align: right">מס תעודה</th>
 
-                <th style="font-weight: bold; text-align: right">
-                  מס רישיון משק יעד
-                </th>
+                <th style="font-weight: bold; text-align: right">מס רישיון משק יעד</th>
 
                 <th style="font-weight: bold; text-align: right">שם משק יעד</th>
 
-                <th style="font-weight: bold; text-align: right">
-                  ישוב משק יעד
-                </th>
+                <th style="font-weight: bold; text-align: right">ישוב משק יעד</th>
 
-                <th style="font-weight: bold; text-align: right">
-                  מס להקת יעד
-                </th>
+                <th style="font-weight: bold; text-align: right">מס להקת יעד</th>
 
-                <th style="font-weight: bold; text-align: right">
-                  מס מגדל יעד
-                </th>
+                <th style="font-weight: bold; text-align: right">מס מגדל יעד</th>
 
-                <th style="font-weight: bold; text-align: right">
-                  שם מגדל יעד
-                </th>
+                <th style="font-weight: bold; text-align: right">שם מגדל יעד</th>
 
                 <th style="font-weight: bold; text-align: right">כמות עופות</th>
 
@@ -107,7 +106,11 @@
     </table>
   </div>
 
-  <!------------------------------------------------------------------------ תצוגת בית אימון ------------------------------------------------------------------->
+<!------------------------------------------------------------------------ תצוגת בית אימון ------------------------------------------------------------------->
+<!------------------------------------------------------------------------ תצוגת בית אימון ------------------------------------------------------------------->
+<!------------------------------------------------------------------------ תצוגת בית אימון ------------------------------------------------------------------->
+
+
   <div *ngIf="this.data[0]?.mixed_sum === undefined">
     <table class="cool-table" dir="rtl" style="padding: 5px" border="0">
       <thead>
@@ -118,6 +121,7 @@
           <div class="importBth">
             <div class="justify-content">
               <img
+              style="width: 40px;"
                 class="logoIngStyle"
                 src="assets/images/logo/excel.png"
                 alt="Image"
@@ -172,46 +176,58 @@
             </thead>
             <tbody style="white-space: nowrap">
               <tr *ngFor="let p of data">
+
+                <!-- תאריך העברה -->
                 <td>
                   {{ p.create_date | date : "dd/MM/yyyy" }}
                 </td>
 
+                <!-- מס תעודה -->
                 <td>
                   {{ p.certificate_id }}
                 </td>
 
+                <!-- מס רישיון משק מקור -->
                 <td>
                   {{ p.source_farm_code }}
                 </td>
 
+                <!-- מס רישיון משק יעד -->
                 <td>
                   {{ p.farm_code }}
                 </td>
 
+                <!-- >שם משק יעד -->
                 <td>
                   {{ p.farm_name }}
                 </td>
 
+                <!--  ישוב משק יעד -->
                 <td>
                   {{ p.farm_settlement_name }}
                 </td>
 
+                <!--   מס להקת יעד -->
                 <td>
                   {{ p.dest_flock_id }}
                 </td>
 
+                <!--  מס מגדל יעד -->
                 <td>
                   {{ p.lull2000_code }}
                 </td>
 
+                <!-- שם מגדל יעד -->
                 <td>
                   {{ p.grower_name }}
                 </td>
 
+                <!-- כלובים -->
                 <td>
                   {{ p.package_sum }}
                 </td>
 
+                <!-- >כמות עופות -->
                 <td>
                   {{ p.chicken_sum_female }}
                 </td>

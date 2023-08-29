@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class PopupPinoyimComponent {
   userTypeID;
   certificateSum = 0;
-
+  objectsToShow: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router
@@ -39,5 +39,13 @@ export class PopupPinoyimComponent {
     // Sort the array using the custom comparator function
     // this.data.sort(customComparator);
     console.log('this.data: ', this.data);
+  }
+  toggleExpansion(item2: any) {
+    item2.expanded = !item2.expanded;
+    this.objectsToShow = this.data.filter(
+      (item) => item.Mifkad_id === item2.Mifkad_id
+    );
+
+    console.log(this.objectsToShow);
   }
 }
