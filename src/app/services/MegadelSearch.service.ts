@@ -12,6 +12,36 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+
+  async get_meshavek_tzamod_more_details(
+    farm_id: any
+  ): Promise<any[]> {
+    console.log(farm_id);
+    
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_meshavek_tzamod_more_details?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+
+
+
+  async top_1_get_old_flocks_by_siteId_and_growerId(
+    farm_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/top_1_get_old_flocks_by_siteId_and_growerId?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async prc_quarantine_details_to_eran(farm_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -553,14 +583,10 @@ export class MegadelSearchService {
     return item;
   }
 
-  async get_farm_det_v2(
-    yzrn_num: any,
-    yzrn_id: any,
-    farm_num: any
-  ): Promise<any[]> {
+  async get_farm_det_v2(yzrn_id: any, farm_num: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_farm_det_v2?yzrn_num=${yzrn_num}&yzrn_id=${yzrn_id}&farm_num=${farm_num}`
+        `${environment.apiPath}growerService.asmx/get_farm_det_v2?yzrn_id=${yzrn_id}&farm_num=${farm_num}`
       )
     );
     console.log('item: ', item);
