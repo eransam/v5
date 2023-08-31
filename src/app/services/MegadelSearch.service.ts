@@ -12,12 +12,21 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
-
-  async get_meshavek_tzamod_more_details(
-    farm_id: any
-  ): Promise<any[]> {
+  async history_get_meshavek_tzamod_more_details(farm_id: any): Promise<any[]> {
     console.log(farm_id);
-    
+
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/history_get_meshavek_tzamod_more_details?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_meshavek_tzamod_more_details(farm_id: any): Promise<any[]> {
+    console.log(farm_id);
+
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_meshavek_tzamod_more_details?farm_id=${farm_id}`
@@ -26,9 +35,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-
-
 
   async top_1_get_old_flocks_by_siteId_and_growerId(
     farm_id: any
@@ -89,6 +95,10 @@ export class MegadelSearchService {
     farm_id: any,
     flock_id: any
   ): Promise<any[]> {
+    if (flock_id === '') {
+      flock_id = 0;
+    }
+
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_real_hiclos_in_site_from_madgera?farm_id=${farm_id}&flock_id=${flock_id}`

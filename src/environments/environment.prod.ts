@@ -5,6 +5,8 @@ export const environment = {
   production: true,
   apiPath: window.location.protocol + '//' + window.location.host + '/',
 
+  api_front: 'http://epb-iis22:9092/app/v2',
+
   firebase: {
     apiKey: 'AIzaSyB78aPWrovray_gVpZmadbDmEr5AzypOAA',
     // authDomain: 'evolvision-rnd.firebaseapp.com',
@@ -17,3 +19,6 @@ export const environment = {
   },
   googleApiKey: 'AIzaSyB78aPWrovray_gVpZmadbDmEr5AzypOAA',
 };
+
+
+

@@ -1,0 +1,111 @@
+<div class="cool-table-container">
+    <table class="cool-table main_table" dir="rtl" border="0">
+      <thead>
+        <tr style="display: flex; justify-content: space-between; padding: 40px">
+          <th style="font-weight: bold; text-align: right">תעודות העברה</th>
+          <div class="importBth">
+            <div class="justify-content">
+              <img
+                style="width: 40px"
+                class="logoIngStyle"
+                src="assets/images/logo/excel.png"
+                alt="Image"
+                (click)="getExcelData()"
+              />
+            </div>
+          </div>
+        </tr>
+      </thead>
+  
+      <tr>
+        <td colspan="2">
+          <table class="table no-margin">
+            <thead>
+              <tr>
+
+
+                
+
+
+                <th style="font-weight: bold; text-align: right">משווק</th>
+                <th style="font-weight: bold; text-align: right">משווק באמצעות מחסן</th>
+                <th style="font-weight: bold; text-align: right">שם משווק</th>
+                <th style="font-weight: bold; text-align: right">משווק נוסף</th>
+                <th style="font-weight: bold; text-align: right">אתר</th>
+                <th style="font-weight: bold; text-align: right">מתאריך</th>
+                <th style="font-weight: bold; text-align: right">קוד</th>
+                <th style="font-weight: bold; text-align: right">תנאי הצמדה</th>
+                <th style="font-weight: bold; text-align: right">עד תאריך</th>
+                <th style="font-weight: bold; text-align: right">תאריך עדכון</th>
+              </tr>
+  
+
+
+              
+            </thead>
+            <tbody style="white-space: nowrap">
+              <tr *ngFor="let p of data">
+                <!--משווק-->
+                <td>{{ p.create_date | date : "HH:mm dd/MM/yyyy " }}</td>
+  
+                <!-- >משווק באמצעות מחסן -->
+                <td>{{ p.certificate_id }}</td>
+  
+                <!-- >שם משווק -->
+                <td>{{ p.source_farm_code }}</td>
+  
+                <!-- >משווק נוסף -->
+                <td>{{ p.source_farm_name }}</td>
+  
+                <!-- אתר -->
+                <td>{{ p.source_flock_id }}</td>
+  
+                <!-- מתאריך -->
+                <td>{{ p.farm_code }}</td>
+  
+                <!-- קוד -->
+                <td>{{ p.farm_name }}</td>
+  
+                <!-- >תנאי הצמדה -->
+                <td>{{ p.farm_settlement_name }}</td>
+  
+                <!-- >עד תאריך -->
+                <td>{{ p.dest_flock_id }}</td>
+  
+                <!-- >תאריך עדכון< -->
+                <td>{{ p.lull2000_code }}</td>
+  
+              </tr>
+              <tr>
+                <td>סה''כ:</td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td></td>
+  
+                <td>
+                  test
+                </td>
+                <td>
+                  test
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+  

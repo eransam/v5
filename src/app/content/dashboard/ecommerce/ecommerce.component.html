@@ -1924,7 +1924,14 @@
                       פרטי להקה
                     </h3>
 
-                    <thead class="detailsTable">
+                    <thead
+                      [ngClass]="[
+                        this.farm_det_new[0].flock_status_id === 1
+                          ? 'avtice_flock'
+                          : 'not_avtice_flock'
+                      ]"
+                      class="detailsTable"
+                    >
                       <tr>
                         <th
                           scope="col"
@@ -1932,6 +1939,14 @@
                           style="width: 270px"
                         >
                           מס להקה - תאריך בקיעה
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 150px; padding-right: 29px !important"
+                        >
+                          סטטוס להקה
                         </th>
 
                         <th
@@ -1968,9 +1983,9 @@
                           <div
                             *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                             style="
-                              border-top: solid grey 1px;
-                              border-right: solid grey 1px;
-                              border-left: solid grey 1px;
+                              border-top: dashed grey 1px;
+                              border-right: dashed grey 1px;
+                              border-left: dashed grey 1px;
                               margin-left: 30px;
                             "
                           >
@@ -2008,9 +2023,9 @@
                           <div
                             *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
                             style="
-                              border-top: solid grey 1px;
-                              border-right: solid grey 1px;
-                              border-left: solid grey 1px;
+                              border-top: dashed grey 1px;
+                              border-right: dashed grey 1px;
+                              border-left: dashed grey 1px;
                               margin-left: 30px;
                             "
                           >
@@ -2046,7 +2061,13 @@
                       </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody
+                      [ngClass]="[
+                        this.farm_det_new[0].flock_status_id === 1
+                          ? 'avtice_flock'
+                          : 'not_avtice_flock'
+                      ]"
+                    >
                       <tr *ngFor="let row of this.farm_det_new">
                         <!--  מס להקה - תאריך בקיעה -->
                         <td
@@ -2063,6 +2084,7 @@
                               style="font-size: 20px; font-weight: 700"
                               class="form-control"
                               [(ngModel)]="selectedObject"
+                              (click)="bring_all_flocks()"
                               (ngModelChange)="onOptionSelected()"
                             >
                               <option
@@ -2076,9 +2098,23 @@
                           </div>
                         </td>
 
+                        <!-- סטטוס להקה -->
+                        <td
+                          *ngIf="row.flock_status_id === 1"
+                          style="width: 100px; padding-right: 29px !important"
+                        >
+                          פעילה
+                        </td>
+                        <td
+                          *ngIf="row.flock_status_id !== 1"
+                          style="width: 100px"
+                        >
+                          סגורה
+                        </td>
+
                         <!-- תאריך איכלוס -->
                         <td style="width: 100px">
-                            {{ row.first_hiclos | date : "dd/MM/yyyy" }}
+                          {{ row.first_hiclos | date : "dd/MM/yyyy" }}
                         </td>
 
                         <!-- גיל בחודשים -->
@@ -2102,9 +2138,9 @@
                           <div
                             *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
                             style="
-                              border-bottom: solid grey 1px;
-                              border-right: solid grey 1px;
-                              border-left: solid grey 1px;
+                              border-bottom: dashed grey 1px;
+                              border-right: dashed grey 1px;
+                              border-left: dashed grey 1px;
                               margin-left: 30px;
                             "
                           >
@@ -2139,9 +2175,9 @@
                           <div
                             *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
                             style="
-                              border-bottom: solid grey 1px;
-                              border-right: solid grey 1px;
-                              border-left: solid grey 1px;
+                              border-bottom: dashed grey 1px;
+                              border-right: dashed grey 1px;
+                              border-left: dashed grey 1px;
                               margin-left: 30px;
                             "
                           >
@@ -2308,56 +2344,145 @@
                     <br />
 
                     <h3
-                      *ngIf="this.farm_det_new[0].code_msvk_zamud !== '000'"
                       class="main_table_tatle"
-                      style="font-size: 30px; font-weight: bold; color: #5b5bf8"
+                      style="cursor: pointer; color: green"
+                      (click)="hazmadot_history(this.farm_det_new[0])"
                     >
                       הצמדות
+                      <i class="fas fa-angle-left fa-lg"></i>
                     </h3>
 
-                    <thead
-                      class="detailsTable"
-                      *ngIf="this.farm_det_new[0].code_msvk_zamud !== '000'"
-                    >
+                    <thead class="detailsTable">
                       <tr>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         >
-                          משווק צמוד
+                          משווק
                         </th>
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 100px"
                         >
-                          שיווק באמצעות מחסן
+                          משווק באמצעות מחסן
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          שם משווק
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          משווק נוסף
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          אתר
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מתאריך
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          קוד
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תנאי הצמדה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          עד תאריך
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תאריך עדכון
                         </th>
                       </tr>
                     </thead>
 
-                    <tbody
-                      *ngIf="this.farm_det_new[0].code_msvk_zamud !== '000'"
-                    >
-                      <tr *ngFor="let row of this.farm_det_new">
+                    <tbody>
+                      <tr
+                        *ngFor="let row of this.farm_det_new[0].msvk_zamud_det"
+                      >
                         <td style="width: 100px">
-                          {{ row.code_msvk_zamud }} - {{ row.msvk_zamud }}
+                          {{ row.hz_new_msvk }}
                         </td>
                         <td style="width: 100px">
                           <div>
                             <span
                               style="font-size: 21px; font-weight: 600"
-                              *ngIf="row.were_house_Name !== ''"
-                              >{{ row.were_house_license_number }} -
-                              {{ row.were_house_Name }}
+                              *ngIf="
+                                row.hz_WareHouse !== '' &&
+                                row.hz_WareHouse !== 0 &&
+                                row.hz_WareHouse !== null
+                              "
+                            >
+                              {{ row.hz_WareHouse }}
+                              <!-- {{ row.were_house_license_number }} -
+                              {{ row.were_house_Name }} -->
                             </span>
                             <span
-                              *ngIf="row.were_house_Name === ''"
+                              *ngIf="
+                                row.hz_WareHouse === '' ||
+                                row.hz_WareHouse === 0 ||
+                                row.hz_WareHouse === null
+                              "
                               style="color: red; font-size: 2rem"
                               >X</span
                             >
                           </div>
+                        </td>
+
+                        <td style="width: 100px">
+                          {{ row.tb_name }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.hz_msvk_nosaf }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.code }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.hz_date_hzmd_from }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.hz_code_hzmd }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.tnai_hazmada }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.hz_date_hzmd_to }}
+                        </td>
+                        <td style="width: 100px">
+                          {{ row.hz_Dtupd }}
                         </td>
                       </tr>
                     </tbody>

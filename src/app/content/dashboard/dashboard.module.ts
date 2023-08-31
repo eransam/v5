@@ -46,6 +46,7 @@ import { PagePopupShowAllCertificateTransferComponent } from './ecommerce/page-p
 import { PagePopupPinoyimComponent } from './ecommerce/page-popup-pinoyim/page-popup-pinoyim.component';
 import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-hiclos-by-site.component';
 import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quarantine.component';
+import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/hazmadot-history-page.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,10 @@ import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quaran
       template: BlockTemplateComponent,
     }),
     RouterModule.forChild([
+      {
+        path: 'HazmadotHistoryPageComponent',
+        component: HazmadotHistoryPageComponent,
+      },
       {
         path: 'PageQuarantineComponent',
         component: PageQuarantineComponent,
@@ -154,6 +159,7 @@ import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quaran
     PagePopupPinoyimComponent,
     PageHiclosBySiteComponent,
     PageQuarantineComponent,
+    HazmadotHistoryPageComponent,
   ],
 
   exports: [RouterModule],

@@ -10,6 +10,7 @@ export const environment = {
   apiPath: 'https://localhost:44380/',
   //   apiPathEggMmovments: 'http://localhost:61414/',
 
+  api_front: 'http://localhost:4200',
   firebase: {
     apiKey: 'AIzaSyCSG-EGU2RLITgpjf_ogf1w47edC_DXlWc',
     authDomain: 'evolvision-rnd.firebaseapp.com',
