@@ -213,10 +213,13 @@ export class MegadelSearchService {
     return item;
   }
 
-  async get_first_hicls_by_farm_code(farm_code: any): Promise<any[]> {
+  async get_first_hicls_by_farm_code(
+    farm_code: any,
+    flock_id: any
+  ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_first_hicls_by_farm_code?farm_code=${farm_code}`
+        `${environment.apiPath}growerService.asmx/get_first_hicls_by_farm_code?farm_code=${farm_code}&flock_id=${flock_id}`
       )
     );
     console.log('item: ', item);

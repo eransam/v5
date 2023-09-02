@@ -1,111 +1,123 @@
 <div class="cool-table-container">
-    <table class="cool-table main_table" dir="rtl" border="0">
-      <thead>
-        <tr style="display: flex; justify-content: space-between; padding: 40px">
-          <th style="font-weight: bold; text-align: right">תעודות העברה</th>
-          <div class="importBth">
-            <div class="justify-content">
-              <img
-                style="width: 40px"
-                class="logoIngStyle"
-                src="assets/images/logo/excel.png"
-                alt="Image"
-                (click)="getExcelData()"
-              />
-            </div>
+  <table class="cool-table main_table" dir="rtl" border="0">
+    <thead>
+      <tr style="display: flex; justify-content: space-between; padding: 40px">
+        <th style="font-weight: bold; text-align: right">הצמדות</th>
+        <div class="importBth">
+          <div class="justify-content">
+            <img
+              style="width: 40px"
+              class="logoIngStyle"
+              src="assets/images/logo/excel.png"
+              alt="Image"
+              (click)="getExcelData()"
+            />
           </div>
-        </tr>
-      </thead>
-  
-      <tr>
-        <td colspan="2">
-          <table class="table no-margin">
-            <thead>
-              <tr>
-
-
-                
-
-
-                <th style="font-weight: bold; text-align: right">משווק</th>
-                <th style="font-weight: bold; text-align: right">משווק באמצעות מחסן</th>
-                <th style="font-weight: bold; text-align: right">שם משווק</th>
-                <th style="font-weight: bold; text-align: right">משווק נוסף</th>
-                <th style="font-weight: bold; text-align: right">אתר</th>
-                <th style="font-weight: bold; text-align: right">מתאריך</th>
-                <th style="font-weight: bold; text-align: right">קוד</th>
-                <th style="font-weight: bold; text-align: right">תנאי הצמדה</th>
-                <th style="font-weight: bold; text-align: right">עד תאריך</th>
-                <th style="font-weight: bold; text-align: right">תאריך עדכון</th>
-              </tr>
-  
-
-
-              
-            </thead>
-            <tbody style="white-space: nowrap">
-              <tr *ngFor="let p of data">
-                <!--משווק-->
-                <td>{{ p.create_date | date : "HH:mm dd/MM/yyyy " }}</td>
-  
-                <!-- >משווק באמצעות מחסן -->
-                <td>{{ p.certificate_id }}</td>
-  
-                <!-- >שם משווק -->
-                <td>{{ p.source_farm_code }}</td>
-  
-                <!-- >משווק נוסף -->
-                <td>{{ p.source_farm_name }}</td>
-  
-                <!-- אתר -->
-                <td>{{ p.source_flock_id }}</td>
-  
-                <!-- מתאריך -->
-                <td>{{ p.farm_code }}</td>
-  
-                <!-- קוד -->
-                <td>{{ p.farm_name }}</td>
-  
-                <!-- >תנאי הצמדה -->
-                <td>{{ p.farm_settlement_name }}</td>
-  
-                <!-- >עד תאריך -->
-                <td>{{ p.dest_flock_id }}</td>
-  
-                <!-- >תאריך עדכון< -->
-                <td>{{ p.lull2000_code }}</td>
-  
-              </tr>
-              <tr>
-                <td>סה''כ:</td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td></td>
-  
-                <td>
-                  test
-                </td>
-                <td>
-                  test
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
+        </div>
       </tr>
-    </table>
-  </div>
-  
+    </thead>
+
+    <tr>
+      <td colspan="2">
+        <table class="table no-margin">
+          <thead>
+            <tr>
+              <th style="font-weight: bold; text-align: right">משווק</th>
+              <th style="font-weight: bold; text-align: right">
+                משווק באמצעות מחסן
+              </th>
+              <th style="font-weight: bold; text-align: right">משווק נוסף</th>
+              <th style="font-weight: bold; text-align: right">אתר</th>
+              <th style="font-weight: bold; text-align: right">מתאריך</th>
+              <th style="font-weight: bold; text-align: right">קוד</th>
+              <th style="font-weight: bold; text-align: right">תנאי הצמדה</th>
+              <th style="font-weight: bold; text-align: right">עד תאריך</th>
+              <th style="font-weight: bold; text-align: right">תאריך עדכון</th>
+            </tr>
+          </thead>
+          <tbody style="white-space: nowrap">
+            <tr *ngFor="let row of data">
+              <!--משווק-->
+              <!-- <td>{{ p.create_date | date : "HH:mm dd/MM/yyyy " }}</td> -->
+
+              <!-- >שם משווק -->
+              <td>{{ row.tb_name }}</td>
+
+              <!-- >משווק באמצעות מחסן -->
+              <td style="width: 100px">
+                <div>
+                  <span
+                    style="font-size: 21px; font-weight: 600"
+                    *ngIf="
+                      row.hz_WareHouse !== '' &&
+                      row.hz_WareHouse !== 0 &&
+                      row.hz_WareHouse !== null
+                    "
+                  >
+                    {{ row.hz_WareHouse }}
+                    <!-- {{ row.were_house_license_number }} -
+                        {{ row.were_house_Name }} -->
+                  </span>
+                  <span
+                    *ngIf="
+                      row.hz_WareHouse === '' ||
+                      row.hz_WareHouse === 0 ||
+                      row.hz_WareHouse === null
+                    "
+                    style="color: red; font-size: 2rem"
+                    >X</span
+                  >
+                </div>
+              </td>
+
+              <!-- >משווק נוסף -->
+              <td>{{ row.hz_msvk_nosaf }}</td>
+
+              <!-- אתר -->
+              <td>{{ row.code }}</td>
+
+              <!-- מתאריך -->
+              <td>{{ row.hz_date_hzmd_from | date : "HH:mm dd/MM/yyyy" }}</td>
+
+              <!-- קוד -->
+              <td>{{ row.hz_code_hzmd }}</td>
+
+              <!-- >תנאי הצמדה -->
+              <td>{{ row.tnai_hazmada }}</td>
+
+              <!-- >עד תאריך -->
+              <td>{{ row.hz_date_hzmd_to | date : "HH:mm dd/MM/yyyy" }}</td>
+
+              <!-- >תאריך עדכון< -->
+              <td>{{ row.hz_Dtupd | date : "HH:mm dd/MM/yyyy" }}</td>
+            </tr>
+
+
+            <!-- <tr>
+              <td>סה''כ:</td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td>test</td>
+              <td>test</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

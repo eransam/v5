@@ -1160,45 +1160,6 @@
                         </tbody>
                       </table>
 
-                      <!-- <div *ngIf="all_full_farm_det">
-                        <B>אכלוס לפי אתר:</B>
-                      </div>
-                      <table
-                        *ngIf="all_full_farm_det"
-                        class="table table-hover border_bottom detailsTable"
-                        style="direction: rtl"
-                      >
-                        <thead class="detailsTable">
-                          <tr>
-                            <th scope="col" class="border-top-0">אתר:</th>
-                            <th scope="col" class="border-top-0">איכלוס</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of all_full_farm_det">
-                            <td
-                              *ngIf="
-                                row !== undefined &&
-                                row.count_hiclos &&
-                                row.count_hiclos !== 0
-                              "
-                              class="text-truncate row_padding"
-                            >
-                              {{ row.farm_num }}
-                            </td>
-                            <td
-                              *ngIf="
-                                row !== undefined &&
-                                row.count_hiclos &&
-                                row.count_hiclos !== 0
-                              "
-                              class="text-truncate row_padding"
-                            >
-                              {{ row.count_hiclos }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> -->
                     </div>
                     <!-- טבלת מכסות פטם סיום-->
 
@@ -1981,7 +1942,7 @@
 
                         <th>
                           <div
-                            *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                            *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
                             style="
                               border-top: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -1990,7 +1951,7 @@
                             "
                           >
                             <th
-                              *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                              *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
                               style="cursor: pointer; color: green"
                               (click)="
                                 openPopup_mifkadim_Component(
@@ -2005,7 +1966,7 @@
                             </th>
 
                             <th
-                              *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                              *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
                               style="cursor: pointer; color: green"
                               scope="col"
                               (click)="
@@ -2021,7 +1982,7 @@
 
                         <th>
                           <div
-                            *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                          *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
                             style="
                               border-top: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -2030,7 +1991,7 @@
                             "
                           >
                             <th
-                              *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
                               style="cursor: pointer; color: green"
                               (click)="
                                 openPopup_pinoyim_Component(
@@ -2092,7 +2053,7 @@
                                 [ngValue]="item"
                               >
                                 {{ item.id }} -
-                                {{ item.date_created | date : "dd/MM/yyyy" }}
+                                {{ item.flock_hatch_date | date : "dd/MM/yyyy" }}
                               </option>
                             </select>
                           </div>
@@ -2134,9 +2095,10 @@
                           {{ row.count_hiclos_total_site | number : "1.0-0" }}
                           <i class="fas fa-angle-left fa-lg"></i>
                         </td>
+
                         <td style="width: 100px">
                           <div
-                            *ngIf="this.farm_det_new[0]?.mifkadim?.length > 0"
+                            *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
                             style="
                               border-bottom: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -2144,6 +2106,7 @@
                               margin-left: 30px;
                             "
                           >
+                            <!-- ת.מפקד אחרון -->
                             <td
                               style="
                                 cursor: pointer;
@@ -2157,11 +2120,14 @@
                               "
                             >
                               {{
+
+                                
                                 this.latestObject_in_array_mifkadim_short
                                   .pr_Datemsira | date : "dd/MM/yyyy"
                               }}
                             </td>
 
+                            <!-- כמות מפקד אחרון -->
                             <td style="cursor: pointer; color: green">
                               {{
                                 this.latestObject_in_array_mifkadim_short
@@ -2173,7 +2139,7 @@
 
                         <td>
                           <div
-                            *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
                             style="
                               border-bottom: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -2181,8 +2147,9 @@
                               margin-left: 30px;
                             "
                           >
+                            <!-- ת.פינוי אחרון -->
                             <td
-                              *ngIf="this.farm_det_new[0]?.pinoyim?.length > 0"
+                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
                               style="width: 100px"
                               style="cursor: pointer; color: green"
                               (click)="
@@ -2197,7 +2164,10 @@
                               }}
                             </td>
 
-                            <td style="cursor: pointer; color: green">
+                            <!-- כמות פינוי אחרון -->
+                            <td 
+                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
+                            style="cursor: pointer; color: green">
                               {{ this.array_pinoyim_short[0]?.total_pr_Kamut }}
                             </td>
                           </div>
@@ -2431,9 +2401,12 @@
                       <tr
                         *ngFor="let row of this.farm_det_new[0].msvk_zamud_det"
                       >
+                      <!-- משווק -->
                         <td style="width: 100px">
                           {{ row.hz_new_msvk }}
                         </td>
+
+                        <!-- משווק באמצעות מחסן -->
                         <td style="width: 100px">
                           <div>
                             <span
@@ -2445,8 +2418,7 @@
                               "
                             >
                               {{ row.hz_WareHouse }}
-                              <!-- {{ row.were_house_license_number }} -
-                              {{ row.were_house_Name }} -->
+
                             </span>
                             <span
                               *ngIf="
@@ -2460,30 +2432,46 @@
                           </div>
                         </td>
 
+                        <!-- שם משווק -->
                         <td style="width: 100px">
                           {{ row.tb_name }}
                         </td>
+
+                        <!-- משווק נוסף -->
                         <td style="width: 100px">
                           {{ row.hz_msvk_nosaf }}
                         </td>
+
+                        <!-- קוד אץר -->
                         <td style="width: 100px">
                           {{ row.code }}
                         </td>
+
+                        <!-- מתאריך -->
                         <td style="width: 100px">
-                          {{ row.hz_date_hzmd_from }}
+                          {{ row.hz_date_hzmd_from  | date : "dd/MM/yyyy"}}
                         </td>
+
+                        <!-- קוד -->
                         <td style="width: 100px">
                           {{ row.hz_code_hzmd }}
                         </td>
+
+                        <!-- תנאי הצמדה -->
                         <td style="width: 100px">
                           {{ row.tnai_hazmada }}
                         </td>
+
+                        <!-- עד תאריך -->
                         <td style="width: 100px">
-                          {{ row.hz_date_hzmd_to }}
+                          {{ row.hz_date_hzmd_to | date : "dd/MM/yyyy" }}
                         </td>
+
+                        <!-- תאריך עדכון -->
                         <td style="width: 100px">
-                          {{ row.hz_Dtupd }}
+                          {{ row.hz_Dtupd | date : "dd/MM/yyyy" }}
                         </td>
+
                       </tr>
                     </tbody>
                     <br />

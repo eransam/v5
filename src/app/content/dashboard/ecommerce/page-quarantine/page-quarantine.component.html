@@ -39,7 +39,7 @@
         <tbody style="white-space: nowrap">
           <tr *ngFor="let p of data">
             <td>
-              {{ p.start_date }}
+              {{ p.start_date  | date : "dd/MM/yyyy"}}
             </td>
 
             <td>
