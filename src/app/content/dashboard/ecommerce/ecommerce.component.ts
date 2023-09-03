@@ -1525,8 +1525,7 @@ export class EcommerceComponent implements OnInit {
           } else {
             var first_hiclos =
               await this.megadelSearchService.get_first_hicls_by_farm_code(
-                obj.farm_num,
-                
+                obj.farm_num,            
                 obj.flock_num
                
               );
@@ -2809,7 +2808,8 @@ export class EcommerceComponent implements OnInit {
         }
         var first_hiclos =
           await this.megadelSearchService.get_first_hicls_by_farm_code(
-            newVariable,''
+            newVariable,
+            this.farm_det_new[0].flock_num
           );
         console.log(first_hiclos);
         obj.first_hiclos = first_hiclos[0].MinimumDate;
