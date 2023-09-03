@@ -27,7 +27,6 @@ export class PageHiclosBySiteComponent {
     console.log('test');
     this.data = JSON.parse(localStorage.getItem('data_hiclos_by_site'));
     console.log(this.data);
-    
 
     // data[data.length - 1].newArrayEnd
     // const uniqueArr: number[] = [...new Set(data)];
