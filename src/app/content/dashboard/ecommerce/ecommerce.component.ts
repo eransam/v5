@@ -1071,7 +1071,6 @@ export class EcommerceComponent implements OnInit {
                   this.real_hiclos_by_site_by_partner[0]?.count_hiclos;
 
                 // משתנה המכיל את האיכלוס הכולל של כל השותפים
-
                 this.all_certificate_det = [
                   ...this.all_certificate_det,
                   ...real_hiclos_by_site,
@@ -1149,7 +1148,7 @@ export class EcommerceComponent implements OnInit {
           }
 
           // הוספת איכלוס טוטל פר אתר כולל מחיצות
-          this.all_certificate_det = [];
+          //   this.all_certificate_det = [];
           for (let obj of this.new_Active_FarmDetails) {
             if (obj !== undefined) {
               if (obj.code.toString().includes('/')) {
@@ -1525,9 +1524,8 @@ export class EcommerceComponent implements OnInit {
           } else {
             var first_hiclos =
               await this.megadelSearchService.get_first_hicls_by_farm_code(
-                obj.farm_num,            
+                obj.farm_num,
                 obj.flock_num
-               
               );
             console.log(first_hiclos);
             obj.first_hiclos = first_hiclos[0].MinimumDate;
@@ -1628,7 +1626,7 @@ export class EcommerceComponent implements OnInit {
         }
 
         // הוספת איכלוס טוטל פר אתר כולל מחיצות
-        this.all_certificate_det = [];
+        // this.all_certificate_det = [];
         for (let obj of this.farm_det_new) {
           if (obj !== undefined) {
             if (obj.farm_num.toString().includes('/')) {
@@ -1674,7 +1672,6 @@ export class EcommerceComponent implements OnInit {
                 obj.minDate_hiclos = minDate;
                 this.min_date_cartificate_transfer = minDate;
               }
-
               this.all_certificate_det = [
                 ...this.all_certificate_det,
                 ...real_hiclos_by_site,
@@ -1719,7 +1716,6 @@ export class EcommerceComponent implements OnInit {
                 obj.minDate_hiclos = minDate;
                 this.min_date_cartificate_transfer = minDate;
               }
-
               this.all_certificate_det = [
                 ...this.all_certificate_det,
                 ...real_hiclos_by_site,
@@ -2015,7 +2011,11 @@ export class EcommerceComponent implements OnInit {
             console.log(this.all_full_farm_det);
 
             // יצירת טוטל איכלוס
-            this.total_hiclos = 0;
+
+            // this.total_hiclos = 0;
+            if (this.userDetails_more_info[0]?.Rashi === '1') {
+              this.total_hiclos = 0;
+            }
             this.more_hiclos_pargit_after_kizuz = 0;
             for (let obj of this.all_full_farm_det) {
               if (obj !== undefined) {
@@ -2036,7 +2036,6 @@ export class EcommerceComponent implements OnInit {
                     obj?.farm_id,
                     obj?.flock_num
                   );
-
                 this.all_certificate_det = [
                   ...this.all_certificate_det,
                   ...real_hiclos_by_site,
@@ -2140,7 +2139,7 @@ export class EcommerceComponent implements OnInit {
     this.farm_det_new[0].old_flocks = old_flocks;
   }
 
-  async onOptionSelected() {
+  async onOptionSelected(event: any) {
     console.log('Selected object:', this.selectedObject);
 
     // הוספת מפקדים
@@ -2149,6 +2148,9 @@ export class EcommerceComponent implements OnInit {
         this.selectedObject.id,
         this.selectedObject.farm_id
       );
+
+      console.log(mifkadim);
+      
 
     if (mifkadim.length > 0) {
       // יצירת מערך מפקדים מקוצר עם טוטל כמות פר מפקד
@@ -2278,8 +2280,10 @@ export class EcommerceComponent implements OnInit {
 
     // תאריך איכלוס
     var first_hiclos =
-      await this.megadelSearchService.get_first_hicls_by_farm_code(newVariable,
-      get_flock_ages_by_flock_id[0].id);
+      await this.megadelSearchService.get_first_hicls_by_farm_code(
+        newVariable,
+        get_flock_ages_by_flock_id[0].id
+      );
     get_flock_ages_by_flock_id[0].minDate_hiclos = first_hiclos[0].MinimumDate;
 
     // הוספת איכלוס טוטל פר אתר כולל מחיצות
@@ -2614,7 +2618,7 @@ export class EcommerceComponent implements OnInit {
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר
   async get_more_farm_det_by_farm_num(farm_num: any) {
     console.log(farm_num);
-
+    this.latestObject_in_array_mifkadim_short = [];
     var newVariable;
 
     if (farm_num.toString().includes('/')) {
@@ -4407,6 +4411,7 @@ export class EcommerceComponent implements OnInit {
       await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
         farm_id.farm_id
       );
+
     console.log(history);
     localStorage.setItem('hazmadot_history', JSON.stringify(history));
     const baseUrl = this.environmentService.getBaseUrl();
@@ -4443,7 +4448,7 @@ export class EcommerceComponent implements OnInit {
 
   async openPopup_hiclos_by_site(data: any) {
     console.log(data);
-    
+
     localStorage.setItem('data_hiclos_by_site', JSON.stringify(data));
     // this.router.navigate(['/dashboard/PageHiclosBySiteComponent']);
     // var newWindow = window.open(

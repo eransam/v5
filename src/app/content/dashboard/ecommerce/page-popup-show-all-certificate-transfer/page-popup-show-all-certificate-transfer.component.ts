@@ -31,10 +31,25 @@ export class PagePopupShowAllCertificateTransferComponent {
     this.data = JSON.parse(localStorage.getItem('this.all_certificate_det'));
     console.log(this.data);
 
-    const uniqueArr: any[] = [
-      ...new Set(this.data[this.data.length - 1].newArrayEnd),
-    ];
-    this.data[this.data.length - 1].newArrayEnd = uniqueArr;
+    // const uniqueArr: any[] = [...new Set(this.data)];
+    // this.data = uniqueArr;
+
+
+    const uniqueObjects = new Map();
+
+// Filter the original array to get unique objects
+this.data = this.data.filter((obj) => {
+  const key = JSON.stringify(obj); // Convert the object to a string for comparison
+  if (!uniqueObjects.has(key)) {
+    uniqueObjects.set(key, true); // Mark this object as seen
+    return true; // Include this object in the filtered array
+  }
+  return false; // Skip this object, it's a duplicate
+});
+
+console.log(this.data);
+
+
 
     // Custom comparator function for sorting based on 'is_main_grower'
     function customComparator(a: any, b: any) {
@@ -47,37 +62,9 @@ export class PagePopupShowAllCertificateTransferComponent {
       }
     }
 
-    // Sort the array using the custom comparator function
     this.data.sort(customComparator);
 
     console.log('this.data: ', this.data);
-
-    // {
-    //     source_flock_id: 103210,
-    //     source_farm_name: "אילן רפאל ",
-    //     create_date: "2023-03-06T19:32:55.903",
-    //     grower_comments: null,
-    //     weight: null,
-    //     package_sum: 560,
-    //     chicken_sum_female: 8960,
-    //     contact_mobile_phone: null,
-    //     contact_person_name: null,
-    //     farm_settlement_name: "רמות השבים",
-    //     car_number: 7474552,
-    //     grower_settlement_name: "רמות השבים",
-    //     farm_name: "קליימן יוסף",
-    //     certificate_id: 633569,
-    //     is_deleted: 0,
-    //     chicken_sum_female1: 8960,
-    //     dest_flock_id: 104831,
-    //     source_farm_code: 609,
-    //     farm_id: 256,
-    //     farm_code: 2128,
-    //     grower_name: "קליימן יוסף",
-    //     grower_id: 1456,
-    //     lull2000_code: "02060341",
-    //     dest_flock_id1: 104831,
-    //   }
 
     this.total_chicken_sum = this.data.reduce(
       (sum, obj) => sum + obj.chicken_sum_female,
@@ -86,7 +73,7 @@ export class PagePopupShowAllCertificateTransferComponent {
     console.log(this.total_chicken_sum);
 
     this.total_packege_sum = this.data.reduce(
-      (sum, obj) => sum + obj.package_sum,
+      (sum, obj) => sum + Number(obj.package_sum),
       0
     );
     console.log(this.total_packege_sum);

@@ -161,3 +161,9 @@
     margin-left: 15%;
 }
 
+.not_internal{
+}
+
+.internal{
+    background-color: rgb(233, 154, 154)
+}

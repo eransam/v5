@@ -1159,7 +1159,6 @@
                           </tr>
                         </tbody>
                       </table>
-
                     </div>
                     <!-- טבלת מכסות פטם סיום-->
 
@@ -1942,7 +1941,10 @@
 
                         <th>
                           <div
-                            *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
+                            *ngIf="
+                              this.latestObject_in_array_mifkadim_short
+                                .pr_Datemsira
+                            "
                             style="
                               border-top: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -1951,7 +1953,10 @@
                             "
                           >
                             <th
-                              *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
+                              *ngIf="
+                                this.latestObject_in_array_mifkadim_short
+                                  .pr_Datemsira
+                              "
                               style="cursor: pointer; color: green"
                               (click)="
                                 openPopup_mifkadim_Component(
@@ -1966,7 +1971,10 @@
                             </th>
 
                             <th
-                              *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
+                              *ngIf="
+                                this.latestObject_in_array_mifkadim_short
+                                  .pr_Datemsira
+                              "
                               style="cursor: pointer; color: green"
                               scope="col"
                               (click)="
@@ -1982,7 +1990,10 @@
 
                         <th>
                           <div
-                          *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
+                            *ngIf="
+                              this.latestObject_in_array_pinoyim_short
+                                .pr_Datemsira
+                            "
                             style="
                               border-top: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -1991,7 +2002,10 @@
                             "
                           >
                             <th
-                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
+                              *ngIf="
+                                this.latestObject_in_array_pinoyim_short
+                                  .pr_Datemsira
+                              "
                               style="cursor: pointer; color: green"
                               (click)="
                                 openPopup_pinoyim_Component(
@@ -2046,14 +2060,16 @@
                               class="form-control"
                               [(ngModel)]="selectedObject"
                               (click)="bring_all_flocks()"
-                              (ngModelChange)="onOptionSelected()"
+                              (change)="onOptionSelected($event)"
                             >
                               <option
                                 *ngFor="let item of farm_det_new[0].old_flocks"
                                 [ngValue]="item"
                               >
                                 {{ item.id }} -
-                                {{ item.flock_hatch_date | date : "dd/MM/yyyy" }}
+                                {{
+                                  item.flock_hatch_date | date : "dd/MM/yyyy"
+                                }}
                               </option>
                             </select>
                           </div>
@@ -2098,7 +2114,10 @@
 
                         <td style="width: 100px">
                           <div
-                            *ngIf="this.latestObject_in_array_mifkadim_short.pr_Datemsira"
+                            *ngIf="
+                              this.latestObject_in_array_mifkadim_short
+                                .pr_Datemsira
+                            "
                             style="
                               border-bottom: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -2120,8 +2139,6 @@
                               "
                             >
                               {{
-
-                                
                                 this.latestObject_in_array_mifkadim_short
                                   .pr_Datemsira | date : "dd/MM/yyyy"
                               }}
@@ -2139,7 +2156,10 @@
 
                         <td>
                           <div
-                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
+                            *ngIf="
+                              this.latestObject_in_array_pinoyim_short
+                                .pr_Datemsira
+                            "
                             style="
                               border-bottom: dashed grey 1px;
                               border-right: dashed grey 1px;
@@ -2149,7 +2169,10 @@
                           >
                             <!-- ת.פינוי אחרון -->
                             <td
-                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
+                              *ngIf="
+                                this.latestObject_in_array_pinoyim_short
+                                  .pr_Datemsira
+                              "
                               style="width: 100px"
                               style="cursor: pointer; color: green"
                               (click)="
@@ -2165,9 +2188,13 @@
                             </td>
 
                             <!-- כמות פינוי אחרון -->
-                            <td 
-                            *ngIf="this.latestObject_in_array_pinoyim_short.pr_Datemsira"
-                            style="cursor: pointer; color: green">
+                            <td
+                              *ngIf="
+                                this.latestObject_in_array_pinoyim_short
+                                  .pr_Datemsira
+                              "
+                              style="cursor: pointer; color: green"
+                            >
                               {{ this.array_pinoyim_short[0]?.total_pr_Kamut }}
                             </td>
                           </div>
@@ -2401,7 +2428,7 @@
                       <tr
                         *ngFor="let row of this.farm_det_new[0].msvk_zamud_det"
                       >
-                      <!-- משווק -->
+                        <!-- משווק -->
                         <td style="width: 100px">
                           {{ row.hz_new_msvk }}
                         </td>
@@ -2418,7 +2445,6 @@
                               "
                             >
                               {{ row.hz_WareHouse }}
-
                             </span>
                             <span
                               *ngIf="
@@ -2449,7 +2475,7 @@
 
                         <!-- מתאריך -->
                         <td style="width: 100px">
-                          {{ row.hz_date_hzmd_from  | date : "dd/MM/yyyy"}}
+                          {{ row.hz_date_hzmd_from | date : "dd/MM/yyyy" }}
                         </td>
 
                         <!-- קוד -->
@@ -2471,7 +2497,6 @@
                         <td style="width: 100px">
                           {{ row.hz_Dtupd | date : "dd/MM/yyyy" }}
                         </td>
-
                       </tr>
                     </tbody>
                     <br />

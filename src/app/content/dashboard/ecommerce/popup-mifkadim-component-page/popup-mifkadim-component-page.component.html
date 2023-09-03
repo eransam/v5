@@ -61,6 +61,7 @@
               <div *ngIf="p.expanded">
                 <tr>
                   <td colspan="4">מס מגדל</td>
+                  <td colspan="4">שם מגדל</td>
                   <td colspan="4">תאריך מפקד</td>
                   <td colspan="4">כמות מפקד</td>
                   <td colspan="4">מס להקה</td>
@@ -74,7 +75,11 @@
                   </td>
 
                   <td colspan="4">
-                    {{ p.pr_Datemsira }}
+                    {{ p.yz_shem }}
+                  </td>
+
+                  <td colspan="4">
+                    {{ p.pr_Datemsira | date : "dd/MM/yyyy" }}
                   </td>
 
                   <td colspan="4">

@@ -24,10 +24,16 @@
             <tr>
               <th style="font-weight: bold; text-align: right">תאריך העברה</th>
               <th style="font-weight: bold; text-align: right">מס תעודה</th>
-              <th style="font-weight: bold; text-align: right">מס רישיון משק מקור</th>
+              <th style="font-weight: bold; text-align: right">
+                מס רישיון משק מקור
+              </th>
               <th style="font-weight: bold; text-align: right">שם משק מקור</th>
-              <th style="font-weight: bold; text-align: right">מס להקת משק מקור</th>
-              <th style="font-weight: bold; text-align: right">מס רישיון משק יעד</th>
+              <th style="font-weight: bold; text-align: right">
+                מס להקת משק מקור
+              </th>
+              <th style="font-weight: bold; text-align: right">
+                מס רישיון משק יעד
+              </th>
               <th style="font-weight: bold; text-align: right">שם משק יעד</th>
               <th style="font-weight: bold; text-align: right">ישוב משק יעד</th>
               <th style="font-weight: bold; text-align: right">מס להקת יעד</th>
@@ -69,45 +75,45 @@
           <tbody style="white-space: nowrap">
             <tr *ngFor="let p of data">
               <!-- תאריך העברה -->
-              <td>{{ p.create_date | date : "HH:mm dd/MM/yyyy " }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                {{ p.create_date | date : "HH:mm dd/MM/yyyy " }}
+              </td>
 
               <!-- >מס תעודה< -->
-              <td>{{ p.certificate_id }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.certificate_id }}</td>
 
               <!-- מס רישיון משק מקור -->
-              <td>{{ p.source_farm_code }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.source_farm_code }}</td>
 
               <!-- שם משק מקור -->
-              <td>{{ p.source_farm_name }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.source_farm_name }}</td>
 
               <!-- מס להקת מקור -->
-              <td>{{ p.source_flock_id }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.source_flock_id }}</td>
 
               <!-- מס רישיון משק יעד -->
-              <td>{{ p.farm_code }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.farm_code }}</td>
 
               <!-- >שם משק יעד -->
-              <td>{{ p.farm_name }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.farm_name }}</td>
 
               <!-- >ישוב משק יעד -->
-              <td>{{ p.farm_settlement_name }}</td>
-
-
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.farm_settlement_name }}</td>
 
               <!-- מס להקת יעד -->
-              <td>{{ p.dest_flock_id }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.dest_flock_id }}</td>
 
               <!-- מס מגדל יעד -->
-              <td>{{ p.lull2000_code }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.lull2000_code }}</td>
 
               <!-- שם מגדל יעד -->
-              <td>{{ p.grower_name }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.grower_name }}</td>
 
               <!-- כלובים -->
-              <td>{{ p.package_sum | number : "0.0" }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.package_sum | number : "0.0" }}</td>
 
               <!-- >כמות עופות -->
-              <td>{{ p.chicken_sum_female | number : "0.0" }}</td>
+              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.chicken_sum_female | number : "0.0" }}</td>
             </tr>
             <tr>
               <td>סה''כ:</td>
@@ -127,12 +133,15 @@
               <td></td>
 
               <td></td>
+              <td></td>
+
+              <td></td>
 
               <td>
-                {{ total_packege_sum | number : "0.0"}}
+                {{ total_packege_sum | number : "0.0" }}
               </td>
               <td>
-                {{ total_chicken_sum | number : "0.0"}}
+                {{ total_chicken_sum | number : "0.0" }}
               </td>
             </tr>
           </tbody>
