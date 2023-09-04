@@ -2043,8 +2043,6 @@
                           : 'not_avtice_flock'
                       ]"
                     >
-
-                    
                       <tr *ngFor="let row of this.farm_det_new">
                         <!--  מס להקה - תאריך בקיעה -->
                         <td
@@ -2056,12 +2054,11 @@
                             padding-left: 39px !important;
                           "
                         >
-                          <div class="form-group">
+                          <div class="form-group" (click)="bring_all_flocks()">
                             <select
                               style="font-size: 20px; font-weight: 700"
                               class="form-control"
                               [(ngModel)]="selectedObject"
-                              (click)="bring_all_flocks()"
                               (change)="onOptionSelected($event)"
                             >
                               <option

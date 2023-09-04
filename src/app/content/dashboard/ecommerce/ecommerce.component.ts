@@ -2074,8 +2074,8 @@ export class EcommerceComponent implements OnInit {
           console.log(old_flocks);
 
           old_flocks.sort((a, b) => {
-            const dateA = new Date(a.date_created);
-            const dateB = new Date(b.date_created);
+            const dateA = new Date(a.flock_hatch_date);
+            const dateB = new Date(b.flock_hatch_date);
 
             // Compare the dates
             if (dateA < dateB) {
@@ -2122,8 +2122,11 @@ export class EcommerceComponent implements OnInit {
       console.log('end oninit');
     });
   }
-
+  isFirstClick = true;
   async bring_all_flocks() {
+    if (this.isFirstClick) {
+
+  
     var old_flocks =
       await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
         this.farm_det_new[0]?.farm_id
@@ -2131,8 +2134,8 @@ export class EcommerceComponent implements OnInit {
 
     console.log(old_flocks);
     old_flocks.sort((a, b) => {
-      const dateA = new Date(a.date_created);
-      const dateB = new Date(b.date_created);
+      const dateA = new Date(a.flock_hatch_date);
+      const dateB = new Date(b.flock_hatch_date);
 
       // Compare the dates
       if (dateA < dateB) {
@@ -2143,7 +2146,12 @@ export class EcommerceComponent implements OnInit {
       }
       return 0;
     });
+
+    console.log(old_flocks);
+
     this.farm_det_new[0].old_flocks = old_flocks;
+    this.isFirstClick = false;
+}
   }
 
   async onOptionSelected(event: any) {
@@ -2455,8 +2463,7 @@ export class EcommerceComponent implements OnInit {
         this.farm_det_new[0].flock_num = get_flock_ages_by_flock_id[0].id;
 
         // תאריך איכלוס
-        this.farm_det_new[0].
-        first_hiclos =
+        this.farm_det_new[0].first_hiclos =
           get_flock_ages_by_flock_id[0].minDate_hiclos;
 
         //  סטטוס
@@ -3284,8 +3291,8 @@ export class EcommerceComponent implements OnInit {
 
         console.log(old_flocks);
         old_flocks.sort((a, b) => {
-          const dateA = new Date(a.date_created);
-          const dateB = new Date(b.date_created);
+          const dateA = new Date(a.flock_hatch_date);
+          const dateB = new Date(b.flock_hatch_date);
 
           // Compare the dates
           if (dateA < dateB) {
