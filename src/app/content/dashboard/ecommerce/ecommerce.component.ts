@@ -2125,36 +2125,36 @@ export class EcommerceComponent implements OnInit {
   isFirstClick = true;
   async bring_all_flocks() {
     if (this.isFirstClick) {
+      var old_flocks =
+        await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
+          this.farm_det_new[0]?.farm_id
+        );
 
-  
-    var old_flocks =
-      await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
-        this.farm_det_new[0]?.farm_id
-      );
+      console.log(old_flocks);
+      old_flocks.sort((a, b) => {
+        const dateA = new Date(a.flock_hatch_date);
+        const dateB = new Date(b.flock_hatch_date);
 
-    console.log(old_flocks);
-    old_flocks.sort((a, b) => {
-      const dateA = new Date(a.flock_hatch_date);
-      const dateB = new Date(b.flock_hatch_date);
+        // Compare the dates
+        if (dateA < dateB) {
+          return 1;
+        }
+        if (dateA > dateB) {
+          return -1;
+        }
+        return 0;
+      });
 
-      // Compare the dates
-      if (dateA < dateB) {
-        return 1;
-      }
-      if (dateA > dateB) {
-        return -1;
-      }
-      return 0;
-    });
+      console.log(old_flocks);
 
-    console.log(old_flocks);
-
-    this.farm_det_new[0].old_flocks = old_flocks;
-    this.isFirstClick = false;
-}
+      this.farm_det_new[0].old_flocks = old_flocks;
+      this.isFirstClick = false;
+    }
   }
 
   async onOptionSelected(event: any) {
+    this.latestObject_in_array_pinoyim_short = [];
+    this.latestObject_in_array_mifkadim_short = [];
     console.log('Selected object:', this.selectedObject);
 
     // הוספת מפקדים
@@ -2181,43 +2181,27 @@ export class EcommerceComponent implements OnInit {
         }
         return result;
       }, {});
-      
 
       console.log(this.array_mifkadim_short);
       this.array_mifkadim_short = Object.values(this.array_mifkadim_short);
       console.log(this.array_mifkadim_short);
 
-      // משתנה המכיל את המפקד האחרון המקוצר
-    //   const latestObject = this.array_mifkadim_short.reduce(
-    //     (latest, currentItem) => {
-    //       const currentDate = new Date(currentItem.pr_Datemsira);
-    //       const latestDate = new Date(latest.pr_Datemsira);
-
-    //       return currentDate > latestDate ? currentItem : latest;
-    //     },
-    //     this.array_mifkadim_short[0]
-    //   );
-
-    //   this.latestObject_in_array_mifkadim_short = latestObject;
-
-
-
-
       // Check if the array is not empty
-if (this.array_mifkadim_short.length > 0) {
-    // Use reduce to find the object with the largest pr_Datemsira
-    const latestObject = this.array_mifkadim_short.reduce((latest, currentItem) => {
-      const currentDate = new Date(currentItem.pr_Datemsira);
-      const latestDate = new Date(latest.pr_Datemsira);
-  
-      return currentDate > latestDate ? currentItem : latest;
-    });
-  
-    // Now, latestObject contains the object with the largest pr_Datemsira
-    console.log(latestObject);
-    this.latestObject_in_array_mifkadim_short = latestObject
+      if (this.array_mifkadim_short.length > 0) {
+        // Use reduce to find the object with the largest pr_Datemsira
+        const latestObject = this.array_mifkadim_short.reduce(
+          (latest, currentItem) => {
+            const currentDate = new Date(currentItem.pr_Datemsira);
+            const latestDate = new Date(latest.pr_Datemsira);
 
-  }
+            return currentDate > latestDate ? currentItem : latest;
+          }
+        );
+
+        // Now, latestObject contains the object with the largest pr_Datemsira
+        console.log(latestObject);
+        this.latestObject_in_array_mifkadim_short = latestObject;
+      }
 
       //   מפתקדים טוטל כמות מקוצרים
       console.log(this.array_mifkadim_short);
