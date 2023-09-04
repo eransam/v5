@@ -2169,32 +2169,55 @@ export class EcommerceComponent implements OnInit {
     if (mifkadim.length > 0) {
       // יצירת מערך מפקדים מקוצר עם טוטל כמות פר מפקד
       this.array_mifkadim_short = mifkadim.reduce((result, currentItem) => {
-        if (!result[0]) {
-          result.push({
-            Mifkad_id: currentItem.Mifkad_id,
-            total_pr_Kamut: currentItem.pr_Kamut,
-            pr_Datemsira: currentItem.pr_Datemsira,
-          });
+        const { Mifkad_id, pr_Kamut, pr_Datemsira } = currentItem;
+        if (!result[Mifkad_id]) {
+          result[Mifkad_id] = {
+            Mifkad_id,
+            total_pr_Kamut: pr_Kamut,
+            pr_Datemsira,
+          };
         } else {
-          result[0].total_pr_Kamut += currentItem.pr_Kamut;
+          result[Mifkad_id].total_pr_Kamut += pr_Kamut;
         }
         return result;
-      }, []);
+      }, {});
+      
 
+      console.log(this.array_mifkadim_short);
+      this.array_mifkadim_short = Object.values(this.array_mifkadim_short);
       console.log(this.array_mifkadim_short);
 
       // משתנה המכיל את המפקד האחרון המקוצר
-      const latestObject = this.array_mifkadim_short.reduce(
-        (latest, currentItem) => {
-          const currentDate = new Date(currentItem.pr_Datemsira);
-          const latestDate = new Date(latest.pr_Datemsira);
+    //   const latestObject = this.array_mifkadim_short.reduce(
+    //     (latest, currentItem) => {
+    //       const currentDate = new Date(currentItem.pr_Datemsira);
+    //       const latestDate = new Date(latest.pr_Datemsira);
 
-          return currentDate > latestDate ? currentItem : latest;
-        },
-        this.array_mifkadim_short[0]
-      );
+    //       return currentDate > latestDate ? currentItem : latest;
+    //     },
+    //     this.array_mifkadim_short[0]
+    //   );
 
-      this.latestObject_in_array_mifkadim_short = latestObject;
+    //   this.latestObject_in_array_mifkadim_short = latestObject;
+
+
+
+
+      // Check if the array is not empty
+if (this.array_mifkadim_short.length > 0) {
+    // Use reduce to find the object with the largest pr_Datemsira
+    const latestObject = this.array_mifkadim_short.reduce((latest, currentItem) => {
+      const currentDate = new Date(currentItem.pr_Datemsira);
+      const latestDate = new Date(latest.pr_Datemsira);
+  
+      return currentDate > latestDate ? currentItem : latest;
+    });
+  
+    // Now, latestObject contains the object with the largest pr_Datemsira
+    console.log(latestObject);
+    this.latestObject_in_array_mifkadim_short = latestObject
+
+  }
 
       //   מפתקדים טוטל כמות מקוצרים
       console.log(this.array_mifkadim_short);
