@@ -1612,9 +1612,16 @@ export class EcommerceComponent implements OnInit {
         // הוספת הצמדות
         for (let obj of this.farm_det_new) {
           var msvk_zamud =
-            await this.megadelSearchService.get_meshavek_tzamod_more_details(
-              this.userDetails[0].v_yzrn
+            await this.megadelSearchService.get_meshavek_tzamod_more_details_by_farm_id(
+              obj.farm_id
             );
+
+          if (msvk_zamud.length === 0) {
+            msvk_zamud =
+              await this.megadelSearchService.get_meshavek_tzamod_more_details(
+                this.userDetails[0].v_yzrn
+              );
+          }
 
           console.log(msvk_zamud);
 
@@ -2448,9 +2455,11 @@ export class EcommerceComponent implements OnInit {
         this.farm_det_new[0].flock_num = get_flock_ages_by_flock_id[0].id;
 
         // תאריך איכלוס
-        this.farm_det_new[0].minDate_hiclos =
-          get_flock_ages_by_flock_id[0].minDate_first_hiclos;
-        // תאריך איכלוס
+        this.farm_det_new[0].
+        first_hiclos =
+          get_flock_ages_by_flock_id[0].minDate_hiclos;
+
+        //  סטטוס
         this.farm_det_new[0].flock_status_id =
           get_flock_ages_by_flock_id[0].flock_status_id;
 
@@ -2696,9 +2705,16 @@ export class EcommerceComponent implements OnInit {
       // הוספת הצמדות
       for (let obj of this.farm_det_new) {
         var msvk_zamud =
-          await this.megadelSearchService.get_meshavek_tzamod_more_details(
-            this.userDetails[0].v_yzrn
+          await this.megadelSearchService.get_meshavek_tzamod_more_details_by_farm_id(
+            obj.farm_id
           );
+
+        if (msvk_zamud.length === 0) {
+          msvk_zamud =
+            await this.megadelSearchService.get_meshavek_tzamod_more_details(
+              this.userDetails[0].v_yzrn
+            );
+        }
 
         console.log(msvk_zamud);
 
@@ -4405,11 +4421,20 @@ export class EcommerceComponent implements OnInit {
 
   async hazmadot_history(farm_id: any) {
     console.log(farm_id);
+
     // הוספת הצמדות
+
     var history =
-      await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
-        this.userDetails[0].v_yzrn
+      await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id(
+        farm_id.farm_id
       );
+
+    if (history.length === 0) {
+      history =
+        await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
+          this.userDetails[0].v_yzrn
+        );
+    }
 
     console.log(history);
     localStorage.setItem('hazmadot_history', JSON.stringify(history));
