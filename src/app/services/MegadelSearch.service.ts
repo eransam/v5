@@ -12,24 +12,24 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
-  async history_get_meshavek_tzamod_more_details(farm_id: any): Promise<any[]> {
-    console.log(farm_id);
+  async history_get_meshavek_tzamod_more_details(hz_Yzrn: any): Promise<any[]> {
+    console.log(hz_Yzrn);
 
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/history_get_meshavek_tzamod_more_details?farm_id=${farm_id}`
+        `${environment.apiPath}growerService.asmx/history_get_meshavek_tzamod_more_details?hz_Yzrn=${hz_Yzrn}`
       )
     );
     console.log('item: ', item);
     return item;
   }
 
-  async get_meshavek_tzamod_more_details(farm_id: any): Promise<any[]> {
-    console.log(farm_id);
+  async get_meshavek_tzamod_more_details(hz_Yzrn: any): Promise<any[]> {
+    console.log(hz_Yzrn);
 
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_meshavek_tzamod_more_details?farm_id=${farm_id}`
+        `${environment.apiPath}growerService.asmx/get_meshavek_tzamod_more_details?hz_Yzrn=${hz_Yzrn}`
       )
     );
     console.log('item: ', item);

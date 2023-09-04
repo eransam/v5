@@ -24,39 +24,30 @@ export class HazmadotHistoryPageComponent {
 
   async ngOnInit() {
     console.log('test');
-    // data[data.length - 1].newArrayEnd
-    // const uniqueArr: number[] = [...new Set(data)];
     this.data = JSON.parse(localStorage.getItem('hazmadot_history'));
     console.log(this.data);
 
+    // מוציא אובייקטים משוכפלים מהמערך
     const uniqueArr: any[] = [
       ...new Set(this.data[this.data.length - 1].newArrayEnd),
     ];
     this.data[this.data.length - 1].newArrayEnd = uniqueArr;
 
-    // Custom comparator function for sorting based on 'is_main_grower'
-    function customComparator(a: any, b: any) {
-      if (a.is_main_grower === 1 && b.is_main_grower === 0) {
-        return -1; // a should come before b
-      } else if (a.is_main_grower === 0 && b.is_main_grower === 1) {
-        return 1; // b should come before a
-      } else {
-        return 0; // Leave them in the same order as they are (maintain stability)
-      }
-    }
-
-    // Sort the array using the custom comparator function
-    this.data.sort(customComparator);
-
     console.log('this.data: ', this.data);
 
+    this.data.sort((a, b) => {
+        const dateA:any = new Date(a.hz_date_hzmd_from);
+        const dateB:any = new Date(b.hz_date_hzmd_from);
+      
+        return dateB - dateA;
+      });
+
+      console.log('this.data: ', this.data);
 
 
+    // לוגיקת אקסל
     const selectedFieldsArray = this.data.map((item) => {
       return {
-
-
-
         hz_WareHouse: item.hz_WareHouse,
         hz_msvk_nosaf: item.hz_msvk_nosaf,
         hz_date_hzmd_from: item.hz_date_hzmd_from,
@@ -70,10 +61,6 @@ export class HazmadotHistoryPageComponent {
 
       };
     });
-
-    console.log(selectedFieldsArray);
-
-
     const fieldTitleMapping = {
         hz_WareHouse: 'שיווק במחסן',
         hz_msvk_nosaf: 'משווק נוסף',
@@ -99,7 +86,9 @@ export class HazmadotHistoryPageComponent {
 
     console.log(this.transformedData);
   }
+//////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
 
+// פונ הורדה לאקסל
   getExcelData(): void {
     this.tableexcelService.exportAsExcelFile(
       this.transformedData,

@@ -1613,7 +1613,7 @@ export class EcommerceComponent implements OnInit {
         for (let obj of this.farm_det_new) {
           var msvk_zamud =
             await this.megadelSearchService.get_meshavek_tzamod_more_details(
-              obj.farm_id
+              this.userDetails[0].v_yzrn
             );
 
           console.log(msvk_zamud);
@@ -2149,8 +2149,7 @@ export class EcommerceComponent implements OnInit {
         this.selectedObject.farm_id
       );
 
-      console.log(mifkadim);
-      
+    console.log(mifkadim);
 
     if (mifkadim.length > 0) {
       // יצירת מערך מפקדים מקוצר עם טוטל כמות פר מפקד
@@ -2698,7 +2697,7 @@ export class EcommerceComponent implements OnInit {
       for (let obj of this.farm_det_new) {
         var msvk_zamud =
           await this.megadelSearchService.get_meshavek_tzamod_more_details(
-            obj.farm_id
+            this.userDetails[0].v_yzrn
           );
 
         console.log(msvk_zamud);
@@ -4409,7 +4408,7 @@ export class EcommerceComponent implements OnInit {
     // הוספת הצמדות
     var history =
       await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
-        farm_id.farm_id
+        this.userDetails[0].v_yzrn
       );
 
     console.log(history);
