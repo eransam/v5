@@ -95,7 +95,7 @@
                 </td>
                 <!-- >כמות עופות< -->
                 <td>
-                  {{ p.chicken_sum_female + p.chicken_sum + mixed_sum }}
+                  {{ p.chicken_sum_female + p.chicken_sum + mixed_sum | number : "1.0-0" }}
                 </td>
 
                 <!-- <td>
@@ -248,7 +248,7 @@
 
                 <!-- >כמות עופות -->
                 <td>
-                  {{ p.chicken_sum_female }}
+                  {{ p.chicken_sum_female | number : "1.0-0"}}
                 </td>
 
                 <!-- <td>
@@ -283,12 +283,13 @@
                 <td></td>
 
                 <td></td>
+                <td></td>
 
                 <td>
-                  {{ total_packege_sum }}
+                  {{ total_packege_sum | number : "1.0-0"}}
                 </td>
                 <td>
-                  {{ total_chicken_sum }}
+                  {{ total_chicken_sum | number : "1.0-0"}}
                 </td>
               </tr>
             </tbody>

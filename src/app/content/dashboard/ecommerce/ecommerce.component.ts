@@ -2632,6 +2632,7 @@ export class EcommerceComponent implements OnInit {
 
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר
   async get_more_farm_det_by_farm_num(farm_num: any) {
+    this.isFirstClick = true;
     console.log(farm_num);
     this.latestObject_in_array_mifkadim_short = [];
     var newVariable;

@@ -10,9 +10,13 @@ import { TableexcelService } from '../../../../services/tableexcel.service';
   styleUrls: ['./page-popup-show-all-certificate-transfer.component.css'],
 })
 export class PagePopupShowAllCertificateTransferComponent {
+    sumsByFarmNum:any
+    currentPage = 1;
+    itemsPerPage = 20;
   userTypeID;
   certificateSum = 0;
   data: any[];
+  farmTotals: Record<string, { total_package_sum: number, total_chicken_sum_female: number }> = {};
   total_chicken_sum: any = 0;
   transformedData: any[];
   total_packege_sum: any = 0;
@@ -25,12 +29,12 @@ export class PagePopupShowAllCertificateTransferComponent {
   }
 
   async ngOnInit() {
+   
     console.log('test');
     // data[data.length - 1].newArrayEnd
     // const uniqueArr: number[] = [...new Set(data)];
     this.data = JSON.parse(localStorage.getItem('this.all_certificate_det'));
     console.log(this.data);
-
     // const uniqueArr: any[] = [...new Set(this.data)];
     // this.data = uniqueArr;
 
@@ -126,6 +130,66 @@ console.log(this.data);
     });
 
     console.log(this.transformedData);
+    this.calculateSums();
+  }
+  getPaginatedData() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.data.slice(startIndex, endIndex);
+  }
+
+
+  calculateSums(): void {
+    this.sumsByFarmNum = this.data.reduce((sums, item) => {
+      const { 
+        farm_code, chicken_sum_female } = item;
+
+      // If the farm_code is already in the sums object, add count_f to it
+      if (sums[
+        farm_code]) {
+        sums[
+            farm_code] += chicken_sum_female;
+      } else {
+        // If the farm_code is not in the sums object, initialize it with count_f
+        sums[
+            farm_code] = chicken_sum_female;
+      }
+
+      return sums;
+    }, {});
+  }
+
+  
+
+  setPage(page: number) {
+    this.currentPage = page;
+  }
+  calculateSummary() {
+    const paginatedData = this.getPaginatedData();
+    const total_packege_sum = paginatedData.reduce((total, item) => total + item.package_sum, 0);
+    const total_chicken_sum = paginatedData.reduce((total, item) => total + item.chicken_sum_female, 0);
+    return { total_packege_sum, total_chicken_sum };
+  }
+  getTotalPages() {
+    return Math.ceil(this.data.length / this.itemsPerPage);
+  }
+
+  calculateFarmTotals() {
+    this.farmTotals = {};
+    this.data.forEach(item => {
+      const farmCode = item.farm_code;
+      if (!this.farmTotals[farmCode]) {
+        this.farmTotals[farmCode] = {
+          total_package_sum: 0,
+          total_chicken_sum_female: 0
+        };
+      }
+      this.farmTotals[farmCode].total_package_sum += item.package_sum;
+      this.farmTotals[farmCode].total_chicken_sum_female += item.chicken_sum_female;
+    });
+  }
+  getObjectKeys(obj: any) {
+    return Object.keys(obj);
   }
 
   getExcelData(): void {
