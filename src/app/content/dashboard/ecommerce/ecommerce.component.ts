@@ -455,6 +455,11 @@ export class EcommerceComponent implements OnInit {
         this.idFromurl
       );
 
+            //   מכיל את מס כמות האתרים
+            this.length_of_total_site = this.farm_start_det.length;
+
+
+
       // הוספת מספרי להקה
       for (let obj of this.farm_start_det) {
         if (obj.code.toString().includes('/')) {
@@ -483,11 +488,6 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
-      console.log(this.farm_start_det);
-
-      //   מכיל את מס כמות האתרים
-      this.length_of_total_site = this.farm_start_det.length;
-
       //   הוספת שם יצרן ללולי מחיצה ראשיים שאין להם שם מגדל
       for (let obj of this.farm_start_det) {
         if (obj.name === null) {
@@ -504,6 +504,15 @@ export class EcommerceComponent implements OnInit {
           obj.shloha_name = shloha_name;
         }
       }
+
+
+
+
+
+
+
+
+      
 
       //   מיון האתרים במערך לפי פעילים לא פעילים
       this.farm_start_det.sort((a, b) => {
@@ -2124,6 +2133,7 @@ export class EcommerceComponent implements OnInit {
   }
   isFirstClick = true;
   async bring_all_flocks() {
+
     if (this.isFirstClick) {
       var old_flocks =
         await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
@@ -2153,6 +2163,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   async onOptionSelected(event: any) {
+    this.isLoading_FarmDetails = true;
     this.latestObject_in_array_pinoyim_short = [];
     this.latestObject_in_array_mifkadim_short = [];
     console.log('Selected object:', this.selectedObject);
@@ -2436,7 +2447,6 @@ export class EcommerceComponent implements OnInit {
 
         // חילוץ כמות איכלוס פר אתר
         get_flock_ages_by_flock_id[0].count_hiclos_total_site = count_hiclos;
-        get_flock_ages_by_flock_id[0].count_hiclos_total_site;
 
         //   מפקדים
         get_flock_ages_by_flock_id[0].mifkadim = mifkadim;
@@ -2477,9 +2487,14 @@ export class EcommerceComponent implements OnInit {
         this.farm_det_new[0].flock_status_id =
           get_flock_ages_by_flock_id[0].flock_status_id;
 
+        //  איכלוס
+        this.farm_det_new[0].count_hiclos_total_site =
+          get_flock_ages_by_flock_id[0].count_hiclos_total_site;
+          
         console.log(this.farm_det_new);
       }
     }
+    this.isLoading_FarmDetails = false;
   }
 
   async alarm_func() {
@@ -2639,9 +2654,11 @@ export class EcommerceComponent implements OnInit {
 
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר
   async get_more_farm_det_by_farm_num(farm_num: any) {
+    this.isLoading_FarmDetails = true;
     this.isFirstClick = true;
     console.log(farm_num);
     this.latestObject_in_array_mifkadim_short = [];
+    this.latestObject_in_array_pinoyim_short = {};
     var newVariable;
 
     if (farm_num.toString().includes('/')) {
@@ -3332,6 +3349,8 @@ export class EcommerceComponent implements OnInit {
         );
       console.log(this.quarantine);
     }
+    this.isLoading_FarmDetails = false;
+
   }
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר - סיום
 
@@ -3674,10 +3693,12 @@ export class EcommerceComponent implements OnInit {
     // הוצאת הכותרת של השלוחה
     this.shloha_tatle = this.getCategoryLabel(this.selectedCategory);
 
+    // הבאת כל אתרי השלוחה הנבחרה
     var value = [];
     value = this.categorizedArrays[category];
     this.farm_start_det = value;
 
+    // חילוץ מס אתר ראשון כדי להציג את המידע המורחב שלו בהתחלה
     this.the_chosen_farm = this.farm_start_det[0]?.code;
 
     this.isLoading_short_site = false;
@@ -3690,6 +3711,7 @@ export class EcommerceComponent implements OnInit {
       newVariable = this.the_chosen_farm;
     }
 
+    // חילוץ מס המגדל 
     var growerId = await this.megadelSearchService.get_growerId_By_code_atar(
       newVariable
     );
@@ -3699,6 +3721,7 @@ export class EcommerceComponent implements OnInit {
           growerId[0]?.grower_id
         );
 
+        // חילוץ פרטים מורחבים של האתר הנבחר ההתחלתי
       this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
         growerId_and_grower_num[0]?.grower_id,
         newVariable
@@ -4436,21 +4459,46 @@ export class EcommerceComponent implements OnInit {
 
   async hazmadot_history(farm_id: any) {
     console.log(farm_id);
+    if (farm_id.
+        belonging_group_id_oshik === 20) {
+            farm_id.
+            belonging_group_id_oshik = 30
+    }
 
-    // הוספת הצמדות
 
-    var history_site_0 =
+        var history_by_farm_id =
       await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id(
         
         farm_id.farm_id
       );
 
-    var history =
-      await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id_and_atar_0(
-        this.userDetails[0].v_yzrn
-      );
 
-    history = [...history, ...history_site_0];
+    var history_by_growerNum_and_tzrt =
+    await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_growerNum_and_tzrt(
+        this.userDetails[0].v_yzrn,
+      farm_id.belonging_group_id_oshik
+    );
+
+
+     var all_history = [...history_by_farm_id, ...history_by_growerNum_and_tzrt];
+
+    // הוספת הצמדות
+
+    // var history_site_0 =
+    //   await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id(
+        
+    //     farm_id.farm_id
+    //   );
+
+    // var history =
+    //   await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id_and_atar_0(
+    //     this.userDetails[0].v_yzrn
+    //   );
+
+    // history = [...history, ...history_site_0];
+
+
+    // ------------------------------------------------------------------------------------------------------------------
 
     // if (history.length === 0) {
     //   history =
@@ -4459,8 +4507,8 @@ export class EcommerceComponent implements OnInit {
     //     );
     // }
 
-    console.log(history);
-    localStorage.setItem('hazmadot_history', JSON.stringify(history));
+    console.log(all_history);
+    localStorage.setItem('hazmadot_history', JSON.stringify(all_history));
     const baseUrl = this.environmentService.getBaseUrl();
     const path2 = '#/dashboard/HazmadotHistoryPageComponent';
     var newWindow = window.open(`${baseUrl}${path2}`, '_blank');
