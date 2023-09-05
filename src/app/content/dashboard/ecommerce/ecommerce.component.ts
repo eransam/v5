@@ -455,10 +455,8 @@ export class EcommerceComponent implements OnInit {
         this.idFromurl
       );
 
-            //   מכיל את מס כמות האתרים
-            this.length_of_total_site = this.farm_start_det.length;
-
-
+      //   מכיל את מס כמות האתרים
+      this.length_of_total_site = this.farm_start_det.length;
 
       // הוספת מספרי להקה
       for (let obj of this.farm_start_det) {
@@ -504,15 +502,6 @@ export class EcommerceComponent implements OnInit {
           obj.shloha_name = shloha_name;
         }
       }
-
-
-
-
-
-
-
-
-      
 
       //   מיון האתרים במערך לפי פעילים לא פעילים
       this.farm_start_det.sort((a, b) => {
@@ -627,12 +616,11 @@ export class EcommerceComponent implements OnInit {
         this.groupedArray[22].forEach((obj) => {
           uniqueTzrtSet.add(obj.code);
         });
-
         // הופכים את הסט למערך
         const uniqueTzrtArray = Array.from(uniqueTzrtSet);
         console.log(uniqueTzrtArray);
 
-        // משתנה המכיל את מספרי אתרי השותפות
+        // משתנה המכיל את מספרי אתרי השותפות פטם הודים
         this.site_partners_hodim_pitom = uniqueTzrtArray;
         console.log(this.site_partners_hodim_pitom);
         if (!this.keys_of_categorizedArrays.includes('22')) {
@@ -1476,6 +1464,9 @@ export class EcommerceComponent implements OnInit {
             growerId_and_grower_num[0]?.grower_id,
             newVariable
           );
+
+          this.farm_det_new[0].farm_num = Number(this.farm_start_det[0]?.code);
+
           for (let obj of this.farm_det_new) {
             for (let key in obj) {
               if (obj[key] === null) {
@@ -2133,7 +2124,6 @@ export class EcommerceComponent implements OnInit {
   }
   isFirstClick = true;
   async bring_all_flocks() {
-
     if (this.isFirstClick) {
       var old_flocks =
         await this.megadelSearchService.get_old_flocks_by_siteId_and_growerId(
@@ -2289,9 +2279,6 @@ export class EcommerceComponent implements OnInit {
     //   מפקדים
     get_flock_ages_by_flock_id[0].mifkadim = mifkadim;
 
-    //   מפקדים
-    get_flock_ages_by_flock_id[0].mifkadim = mifkadim;
-
     //   פינויים
     get_flock_ages_by_flock_id[0].pinoyim = get_pinoyim;
 
@@ -2302,7 +2289,9 @@ export class EcommerceComponent implements OnInit {
     get_flock_ages_by_flock_id[0].farm_id = this.selectedObject.farm_id;
 
     // מס אתר
-    get_flock_ages_by_flock_id[0].farm_num = this.farm_det_new[0].farm_num;
+    get_flock_ages_by_flock_id[0].farm_num = Number(
+      this.farm_det_new[0].farm_num
+    );
 
     if (get_flock_ages_by_flock_id[0].farm_num.toString().includes('/')) {
       var newVariable = get_flock_ages_by_flock_id[0].farm_num.split('/')[0];
@@ -2490,7 +2479,7 @@ export class EcommerceComponent implements OnInit {
         //  איכלוס
         this.farm_det_new[0].count_hiclos_total_site =
           get_flock_ages_by_flock_id[0].count_hiclos_total_site;
-          
+
         console.log(this.farm_det_new);
       }
     }
@@ -2821,8 +2810,8 @@ export class EcommerceComponent implements OnInit {
       }
 
       console.log(this.farm_det_new);
-
-      const maxDateObject = mifkadim.reduce((prev, current) => {
+if(mifkadim){
+    const maxDateObject = mifkadim.reduce((prev, current) => {
         const prevDate = new Date(prev.pr_Datemsira).getTime();
         const currentDate = new Date(current.pr_Datemsira).getTime();
         return prevDate > currentDate ? prev : current;
@@ -2834,6 +2823,8 @@ export class EcommerceComponent implements OnInit {
       const objectsToShow = mifkadim.filter((item) => item !== maxDateObject);
       // מביא את משתנה לתחילת המערך - unshift
       objectsToShow.unshift(maxDateObject);
+}
+
 
       console.log(this.farm_det_new);
       //   הוספת מספר מבנים
@@ -3350,7 +3341,6 @@ export class EcommerceComponent implements OnInit {
       console.log(this.quarantine);
     }
     this.isLoading_FarmDetails = false;
-
   }
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר - סיום
 
@@ -3645,6 +3635,7 @@ export class EcommerceComponent implements OnInit {
   }
 
   async selectCategory(category: string) {
+    this.isFirstClick = true;
     // במידה והשלוחה היא לא שלוחת הטלה
     if (category !== '20') {
       // נבדוק מכסות פטם
@@ -3711,7 +3702,7 @@ export class EcommerceComponent implements OnInit {
       newVariable = this.the_chosen_farm;
     }
 
-    // חילוץ מס המגדל 
+    // חילוץ מס המגדל
     var growerId = await this.megadelSearchService.get_growerId_By_code_atar(
       newVariable
     );
@@ -3721,7 +3712,7 @@ export class EcommerceComponent implements OnInit {
           growerId[0]?.grower_id
         );
 
-        // חילוץ פרטים מורחבים של האתר הנבחר ההתחלתי
+      // חילוץ פרטים מורחבים של האתר הנבחר ההתחלתי
       this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
         growerId_and_grower_num[0]?.grower_id,
         newVariable
@@ -3790,6 +3781,29 @@ export class EcommerceComponent implements OnInit {
       for (let obj of this.farm_det_new) {
         var zan_num = obj.zan_det[0].number;
         obj.micsat_pargiot = this.totalMicsaKvoha / zan_num;
+      }
+
+      // הוספת הצמדות
+      for (let obj of this.farm_det_new) {
+        var msvk_zamud =
+          await this.megadelSearchService.get_meshavek_tzamod_more_details_by_farm_id(
+            obj.farm_id
+          );
+
+        if (msvk_zamud.length === 0) {
+          msvk_zamud =
+            await this.megadelSearchService.get_meshavek_tzamod_more_details(
+              this.userDetails[0].v_yzrn
+            );
+        }
+
+        console.log(msvk_zamud);
+
+        if (msvk_zamud[0]) {
+          obj.msvk_zamud_det = msvk_zamud;
+        } else {
+          obj.msvk_zamud_det = '';
+        }
       }
 
       //   הוספת תאריך מפקדים
@@ -4101,6 +4115,40 @@ export class EcommerceComponent implements OnInit {
       }
 
       console.log(this.farm_det_new);
+
+      var old_flocks =
+        await this.megadelSearchService.top_1_get_old_flocks_by_siteId_and_growerId(
+          this.farm_det_new[0]?.farm_id
+        );
+
+      console.log(old_flocks);
+
+      old_flocks.sort((a, b) => {
+        const dateA = new Date(a.flock_hatch_date);
+        const dateB = new Date(b.flock_hatch_date);
+
+        // Compare the dates
+        if (dateA < dateB) {
+          return 1;
+        }
+        if (dateA > dateB) {
+          return -1;
+        }
+        return 0;
+      });
+
+      console.log(old_flocks);
+
+      this.farm_det_new[0].old_flocks = old_flocks;
+
+      console.log(this.farm_det_new);
+
+      this.selectedObject = this.farm_det_new[0].old_flocks.find(
+        (item) => item.flock_status_id === 1
+      );
+
+      console.log(this.selectedObject);
+
       this.isLoading_FarmDetails = false;
       //טוטל איכלוס פרגיות
       for (let obj of this.farm_det_new) {
@@ -4459,53 +4507,35 @@ export class EcommerceComponent implements OnInit {
 
   async hazmadot_history(farm_id: any) {
     console.log(farm_id);
-    if (farm_id.
-        belonging_group_id_oshik === 20) {
-            farm_id.
-            belonging_group_id_oshik = 30
+
+    // הטלה
+    if (farm_id.belonging_group_id_oshik === 20) {
+      farm_id.belonging_group_id_oshik = 30;
     }
 
+    // הודים
+    if (farm_id.belonging_group_id_oshik === 22) {
+      farm_id.belonging_group_id_oshik = 1;
+    }
+    //   פיטום
+    if (farm_id.belonging_group_id_oshik === 19) {
+      farm_id.belonging_group_id_oshik = 10;
+    }
 
-        var history_by_farm_id =
-      await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id(
-        
-        farm_id.farm_id
-      );
-
-
-    var history_by_growerNum_and_tzrt =
-    await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_growerNum_and_tzrt(
-        this.userDetails[0].v_yzrn,
-      farm_id.belonging_group_id_oshik
-    );
-
-
-     var all_history = [...history_by_farm_id, ...history_by_growerNum_and_tzrt];
-
-    // הוספת הצמדות
-
-    // var history_site_0 =
+    // var history_by_farm_id =
     //   await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id(
-        
     //     farm_id.farm_id
     //   );
 
-    // var history =
-    //   await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id_and_atar_0(
-    //     this.userDetails[0].v_yzrn
-    //   );
+    var history_by_growerNum_and_tzrt =
+      await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_growerNum_and_tzrt(
+        this.userDetails[0].v_yzrn,
+        farm_id.belonging_group_id_oshik,
 
-    // history = [...history, ...history_site_0];
+        farm_id.farm_id
+      );
 
-
-    // ------------------------------------------------------------------------------------------------------------------
-
-    // if (history.length === 0) {
-    //   history =
-    //     await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
-    //       this.userDetails[0].v_yzrn
-    //     );
-    // }
+    var all_history = [...history_by_growerNum_and_tzrt];
 
     console.log(all_history);
     localStorage.setItem('hazmadot_history', JSON.stringify(all_history));

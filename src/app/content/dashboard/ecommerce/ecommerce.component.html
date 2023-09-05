@@ -2074,7 +2074,7 @@
                           style="
                             width: 100px;
                             width: 192px;
-                            padding-left: 39px !important;
+                            
                           "
                         >
                           <div class="form-group" (click)="bring_all_flocks()">
@@ -2366,171 +2366,327 @@
                     </tbody>
                     <br />
 
-                    
-                      <h3 *ngIf="this.farm_det_new[0].tnahi_imon === 1"
-                        class="main_table_tatle"
-                        style="cursor: pointer; color: green"
-                        (click)="hazmadot_history(this.farm_det_new[0])"
-                      >
-                        הצמדות
-                        <i class="fas fa-angle-left fa-lg"></i>
-                      </h3>
+                    <!-- הצמדות -->
+                    <h3
+                      *ngIf="this.farm_det_new[0].tnahi_imon === 1"
+                      class="main_table_tatle"
+                      style="cursor: pointer; color: green"
+                      (click)="hazmadot_history(this.farm_det_new[0])"
+                    >
+                      הצמדות
+                      <i class="fas fa-angle-left fa-lg"></i>
+                    </h3>
 
-                      <thead class="detailsTable"
-                      *ngIf="this.farm_det_new[0].tnahi_imon === 1">
-                        <tr>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            משווק
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            משווק באמצעות מחסן
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            שם משווק
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            משווק נוסף
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            אתר
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            מתאריך
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            קוד
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            תנאי הצמדה
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            עד תאריך
-                          </th>
-                          <th
-                            scope="col"
-                            class="border-top-0 table_tatle"
-                            style="width: 100px"
-                          >
-                            תאריך עדכון
-                          </th>
-                        </tr>
-                      </thead>
-
-                      <tbody
-                      *ngIf="this.farm_det_new[0].tnahi_imon === 1">
-                        <tr
-                          *ngFor="
-                            let row of this.farm_det_new[0].msvk_zamud_det
-                          "
+                    <thead
+                      class="detailsTable"
+                      *ngIf="this.farm_det_new[0].tnahi_imon === 1"
+                    >
+                      <tr>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
                         >
-                          <!-- משווק -->
-                          <td style="width: 100px">
-                            {{ row.hz_new_msvk }}
-                          </td>
+                          משווק
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          משווק באמצעות מחסן
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          שם משווק
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          משווק נוסף
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          אתר
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          מתאריך
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          קוד
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תנאי הצמדה
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          עד תאריך
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 100px"
+                        >
+                          תאריך עדכון
+                        </th>
+                      </tr>
+                    </thead>
 
-                          <!-- משווק באמצעות מחסן -->
-                          <td style="width: 100px">
-                            <div>
-                              <span
-                                style="font-size: 21px; font-weight: 600"
-                                *ngIf="
-                                  row.hz_WareHouse !== '' &&
-                                  row.hz_WareHouse !== 0 &&
-                                  row.hz_WareHouse !== null
-                                "
-                              >
-                                {{ row.hz_WareHouse }}
-                              </span>
-                              <span
-                                *ngIf="
-                                  row.hz_WareHouse === '' ||
-                                  row.hz_WareHouse === 0 ||
-                                  row.hz_WareHouse === null
-                                "
-                                style="color: red; font-size: 2rem"
-                                >X</span
-                              >
-                            </div>
-                          </td>
+                    <tbody *ngIf="this.farm_det_new[0].tnahi_imon === 1">
+                      <tr
+                        *ngFor="let row of this.farm_det_new[0].msvk_zamud_det"
+                      >
+                        <!-- משווק -->
+                        <td style="width: 100px">
+                          {{ row.hz_new_msvk }}
+                        </td>
 
-                          <!-- שם משווק -->
-                          <td style="width: 100px">
-                            {{ row.tb_name }}
-                          </td>
+                        <!-- משווק באמצעות מחסן -->
+                        <td style="width: 100px">
+                          <div>
+                            <span
+                              style="font-size: 21px; font-weight: 600"
+                              *ngIf="
+                                row.hz_WareHouse !== '' &&
+                                row.hz_WareHouse !== 0 &&
+                                row.hz_WareHouse !== null
+                              "
+                            >
+                              {{ row.hz_WareHouse }}
+                            </span>
+                            <span
+                              *ngIf="
+                                row.hz_WareHouse === '' ||
+                                row.hz_WareHouse === 0 ||
+                                row.hz_WareHouse === null
+                              "
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
 
-                          <!-- משווק נוסף -->
-                          <td style="width: 100px">
-                            {{ row.hz_msvk_nosaf }}
-                          </td>
+                        <!-- שם משווק -->
+                        <td style="width: 100px">
+                          {{ row.tb_name }}
+                        </td>
 
-                          <!-- קוד אץר -->
-                          <td style="width: 100px">
-                            {{ row.code }}
-                          </td>
+                        <!-- משווק נוסף -->
+                        <td style="width: 100px">
+                          {{ row.hz_msvk_nosaf }}
+                        </td>
 
-                          <!-- מתאריך -->
-                          <td style="width: 100px">
-                            {{ row.hz_date_hzmd_from | date : "dd/MM/yyyy" }}
-                          </td>
+                        <!-- קוד אץר -->
+                        <td style="width: 100px">
+                          {{ row.code }}
+                        </td>
 
-                          <!-- קוד -->
-                          <td style="width: 100px">
-                            {{ row.hz_code_hzmd }}
-                          </td>
+                        <!-- מתאריך -->
+                        <td style="width: 100px">
+                          {{ row.hz_date_hzmd_from | date : "dd/MM/yyyy" }}
+                        </td>
 
-                          <!-- תנאי הצמדה -->
-                          <td style="width: 100px">
-                            {{ row.tnai_hazmada }}
-                          </td>
+                        <!-- קוד -->
+                        <td style="width: 100px">
+                          {{ row.hz_code_hzmd }}
+                        </td>
 
-                          <!-- עד תאריך -->
-                          <td style="width: 100px">
-                            {{ row.hz_date_hzmd_to | date : "dd/MM/yyyy" }}
-                          </td>
+                        <!-- תנאי הצמדה -->
+                        <td style="width: 100px">
+                          {{ row.tnai_hazmada }}
+                        </td>
 
-                          <!-- תאריך עדכון -->
-                          <td style="width: 100px">
-                            {{ row.hz_Dtupd | date : "dd/MM/yyyy" }}
-                          </td>
-                        </tr>
-                      </tbody>
-                   
+                        <!-- עד תאריך -->
+                        <td style="width: 100px">
+                          {{ row.hz_date_hzmd_to | date : "dd/MM/yyyy" }}
+                        </td>
+
+                        <!-- תאריך עדכון -->
+                        <td style="width: 100px">
+                          {{ row.hz_Dtupd | date : "dd/MM/yyyy" }}
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <!-- הסגרים -->
+                    <h3
+                    *ngIf="this.quarantine.length > 0"
+                      class="main_table_tatle"
+                      style="font-size: 30px; font-weight: bold; color: red; margin-top: 20px;"
+                    >
+                      הסגרים
+                    </h3>
+
+                    <thead *ngIf="this.quarantine.length > 0">
+                      <tr>
+                        <th style="font-weight: bold; text-align: right">
+                          תחילת הסגר
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          מס הסגר
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          שם אתר
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          שם הסגר
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          סוג הסגר
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          אישור הוצאה בארץ
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          אישור הכנסה בארץ
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          אישור הכנסה בחו'ל
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          אישור הוצאה בחו'ל
+                        </th>
+                        <th style="font-weight: bold; text-align: right">
+                          PDF
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody
+                      *ngIf="this.quarantine.length > 0"
+                      style="white-space: nowrap"
+                    >
+                      <tr *ngFor="let p of this.quarantine">
+                        <td>
+                          {{ p.start_date | date : "dd/MM/yyyy" }}
+                        </td>
+
+                        <td>
+                          {{ p.quarantine_id }}
+                        </td>
+
+                        <td>
+                          {{ p.farm_code_name }}
+                        </td>
+
+                        <td>
+                          {{ p.quarantine_name }}
+                        </td>
+
+                        <td>
+                          {{ p.quarantine_type_name }}
+                        </td>
+
+                        <td>
+                          <div [ngSwitch]="p.authorization_out_Israel">
+                            <span
+                              *ngSwitchCase="1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
+                        <!-- <td>
+                            {{ p.authorization_out_Israel }}
+                          </td> -->
+
+                        <td>
+                          <div [ngSwitch]="p.authorization_in_Israel">
+                            <span
+                              *ngSwitchCase="1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
+                        <!-- <td>
+                              {{ p.authorization_in_Israel }}
+                            </td> -->
+
+                        <td>
+                          <div [ngSwitch]="p.authorization_in_out_Israel">
+                            <span
+                              *ngSwitchCase="1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
+                        <!-- <td>
+                              {{ p.authorization_in_out_Israel }}
+                            </td> -->
+
+                        <td>
+                          <div [ngSwitch]="p.authorization_out_out_Israel">
+                            <span
+                              *ngSwitchCase="1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngSwitchDefault
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                          </div>
+                        </td>
+                        <!-- <td>
+                              {{ p.authorization_out_out_Israel }}
+                            </td> -->
+
+                        <td>
+                          <a
+                            [href]="
+                              'http:////epb-iis12:8006//LulSln_net//Mifkadim_New//TdMs_' +
+                              p.td_daf +
+                              '_' +
+                              p.id_path +
+                              '.pdf'
+                            "
+                            >file</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+
                     <br />
                   </table>
 
@@ -2637,6 +2793,7 @@
                           >
                             {{ row.code }} - {{ row.name }}
                           </td>
+
 
                           <td
                             (click)="get_more_farm_det_by_farm_num(row.code)"

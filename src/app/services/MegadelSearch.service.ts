@@ -14,11 +14,12 @@ export class MegadelSearchService {
 
   async history_get_meshavek_tzamod_more_details_by_growerNum_and_tzrt(
     hz_Yzrn: any,
-    hz_tzrt: any
+    hz_tzrt: any,
+    hz_Rishaion_Msk: any
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/history_get_meshavek_tzamod_more_details_by_farm_id_and_atar_0?hz_Yzrn=${hz_Yzrn}&hz_tzrt=${hz_tzrt}`
+        `${environment.apiPath}growerService.asmx/history_get_meshavek_tzamod_more_details_by_growerNum_and_tzrt?hz_Yzrn=${hz_Yzrn}&hz_tzrt=${hz_tzrt}&hz_Rishaion_Msk=${hz_Rishaion_Msk}`
       )
     );
     console.log('item: ', item);

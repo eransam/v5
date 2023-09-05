@@ -118,7 +118,7 @@
           <div class="pagination">
             <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">קודם</button>
             
-            <button (click)="setPage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= data.length">הבאה</button>
+            <button (click)="setPage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= data.length">הבא</button>
             <span>דף {{ currentPage }} מתוך {{ getTotalPages() }}</span>
           </div>
 
