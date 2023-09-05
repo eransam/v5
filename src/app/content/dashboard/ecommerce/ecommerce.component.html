@@ -1804,7 +1804,10 @@
 
                     <tbody>
                       <tr *ngFor="let row of this.farm_det_new">
+                        <!-- מס אתר -->
                         <td style="width: 100px">{{ row.farm_num }}</td>
+
+                        <!-- הסגר -->
                         <td
                           *ngIf="this.quarantine.length > 0"
                           style="color: red; font-size: 2rem; width: 100px"
@@ -1813,20 +1816,33 @@
                             this.quarantine[0].start_date | date : "dd/MM/yyyy"
                           }}
                         </td>
+                        <!-- שם אתר -->
                         <td style="width: 100px">{{ row.farm_name }}</td>
+
+                        <!-- שם ישוב -->
                         <td style="width: 100px">{{ row.settlement_name }}</td>
+
+                        <!-- שלוחה -->
                         <td style="width: 100px">
                           {{ row.belonging_group_name }}
                         </td>
+                        <!-- סוג אתר -->
                         <td style="width: 100px">{{ row.farm_type }}</td>
+
+                        <!-- סוג מבנה-->
                         <td style="width: 100px">{{ row.building_name }}</td>
+
+                        <!-- תאריך הקמה -->
                         <td style="width: 100px">
                           {{ row.date_created | date : "dd/MM/yyyy" }}
                         </td>
+
+                        <!--  איכלוס ראשוני -->
                         <td style="width: 100px">
                           {{ row.first_hiclos | date : "dd/MM/yyyy" }}
                         </td>
 
+                        <!--היתר איכלוס  -->
                         <td style="width: 100px">
                           <div [ngSwitch]="row.itar_hiclos">
                             <span
@@ -1842,6 +1858,7 @@
                           </div>
                         </td>
 
+                        <!-- תנאי אימון -->
                         <td style="width: 100px">
                           <div [ngSwitch]="row.tnahi_imon">
                             <span
@@ -1856,8 +1873,10 @@
                             >
                           </div>
                         </td>
+                        <!-- מספר מבנים  -->
                         <td style="width: 100px">{{ row.num_lolim }}</td>
 
+                        <!-- סוג משק -->
                         <td style="width: 100px">
                           <div [ngSwitch]="row.tnahi_imon">
                             <span *ngSwitchCase="'0'" style="font-size: 19px"
@@ -1868,8 +1887,8 @@
                             >
                           </div>
                         </td>
-                        <!-- <td style="width: 100px">{{ row.block_num }}</td> -->
 
+                        <!--  ג''ח -->
                         <td *ngIf="row.tnahi_imon !== 0" style="width: 100px">
                           {{ row.pa_Counter }}
                         </td>
@@ -1951,7 +1970,7 @@
                               border-left: dashed grey 1px;
                               margin-left: 30px;
                               display: flex;
-    justify-content: space-around;
+                              justify-content: space-around;
                             "
                           >
                             <th
@@ -2002,7 +2021,7 @@
                               border-left: dashed grey 1px;
                               margin-left: 30px;
                               display: flex;
-    justify-content: space-around;
+                              justify-content: space-around;
                             "
                           >
                             <th
@@ -2127,7 +2146,7 @@
                               border-left: dashed grey 1px;
                               margin-left: 30px;
                               display: flex;
-    justify-content: space-around;
+                              justify-content: space-around;
                             "
                           >
                             <!-- ת.מפקד אחרון -->
@@ -2144,7 +2163,6 @@
                               "
                             >
                               {{
-                                
                                 this.latestObject_in_array_mifkadim_short
                                   .pr_Datemsira | date : "dd/MM/yyyy"
                               }}
@@ -2172,7 +2190,7 @@
                               border-left: dashed grey 1px;
                               margin-left: 30px;
                               display: flex;
-    justify-content: space-around;
+                              justify-content: space-around;
                             "
                           >
                             <!-- ת.פינוי אחרון -->
@@ -2348,165 +2366,171 @@
                     </tbody>
                     <br />
 
-                    <h3
-                      class="main_table_tatle"
-                      style="cursor: pointer; color: green"
-                      (click)="hazmadot_history(this.farm_det_new[0])"
-                    >
-                      הצמדות
-                      <i class="fas fa-angle-left fa-lg"></i>
-                    </h3>
-
-                    <thead class="detailsTable">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          משווק
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          משווק באמצעות מחסן
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          שם משווק
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          משווק נוסף
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          אתר
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          מתאריך
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          קוד
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          תנאי הצמדה
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          עד תאריך
-                        </th>
-                        <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          תאריך עדכון
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr
-                        *ngFor="let row of this.farm_det_new[0].msvk_zamud_det"
+                    
+                      <h3 *ngIf="this.farm_det_new[0].tnahi_imon === 1"
+                        class="main_table_tatle"
+                        style="cursor: pointer; color: green"
+                        (click)="hazmadot_history(this.farm_det_new[0])"
                       >
-                        <!-- משווק -->
-                        <td style="width: 100px">
-                          {{ row.hz_new_msvk }}
-                        </td>
+                        הצמדות
+                        <i class="fas fa-angle-left fa-lg"></i>
+                      </h3>
 
-                        <!-- משווק באמצעות מחסן -->
-                        <td style="width: 100px">
-                          <div>
-                            <span
-                              style="font-size: 21px; font-weight: 600"
-                              *ngIf="
-                                row.hz_WareHouse !== '' &&
-                                row.hz_WareHouse !== 0 &&
-                                row.hz_WareHouse !== null
-                              "
-                            >
-                              {{ row.hz_WareHouse }}
-                            </span>
-                            <span
-                              *ngIf="
-                                row.hz_WareHouse === '' ||
-                                row.hz_WareHouse === 0 ||
-                                row.hz_WareHouse === null
-                              "
-                              style="color: red; font-size: 2rem"
-                              >X</span
-                            >
-                          </div>
-                        </td>
+                      <thead class="detailsTable"
+                      *ngIf="this.farm_det_new[0].tnahi_imon === 1">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            משווק
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            משווק באמצעות מחסן
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            שם משווק
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            משווק נוסף
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            אתר
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            מתאריך
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            קוד
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            תנאי הצמדה
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            עד תאריך
+                          </th>
+                          <th
+                            scope="col"
+                            class="border-top-0 table_tatle"
+                            style="width: 100px"
+                          >
+                            תאריך עדכון
+                          </th>
+                        </tr>
+                      </thead>
 
-                        <!-- שם משווק -->
-                        <td style="width: 100px">
-                          {{ row.tb_name }}
-                        </td>
+                      <tbody
+                      *ngIf="this.farm_det_new[0].tnahi_imon === 1">
+                        <tr
+                          *ngFor="
+                            let row of this.farm_det_new[0].msvk_zamud_det
+                          "
+                        >
+                          <!-- משווק -->
+                          <td style="width: 100px">
+                            {{ row.hz_new_msvk }}
+                          </td>
 
-                        <!-- משווק נוסף -->
-                        <td style="width: 100px">
-                          {{ row.hz_msvk_nosaf }}
-                        </td>
+                          <!-- משווק באמצעות מחסן -->
+                          <td style="width: 100px">
+                            <div>
+                              <span
+                                style="font-size: 21px; font-weight: 600"
+                                *ngIf="
+                                  row.hz_WareHouse !== '' &&
+                                  row.hz_WareHouse !== 0 &&
+                                  row.hz_WareHouse !== null
+                                "
+                              >
+                                {{ row.hz_WareHouse }}
+                              </span>
+                              <span
+                                *ngIf="
+                                  row.hz_WareHouse === '' ||
+                                  row.hz_WareHouse === 0 ||
+                                  row.hz_WareHouse === null
+                                "
+                                style="color: red; font-size: 2rem"
+                                >X</span
+                              >
+                            </div>
+                          </td>
 
-                        <!-- קוד אץר -->
-                        <td style="width: 100px">
-                          {{ row.code }}
-                        </td>
+                          <!-- שם משווק -->
+                          <td style="width: 100px">
+                            {{ row.tb_name }}
+                          </td>
 
-                        <!-- מתאריך -->
-                        <td style="width: 100px">
-                          {{ row.hz_date_hzmd_from | date : "dd/MM/yyyy" }}
-                        </td>
+                          <!-- משווק נוסף -->
+                          <td style="width: 100px">
+                            {{ row.hz_msvk_nosaf }}
+                          </td>
 
-                        <!-- קוד -->
-                        <td style="width: 100px">
-                          {{ row.hz_code_hzmd }}
-                        </td>
+                          <!-- קוד אץר -->
+                          <td style="width: 100px">
+                            {{ row.code }}
+                          </td>
 
-                        <!-- תנאי הצמדה -->
-                        <td style="width: 100px">
-                          {{ row.tnai_hazmada }}
-                        </td>
+                          <!-- מתאריך -->
+                          <td style="width: 100px">
+                            {{ row.hz_date_hzmd_from | date : "dd/MM/yyyy" }}
+                          </td>
 
-                        <!-- עד תאריך -->
-                        <td style="width: 100px">
-                          {{ row.hz_date_hzmd_to | date : "dd/MM/yyyy" }}
-                        </td>
+                          <!-- קוד -->
+                          <td style="width: 100px">
+                            {{ row.hz_code_hzmd }}
+                          </td>
 
-                        <!-- תאריך עדכון -->
-                        <td style="width: 100px">
-                          {{ row.hz_Dtupd | date : "dd/MM/yyyy" }}
-                        </td>
-                      </tr>
-                    </tbody>
+                          <!-- תנאי הצמדה -->
+                          <td style="width: 100px">
+                            {{ row.tnai_hazmada }}
+                          </td>
+
+                          <!-- עד תאריך -->
+                          <td style="width: 100px">
+                            {{ row.hz_date_hzmd_to | date : "dd/MM/yyyy" }}
+                          </td>
+
+                          <!-- תאריך עדכון -->
+                          <td style="width: 100px">
+                            {{ row.hz_Dtupd | date : "dd/MM/yyyy" }}
+                          </td>
+                        </tr>
+                      </tbody>
+                   
                     <br />
                   </table>
 

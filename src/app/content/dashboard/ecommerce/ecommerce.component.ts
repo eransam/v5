@@ -1149,7 +1149,7 @@ export class EcommerceComponent implements OnInit {
 
           // הוספת איכלוס טוטל פר אתר כולל מחיצות
           //   this.all_certificate_det = [];
-          for (let obj of this.new_Active_FarmDetails) {
+          for (let obj of new_Active_FarmDetails) {
             if (obj !== undefined) {
               if (obj.code.toString().includes('/')) {
                 if (obj.farm_num && obj.farm_num !== '') {
@@ -4439,17 +4439,25 @@ export class EcommerceComponent implements OnInit {
 
     // הוספת הצמדות
 
-    var history =
+    var history_site_0 =
       await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id(
+        
         farm_id.farm_id
       );
 
-    if (history.length === 0) {
-      history =
-        await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
-          this.userDetails[0].v_yzrn
-        );
-    }
+    var history =
+      await this.megadelSearchService.history_get_meshavek_tzamod_more_details_by_farm_id_and_atar_0(
+        this.userDetails[0].v_yzrn
+      );
+
+    history = [...history, ...history_site_0];
+
+    // if (history.length === 0) {
+    //   history =
+    //     await this.megadelSearchService.history_get_meshavek_tzamod_more_details(
+    //       this.userDetails[0].v_yzrn
+    //     );
+    // }
 
     console.log(history);
     localStorage.setItem('hazmadot_history', JSON.stringify(history));
