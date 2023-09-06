@@ -2153,6 +2153,8 @@ export class EcommerceComponent implements OnInit {
   }
 
   async onOptionSelected(event: any) {
+    console.log(this.farm_det_new[0]);
+    
     this.isLoading_FarmDetails = true;
     this.latestObject_in_array_pinoyim_short = [];
     this.latestObject_in_array_mifkadim_short = [];
@@ -2264,7 +2266,7 @@ export class EcommerceComponent implements OnInit {
       //   מפתקדים טוטל כמות מקוצרים
       console.log(this.array_mifkadim_short);
 
-      //   המפקד הטווטל המקוצר האחרון
+      //   המפקד הטוטל המקוצר האחרון
       console.log(this.latestObject_in_array_mifkadim_short);
     }
 
@@ -2345,10 +2347,10 @@ export class EcommerceComponent implements OnInit {
 
       this.hiclos_by_site = real_hiclos_by_site;
       if (real_hiclos_by_site && real_hiclos_by_site.length > 0) {
-        // ניצור מערך המכיל את תאריכי התעודות
+        // יצירת מערך המכיל את תאריכי התעודות
         const dateArray = real_hiclos_by_site.map((item) => item.create_date);
 
-        //נחלץ את התעודה עם התאריך המינימלי
+        // חילוץ התעודה עם התאריך המינימלי
         const minDate = dateArray.reduce((min, current) =>
           current < min ? current : min
         );
@@ -2364,7 +2366,7 @@ export class EcommerceComponent implements OnInit {
         ...real_hiclos_by_site,
       ];
     } else {
-      //נחלץ אץ כל התעודות
+      // חילוץ  כל התעודות
       var real_hiclos_by_site =
         await this.megadelSearchService.get_real_hiclos_in_site(
           get_flock_ages_by_flock_id[0].farm_id,
@@ -3942,7 +3944,7 @@ if(mifkadim){
           if (obj.farm_num.toString().includes('/')) {
             var parts = obj.farm_num.split('/');
             var farm_num = parts[0];
-
+           
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site_splite(
                 farm_num,
@@ -3985,6 +3987,7 @@ if(mifkadim){
               ...real_hiclos_by_site,
             ];
           } else {
+            var farm_num = obj.farm_num
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site(
                 obj?.farm_id,
@@ -4161,10 +4164,17 @@ if(mifkadim){
 
       console.log(this.all_full_farm_det);
 
-      //////////////////////////////////////////////////////////////////////////////////////////// סיום עיצוב חדש\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-      // חילוץ פרטי אתר עי הפארם איידי -  סיום-----------------------------------------------------------------------------------------
     }
+
+
   }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////   סיום לוגיקה של מעבר שלוחה/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
   //   פונ המראה רק אתרים פעילים
   show_ActiveSite() {
