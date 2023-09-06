@@ -31,6 +31,13 @@
                 </th>
 
                 <th style="font-weight: bold; text-align: right">מס תעודה</th>
+                <th style="font-weight: bold; text-align: right">
+                  מס רישיון משק מקור
+                </th>
+
+                <th style="font-weight: bold; text-align: right">
+                  שם משק מקור
+                </th>
 
                 <th style="font-weight: bold; text-align: right">
                   מס רישיון משק יעד
@@ -69,6 +76,16 @@
                 <td>
                   {{ p.certificate_id }}
                 </td>
+                <!-- מס רישיון משק מקור -->
+                <td>
+                  {{ p.source_farm_code }}
+                </td>
+
+                <!-- שם משק מקור -->
+                <td>
+                  {{ p.source_farm_name }}
+                </td>
+
                 <!-- >מס רישיון משק יעד -->
                 <td>
                   {{ p.farm_code }}
@@ -79,8 +96,6 @@
                 </td>
                 <!-- >ישוב משק יעד -->
                 <td>
-                    
-                    
                   {{ p.settlement_farm_name_c }}
                 </td>
                 <!-- >מס להקת יעד -->
@@ -97,7 +112,10 @@
                 </td>
                 <!-- >כמות עופות< -->
                 <td>
-                  {{ p.chicken_sum_female + p.chicken_sum + p.mixed_sum | number : "1.0-0" }}
+                  {{
+                    p.chicken_sum_female + p.chicken_sum + p.mixed_sum
+                      | number : "1.0-0"
+                  }}
                 </td>
 
                 <!-- <td>
@@ -190,7 +208,7 @@
 
                 <th style="font-weight: bold; text-align: right">כמות עופות</th>
 
-                <th style="font-weight: bold; text-align: right">  pdf</th>
+                <th style="font-weight: bold; text-align: right">pdf</th>
               </tr>
             </thead>
             <tbody style="white-space: nowrap">
@@ -252,7 +270,7 @@
 
                 <!-- >כמות עופות -->
                 <td>
-                  {{ p.chicken_sum_female | number : "1.0-0"}}
+                  {{ p.chicken_sum_female | number : "1.0-0" }}
                 </td>
 
                 <!-- <td>
@@ -268,16 +286,14 @@
                       >
                     </td> -->
 
-                    
-
-                                    <td>
-                      <a
-                        [href]="
-                        'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_584590-ADMIN-copy.pdf'
-                        "
-                        >file</a
-                      >
-                    </td>
+                <td>
+                  <a
+                    [href]="
+                      'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_584590-ADMIN-copy.pdf'
+                    "
+                    >file</a
+                  >
+                </td>
               </tr>
 
               <tr>
@@ -301,10 +317,10 @@
                 <td></td>
 
                 <td>
-                  {{ total_packege_sum | number : "1.0-0"}}
+                  {{ total_packege_sum | number : "1.0-0" }}
                 </td>
                 <td>
-                  {{ total_chicken_sum | number : "1.0-0"}}
+                  {{ total_chicken_sum | number : "1.0-0" }}
                 </td>
               </tr>
             </tbody>
