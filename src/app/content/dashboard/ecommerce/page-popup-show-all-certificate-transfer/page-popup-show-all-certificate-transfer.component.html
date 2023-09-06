@@ -1,145 +1,201 @@
 <div class="cool-table-container">
-  <table class="cool-table main_table" dir="rtl" border="0">
-    <thead>
-      <tr style="display: flex; justify-content: space-between; padding: 40px">
-        <th style="font-weight: bold; text-align: right">תעודות העברה</th>
-        <div class="importBth">
-          <div class="justify-content">
-            <img
-              style="width: 40px"
-              class="logoIngStyle"
-              src="assets/images/logo/excel.png"
-              alt="Image"
-              (click)="getExcelData()"
-            />
+  <div class="main_div">
+    <table class="cool-table" dir="rtl" style="padding: 5px" border="0">
+      <thead>
+        <tr>
+          <th style="font-weight: bold; text-align: right">תעודות העברה</th>
+          <div class="importBth">
+            <div class="justify-content">
+              <img
+                style="width: 40px"
+                class="logoIngStyle"
+                src="assets/images/logo/excel.png"
+                alt="Image"
+                (click)="getExcelData()"
+              />
+            </div>
           </div>
-        </div>
-      </tr>
-    </thead>
+        </tr>
+      </thead>
 
-    <tr>
-      <td colspan="2">
-        <table class="table no-margin">
-          <thead>
-            <tr>
-              <th style="font-weight: bold; text-align: right">תאריך העברה</th>
-              <th style="font-weight: bold; text-align: right">מס תעודה</th>
-              <th style="font-weight: bold; text-align: right">
-                מס רישיון משק מקור
-              </th>
-              <th style="font-weight: bold; text-align: right">שם משק מקור</th>
-              <th style="font-weight: bold; text-align: right">
-                מס להקת משק מקור
-              </th>
-              <th style="font-weight: bold; text-align: right">
-                מס רישיון משק יעד
-              </th>
-              <th style="font-weight: bold; text-align: right">שם משק יעד</th>
-              <th style="font-weight: bold; text-align: right">ישוב משק יעד</th>
-              <th style="font-weight: bold; text-align: right">מס להקת יעד</th>
-              <th style="font-weight: bold; text-align: right">מס מגדל יעד</th>
-              <th style="font-weight: bold; text-align: right">שם מגדל יעד</th>
-              <th style="font-weight: bold; text-align: right">כלובים</th>
-              <th style="font-weight: bold; text-align: right">כמות עופות</th>
+      <tr>
+        <td colspan="2">
+          <table class="table no-margin">
+            <thead>
+              <tr>
+                <th style="font-weight: bold; text-align: right">
+                  תאריך העברה
+                </th>
+                <th style="font-weight: bold; text-align: right">מס תעודה</th>
+                <th style="font-weight: bold; text-align: right">
+                  מס רישיון משק מקור
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  שם משק מקור
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  מס להקת משק מקור
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  מס רישיון משק יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">שם משק יעד</th>
+                <th style="font-weight: bold; text-align: right">
+                  ישוב משק יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  מס להקת יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  מס מגדל יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  שם מגדל יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">כלובים</th>
+                <th style="font-weight: bold; text-align: right">כמות עופות</th>
+              </tr>
+            </thead>
+            <tbody style="white-space: nowrap">
+              <tr *ngFor="let p of getPaginatedData()">
+                <!-- תאריך העברה -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.create_date | date : "HH:mm dd/MM/yyyy " }}
+                </td>
 
-            </tr>
+                <!-- >מס תעודה< -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.certificate_id }}
+                </td>
 
+                <!-- מס רישיון משק מקור -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.source_farm_code }}
+                </td>
 
-          </thead>
-          <tbody style="white-space: nowrap">
-            <tr *ngFor="let p of getPaginatedData()">
-              <!-- תאריך העברה -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
-                {{ p.create_date | date : "HH:mm dd/MM/yyyy " }}
-              </td>
+                <!-- שם משק מקור -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.source_farm_name }}
+                </td>
 
-              <!-- >מס תעודה< -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.certificate_id }}</td>
+                <!-- מס להקת מקור -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.source_flock_id }}
+                </td>
 
-              <!-- מס רישיון משק מקור -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.source_farm_code }}</td>
+                <!-- מס רישיון משק יעד -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.farm_code }}
+                </td>
 
-              <!-- שם משק מקור -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.source_farm_name }}</td>
+                <!-- >שם משק יעד -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.farm_name }}
+                </td>
 
-              <!-- מס להקת מקור -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.source_flock_id }}</td>
+                <!-- >ישוב משק יעד -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.farm_settlement_name }}
+                </td>
 
-              <!-- מס רישיון משק יעד -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.farm_code }}</td>
+                <!-- מס להקת יעד -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.dest_flock_id }}
+                </td>
 
-              <!-- >שם משק יעד -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.farm_name }}</td>
+                <!-- מס מגדל יעד -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.lull2000_code }}
+                </td>
 
-              <!-- >ישוב משק יעד -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.farm_settlement_name }}</td>
+                <!-- שם מגדל יעד -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.grower_name }}
+                </td>
 
-              <!-- מס להקת יעד -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.dest_flock_id }}</td>
+                <!-- כלובים -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.package_sum | number : "0.0" }}
+                </td>
 
-              <!-- מס מגדל יעד -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.lull2000_code }}</td>
+                <!-- >כמות עופות -->
+                <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
+                  {{ p.chicken_sum_female | number : "0.0" }}
+                </td>
+              </tr>
 
-              <!-- שם מגדל יעד -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.grower_name }}</td>
-
-              <!-- כלובים -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.package_sum | number : "0.0" }}</td>
-
-              <!-- >כמות עופות -->
-              <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">{{ p.chicken_sum_female | number : "0.0" }}</td>
-            </tr>
-
-            <tr>
+              <tr>
                 <td>סה''כ:</td>
                 <td></td>
 
                 <td></td>
-  
+
                 <td></td>
-  
+
                 <td></td>
-  
+
                 <td></td>
-  
+
                 <td></td>
-  
+
                 <td></td>
-  
+
                 <td></td>
                 <td></td>
-  
+
                 <td></td>
                 <!-- ... leave other cells empty ... -->
-                <td>{{ calculateSummary().total_packege_sum | number : "0.0" }}</td>
-                <td>{{ calculateSummary().total_chicken_sum | number : "0.0" }}</td>
+                <td>
+                  {{ calculateSummary().total_packege_sum | number : "0.0" }}
+                </td>
+                <td>
+                  {{ calculateSummary().total_chicken_sum | number : "0.0" }}
+                </td>
               </tr>
-          </tbody>
-          <div class="pagination">
-            <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">קודם</button>
-            
-            <button (click)="setPage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= data.length">הבא</button>
-            <span>דף {{ currentPage }} מתוך {{ getTotalPages() }}</span>
-          </div>
+            </tbody>
+            <div class="pagination">
+              <button
+                (click)="setPage(currentPage - 1)"
+                [disabled]="currentPage === 1"
+              >
+                קודם
+              </button>
 
+              <button
+                (click)="setPage(currentPage + 1)"
+                [disabled]="currentPage * itemsPerPage >= data.length"
+              >
+                הבא
+              </button>
+              <span>דף {{ currentPage }} מתוך {{ getTotalPages() }}</span>
+            </div>
 
-          <tr>
-            
-            <td><div>סהכ תוצאות: {{ data.length }}</div></td>
+            <tr>
+              <td>
+                <div>סהכ תוצאות: {{ data.length }}</div>
+              </td>
 
-            <td>            <div>סה''כ כלובים':  {{ total_packege_sum | number : "0.0" }}</div>
-            </td>
+              <td>
+                <div>
+                  סה''כ כלובים': {{ total_packege_sum | number : "0.0" }}
+                </div>
+              </td>
 
-            <td>            <div>סה''כ עופות': {{ total_chicken_sum | number : "0.0" }}</div>
-            </td>
-          </tr>
-          <tr >
-            <td *ngFor="let farmNum of getObjectKeys(sumsByFarmNum)">מס אתר : {{ farmNum }} - סהכ איכלוס : {{ sumsByFarmNum[farmNum] }}</td>
-          </tr>
-
-
-        </table>
-      </td>
-    </tr>
-  </table>
+              <td>
+                <div>
+                  סה''כ עופות': {{ total_chicken_sum | number : "0.0" }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td *ngFor="let farmNum of getObjectKeys(sumsByFarmNum)">
+                מס אתר : {{ farmNum }} - סהכ איכלוס :
+                {{ sumsByFarmNum[farmNum] }}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

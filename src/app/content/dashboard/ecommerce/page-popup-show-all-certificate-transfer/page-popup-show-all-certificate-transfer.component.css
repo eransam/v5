@@ -3,12 +3,7 @@
     
   
   
-    .main_table {
-        width: fit-content;
-        padding: 5px;
-        margin: auto;
-        margin-top: 5%;
-      }
+
 
       .table_inside {
         display: flex;
@@ -28,12 +23,10 @@
         background-color: #ffffff; /* White background for the table */
         border-radius: 8px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
+        /* overflow: hidden; */
       }
       
-      .main_table {
-        padding: 20px;
-      }
+
       
       /* Add more styling to the table headers and rows */
       .main_table th {
@@ -83,9 +76,7 @@
         overflow: hidden;
       }
       
-      .main_table {
-        padding: 20px;
-      }
+
       
       /* Add more styling to the table headers and rows */
       .main_table th {
@@ -155,10 +146,7 @@
   
 
 .main_table{
-    padding: 5px;
-    width: 75%;
-    margin-top: 4%;
-    margin-left: 15%;
+
 }
 
 .not_internal{
@@ -166,4 +154,20 @@
 
 .internal{
     background-color: rgb(233, 154, 154)
+}
+
+
+.main_div{
+    overflow-y: auto !important;
+    width: 85%;
+    display: flex;
+    overflow-x: auto !important;
+    direction: rtl;
+}
+
+.cool-table-container{
+display: flex;
+justify-content: end; 
+padding-right: 2%;
+padding-top: 30%;
 }

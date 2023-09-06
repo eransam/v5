@@ -455,6 +455,28 @@ export class EcommerceComponent implements OnInit {
         this.idFromurl
       );
 
+
+    //   הורדת באג אתרי מחיצה שלא לצורך
+      console.log(this.farm_start_det);
+      for (let obj of this.farm_start_det) {
+        if (obj.code.toString().includes('/')) {
+            var parts = obj.code.split('/');
+            var extractedValue = parts[0];
+            var newArr = this.farm_start_det.filter(item => (item.code === extractedValue && item.is_hen_house_split === 0));
+        }
+
+    }
+    console.log(newArr);
+    if (newArr.length > 0) {
+        
+   
+    var numCheck = 
+    newArr[0].code
+    console.log(numCheck);
+    this.farm_start_det = this.farm_start_det.filter(item => !new RegExp(`^${numCheck}/\\d+$`).test(item.code));
+    console.log(this.farm_start_det);
+}
+
       //   מכיל את מס כמות האתרים
       this.length_of_total_site = this.farm_start_det.length;
 
@@ -871,6 +893,24 @@ export class EcommerceComponent implements OnInit {
         var farm_start_det = await this.megadelSearchService.farm_start_det(
           grower_id[0]?.yz_id
         );
+            //   הורדת באג אתרי מחיצה שלא לצורך
+      console.log(this.farm_start_det);
+      for (let obj of this.farm_start_det) {
+        if (obj.code.toString().includes('/')) {
+            var parts = obj.code.split('/');
+            var extractedValue = parts[0];
+            var newArr = this.farm_start_det.filter(item => (item.code === extractedValue && item.is_hen_house_split === 0));
+        }
+
+    }
+    console.log(newArr);
+    if (newArr.length > 0) {
+    var numCheck = 
+    newArr[0].code
+    console.log(numCheck);
+    this.farm_start_det = this.farm_start_det.filter(item => !new RegExp(`^${numCheck}/\\d+$`).test(item.code));
+    console.log(this.farm_start_det);
+    }
 
         farm_start_det = farm_start_det.filter(
           (obj) => obj.is_hen_house_split === 0

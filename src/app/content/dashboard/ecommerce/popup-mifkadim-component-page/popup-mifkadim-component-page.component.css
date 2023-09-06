@@ -84,7 +84,14 @@
       }
       
       .main_table {
-        padding: 20px;
+        display: flex  ;
+        justify-content: flex-start ;
+        align-items: flex-start  ;
+        height: 100vh  ;
+        background-color: #f0f5fa  ;
+        margin-right: 2%  ;
+        margin-top: 2%  ;
+        flex-direction: column ;
       }
       
       /* Add more styling to the table headers and rows */
@@ -147,6 +154,11 @@
         padding: 10px 0;
       }
       
+
+
+
+
+
 
 
 
