@@ -455,27 +455,27 @@ export class EcommerceComponent implements OnInit {
         this.idFromurl
       );
 
-
-    //   הורדת באג אתרי מחיצה שלא לצורך
+      //   הורדת באג אתרי מחיצה שלא לצורך
       console.log(this.farm_start_det);
       for (let obj of this.farm_start_det) {
         if (obj.code.toString().includes('/')) {
-            var parts = obj.code.split('/');
-            var extractedValue = parts[0];
-            var newArr = this.farm_start_det.filter(item => (item.code === extractedValue && item.is_hen_house_split === 0));
+          var parts = obj.code.split('/');
+          var extractedValue = parts[0];
+          var newArr = this.farm_start_det.filter(
+            (item) =>
+              item.code === extractedValue && item.is_hen_house_split === 0
+          );
         }
-
-    }
-    console.log(newArr);
-    if (newArr.length > 0) {
-        
-   
-    var numCheck = 
-    newArr[0].code
-    console.log(numCheck);
-    this.farm_start_det = this.farm_start_det.filter(item => !new RegExp(`^${numCheck}/\\d+$`).test(item.code));
-    console.log(this.farm_start_det);
-}
+      }
+      console.log(newArr);
+      if (newArr && newArr.length > 0) {
+        var numCheck = newArr[0].code;
+        console.log(numCheck);
+        this.farm_start_det = this.farm_start_det.filter(
+          (item) => !new RegExp(`^${numCheck}/\\d+$`).test(item.code)
+        );
+        console.log(this.farm_start_det);
+      }
 
       //   מכיל את מס כמות האתרים
       this.length_of_total_site = this.farm_start_det.length;
@@ -893,24 +893,27 @@ export class EcommerceComponent implements OnInit {
         var farm_start_det = await this.megadelSearchService.farm_start_det(
           grower_id[0]?.yz_id
         );
-            //   הורדת באג אתרי מחיצה שלא לצורך
-      console.log(this.farm_start_det);
-      for (let obj of this.farm_start_det) {
-        if (obj.code.toString().includes('/')) {
+        //   הורדת באג אתרי מחיצה שלא לצורך
+        console.log(this.farm_start_det);
+        for (let obj of this.farm_start_det) {
+          if (obj.code.toString().includes('/')) {
             var parts = obj.code.split('/');
             var extractedValue = parts[0];
-            var newArr = this.farm_start_det.filter(item => (item.code === extractedValue && item.is_hen_house_split === 0));
+            var newArr = this.farm_start_det.filter(
+              (item) =>
+                item.code === extractedValue && item.is_hen_house_split === 0
+            );
+          }
         }
-
-    }
-    console.log(newArr);
-    if (newArr.length > 0) {
-    var numCheck = 
-    newArr[0].code
-    console.log(numCheck);
-    this.farm_start_det = this.farm_start_det.filter(item => !new RegExp(`^${numCheck}/\\d+$`).test(item.code));
-    console.log(this.farm_start_det);
-    }
+        console.log(newArr);
+        if (newArr && newArr.length > 0) {
+          var numCheck = newArr[0].code;
+          console.log(numCheck);
+          this.farm_start_det = this.farm_start_det.filter(
+            (item) => !new RegExp(`^${numCheck}/\\d+$`).test(item.code)
+          );
+          console.log(this.farm_start_det);
+        }
 
         farm_start_det = farm_start_det.filter(
           (obj) => obj.is_hen_house_split === 0
@@ -2194,7 +2197,7 @@ export class EcommerceComponent implements OnInit {
 
   async onOptionSelected(event: any) {
     console.log(this.farm_det_new[0]);
-    
+
     this.isLoading_FarmDetails = true;
     this.latestObject_in_array_pinoyim_short = [];
     this.latestObject_in_array_mifkadim_short = [];
@@ -2852,21 +2855,20 @@ export class EcommerceComponent implements OnInit {
       }
 
       console.log(this.farm_det_new);
-if(mifkadim){
-    const maxDateObject = mifkadim.reduce((prev, current) => {
-        const prevDate = new Date(prev.pr_Datemsira).getTime();
-        const currentDate = new Date(current.pr_Datemsira).getTime();
-        return prevDate > currentDate ? prev : current;
-      }, mifkadim[0]);
+      if (mifkadim) {
+        const maxDateObject = mifkadim.reduce((prev, current) => {
+          const prevDate = new Date(prev.pr_Datemsira).getTime();
+          const currentDate = new Date(current.pr_Datemsira).getTime();
+          return prevDate > currentDate ? prev : current;
+        }, mifkadim[0]);
 
-      console.log(maxDateObject);
-      this.selectedObject_mifkadim = maxDateObject;
+        console.log(maxDateObject);
+        this.selectedObject_mifkadim = maxDateObject;
 
-      const objectsToShow = mifkadim.filter((item) => item !== maxDateObject);
-      // מביא את משתנה לתחילת המערך - unshift
-      objectsToShow.unshift(maxDateObject);
-}
-
+        const objectsToShow = mifkadim.filter((item) => item !== maxDateObject);
+        // מביא את משתנה לתחילת המערך - unshift
+        objectsToShow.unshift(maxDateObject);
+      }
 
       console.log(this.farm_det_new);
       //   הוספת מספר מבנים
@@ -3984,7 +3986,7 @@ if(mifkadim){
           if (obj.farm_num.toString().includes('/')) {
             var parts = obj.farm_num.split('/');
             var farm_num = parts[0];
-           
+
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site_splite(
                 farm_num,
@@ -4027,7 +4029,7 @@ if(mifkadim){
               ...real_hiclos_by_site,
             ];
           } else {
-            var farm_num = obj.farm_num
+            var farm_num = obj.farm_num;
             var real_hiclos_by_site =
               await this.megadelSearchService.get_real_hiclos_in_site(
                 obj?.farm_id,
@@ -4203,18 +4205,12 @@ if(mifkadim){
       this.farm_det_new[0].farm_num = farm_num;
 
       console.log(this.all_full_farm_det);
-
     }
-
-
   }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////   סיום לוגיקה של מעבר שלוחה/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////   סיום לוגיקה של מעבר שלוחה/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //   פונ המראה רק אתרים פעילים
   show_ActiveSite() {
