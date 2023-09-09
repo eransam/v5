@@ -1079,7 +1079,11 @@
 
                   <div class="table-container micsotStyle">
                     <!-- טבלת מכסות פטם -->
-                    <div *ngIf="mihsotPetem.length > 0">
+                    <div
+                      *ngIf="
+                        mihsotPetem.length > 0 || this.mihsotHodim.length > 0
+                      "
+                    >
                       <div>
                         <h1 class="rtl_Style">{{ this.shloha_tatle }}</h1>
                       </div>
@@ -2071,11 +2075,7 @@
                         <td
                           scope="col"
                           class="border-top-0 table_tatle"
-                          style="
-                            width: 100px;
-                            width: 192px;
-                            
-                          "
+                          style="width: 100px; width: 192px"
                         >
                           <div class="form-group" (click)="bring_all_flocks()">
                             <select
@@ -2533,9 +2533,14 @@
 
                     <!-- הסגרים -->
                     <h3
-                    *ngIf="this.quarantine.length > 0"
+                      *ngIf="this.quarantine.length > 0"
                       class="main_table_tatle"
-                      style="font-size: 30px; font-weight: bold; color: red; margin-top: 20px;"
+                      style="
+                        font-size: 30px;
+                        font-weight: bold;
+                        color: red;
+                        margin-top: 20px;
+                      "
                     >
                       הסגרים
                     </h3>
@@ -2793,7 +2798,6 @@
                           >
                             {{ row.code }} - {{ row.name }}
                           </td>
-
 
                           <td
                             (click)="get_more_farm_det_by_farm_num(row.code)"
