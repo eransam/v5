@@ -205,6 +205,7 @@ export class EcommerceComponent implements OnInit {
   more_hiclos_pargit_after_kizuz: any = 0;
   mifkadim: any;
   quarantine: any = [];
+  site_num_search:any
   constructor(
     private environmentService: EnvironmentFrontService,
     private router: Router,
@@ -219,6 +220,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.site_num_search = ''
     this.quarantine = [];
     this.mifkadim = [];
     this.latestObject_in_array_mifkadim_short = {};
@@ -260,10 +262,11 @@ export class EcommerceComponent implements OnInit {
     console.log(this.mihsot);
   }
 
-  //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
 
+  //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
   async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
+      this.site_num_search = ''
       this.quarantine = [];
       this.count_more_hiclos = 0;
       this.array_pinoyim_short = [];
@@ -318,6 +321,9 @@ export class EcommerceComponent implements OnInit {
           this.idFromurl
         );
 
+        console.log( this.userDetails);
+        
+
         // פרטי מגדל
         this.userDetails =
           await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
@@ -335,7 +341,13 @@ export class EcommerceComponent implements OnInit {
             1,
             '%'
           );
+          
+          console.log( this.userDetails);
       }
+
+
+      
+
 
       localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
 
@@ -359,6 +371,8 @@ export class EcommerceComponent implements OnInit {
         -1,
         '-1'
       );
+
+
 
       //   מוציא את מספרי האתרים של המגדל
       const siteName = the_growers_farms.map((obj) => obj.farm_code);
@@ -445,11 +459,12 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
-      // -------------------------------------------------------------------------------------------------------------------------
-      //   לוגיקה התראות --------------------------------------------------------------------------------------------------------
-      // -------------------------------------------------------------------------------------------------------------------------
+      //   לוגיקה התראות פונ--------------------------------------------------------------------------------------------------------
       await this.alarm_func();
+      //   לוגיקה התראות פונ- סיום -------------------------------------------------------------------------------------------------
+
       this.isLoading_micsa_egg_gach = true;
+
       // חילוץ אתרי המגדל
       this.farm_start_det = await this.megadelSearchService.farm_start_det(
         this.idFromurl
@@ -558,6 +573,31 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
+      this.site_num_search = JSON.parse(
+        localStorage.getItem('the_siteNumControl_test_val')
+      );
+
+      if (this.site_num_search !== '') {
+        // const yourObject = { 18: [1, 2, 3, 4], 20: [20] }; // Replace this with your object
+        var keyWithValue20: string | undefined;
+
+        for (const key in this.categorizedArrays) {
+          if (this.categorizedArrays.hasOwnProperty(key)) {
+            const array = this.categorizedArrays[key];
+            for (let obj of array) {
+              // Check if the array contains the value 20
+              if (obj.code.includes(this.site_num_search)) {
+                keyWithValue20 = key;
+                break; // Exit the loop once we find the value 20
+              }
+            }
+          }
+        }
+      }
+
+
+      console.log('Key with value 20:', keyWithValue20);
+
       //   תנאי אשר במידה ויש למגדל מידע בשלוחה הטלה אנו נציג את הנתונים של שלוחת ההטלה קודם
       const hasValueTwenty = this.keys_of_categorizedArrays.includes('20');
       if (hasValueTwenty) {
@@ -566,6 +606,8 @@ export class EcommerceComponent implements OnInit {
         // במידה ואין לו נתונים בשלוחת ההטלה אנו נציג את השלוחה הבאה שלו
         this.selectedCategory = this.keys_of_categorizedArrays[0];
       }
+
+
 
       //   חילוק אתרים לפי פעילים ולא פעילים
       for (let item of this.farm_start_det) {
@@ -2158,6 +2200,15 @@ export class EcommerceComponent implements OnInit {
 
       console.log(this.farm_det_new);
 
+
+      if (keyWithValue20) {
+        console.log(keyWithValue20);
+        
+        // this.selectedCategory = keyWithValue20;
+        await this.selectCategory(keyWithValue20);
+      }
+
+this.site_num_search = ''
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////   console.log('end oninit')/////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3735,6 +3786,10 @@ export class EcommerceComponent implements OnInit {
 
     // חילוץ מס אתר ראשון כדי להציג את המידע המורחב שלו בהתחלה
     this.the_chosen_farm = this.farm_start_det[0]?.code;
+
+    if (this.site_num_search !== '') {
+        this.the_chosen_farm =this.site_num_search
+    }
 
     this.isLoading_short_site = false;
 

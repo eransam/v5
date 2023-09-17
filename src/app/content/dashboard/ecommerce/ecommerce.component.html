@@ -1965,8 +1965,11 @@
                         <th>
                           <div
                             *ngIf="
+                              this.latestObject_in_array_mifkadim_short &&
                               this.latestObject_in_array_mifkadim_short
-                                .pr_Datemsira
+                                .pr_Datemsira &&
+                              this.latestObject_in_array_mifkadim_short
+                                .pr_Datemsira !== undefined
                             "
                             style="
                               border-top: dashed grey 1px;
@@ -1979,8 +1982,11 @@
                           >
                             <th
                               *ngIf="
+                              this.latestObject_in_array_mifkadim_short && 
                                 this.latestObject_in_array_mifkadim_short
-                                  .pr_Datemsira
+                                  .pr_Datemsira &&
+                                this.latestObject_in_array_mifkadim_short
+                                  .pr_Datemsira !== undefined
                               "
                               style="cursor: pointer; color: green"
                               (click)="
@@ -1997,8 +2003,11 @@
 
                             <th
                               *ngIf="
+                              this.latestObject_in_array_mifkadim_short && 
                                 this.latestObject_in_array_mifkadim_short
-                                  .pr_Datemsira
+                                  .pr_Datemsira &&
+                                this.latestObject_in_array_mifkadim_short
+                                  .pr_Datemsira !== undefined
                               "
                               style="cursor: pointer; color: green"
                               scope="col"
@@ -2137,8 +2146,11 @@
                         <td style="width: 100px">
                           <div
                             *ngIf="
+                            this.latestObject_in_array_mifkadim_short && 
                               this.latestObject_in_array_mifkadim_short
-                                .pr_Datemsira
+                                .pr_Datemsira &&
+                              this.latestObject_in_array_mifkadim_short
+                                .pr_Datemsira !== undefined
                             "
                             style="
                               border-bottom: dashed grey 1px;

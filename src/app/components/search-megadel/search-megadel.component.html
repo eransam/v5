@@ -191,6 +191,29 @@
                 </div>
               </div>
             </div>
+
+            <!--נחלה-->
+            <div class="col-md-4">
+              <div class="form-group row mx-auto">
+                <label class="col-md-4 label-control" for="userinput1"
+                  >נחלה</label
+                >
+                <div class="col-md-8">
+                  <input
+                    name="nahala_test"
+                    type="text"
+                    id="nahala-input"
+                    class="form-control border-primary textUserInput"
+                    placeholder="נחלה"
+                    [(ngModel)]="nahala_test"
+                    [formControl]="nahalaControl_test"
+                  />
+                  <span class="delete-icon" (click)="clearInput('nahala_test')">
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

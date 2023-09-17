@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
+import { Sort } from '@angular/material/sort';
+
 import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
@@ -39,6 +41,7 @@ require('jspdf-autotable');
   styleUrls: ['./search-megadel.component.scss'],
 })
 export class SearchMegadelComponent implements OnInit {
+  stringArray: any[] = [];
   purchases: any;
   AllTotalAmountByYearAndMonth: any = '';
   TotalAmountDay: any = '';
@@ -59,6 +62,8 @@ export class SearchMegadelComponent implements OnInit {
   siteNum_test: string;
   gidulHotzNum_test: string;
   yeshuv_test: string;
+  nahala_test: string;
+
   growerNum_test: string;
 
   grower_zeut_test: string;
@@ -127,6 +132,8 @@ export class SearchMegadelComponent implements OnInit {
   gidulHotzNumControl_test = new FormControl();
 
   yeshuvControl_test = new FormControl();
+  nahalaControl_test = new FormControl();
+
   growerNumControl_test = new FormControl();
   grower_zeut_testControl_test = new FormControl();
   siteControl = new FormControl();
@@ -261,12 +268,40 @@ export class SearchMegadelComponent implements OnInit {
     'more than 20000$',
   ];
 
+  sort: Sort = {
+    active: 'siteNumber', // Set the default sorting column (assuming this is the column name)
+    direction: 'asc', // Set the default sorting direction
+  };
+
   projectInfo: FormGroup;
   userProfile: FormGroup;
   timeSheet: FormGroup;
   eventRegistration: FormGroup;
 
+  onSort(event: Sort): void {
+    this.sort = event;
+    this.sortData();
+  }
+
+  sortData(): void {
+    const data = [...this.the_new_det]; // Create a copy of the data
+
+    // Sort the data based on the 'siteNumber' property
+    data.sort((a, b) => {
+      const direction = this.sort.direction === 'asc' ? 1 : -1;
+
+      const siteNumberA = a.siteNumber;
+      const siteNumberB = b.siteNumber;
+
+      return direction * (siteNumberA - siteNumberB);
+    });
+
+    // Update the data source with the sorted data
+    this.the_new_det = data;
+  }
+
   async ngOnInit() {
+
     //FormControl מגדירים את המשתנים כך שיהיו מסוג
     (this.monthInput = new FormControl('', Validators.required)),
       (this.yearInput = new FormControl('', Validators.required)),
@@ -283,6 +318,10 @@ export class SearchMegadelComponent implements OnInit {
       selectedStatusBox: this.selectedStatusInput,
       yaerBox: this.yearInput,
     });
+
+    localStorage.setItem('the_siteNumControl_test_val', JSON.stringify(''));
+
+
 
     if (JSON.parse(localStorage.getItem('the_new_det'))) {
       this.the_new_det = JSON.parse(localStorage.getItem('the_new_det'));
@@ -366,6 +405,8 @@ export class SearchMegadelComponent implements OnInit {
       siteNum_test: ['', Validators.required],
       gidulHotzNum_test: ['', Validators.required],
       yeshuv_test: ['', Validators.required],
+      nahala_test: ['', Validators.required],
+
       growerNum_test: ['', Validators.required],
       grower_zeut_test: ['', Validators.required],
 
@@ -445,6 +486,8 @@ export class SearchMegadelComponent implements OnInit {
     this.grower_zeut_test = '';
 
     this.yeshuv_test = '';
+    this.nahala_test = '';
+
     this.selectedStatus = 'active';
   }
 
@@ -551,6 +594,10 @@ export class SearchMegadelComponent implements OnInit {
       case 'yeshuv_test':
         this.yeshuv_test = '';
         break;
+      case 'nahala_test':
+        this.nahala_test = '';
+        break;
+
       case 'growerNum_test':
         this.growerNum_test = '';
         break;
@@ -675,11 +722,22 @@ export class SearchMegadelComponent implements OnInit {
 
     //     ישוב
     var the_yeshuvControl_test_val = this.yeshuvControl_test.value;
+
+    //     נחלה
+    var the_nahalaControl_test_val = this.nahalaControl_test.value;
+
     if (
       the_yeshuvControl_test_val === undefined ||
       the_yeshuvControl_test_val === null
     ) {
       the_yeshuvControl_test_val = '';
+    }
+
+    if (
+      the_nahalaControl_test_val === undefined ||
+      the_nahalaControl_test_val === null
+    ) {
+      the_nahalaControl_test_val = '';
     }
 
     //   מס מגדל
@@ -704,6 +762,7 @@ export class SearchMegadelComponent implements OnInit {
       grower_zeut_testControl_test === '' &&
       growerNumControl_test_val === '' &&
       the_yeshuvControl_test_val === '' &&
+      the_nahalaControl_test_val === '' &&
       the_gidulHotzNumControl_test_val !== '' &&
       the_growers_id_by_name === ''
     ) {
@@ -718,6 +777,8 @@ export class SearchMegadelComponent implements OnInit {
 
     console.log(growerNumControl_test_val);
     console.log(the_yeshuvControl_test_val);
+    console.log(the_nahalaControl_test_val);
+
     console.log(the_gidulHotzNumControl_test_val);
     console.log(the_siteNumControl_test_val);
     console.log(the_growers_id_by_name);
@@ -748,6 +809,15 @@ export class SearchMegadelComponent implements OnInit {
       }
     }
 
+    console.log(the_siteNumControl_test_val);
+    if (the_siteNumControl_test_val !== '') {
+      localStorage.setItem(
+        'the_siteNumControl_test_val',
+        JSON.stringify(the_siteNumControl_test_val)
+      );
+    }
+
+    
     if (the_growers_id_by_name !== '') {
       for (let obj of the_growers_id_by_name) {
         if (obj?.splite) {
@@ -759,7 +829,8 @@ export class SearchMegadelComponent implements OnInit {
               the_gidulHotzNumControl_test_val,
               growerNumControl_test_val,
               the_yeshuvControl_test_val,
-              grower_zeut_testControl_test
+              grower_zeut_testControl_test,
+              the_nahalaControl_test_val
             );
         } else {
           var the_grower_det =
@@ -769,7 +840,8 @@ export class SearchMegadelComponent implements OnInit {
               the_gidulHotzNumControl_test_val,
               growerNumControl_test_val,
               the_yeshuvControl_test_val,
-              grower_zeut_testControl_test
+              grower_zeut_testControl_test,
+              the_nahalaControl_test_val
             );
         }
         if (the_grower_det.length !== 0) {
@@ -784,7 +856,8 @@ export class SearchMegadelComponent implements OnInit {
         the_gidulHotzNumControl_test_val,
         growerNumControl_test_val,
         the_yeshuvControl_test_val,
-        grower_zeut_testControl_test
+        grower_zeut_testControl_test,
+        the_nahalaControl_test_val
       );
 
       for (let obj of the_grower_det) {
@@ -847,7 +920,7 @@ export class SearchMegadelComponent implements OnInit {
       var new_arr_growers_det_all = this.new_arr_growers_det;
       this.new_arr_growers_det = new_arr_growers_det_all;
     }
-
+    // פרטי המגדל
     console.log(this.new_arr_growers_det);
 
     localStorage.setItem(
@@ -888,11 +961,11 @@ export class SearchMegadelComponent implements OnInit {
 
       //  עוברים על כל האתרים של המגדל ומוציאים מהאובייקט את מספרי האתרים לסטרינג
       for (let obj1 of the_growers_farms) {
-        if (obj1.hen_house_active_count === 1) {
+        // if (obj1.hen_house_active_count === 1) {
           if (obj1.farm_code) {
             obj.farms += obj1.farm_code + ' ,';
           }
-        }
+        // }
       }
     }
 
@@ -905,7 +978,6 @@ export class SearchMegadelComponent implements OnInit {
         '30 - ביצי מאכל',
         88
       );
-      //   item.micsa = this.mihsot3[0]?.mi_kamut;
       this.totalMicsaKvoha = 0;
       for (const iterator of this.mihsot3) {
         if (
@@ -977,7 +1049,11 @@ export class SearchMegadelComponent implements OnInit {
       console.log(split_farms);
 
       item.farms += split_farms[0]?.code;
-    }
+
+      //   נוציא את כל האתרים של המגדל הראשי
+      var farm_start_det = await this.megadelSearchService.farm_start_det(
+        item.yz_Id
+      );
 
     // הורדת אנדיפיינד מהאתרים
     for (let item of this.new_arr_growers_det) {
@@ -994,17 +1070,4 @@ export class SearchMegadelComponent implements OnInit {
 
     this.isLoading_FarmDetails = false;
   }
-
-  //           // יוצר שדה המכיל מספרי אתרים
-  //           for (let item of resultsMaaravi2) {
-  //             const results3 =
-  //               await this.megadelSearchService.Tables_Select_All_Atarim_Of_Yzrn(
-  //                 50,
-  //                 '',
-  //                 '%',
-  //                 0,
-  //                 '17,18,19,20,21,22,23,25,26,27,28',
-  //                 item.v_yzrn,
-  //                 99
-  //               );
-}
+}}

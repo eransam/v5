@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { EcommerceComponent } from './ecommerce.component';
+import { EcommerceComponent } from 'e2e/src/app.po';
 
 describe('EcommerceComponent', () => {
   let component: EcommerceComponent;
@@ -8,9 +8,8 @@ describe('EcommerceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EcommerceComponent ]
-    })
-    .compileComponents();
+      declarations: [EcommerceComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
