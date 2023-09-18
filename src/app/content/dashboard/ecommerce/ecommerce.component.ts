@@ -2201,20 +2201,142 @@ export class EcommerceComponent implements OnInit {
       console.log(this.farm_det_new);
 
 
+
+
+
+
+
+
+      for (let obj of this.farm_det_new) {
+        if (obj !== undefined) {
+          if (obj.farm_code_with_slesh) {
+            var real_hiclos_by_site =
+              await this.megadelSearchService.get_real_hiclos_in_site_splite(
+                obj?.farm_num,
+                obj?.flock_num,
+                obj.farm_code_with_slesh
+              );
+            if (real_hiclos_by_site.length === 0) {
+              // חילוץ כל תעודות ההעברה ממדגרה
+              var real_hiclos_in_site_from_madgera =
+                await this.megadelSearchService.get_real_hiclos_in_site_from_madgera(
+                  obj?.farm_id,
+                  obj?.flock_num
+                );
+              real_hiclos_by_site = real_hiclos_in_site_from_madgera;
+            }
+
+            var Internal_transfer_certificates =
+              await this.megadelSearchService.get_Internal_transfer_certificates(
+                obj?.farm_id,
+                obj?.flock_num
+              );
+            real_hiclos_by_site = [
+              ...real_hiclos_by_site,
+              ...Internal_transfer_certificates,
+            ];
+
+            this.hiclos_by_site = real_hiclos_by_site;
+            var count_hiclos = 0;
+            if (real_hiclos_by_site) {
+              if (real_hiclos_by_site[0]?.chicken_sum >= 0) {
+                for (let obj2 of real_hiclos_by_site) {
+                  count_hiclos += Number(obj2.chicken_sum);
+                  count_hiclos += Number(obj2.chicken_sum_female);
+                  count_hiclos += Number(obj2.mixed_sum);
+                }
+              } else {
+                for (let obj2 of real_hiclos_by_site) {
+                  if (obj2.chicken_sum_female) {
+                    count_hiclos += Number(obj2.chicken_sum_female);
+                  }
+                }
+              }
+
+              // חילוץ כמות איכלוס פר אתר
+              obj.count_hiclos_total_site = count_hiclos;
+            }
+          } else {
+            var real_hiclos_by_site =
+              await this.megadelSearchService.get_real_hiclos_in_site(
+                obj?.farm_id,
+                obj?.flock_num
+              );
+
+            if (real_hiclos_by_site.length === 0) {
+              // חילוץ כל תעודות ההעברה ממדגרה
+              var real_hiclos_in_site_from_madgera =
+                await this.megadelSearchService.get_real_hiclos_in_site_from_madgera(
+                  obj?.farm_id,
+                  obj?.flock_num
+                );
+              real_hiclos_by_site = real_hiclos_in_site_from_madgera;
+            }
+
+            var Internal_transfer_certificates =
+              await this.megadelSearchService.get_Internal_transfer_certificates(
+                obj?.farm_id,
+                obj?.flock_num
+              );
+            real_hiclos_by_site = [
+              ...real_hiclos_by_site,
+              ...Internal_transfer_certificates,
+            ];
+
+            this.hiclos_by_site = real_hiclos_by_site;
+            this.all_certificate_det = [
+              ...this.all_certificate_det,
+              ...real_hiclos_by_site,
+            ];
+
+            var count_hiclos = 0;
+            if (real_hiclos_by_site) {
+              if (real_hiclos_by_site[0]?.chicken_sum >= 0) {
+                for (let obj2 of real_hiclos_by_site) {
+                  count_hiclos += Number(obj2.chicken_sum);
+                  count_hiclos += Number(obj2.chicken_sum_female);
+                  count_hiclos += Number(obj2.mixed_sum);
+                }
+              } else {
+                for (let obj2 of real_hiclos_by_site) {
+                  if (obj2.chicken_sum_female) {
+                    count_hiclos += Number(obj2.chicken_sum_female);
+                  }
+                }
+              }
+
+              // חילוץ כמות איכלוס פר אתר
+              obj.count_hiclos_total_site = count_hiclos;
+            }
+          }
+        }
+      }
+
+
+      console.log(this.hiclos_by_site);
+
+
+
       if (keyWithValue20) {
         console.log(keyWithValue20);
         
         // this.selectedCategory = keyWithValue20;
         await this.selectCategory(keyWithValue20);
       }
+      console.log(this.farm_det_new);  
 
 this.site_num_search = ''
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////   console.log('end oninit')/////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      console.log(this.hiclos_by_site);
 
-      console.log('end oninit');
-    });
+      console.log('end subscribe');
+      console.log(this.farm_det_new);  
+      });
+    console.log('end oninit');
+    console.log(this.farm_det_new);
+
   }
   isFirstClick = true;
   async bring_all_flocks() {
@@ -2576,7 +2698,23 @@ this.site_num_search = ''
         this.farm_det_new[0].count_hiclos_total_site =
           get_flock_ages_by_flock_id[0].count_hiclos_total_site;
 
+
         console.log(this.farm_det_new);
+
+        if (this.farm_det_new[0].flock_status_id === 2 && this.farm_det_new[0].pinoyim.length === 0) {
+            console.log("test");
+            
+            var add_flock_close_date = await this.megadelSearchService.get_flock_close_date_by_flock_num(this.farm_det_new[0].flock_num)
+            console.log(add_flock_close_date);
+            if (add_flock_close_date.length > 0) {
+                this.farm_det_new[0].add_flock_close_date = add_flock_close_date[0].flock_close_date
+            }
+            console.log(this.farm_det_new);
+        }
+
+        console.log(this.farm_det_new);
+        
+        
       }
     }
     this.isLoading_FarmDetails = false;

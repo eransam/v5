@@ -12,6 +12,26 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_id_by_certificate_id(certificate_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_id_by_certificate_id?certificate_id=${certificate_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+  async get_flock_close_date_by_flock_num(flock_num: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_flock_close_date_by_flock_num?flock_num=${flock_num}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async history_get_meshavek_tzamod_more_details_by_growerNum_and_tzrt(
     hz_Yzrn: any,
     hz_tzrt: any,

@@ -63,7 +63,7 @@
 
                 <th style="font-weight: bold; text-align: right">כמות עופות</th>
 
-                <!-- <th style="font-weight: bold; text-align: right">  pdf</th> -->
+                <th style="font-weight: bold; text-align: right">  pdf</th>
               </tr>
             </thead>
             <tbody style="white-space: nowrap">
@@ -118,20 +118,16 @@
                   }}
                 </td>
 
-                <!-- <td>
-                  <a
-                    [href]="
-                      'http:\\\\epb-iis12:8006\\LulSln_net\\Mifkadim_New\\TdMs_' +
-                      p.Mifkad_pdf +
-                      '_' +
-                      p.id_pdf +
-                      '.pdf'
+                <td>
+                    <a
+                      
+                      [href]="
+                      'http:\\\\epb-iis12:8006\\Hatchery\\CERTIFICATE\\certificate' + p.certificate_id + '.pdf'
                     "
-                    >file</a
-
-                    
-                  >
-                </td> -->
+                      
+                      >file</a
+                    >
+                  </td>
               </tr>
             </tbody>
           </table>
@@ -174,7 +170,9 @@
                   תאריך העברה
                 </th>
 
-                <th style="font-weight: bold; text-align: right">מס תעודה</th>
+                <th style="font-weight: bold; text-align: right">
+                מס תעודה
+            </th>
 
                 <th style="font-weight: bold; text-align: right">
                   מס רישיון משק מקור
@@ -289,8 +287,10 @@
                 <td>
                   <a
                     [href]="
-                      'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_584590-ADMIN-copy.pdf'
+                      'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_' + p.certificate_id + '-GROWER-copy.pdf'
                     "
+
+                    
                     >file</a
                   >
                 </td>

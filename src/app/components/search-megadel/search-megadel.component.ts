@@ -1070,4 +1070,6 @@ export class SearchMegadelComponent implements OnInit {
 
     this.isLoading_FarmDetails = false;
   }
+  this.isLoading_FarmDetails = false;
+
 }}

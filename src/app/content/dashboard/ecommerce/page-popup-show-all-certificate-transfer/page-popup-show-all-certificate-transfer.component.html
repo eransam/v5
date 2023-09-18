@@ -54,6 +54,7 @@
                 </th>
                 <th style="font-weight: bold; text-align: right">כלובים</th>
                 <th style="font-weight: bold; text-align: right">כמות עופות</th>
+                <th style="font-weight: bold; text-align: right">pdf</th>
               </tr>
             </thead>
             <tbody style="white-space: nowrap">
@@ -121,6 +122,17 @@
                 <!-- >כמות עופות -->
                 <td [ngClass]="[p.internal ? 'internal' : 'not_internal']">
                   {{ p.chicken_sum_female | number : "0.0" }}
+                </td>
+                <!-- > pdf -->
+                <td>
+                  <a
+                    [href]="
+                      'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_' +
+                      p.certificate_id +
+                      '-GROWER-copy.pdf'
+                    "
+                    >file</a
+                  >
                 </td>
               </tr>
 
