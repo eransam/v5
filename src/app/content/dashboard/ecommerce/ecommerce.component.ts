@@ -205,7 +205,7 @@ export class EcommerceComponent implements OnInit {
   more_hiclos_pargit_after_kizuz: any = 0;
   mifkadim: any;
   quarantine: any = [];
-  site_num_search:any
+  site_num_search: any;
   constructor(
     private environmentService: EnvironmentFrontService,
     private router: Router,
@@ -220,7 +220,7 @@ export class EcommerceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.site_num_search = ''
+    this.site_num_search = '';
     this.quarantine = [];
     this.mifkadim = [];
     this.latestObject_in_array_mifkadim_short = {};
@@ -262,11 +262,10 @@ export class EcommerceComponent implements OnInit {
     console.log(this.mihsot);
   }
 
-
   //   ------ onInit end---------------------------------------------------------------------------------------------------------------------
   async subscribe_func() {
     this.route2.params.subscribe(async (params) => {
-      this.site_num_search = ''
+      this.site_num_search = '';
       this.quarantine = [];
       this.count_more_hiclos = 0;
       this.array_pinoyim_short = [];
@@ -321,8 +320,7 @@ export class EcommerceComponent implements OnInit {
           this.idFromurl
         );
 
-        console.log( this.userDetails);
-        
+        console.log(this.userDetails);
 
         // פרטי מגדל
         this.userDetails =
@@ -341,13 +339,9 @@ export class EcommerceComponent implements OnInit {
             1,
             '%'
           );
-          
-          console.log( this.userDetails);
+
+        console.log(this.userDetails);
       }
-
-
-      
-
 
       localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
 
@@ -371,8 +365,6 @@ export class EcommerceComponent implements OnInit {
         -1,
         '-1'
       );
-
-
 
       //   מוציא את מספרי האתרים של המגדל
       const siteName = the_growers_farms.map((obj) => obj.farm_code);
@@ -406,6 +398,26 @@ export class EcommerceComponent implements OnInit {
         this.chosenYear.toString()
       );
 
+
+      
+      // חילוץ מגדל ראשי שנה נוכחית כדי להוציא שותפים של ג''ח נכונים
+      if (this.mainGrower.length > 0) {
+
+      const today = new Date();
+const year = today.getFullYear();
+console.log(year);
+
+
+      var current_mainGrower = await this.megadelSearchService.Partners_Get_CodeGidul(
+        11,
+        this.userDetails[0].v_yzrn,
+        30,
+        year.toString()
+      );
+
+      }
+
+
       //   עדכון מס קבוצת גידול חוץ
       if (this.mainGrower.length > 0) {
         this.userDetails[0].cdgdl = this.mainGrower[0].cdgdl.toString();
@@ -426,12 +438,22 @@ export class EcommerceComponent implements OnInit {
         const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
 
         // הבאת שותפים של ג''ח הטלה
-        this.partnerData = await this.megadelSearchService.getPartner(
-          thefarmdet[0]?.farm_id,
-          thefarmdet[0]?.active_flock_id,
-          this.mainGrower[0]?.YzrnHead,
-          formattedDateTime
-        );
+        if (thefarmdet[0]?.active_flock_id === null) {
+            thefarmdet[0].active_flock_id = this.farm_det_new[0].flock_num
+          this.partnerData = await this.megadelSearchService.getPartner(
+            current_mainGrower[0]?.atar_id,
+            '',
+            this.mainGrower[0]?.YzrnHead,
+            formattedDateTime
+          );
+        } else {
+          this.partnerData = await this.megadelSearchService.getPartner(
+            current_mainGrower[0]?.atar_id,
+            '',
+            this.mainGrower[0]?.YzrnHead,
+            formattedDateTime
+          );
+        }
 
         // מס השותפים בג''ח הטלה
         this.partners_length = this.partnerData.length;
@@ -595,7 +617,6 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
-
       console.log('Key with value 20:', keyWithValue20);
 
       //   תנאי אשר במידה ויש למגדל מידע בשלוחה הטלה אנו נציג את הנתונים של שלוחת ההטלה קודם
@@ -606,8 +627,6 @@ export class EcommerceComponent implements OnInit {
         // במידה ואין לו נתונים בשלוחת ההטלה אנו נציג את השלוחה הבאה שלו
         this.selectedCategory = this.keys_of_categorizedArrays[0];
       }
-
-
 
       //   חילוק אתרים לפי פעילים ולא פעילים
       for (let item of this.farm_start_det) {
@@ -2200,13 +2219,6 @@ export class EcommerceComponent implements OnInit {
 
       console.log(this.farm_det_new);
 
-
-
-
-
-
-
-
       for (let obj of this.farm_det_new) {
         if (obj !== undefined) {
           if (obj.farm_code_with_slesh) {
@@ -2312,31 +2324,27 @@ export class EcommerceComponent implements OnInit {
         }
       }
 
-
       console.log(this.hiclos_by_site);
-
-
 
       if (keyWithValue20) {
         console.log(keyWithValue20);
-        
+
         // this.selectedCategory = keyWithValue20;
         await this.selectCategory(keyWithValue20);
       }
-      console.log(this.farm_det_new);  
+      console.log(this.farm_det_new);
 
-this.site_num_search = ''
+      this.site_num_search = '';
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////   console.log('end oninit')/////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       console.log(this.hiclos_by_site);
 
       console.log('end subscribe');
-      console.log(this.farm_det_new);  
-      });
+      console.log(this.farm_det_new);
+    });
     console.log('end oninit');
     console.log(this.farm_det_new);
-
   }
   isFirstClick = true;
   async bring_all_flocks() {
@@ -2698,23 +2706,27 @@ this.site_num_search = ''
         this.farm_det_new[0].count_hiclos_total_site =
           get_flock_ages_by_flock_id[0].count_hiclos_total_site;
 
-
         console.log(this.farm_det_new);
 
-        if (this.farm_det_new[0].flock_status_id === 2 && this.farm_det_new[0].pinoyim.length === 0) {
-            console.log("test");
-            
-            var add_flock_close_date = await this.megadelSearchService.get_flock_close_date_by_flock_num(this.farm_det_new[0].flock_num)
-            console.log(add_flock_close_date);
-            if (add_flock_close_date.length > 0) {
-                this.farm_det_new[0].add_flock_close_date = add_flock_close_date[0].flock_close_date
-            }
-            console.log(this.farm_det_new);
+        if (
+          this.farm_det_new[0].flock_status_id === 2 &&
+          this.farm_det_new[0].pinoyim.length === 0
+        ) {
+          console.log('test');
+
+          var add_flock_close_date =
+            await this.megadelSearchService.get_flock_close_date_by_flock_num(
+              this.farm_det_new[0].flock_num
+            );
+          console.log(add_flock_close_date);
+          if (add_flock_close_date.length > 0) {
+            this.farm_det_new[0].add_flock_close_date =
+              add_flock_close_date[0].flock_close_date;
+          }
+          console.log(this.farm_det_new);
         }
 
         console.log(this.farm_det_new);
-        
-        
       }
     }
     this.isLoading_FarmDetails = false;
@@ -3926,7 +3938,7 @@ this.site_num_search = ''
     this.the_chosen_farm = this.farm_start_det[0]?.code;
 
     if (this.site_num_search !== '') {
-        this.the_chosen_farm =this.site_num_search
+      this.the_chosen_farm = this.site_num_search;
     }
 
     this.isLoading_short_site = false;
@@ -4569,6 +4581,25 @@ this.site_num_search = ''
             this.chosenYear.toString()
           );
 
+
+                // חילוץ מגדל ראשי שנה נוכחית כדי להוציא שותפים של ג''ח נכונים
+      if (this.mainGrower.length > 0) {
+
+        const today = new Date();
+  const year = today.getFullYear();
+  console.log(year);
+  
+  
+        var current_mainGrower = await this.megadelSearchService.Partners_Get_CodeGidul(
+          11,
+          this.userDetails[0].v_yzrn,
+          30,
+          year.toString()
+        );
+  
+        }
+
+
         const thefarmdet = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
         ]);
@@ -4579,11 +4610,16 @@ this.site_num_search = ''
 
         const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
 
+
+
+
+
+// הבאת שותפים של ג''ח הטלה
         this.partnerData = await this.megadelSearchService.getPartner(
-          thefarmdet[0]?.farm_id,
-          thefarmdet[0]?.active_flock_id,
-          this.mainGrower[0]?.YzrnHead,
-          formattedDateTime
+                    current_mainGrower[0]?.atar_id,
+                    '',
+                    this.mainGrower[0]?.YzrnHead,
+                    formattedDateTime
         );
         this.partners_length = this.partnerData.length;
 

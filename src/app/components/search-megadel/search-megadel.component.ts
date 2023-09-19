@@ -849,6 +849,16 @@ export class SearchMegadelComponent implements OnInit {
         }
       }
     } else {
+        console.log(growerNumControl_test_val);
+        console.log(the_yeshuvControl_test_val);
+        console.log(the_nahalaControl_test_val);
+    
+        console.log(the_gidulHotzNumControl_test_val);
+        console.log(the_siteNumControl_test_val);
+        console.log(the_growers_id_by_name);
+        if (growerNumControl_test_val === '' && the_yeshuvControl_test_val === '' && the_nahalaControl_test_val === '' && the_gidulHotzNumControl_test_val === '' && the_siteNumControl_test_val === '' && the_growers_id_by_name === '' ) {
+            the_grower_det = []
+        }else{
       // מביא את פרטי המגדל
       var the_grower_det = await this.megadelSearchService.get_start_grower_det(
         '',
@@ -859,6 +869,8 @@ export class SearchMegadelComponent implements OnInit {
         grower_zeut_testControl_test,
         the_nahalaControl_test_val
       );
+        }
+
 
       for (let obj of the_grower_det) {
         if (obj !== undefined) {
