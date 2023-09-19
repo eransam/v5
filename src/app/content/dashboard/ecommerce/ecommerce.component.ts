@@ -320,6 +320,16 @@ export class EcommerceComponent implements OnInit {
           this.idFromurl
         );
 
+        // const currentDate2 = new Date();
+        // console.log(currentDate2);
+
+        // currentDate2.setFullYear(this.chosenYear.toString());
+        // console.log(currentDate2);
+
+        // // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
+        // var check123:any = currentDate2.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
+        // console.log(check123);
+
         console.log(this.userDetails);
 
         // פרטי מגדל
@@ -398,25 +408,20 @@ export class EcommerceComponent implements OnInit {
         this.chosenYear.toString()
       );
 
-
-      
       // חילוץ מגדל ראשי שנה נוכחית כדי להוציא שותפים של ג''ח נכונים
       if (this.mainGrower.length > 0) {
+        const today = new Date();
+        const year = today.getFullYear();
+        console.log(year);
 
-      const today = new Date();
-const year = today.getFullYear();
-console.log(year);
-
-
-      var current_mainGrower = await this.megadelSearchService.Partners_Get_CodeGidul(
-        11,
-        this.userDetails[0].v_yzrn,
-        30,
-        year.toString()
-      );
-
+        var current_mainGrower =
+          await this.megadelSearchService.Partners_Get_CodeGidul(
+            11,
+            this.userDetails[0].v_yzrn,
+            30,
+            year.toString()
+          );
       }
-
 
       //   עדכון מס קבוצת גידול חוץ
       if (this.mainGrower.length > 0) {
@@ -439,7 +444,7 @@ console.log(year);
 
         // הבאת שותפים של ג''ח הטלה
         if (thefarmdet[0]?.active_flock_id === null) {
-            thefarmdet[0].active_flock_id = this.farm_det_new[0].flock_num
+          thefarmdet[0].active_flock_id = this.farm_det_new[0].flock_num;
           this.partnerData = await this.megadelSearchService.getPartner(
             current_mainGrower[0]?.atar_id,
             '',
@@ -675,9 +680,36 @@ console.log(year);
           });
         }
       }
+
+      console.log(this.chosenYear);
+
+      const currentDate2 = new Date();
+      console.log(currentDate2);
+
+      currentDate2.setFullYear(this.chosenYear.toString());
+      console.log(currentDate2);
+
+      // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
+      var check123: any = currentDate2.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
+
+      console.log(check123);
+
+      // Extract the year from the original string
+      const yearFromCheck123 = Number(check123.substring(0, 4));
+
+      // Create a new Date object set to the first day of the extracted year
+      const firstDayOfYear = new Date(Date.UTC(yearFromCheck123, 0, 1));
+      firstDayOfYear.setUTCHours(0, 0, 0, 0); // Set to midnight in UTC
+
+      // Format the date as a string in the 'YYYY-MM-DDTHH:mm:ss.sss' format
+      const formattedDate = firstDayOfYear.toISOString();
+
+      console.log(formattedDate); // Output: '2023-01-01T00:00:00.000Z'
+
       const checkPartners2 =
         await this.megadelSearchService.get_atar_partnerts_and_partners_all_tzrt_witout_hatala_by_num_yzrn(
-          this.userDetails[0]?.v_yzrn
+          this.userDetails[0]?.v_yzrn,
+          formattedDate
         );
 
       console.log(checkPartners2);
@@ -4581,24 +4613,20 @@ console.log(year);
             this.chosenYear.toString()
           );
 
+        // חילוץ מגדל ראשי שנה נוכחית כדי להוציא שותפים של ג''ח נכונים
+        if (this.mainGrower.length > 0) {
+          const today = new Date();
+          const year = today.getFullYear();
+          console.log(year);
 
-                // חילוץ מגדל ראשי שנה נוכחית כדי להוציא שותפים של ג''ח נכונים
-      if (this.mainGrower.length > 0) {
-
-        const today = new Date();
-  const year = today.getFullYear();
-  console.log(year);
-  
-  
-        var current_mainGrower = await this.megadelSearchService.Partners_Get_CodeGidul(
-          11,
-          this.userDetails[0].v_yzrn,
-          30,
-          year.toString()
-        );
-  
+          var current_mainGrower =
+            await this.megadelSearchService.Partners_Get_CodeGidul(
+              11,
+              this.userDetails[0].v_yzrn,
+              30,
+              year.toString()
+            );
         }
-
 
         const thefarmdet = await this.getFarmDetailsArr([
           this.mainGrower[0].atar_id,
@@ -4610,16 +4638,12 @@ console.log(year);
 
         const formattedDateTime = currentDate.toISOString(); // Result: '2022-08-03T14:30:00.000Z'
 
-
-
-
-
-// הבאת שותפים של ג''ח הטלה
+        // הבאת שותפים של ג''ח הטלה
         this.partnerData = await this.megadelSearchService.getPartner(
-                    current_mainGrower[0]?.atar_id,
-                    '',
-                    this.mainGrower[0]?.YzrnHead,
-                    formattedDateTime
+          current_mainGrower[0]?.atar_id,
+          '',
+          this.mainGrower[0]?.YzrnHead,
+          formattedDateTime
         );
         this.partners_length = this.partnerData.length;
 
