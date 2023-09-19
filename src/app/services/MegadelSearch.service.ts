@@ -12,6 +12,22 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+
+  async get_grower_num_by_farm_id(
+    farm_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_grower_num_by_farm_id?farm_id=${farm_id}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
+
+
+
   async get_new_grower_name_id_by_Old_Name_Yazran(
     Old_Name_Yazran: any
   ): Promise<any[]> {

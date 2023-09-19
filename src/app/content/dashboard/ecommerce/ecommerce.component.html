@@ -184,15 +184,13 @@
           </div>
         </div>
 
-
         <!-- חיפוש לפי שנה ושלוחה -->
         <div class="col-xl-2 col-lg-6 col-12">
           <div class="card pull-up search_by_year">
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex" style="height: 99px">
-
-                    <!-- חיפוש לפי שנה -->
+                  <!-- חיפוש לפי שנה -->
                   <div
                     class="year-select rtl_Style"
                     style="
@@ -1968,13 +1966,14 @@
                         </th>
 
                         <th
-                        *ngIf="
-                        this.latestObject_in_array_mifkadim_short &&
-                        this.latestObject_in_array_mifkadim_short
-                          .pr_Datemsira &&
-                        this.latestObject_in_array_mifkadim_short
-                          .pr_Datemsira !== undefined
-                      ">
+                          *ngIf="
+                            this.latestObject_in_array_mifkadim_short &&
+                            this.latestObject_in_array_mifkadim_short
+                              .pr_Datemsira &&
+                            this.latestObject_in_array_mifkadim_short
+                              .pr_Datemsira !== undefined
+                          "
+                        >
                           <div
                             *ngIf="
                               this.latestObject_in_array_mifkadim_short &&
@@ -1994,7 +1993,7 @@
                           >
                             <th
                               *ngIf="
-                              this.latestObject_in_array_mifkadim_short && 
+                                this.latestObject_in_array_mifkadim_short &&
                                 this.latestObject_in_array_mifkadim_short
                                   .pr_Datemsira &&
                                 this.latestObject_in_array_mifkadim_short
@@ -2015,7 +2014,7 @@
 
                             <th
                               *ngIf="
-                              this.latestObject_in_array_mifkadim_short && 
+                                this.latestObject_in_array_mifkadim_short &&
                                 this.latestObject_in_array_mifkadim_short
                                   .pr_Datemsira &&
                                 this.latestObject_in_array_mifkadim_short
@@ -2035,10 +2034,11 @@
                         </th>
 
                         <th
-                        *ngIf="
-                        this.latestObject_in_array_pinoyim_short
-                          .pr_Datemsira
-                      ">
+                          *ngIf="
+                            this.latestObject_in_array_pinoyim_short
+                              .pr_Datemsira
+                          "
+                        >
                           <div
                             *ngIf="
                               this.latestObject_in_array_pinoyim_short
@@ -2086,18 +2086,15 @@
                           </div>
                         </th>
 
-
-
                         <!-- ת.סגירה  -->
                         <th
-                        *ngIf="this.farm_det_new[0].add_flock_close_date"
+                          *ngIf="this.farm_det_new[0].add_flock_close_date"
                           scope="col"
                           class="border-top-0 table_tatle"
                           style="width: 150px"
                         >
                           ת.סגירה
                         </th>
-
                       </tr>
                     </thead>
 
@@ -2173,17 +2170,18 @@
                         </td>
 
                         <td
-                        *ngIf="
-                        this.latestObject_in_array_mifkadim_short && 
-                          this.latestObject_in_array_mifkadim_short
-                            .pr_Datemsira &&
-                          this.latestObject_in_array_mifkadim_short
-                            .pr_Datemsira !== undefined
-                        "
-                         style="width: 100px">
+                          *ngIf="
+                            this.latestObject_in_array_mifkadim_short &&
+                            this.latestObject_in_array_mifkadim_short
+                              .pr_Datemsira &&
+                            this.latestObject_in_array_mifkadim_short
+                              .pr_Datemsira !== undefined
+                          "
+                          style="width: 100px"
+                        >
                           <div
                             *ngIf="
-                            this.latestObject_in_array_mifkadim_short && 
+                              this.latestObject_in_array_mifkadim_short &&
                               this.latestObject_in_array_mifkadim_short
                                 .pr_Datemsira &&
                               this.latestObject_in_array_mifkadim_short
@@ -2228,10 +2226,11 @@
                         </td>
 
                         <td
-                        *ngIf="
-                        this.latestObject_in_array_pinoyim_short
-                          .pr_Datemsira
-                      ">
+                          *ngIf="
+                            this.latestObject_in_array_pinoyim_short
+                              .pr_Datemsira
+                          "
+                        >
                           <div
                             *ngIf="
                               this.latestObject_in_array_pinoyim_short
@@ -2276,24 +2275,19 @@
                             >
                               {{ this.array_pinoyim_short[0]?.total_pr_Kamut }}
                             </td>
-
-
                           </div>
                         </td>
 
-
-                            <!-- ת.סגירה  -->
-                            <td
-                            *ngIf="
+                        <!-- ת.סגירה  -->
+                        <td
+                          *ngIf="this.farm_det_new[0].add_flock_close_date"
+                          style="width: 100px"
+                        >
+                          {{
                             this.farm_det_new[0].add_flock_close_date
-                            "
-                            style="width: 100px"
-                            >
-                            {{
-                                this.farm_det_new[0].add_flock_close_date | date : "dd/MM/yyyy"
-                            }}
-                            </td>
-
+                              | date : "dd/MM/yyyy"
+                          }}
+                        </td>
                       </tr>
                     </tbody>
                     <br />
@@ -2437,7 +2431,14 @@
 
                     <!-- הצמדות -->
                     <h3
-                      *ngIf="this.farm_det_new[0].tnahi_imon === 1"
+                      *ngIf="
+                        this.farm_det_new[0].tnahi_imon === 1 ||
+                        (this.farm_det_new[0].belonging_group_id_oshik &&
+                          (this.farm_det_new[0].belonging_group_id_oshik ===
+                            22 ||
+                            this.farm_det_new[0].belonging_group_id_oshik ===
+                              19))
+                      "
                       class="main_table_tatle"
                       style="cursor: pointer; color: green"
                       (click)="hazmadot_history(this.farm_det_new[0])"
