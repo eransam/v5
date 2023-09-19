@@ -59,6 +59,11 @@ export class SearchMegadelComponent implements OnInit {
   username: string;
   selectedStatus: string = 'active';
   username_test: string;
+
+
+  old_name_test: string;
+
+
   siteNum_test: string;
   gidulHotzNum_test: string;
   yeshuv_test: string;
@@ -127,6 +132,9 @@ export class SearchMegadelComponent implements OnInit {
   usernameControl = new FormControl();
   selectedStatusControl = new FormControl();
   usernameControl_test = new FormControl();
+  old_nameControl_test = new FormControl();
+
+  
   selectedStatusControl_test = new FormControl();
   siteNumControl_test = new FormControl();
   gidulHotzNumControl_test = new FormControl();
@@ -402,6 +410,7 @@ export class SearchMegadelComponent implements OnInit {
       lastName: ['', Validators.required],
       userName: ['', Validators.required],
       username_test: ['', Validators.required],
+      old_name_test: ['', Validators.required],
       siteNum_test: ['', Validators.required],
       gidulHotzNum_test: ['', Validators.required],
       yeshuv_test: ['', Validators.required],
@@ -480,6 +489,9 @@ export class SearchMegadelComponent implements OnInit {
   cleanInputFild() {
     this.the_new_det = [];
     this.username_test = '';
+    this.old_name_test = '';
+
+    
     this.siteNum_test = '';
     this.gidulHotzNum_test = '';
     this.growerNum_test = '';
@@ -615,6 +627,13 @@ export class SearchMegadelComponent implements OnInit {
       case 'username_test':
         this.username_test = '';
         break;
+        case 'old_name_test':
+            this.old_name_test = '';
+            break;
+
+        
+
+
       case 'selectedStatus':
         this.selectedStatus = 'active';
         break;
@@ -701,6 +720,40 @@ export class SearchMegadelComponent implements OnInit {
     if (the_growers_id_by_name.length < 1) {
       the_growers_id_by_name = '';
     }
+
+
+    if (the_growers_id_by_name === '') {
+   
+        // איידי מגדל לפי שם ישן
+        var the_growers_id_by_name: any =
+        await this.megadelSearchService.get_new_grower_name_id_by_Old_Name_Yazran(
+          this.old_nameControl_test.value
+        );
+      if (the_growers_id_by_name.length < 1) {
+        the_growers_id_by_name = '';
+      }
+     
+    }
+      console.log(the_growers_id_by_name);
+      const seenYazranNums: { [key: string]: boolean } = {};
+
+// Filter the original array to remove duplicates based on Yazran_num
+const uniqueArray = the_growers_id_by_name.filter(obj => {
+    if (!seenYazranNums[obj.yz_Id]) {
+      // If Yazran_num is not seen, mark it as seen and keep the object
+      seenYazranNums[obj.yz_Id] = true;
+      return true;
+    }
+    return false; // Duplicate, so filter it out
+  });
+  
+  console.log('Unique Array:', uniqueArray);
+  the_growers_id_by_name = uniqueArray
+
+
+
+
+
 
     //   מס אתר
     var the_siteNumControl_test_val = this.siteNumControl_test.value;
