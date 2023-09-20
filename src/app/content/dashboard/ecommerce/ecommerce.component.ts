@@ -4057,6 +4057,10 @@ export class EcommerceComponent implements OnInit {
   }
 
   async selectCategory(category: string) {
+    this.array_pinoyim_short = []
+    this.array_mifkadim_short = []
+    this.latestObject_in_array_mifkadim_short = []
+    this.latestObject_in_array_pinoyim_short = []
     console.log(category);
 
     this.isFirstClick = true;
