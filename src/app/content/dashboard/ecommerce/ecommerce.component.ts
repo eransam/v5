@@ -1766,7 +1766,29 @@ export class EcommerceComponent implements OnInit {
           } else {
             obj.msvk_zamud_det = '';
           }
+
+
+          var shivokim_current_date_and_week_ago =
+          await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+            obj.flock_num
+          );
+          if (shivokim_current_date_and_week_ago.length > 0) {
+            obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+            
+          }else{
+            obj.shivokim_current_date_and_week_ago = []
+          }
+
         }
+
+
+
+
+
+
+
+
+
 
         // הוספת איכלוס טוטל פר אתר כולל מחיצות
         // this.all_certificate_det = [];
@@ -3087,6 +3109,19 @@ export class EcommerceComponent implements OnInit {
         } else {
           obj.msvk_zamud_det = '';
         }
+
+
+        var shivokim_current_date_and_week_ago =
+        await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+          obj.flock_num
+        );
+        if (shivokim_current_date_and_week_ago.length > 0) {
+          obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+          
+        }else{
+          obj.shivokim_current_date_and_week_ago = []
+        }
+
       }
 
       //   הוספת תאריך מפקדים
@@ -4154,6 +4189,17 @@ export class EcommerceComponent implements OnInit {
           } else {
             obj.msvk_zamud_det = '';
           }
+
+          var shivokim_current_date_and_week_ago =
+          await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+            obj.flock_num
+          );
+          if (shivokim_current_date_and_week_ago.length > 0) {
+            obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+            
+          }else{
+            obj.shivokim_current_date_and_week_ago = []
+          }
         }
 
         //   הוספת תאריך מפקדים
@@ -4876,6 +4922,28 @@ export class EcommerceComponent implements OnInit {
       console.log('New window was blocked by a popup blocker.');
     }
   }
+
+
+
+  async shivokim(all_current_shivokim: any) {
+    console.log(all_current_shivokim);
+
+
+    localStorage.setItem('all_current_shivokim', JSON.stringify(all_current_shivokim));
+    const baseUrl = this.environmentService.getBaseUrl();
+    const path2 = '#/dashboard/PageShivokimHatalaComponent';
+    var newWindow = window.open(`${baseUrl}${path2}`, '_blank');
+
+    if (newWindow) {
+      newWindow.focus(); // Focus on the new window
+    } else {
+      console.log('New window was blocked by a popup blocker.');
+    }
+  }
+
+  
+
+
 
   async hazmadot_history(farm_id: any) {
     console.log(farm_id);

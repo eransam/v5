@@ -1,0 +1,108 @@
+<div class="cool-table-container">
+  <table class="cool-table main_table" dir="rtl" border="0">
+    <thead>
+      <tr style="display: flex; justify-content: space-between; padding: 40px">
+        <th style="font-weight: bold; text-align: right">שיווקים</th>
+        <div class="importBth">
+          <!-- <div class="justify-content">
+              <img
+                style="width: 40px"
+                class="logoIngStyle"
+                src="assets/images/logo/excel.png"
+                alt="Image"
+                (click)="getExcelData()"
+              />
+            </div> -->
+        </div>
+      </tr>
+    </thead>
+
+    <tr>
+      <td colspan="2">
+        <table class="table no-margin">
+          <thead>
+            <tr>
+              <th style="font-weight: bold; text-align: right">מס תעודה</th>
+              <th style="font-weight: bold; text-align: right">תאריך הפקה</th>
+              <th style="font-weight: bold; text-align: right">תאריך קליטה</th>
+              <th style="font-weight: bold; text-align: right">סטטוס משלוח</th>
+              <th style="font-weight: bold; text-align: right">כמות</th>
+              <th style="font-weight: bold; text-align: right">סוג אריזה</th>
+              <th style="font-weight: bold; text-align: right">מס להקה</th>
+              <th style="font-weight: bold; text-align: right">שם משק</th>
+              <th style="font-weight: bold; text-align: right">מס מגדל</th>
+              <th style="font-weight: bold; text-align: right">שם מגדל</th>
+              <th style="font-weight: bold; text-align: right">ישוב המשק</th>
+              <th style="font-weight: bold; text-align: right">בין משווקים</th>
+              <th style="font-weight: bold; text-align: right">
+                שם משווק בפועל
+              </th>
+              <th style="font-weight: bold; text-align: right">
+                מחסן ביצים צמוד
+              </th>
+              <th style="font-weight: bold; text-align: right">
+                מכון מיון בפועל
+              </th>
+              <th style="font-weight: bold; text-align: right">סהכ ביצים</th>
+            </tr>
+          </thead>
+
+          <tbody style="white-space: nowrap">
+            <tr *ngFor="let row of data">
+              <!-- >מס תעודה -->
+              <td>{{ row.certificate_id }}</td>
+
+              <!-- ht">תאריך הפקה -->
+              <td>{{ row.create_date }}</td>
+
+              <!-- תאריך קליטה -->
+              <td>{{ row.transfer_date }}</td>
+
+              <!-- סטטוס משלוח -->
+              <td>{{ row.transfer_status_name }}</td>
+
+              <!-- כמות -->
+              <td>{{ row.total_count }}</td>
+
+              <!-- סוג אריזה  -->
+              <td>{{ row.transport_type_name }}</td>
+
+              <!-- מס להקה -->
+              <td>{{ row.flock_id }}</td>
+
+              <!-- שם משק -->
+              <td>{{ row.farm_name }}</td>
+
+              <!-- מס מגדל -->
+              <td>{{ row.lull2000_code }}</td>
+
+              <!-- שם מגדל -->
+              <td>{{ row.grower_name }}</td>
+
+              <!--ישוב המשק   -->
+              <td>{{ row.farm_settlement_name }}</td>
+
+              <!-- בין משקים -->
+              <td>{{ row.is_between_egg_factory1 }}</td>
+
+              <!-- שם משווק בפועל -->
+              <td>{{ row.msvk_name }}</td>
+
+              <!-- מחסן ביצים צמוד -->
+              <td *ngIf="row.egg_warehouse_name === null"></td>
+              <td *ngIf="row.egg_warehouse_name !== null">
+                {{ row.egg_warehouse_name }}
+              </td>
+
+              <!-- מכון מיון בפועל -->
+              <td>{{ row.egg_factory_name }}</td>
+
+              <!-- סהכ ביצים -->
+              <td>{{ row.total_transfer_egg_sum }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

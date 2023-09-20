@@ -1967,6 +1967,23 @@
                           איכלוס
                         </th>
 
+
+                        <!-- שיווקים -->
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 150px"
+                          *ngIf="
+                          this.farm_det_new[0].shivokim_current_date_and_week_ago.length > 0
+                        "
+                        class=""
+                        style="cursor: pointer; color: green"
+                        (click)="shivokim(this.farm_det_new[0].shivokim_current_date_and_week_ago)"
+                        >                                                                                                                                                                              
+                           שיווקים
+                            <i class="fas fa-angle-left fa-lg"></i>                            
+                        </th>
+
                         <th
                           *ngIf="
                             this.latestObject_in_array_mifkadim_short &&
@@ -2170,6 +2187,10 @@
                           {{ row.count_hiclos_total_site | number : "1.0-0" }}
                           <i class="fas fa-angle-left fa-lg"></i>
                         </td>
+
+                        <!-- שיווקים -->
+                        <td style="width: 100px"></td>
+
 
                         <td
                           *ngIf="
@@ -2430,6 +2451,7 @@
                       </tr>
                     </tbody>
                     <br />
+                    
 
                     <!-- הצמדות -->
                     <h3

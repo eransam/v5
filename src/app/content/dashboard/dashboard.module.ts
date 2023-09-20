@@ -47,6 +47,7 @@ import { PagePopupPinoyimComponent } from './ecommerce/page-popup-pinoyim/page-p
 import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-hiclos-by-site.component';
 import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quarantine.component';
 import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/hazmadot-history-page.component';
+import { PageShivokimHatalaComponent } from './ecommerce/page-shivokim-hatala/page-shivokim-hatala.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,10 @@ import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/
       {
         path: 'HazmadotHistoryPageComponent',
         component: HazmadotHistoryPageComponent,
+      },
+      {
+        path: 'PageShivokimHatalaComponent',
+        component: PageShivokimHatalaComponent,
       },
       {
         path: 'PageQuarantineComponent',
@@ -160,6 +165,7 @@ import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/
     PageHiclosBySiteComponent,
     PageQuarantineComponent,
     HazmadotHistoryPageComponent,
+    PageShivokimHatalaComponent,
   ],
 
   exports: [RouterModule],
