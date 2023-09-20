@@ -12,10 +12,7 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
-
-  async get_grower_num_by_farm_id(
-    farm_id: any
-  ): Promise<any[]> {
+  async get_grower_num_by_farm_id(farm_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}growerService.asmx/get_grower_num_by_farm_id?farm_id=${farm_id}`
@@ -24,9 +21,6 @@ export class MegadelSearchService {
     console.log('item: ', item);
     return item;
   }
-
-
-
 
   async get_new_grower_name_id_by_Old_Name_Yazran(
     Old_Name_Yazran: any
@@ -128,12 +122,13 @@ export class MegadelSearchService {
     return item;
   }
 
-  async get_meshavek_tzamod_more_details(hz_Yzrn: any): Promise<any[]> {
-    console.log(hz_Yzrn);
-
+  async get_meshavek_tzamod_more_details(
+    hz_Yzrn: any,
+    hz_tzrt: any
+  ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_meshavek_tzamod_more_details?hz_Yzrn=${hz_Yzrn}`
+        `${environment.apiPath}growerService.asmx/get_meshavek_tzamod_more_details?hz_Yzrn=${hz_Yzrn}&hz_tzrt=${hz_tzrt}`
       )
     );
     console.log('item: ', item);
