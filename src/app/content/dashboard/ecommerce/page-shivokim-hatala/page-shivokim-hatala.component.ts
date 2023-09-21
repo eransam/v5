@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableexcelService } from '../../../../services/tableexcel.service';
+import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 
 @Component({
   selector: 'app-page-shivokim-hatala',
@@ -14,8 +15,11 @@ export class PageShivokimHatalaComponent {
     total_chicken_sum: any = 0;
     transformedData: any[];
     total_packege_sum: any = 0;
+    startDate: string; 
+    endDate: string;
     constructor(
       private tableexcelService: TableexcelService,
+      private megadelSearchService: MegadelSearchService,
       public router: Router
     ) {
       console.log('data in constractor: ', this.data);
@@ -41,7 +45,7 @@ export class PageShivokimHatalaComponent {
         
           return dateB - dateA;
         });
-  
+        
         console.log('this.data: ', this.data);
   
   
@@ -95,4 +99,21 @@ export class PageShivokimHatalaComponent {
         'Modern Admin - Clean Angular8+ Dashboard HTML Template'
       );
     }
+    async search() {
+        console.log('Start Date:', this.startDate);
+        console.log('End Date:', this.endDate);
+
+        var shivokim =
+        await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
+            this.data[0].flock_id,
+          this.startDate,
+          this.endDate
+        );
+        if (shivokim.length > 0) {
+            this.data = shivokim
+          
+        }else{
+            this.data =[]
+        }
+      }
   }
