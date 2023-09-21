@@ -19,11 +19,11 @@
       .cool-table-container {
         padding: 5px;
         display: flex;
-        width: 75%;
+        width: 85%;
         margin-top: 0%;
         overflow-y: auto !important;
         overflow-x: auto !important;
-        margin-left: 13%;
+        margin-left: 12%;
         direction: rtl;
       }
       
@@ -188,3 +188,6 @@
   }
 
   
+
+
+

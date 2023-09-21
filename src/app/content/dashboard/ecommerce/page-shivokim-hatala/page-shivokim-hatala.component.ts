@@ -6,53 +6,53 @@ import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 @Component({
   selector: 'app-page-shivokim-hatala',
   templateUrl: './page-shivokim-hatala.component.html',
-  styleUrls: ['./page-shivokim-hatala.component.css']
+  styleUrls: ['./page-shivokim-hatala.component.css'],
 })
 export class PageShivokimHatalaComponent {
-    userTypeID;
-    certificateSum = 0;
-    data: any[];
-    check_is_shivokim_Independent:any
-    total_chicken_sum: any = 0;
-    transformedData: any[];
-    total_packege_sum: any = 0;
-    startDate: string; 
-    endDate: string;
-    constructor(
-      private tableexcelService: TableexcelService,
-      private megadelSearchService: MegadelSearchService,
-      public router: Router
-    ) {
-      console.log('data in constractor: ', this.data);
-      // console.log('typeof data[0].id: ', typeof data[0].id);
-    }
-  
-    async ngOnInit() {
-      console.log('test');
-      this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
-      this.check_is_shivokim_Independent = JSON.parse(localStorage.getItem('shivokim_Independent'));
-      console.log(this.data);
-      console.log(this.check_is_shivokim_Independent);
+  userTypeID;
+  certificateSum = 0;
+  data: any[];
+  check_is_shivokim_Independent: any;
+  total_chicken_sum: any = 0;
+  transformedData: any[];
+  total_packege_sum: any = 0;
+  startDate: string;
+  endDate: string;
+  constructor(
+    private tableexcelService: TableexcelService,
+    private megadelSearchService: MegadelSearchService,
+    public router: Router
+  ) {
+    console.log('data in constractor: ', this.data);
+    // console.log('typeof data[0].id: ', typeof data[0].id);
+  }
 
-  
-      // מוציא אובייקטים משוכפלים מהמערך
-      const uniqueArr: any[] = [
-        ...new Set(this.data[this.data.length - 1].newArrayEnd),
-      ];
-      this.data[this.data.length - 1].newArrayEnd = uniqueArr;
-  
-      console.log('this.data: ', this.data);
-  
-      this.data.sort((a, b) => {
-          const dateA:any = new Date(a.hz_date_hzmd_from);
-          const dateB:any = new Date(b.hz_date_hzmd_from);
-        
-          return dateB - dateA;
-        });
-        
-        console.log('this.data: ', this.data);
-  
-  
+  async ngOnInit() {
+    console.log('test');
+    this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
+    this.check_is_shivokim_Independent = JSON.parse(
+      localStorage.getItem('shivokim_Independent')
+    );
+    console.log(this.data);
+    console.log(this.check_is_shivokim_Independent);
+
+    // מוציא אובייקטים משוכפלים מהמערך
+    const uniqueArr: any[] = [
+      ...new Set(this.data[this.data.length - 1].newArrayEnd),
+    ];
+    this.data[this.data.length - 1].newArrayEnd = uniqueArr;
+
+    console.log('this.data: ', this.data);
+
+    this.data.sort((a, b) => {
+      const dateA: any = new Date(a.hz_date_hzmd_from);
+      const dateB: any = new Date(b.hz_date_hzmd_from);
+
+      return dateB - dateA;
+    });
+
+    console.log('this.data: ', this.data);
+
     //   // לוגיקת אקסל
     //   const selectedFieldsArray = this.data.map((item) => {
     //     return {
@@ -66,7 +66,7 @@ export class PageShivokimHatalaComponent {
     //       tb_name: item.tb_name,
     //       hz_Rishaion_Msk:item.hz_Rishaion_Msk,
     //       tnai_hazmada: item.tnai_hazmada,
-  
+
     //     };
     //   });
     //   const fieldTitleMapping = {
@@ -81,7 +81,7 @@ export class PageShivokimHatalaComponent {
     //       hz_Rishaion_Msk: 'רישיון משווק',
     //       tnai_hazmada: 'תנאי הצמדה',
     //   };
-  
+
     //   this.transformedData = selectedFieldsArray.map((item) => {
     //     const transformedItem = {};
     //     for (const key in item) {
@@ -91,64 +91,46 @@ export class PageShivokimHatalaComponent {
     //     }
     //     return transformedItem;
     //   });
-  
+
     //   console.log(this.transformedData);
-    }
-  //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
-  
-  // פונ הורדה לאקסל
-    getExcelData(): void {
-      this.tableexcelService.exportAsExcelFile(
-        this.transformedData,
-        'Modern Admin - Clean Angular8+ Dashboard HTML Template'
-      );
-    }
-    async search() {
-
-
-
-        console.log('Start Date:', this.startDate);
-        console.log('End Date:', this.endDate);
-
-
-
-        if (this.check_is_shivokim_Independent) {
-            var shivokim =
-            await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
-                this.data[0].flock_id,
-              this.startDate,
-              this.endDate
-            );
-            if (shivokim.length > 0) {
-                this.data = shivokim
-              
-            }else{
-                this.data =[]
-            }
-            
-        }else{
-            var shivokim =
-            await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
-                this.data[0].flock_id,
-              this.startDate,
-              this.endDate
-            );
-            if (shivokim.length > 0) {
-                this.data = shivokim
-              
-            }else{
-                this.data =[]
-            }
-
-        }
-
-
-
-
-
-
-
-
-
-      }
   }
+  //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
+
+  // פונ הורדה לאקסל
+  getExcelData(): void {
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+    );
+  }
+  async search() {
+    console.log('Start Date:', this.startDate);
+    console.log('End Date:', this.endDate);
+
+    if (this.check_is_shivokim_Independent) {
+      var shivokim =
+        await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
+          this.data[0].flock_id,
+          this.startDate,
+          this.endDate
+        );
+      if (shivokim.length > 0) {
+        this.data = shivokim;
+      } else {
+        this.data = [];
+      }
+    } else {
+      var shivokim =
+        await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
+          this.data[0].flock_id,
+          this.startDate,
+          this.endDate
+        );
+      if (shivokim.length > 0) {
+        this.data = shivokim;
+      } else {
+        this.data = [];
+      }
+    }
+  }
+}
