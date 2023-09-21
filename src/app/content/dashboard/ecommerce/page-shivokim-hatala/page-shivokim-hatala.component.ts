@@ -12,6 +12,7 @@ export class PageShivokimHatalaComponent {
     userTypeID;
     certificateSum = 0;
     data: any[];
+    check_is_shivokim_Independent:any
     total_chicken_sum: any = 0;
     transformedData: any[];
     total_packege_sum: any = 0;
@@ -29,7 +30,10 @@ export class PageShivokimHatalaComponent {
     async ngOnInit() {
       console.log('test');
       this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
+      this.check_is_shivokim_Independent = JSON.parse(localStorage.getItem('shivokim_Independent'));
       console.log(this.data);
+      console.log(this.check_is_shivokim_Independent);
+
   
       // מוציא אובייקטים משוכפלים מהמערך
       const uniqueArr: any[] = [
@@ -100,20 +104,51 @@ export class PageShivokimHatalaComponent {
       );
     }
     async search() {
+
+
+
         console.log('Start Date:', this.startDate);
         console.log('End Date:', this.endDate);
 
-        var shivokim =
-        await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
-            this.data[0].flock_id,
-          this.startDate,
-          this.endDate
-        );
-        if (shivokim.length > 0) {
-            this.data = shivokim
-          
+
+
+        if (this.check_is_shivokim_Independent) {
+            var shivokim =
+            await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
+                this.data[0].flock_id,
+              this.startDate,
+              this.endDate
+            );
+            if (shivokim.length > 0) {
+                this.data = shivokim
+              
+            }else{
+                this.data =[]
+            }
+            
         }else{
-            this.data =[]
+            var shivokim =
+            await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
+                this.data[0].flock_id,
+              this.startDate,
+              this.endDate
+            );
+            if (shivokim.length > 0) {
+                this.data = shivokim
+              
+            }else{
+                this.data =[]
+            }
+
         }
+
+
+
+
+
+
+
+
+
       }
   }

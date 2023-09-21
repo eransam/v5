@@ -1975,17 +1975,22 @@
                           class="border-top-0 table_tatle"
                           style="width: 150px"
                           *ngIf="
-                            this.farm_det_new[0]
+                            (this.farm_det_new[0]
                               .shivokim_current_date_and_week_ago &&
-                            this.farm_det_new[0]
-                              .shivokim_current_date_and_week_ago.length > 0
+                              this.farm_det_new[0]
+                                .shivokim_current_date_and_week_ago.length >
+                                0) ||
+                            (this.farm_det_new[0]
+                              .shivokim_Independent_current_date_and_week_ago &&
+                              this.farm_det_new[0]
+                                .shivokim_Independent_current_date_and_week_ago
+                                .length > 0)
                           "
                           class=""
                           style="cursor: pointer; color: green"
                           (click)="
                             shivokim(
                               this.farm_det_new[0]
-                                .shivokim_current_date_and_week_ago
                             )
                           "
                         >
@@ -2198,14 +2203,21 @@
                         </td>
 
                         <!-- שיווקים -->
-                        <td 
+                        <td
                         *ngIf="
-                        this.farm_det_new[0]
+                        (this.farm_det_new[0]
                           .shivokim_current_date_and_week_ago &&
-                        this.farm_det_new[0]
-                          .shivokim_current_date_and_week_ago.length > 0
+                          this.farm_det_new[0]
+                            .shivokim_current_date_and_week_ago.length >
+                            0) ||
+                        (this.farm_det_new[0]
+                          .shivokim_Independent_current_date_and_week_ago &&
+                          this.farm_det_new[0]
+                            .shivokim_Independent_current_date_and_week_ago
+                            .length > 0)
                       "
-                        style="width: 100px"></td>
+                          style="width: 100px"
+                        ></td>
 
                         <td
                           *ngIf="
@@ -2488,12 +2500,12 @@
                     <thead
                       class="detailsTable"
                       *ngIf="
-                      this.farm_det_new[0].tnahi_imon === 1 ||
-                      (this.farm_det_new[0].belonging_group_id_oshik &&
-                        (this.farm_det_new[0].belonging_group_id_oshik ===
-                          22 ||
-                          this.farm_det_new[0].belonging_group_id_oshik ===
-                            19))
+                        this.farm_det_new[0].tnahi_imon === 1 ||
+                        (this.farm_det_new[0].belonging_group_id_oshik &&
+                          (this.farm_det_new[0].belonging_group_id_oshik ===
+                            22 ||
+                            this.farm_det_new[0].belonging_group_id_oshik ===
+                              19))
                       "
                     >
                       <tr>
@@ -2570,14 +2582,16 @@
                       </tr>
                     </thead>
 
-                    <tbody *ngIf="
-                    this.farm_det_new[0].tnahi_imon === 1 ||
-                    (this.farm_det_new[0].belonging_group_id_oshik &&
-                      (this.farm_det_new[0].belonging_group_id_oshik ===
-                        22 ||
-                        this.farm_det_new[0].belonging_group_id_oshik ===
-                          19))
-                    ">
+                    <tbody
+                      *ngIf="
+                        this.farm_det_new[0].tnahi_imon === 1 ||
+                        (this.farm_det_new[0].belonging_group_id_oshik &&
+                          (this.farm_det_new[0].belonging_group_id_oshik ===
+                            22 ||
+                            this.farm_det_new[0].belonging_group_id_oshik ===
+                              19))
+                      "
+                    >
                       <tr
                         *ngFor="let row of this.farm_det_new[0].msvk_zamud_det"
                       >

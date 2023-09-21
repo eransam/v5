@@ -1812,17 +1812,44 @@ export class EcommerceComponent implements OnInit {
             obj.msvk_zamud_det = '';
           }
 
+            // הוספת שיווקים
 
-          var shivokim_current_date_and_week_ago =
-          await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
-            obj.flock_num
-          );
-          if (shivokim_current_date_and_week_ago.length > 0) {
-            obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-            
-          }else{
-            obj.shivokim_current_date_and_week_ago = []
-          }
+            // שיווק עצמאי
+            var shivokim_Independent_current_date_and_week_ago =
+            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+              obj.flock_num
+            );
+            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
+              
+            }else{
+              obj.shivokim_Independent_current_date_and_week_ago = []
+
+            //   שיווק רגיל ע''י מכון מיון של המשווק
+              var shivokim_current_date_and_week_ago =
+              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+                obj.flock_num
+              );
+              if (shivokim_current_date_and_week_ago.length > 0) {
+                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+                
+              }else{
+                obj.shivokim_current_date_and_week_ago = []
+              }
+            }
+
+
+
+
+
+
+
+
+
+          
+
+
+
 
         }
 
@@ -1830,6 +1857,7 @@ export class EcommerceComponent implements OnInit {
 
 
 
+console.log(this.farm_det_new);
 
 
 
@@ -3155,19 +3183,35 @@ export class EcommerceComponent implements OnInit {
           obj.msvk_zamud_det = '';
         }
 
+            // הוספת שיווקים
 
-        var shivokim_current_date_and_week_ago =
-        await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
-          obj.flock_num
-        );
-        if (shivokim_current_date_and_week_ago.length > 0) {
-          obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-          
-        }else{
-          obj.shivokim_current_date_and_week_ago = []
-        }
+            // שיווק עצמאי
+            var shivokim_Independent_current_date_and_week_ago =
+            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+              obj.flock_num
+            );
+            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
+              
+            }else{
+              obj.shivokim_Independent_current_date_and_week_ago = []
+
+            //   שיווק רגיל ע''י מכון מיון של המשווק
+              var shivokim_current_date_and_week_ago =
+              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+                obj.flock_num
+              );
+              if (shivokim_current_date_and_week_ago.length > 0) {
+                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+                
+              }else{
+                obj.shivokim_current_date_and_week_ago = []
+              }
+            }
 
       }
+      console.log();
+      
 
       //   הוספת תאריך מפקדים
       for (let obj of this.farm_det_new) {
@@ -4239,17 +4283,35 @@ export class EcommerceComponent implements OnInit {
             obj.msvk_zamud_det = '';
           }
 
-          var shivokim_current_date_and_week_ago =
-          await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
-            obj.flock_num
-          );
-          if (shivokim_current_date_and_week_ago.length > 0) {
-            obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-            
-          }else{
-            obj.shivokim_current_date_and_week_ago = []
-          }
+            // הוספת שיווקים
+
+            // שיווק עצמאי
+            var shivokim_Independent_current_date_and_week_ago =
+            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+              obj.flock_num
+            );
+            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
+              
+            }else{
+              obj.shivokim_Independent_current_date_and_week_ago = []
+
+            //   שיווק רגיל ע''י מכון מיון של המשווק
+              var shivokim_current_date_and_week_ago =
+              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+                obj.flock_num
+              );
+              if (shivokim_current_date_and_week_ago.length > 0) {
+                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+                
+              }else{
+                obj.shivokim_current_date_and_week_ago = []
+              }
+            }
         }
+
+        console.log(this.farm_det_new);
+        
 
         //   הוספת תאריך מפקדים
         for (let obj of this.farm_det_new) {
@@ -4976,9 +5038,15 @@ export class EcommerceComponent implements OnInit {
 
   async shivokim(all_current_shivokim: any) {
     console.log(all_current_shivokim);
+    if (all_current_shivokim.shivokim_Independent_current_date_and_week_ago.length > 0) {
+        localStorage.setItem('all_current_shivokim', JSON.stringify(all_current_shivokim.shivokim_Independent_current_date_and_week_ago));
+        localStorage.setItem('shivokim_Independent', JSON.stringify(true));
 
+    }else{
+        localStorage.setItem('all_current_shivokim', JSON.stringify(all_current_shivokim.shivokim_current_date_and_week_ago));
+        localStorage.setItem('shivokim_Independent', JSON.stringify(false));
+    }
 
-    localStorage.setItem('all_current_shivokim', JSON.stringify(all_current_shivokim));
     const baseUrl = this.environmentService.getBaseUrl();
     const path2 = '#/dashboard/PageShivokimHatalaComponent';
     var newWindow = window.open(`${baseUrl}${path2}`, '_blank');
