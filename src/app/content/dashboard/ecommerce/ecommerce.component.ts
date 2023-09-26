@@ -1837,6 +1837,46 @@ export class EcommerceComponent implements OnInit {
                 obj.shivokim_current_date_and_week_ago = []
               }
             }
+                          //   שיווק מבית אימון למשק סופי
+            var shivokim_from_imon_to_end_site =
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+                obj.flock_num
+            );
+            if (shivokim_from_imon_to_end_site.length > 0) {
+                obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
+                
+              }else{
+                obj.shivokim_from_imon_to_end_site = []
+              }
+              
+
+
+
+            //שיווק למשחטה
+            var shivok_to_mashchata_by_flock_id =
+            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+                obj.flock_num
+            );
+            if (shivok_to_mashchata_by_flock_id.length > 0) {
+                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
+                
+              }else{
+                obj.shivok_to_mashchata_by_flock_id = []
+              }
+
+
+
+
+
+              
+
+
+
+            
+
+            console.log(this.farm_det_new);
+            
+
 
 
 
@@ -1887,7 +1927,7 @@ console.log(this.farm_det_new);
                   );
                 real_hiclos_by_site = real_hiclos_in_site_from_madgera;
               }
-
+            //   העברות פנימיות
               var Internal_transfer_certificates =
                 await this.megadelSearchService.get_Internal_transfer_certificates(
                   obj?.farm_id,
@@ -2343,6 +2383,8 @@ console.log(this.farm_det_new);
 
         console.log(this.farm_det_new);
 
+
+        //איכלוס
         for (let obj of this.farm_det_new) {
           if (obj !== undefined) {
             if (obj.farm_code_with_slesh) {
@@ -2471,6 +2513,8 @@ console.log(this.farm_det_new);
     });
 
     console.log(this.farm_det_new);
+
+
     console.log('sunscribe func in end oninit');
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2918,10 +2962,94 @@ console.log(this.farm_det_new);
         }
 
         console.log(this.farm_det_new);
+
+
+              // הוספת הצמדות
+      for (let obj of this.farm_det_new) {
+        var msvk_zamud =
+          await this.megadelSearchService.get_meshavek_tzamod_more_details_by_farm_id(
+            obj.farm_id
+          );
+
+        if (msvk_zamud.length === 0) {
+          msvk_zamud =
+            await this.megadelSearchService.get_meshavek_tzamod_more_details(
+              this.userDetails[0].v_yzrn,
+              30
+            );
+        }
+
+        console.log(msvk_zamud);
+
+        if (msvk_zamud[0]) {
+          obj.msvk_zamud_det = msvk_zamud;
+        } else {
+          obj.msvk_zamud_det = '';
+        }
+
+            // הוספת שיווקים
+
+            // שיווק עצמאי
+            var shivokim_Independent_current_date_and_week_ago =
+            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+              obj.flock_num
+            );
+            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
+              
+            }else{
+              obj.shivokim_Independent_current_date_and_week_ago = []
+
+            //   שיווק רגיל ע''י מכון מיון של המשווק
+              var shivokim_current_date_and_week_ago =
+              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+                obj.flock_num
+              );
+              if (shivokim_current_date_and_week_ago.length > 0) {
+                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
+                
+              }else{
+                obj.shivokim_current_date_and_week_ago = []
+              }
+            }
+
+            //   שיווק מבית אימון למשק סופי
+            var shivokim_from_imon_to_end_site =
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+                obj.flock_num
+            );
+            if (shivokim_from_imon_to_end_site.length > 0) {
+                obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
+                
+              }else{
+                obj.shivokim_from_imon_to_end_site = []
+              }
+
+              
+            //שיווק למשחטה
+            var shivok_to_mashchata_by_flock_id =
+            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+                obj.flock_num
+            );
+            if (shivok_to_mashchata_by_flock_id.length > 0) {
+                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
+                
+              }else{
+                obj.shivok_to_mashchata_by_flock_id = []
+              }
+
+        
+      }
+
+      console.log(this.farm_det_new);
+      
+
+
       }
     }
     this.isLoading_FarmDetails = false;
   }
+//   סיופ פונ בחירת להקה
 
   async alarm_func() {
     // התראה של שם ישן --- מבוטללללללל
@@ -3209,8 +3337,35 @@ console.log(this.farm_det_new);
               }
             }
 
+            //   שיווק מבית אימון למשק סופי
+            var shivokim_from_imon_to_end_site =
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+                obj.flock_num
+            );
+            if (shivokim_from_imon_to_end_site.length > 0) {
+                obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
+                
+              }else{
+                obj.shivokim_from_imon_to_end_site = []
+              }
+
+              
+            //שיווק למשחטה
+            var shivok_to_mashchata_by_flock_id =
+            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+                obj.flock_num
+            );
+            if (shivok_to_mashchata_by_flock_id.length > 0) {
+                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
+                
+              }else{
+                obj.shivok_to_mashchata_by_flock_id = []
+              }
+
+        
       }
-      console.log();
+
+      console.log(this.farm_det_new);
       
 
       //   הוספת תאריך מפקדים
@@ -4308,6 +4463,35 @@ console.log(this.farm_det_new);
                 obj.shivokim_current_date_and_week_ago = []
               }
             }
+
+
+                        //   שיווק מבית אימון למשק סופי
+                        var shivokim_from_imon_to_end_site =
+                        await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+                            obj.flock_num
+                        );
+                        if (shivokim_from_imon_to_end_site.length > 0) {
+                            obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
+                            
+                          }else{
+                            obj.shivokim_from_imon_to_end_site = []
+                          }
+
+                          
+            //שיווק למשחטה
+            var shivok_to_mashchata_by_flock_id =
+            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+                obj.flock_num
+            );
+            if (shivok_to_mashchata_by_flock_id.length > 0) {
+                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
+                
+              }else{
+                obj.shivok_to_mashchata_by_flock_id = []
+              }
+
+
+        
         }
 
         console.log(this.farm_det_new);
@@ -5146,6 +5330,25 @@ console.log(this.farm_det_new);
       console.log('New window was blocked by a popup blocker.');
     }
   }
+
+
+
+  async open_page_shivokim_to_mashchata(data: any) {
+    console.log(data);
+
+    localStorage.setItem('shivokim_to_mashchata', JSON.stringify(data));
+    const baseUrl = this.environmentService.getBaseUrl();
+    const path2 = '#/dashboard/PageShivokToNashchataComponent';
+    var newWindow = window.open(`${baseUrl}${path2}`, '_blank');
+    if (newWindow) {
+      newWindow.focus();
+    } else {
+      console.log('New window was blocked by a popup blocker.');
+    }
+  }
+
+
+
 
   async openPopup_mifkadim_Component(data: any) {
     for (let item of data) {

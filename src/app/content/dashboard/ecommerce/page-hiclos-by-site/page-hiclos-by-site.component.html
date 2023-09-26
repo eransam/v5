@@ -212,7 +212,7 @@
             <tbody style="white-space: nowrap">
               <tr *ngFor="let p of data">
                 <!-- תאריך העברה -->
-                <td>
+                <td *ngIf="">
                   {{ p.create_date | date : "dd/MM/yyyy" }}
                 </td>
 

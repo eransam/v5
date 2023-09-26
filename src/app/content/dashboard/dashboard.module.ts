@@ -48,6 +48,7 @@ import { PageHiclosBySiteComponent } from './ecommerce/page-hiclos-by-site/page-
 import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quarantine.component';
 import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/hazmadot-history-page.component';
 import { PageShivokimHatalaComponent } from './ecommerce/page-shivokim-hatala/page-shivokim-hatala.component';
+import { PageShivokToNashchataComponent } from './ecommerce/page-shivok-to-nashchata/page-shivok-to-nashchata.component';
 
 @NgModule({
   imports: [
@@ -110,7 +111,10 @@ import { PageShivokimHatalaComponent } from './ecommerce/page-shivokim-hatala/pa
         path: 'PageHiclosBySiteComponent',
         component: PageHiclosBySiteComponent,
       },
-
+      {
+        path: 'PageShivokToNashchataComponent',
+        component: PageShivokToNashchataComponent,
+      },
       {
         path: 'PopupMifkadimComponentPageComponent',
         component: PopupMifkadimComponentPageComponent,
@@ -166,6 +170,7 @@ import { PageShivokimHatalaComponent } from './ecommerce/page-shivokim-hatala/pa
     PageQuarantineComponent,
     HazmadotHistoryPageComponent,
     PageShivokimHatalaComponent,
+    PageShivokToNashchataComponent,
   ],
 
   exports: [RouterModule],

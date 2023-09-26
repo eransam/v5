@@ -1969,7 +1969,7 @@
                           איכלוס
                         </th>
 
-                        <!-- שיווקים -->
+                        <!-- שיווקים ממשק סופי -->
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1988,16 +1988,54 @@
                           "
                           class=""
                           style="cursor: pointer; color: green"
-                          (click)="
-                            shivokim(
-                              this.farm_det_new[0]
-                            )
-                          "
+                          (click)="shivokim(this.farm_det_new[0])"
                         >
                           שיווקים
                           <i class="fas fa-angle-left fa-lg"></i>
                         </th>
 
+                        <!-- שיווקים מבית אימון -->
+                        <th
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 150px"
+                          *ngIf="
+                            this.farm_det_new[0]
+                              .shivokim_from_imon_to_end_site &&
+                            this.farm_det_new[0].shivokim_from_imon_to_end_site
+                              .length > 0
+                          "
+                          class=""
+                          style="cursor: pointer; color: green"
+                          (click)="openPopup_hiclos_by_site(this.farm_det_new[0].shivokim_from_imon_to_end_site)"
+                        >
+                          שיווקים
+                          <i class="fas fa-angle-left fa-lg"></i>
+                        </th>
+
+
+                        <!-- שיווקים למשחטה -->
+                        <th
+                        scope="col"
+                        class="border-top-0 table_tatle"
+                        style="width: 150px"
+                        *ngIf="
+                            this.farm_det_new[0]
+                            .shivok_to_mashchata_by_flock_id &&
+                            this.farm_det_new[0].shivok_to_mashchata_by_flock_id
+                            .length > 0
+                        "
+                        class=""
+                        style="cursor: pointer; color: green"
+                        (click)="open_page_shivokim_to_mashchata(this.farm_det_new[0].shivok_to_mashchata_by_flock_id)"
+                        >
+                        שיווקים
+                        <i class="fas fa-angle-left fa-lg"></i>
+                        </th>
+
+
+
+                        <!-- תאריך מפקד אחרון -->
                         <th
                           *ngIf="
                             this.latestObject_in_array_mifkadim_short &&
@@ -2066,6 +2104,7 @@
                           </div>
                         </th>
 
+                        <!-- תאריך פינוי אחרון -->
                         <th
                           *ngIf="
                             this.latestObject_in_array_pinoyim_short
@@ -2202,22 +2241,46 @@
                           <i class="fas fa-angle-left fa-lg"></i>
                         </td>
 
-                        <!-- שיווקים -->
+                        <!-- שיווקים ממשק סופי -->
                         <td
-                        *ngIf="
-                        (this.farm_det_new[0]
-                          .shivokim_current_date_and_week_ago &&
-                          this.farm_det_new[0]
-                            .shivokim_current_date_and_week_ago.length >
-                            0) ||
-                        (this.farm_det_new[0]
-                          .shivokim_Independent_current_date_and_week_ago &&
-                          this.farm_det_new[0]
-                            .shivokim_Independent_current_date_and_week_ago
-                            .length > 0)
-                      "
+                          *ngIf="
+                            (this.farm_det_new[0]
+                              .shivokim_current_date_and_week_ago &&
+                              this.farm_det_new[0]
+                                .shivokim_current_date_and_week_ago.length >
+                                0) ||
+                            (this.farm_det_new[0]
+                              .shivokim_Independent_current_date_and_week_ago &&
+                              this.farm_det_new[0]
+                                .shivokim_Independent_current_date_and_week_ago
+                                .length > 0)
+                          "
                           style="width: 100px"
                         ></td>
+
+                        <!-- שיווקים מבית אימון -->
+                        <td
+                          *ngIf="
+                            this.farm_det_new[0]
+                              .shivokim_from_imon_to_end_site &&
+                            this.farm_det_new[0].shivokim_from_imon_to_end_site
+                              .length > 0
+                          "
+                          style="width: 100px"
+                        ></td>
+
+                        <!-- שיווקים למשחטה -->
+                        <td
+                        *ngIf="
+                            this.farm_det_new[0]
+                            .shivok_to_mashchata_by_flock_id &&
+                            this.farm_det_new[0].shivok_to_mashchata_by_flock_id
+                            .length > 0
+                        "
+                        style="width: 100px"
+                        ></td>
+
+
 
                         <td
                           *ngIf="
