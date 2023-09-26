@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableexcelService } from '../../../../services/tableexcel.service';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-page-shivokim-hatala',
@@ -19,6 +20,7 @@ export class PageShivokimHatalaComponent {
   startDate: string;
   endDate: string;
   constructor(
+    private datePipe: DatePipe,
     private tableexcelService: TableexcelService,
     private megadelSearchService: MegadelSearchService,
     public router: Router
@@ -28,6 +30,15 @@ export class PageShivokimHatalaComponent {
   }
 
   async ngOnInit() {
+    const today = new Date();
+    this.endDate = this.datePipe.transform(today, 'yyyy-MM-dd');
+    const startDateObj = new Date();
+    startDateObj.setDate(today.getDate() - 7);
+    this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
+
+    console.log(this.endDate);
+    console.log(this.startDate);
+
     console.log('test');
     this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
     this.check_is_shivokim_Independent = JSON.parse(

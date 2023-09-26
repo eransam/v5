@@ -707,6 +707,43 @@ export class MegadelSearchService {
       });
   }
 
+  openCertificate(id, isCopy) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    var paramData = [
+      { name: '@id', value: id },
+      { name: '@is_copy', value: isCopy },
+    ];
+    var jsonFinal = [
+      {
+        reportName: '\\\\epb-iis12\\Report\\EvacuationChicken\\CERTIFICATE.rpt',
+        pdfName: '\\\\epb-iis12\\Scan\\EvacuationChicken\\Temp\\' + id + '.pdf',
+        connectionString: 'PinuyOfot',
+        param: paramData,
+      },
+    ];
+
+    this.http
+      .post<any>(
+        `${environment.apiPath}/growerService.asmx/exportPDFWithHebrewDate`,
+        JSON.stringify(jsonFinal),
+        { headers: headers }
+      )
+      .subscribe((data) => {
+        console.log('data error=' + JSON.stringify(data));
+
+        if (data) {
+          window.open(
+            'http://epb-iis12:8006/EvacuationChicken/Temp/' + id + '.pdf'
+          );
+        } else {
+          console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
+        }
+      });
+  }
+
   async Get_grower_num_and_grower_id_by_grower_id_new(
     grower_id: any
   ): Promise<any[]> {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { EcommerceComponent } from './ecommerce/ecommerce.component';
 import { ChartistModule } from 'ng-chartist';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -49,6 +49,7 @@ import { PageQuarantineComponent } from './ecommerce/page-quarantine/page-quaran
 import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/hazmadot-history-page.component';
 import { PageShivokimHatalaComponent } from './ecommerce/page-shivokim-hatala/page-shivokim-hatala.component';
 import { PageShivokToNashchataComponent } from './ecommerce/page-shivok-to-nashchata/page-shivok-to-nashchata.component';
+import { PageShivokimFromImonToEndSiteComponent } from './ecommerce/page-shivokim-from-imon-to-end-site/page-shivokim-from-imon-to-end-site.component';
 
 @NgModule({
   imports: [
@@ -85,9 +86,15 @@ import { PageShivokToNashchataComponent } from './ecommerce/page-shivok-to-nashc
         path: 'ecommerce/:id',
         component: EcommerceComponent,
       },
+
+      
       {
         path: 'ecommerce/:id/:flockid/:farmid',
         component: EcommerceComponent,
+      },
+      {
+        path: 'PageShivokimFromImonToEndSiteComponent',
+        component: PageShivokimFromImonToEndSiteComponent,
       },
 
       {
@@ -171,8 +178,9 @@ import { PageShivokToNashchataComponent } from './ecommerce/page-shivok-to-nashc
     HazmadotHistoryPageComponent,
     PageShivokimHatalaComponent,
     PageShivokToNashchataComponent,
+    PageShivokimFromImonToEndSiteComponent,
   ],
-
+  providers: [DatePipe],
   exports: [RouterModule],
 })
 export class DashboardModule {}

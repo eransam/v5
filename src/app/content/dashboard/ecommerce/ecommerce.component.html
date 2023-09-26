@@ -1993,7 +1993,7 @@
                           שיווקים
                           <i class="fas fa-angle-left fa-lg"></i>
                         </th>
-
+                        
                         <!-- שיווקים מבית אימון -->
                         <th
                           scope="col"
@@ -2007,33 +2007,40 @@
                           "
                           class=""
                           style="cursor: pointer; color: green"
-                          (click)="openPopup_hiclos_by_site(this.farm_det_new[0].shivokim_from_imon_to_end_site)"
+                          (click)="
+                            open_page_shivokim_from_imon_to_end_site(
+                              this.farm_det_new[0]
+                                .shivokim_from_imon_to_end_site
+                            )
+                          "
                         >
                           שיווקים
                           <i class="fas fa-angle-left fa-lg"></i>
                         </th>
 
-
                         <!-- שיווקים למשחטה -->
                         <th
-                        scope="col"
-                        class="border-top-0 table_tatle"
-                        style="width: 150px"
-                        *ngIf="
+                          scope="col"
+                          class="border-top-0 table_tatle"
+                          style="width: 150px"
+                          *ngIf="
                             this.farm_det_new[0]
-                            .shivok_to_mashchata_by_flock_id &&
+                              .shivok_to_mashchata_by_flock_id &&
                             this.farm_det_new[0].shivok_to_mashchata_by_flock_id
-                            .length > 0
-                        "
-                        class=""
-                        style="cursor: pointer; color: green"
-                        (click)="open_page_shivokim_to_mashchata(this.farm_det_new[0].shivok_to_mashchata_by_flock_id)"
+                              .length > 0
+                          "
+                          class=""
+                          style="cursor: pointer; color: green"
+                          (click)="
+                            open_page_shivokim_to_mashchata(
+                              this.farm_det_new[0]
+                                .shivok_to_mashchata_by_flock_id
+                            )
+                          "
                         >
-                        שיווקים
-                        <i class="fas fa-angle-left fa-lg"></i>
+                          שיווקים
+                          <i class="fas fa-angle-left fa-lg"></i>
                         </th>
-
-
 
                         <!-- תאריך מפקד אחרון -->
                         <th
@@ -2271,16 +2278,14 @@
 
                         <!-- שיווקים למשחטה -->
                         <td
-                        *ngIf="
+                          *ngIf="
                             this.farm_det_new[0]
-                            .shivok_to_mashchata_by_flock_id &&
+                              .shivok_to_mashchata_by_flock_id &&
                             this.farm_det_new[0].shivok_to_mashchata_by_flock_id
-                            .length > 0
-                        "
-                        style="width: 100px"
+                              .length > 0
+                          "
+                          style="width: 100px"
                         ></td>
-
-
 
                         <td
                           *ngIf="

@@ -324,7 +324,6 @@ export class EcommerceComponent implements OnInit {
           this.idFromurl
         );
 
-
         console.log(this.userDetails);
 
         // פרטי מגדל
@@ -347,14 +346,11 @@ export class EcommerceComponent implements OnInit {
 
         console.log(this.userDetails);
         if (this.userDetails.length === 0) {
+          this.userDetails =
+            await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(this.idFromurl);
+          console.log(this.userDetails);
 
-            this.userDetails = await this.megadelSearchService.GET_YAZRAN_BY_YZ_ID(
-                this.idFromurl
-              );
-                console.log(this.userDetails);
-                
-
-            this.userDetails =
+          this.userDetails =
             await this.megadelSearchService.Yzrn_Select_For_Search_Yzrn(
               8,
               this.userDetails[0].yz_yzrn,
@@ -370,13 +366,9 @@ export class EcommerceComponent implements OnInit {
               1,
               '%'
             );
-        
         }
         console.log(this.userDetails);
-
       }
-
-
 
       localStorage.setItem('theDetails', JSON.stringify(this.userDetails));
 
@@ -1573,15 +1565,13 @@ export class EcommerceComponent implements OnInit {
         }
 
         if (zan_num) {
-            this.total_pargiot = this.mcsaSum / zan_num;
-
+          this.total_pargiot = this.mcsaSum / zan_num;
         }
       }
       this.isLoading_micsa_egg_gach = false;
 
       //   תנאי במידה ויש אתרים למגדל
       if (this.farm_start_det && this.farm_start_det[0]) {
-
         // הכנסת אתר פעיל לפרטי אתר מפורטים בטעינת המסך
         if (this.farm_start_det[0].farm_status_id === 2) {
           this.the_chosen_farm = '';
@@ -1599,17 +1589,14 @@ export class EcommerceComponent implements OnInit {
         }
 
         // אנו נחלץ את האיידי של המגדל הראשי , במידה והאתר הוא מחיצה והמגדל שלנו הוא לא ראשי זה יביא את האיידי של המגדל הראשי
-        if (newVariable !== "") {
-            var growerId =
+        if (newVariable !== '') {
+          var growerId =
             await this.megadelSearchService.get_growerId_By_code_atar(
               newVariable
             );
-        }else{
-            var growerId = []
+        } else {
+          var growerId = [];
         }
-        
-
-
 
         // מכיוון שאין למגדל אתר  growerId במידה ואין
         // אנו נחלץ את המגדל הראשי
@@ -1619,28 +1606,29 @@ export class EcommerceComponent implements OnInit {
               this.userDetails[0]?.cdgdl
             );
 
+          if (main_grower.length !== 0) {
+            growerId =
+              await this.megadelSearchService.get_main_partner_id_from_partner_num(
+                main_grower[0]?.pa_YzrnHead
+              );
 
- if (main_grower.length !== 0) {
-          growerId =
-            await this.megadelSearchService.get_main_partner_id_from_partner_num(
-              main_grower[0]?.pa_YzrnHead
+            var growerId_and_grower_num =
+              await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
+                growerId[0]?.yz_id
+              );
+
+            // הצגת פרטי אתר ראשוני מורכבים
+            this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
+              growerId_and_grower_num[0]?.grower_id,
+              newVariable
             );
-
-          var growerId_and_grower_num =
-            await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
-              growerId[0]?.yz_id
+          } else {
+            this.farm_det_new = [];
+          }
+          if (this.farm_det_new.length !== 0) {
+            this.farm_det_new[0].farm_num = Number(
+              this.farm_start_det[0]?.code
             );
-
-          // הצגת פרטי אתר ראשוני מורכבים
-          this.farm_det_new = await this.megadelSearchService.get_farm_det_v2(
-            growerId_and_grower_num[0]?.grower_id,
-            newVariable
-          );
-        }else{
-            this.farm_det_new = []
-        }
-        if ( this.farm_det_new.length !== 0 ) {
-            this.farm_det_new[0].farm_num = Number(this.farm_start_det[0]?.code);
 
             for (let obj of this.farm_det_new) {
               for (let key in obj) {
@@ -1649,11 +1637,7 @@ export class EcommerceComponent implements OnInit {
                 }
               }
             }
-            
-        }
-
-
-
+          }
         } else {
           var growerId_and_grower_num =
             await this.megadelSearchService.Get_grower_num_and_grower_id_by_grower_id_new(
@@ -1812,96 +1796,58 @@ export class EcommerceComponent implements OnInit {
             obj.msvk_zamud_det = '';
           }
 
-            // הוספת שיווקים
+          // הוספת שיווקים
 
-            // שיווק עצמאי
-            var shivokim_Independent_current_date_and_week_ago =
+          // שיווק עצמאי
+          var shivokim_Independent_current_date_and_week_ago =
             await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
-            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
-              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
-              
-            }else{
-              obj.shivokim_Independent_current_date_and_week_ago = []
+          if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+            obj.shivokim_Independent_current_date_and_week_ago =
+              shivokim_Independent_current_date_and_week_ago;
+          } else {
+            obj.shivokim_Independent_current_date_and_week_ago = [];
 
             //   שיווק רגיל ע''י מכון מיון של המשווק
-              var shivokim_current_date_and_week_ago =
+            var shivokim_current_date_and_week_ago =
               await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
                 obj.flock_num
               );
-              if (shivokim_current_date_and_week_ago.length > 0) {
-                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-                
-              }else{
-                obj.shivokim_current_date_and_week_ago = []
-              }
+            if (shivokim_current_date_and_week_ago.length > 0) {
+              obj.shivokim_current_date_and_week_ago =
+                shivokim_current_date_and_week_ago;
+            } else {
+              obj.shivokim_current_date_and_week_ago = [];
             }
-                          //   שיווק מבית אימון למשק סופי
-            var shivokim_from_imon_to_end_site =
+          }
+          //   שיווק מבית אימון למשק סופי
+          var shivokim_from_imon_to_end_site =
             await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
-                obj.flock_num
+              obj.flock_num
             );
-            if (shivokim_from_imon_to_end_site.length > 0) {
-                obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
-                
-              }else{
-                obj.shivokim_from_imon_to_end_site = []
-              }
-              
+          if (shivokim_from_imon_to_end_site.length > 0) {
+            obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site;
+          } else {
+            obj.shivokim_from_imon_to_end_site = [];
+          }
 
-
-
-            //שיווק למשחטה
-            var shivok_to_mashchata_by_flock_id =
+          //שיווק למשחטה
+          var shivok_to_mashchata_by_flock_id =
             await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
-                obj.flock_num
+              obj.flock_num
             );
-            if (shivok_to_mashchata_by_flock_id.length > 0) {
-                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
-                
-              }else{
-                obj.shivok_to_mashchata_by_flock_id = []
-              }
+          if (shivok_to_mashchata_by_flock_id.length > 0) {
+            obj.shivok_to_mashchata_by_flock_id =
+              shivok_to_mashchata_by_flock_id;
+          } else {
+            obj.shivok_to_mashchata_by_flock_id = [];
+          }
 
-
-
-
-
-              
-
-
-
-            
-
-            console.log(this.farm_det_new);
-            
-
-
-
-
-
-
-
-
-
-
-          
-
-
-
-
+          console.log(this.farm_det_new);
         }
 
-
-
-
-
-console.log(this.farm_det_new);
-
-
-
-
+        console.log(this.farm_det_new);
 
         // הוספת איכלוס טוטל פר אתר כולל מחיצות
         // this.all_certificate_det = [];
@@ -1927,7 +1873,7 @@ console.log(this.farm_det_new);
                   );
                 real_hiclos_by_site = real_hiclos_in_site_from_madgera;
               }
-            //   העברות פנימיות
+              //   העברות פנימיות
               var Internal_transfer_certificates =
                 await this.megadelSearchService.get_Internal_transfer_certificates(
                   obj?.farm_id,
@@ -2383,7 +2329,6 @@ console.log(this.farm_det_new);
 
         console.log(this.farm_det_new);
 
-
         //איכלוס
         for (let obj of this.farm_det_new) {
           if (obj !== undefined) {
@@ -2513,7 +2458,6 @@ console.log(this.farm_det_new);
     });
 
     console.log(this.farm_det_new);
-
 
     console.log('sunscribe func in end oninit');
   }
@@ -2963,93 +2907,85 @@ console.log(this.farm_det_new);
 
         console.log(this.farm_det_new);
 
-
-              // הוספת הצמדות
-      for (let obj of this.farm_det_new) {
-        var msvk_zamud =
-          await this.megadelSearchService.get_meshavek_tzamod_more_details_by_farm_id(
-            obj.farm_id
-          );
-
-        if (msvk_zamud.length === 0) {
-          msvk_zamud =
-            await this.megadelSearchService.get_meshavek_tzamod_more_details(
-              this.userDetails[0].v_yzrn,
-              30
+        // הוספת הצמדות
+        for (let obj of this.farm_det_new) {
+          var msvk_zamud =
+            await this.megadelSearchService.get_meshavek_tzamod_more_details_by_farm_id(
+              obj.farm_id
             );
-        }
 
-        console.log(msvk_zamud);
+          if (msvk_zamud.length === 0) {
+            msvk_zamud =
+              await this.megadelSearchService.get_meshavek_tzamod_more_details(
+                this.userDetails[0].v_yzrn,
+                30
+              );
+          }
 
-        if (msvk_zamud[0]) {
-          obj.msvk_zamud_det = msvk_zamud;
-        } else {
-          obj.msvk_zamud_det = '';
-        }
+          console.log(msvk_zamud);
 
-            // הוספת שיווקים
+          if (msvk_zamud[0]) {
+            obj.msvk_zamud_det = msvk_zamud;
+          } else {
+            obj.msvk_zamud_det = '';
+          }
 
-            // שיווק עצמאי
-            var shivokim_Independent_current_date_and_week_ago =
+          // הוספת שיווקים
+
+          // שיווק עצמאי
+          var shivokim_Independent_current_date_and_week_ago =
             await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
-            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
-              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
-              
-            }else{
-              obj.shivokim_Independent_current_date_and_week_ago = []
+          if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+            obj.shivokim_Independent_current_date_and_week_ago =
+              shivokim_Independent_current_date_and_week_ago;
+          } else {
+            obj.shivokim_Independent_current_date_and_week_ago = [];
 
             //   שיווק רגיל ע''י מכון מיון של המשווק
-              var shivokim_current_date_and_week_ago =
+            var shivokim_current_date_and_week_ago =
               await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
                 obj.flock_num
               );
-              if (shivokim_current_date_and_week_ago.length > 0) {
-                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-                
-              }else{
-                obj.shivokim_current_date_and_week_ago = []
-              }
+            if (shivokim_current_date_and_week_ago.length > 0) {
+              obj.shivokim_current_date_and_week_ago =
+                shivokim_current_date_and_week_ago;
+            } else {
+              obj.shivokim_current_date_and_week_ago = [];
             }
+          }
 
-            //   שיווק מבית אימון למשק סופי
-            var shivokim_from_imon_to_end_site =
+          //   שיווק מבית אימון למשק סופי
+          var shivokim_from_imon_to_end_site =
             await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
-                obj.flock_num
+              obj.flock_num
             );
-            if (shivokim_from_imon_to_end_site.length > 0) {
-                obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
-                
-              }else{
-                obj.shivokim_from_imon_to_end_site = []
-              }
+          if (shivokim_from_imon_to_end_site.length > 0) {
+            obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site;
+          } else {
+            obj.shivokim_from_imon_to_end_site = [];
+          }
 
-              
-            //שיווק למשחטה
-            var shivok_to_mashchata_by_flock_id =
+          //שיווק למשחטה
+          var shivok_to_mashchata_by_flock_id =
             await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
-                obj.flock_num
+              obj.flock_num
             );
-            if (shivok_to_mashchata_by_flock_id.length > 0) {
-                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
-                
-              }else{
-                obj.shivok_to_mashchata_by_flock_id = []
-              }
+          if (shivok_to_mashchata_by_flock_id.length > 0) {
+            obj.shivok_to_mashchata_by_flock_id =
+              shivok_to_mashchata_by_flock_id;
+          } else {
+            obj.shivok_to_mashchata_by_flock_id = [];
+          }
+        }
 
-        
-      }
-
-      console.log(this.farm_det_new);
-      
-
-
+        console.log(this.farm_det_new);
       }
     }
     this.isLoading_FarmDetails = false;
   }
-//   סיופ פונ בחירת להקה
+  //   סיופ פונ בחירת להקה
 
   async alarm_func() {
     // התראה של שם ישן --- מבוטללללללל
@@ -3311,62 +3247,56 @@ console.log(this.farm_det_new);
           obj.msvk_zamud_det = '';
         }
 
-            // הוספת שיווקים
+        // הוספת שיווקים
 
-            // שיווק עצמאי
-            var shivokim_Independent_current_date_and_week_ago =
-            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+        // שיווק עצמאי
+        var shivokim_Independent_current_date_and_week_ago =
+          await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+            obj.flock_num
+          );
+        if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+          obj.shivokim_Independent_current_date_and_week_ago =
+            shivokim_Independent_current_date_and_week_ago;
+        } else {
+          obj.shivokim_Independent_current_date_and_week_ago = [];
+
+          //   שיווק רגיל ע''י מכון מיון של המשווק
+          var shivokim_current_date_and_week_ago =
+            await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
-            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
-              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
-              
-            }else{
-              obj.shivokim_Independent_current_date_and_week_ago = []
+          if (shivokim_current_date_and_week_ago.length > 0) {
+            obj.shivokim_current_date_and_week_ago =
+              shivokim_current_date_and_week_ago;
+          } else {
+            obj.shivokim_current_date_and_week_ago = [];
+          }
+        }
 
-            //   שיווק רגיל ע''י מכון מיון של המשווק
-              var shivokim_current_date_and_week_ago =
-              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
-                obj.flock_num
-              );
-              if (shivokim_current_date_and_week_ago.length > 0) {
-                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-                
-              }else{
-                obj.shivokim_current_date_and_week_ago = []
-              }
-            }
+        //   שיווק מבית אימון למשק סופי
+        var shivokim_from_imon_to_end_site =
+          await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+            obj.flock_num
+          );
+        if (shivokim_from_imon_to_end_site.length > 0) {
+          obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site;
+        } else {
+          obj.shivokim_from_imon_to_end_site = [];
+        }
 
-            //   שיווק מבית אימון למשק סופי
-            var shivokim_from_imon_to_end_site =
-            await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
-                obj.flock_num
-            );
-            if (shivokim_from_imon_to_end_site.length > 0) {
-                obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
-                
-              }else{
-                obj.shivokim_from_imon_to_end_site = []
-              }
-
-              
-            //שיווק למשחטה
-            var shivok_to_mashchata_by_flock_id =
-            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
-                obj.flock_num
-            );
-            if (shivok_to_mashchata_by_flock_id.length > 0) {
-                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
-                
-              }else{
-                obj.shivok_to_mashchata_by_flock_id = []
-              }
-
-        
+        //שיווק למשחטה
+        var shivok_to_mashchata_by_flock_id =
+          await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+            obj.flock_num
+          );
+        if (shivok_to_mashchata_by_flock_id.length > 0) {
+          obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id;
+        } else {
+          obj.shivok_to_mashchata_by_flock_id = [];
+        }
       }
 
       console.log(this.farm_det_new);
-      
 
       //   הוספת תאריך מפקדים
       for (let obj of this.farm_det_new) {
@@ -3962,6 +3892,8 @@ console.log(this.farm_det_new);
       console.log(this.quarantine);
     }
     this.isLoading_FarmDetails = false;
+    console.log(this.farm_det_new);
+
   }
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר - סיום
 
@@ -4256,10 +4188,10 @@ console.log(this.farm_det_new);
   }
 
   async selectCategory(category: string) {
-    this.array_pinoyim_short = []
-    this.array_mifkadim_short = []
-    this.latestObject_in_array_mifkadim_short = []
-    this.latestObject_in_array_pinoyim_short = []
+    this.array_pinoyim_short = [];
+    this.array_mifkadim_short = [];
+    this.latestObject_in_array_mifkadim_short = [];
+    this.latestObject_in_array_pinoyim_short = [];
     console.log(category);
 
     this.isFirstClick = true;
@@ -4438,64 +4370,57 @@ console.log(this.farm_det_new);
             obj.msvk_zamud_det = '';
           }
 
-            // הוספת שיווקים
+          // הוספת שיווקים
 
-            // שיווק עצמאי
-            var shivokim_Independent_current_date_and_week_ago =
+          // שיווק עצמאי
+          var shivokim_Independent_current_date_and_week_ago =
             await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
-            if (shivokim_Independent_current_date_and_week_ago.length > 0) {
-              obj.shivokim_Independent_current_date_and_week_ago = shivokim_Independent_current_date_and_week_ago
-              
-            }else{
-              obj.shivokim_Independent_current_date_and_week_ago = []
+          if (shivokim_Independent_current_date_and_week_ago.length > 0) {
+            obj.shivokim_Independent_current_date_and_week_ago =
+              shivokim_Independent_current_date_and_week_ago;
+          } else {
+            obj.shivokim_Independent_current_date_and_week_ago = [];
 
             //   שיווק רגיל ע''י מכון מיון של המשווק
-              var shivokim_current_date_and_week_ago =
+            var shivokim_current_date_and_week_ago =
               await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
                 obj.flock_num
               );
-              if (shivokim_current_date_and_week_ago.length > 0) {
-                obj.shivokim_current_date_and_week_ago = shivokim_current_date_and_week_ago
-                
-              }else{
-                obj.shivokim_current_date_and_week_ago = []
-              }
+            if (shivokim_current_date_and_week_ago.length > 0) {
+              obj.shivokim_current_date_and_week_ago =
+                shivokim_current_date_and_week_ago;
+            } else {
+              obj.shivokim_current_date_and_week_ago = [];
             }
+          }
 
-
-                        //   שיווק מבית אימון למשק סופי
-                        var shivokim_from_imon_to_end_site =
-                        await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
-                            obj.flock_num
-                        );
-                        if (shivokim_from_imon_to_end_site.length > 0) {
-                            obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site
-                            
-                          }else{
-                            obj.shivokim_from_imon_to_end_site = []
-                          }
-
-                          
-            //שיווק למשחטה
-            var shivok_to_mashchata_by_flock_id =
-            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
-                obj.flock_num
+          //   שיווק מבית אימון למשק סופי
+          var shivokim_from_imon_to_end_site =
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+              obj.flock_num
             );
-            if (shivok_to_mashchata_by_flock_id.length > 0) {
-                obj.shivok_to_mashchata_by_flock_id = shivok_to_mashchata_by_flock_id
-                
-              }else{
-                obj.shivok_to_mashchata_by_flock_id = []
-              }
+          if (shivokim_from_imon_to_end_site.length > 0) {
+            obj.shivokim_from_imon_to_end_site = shivokim_from_imon_to_end_site;
+          } else {
+            obj.shivokim_from_imon_to_end_site = [];
+          }
 
-
-        
+          //שיווק למשחטה
+          var shivok_to_mashchata_by_flock_id =
+            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+              obj.flock_num
+            );
+          if (shivok_to_mashchata_by_flock_id.length > 0) {
+            obj.shivok_to_mashchata_by_flock_id =
+              shivok_to_mashchata_by_flock_id;
+          } else {
+            obj.shivok_to_mashchata_by_flock_id = [];
+          }
         }
 
         console.log(this.farm_det_new);
-        
 
         //   הוספת תאריך מפקדים
         for (let obj of this.farm_det_new) {
@@ -5218,17 +5143,25 @@ console.log(this.farm_det_new);
     }
   }
 
-
-
   async shivokim(all_current_shivokim: any) {
     console.log(all_current_shivokim);
-    if (all_current_shivokim.shivokim_Independent_current_date_and_week_ago.length > 0) {
-        localStorage.setItem('all_current_shivokim', JSON.stringify(all_current_shivokim.shivokim_Independent_current_date_and_week_ago));
-        localStorage.setItem('shivokim_Independent', JSON.stringify(true));
-
-    }else{
-        localStorage.setItem('all_current_shivokim', JSON.stringify(all_current_shivokim.shivokim_current_date_and_week_ago));
-        localStorage.setItem('shivokim_Independent', JSON.stringify(false));
+    if (
+      all_current_shivokim.shivokim_Independent_current_date_and_week_ago
+        .length > 0
+    ) {
+      localStorage.setItem(
+        'all_current_shivokim',
+        JSON.stringify(
+          all_current_shivokim.shivokim_Independent_current_date_and_week_ago
+        )
+      );
+      localStorage.setItem('shivokim_Independent', JSON.stringify(true));
+    } else {
+      localStorage.setItem(
+        'all_current_shivokim',
+        JSON.stringify(all_current_shivokim.shivokim_current_date_and_week_ago)
+      );
+      localStorage.setItem('shivokim_Independent', JSON.stringify(false));
     }
 
     const baseUrl = this.environmentService.getBaseUrl();
@@ -5241,10 +5174,6 @@ console.log(this.farm_det_new);
       console.log('New window was blocked by a popup blocker.');
     }
   }
-
-
-
-
 
   async hazmadot_history(farm_id: any) {
     console.log(farm_id);
@@ -5331,7 +5260,22 @@ console.log(this.farm_det_new);
     }
   }
 
+  async open_page_shivokim_from_imon_to_end_site(data: any) {
+    console.log(data);
 
+    localStorage.setItem(
+      'shivokim_from_imon_to_end_site',
+      JSON.stringify(data)
+    );
+    const baseUrl = this.environmentService.getBaseUrl();
+    const path2 = '#/dashboard/PageShivokimFromImonToEndSiteComponent';
+    var newWindow = window.open(`${baseUrl}${path2}`, '_blank');
+    if (newWindow) {
+      newWindow.focus();
+    } else {
+      console.log('New window was blocked by a popup blocker.');
+    }
+  }
 
   async open_page_shivokim_to_mashchata(data: any) {
     console.log(data);
@@ -5346,9 +5290,6 @@ console.log(this.farm_det_new);
       console.log('New window was blocked by a popup blocker.');
     }
   }
-
-
-
 
   async openPopup_mifkadim_Component(data: any) {
     for (let item of data) {
