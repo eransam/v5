@@ -13,12 +13,15 @@ export class PageShivokimHatalaComponent {
   userTypeID;
   certificateSum = 0;
   data: any[];
+  originalData: any[];
   check_is_shivokim_Independent: any;
   total_chicken_sum: any = 0;
   transformedData: any[];
   total_packege_sum: any = 0;
   startDate: string;
-  endDate: string;
+  endDate: any;
+  formattedEndDate: string;
+  transferStatusNamesArray: any[];
   constructor(
     private datePipe: DatePipe,
     private tableexcelService: TableexcelService,
@@ -63,6 +66,15 @@ export class PageShivokimHatalaComponent {
     });
 
     console.log('this.data: ', this.data);
+    this.originalData = this.data;
+    const transferStatusNamesArray1 = [];
+    this.data.forEach((item) => {
+      transferStatusNamesArray1.push(item.transfer_status_name);
+    });
+    this.transferStatusNamesArray = Array.from(
+      new Set(transferStatusNamesArray1)
+    );
+    console.log(this.transferStatusNamesArray);
 
     //   // לוגיקת אקסל
     //   const selectedFieldsArray = this.data.map((item) => {
@@ -89,6 +101,7 @@ export class PageShivokimHatalaComponent {
     //       hz_Dtupd: 'תאריך עדכון',
     //       code: 'קוד אתר',
     //       tb_name: 'שם משווק ',
+
     //       hz_Rishaion_Msk: 'רישיון משווק',
     //       tnai_hazmada: 'תנאי הצמדה',
     //   };
@@ -114,6 +127,37 @@ export class PageShivokimHatalaComponent {
       'Modern Admin - Clean Angular8+ Dashboard HTML Template'
     );
   }
+
+  onStatusSelected(event: any) {
+    const selectedStatus = event.target.value;
+    console.log('Selected status:', selectedStatus);
+    if (selectedStatus === 'כולם') {
+      this.data = this.originalData;
+      console.log(this.data);
+    } else {
+      var filteredData = this.originalData.filter(
+        (item) => item.transfer_status_name === selectedStatus
+      );
+      console.log(filteredData);
+      this.data = filteredData;
+      console.log(this.data);
+    }
+  }
+
+  cleanInputFild() {
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  formatDate(date: Date): string {
+    return this.datePipe.transform(date, 'dd/MM/yyyy') || '';
+  }
+
+  openDatePicker() {
+    this.endDate = new Date(); // Replace with your date logic
+    this.formattedEndDate = this.formatDate(this.endDate);
+  }
+
   async search() {
     console.log('Start Date:', this.startDate);
     console.log('End Date:', this.endDate);

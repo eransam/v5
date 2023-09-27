@@ -29,3 +29,6 @@ body{
 :host ::ng-deep .ngb-dp-header {
   background-color: var(--light) !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

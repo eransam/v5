@@ -87,7 +87,6 @@ import { PageShivokimFromImonToEndSiteComponent } from './ecommerce/page-shivoki
         component: EcommerceComponent,
       },
 
-      
       {
         path: 'ecommerce/:id/:flockid/:farmid',
         component: EcommerceComponent,
