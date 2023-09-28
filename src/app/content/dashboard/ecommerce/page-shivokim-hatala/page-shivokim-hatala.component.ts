@@ -20,8 +20,12 @@ export class PageShivokimHatalaComponent {
   total_packege_sum: any = 0;
   startDate: string;
   endDate: any;
+  splits: any;
+  isSplit: any = 'ראשי';
   formattedEndDate: string;
   transferStatusNamesArray: any[];
+  total_count_packege: any = 0;
+  total_count_agges: any = 0;
   constructor(
     private datePipe: DatePipe,
     private tableexcelService: TableexcelService,
@@ -33,9 +37,12 @@ export class PageShivokimHatalaComponent {
   }
 
   async ngOnInit() {
+    this.total_count_packege = 0;
+    this.total_count_agges = 0;
     const today = new Date();
     this.endDate = this.datePipe.transform(today, 'yyyy-MM-dd');
     const startDateObj = new Date();
+    this.splits = 'ראשי';
     startDateObj.setDate(today.getDate() - 7);
     this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
 
@@ -76,7 +83,7 @@ export class PageShivokimHatalaComponent {
     );
     console.log(this.transferStatusNamesArray);
 
-    //   // לוגיקת אקסל
+    // לוגיקת אקסל
     //   const selectedFieldsArray = this.data.map((item) => {
     //     return {
     //       hz_WareHouse: item.hz_WareHouse,
@@ -117,15 +124,192 @@ export class PageShivokimHatalaComponent {
     //   });
 
     //   console.log(this.transformedData);
+    //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
+
+    console.log(this.data);
+    if (!this.check_is_shivokim_Independent) {
+      this.total_count_packege = this.data.reduce(
+        (sum, obj) => sum + obj.total_count,
+        0
+      );
+      this.total_count_agges = this.data.reduce(
+        (sum, obj) => sum + obj.total_transfer_egg_sum,
+        0
+      );
+    }
   }
-  //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
 
   // פונ הורדה לאקסל
   getExcelData(): void {
-    this.tableexcelService.exportAsExcelFile(
-      this.transformedData,
-      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
-    );
+    if (this.isSplit === 'מפוצל') {
+      const selectedFieldsArray = this.data.map((item) => {
+        return {
+          produce_date: item.produce_date,
+          farm_name: item.farm_name,
+          flock_id: item.flock_id,
+          lull2000_code: item.lull2000_code,
+          grower_name: item.grower_name,
+          settlement_name: item.settlement_name,
+          msvk_name: item.msvk_name,
+          egg_factory_subquery: item.egg_factory_subquery,
+          marketing_sum: item.marketing_sum,
+        };
+      });
+      const fieldTitleMapping = {
+        produce_date: 'תאריך הפקה',
+        farm_name: 'שם משק',
+        flock_id: 'מס להקה',
+        lull2000_code: 'מס מגדל',
+        grower_name: 'שם מגדל',
+        settlement_name: 'שם ישוב',
+        msvk_name: 'שם משווק ',
+        egg_factory_subquery: 'מכון מיון',
+        marketing_sum: ' כמות',
+      };
+
+      this.transformedData = selectedFieldsArray.map((item) => {
+        const transformedItem = {};
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            transformedItem[fieldTitleMapping[key] || key] = item[key];
+          }
+        }
+        return transformedItem;
+      });
+
+      this.tableexcelService.exportAsExcelFile(
+        this.transformedData,
+        'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+      );
+    } else {
+      if (!this.check_is_shivokim_Independent && this.isSplit === 'ראשי') {
+        const selectedFieldsArray = this.data.map((item) => {
+          return {
+            create_date: item.create_date,
+            transfer_date: item.transfer_date,
+            certificate_id: item.certificate_id,
+            farm_name: item.farm_name,
+
+            farm_code: item.farm_code,
+
+            flock_id: item.flock_id,
+
+            lull2000_code: item.lull2000_code,
+
+            grower_name: item.grower_name,
+
+            farm_settlement_name: item.farm_settlement_name,
+
+            msvk_name: item.msvk_name,
+
+            egg_factory_name: item.egg_factory_name,
+
+            transport_type_name: item.transport_type_name,
+
+            total_count: item.total_count,
+
+            total_transfer_egg_sum: item.total_transfer_egg_sum,
+
+            transfer_status_name: item.transfer_status_name,
+
+            is_between_egg_factory1: item.is_between_egg_factory1,
+
+            egg_warehouse_name: item.egg_warehouse_name,
+          };
+        });
+        const fieldTitleMapping = {
+          create_date: 'תאריך הפקה',
+          transfer_date: 'תאריך קליטה',
+          certificate_id: 'מס תעודה',
+          farm_name: 'שם משק',
+
+          farm_code: 'קוד משק',
+
+          flock_id: 'מס להקה',
+
+          lull2000_code: 'מס מגדל',
+
+          grower_name: 'שם מגדל',
+
+          farm_settlement_name: 'ישוב משק',
+
+          msvk_name: 'שם משווק',
+
+          egg_factory_name: 'מכון מיון',
+
+          transport_type_name: 'סוג אריזה',
+
+          total_count: 'כמות',
+
+          total_transfer_egg_sum: 'סהכ ביצים',
+
+          transfer_status_name: 'סטטוס משלוח',
+
+          is_between_egg_factory1: 'הערה בין משקים',
+
+          egg_warehouse_name: 'מחסן ביצים צמוד',
+        };
+
+        this.transformedData = selectedFieldsArray.map((item) => {
+          const transformedItem = {};
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              transformedItem[fieldTitleMapping[key] || key] = item[key];
+            }
+          }
+          return transformedItem;
+        });
+
+        this.tableexcelService.exportAsExcelFile(
+          this.transformedData,
+          'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+        );
+      } else {
+        if (this.check_is_shivokim_Independent && this.isSplit === 'ראשי') {
+          const selectedFieldsArray = this.data.map((item) => {
+            return {
+              create_date: item.create_date,
+              klita_date: item.klita_date,
+              certificate_id: item.certificate_id,
+              farm_name: item.farm_name,
+              flock_id: item.flock_id,
+              lull2000_code: item.lull2000_code,
+              grower_name: item.grower_name,
+              farm_settlement_name: item.farm_settlement_name,
+              msvk_name: item.msvk_name,
+              egg_sum: item.egg_sum,
+            };
+          });
+          const fieldTitleMapping = {
+            create_date: 'תאריך הפקה',
+            klita_date: 'תאריך קליטה',
+            certificate_id: 'מס תעודה',
+            farm_name: 'שם משק',
+            flock_id: 'מס להקה',
+            lull2000_code: 'מס מגדל',
+            grower_name: 'שם מגדל',
+            farm_settlement_name: 'ישוב משק',
+            msvk_name: 'שם משווק',
+            egg_sum: 'כמות ביצים',
+          };
+
+          this.transformedData = selectedFieldsArray.map((item) => {
+            const transformedItem = {};
+            for (const key in item) {
+              if (item.hasOwnProperty(key)) {
+                transformedItem[fieldTitleMapping[key] || key] = item[key];
+              }
+            }
+            return transformedItem;
+          });
+
+          this.tableexcelService.exportAsExcelFile(
+            this.transformedData,
+            'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+          );
+        }
+      }
+    }
   }
 
   onStatusSelected(event: any) {
@@ -159,24 +343,50 @@ export class PageShivokimHatalaComponent {
   }
 
   async search() {
+    this.total_count_packege = 0;
+    this.total_count_agges = 0;
     console.log('Start Date:', this.startDate);
     console.log('End Date:', this.endDate);
-
-    if (this.check_is_shivokim_Independent) {
-      var shivokim =
-        await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
-          this.data[0].flock_id,
-          this.startDate,
-          this.endDate
-        );
-      if (shivokim.length > 0) {
-        this.data = shivokim;
+    console.log('End Date:', this.splits);
+    if (this.splits === 'ראשי') {
+      this.isSplit = 'ראשי';
+      if (this.check_is_shivokim_Independent) {
+        var shivokim =
+          await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
+            this.data[0].flock_id,
+            this.startDate,
+            this.endDate
+          );
+        if (shivokim.length > 0) {
+          this.data = shivokim;
+        } else {
+          this.data = [];
+        }
       } else {
-        this.data = [];
+        var shivokim =
+          await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
+            this.data[0].flock_id,
+            this.startDate,
+            this.endDate
+          );
+        if (shivokim.length > 0) {
+          this.data = shivokim;
+        } else {
+          this.data = [];
+        }
+        this.total_count_packege = this.data.reduce(
+          (sum, obj) => sum + obj.total_count,
+          0
+        );
+        this.total_count_agges = this.data.reduce(
+          (sum, obj) => sum + obj.total_transfer_egg_sum,
+          0
+        );
       }
     } else {
+      this.isSplit = 'מפוצל';
       var shivokim =
-        await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
+        await this.megadelSearchService.get_shivokim_splits_by_date_and_flock_id(
           this.data[0].flock_id,
           this.startDate,
           this.endDate
