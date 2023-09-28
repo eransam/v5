@@ -12,12 +12,15 @@ export class PageShivokToNashchataComponent {
   userTypeID;
   certificateSum = 0;
   data: any[];
+  real_data: any[];
+  real_start_date: any[];
   check_is_shivokim_Independent: any;
   total_chicken_sum: any = 0;
   transformedData: any[];
   total_packege_sum: any = 0;
   startDate: string;
   endDate: string;
+  the_start_shivokim: any[];
   constructor(
     private tableexcelService: TableexcelService,
     private megadelSearchService: MegadelSearchService,
@@ -28,9 +31,13 @@ export class PageShivokToNashchataComponent {
   }
 
   async ngOnInit() {
+    this.the_start_shivokim = [];
     console.log('test');
     this.data = JSON.parse(localStorage.getItem('shivokim_to_mashchata'));
     console.log(this.data);
+    this.real_data = this.data;
+
+    await this.test2(this.data);
 
     //   // לוגיקת אקסל
     //   const selectedFieldsArray = this.data.map((item) => {
@@ -75,6 +82,58 @@ export class PageShivokToNashchataComponent {
   }
   //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
 
+  test2(the_data) {
+    this.the_start_shivokim = [];
+    const groupedByCertificateWeightId = the_data.reduce((acc, obj) => {
+      const certificateWeightId = obj.certificate_weight_id;
+      const existingGroup = acc.find(
+        (item) => item.certificate_weight_id === certificateWeightId
+      );
+
+      if (existingGroup) {
+        existingGroup.items.push(obj);
+      } else {
+        acc.push({ certificate_weight_id: certificateWeightId, items: [obj] });
+      }
+
+      return acc;
+    }, []);
+
+    console.log(
+      'Grouped array by certificate_weight_id:',
+      groupedByCertificateWeightId
+    );
+
+    for (let obg of groupedByCertificateWeightId) {
+      if (obg.certificate_weight_id !== null) {
+        this.the_start_shivokim.push(obg.items[0]);
+      }
+    }
+
+    console.log(this.the_start_shivokim);
+    for (let obj of this.the_start_shivokim) {
+      obj.is_start_arr = true;
+    }
+    this.real_start_date = this.the_start_shivokim;
+    the_data = this.the_start_shivokim;
+
+    console.log(the_data);
+    this.data = the_data;
+  }
+
+  certificates_more_Details(data) {
+    console.log(data);
+    var real_data2 =  this.real_data
+    const newArray = real_data2.filter(
+      (obj) => obj.certificate_weight_id === data
+    );
+    for (let obj of newArray) {
+      obj.is_start_arr = false;
+      obj.weight = obj.privat_weight;
+    }
+    this.data = newArray;
+  }
+
   // פונ הורדה לאקסל
   getExcelData(): void {
     this.tableexcelService.exportAsExcelFile(
@@ -82,6 +141,11 @@ export class PageShivokToNashchataComponent {
       'Modern Admin - Clean Angular8+ Dashboard HTML Template'
     );
   }
+
+  page_before() {
+    this.test2(this.real_data);
+  }
+
   async search() {
     console.log('Start Date:', this.startDate);
     console.log('End Date:', this.endDate);

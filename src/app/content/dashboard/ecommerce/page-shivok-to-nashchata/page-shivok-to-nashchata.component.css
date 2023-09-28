@@ -187,6 +187,19 @@
     background-color: #2980b9; /* Slightly darker blue on hover */
   }
 
+
+  .link-style {
+    color: blue; /* Change the color to suit your design */
+    text-decoration: underline; /* Underline the text to make it look like a link */
+    cursor: pointer; /* Show a pointer cursor to indicate interactivity */
+  }
+  
+  .link-style:hover {
+    color: darkblue; /* Change the color when hovering over the link */
+  }
+
+  
+
   
 
 
