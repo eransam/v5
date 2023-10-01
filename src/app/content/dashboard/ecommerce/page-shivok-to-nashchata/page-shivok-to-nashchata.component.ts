@@ -20,6 +20,7 @@ export class PageShivokToNashchataComponent {
   total_packege_sum: any = 0;
   startDate: string;
   endDate: string;
+  certificate_id2: any;
   the_start_shivokim: any[];
   constructor(
     private tableexcelService: TableexcelService,
@@ -80,6 +81,9 @@ export class PageShivokToNashchataComponent {
 
     //   console.log(this.transformedData);
   }
+
+  search_certificate_id
+  
   //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
 
   test2(the_data) {
@@ -123,7 +127,7 @@ export class PageShivokToNashchataComponent {
 
   certificates_more_Details(data) {
     console.log(data);
-    var real_data2 =  this.real_data
+    var real_data2 = this.real_data;
     const newArray = real_data2.filter(
       (obj) => obj.certificate_weight_id === data
     );

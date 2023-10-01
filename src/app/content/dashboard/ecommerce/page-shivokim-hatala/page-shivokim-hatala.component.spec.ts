@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageShivokimHatalaComponent } from './page-shivokim-hatala.component';
+import { PageShivokimHatalaComponent } from '../../popup-monthly-summary/popup-monthly-summary.component';
 
 describe('PageShivokimHatalaComponent', () => {
   let component: PageShivokimHatalaComponent;
@@ -8,7 +8,7 @@ describe('PageShivokimHatalaComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PageShivokimHatalaComponent]
+      declarations: [PageShivokimHatalaComponent],
     });
     fixture = TestBed.createComponent(PageShivokimHatalaComponent);
     component = fixture.componentInstance;

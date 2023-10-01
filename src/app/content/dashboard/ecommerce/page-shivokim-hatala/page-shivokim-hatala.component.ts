@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TableexcelService } from '../../../../services/tableexcel.service';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { DatePipe } from '@angular/common';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-page-shivokim-hatala',
@@ -20,12 +21,16 @@ export class PageShivokimHatalaComponent {
   total_packege_sum: any = 0;
   startDate: string;
   endDate: any;
+  certificate_Selector: any;
   splits: any;
+  certificate_id2: any;
   isSplit: any = 'ראשי';
   formattedEndDate: string;
   transferStatusNamesArray: any[];
   total_count_packege: any = 0;
   total_count_agges: any = 0;
+  @ViewChild('statusSelect') statusSelect: any; // Access the select element using the template reference variable
+
   constructor(
     private datePipe: DatePipe,
     private tableexcelService: TableexcelService,
@@ -39,31 +44,28 @@ export class PageShivokimHatalaComponent {
   async ngOnInit() {
     this.total_count_packege = 0;
     this.total_count_agges = 0;
+    //שהוא התאריך העכשיוי endDate ערך התחלתי למשנה
     const today = new Date();
     this.endDate = this.datePipe.transform(today, 'yyyy-MM-dd');
+
+    //שהוא התאריך לפני שבוע מהיום startDate ערך התחלתי למשנה
     const startDateObj = new Date();
     this.splits = 'ראשי';
     startDateObj.setDate(today.getDate() - 7);
     this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
 
-    console.log(this.endDate);
-    console.log(this.startDate);
-
-    console.log('test');
     this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
+
+    // בדיקת שיווק עצמאיי
     this.check_is_shivokim_Independent = JSON.parse(
       localStorage.getItem('shivokim_Independent')
     );
-    console.log(this.data);
-    console.log(this.check_is_shivokim_Independent);
 
     // מוציא אובייקטים משוכפלים מהמערך
     const uniqueArr: any[] = [
       ...new Set(this.data[this.data.length - 1].newArrayEnd),
     ];
     this.data[this.data.length - 1].newArrayEnd = uniqueArr;
-
-    console.log('this.data: ', this.data);
 
     this.data.sort((a, b) => {
       const dateA: any = new Date(a.hz_date_hzmd_from);
@@ -72,7 +74,6 @@ export class PageShivokimHatalaComponent {
       return dateB - dateA;
     });
 
-    console.log('this.data: ', this.data);
     this.originalData = this.data;
     const transferStatusNamesArray1 = [];
     this.data.forEach((item) => {
@@ -81,62 +82,40 @@ export class PageShivokimHatalaComponent {
     this.transferStatusNamesArray = Array.from(
       new Set(transferStatusNamesArray1)
     );
-    console.log(this.transferStatusNamesArray);
 
-    // לוגיקת אקסל
-    //   const selectedFieldsArray = this.data.map((item) => {
-    //     return {
-    //       hz_WareHouse: item.hz_WareHouse,
-    //       hz_msvk_nosaf: item.hz_msvk_nosaf,
-    //       hz_date_hzmd_from: item.hz_date_hzmd_from,
-    //       hz_code_hzmd: item.hz_code_hzmd,
-    //       hz_date_hzmd_to: item.hz_date_hzmd_to,
-    //       hz_Dtupd: item.hz_Dtupd,
-    //       code: item.code,
-    //       tb_name: item.tb_name,
-    //       hz_Rishaion_Msk:item.hz_Rishaion_Msk,
-    //       tnai_hazmada: item.tnai_hazmada,
-
-    //     };
-    //   });
-    //   const fieldTitleMapping = {
-    //       hz_WareHouse: 'שיווק במחסן',
-    //       hz_msvk_nosaf: 'משווק נוסף',
-    //       hz_date_hzmd_from: 'תאריך תעודה',
-    //       hz_code_hzmd: 'מס תעודה',
-    //       hz_date_hzmd_to: 'מתאריך',
-    //       hz_Dtupd: 'תאריך עדכון',
-    //       code: 'קוד אתר',
-    //       tb_name: 'שם משווק ',
-
-    //       hz_Rishaion_Msk: 'רישיון משווק',
-    //       tnai_hazmada: 'תנאי הצמדה',
-    //   };
-
-    //   this.transformedData = selectedFieldsArray.map((item) => {
-    //     const transformedItem = {};
-    //     for (const key in item) {
-    //       if (item.hasOwnProperty(key)) {
-    //         transformedItem[fieldTitleMapping[key] || key] = item[key];
-    //       }
-    //     }
-    //     return transformedItem;
-    //   });
-
-    //   console.log(this.transformedData);
-    //////////////////////////////////////////////////   סיום לוגיקת אקסל   //////////////////////////////////////////////////////////
-
-    console.log(this.data);
+    // טוטל עגלות
     if (!this.check_is_shivokim_Independent) {
-      this.total_count_packege = this.data.reduce(
-        (sum, obj) => sum + obj.total_count,
-        0
-      );
-      this.total_count_agges = this.data.reduce(
-        (sum, obj) => sum + obj.total_transfer_egg_sum,
-        0
-      );
+      this.count_total_eggs_and_packege(this.data);
     }
+  }
+
+  count_total_eggs_and_packege(data) {
+    this.total_count_packege = data.reduce(
+      (sum, obj) => sum + obj.total_count,
+      0
+    );
+
+    //   טוטל ביצים
+    this.total_count_agges = data.reduce(
+      (sum, obj) => sum + obj.total_transfer_egg_sum,
+      0
+    );
+  }
+
+  search_certificate_id() {
+    // שינוי ערך של תיבת הסלקט עם הרפרנס שהוזן לה
+    this.statusSelect.nativeElement.value = 'chose_Category';
+
+    var filter_by_certificate_id = this.originalData.filter(
+      (item) => item.certificate_id === this.certificate_id2
+    );
+
+    if (filter_by_certificate_id.length > 0) {
+      this.data = filter_by_certificate_id;
+    } else {
+      this.data = [];
+    }
+    this.count_total_eggs_and_packege(this.data);
   }
 
   // פונ הורדה לאקסל
@@ -189,31 +168,18 @@ export class PageShivokimHatalaComponent {
             transfer_date: item.transfer_date,
             certificate_id: item.certificate_id,
             farm_name: item.farm_name,
-
             farm_code: item.farm_code,
-
             flock_id: item.flock_id,
-
             lull2000_code: item.lull2000_code,
-
             grower_name: item.grower_name,
-
             farm_settlement_name: item.farm_settlement_name,
-
             msvk_name: item.msvk_name,
-
             egg_factory_name: item.egg_factory_name,
-
             transport_type_name: item.transport_type_name,
-
             total_count: item.total_count,
-
             total_transfer_egg_sum: item.total_transfer_egg_sum,
-
             transfer_status_name: item.transfer_status_name,
-
             is_between_egg_factory1: item.is_between_egg_factory1,
-
             egg_warehouse_name: item.egg_warehouse_name,
           };
         });
@@ -222,31 +188,18 @@ export class PageShivokimHatalaComponent {
           transfer_date: 'תאריך קליטה',
           certificate_id: 'מס תעודה',
           farm_name: 'שם משק',
-
           farm_code: 'קוד משק',
-
           flock_id: 'מס להקה',
-
           lull2000_code: 'מס מגדל',
-
           grower_name: 'שם מגדל',
-
           farm_settlement_name: 'ישוב משק',
-
           msvk_name: 'שם משווק',
-
           egg_factory_name: 'מכון מיון',
-
           transport_type_name: 'סוג אריזה',
-
           total_count: 'כמות',
-
           total_transfer_egg_sum: 'סהכ ביצים',
-
           transfer_status_name: 'סטטוס משלוח',
-
           is_between_egg_factory1: 'הערה בין משקים',
-
           egg_warehouse_name: 'מחסן ביצים צמוד',
         };
 
@@ -312,7 +265,13 @@ export class PageShivokimHatalaComponent {
     }
   }
 
+  set_val_of_sort_by_certificate(event: any) {
+    this.certificate_id2 = event.target.value;
+  }
+
+  //   מיון לפי סטטוס
   onStatusSelected(event: any) {
+    this.certificate_id2 = '';
     const selectedStatus = event.target.value;
     console.log('Selected status:', selectedStatus);
     if (selectedStatus === 'כולם') {
@@ -326,6 +285,7 @@ export class PageShivokimHatalaComponent {
       this.data = filteredData;
       console.log(this.data);
     }
+    this.count_total_eggs_and_packege(this.data);
   }
 
   cleanInputFild() {
@@ -362,6 +322,7 @@ export class PageShivokimHatalaComponent {
         } else {
           this.data = [];
         }
+        this.count_total_eggs_and_packege(this.data);
       } else {
         var shivokim =
           await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
@@ -374,14 +335,8 @@ export class PageShivokimHatalaComponent {
         } else {
           this.data = [];
         }
-        this.total_count_packege = this.data.reduce(
-          (sum, obj) => sum + obj.total_count,
-          0
-        );
-        this.total_count_agges = this.data.reduce(
-          (sum, obj) => sum + obj.total_transfer_egg_sum,
-          0
-        );
+
+        this.count_total_eggs_and_packege(this.data);
       }
     } else {
       this.isSplit = 'מפוצל';
@@ -396,6 +351,7 @@ export class PageShivokimHatalaComponent {
       } else {
         this.data = [];
       }
+      this.count_total_eggs_and_packege(this.data);
     }
   }
 }
