@@ -13,11 +13,20 @@
           <div class="date-input-container">
             <label for="startDate">מתאריך:</label>
             <input
-              type="date"
-              id="startDate"
+              placeholder="{{startDate}}"
+              type="text"
+              id="startDateControl-input"
+              name="startDate"
+              ngbDatepicker
+              #d1="ngbDatepicker"
+              class="form-control border-primary textUserInput"
               [(ngModel)]="startDate"
-              class="blue-date-input"
             />
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="d1.toggle()">
+                <i class="fa fa-calendar" style="cursor: pointer"></i>
+              </div>
+            </div>
           </div>
         </th>
 
@@ -25,11 +34,23 @@
           <div class="date-input-container">
             <label for="endDate">עד תאריך:</label>
             <input
-              type="date"
-              id="endDate"
-              [(ngModel)]="endDate"
-              class="blue-date-input"
-            />
+            placeholder="{{ endDate.substr(8, 2) }}/{{
+                endDate.substr(5, 2)
+            }}/{{ endDate.substr(0, 4) }}"
+            type="text"
+            id="endDateControl-input"
+            name="endDate"
+            ngbDatepicker
+            #d2="ngbDatepicker"
+            class="form-control border-primary textUserInput"
+            [(ngModel)]="endDate"
+
+          />
+          <div class="input-group-append">
+            <div class="input-group-text" (click)="d2.toggle()">
+              <i class="fa fa-calendar" style="cursor: pointer"></i>
+            </div>
+          </div>
           </div>
         </th>
 

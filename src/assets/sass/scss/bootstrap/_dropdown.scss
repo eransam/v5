@@ -171,6 +171,9 @@
 
 .dropdown-menu.show {
   display: block;
+  position: relative !important;
+  inset: unset !important;
+  transform: none !important;
 }
 
 // Dropdown section headers

@@ -177,12 +177,50 @@
   display: flex;
 }
 
+.btn_sort_by_certificate_id {
+  height: 45px;
+  padding-top: 6px;
+  border-radius: 0;
+  width: 55px;
+  padding: 0;
+}
 
+.blue-date-input-container {
+  position: relative;
+  display: inline-block;
+}
 
-.btn_sort_by_certificate_id{
-    height: 45px;
-    padding-top: 6px;
-    border-radius: 0;
-    width: 55px;
-    padding: 0;
+.blue-date-input {
+  padding: 5px;
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.calendar-input {
+  width: 100%;
+}
+
+.calendar-dropdown input[type="date"]::-webkit-inner-spin-button,
+.calendar-dropdown input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.dropdown-menu .show .ng-star-inserted {
+  position: absolute;
+  inset: 0px 257px auto auto !important;
+  margin: 0px;
+  transform: translate(141.111px, 372.222px);
+}
+
+ngb-datepicker.dropdown-menu.show.ng-star-inserted {
+  inset: 0px 252px auto auto !important;
 }

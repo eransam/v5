@@ -50,9 +50,15 @@ import { HazmadotHistoryPageComponent } from './ecommerce/hazmadot-history-page/
 import { PageShivokimHatalaComponent } from './ecommerce/page-shivokim-hatala/page-shivokim-hatala.component';
 import { PageShivokToNashchataComponent } from './ecommerce/page-shivok-to-nashchata/page-shivok-to-nashchata.component';
 import { PageShivokimFromImonToEndSiteComponent } from './ecommerce/page-shivokim-from-imon-to-end-site/page-shivokim-from-imon-to-end-site.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
     ReactiveFormsModule,
     CommonModule,
     ChartistModule,

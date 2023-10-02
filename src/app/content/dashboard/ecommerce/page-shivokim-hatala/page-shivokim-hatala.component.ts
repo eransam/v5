@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { OnChanges, SimpleChanges } from '@angular/core';
+
 import { Router } from '@angular/router';
 import { TableexcelService } from '../../../../services/tableexcel.service';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { DatePipe } from '@angular/common';
 import { ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-page-shivokim-hatala',
@@ -20,7 +23,9 @@ export class PageShivokimHatalaComponent {
   transformedData: any[];
   total_packege_sum: any = 0;
   startDate: string;
-  endDate: any;
+
+  endDate: string;
+  formattedDate: string;
   certificate_Selector: any;
   splits: any;
   certificate_id2: any;
@@ -30,7 +35,7 @@ export class PageShivokimHatalaComponent {
   total_count_packege: any = 0;
   total_count_agges: any = 0;
   @ViewChild('statusSelect') statusSelect: any; // Access the select element using the template reference variable
-
+  showCalendar: boolean = false;
   constructor(
     private datePipe: DatePipe,
     private tableexcelService: TableexcelService,
@@ -87,6 +92,35 @@ export class PageShivokimHatalaComponent {
     if (!this.check_is_shivokim_Independent) {
       this.count_total_eggs_and_packege(this.data);
     }
+
+    console.log(this.startDate);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Check if 'startDate' has changed
+    if (changes.startDate) {
+      // Perform operations on 'startDate' here
+      console.log(this.startDate);
+      this.performOperations();
+    }
+  }
+  
+
+  private performOperations() {
+    // Perform your desired operations on 'startDate'
+    console.log('startDate changed. New value:', this.startDate);
+    // Add your logic here
+  }
+
+  formatDate2(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  onDateChange(event: Event) {
+    this.showCalendar = false;
   }
 
   count_total_eggs_and_packege(data) {
@@ -298,8 +332,8 @@ export class PageShivokimHatalaComponent {
   }
 
   openDatePicker() {
-    this.endDate = new Date(); // Replace with your date logic
-    this.formattedEndDate = this.formatDate(this.endDate);
+    // this.endDate = new Date(); // Replace with your date logic
+    // this.formattedEndDate = this.formatDate(this.endDate);
   }
 
   async search() {
