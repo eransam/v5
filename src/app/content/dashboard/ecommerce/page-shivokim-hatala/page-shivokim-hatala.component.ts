@@ -6,8 +6,7 @@ import { TableexcelService } from '../../../../services/tableexcel.service';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { DatePipe } from '@angular/common';
 import { ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { LogarithmicScale } from 'chart.js';
+
 
 @Component({
   selector: 'app-page-shivokim-hatala',

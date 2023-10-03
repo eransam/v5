@@ -1,12 +1,87 @@
-
 <div class="cool-table-container">
-    <div>
-      <table class="cool-table" dir="rtl" style="padding: 5px" border="0">
-        <thead>
-          <tr>
-            <th style="font-weight: bold; text-align: right">
-              שיווק ממשק  {{ data[0].source_farm_code }}
-            </th>
+  <div>
+    <table class="cool-table" dir="rtl" style="padding: 5px" border="0">
+      <thead>
+        <tr
+          style="display: flex; justify-content: space-between; padding: 40px"
+        >
+          <th style="font-weight: bold; text-align: right">
+            שיווק ביצי מאכל ממשק {{ this.data[0].farm_code }} -
+            {{ this.data[0].farm_name }}
+          </th>
+        </tr> 
+
+        <tr
+          style="display: flex; justify-content: space-between; padding: 40px"
+        >
+          <th style="font-weight: bold; text-align: right">
+            <div class="date-input-container">
+              <label for="startDate">מתאריך:</label>
+              <input
+                placeholder="{{ startDate }}"
+                type="text"
+                id="startDateControl-input"
+                name="startDate"
+                ngbDatepicker
+                #d1="ngbDatepicker"
+                class="form-control border-primary textUserInput"
+                [(ngModel)]="startDate"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text" (click)="d1.toggle()">
+                  <i class="fa fa-calendar" style="cursor: pointer"></i>
+                </div>
+              </div>
+            </div>
+          </th>
+
+          <th style="font-weight: bold; text-align: right">
+            <div class="date-input-container">
+              <label for="endDate">עד תאריך:</label>
+              <input
+                placeholder="{{ endDate }}"
+                type="text"
+                id="endDateControl-input"
+                name="endDate"
+                ngbDatepicker
+                #d2="ngbDatepicker"
+                class="form-control border-primary textUserInput"
+                [(ngModel)]="endDate"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text" (click)="d2.toggle()">
+                  <i class="fa fa-calendar" style="cursor: pointer"></i>
+                </div>
+              </div>
+            </div>
+          </th>
+
+          <th style="font-weight: bold; text-align: right">
+            <label for="statusSelector2">מיון:</label>
+            <div class="date-input-container">
+              <select
+                class="blue-date-input"
+                id="statusSelector2"
+                [(ngModel)]="splits"
+              >
+                <option value="ראשי" selected>מגדל ראשי</option>
+                <option value="מפוצל">מפוצל</option>
+              </select>
+            </div>
+          </th>
+
+          <th style="font-weight: bold; text-align: right; margin-top: 25px">
+            <button (click)="search()" class="search-button">חפש</button>
+
+            <button
+              (click)="cleanInputFild()"
+              class="search-button"
+              style="background-color: rgb(190, 55, 55); margin-right: 10px"
+            >
+              נקה
+            </button>
+          </th>
+          <th style="font-weight: bold; text-align: right; margin-top: 25px">
             <div class="importBth">
               <div class="justify-content">
                 <img
@@ -18,123 +93,179 @@
                 />
               </div>
             </div>
-          </tr>
-        </thead>
-  
-        <tr>
-          <td colspan="2">
-            <table class="table no-margin">
-              <thead>
-                <tr>
-                  <th style="font-weight: bold; text-align: right">
-                    תאריך תעודה
-                  </th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                  מס תעודה
-              </th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                    מס רישיון משק מקור
-                  </th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                    שם משק מקור
-                  </th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                    מס רישיון משק יעד
-                  </th>
-  
-                  <th style="font-weight: bold; text-align: right">שם משק יעד</th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                    ישוב משק יעד
-                  </th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                    מס להקת יעד
-                  </th>
-  
-                  <th style="font-weight: bold; text-align: right">
-                    מס מגדל יעד
-                  </th>
-                  <th style="font-weight: bold; text-align: right">
-                    שם מגדל יעד
-                  </th>
-                  <th style="font-weight: bold; text-align: right">כלובים</th>
-  
-                  <th style="font-weight: bold; text-align: right">כמות עופות</th>
-  
-                  <th style="font-weight: bold; text-align: right">pdf</th>
-                </tr>
-              </thead>
+          </th>
+        </tr>
+        <tr class="tr_sub_sort">
+          <th
+            *ngIf="this.isSplit === 'ראשי'"
+            style="font-weight: bold; text-align: right; padding: 40px"
+          >
+            <!-- מיון לפי סטטוס -->
+            <label for="statusSelector">סטטוס:</label>
+            <div
+              style="display: flex; flex-direction: row"
+              class="date-input-container"
+            >
+              <select
+                class="blue-date-input"
+                id="statusSelector"
+                (change)="onStatusSelected($event)"
+                #statusSelect
+              >
+                <option
+                  *ngIf="this.transferStatusNamesArray.length > 1"
+                  value="chose_Category"
+                  selected
+                  value="כולם"
+                >
+                  כולם
+                </option>
+                <option
+                  *ngFor="let status of transferStatusNamesArray"
+                  [value]="status"
+                >
+                  {{ status }}
+                </option>
+              </select>
+            </div>
+          </th>
 
+          <!-- מיון לפי מס תעודה -->
+          <th
+            *ngIf="this.isSplit === 'ראשי'"
+            style="font-weight: bold; text-align: right; padding: 40px"
+          >
+            <label for="certificate_id2">מס תעודה:</label>
+            <div>
+              <input
+                type="text"
+                id="certificate_id2"
+                [(ngModel)]="certificate_id2"
+                class="blue-date-input"
+                (change)="set_val_of_sort_by_certificate($event)"
+              />
+              <button
+                (click)="search_certificate_id()"
+                class="search-button btn_sort_by_certificate_id"
+              >
+                חפש
+              </button>
+            </div>
+          </th>
+          <th style="font-weight: bold; text-align: right"></th>
+        </tr>
+      </thead>
 
+      <tr>
+        <td colspan="2">
+          <table class="table no-margin">
+            <thead>
+              <tr>
+                <th style="font-weight: bold; text-align: right">
+                  תאריך תעודה
+                </th>
 
-              <tbody style="white-space: nowrap">
-                <tr *ngFor="let p of data">
-                  <!-- תאריך תעודה-->
-                  <td *ngIf="">
-                    {{ p.create_date | date : "dd/MM/yyyy" }}
-                  </td>
-  
-                  <!-- מס תעודה -->
-                  <td>
-                    {{ p.certificate_id }}
-                  </td>
-  
-                  <!-- מס רישיון משק מקור -->
-                  <td>
-                    {{ p.source_farm_code }}
-                  </td>
-  
-                  <!-- שם משק מקור -->
-                  <td>
-                    {{ p.source_farm_name }}
-                  </td>
-  
-                  <!-- מס רישיון משק יעד -->
-                  <td>
-                    {{ p.farm_code }}
-                  </td>
-  
-                  <!-- >שם משק יעד -->
-                  <td>
-                    {{ p.farm_name }}
-                  </td>
-  
-                  <!--  ישוב משק יעד -->
-                  <td>
-                    {{ p.farm_settlement_name }}
-                  </td>
-  
-                  <!--   מס להקת יעד -->
-                  <td>
-                    {{ p.dest_flock_id }}
-                  </td>
-  
-                  <!--  מס מגדל יעד -->
-                  <td>
-                    {{ p.lull2000_code }}
-                  </td>
-  
-                  <!-- שם מגדל יעד -->
-                  <td>
-                    {{ p.grower_name }}
-                  </td>
-  
-                  <!-- כלובים -->
-                  <td>
-                    {{ p.package_sum }}
-                  </td>
-  
-                  <!-- >כמות עופות -->
-                  <td>
-                    {{ p.chicken_sum_female | number : "1.0-0" }}
-                  </td>
-  
-                  <!-- <td>
+                <th style="font-weight: bold; text-align: right">מס תעודה</th>
+
+                <th style="font-weight: bold; text-align: right">
+                  מס רישיון משק מקור
+                </th>
+
+                <th style="font-weight: bold; text-align: right">
+                  שם משק מקור
+                </th>
+
+                <th style="font-weight: bold; text-align: right">
+                  מס רישיון משק יעד
+                </th>
+
+                <th style="font-weight: bold; text-align: right">שם משק יעד</th>
+
+                <th style="font-weight: bold; text-align: right">
+                  ישוב משק יעד
+                </th>
+
+                <th style="font-weight: bold; text-align: right">
+                  מס להקת יעד
+                </th>
+
+                <th style="font-weight: bold; text-align: right">
+                  מס מגדל יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">
+                  שם מגדל יעד
+                </th>
+                <th style="font-weight: bold; text-align: right">כלובים</th>
+
+                <th style="font-weight: bold; text-align: right">כמות עופות</th>
+
+                <th style="font-weight: bold; text-align: right">pdf</th>
+              </tr>
+            </thead>
+
+            <tbody style="white-space: nowrap">
+              <tr *ngFor="let p of data">
+                <!-- תאריך תעודה-->
+                <td *ngIf="">
+                  {{ p.create_date | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- מס תעודה -->
+                <td>
+                  {{ p.certificate_id }}
+                </td>
+
+                <!-- מס רישיון משק מקור -->
+                <td>
+                  {{ p.source_farm_code }}
+                </td>
+
+                <!-- שם משק מקור -->
+                <td>
+                  {{ p.source_farm_name }}
+                </td>
+
+                <!-- מס רישיון משק יעד -->
+                <td>
+                  {{ p.farm_code }}
+                </td>
+
+                <!-- >שם משק יעד -->
+                <td>
+                  {{ p.farm_name }}
+                </td>
+
+                <!--  ישוב משק יעד -->
+                <td>
+                  {{ p.farm_settlement_name }}
+                </td>
+
+                <!--   מס להקת יעד -->
+                <td>
+                  {{ p.dest_flock_id }}
+                </td>
+
+                <!--  מס מגדל יעד -->
+                <td>
+                  {{ p.lull2000_code }}
+                </td>
+
+                <!-- שם מגדל יעד -->
+                <td>
+                  {{ p.grower_name }}
+                </td>
+
+                <!-- כלובים -->
+                <td>
+                  {{ p.package_sum }}
+                </td>
+
+                <!-- >כמות עופות -->
+                <td>
+                  {{ p.chicken_sum_female | number : "1.0-0" }}
+                </td>
+
+                <!-- <td>
                         <a
                           [href]="
                             'http:\\\\epb-iis12:8006\\LulSln_net\\Mifkadim_New\\TdMs_' +
@@ -146,20 +277,20 @@
                           >file</a
                         >
                       </td> -->
-  
-                  <td>
-                    <a
-                      [href]="
-                        'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_' + p.certificate_id + '-GROWER-copy.pdf'
-                      "
-  
-                      
-                      >file</a
-                    >
-                  </td>
-                </tr>
-  
-                <!-- <tr>
+
+                <td>
+                  <a
+                    [href]="
+                      'http:\\\\epb-iis12:8006\\EvacuationChicken\\CertificateTransfer\\CERTIFICATE_TRANSFER_' +
+                      p.certificate_id +
+                      '-GROWER-copy.pdf'
+                    "
+                    >file</a
+                  >
+                </td>
+              </tr>
+
+              <!-- <tr>
                   <td>סה''כ:</td>
   
                   <td></td>
@@ -186,11 +317,10 @@
                     {{ total_chicken_sum | number : "1.0-0" }}
                   </td>
                 </tr> -->
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </div>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
   </div>
-  
+</div>
