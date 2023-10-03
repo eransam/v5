@@ -7,6 +7,7 @@ import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { DatePipe } from '@angular/common';
 import { ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { LogarithmicScale } from 'chart.js';
 
 @Component({
   selector: 'app-page-shivokim-hatala',
@@ -22,9 +23,9 @@ export class PageShivokimHatalaComponent {
   total_chicken_sum: any = 0;
   transformedData: any[];
   total_packege_sum: any = 0;
-  startDate: string;
+  startDate: any;
 
-  endDate: string;
+  endDate: any;
   formattedDate: string;
   certificate_Selector: any;
   splits: any;
@@ -88,6 +89,9 @@ export class PageShivokimHatalaComponent {
       new Set(transferStatusNamesArray1)
     );
 
+    console.log(this.transferStatusNamesArray);
+    
+
     // טוטל עגלות
     if (!this.check_is_shivokim_Independent) {
       this.count_total_eggs_and_packege(this.data);
@@ -104,7 +108,6 @@ export class PageShivokimHatalaComponent {
       this.performOperations();
     }
   }
-  
 
   private performOperations() {
     // Perform your desired operations on 'startDate'
@@ -137,6 +140,8 @@ export class PageShivokimHatalaComponent {
   }
 
   search_certificate_id() {
+    console.log("e");
+    
     // שינוי ערך של תיבת הסלקט עם הרפרנס שהוזן לה
     this.statusSelect.nativeElement.value = 'chose_Category';
 
@@ -337,11 +342,26 @@ export class PageShivokimHatalaComponent {
   }
 
   async search() {
+    this.certificate_id2 = ""
     this.total_count_packege = 0;
     this.total_count_agges = 0;
     console.log('Start Date:', this.startDate);
+
     console.log('End Date:', this.endDate);
-    console.log('End Date:', this.splits);
+    console.log('this.splits:', this.splits);
+    if (
+      typeof this.startDate === 'object'
+    ) {
+      this.startDate = `${this.startDate.year}-${this.startDate.month
+        .toString()
+        .padStart(2, '0')}-${this.startDate.day.toString().padStart(2, '0')}`;
+    }
+    if (typeof this.endDate === 'object') {
+        this.endDate = `${this.endDate.year}-${this.endDate.month
+            .toString()
+            .padStart(2, '0')}-${this.endDate.day.toString().padStart(2, '0')}`;
+    }
+
     if (this.splits === 'ראשי') {
       this.isSplit = 'ראשי';
       if (this.check_is_shivokim_Independent) {
