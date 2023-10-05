@@ -12,6 +12,72 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_shivok_to_mashchata_top20_by_flock_id(
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shivok_to_mashchata_top20_by_flock_id?flock_id=${flock_id}`
+      )
+    );
+    return item;
+  }
+
+  async get_shivok_from_imon_to_all_sites_top20_by_flock_id(
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shivok_from_imon_to_all_sites_top20_by_flock_id?flock_id=${flock_id}`
+      )
+    );
+    return item;
+  }
+
+  async get_shivokim_top20_by_flock_id(flock_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shivokim_top20_by_flock_id?flock_id=${flock_id}`
+      )
+    );
+    return item;
+  }
+
+  async get_shivokim_Independent_top20_by_flock_id(
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shivokim_Independent_top20_by_flock_id?flock_id=${flock_id}`
+      )
+    );
+    return item;
+  }
+
+  async get_shivok_from_imon_to_all_sites_current_date_and_week_ago_by_flock_id(
+    flock_id: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shivok_from_imon_to_all_sites_current_date_and_week_ago_by_flock_id?flock_id=${flock_id}`
+      )
+    );
+    return item;
+  }
+
+  async get_shivok_from_imon_to_all_sites_by_date_and_flock_id(
+    flock_id: any,
+    StartDate: any,
+    EndDate: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_shivok_from_imon_to_all_sites_by_date_and_flock_id?flock_id=${flock_id}&StartDate=${StartDate}&EndDate=${EndDate}`
+      )
+    );
+    return item;
+  }
+
   async get_shivokim_splits_by_date_and_flock_id(
     flock_id: any,
     StartDate: any,

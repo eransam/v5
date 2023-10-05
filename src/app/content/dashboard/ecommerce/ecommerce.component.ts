@@ -2650,10 +2650,6 @@ export class EcommerceComponent implements OnInit {
 
       this.latestObject_in_array_pinoyim_short = Pinoy_latestObject;
 
-      console.log(this.latestObject_in_array_pinoyim_short);
-
-      console.log(this.array_pinoyim_short);
-
       const latestObject = this.array_mifkadim_short.reduce(
         (latest, currentItem) => {
           const currentDate = new Date(currentItem.pr_Datemsira);
@@ -2678,8 +2674,6 @@ export class EcommerceComponent implements OnInit {
       await this.megadelSearchService.get_flock_ages_by_flock_id(
         this.selectedObject.id
       );
-
-    console.log(get_flock_ages_by_flock_id);
 
     //   מפקדים
     get_flock_ages_by_flock_id[0].mifkadim = mifkadim;
@@ -2720,7 +2714,7 @@ export class EcommerceComponent implements OnInit {
       var parts = get_flock_ages_by_flock_id[0].farm_num.split('/');
       var farm_num = parts[0];
 
-      // נחלץ אץ הץעודות העברה של האתר למחצה
+      // נחלץ את הץעודות העברה של האתר למחצה
       var real_hiclos_by_site =
         await this.megadelSearchService.get_real_hiclos_in_site_splite(
           farm_num,
@@ -2934,7 +2928,7 @@ export class EcommerceComponent implements OnInit {
 
           // שיווק עצמאי
           var shivokim_Independent_current_date_and_week_ago =
-            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
+            await this.megadelSearchService.get_shivokim_Independent_top20_by_flock_id(
               obj.flock_num
             );
           if (shivokim_Independent_current_date_and_week_ago.length > 0) {
@@ -2945,7 +2939,7 @@ export class EcommerceComponent implements OnInit {
 
             //   שיווק רגיל ע''י מכון מיון של המשווק
             var shivokim_current_date_and_week_ago =
-              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
+              await this.megadelSearchService.get_shivokim_top20_by_flock_id(
                 obj.flock_num
               );
             if (shivokim_current_date_and_week_ago.length > 0) {
@@ -2958,7 +2952,7 @@ export class EcommerceComponent implements OnInit {
 
           //   שיווק מבית אימון למשק סופי
           var shivokim_from_imon_to_end_site =
-            await this.megadelSearchService.get_shivok_from_imon_to_all_sites(
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites_top20_by_flock_id(
               obj.flock_num
             );
           if (shivokim_from_imon_to_end_site.length > 0) {
@@ -2969,7 +2963,7 @@ export class EcommerceComponent implements OnInit {
 
           //שיווק למשחטה
           var shivok_to_mashchata_by_flock_id =
-            await this.megadelSearchService.get_shivok_to_mashchata_by_flock_id(
+            await this.megadelSearchService.get_shivok_to_mashchata_top20_by_flock_id(
               obj.flock_num
             );
           if (shivok_to_mashchata_by_flock_id.length > 0) {
@@ -3893,7 +3887,6 @@ export class EcommerceComponent implements OnInit {
     }
     this.isLoading_FarmDetails = false;
     console.log(this.farm_det_new);
-
   }
   //   פונ להצגת פרטי אתר מורחבים בבחירת אתר מקוצר - סיום
 

@@ -7,7 +7,6 @@ import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { DatePipe } from '@angular/common';
 import { ViewChild } from '@angular/core';
 
-
 @Component({
   selector: 'app-page-shivokim-hatala',
   templateUrl: './page-shivokim-hatala.component.html',
@@ -58,7 +57,7 @@ export class PageShivokimHatalaComponent {
     this.splits = 'ראשי';
     startDateObj.setDate(today.getDate() - 7);
     this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
-
+    this.startDate = 'yyyy-MM-dd';
     this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
 
     // בדיקת שיווק עצמאיי
@@ -89,7 +88,6 @@ export class PageShivokimHatalaComponent {
     );
 
     console.log(this.transferStatusNamesArray);
-    
 
     // טוטל עגלות
     if (!this.check_is_shivokim_Independent) {
@@ -139,8 +137,8 @@ export class PageShivokimHatalaComponent {
   }
 
   search_certificate_id() {
-    console.log("e");
-    
+    console.log('e');
+
     // שינוי ערך של תיבת הסלקט עם הרפרנס שהוזן לה
     this.statusSelect.nativeElement.value = 'chose_Category';
 
@@ -341,24 +339,22 @@ export class PageShivokimHatalaComponent {
   }
 
   async search() {
-    this.certificate_id2 = ""
+    this.certificate_id2 = '';
     this.total_count_packege = 0;
     this.total_count_agges = 0;
     console.log('Start Date:', this.startDate);
 
     console.log('End Date:', this.endDate);
     console.log('this.splits:', this.splits);
-    if (
-      typeof this.startDate === 'object'
-    ) {
+    if (typeof this.startDate === 'object') {
       this.startDate = `${this.startDate.year}-${this.startDate.month
         .toString()
         .padStart(2, '0')}-${this.startDate.day.toString().padStart(2, '0')}`;
     }
     if (typeof this.endDate === 'object') {
-        this.endDate = `${this.endDate.year}-${this.endDate.month
-            .toString()
-            .padStart(2, '0')}-${this.endDate.day.toString().padStart(2, '0')}`;
+      this.endDate = `${this.endDate.year}-${this.endDate.month
+        .toString()
+        .padStart(2, '0')}-${this.endDate.day.toString().padStart(2, '0')}`;
     }
 
     if (this.splits === 'ראשי') {

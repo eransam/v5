@@ -22,11 +22,9 @@ export class PageShivokimFromImonToEndSiteComponent {
   transformedData: any[];
   total_packege_sum: any = 0;
   startDate: any;
-
   endDate: any;
   formattedDate: string;
   certificate_Selector: any;
-  splits: any;
   certificate_id2: any;
   isSplit: any = 'ראשי';
   formattedEndDate: string;
@@ -54,7 +52,6 @@ export class PageShivokimFromImonToEndSiteComponent {
 
     //שהוא התאריך לפני שבוע מהיום startDate ערך התחלתי למשנה
     const startDateObj = new Date();
-    this.splits = 'ראשי';
     startDateObj.setDate(today.getDate() - 7);
     this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
 
@@ -77,9 +74,9 @@ export class PageShivokimFromImonToEndSiteComponent {
     if (!this.check_is_shivokim_Independent) {
       this.count_total_eggs_and_packege(this.data);
     }
+
+    console.log(this.data);
   }
-
-
 
   onDateChange(event: Event) {
     this.showCalendar = false;
@@ -95,11 +92,8 @@ export class PageShivokimFromImonToEndSiteComponent {
   search_certificate_id() {
     console.log('e');
 
-    // שינוי ערך של תיבת הסלקט עם הרפרנס שהוזן לה
-    this.statusSelect.nativeElement.value = 'chose_Category';
-
     var filter_by_certificate_id = this.originalData.filter(
-      (item) => item.certificate_id === this.certificate_id2
+      (item) => item.certificate_id === Number(this.certificate_id2)
     );
 
     if (filter_by_certificate_id.length > 0) {
@@ -301,7 +295,6 @@ export class PageShivokimFromImonToEndSiteComponent {
     console.log('Start Date:', this.startDate);
 
     console.log('End Date:', this.endDate);
-    console.log('this.splits:', this.splits);
     if (typeof this.startDate === 'object') {
       this.startDate = `${this.startDate.year}-${this.startDate.month
         .toString()
@@ -313,40 +306,9 @@ export class PageShivokimFromImonToEndSiteComponent {
         .padStart(2, '0')}-${this.endDate.day.toString().padStart(2, '0')}`;
     }
 
-    if (this.splits === 'ראשי') {
-      this.isSplit = 'ראשי';
-      if (this.check_is_shivokim_Independent) {
-        var shivokim =
-          await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
-            this.data[0].flock_id,
-            this.startDate,
-            this.endDate
-          );
-        if (shivokim.length > 0) {
-          this.data = shivokim;
-        } else {
-          this.data = [];
-        }
-        this.count_total_eggs_and_packege(this.data);
-      } else {
-        var shivokim =
-          await this.megadelSearchService.get_shivokim_by_date_and_flock_id(
-            this.data[0].flock_id,
-            this.startDate,
-            this.endDate
-          );
-        if (shivokim.length > 0) {
-          this.data = shivokim;
-        } else {
-          this.data = [];
-        }
-
-        this.count_total_eggs_and_packege(this.data);
-      }
-    } else {
-      this.isSplit = 'מפוצל';
+    if (this.check_is_shivokim_Independent) {
       var shivokim =
-        await this.megadelSearchService.get_shivokim_splits_by_date_and_flock_id(
+        await this.megadelSearchService.get_shivokim_Independent_by_date_and_flock_id(
           this.data[0].flock_id,
           this.startDate,
           this.endDate
@@ -356,6 +318,20 @@ export class PageShivokimFromImonToEndSiteComponent {
       } else {
         this.data = [];
       }
+      this.count_total_eggs_and_packege(this.data);
+    } else {
+      var shivokim =
+        await this.megadelSearchService.get_shivok_from_imon_to_all_sites_by_date_and_flock_id(
+          this.data[0].source_flock_id,
+          this.startDate,
+          this.endDate
+        );
+      if (shivokim.length > 0) {
+        this.data = shivokim;
+      } else {
+        this.data = [];
+      }
+
       this.count_total_eggs_and_packege(this.data);
     }
   }
