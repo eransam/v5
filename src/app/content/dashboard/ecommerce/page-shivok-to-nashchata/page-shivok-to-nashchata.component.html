@@ -1,41 +1,41 @@
 <div class="cool-table-container">
   <table class="cool-table main_table" dir="rtl" border="0">
-    <button
+    <!-- <button
       *ngIf="!this.data[0].is_start_arr"
       (click)="page_before()"
       class="search-button"
     >
       <i class="fas fa-arrow-right"></i>
       עמוד קודם
-    </button>
+    </button> -->
 
     <thead>
       <tr style="display: flex; justify-content: space-between; padding: 40px">
         <th style="font-weight: bold; text-align: right">
-          שיווק למשחטה ממשק : {{ this.real_data[0].farm_code_c }}
+          שיווק עופות ממשק {{ this.data[0]?.source_farm_code }} -
+          {{ this.data[0]?.source_farm_name }}
         </th>
-        <!-- <th style="font-weight: bold; text-align: right"> 
-                 <div>
-              <label for="startDate">מתאריך:</label>
-              <input type="date" id="startDate" [(ngModel)]="startDate">
-            </div></th>
-  
-          <th style="font-weight: bold; text-align: right">      <div>
-              <label for="endDate">עד תאריך:</label>
-              <input type="date" id="endDate" [(ngModel)]="endDate">
-            </div></th>
-  
-          <th style="font-weight: bold; text-align: right">      <button (click)="search()">חפש</button>
-          </th> -->
+      </tr>
+
+      <tr style="display: flex; justify-content: space-between; padding: 40px">
         <th style="font-weight: bold; text-align: right">
           <div class="date-input-container">
             <label for="startDate">מתאריך:</label>
             <input
-              type="date"
-              id="startDate"
+              placeholder="{{ startDate }}"
+              type="text"
+              id="startDateControl-input"
+              name="startDate"
+              ngbDatepicker
+              #d1="ngbDatepicker"
+              class="form-control border-primary textUserInput"
               [(ngModel)]="startDate"
-              class="blue-date-input"
             />
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="d1.toggle()">
+                <i class="fa fa-calendar" style="cursor: pointer"></i>
+              </div>
+            </div>
           </div>
         </th>
 
@@ -43,28 +43,73 @@
           <div class="date-input-container">
             <label for="endDate">עד תאריך:</label>
             <input
-              type="date"
-              id="endDate"
+              placeholder="{{ endDate }}"
+              type="text"
+              id="endDateControl-input"
+              name="endDate"
+              ngbDatepicker
+              #d2="ngbDatepicker"
+              class="form-control border-primary textUserInput"
               [(ngModel)]="endDate"
-              class="blue-date-input"
             />
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="d2.toggle()">
+                <i class="fa fa-calendar" style="cursor: pointer"></i>
+              </div>
+            </div>
           </div>
         </th>
 
-        <th style="font-weight: bold; text-align: right">
+        <th style="font-weight: bold; text-align: right; margin-top: 25px">
           <button (click)="search()" class="search-button">חפש</button>
+
+          <button
+            (click)="cleanInputFild()"
+            class="search-button"
+            style="background-color: rgb(190, 55, 55); margin-right: 10px"
+          >
+            נקה
+          </button>
         </th>
-        <div class="importBth">
-          <!-- <div class="justify-content">
-                <img
-                  style="width: 40px"
-                  class="logoIngStyle"
-                  src="assets/images/logo/excel.png"
-                  alt="Image"
-                  (click)="getExcelData()"
-                />
-              </div> -->
-        </div>
+        <th style="font-weight: bold; text-align: right; margin-top: 25px">
+          <div class="importBth">
+            <div class="justify-content">
+              <img
+                style="width: 40px"
+                class="logoIngStyle"
+                src="assets/images/logo/excel.png"
+                alt="Image"
+                (click)="getExcelData()"
+              />
+            </div>
+          </div>
+        </th>
+      </tr>
+      <tr class="tr_sub_sort">
+        <th style="font-weight: bold; text-align: right; padding: 40px"></th>
+
+        <!-- מיון לפי מס תעודה -->
+        <th
+          *ngIf="this.isSplit === 'ראשי'"
+          style="font-weight: bold; text-align: right; padding: 40px"
+        >
+          <label for="certificate_id2">מס תעודה:</label>
+          <div>
+            <input
+              type="text"
+              id="certificate_id2"
+              [(ngModel)]="certificate_id2"
+              class="blue-date-input"
+              (change)="set_val_of_sort_by_certificate($event)"
+            />
+            <button
+              (click)="search_certificate_id()"
+              class="search-button btn_sort_by_certificate_id"
+            >
+              חפש
+            </button>
+          </div>
+        </th>
       </tr>
     </thead>
 
