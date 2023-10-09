@@ -54,6 +54,8 @@ export class PageShivokToNashchataComponent {
     const startDateObj = new Date();
     startDateObj.setDate(today.getDate() - 7);
     this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
+    this.startDate = 'yyyy-MM-dd';
+
     //לוקחים את השיווקים מהלוקל סטורג
     this.data = JSON.parse(localStorage.getItem('shivokim_to_mashchata'));
     // בדיקת שיווק עצמאיי
@@ -102,151 +104,68 @@ export class PageShivokToNashchataComponent {
     this.count_total_eggs_and_packege(this.data);
   }
 
+  certificates_more_Details(data) {
+    console.log(data);
+    var real_data2 = this.originalData;
+    const newArray = real_data2.filter(
+      (obj) => obj.certificate_weight_id === data
+    );
+    for (let obj of newArray) {
+      obj.is_start_arr = false;
+      obj.weight = obj.privat_weight;
+    }
+    this.data = newArray;
+  }
+
   // פונ הורדה לאקסל
   getExcelData(): void {
-    if (this.isSplit === 'מפוצל') {
-      const selectedFieldsArray = this.data.map((item) => {
-        return {
-          produce_date: item.produce_date,
-          farm_name: item.farm_name,
-          flock_id: item.flock_id,
-          lull2000_code: item.lull2000_code,
-          grower_name: item.grower_name,
-          settlement_name: item.settlement_name,
-          msvk_name: item.msvk_name,
-          egg_factory_subquery: item.egg_factory_subquery,
-          marketing_sum: item.marketing_sum,
-        };
-      });
-      const fieldTitleMapping = {
-        produce_date: 'תאריך הפקה',
-        farm_name: 'שם משק',
-        flock_id: 'מס להקה',
-        lull2000_code: 'מס מגדל',
-        grower_name: 'שם מגדל',
-        settlement_name: 'שם ישוב',
-        msvk_name: 'שם משווק ',
-        egg_factory_subquery: 'מכון מיון',
-        marketing_sum: ' כמות',
+    console.log('t');
+
+    const selectedFieldsArray = this.data.map((item) => {
+      return {
+        certificate_id: item.certificate_id,
+        certificate_date: item.certificate_date,
+        belonging_group_name: item.belonging_group_name,
+        farm_code_c: item.farm_code_c,
+        farm_name_c: item.farm_name_c,
+        slaughter_name: item.slaughter_name,
+        slaughter_kind_name: item.slaughter_kind_name,
+        flock_id: item.flock_id,
+        msvk_code: item.msvk_code,
+        msvk_name: item.msvk_name,
+        chicken_number_c: item.chicken_number_c,
+        weight: item.weight,
       };
+    });
+    const fieldTitleMapping = {
+      certificate_id: 'מס תעודה',
+      certificate_date: 'תאריך תעודה',
+      belonging_group_name: 'שם שלוחה',
+      farm_code_c: 'קוד משק',
+      farm_name_c: 'שם משק',
+      slaughter_name: 'שם משחטה',
+      slaughter_kind_name: 'סוג משחטה',
+      flock_id: 'מס להקה',
+      msvk_code: 'קוד משווק',
+      msvk_name: 'שם משווק',
+      chicken_number_c: 'מס עופות',
+      weight: 'משקל',
+    };
 
-      this.transformedData = selectedFieldsArray.map((item) => {
-        const transformedItem = {};
-        for (const key in item) {
-          if (item.hasOwnProperty(key)) {
-            transformedItem[fieldTitleMapping[key] || key] = item[key];
-          }
-        }
-        return transformedItem;
-      });
-
-      this.tableexcelService.exportAsExcelFile(
-        this.transformedData,
-        'Modern Admin - Clean Angular8+ Dashboard HTML Template'
-      );
-    } else {
-      if (!this.check_is_shivokim_Independent && this.isSplit === 'ראשי') {
-        const selectedFieldsArray = this.data.map((item) => {
-          return {
-            create_date: item.create_date,
-            transfer_date: item.transfer_date,
-            certificate_id: item.certificate_id,
-            farm_name: item.farm_name,
-            farm_code: item.farm_code,
-            flock_id: item.flock_id,
-            lull2000_code: item.lull2000_code,
-            grower_name: item.grower_name,
-            farm_settlement_name: item.farm_settlement_name,
-            msvk_name: item.msvk_name,
-            egg_factory_name: item.egg_factory_name,
-            transport_type_name: item.transport_type_name,
-            total_count: item.total_count,
-            total_transfer_egg_sum: item.total_transfer_egg_sum,
-            transfer_status_name: item.transfer_status_name,
-            is_between_egg_factory1: item.is_between_egg_factory1,
-            egg_warehouse_name: item.egg_warehouse_name,
-          };
-        });
-        const fieldTitleMapping = {
-          create_date: 'תאריך הפקה',
-          transfer_date: 'תאריך קליטה',
-          certificate_id: 'מס תעודה',
-          farm_name: 'שם משק',
-          farm_code: 'קוד משק',
-          flock_id: 'מס להקה',
-          lull2000_code: 'מס מגדל',
-          grower_name: 'שם מגדל',
-          farm_settlement_name: 'ישוב משק',
-          msvk_name: 'שם משווק',
-          egg_factory_name: 'מכון מיון',
-          transport_type_name: 'סוג אריזה',
-          total_count: 'כמות',
-          total_transfer_egg_sum: 'סהכ ביצים',
-          transfer_status_name: 'סטטוס משלוח',
-          is_between_egg_factory1: 'הערה בין משקים',
-          egg_warehouse_name: 'מחסן ביצים צמוד',
-        };
-
-        this.transformedData = selectedFieldsArray.map((item) => {
-          const transformedItem = {};
-          for (const key in item) {
-            if (item.hasOwnProperty(key)) {
-              transformedItem[fieldTitleMapping[key] || key] = item[key];
-            }
-          }
-          return transformedItem;
-        });
-
-        this.tableexcelService.exportAsExcelFile(
-          this.transformedData,
-          'Modern Admin - Clean Angular8+ Dashboard HTML Template'
-        );
-      } else {
-        if (this.check_is_shivokim_Independent && this.isSplit === 'ראשי') {
-          const selectedFieldsArray = this.data.map((item) => {
-            return {
-              create_date: item.create_date,
-              klita_date: item.klita_date,
-              certificate_id: item.certificate_id,
-              farm_name: item.farm_name,
-              flock_id: item.flock_id,
-              lull2000_code: item.lull2000_code,
-              grower_name: item.grower_name,
-              farm_settlement_name: item.farm_settlement_name,
-              msvk_name: item.msvk_name,
-              egg_sum: item.egg_sum,
-            };
-          });
-          const fieldTitleMapping = {
-            create_date: 'תאריך הפקה',
-            klita_date: 'תאריך קליטה',
-            certificate_id: 'מס תעודה',
-            farm_name: 'שם משק',
-            flock_id: 'מס להקה',
-            lull2000_code: 'מס מגדל',
-            grower_name: 'שם מגדל',
-            farm_settlement_name: 'ישוב משק',
-            msvk_name: 'שם משווק',
-            egg_sum: 'כמות ביצים',
-          };
-
-          this.transformedData = selectedFieldsArray.map((item) => {
-            const transformedItem = {};
-            for (const key in item) {
-              if (item.hasOwnProperty(key)) {
-                transformedItem[fieldTitleMapping[key] || key] = item[key];
-              }
-            }
-            return transformedItem;
-          });
-
-          this.tableexcelService.exportAsExcelFile(
-            this.transformedData,
-            'Modern Admin - Clean Angular8+ Dashboard HTML Template'
-          );
+    this.transformedData = selectedFieldsArray.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
         }
       }
-    }
+      return transformedItem;
+    });
+
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+    );
   }
 
   set_val_of_sort_by_certificate(event: any) {
@@ -319,8 +238,8 @@ export class PageShivokToNashchataComponent {
       this.count_total_eggs_and_packege(this.data);
     } else {
       var shivokim =
-        await this.megadelSearchService.get_shivok_from_imon_to_all_sites_by_date_and_flock_id(
-          this.data[0].source_flock_id,
+        await this.megadelSearchService.get_shivok_to_mashchata_by_date_and_flock_id(
+          this.data[0].flock_id,
           this.startDate,
           this.endDate
         );
@@ -334,3 +253,10 @@ export class PageShivokToNashchataComponent {
     }
   }
 }
+
+
+
+
+// ---------------------------------------
+
+
