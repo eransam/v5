@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PageShivokimHatalaComponent } from '../../popup-monthly-summary/popup-monthly-summary.component';
+import { PageShivokimHatalaComponent } from './page-shivokim-hatala.component';
 
 describe('PageShivokimHatalaComponent', () => {
   let component: PageShivokimHatalaComponent;

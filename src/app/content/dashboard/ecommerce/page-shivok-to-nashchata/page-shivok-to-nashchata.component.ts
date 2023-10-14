@@ -105,6 +105,8 @@ export class PageShivokToNashchataComponent {
   }
 
   certificates_more_Details(data) {
+    console.log("f");
+    
     console.log(data);
     var real_data2 = this.originalData;
     const newArray = real_data2.filter(

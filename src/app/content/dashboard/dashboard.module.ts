@@ -53,9 +53,15 @@ import { PageShivokimFromImonToEndSiteComponent } from './ecommerce/page-shivoki
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { heLocale } from 'ngx-bootstrap/locale';
 
+defineLocale('he', heLocale); // Define Hebrew locale
+defineLocale('he', heLocale); // Define Hebrew locale
 @NgModule({
   imports: [
+    BsDatepickerModule.forRoot(),
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
@@ -188,4 +194,8 @@ import { MatNativeDateModule } from '@angular/material/core';
   providers: [DatePipe],
   exports: [RouterModule],
 })
-export class DashboardModule {}
+export class DashboardModule {
+    constructor(private bsLocaleService: BsLocaleService) {
+        this.bsLocaleService.use('he'); // Set the locale to Hebrew
+      }
+    }

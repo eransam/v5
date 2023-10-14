@@ -114,8 +114,6 @@
   background-color: #2c3e50; /* Darker blue when expanded */
 }
 
-
-
 /* Add animations to the expanded content */
 .expand-content {
   max-height: 0;
@@ -152,7 +150,13 @@
   flex-direction: column;
   margin-bottom: 10px;
 }
-
+.blue-date-input-certificate_id2 {
+  background-color: #f0f5ff; /* Light blue shade */
+  border: 1px solid #3498db; /* Blue border */
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
 .blue-date-input {
   background-color: #f0f5ff; /* Light blue shade */
   border: 1px solid #3498db; /* Blue border */
@@ -163,9 +167,10 @@
 }
 
 .search-button {
-  background-color: #3498db; /* Blue */
+  background-color: #3498db;
   color: white;
-  padding: 10px 20px;
+  padding: 0px 20px;
+  height: 45px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -225,4 +230,229 @@
 
 ngb-datepicker.dropdown-menu.show.ng-star-inserted {
   inset: 0px 252px auto auto !important;
+}
+
+.tat_sort {
+  border-bottom: solid black 1px;
+  margin-right: 44px;
+  width: 428px;
+}
+
+/* Style for the date input container */
+.date-input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Style for the input */
+.date-input-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 5px;
+}
+
+/* Style for the input group */
+.date-input-container .input-group-append {
+  cursor: pointer;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text {
+  background-color: #2196f3; /* Blue background color */
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 0 5px 5px 0;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text i {
+  color: white; /* White color for the icon */
+}
+
+/* Style for the date picker */
+.ngb-datepicker {
+  position: absolute;
+  top: calc(100% + 5px); /* Position the date picker below the input */
+  left: 0;
+  background-color: white; /* White background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a pop-up effect */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Border radius */
+  z-index: 9999; /* Ensure it appears above other elements */
+}
+
+/* Style for the date picker header */
+.ngb-datepicker .ngb-dp-header {
+  background-color: #2196f3; /* Blue header background color */
+}
+
+/* Style for the date picker header navigation icons */
+.ngb-datepicker .ngb-dp-arrow {
+  color: white; /* White color for the icons */
+}
+
+/* Style for the date picker days */
+.ngb-datepicker .ngb-dp-day {
+  border: 1px solid transparent; /* Transparent border */
+}
+
+/* Style for the selected date */
+.ngb-datepicker .ngb-dp-day.selected {
+  background-color: #2196f3; /* Blue selected date background color */
+  color: white; /* White color for the selected date */
+  border: 1px solid #2196f3; /* Blue border for the selected date */
+}
+
+/* Style for the hover effect on date */
+.ngb-datepicker .ngb-dp-day:hover {
+  background-color: #f0f0f0; /* Light gray hover background color */
+}
+
+/* Style for the date input container */
+.date-input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Style for the input */
+.date-input-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 5px;
+}
+
+/* Style for the input group */
+.date-input-container .input-group-append {
+  cursor: pointer;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text {
+  background-color: #2196f3; /* Blue background color */
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 0 5px 5px 0;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text i {
+  color: white; /* White color for the icon */
+}
+
+/* Style for the date picker */
+.ngb-datepicker {
+  position: absolute;
+  top: 100%; /* Position the date picker below the input */
+  left: 0;
+  background-color: white; /* White background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a pop-up effect */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Border radius */
+  z-index: 9999; /* Ensure it appears above other elements */
+}
+
+/* Style for the date picker header */
+.ngb-datepicker .ngb-dp-header {
+  background-color: #2196f3; /* Blue header background color */
+}
+
+/* Style for the date picker header navigation icons */
+.ngb-datepicker .ngb-dp-arrow {
+  color: white; /* White color for the icons */
+}
+
+/* Style for the date picker days */
+.ngb-datepicker .ngb-dp-day {
+  border: 1px solid transparent; /* Transparent border */
+}
+
+/* Style for the selected date */
+.ngb-datepicker .ngb-dp-day.selected {
+  background-color: #2196f3; /* Blue selected date background color */
+  color: white; /* White color for the selected date */
+  border: 1px solid #2196f3; /* Blue border for the selected date */
+}
+
+/* Style for the hover effect on date */
+.ngb-datepicker .ngb-dp-day:hover {
+  background-color: #f0f0f0; /* Light gray hover background color */
+}
+
+/* Style the input field */
+.form-control {
+  background-image: none; /* Remove default icon */
+}
+
+/* Style the toggle button */
+.btn-outline-secondary {
+  background-color: #ffffff; /* Button background color */
+  border: 1px solid #ced4da; /* Border color */
+  color: #495057; /* Text color */
+}
+
+.btn-outline-secondary:hover {
+  background-color: #e9ecef; /* Hover background color */
+}
+
+.btn-outline-secondary i {
+  margin-right: 5px; /* Adjust icon spacing */
+}
+
+/* Style the calendar popover (datepicker dropdown) */
+.bs-datepicker-container {
+  font-family: Arial, sans-serif; /* Adjust font-family as needed */
+  direction: rtl; /* Right-to-left text direction for Hebrew */
+}
+
+/* Style the selected date in the calendar */
+.day.selected {
+  background-color: #007bff; /* Adjust selected date background color */
+  color: #fff; /* Adjust selected date text color */
+}
+
+/* Style the hovered date in the calendar */
+.day.hovered {
+  background-color: #e0e0e0; /* Adjust hovered date background color */
+}
+
+.bs-datepicker-body {
+  background-color: #d8e5f9 !important;
+}
+
+.bs-datepicker-head {
+  background-color: #d8e5f9 !important;
+}
+
+.week .ng-star-inserted {
+  display: none;
+}
+
+button.current.ng-star-inserted {
+  background-color: #0d6efd;
+}
+button.current {
+  background-color: #0d6efd;
+}
+
+button.previous {
+  background-color: #0d6efd;
+}
+
+button.next {
+  background-color: #0d6efd;
+}
+
+span.ng-star-inserted {
+  cursor: pointer;
+}
+
+td.ng-star-inserted {
+  cursor: pointer;
+}
+
+.sort_main_grower {
+  display: flex;
+  flex-direction: column;
 }

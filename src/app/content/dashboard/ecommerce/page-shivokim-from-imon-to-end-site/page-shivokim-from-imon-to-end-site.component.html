@@ -11,52 +11,63 @@
           </th>
         </tr>
 
-        <tr
-          style="display: flex; justify-content: space-between; padding: 40px"
-        >
-          <th style="font-weight: bold; text-align: right">
+        <tr style="display: flex; padding: 40px">
+          <th style="font-weight: bold; text-align: right; margin-left: 50px">
             <div class="date-input-container">
               <label for="startDate">מתאריך:</label>
-              <input
-                placeholder="{{ startDate }}"
-                type="text"
-                id="startDateControl-input"
-                name="startDate"
-                ngbDatepicker
-                #d1="ngbDatepicker"
-                class="form-control border-primary textUserInput"
-                [(ngModel)]="startDate"
-              />
-              <div class="input-group-append">
-                <div class="input-group-text" (click)="d1.toggle()">
-                  <i class="fa fa-calendar" style="cursor: pointer"></i>
+              <div class="input-group">
+                <input
+                  placeholder="מתאריך"
+                  class="form-control"
+                  bsDatepicker
+                  [(ngModel)]="startDate"
+                  #dp="bsDatepicker"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="toggleDatepicker()"
+                  >
+                    <!-- Toggle button -->
+                    <i class="fa fa-calendar"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </th>
 
-          <th style="font-weight: bold; text-align: right">
+          <th style="font-weight: bold; text-align: right; margin-left: 50px">
             <div class="date-input-container">
               <label for="endDate">עד תאריך:</label>
-              <input
-                placeholder="{{ endDate }}"
-                type="text"
-                id="endDateControl-input"
-                name="endDate"
-                ngbDatepicker
-                #d2="ngbDatepicker"
-                class="form-control border-primary textUserInput"
-                [(ngModel)]="endDate"
-              />
-              <div class="input-group-append">
-                <div class="input-group-text" (click)="d2.toggle()">
-                  <i class="fa fa-calendar" style="cursor: pointer"></i>
+              <div class="input-group">
+                <input
+                  placeholder="עד תאריך"
+                  class="form-control"
+                  bsDatepicker
+                  [(ngModel)]="endDate"
+                  #dpTo="bsDatepicker"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="toggleDatepickerTo()"
+                  >
+                    <!-- Toggle button -->
+                    <i class="fa fa-calendar"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </th>
 
-          <th style="font-weight: bold; text-align: right; margin-top: 25px">
+          <th
+            style="
+              font-weight: bold;
+              text-align: right;
+              margin-top: 25px;
+              margin-left: 50px;
+            "
+          >
             <button (click)="search()" class="search-button">חפש</button>
 
             <button
@@ -67,7 +78,14 @@
               נקה
             </button>
           </th>
-          <th style="font-weight: bold; text-align: right; margin-top: 25px">
+          <th
+            style="
+              font-weight: bold;
+              text-align: right;
+              margin-top: 25px;
+              margin-left: 50px;
+            "
+          >
             <div class="importBth">
               <div class="justify-content">
                 <img
@@ -81,9 +99,8 @@
             </div>
           </th>
         </tr>
+        <p class="tat_sort">תת מיון</p>
         <tr class="tr_sub_sort">
-          <th style="font-weight: bold; text-align: right; padding: 40px"></th>
-
           <!-- מיון לפי מס תעודה -->
           <th
             *ngIf="this.isSplit === 'ראשי'"

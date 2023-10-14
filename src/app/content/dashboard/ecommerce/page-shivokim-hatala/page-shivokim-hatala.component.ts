@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { OnChanges, SimpleChanges } from '@angular/core';
 
 import { Router } from '@angular/router';
@@ -6,11 +6,13 @@ import { TableexcelService } from '../../../../services/tableexcel.service';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { DatePipe } from '@angular/common';
 import { ViewChild } from '@angular/core';
-
+import { MyDatePickerOptions } from '../ui/date-picker-option';
+import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 @Component({
   selector: 'app-page-shivokim-hatala',
   templateUrl: './page-shivokim-hatala.component.html',
   styleUrls: ['./page-shivokim-hatala.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PageShivokimHatalaComponent {
   userTypeID;
@@ -22,6 +24,8 @@ export class PageShivokimHatalaComponent {
   transformedData: any[];
   total_packege_sum: any = 0;
   startDate: any;
+  flock_hatch_date: any;
+  flock_num: any;
 
   endDate: any;
   formattedDate: string;
@@ -35,7 +39,17 @@ export class PageShivokimHatalaComponent {
   total_count_agges: any = 0;
   @ViewChild('statusSelect') statusSelect: any; // Access the select element using the template reference variable
   showCalendar: boolean = false;
+  myDpOptions: any;
+  toDateModel: any;
+  fromDateModel: any;
+  toDate: any;
+  fromDate: any;
+
+  @ViewChild('dp') datepicker: BsDatepickerDirective; // Reference to the datepicker
+  @ViewChild('dpTo') dpTo: BsDatepickerDirective;
+
   constructor(
+    private dpOptions: MyDatePickerOptions,
     private datePipe: DatePipe,
     private tableexcelService: TableexcelService,
     private megadelSearchService: MegadelSearchService,
@@ -43,26 +57,51 @@ export class PageShivokimHatalaComponent {
   ) {
     console.log('data in constractor: ', this.data);
     // console.log('typeof data[0].id: ', typeof data[0].id);
+    this.myDpOptions = this.dpOptions.myOption;
   }
 
   async ngOnInit() {
+    this.fromDateModel = this.dpOptions.getIMyDateModel(
+      this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+    );
+    this.toDateModel = this.dpOptions.getIMyDateModel(
+      this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+    );
+    this.onInit_func();
+  }
+
+  toggleDatepickerTo() {
+    this.dpTo.toggle(); // Toggles the "to date" datepicker
+  }
+
+  toggleDatepicker() {
+    this.datepicker.toggle();
+  }
+
+  onInit_func() {
+    this.isSplit = 'ראשי';
     this.total_count_packege = 0;
     this.total_count_agges = 0;
     //שהוא התאריך העכשיוי endDate ערך התחלתי למשנה
     const today = new Date();
-    this.endDate = this.datePipe.transform(today, 'yyyy-MM-dd');
+    this.endDate = this.datePipe.transform(today, 'dd-MM-yyyy');
 
     //שהוא התאריך לפני שבוע מהיום startDate ערך התחלתי למשנה
     const startDateObj = new Date();
     this.splits = 'ראשי';
     startDateObj.setDate(today.getDate() - 7);
-    this.startDate = this.datePipe.transform(startDateObj, 'yyyy-MM-dd');
-    this.startDate = 'yyyy-MM-dd';
+    this.startDate = this.datePipe.transform(startDateObj, 'dd-MM-yyyy');
+    //this.startDate = 'yyyy-MM-dd';
     this.data = JSON.parse(localStorage.getItem('all_current_shivokim'));
 
     // בדיקת שיווק עצמאיי
     this.check_is_shivokim_Independent = JSON.parse(
       localStorage.getItem('shivokim_Independent')
+    );
+
+    this.flock_num = JSON.parse(localStorage.getItem('flock_num'));
+    this.flock_hatch_date = JSON.parse(
+      localStorage.getItem('flock_hatch_date')
     );
 
     // מוציא אובייקטים משוכפלים מהמערך
@@ -87,14 +126,10 @@ export class PageShivokimHatalaComponent {
       new Set(transferStatusNamesArray1)
     );
 
-    console.log(this.transferStatusNamesArray);
-
     // טוטל עגלות
     if (!this.check_is_shivokim_Independent) {
       this.count_total_eggs_and_packege(this.data);
     }
-
-    console.log(this.startDate);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -124,16 +159,31 @@ export class PageShivokimHatalaComponent {
   }
 
   count_total_eggs_and_packege(data) {
-    this.total_count_packege = data.reduce(
-      (sum, obj) => sum + obj.total_count,
-      0
-    );
+    console.log(data);
+
+    // טוטל עגלות
+    if (data[0]?.total_count) {
+      this.total_count_packege = data.reduce(
+        (sum, obj) => sum + obj.total_count,
+        0
+      );
+    } else {
+      this.total_count_packege = 0;
+    }
 
     //   טוטל ביצים
-    this.total_count_agges = data.reduce(
-      (sum, obj) => sum + obj.total_transfer_egg_sum,
-      0
-    );
+
+    if (data[0]?.marketing_sum) {
+      this.total_count_agges = data.reduce(
+        (sum, obj) => sum + obj.marketing_sum,
+        0
+      );
+    } else {
+      this.total_count_agges = data.reduce(
+        (sum, obj) => sum + obj.total_transfer_egg_sum,
+        0
+      );
+    }
   }
 
   search_certificate_id() {
@@ -325,8 +375,7 @@ export class PageShivokimHatalaComponent {
   }
 
   cleanInputFild() {
-    this.startDate = '';
-    this.endDate = '';
+    this.onInit_func();
   }
 
   formatDate(date: Date): string {
@@ -339,6 +388,18 @@ export class PageShivokimHatalaComponent {
   }
 
   async search() {
+    this.fromDate =
+      this.fromDateModel == undefined
+        ? '19000101'
+        : this.dpOptions.parseDateToStr(
+            this.dpOptions.initDates(this.fromDateModel)
+          ); //'';
+    this.toDate =
+      this.toDateModel == undefined
+        ? '21000101'
+        : this.dpOptions.parseDateToStr(
+            this.dpOptions.initDates(this.toDateModel)
+          ); //'21000101'
     this.certificate_id2 = '';
     this.total_count_packege = 0;
     this.total_count_agges = 0;
@@ -400,6 +461,8 @@ export class PageShivokimHatalaComponent {
       } else {
         this.data = [];
       }
+      console.log('ds');
+
       this.count_total_eggs_and_packege(this.data);
     }
   }
