@@ -12,6 +12,15 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async check_shivokim_Independent(flock_id: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/check_shivokim_Independent?flock_id=${flock_id}`
+      )
+    );
+    return item;
+  }
+
   async get_shivok_to_mashchata_current_date_and_week_ago_by_flock_id(
     flock_id: any
   ): Promise<any[]> {

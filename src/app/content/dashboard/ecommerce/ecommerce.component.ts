@@ -207,6 +207,7 @@ export class EcommerceComponent implements OnInit {
   mifkadim: any;
   quarantine: any = [];
   site_num_search: any;
+  check_shivokim_Independent: boolean = false;
   constructor(
     private environmentService: EnvironmentFrontService,
     private router: Router,
@@ -1800,18 +1801,28 @@ export class EcommerceComponent implements OnInit {
 
           // שיווק עצמאי
           var shivokim_Independent_current_date_and_week_ago =
-            await this.megadelSearchService.get_shivokim_Independent_top20_by_flock_id(
+            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivokim_Independent_current_date_and_week_ago.length > 0) {
             obj.shivokim_Independent_current_date_and_week_ago =
               shivokim_Independent_current_date_and_week_ago;
           } else {
+            var check_shivokim_Independent =
+              await this.megadelSearchService.check_shivokim_Independent(
+                obj.flock_num
+              );
+            if (check_shivokim_Independent.length > 0) {
+              this.check_shivokim_Independent = true;
+            } else {
+              this.check_shivokim_Independent = false;
+            }
+
             obj.shivokim_Independent_current_date_and_week_ago = [];
 
             //   שיווק רגיל ע''י מכון מיון של המשווק
             var shivokim_current_date_and_week_ago =
-              await this.megadelSearchService.get_shivokim_top20_by_flock_id(
+              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
                 obj.flock_num
               );
             if (shivokim_current_date_and_week_ago.length > 0) {
@@ -1821,9 +1832,14 @@ export class EcommerceComponent implements OnInit {
               obj.shivokim_current_date_and_week_ago = [];
             }
           }
+          localStorage.setItem(
+            'this.check_shivokim_Independent',
+            JSON.stringify(this.check_shivokim_Independent)
+          );
+
           //   שיווק מבית אימון למשק סופי
           var shivokim_from_imon_to_end_site =
-            await this.megadelSearchService.get_shivok_from_imon_to_all_sites_top20_by_flock_id(
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivokim_from_imon_to_end_site.length > 0) {
@@ -1834,7 +1850,7 @@ export class EcommerceComponent implements OnInit {
 
           //שיווק למשחטה
           var shivok_to_mashchata_by_flock_id =
-            await this.megadelSearchService.get_shivok_to_mashchata_top20_by_flock_id(
+            await this.megadelSearchService.get_shivok_to_mashchata_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivok_to_mashchata_by_flock_id.length > 0) {
@@ -2928,7 +2944,7 @@ export class EcommerceComponent implements OnInit {
 
           // שיווק עצמאי
           var shivokim_Independent_current_date_and_week_ago =
-            await this.megadelSearchService.get_shivokim_Independent_top20_by_flock_id(
+            await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivokim_Independent_current_date_and_week_ago.length > 0) {
@@ -2939,7 +2955,7 @@ export class EcommerceComponent implements OnInit {
 
             //   שיווק רגיל ע''י מכון מיון של המשווק
             var shivokim_current_date_and_week_ago =
-              await this.megadelSearchService.get_shivokim_top20_by_flock_id(
+              await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
                 obj.flock_num
               );
             if (shivokim_current_date_and_week_ago.length > 0) {
@@ -2952,7 +2968,7 @@ export class EcommerceComponent implements OnInit {
 
           //   שיווק מבית אימון למשק סופי
           var shivokim_from_imon_to_end_site =
-            await this.megadelSearchService.get_shivok_from_imon_to_all_sites_top20_by_flock_id(
+            await this.megadelSearchService.get_shivok_from_imon_to_all_sites_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivokim_from_imon_to_end_site.length > 0) {
@@ -2963,7 +2979,7 @@ export class EcommerceComponent implements OnInit {
 
           //שיווק למשחטה
           var shivok_to_mashchata_by_flock_id =
-            await this.megadelSearchService.get_shivok_to_mashchata_top20_by_flock_id(
+            await this.megadelSearchService.get_shivok_to_mashchata_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivok_to_mashchata_by_flock_id.length > 0) {
@@ -3245,7 +3261,7 @@ export class EcommerceComponent implements OnInit {
 
         // שיווק עצמאי
         var shivokim_Independent_current_date_and_week_ago =
-          await this.megadelSearchService.get_shivokim_Independent_top20_by_flock_id(
+          await this.megadelSearchService.get_shivokim_Independent_current_date_and_week_ago_by_flock_id(
             obj.flock_num
           );
         if (shivokim_Independent_current_date_and_week_ago.length > 0) {
@@ -3256,7 +3272,7 @@ export class EcommerceComponent implements OnInit {
 
           //   שיווק רגיל ע''י מכון מיון של המשווק
           var shivokim_current_date_and_week_ago =
-            await this.megadelSearchService.get_shivokim_top20_by_flock_id(
+            await this.megadelSearchService.get_shivokim_current_date_and_week_ago_by_flock_id(
               obj.flock_num
             );
           if (shivokim_current_date_and_week_ago.length > 0) {
@@ -3269,7 +3285,7 @@ export class EcommerceComponent implements OnInit {
 
         //   שיווק מבית אימון למשק סופי
         var shivokim_from_imon_to_end_site =
-          await this.megadelSearchService.get_shivok_from_imon_to_all_sites_top20_by_flock_id(
+          await this.megadelSearchService.get_shivok_from_imon_to_all_sites_current_date_and_week_ago_by_flock_id(
             obj.flock_num
           );
         if (shivokim_from_imon_to_end_site.length > 0) {
@@ -3280,7 +3296,7 @@ export class EcommerceComponent implements OnInit {
 
         //שיווק למשחטה
         var shivok_to_mashchata_by_flock_id =
-          await this.megadelSearchService.get_shivok_to_mashchata_top20_by_flock_id(
+          await this.megadelSearchService.get_shivok_to_mashchata_current_date_and_week_ago_by_flock_id(
             obj.flock_num
           );
         if (shivok_to_mashchata_by_flock_id.length > 0) {
@@ -5141,6 +5157,16 @@ export class EcommerceComponent implements OnInit {
     console.log(all_current_shivokim);
 
     localStorage.setItem(
+      'farm_name',
+      JSON.stringify(all_current_shivokim.farm_name)
+    );
+
+    localStorage.setItem(
+      'farm_num',
+      JSON.stringify(all_current_shivokim.farm_num)
+    );
+
+    localStorage.setItem(
       'flock_hatch_date',
       JSON.stringify(all_current_shivokim.flock_hatch_date)
     );
@@ -5267,9 +5293,19 @@ export class EcommerceComponent implements OnInit {
   async open_page_shivokim_from_imon_to_end_site(data: any) {
     console.log(data);
 
+    localStorage.setItem('farm_name', JSON.stringify(data.farm_name));
+
+    localStorage.setItem('farm_num', JSON.stringify(data.farm_num));
+
+    localStorage.setItem(
+      'flock_hatch_date',
+      JSON.stringify(data.flock_hatch_date)
+    );
+    localStorage.setItem('flock_num', JSON.stringify(data.flock_num));
+
     localStorage.setItem(
       'shivokim_from_imon_to_end_site',
-      JSON.stringify(data)
+      JSON.stringify(data.shivokim_from_imon_to_end_site)
     );
     const baseUrl = this.environmentService.getBaseUrl();
     const path2 = '#/dashboard/PageShivokimFromImonToEndSiteComponent';
@@ -5281,10 +5317,33 @@ export class EcommerceComponent implements OnInit {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
   async open_page_shivokim_to_mashchata(data: any) {
     console.log(data);
 
-    localStorage.setItem('shivokim_to_mashchata', JSON.stringify(data));
+    localStorage.setItem('farm_name', JSON.stringify(data.farm_name));
+
+    localStorage.setItem('farm_num', JSON.stringify(data.farm_num));
+
+    localStorage.setItem(
+      'flock_hatch_date',
+      JSON.stringify(data.flock_hatch_date)
+    );
+    localStorage.setItem('flock_num', JSON.stringify(data.flock_num));
+
+    localStorage.setItem(
+      'shivokim_to_mashchata',
+      JSON.stringify(data.shivok_to_mashchata_by_flock_id)
+    );
     const baseUrl = this.environmentService.getBaseUrl();
     const path2 = '#/dashboard/PageShivokToNashchataComponent';
     var newWindow = window.open(`${baseUrl}${path2}`, '_blank');

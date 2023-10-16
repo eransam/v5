@@ -2,17 +2,33 @@
   <div>
     <table class="cool-table" dir="rtl" style="padding: 5px" border="0">
       <thead>
-        <tr
-          style="display: flex; justify-content: space-between; padding: 40px"
-        >
-          <th style="font-weight: bold; text-align: right">
-            שיווק למשק סופי ממשק {{ this.data[0]?.source_farm_code }} -
-            {{ this.data[0]?.source_farm_name }}
+        <tr style="display: flex; padding: 40px">
+          <th style="font-weight: bold; text-align: right; margin-left: 25px">
+            שיווק למשק סופי ממשק {{ this.tatle_farm_code }} -
+            {{ this.tatle_farm_name }}
+          </th>
+          <th style="font-weight: bold; text-align: right; margin-left: 25px">
+            תאריך בקיעה: {{ this.flock_hatch_date | date : "dd/MM/yyyy" }} , מס
+            להקה: {{ this.flock_num }}
+          </th>
+
+          <th style="font-weight: bold; text-align: right; margin-left: 30px">
+            <div class="importBth">
+              <div class="justify-content">
+                <img
+                  style="width: 40px"
+                  class="logoIngStyle"
+                  src="assets/images/logo/excel.png"
+                  alt="Image"
+                  (click)="getExcelData()"
+                />
+              </div>
+            </div>
           </th>
         </tr>
 
-        <tr style="display: flex; padding: 40px">
-          <th style="font-weight: bold; text-align: right; margin-left: 50px">
+        <tr style="display: flex; padding: 40px 40px 0px 40px">
+          <th style="font-weight: bold; text-align: right; margin-left: 30px">
             <div class="date-input-container">
               <label for="startDate">מתאריך:</label>
               <div class="input-group">
@@ -36,7 +52,7 @@
             </div>
           </th>
 
-          <th style="font-weight: bold; text-align: right; margin-left: 50px">
+          <th style="font-weight: bold; text-align: right; margin-left: 30px">
             <div class="date-input-container">
               <label for="endDate">עד תאריך:</label>
               <div class="input-group">
@@ -60,59 +76,45 @@
             </div>
           </th>
 
-          <th
-            style="
-              font-weight: bold;
-              text-align: right;
-              margin-top: 25px;
-              margin-left: 50px;
-            "
-          >
+          <th style="font-weight: bold; text-align: right; margin-top: 37px">
             <button (click)="search()" class="search-button">חפש</button>
 
             <button
               (click)="cleanInputFild()"
               class="search-button"
-              style="background-color: rgb(190, 55, 55); margin-right: 10px"
+              style="background-color: rgb(150 150 150); margin-right: 10px"
             >
               נקה
             </button>
           </th>
-          <th
-            style="
-              font-weight: bold;
-              text-align: right;
-              margin-top: 25px;
-              margin-left: 50px;
-            "
-          >
-            <div class="importBth">
-              <div class="justify-content">
-                <img
-                  style="width: 40px"
-                  class="logoIngStyle"
-                  src="assets/images/logo/excel.png"
-                  alt="Image"
-                  (click)="getExcelData()"
-                />
-              </div>
-            </div>
+
+          <th style="font-weight: bold; text-align: right; margin-top: 37px">
+            סהכ ({{ this.data.length }})
           </th>
         </tr>
+
         <p class="tat_sort">תת מיון</p>
         <tr class="tr_sub_sort">
           <!-- מיון לפי מס תעודה -->
           <th
             *ngIf="this.isSplit === 'ראשי'"
-            style="font-weight: bold; text-align: right; padding: 40px"
+            style="
+              font-weight: bold;
+              text-align: right;
+              font-weight: bold;
+              text-align: right;
+              padding-right: 40px;
+              padding-left: 40px;
+            "
           >
             <label for="certificate_id2">מס תעודה:</label>
             <div>
               <input
+                style="width: 132px"
                 type="text"
                 id="certificate_id2"
                 [(ngModel)]="certificate_id2"
-                class="blue-date-input"
+                class="blue-date-input-certificate_id2"
                 (change)="set_val_of_sort_by_certificate($event)"
               />
               <button
@@ -123,6 +125,70 @@
               </button>
             </div>
           </th>
+
+          <!-- מיון לפי מס מגדל -->
+          <th
+            *ngIf="this.isSplit !== 'ראשי'"
+            style="
+              font-weight: bold;
+              text-align: right;
+              font-weight: bold;
+              text-align: right;
+              padding-right: 40px;
+              padding-left: 40px;
+            "
+          >
+            <label for="grower_num">מס מגדל:</label>
+            <div>
+              <input
+                style="width: 132px"
+                type="text"
+                id="grower_num"
+                [(ngModel)]="sort_by_grower_num"
+                class="blue-date-input-certificate_id2"
+                (change)="set_val_of_sort_by_grower_num($event)"
+              />
+              <button
+                (click)="search_grower_num()"
+                class="search-button btn_sort_by_certificate_id"
+              >
+                חפש
+              </button>
+            </div>
+          </th>
+
+          <!-- מיון לפי שם מגדל -->
+          <th
+            *ngIf="this.isSplit !== 'ראשי'"
+            style="
+              font-weight: bold;
+              text-align: right;
+              font-weight: bold;
+              text-align: right;
+              padding-right: 40px;
+              padding-left: 40px;
+            "
+          >
+            <label for="grower_name">שם מגדל:</label>
+            <div>
+              <input
+                style="width: 132px"
+                type="text"
+                id="grower_name"
+                [(ngModel)]="sort_by_grower_name"
+                class="blue-date-input-certificate_id2"
+                (change)="set_val_of_sort_by_grower_name($event)"
+              />
+              <button
+                (click)="search_grower_name()"
+                class="search-button btn_sort_by_certificate_id"
+              >
+                חפש
+              </button>
+            </div>
+          </th>
+
+          <th style="font-weight: bold; text-align: right"></th>
         </tr>
       </thead>
 
@@ -174,7 +240,10 @@
             </thead>
 
             <tbody style="white-space: nowrap">
-              <tr *ngFor="let p of data">
+              <tr
+                *ngFor="let p of data"
+                (click)="open_certificate_details(p.certificate_id)"
+              >
                 <!-- תאריך תעודה-->
                 <td>
                   {{ p.create_date | date : "dd/MM/yyyy" }}
@@ -262,33 +331,33 @@
                 </td>
               </tr>
 
-              <!-- <tr>
-                  <td>סה''כ:</td>
-  
-                  <td></td>
-  
-                  <td></td>
-  
-                  <td></td>
-  
-                  <td></td>
-  
-                  <td></td>
-  
-                  <td></td>
-  
-                  <td></td>
-  
-                  <td></td>
-                  <td></td>
-  
-                  <td>
-                    {{ total_packege_sum | number : "1.0-0" }}
-                  </td>
-                  <td>
-                    {{ total_chicken_sum | number : "1.0-0" }}
-                  </td>
-                </tr> -->
+              <tr>
+                <td>סה''כ:</td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+                <td></td>
+
+                <td>
+                  {{ total_count_package_sum | number : "1.0-0" }}
+                </td>
+                <td>
+                  {{ total_count_chicken | number : "1.0-0" }}
+                </td>
+              </tr>
             </tbody>
           </table>
         </td>

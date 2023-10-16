@@ -53,9 +53,14 @@ import { PageShivokimFromImonToEndSiteComponent } from './ecommerce/page-shivoki
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import {
+  BsDatepickerConfig,
+  BsDatepickerModule,
+  BsLocaleService,
+} from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
-import { heLocale } from 'ngx-bootstrap/locale';
+import { heLocale } from 'ngx-bootstrap/locale';PageShivokimHatalaComponent
+import { CustomRoundPipe } from './pipes/custom-round.pipe';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
@@ -157,6 +162,7 @@ defineLocale('he', heLocale); // Define Hebrew locale
     ]),
   ],
   declarations: [
+    CustomRoundPipe,
     EcommerceComponent,
     SalesComponent,
     HospitalComponent,
@@ -190,12 +196,13 @@ defineLocale('he', heLocale); // Define Hebrew locale
     PageShivokimHatalaComponent,
     PageShivokToNashchataComponent,
     PageShivokimFromImonToEndSiteComponent,
+    CustomRoundPipe,
   ],
   providers: [DatePipe],
   exports: [RouterModule],
 })
 export class DashboardModule {
-    constructor(private bsLocaleService: BsLocaleService) {
-        this.bsLocaleService.use('he'); // Set the locale to Hebrew
-      }
-    }
+  constructor(private bsLocaleService: BsLocaleService) {
+    this.bsLocaleService.use('he'); // Set the locale to Hebrew
+  }
+}

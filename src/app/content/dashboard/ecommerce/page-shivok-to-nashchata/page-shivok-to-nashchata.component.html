@@ -1,82 +1,19 @@
 <div *ngIf="true">
   <div class="cool-table-container">
     <table class="cool-table main_table" dir="rtl" border="0">
-      <!-- <button
-      *ngIf="!this.data[0].is_start_arr"
-      (click)="page_before()"
-      class="search-button"
-    >
-      <i class="fas fa-arrow-right"></i>
-      עמוד קודם
-    </button> -->
 
       <thead>
-        <tr
-          style="display: flex; justify-content: space-between; padding: 40px"
-        >
-          <th style="font-weight: bold; text-align: right">
-            שיווק עופות ממשק {{ this.data[0]?.source_farm_code }} -
-            {{ this.data[0]?.source_farm_name }}
+        <tr style="display: flex; padding: 40px">
+          <th style="font-weight: bold; text-align: right; margin-left: 25px">
+            שיווק ביצי מאכל ממשק {{ this.tatle_farm_code }} -
+            {{ this.tatle_farm_name }}
           </th>
-        </tr>
-
-        <tr
-          style="display: flex; justify-content: space-between; padding: 40px"
-        >
-          <th style="font-weight: bold; text-align: right">
-            <div class="date-input-container">
-              <label for="startDate">מתאריך:</label>
-              <input
-                placeholder="{{ startDate }}"
-                type="text"
-                id="startDateControl-input"
-                name="startDate"
-                ngbDatepicker
-                #d1="ngbDatepicker"
-                class="form-control border-primary textUserInput"
-                [(ngModel)]="startDate"
-              />
-              <div class="input-group-append">
-                <div class="input-group-text" (click)="d1.toggle()">
-                  <i class="fa fa-calendar" style="cursor: pointer"></i>
-                </div>
-              </div>
-            </div>
+          <th style="font-weight: bold; text-align: right; margin-left: 25px">
+            תאריך בקיעה: {{ this.flock_hatch_date | date : "dd/MM/yyyy" }} , מס
+            להקה: {{ this.flock_num }}
           </th>
-
-          <th style="font-weight: bold; text-align: right">
-            <div class="date-input-container">
-              <label for="endDate">עד תאריך:</label>
-              <input
-                placeholder="{{ endDate }}"
-                type="text"
-                id="endDateControl-input"
-                name="endDate"
-                ngbDatepicker
-                #d2="ngbDatepicker"
-                class="form-control border-primary textUserInput"
-                [(ngModel)]="endDate"
-              />
-              <div class="input-group-append">
-                <div class="input-group-text" (click)="d2.toggle()">
-                  <i class="fa fa-calendar" style="cursor: pointer"></i>
-                </div>
-              </div>
-            </div>
-          </th>
-
-          <th style="font-weight: bold; text-align: right; margin-top: 25px">
-            <button (click)="search()" class="search-button">חפש</button>
-
-            <button
-              (click)="cleanInputFild()"
-              class="search-button"
-              style="background-color: rgb(190, 55, 55); margin-right: 10px"
-            >
-              נקה
-            </button>
-          </th>
-          <th style="font-weight: bold; text-align: right; margin-top: 25px">
+  
+          <th style="font-weight: bold; text-align: right; margin-left: 30px">
             <div class="importBth">
               <div class="justify-content">
                 <img
@@ -90,21 +27,99 @@
             </div>
           </th>
         </tr>
+  
+        <tr style="display: flex; padding: 40px 40px 0px 40px">
+          <th style="font-weight: bold; text-align: right; margin-left: 30px">
+            <div class="date-input-container">
+              <label for="startDate">מתאריך:</label>
+              <div class="input-group">
+                <input
+                  placeholder="מתאריך"
+                  class="form-control"
+                  bsDatepicker
+                  [(ngModel)]="startDate"
+                  #dp="bsDatepicker"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="toggleDatepicker()"
+                  >
+                    <!-- Toggle button -->
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+  
+          <th style="font-weight: bold; text-align: right; margin-left: 30px">
+            <div class="date-input-container">
+              <label for="endDate">עד תאריך:</label>
+              <div class="input-group">
+                <input
+                  placeholder="עד תאריך"
+                  class="form-control"
+                  bsDatepicker
+                  [(ngModel)]="endDate"
+                  #dpTo="bsDatepicker"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="toggleDatepickerTo()"
+                  >
+                    <!-- Toggle button -->
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+  
+  
+          <th style="font-weight: bold; text-align: right; margin-top: 37px">
+            <button (click)="search()" class="search-button">חפש</button>
+  
+            <button
+              (click)="cleanInputFild()"
+              class="search-button"
+              style="background-color: rgb(150 150 150); margin-right: 10px"
+            >
+              נקה
+            </button>
+          </th>
+  
+          <th style="font-weight: bold; text-align: right; margin-top: 37px">
+            סהכ ({{ this.data.length }})
+          </th>
+        </tr>
+  
+        <p class="tat_sort">תת מיון</p>
         <tr class="tr_sub_sort">
-          <!-- <th style="font-weight: bold; text-align: right; padding: 40px"></th> -->
+  
 
+  
           <!-- מיון לפי מס תעודה -->
           <th
             *ngIf="this.isSplit === 'ראשי'"
-            style="font-weight: bold; text-align: right; padding: 40px"
+            style="
+              font-weight: bold;
+              text-align: right;
+              font-weight: bold;
+              text-align: right;
+              padding-right: 40px;
+              padding-left: 40px;
+            "
           >
             <label for="certificate_id2">מס תעודה:</label>
             <div>
               <input
+                style="width: 132px"
                 type="text"
                 id="certificate_id2"
                 [(ngModel)]="certificate_id2"
-                class="blue-date-input"
+                class="blue-date-input-certificate_id2"
                 (change)="set_val_of_sort_by_certificate($event)"
               />
               <button
@@ -115,9 +130,75 @@
               </button>
             </div>
           </th>
-          <th style="font-weight: bold; text-align: right; padding: 40px"></th>
+  
+          <!-- מיון לפי מס מגדל -->
+          <th
+            *ngIf="this.isSplit !== 'ראשי'"
+            style="
+              font-weight: bold;
+              text-align: right;
+              font-weight: bold;
+              text-align: right;
+              padding-right: 40px;
+              padding-left: 40px;
+            "
+          >
+            <label for="grower_num">מס מגדל:</label>
+            <div>
+              <input
+                style="width: 132px"
+                type="text"
+                id="grower_num"
+                [(ngModel)]="sort_by_grower_num"
+                class="blue-date-input-certificate_id2"
+                (change)="set_val_of_sort_by_grower_num($event)"
+              />
+              <button
+                (click)="search_grower_num()"
+                class="search-button btn_sort_by_certificate_id"
+              >
+                חפש
+              </button>
+            </div>
+          </th>
+  
+          <!-- מיון לפי שם מגדל -->
+          <th
+            *ngIf="this.isSplit !== 'ראשי'"
+            style="
+              font-weight: bold;
+              text-align: right;
+              font-weight: bold;
+              text-align: right;
+              padding-right: 40px;
+              padding-left: 40px;
+            "
+          >
+            <label for="grower_name">שם מגדל:</label>
+            <div>
+              <input
+                style="width: 132px"
+                type="text"
+                id="grower_name"
+                [(ngModel)]="sort_by_grower_name"
+                class="blue-date-input-certificate_id2"
+                (change)="set_val_of_sort_by_grower_name($event)"
+              />
+              <button
+                (click)="search_grower_name()"
+                class="search-button btn_sort_by_certificate_id"
+              >
+                חפש
+              </button>
+            </div>
+          </th>
+  
+          <th style="font-weight: bold; text-align: right"></th>
         </tr>
       </thead>
+
+
+
 
       <tr>
         <td colspan="2">

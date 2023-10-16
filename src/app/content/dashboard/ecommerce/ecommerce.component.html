@@ -1985,6 +1985,7 @@
                               this.farm_det_new[0]
                                 .shivokim_Independent_current_date_and_week_ago
                                 .length > 0)
+                                || ( this.check_shivokim_Independent)
                           "
                           class=""
                           style="cursor: pointer; color: green"
@@ -2009,9 +2010,7 @@
                           style="cursor: pointer; color: green"
                           (click)="
                             open_page_shivokim_from_imon_to_end_site(
-                              this.farm_det_new[0]
-                                .shivokim_from_imon_to_end_site
-                            )
+                              this.farm_det_new[0])
                           "
                         >
                           שיווקים
@@ -2034,7 +2033,6 @@
                           (click)="
                             open_page_shivokim_to_mashchata(
                               this.farm_det_new[0]
-                                .shivok_to_mashchata_by_flock_id
                             )
                           "
                         >
