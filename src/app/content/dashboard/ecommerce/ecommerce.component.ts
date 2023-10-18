@@ -25,6 +25,8 @@ import { of } from 'rxjs';
 import { TableexcelService } from '../../../services/tableexcel.service';
 import { ActivatedRoute } from '@angular/router';
 import { MegadelSearchService } from '../../../services/MegadelSearch.service';
+import { CristalsService } from '../../../services/cristals.service';
+
 import { EnvironmentFrontService } from '../../../services/environment-front.service';
 
 import { PopupComponent } from '../popup/popup.component';
@@ -214,6 +216,7 @@ export class EcommerceComponent implements OnInit {
     private SharedServiceService: SharedServiceService,
     private cdr: ChangeDetectorRef,
     private megadelSearchService: MegadelSearchService,
+    private CristalsService: CristalsService,
     private route: Router,
     private route2: ActivatedRoute,
     private tableexcelService: TableexcelService,
@@ -2482,6 +2485,101 @@ export class EcommerceComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   isFirstClick = true;
+
+  async get_hazmadot_history_cristal(data: any, yzrn_num: any) {
+    console.log(data);
+    var tzrt = data.belonging_group_id_oshik;
+    if (tzrt === 20) {
+      tzrt = '30';
+    }
+
+    if (tzrt === 22) {
+      tzrt = '01';
+    }
+
+    if (tzrt === 19) {
+      tzrt = '10';
+    } else {
+      tzrt = '30';
+    }
+
+    this.isLoading_FarmDetails = true;
+    await this.CristalsService.hazmadot_history_cristal(yzrn_num, tzrt);
+    await this.stop_the_isLoading_FarmDetails();
+    console.log('f');
+  }
+
+  async get_all_sites_cristal(year: any, tozeret: any, yzrn_num: any) {
+    var tzrt = tozeret.belonging_group_id_oshik;
+    if (tzrt === 20) {
+      tzrt = '20';
+    }
+
+    if (tzrt === 22) {
+      tzrt = '01';
+    }
+
+    if (tzrt === 19) {
+      tzrt = '10';
+    } else {
+      tzrt = '20';
+    }
+
+    this.isLoading_FarmDetails = true;
+    await this.CristalsService.all_sites_cristal(
+      year.toString(),
+      tzrt,
+      yzrn_num
+    );
+    await this.stop_the_isLoading_FarmDetails();
+    console.log('f');
+  }
+
+  async get_micsot_cristal(year: any, tozeret: any, yzrn_num: any) {
+    console.log('g');
+
+    var tzrt = tozeret.belonging_group_id_oshik;
+    if (tzrt === 20) {
+      tzrt = '30';
+    }
+
+    if (tzrt === 22) {
+      tzrt = '01';
+    }
+
+    if (tzrt === 19) {
+      tzrt = '10';
+    } else {
+      tzrt = '30';
+    }
+
+    this.isLoading_FarmDetails = true;
+    await this.CristalsService.micsot_cristal(year.toString(), tzrt, yzrn_num);
+    await this.stop_the_isLoading_FarmDetails_micsa_cristal();
+    console.log('f');
+  }
+
+  async get_flock_history(the_flock_num: any) {
+    console.log(the_flock_num);
+    this.isLoading_FarmDetails = true;
+    console.log(the_flock_num);
+    await this.CristalsService.flock_history(the_flock_num.flock_num);
+    await this.stop_the_isLoading_FarmDetails();
+    console.log('f');
+  }
+
+  async stop_the_isLoading_FarmDetails() {
+    setTimeout(() => {
+      this.isLoading_FarmDetails = false;
+    }, 9000);
+  }
+
+  async stop_the_isLoading_FarmDetails_micsa_cristal() {
+    setTimeout(() => {
+      this.isLoading_FarmDetails = false;
+    }, 5000);
+  }
+
 
   async show_arr_of_meshvkim_to_grower_witout_farm() {
     if (
@@ -5316,16 +5414,6 @@ export class EcommerceComponent implements OnInit {
       console.log('New window was blocked by a popup blocker.');
     }
   }
-
-
-
-
-
-
-
-
-
-
 
   async open_page_shivokim_to_mashchata(data: any) {
     console.log(data);

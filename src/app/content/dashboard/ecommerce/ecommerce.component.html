@@ -40,7 +40,6 @@
           </div>
         </div>
 
-        <!-- <button (click)="test_eran()">test_eran()</button> -->
         <!-- רב שנתי -->
         <div class="col-xl-2 col-lg-6 col-12" (click)="shows_rav_shnati()">
           <div class="card pull-up">
@@ -956,7 +955,27 @@
                         לתשלום: {{ totalMicsaToPay | numberFormat }}
                       </p>
                     </div>
+
+
                     <div>
+                        <span
+                        scope="col"
+                        class=""
+                        style="cursor: pointer; color: #5b5bf8"
+                        (click)="
+                          get_micsot_cristal(
+                            chosenYear,
+                            this.farm_det_new[0],
+                            this.userDetails_more_info[0].v_yzrn
+                          )
+                        "
+                      >
+                        <i
+                          class="fas fa-print"
+                          style="margin-left: 10px; margin-right: 20px"
+                        ></i>
+                        <!-- Print icon -->
+                      </span>
                       <h1 class="rtl_Style">מכסת ביצים אישית</h1>
                     </div>
                   </div>
@@ -1394,7 +1413,27 @@
                         לתשלום: {{ totalMicsaToPay | numberFormat }}
                       </p>
                     </div>
-                    <div>
+
+
+                    <div style="display: flex;">
+                        <span
+                        scope="col"
+                        class=""
+                        style="cursor: pointer; color: #5b5bf8; font-size: 2rem;"
+                        (click)="
+                          get_micsot_cristal(
+                            chosenYear,
+                            this.farm_det_new[0],
+                            this.userDetails_more_info[0].v_yzrn
+                          )
+                        "
+                      >
+                        <i
+                          class="fas fa-print"
+                          style="margin-left: 10px; margin-right: 20px"
+                        ></i>
+                        <!-- Print icon -->
+                      </span>
                       <h1 class="rtl_Style">מכסת ביצים אישית</h1>
                     </div>
                   </div>
@@ -1651,18 +1690,7 @@
                 class="card-content"
                 *ngIf="this.farm_det_new && this.farm_det_new.length !== 0"
               >
-                <div class="exel_and_total">
-                  <!-- <div class="importBth">
-                    <div class="justify-content">
-                      <img
-                        class="logoIngStyle"
-                        src="assets/images/logo/excel.png"
-                        alt="Image"
-                        (click)="getExcelDataFarmDetails()"
-                      />
-                    </div>
-                  </div> -->
-                </div>
+                <div class="exel_and_total"></div>
                 <div *ngIf="isLoading_FarmDetails" class="loader"></div>
                 <div
                   *ngIf="!isLoading_FarmDetails"
@@ -1906,13 +1934,28 @@
                       </tr>
                     </tbody>
                     <br />
-
-                    <h3
-                      class="main_table_tatle"
-                      style="font-size: 30px; font-weight: bold; color: #5b5bf8"
-                    >
-                      פרטי להקה
-                    </h3>
+                    <div style="display: flex">
+                      <h3
+                        class="main_table_tatle"
+                        style="
+                          font-size: 30px;
+                          font-weight: bold;
+                          color: #5b5bf8;
+                          margin-left: 20px;
+                        "
+                      >
+                        פרטי להקה
+                      </h3>
+                      <div
+                        scope="col"
+                        class=""
+                        style="cursor: pointer; color: #5b5bf8"
+                        (click)="get_flock_history(this.farm_det_new[0])"
+                      >
+                        <i class="fas fa-print" style="margin-left: 10px"></i>
+                        <!-- Print icon -->
+                      </div>
+                    </div>
 
                     <thead
                       [ngClass]="[
@@ -1938,6 +1981,19 @@
                         >
                           סטטוס להקה
                         </th>
+
+                        <!-- <th
+                          scope="col"
+                          class=""
+                          style="cursor: pointer; color: green"
+                          (click)="get_flock_history(this.farm_det_new[0])"
+                        >
+                          היסטוריית להקה
+                          <i class="fas fa-angle-left fa-lg"></i>
+                        </th> -->
+                        <!-- <th scope="col" class="" style="cursor: pointer; color: green" (click)="get_flock_history(this.farm_det_new[0])">
+                            <i class="fas fa-print" style="margin-left: 10px;"></i> 
+                          </th> -->
 
                         <th
                           scope="col"
@@ -1984,8 +2040,8 @@
                               .shivokim_Independent_current_date_and_week_ago &&
                               this.farm_det_new[0]
                                 .shivokim_Independent_current_date_and_week_ago
-                                .length > 0)
-                                || ( this.check_shivokim_Independent)
+                                .length > 0) ||
+                            this.check_shivokim_Independent
                           "
                           class=""
                           style="cursor: pointer; color: green"
@@ -2010,7 +2066,8 @@
                           style="cursor: pointer; color: green"
                           (click)="
                             open_page_shivokim_from_imon_to_end_site(
-                              this.farm_det_new[0])
+                              this.farm_det_new[0]
+                            )
                           "
                         >
                           שיווקים
@@ -2216,6 +2273,7 @@
                         >
                           פעילה
                         </td>
+
                         <td
                           *ngIf="row.flock_status_id !== 1"
                           style="width: 100px"
@@ -2546,22 +2604,50 @@
                     <br />
 
                     <!-- הצמדות -->
-                    <h3
-                      *ngIf="
-                        this.farm_det_new[0].tnahi_imon === 1 ||
-                        (this.farm_det_new[0].belonging_group_id_oshik &&
-                          (this.farm_det_new[0].belonging_group_id_oshik ===
-                            22 ||
-                            this.farm_det_new[0].belonging_group_id_oshik ===
-                              19))
-                      "
-                      class="main_table_tatle"
-                      style="cursor: pointer; color: green"
-                      (click)="hazmadot_history(this.farm_det_new[0])"
-                    >
-                      הצמדות
-                      <i class="fas fa-angle-left fa-lg"></i>
-                    </h3>
+                    <div style="display: flex">
+                      <h3
+                        *ngIf="
+                          this.farm_det_new[0].tnahi_imon === 1 ||
+                          (this.farm_det_new[0].belonging_group_id_oshik &&
+                            (this.farm_det_new[0].belonging_group_id_oshik ===
+                              22 ||
+                              this.farm_det_new[0].belonging_group_id_oshik ===
+                                19))
+                        "
+                        class="main_table_tatle"
+                        style="
+                          cursor: pointer;
+                          color: #5b5bf8;
+                          margin-left: 20px;
+                        "
+                        (click)="hazmadot_history(this.farm_det_new[0])"
+                      >
+                        הצמדות
+                        <i class="fas fa-angle-left fa-lg"></i>
+                      </h3>
+
+                      <!-- היסטוריית הצמדות -->
+                      <h3
+                        *ngIf="
+                          this.farm_det_new[0].tnahi_imon === 1 ||
+                          (this.farm_det_new[0].belonging_group_id_oshik &&
+                            (this.farm_det_new[0].belonging_group_id_oshik ===
+                              22 ||
+                              this.farm_det_new[0].belonging_group_id_oshik ===
+                                19))
+                        "
+                        class="main_table_tatle"
+                        style="cursor: pointer; color: #5b5bf8"
+                        (click)="
+                          get_hazmadot_history_cristal(
+                            this.farm_det_new[0],
+                            this.userDetails_more_info[0].v_yzrn
+                          )
+                        "
+                      >
+                        <i class="fas fa-print" style="margin-left: 10px"></i>
+                      </h3>
+                    </div>
 
                     <thead
                       class="detailsTable"
@@ -2916,10 +3002,6 @@
               <div class="card-header"></div>
               <div class="card-content" *ngIf="this.arr_of_meshvkim.length > 0">
                 <div class="exel_and_total"></div>
-                <!-- <div
-                  *ngIf="this.arr_of_meshvkim.length > 0"
-                  class="loader"
-                ></div> -->
                 <div
                   *ngIf="this.arr_of_meshvkim.length > 0"
                   style="
@@ -3113,17 +3195,29 @@
               <div class="card-content">
                 <div class="" style="padding: 15px">
                   <div class="importBth">
-                    <div class="justify-content">
-                      <!-- <img
-                        class="logoIngStyle"
-                        src="assets/images/logo/excel.png"
-                        alt="Image"
-                        (click)="getExcelDataFarmDetails()"
-                      /> -->
-                    </div>
+                    <div class="justify-content"></div>
                   </div>
                   <div class="check">
                     <div style="display: flex; padding-top: 10px">
+                      <div
+                        scope="col"
+                        class=""
+                        style="cursor: pointer; color: #5b5bf8"
+                        (click)="
+                          get_all_sites_cristal(
+                            chosenYear,
+                            this.farm_det_new[0],
+                            this.userDetails_more_info[0].v_yzrn
+                          )
+                        "
+                      >
+                        <i
+                          class="fas fa-print"
+                          style="margin-left: 10px; margin-right: 20px"
+                        ></i>
+                        <!-- Print icon -->
+                      </div>
+
                       <div style="direction: rtl">
                         פעילים: {{ this.new_Active_FarmDetails.length }} לא
                         פעילים:

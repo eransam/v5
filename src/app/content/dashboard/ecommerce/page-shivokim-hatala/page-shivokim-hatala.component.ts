@@ -429,14 +429,16 @@ export class PageShivokimHatalaComponent {
   }
 
   async open_certificate_details(certificate_id: any) {
-    var newWindow = window.open(`http://epb-iis22:9091/app/v3.3.8/#/certificate-egg-details/${certificate_id}`, '_blank');
+    var newWindow = window.open(
+      `http://epb-iis22:9091/app/v3.3.8/#/certificate-egg-details/${certificate_id}`,
+      '_blank'
+    );
     if (newWindow) {
       newWindow.focus();
     } else {
       console.log('New window was blocked by a popup blocker.');
     }
-}
-
+  }
 
   set_val_of_sort_by_grower_num(event: any) {
     this.sort_by_grower_num = event.target.value;

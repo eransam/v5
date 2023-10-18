@@ -189,7 +189,9 @@ export class CristalsService {
         reportName:
           '\\\\epb-iis12\\REPORT\\LulSln_net\\Egg_report\\Info_Micsa_Yzrn.rpt',
         pdfName:
-          '\\\\epb-iis12\\Scan\\ChickenHealth\\eran_files\\micsot\\' + pdfName,
+          // \\epb-iis22\Scan\EggMovements
+          //   '\\\\epb-iis12\\Scan\\ChickenHealth\\eran_files\\micsot\\' + pdfName,
+          '\\\\epb-iis22\\Scan\\EggMovements\\' + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -207,9 +209,7 @@ export class CristalsService {
         if (data) {
           console.log('g');
 
-          window.open(
-            'http://epb-iis12:8006/chickenhealth/eran_files/micsot/' + pdfName
-          );
+          window.open('http://epb-iis22:8006/EggMovements/' + pdfName);
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
         }
