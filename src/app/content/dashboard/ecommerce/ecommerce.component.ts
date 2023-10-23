@@ -2507,7 +2507,20 @@ export class EcommerceComponent implements OnInit {
     await this.CristalsService.hazmadot_history_cristal(yzrn_num, tzrt);
     await this.stop_the_isLoading_FarmDetails();
     console.log('f');
+
+
+
+    
   }
+
+
+
+
+
+
+
+
+
 
   async get_all_sites_cristal(year: any, tozeret: any, yzrn_num: any) {
     var tzrt = tozeret.belonging_group_id_oshik;

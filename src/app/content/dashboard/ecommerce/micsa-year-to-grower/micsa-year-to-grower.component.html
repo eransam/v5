@@ -1,0 +1,96 @@
+<div *ngIf="isLoading_main" class="loader"></div>
+<div *ngIf="!isLoading_main" class="main_div">
+  <h1 style="text-align: center; margin: 40px">שנת קבלת מכסה למגדול</h1>
+
+  <!-- חיפוש לפי שנה ותוצרת -->
+  <div class="sub_main_div">
+    <div class="col-xl-12 col-lg-6 col-12" style="padding: unset">
+      <div class="card pull-up search_by_year">
+        <div class="card-content">
+          <div class="card-body card_padding">
+            <div class="media d-flex" style="height: 99px">
+              <!-- חיפוש לפי שנה -->
+              <div
+                class="year-select rtl_Style"
+                style="
+                  display: flex;
+                  align-items: stretch;
+                  font-size: 25px;
+                  font-weight: bold;
+                  margin: auto;
+                "
+              >
+                <input
+                  [(ngModel)]="chosenYear"
+                  (keyup.enter)="onYearChange2()"
+                  type="number"
+                  style="width: 125px; height: 60px; padding: 5px"
+                />
+                <select
+                  [(ngModel)]="chosenYear"
+                  (ngModelChange)="onYearChange2()"
+                  style="width: 30px; height: 60px; margin-left: 10px"
+                >
+                  <option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- שלוחה חיפוש-->
+              <div
+                class="year-select rtl_Style"
+                style="
+                  display: flex;
+                  align-items: stretch;
+                  font-size: 25px;
+                  font-weight: bold;
+                  margin: auto;
+                "
+              >
+                <select
+                  [(ngModel)]="selectedCategory"
+                  (change)="selectCategory($event.target.value)"
+                  class="form-select form-select-lg"
+                  style="font-size: larger"
+                >
+                  <option value="" disabled selected>שלוחה</option>
+                  <option
+                    *ngFor="let obj of keys_of_categorizedArrays"
+                    [value]="obj"
+                    [selected]="selectedCategory === obj"
+                  >
+                    {{ getCategoryLabel(obj) }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- כפתורי אקסל קריסטל -->
+  <div class="sub_main_div">
+    <div
+      class="col-xl-12 col-lg-6 col-12"
+      style="display: flex; justify-content: inherit; margin: 25px"
+    >
+      <button
+        (click)="exel_func()"
+        class="search-button"
+        style="width: 40%; margin: 20px"
+      >
+        אקסל
+      </button>
+      <button
+        (click)="search()"
+        class="search-button"
+        style="width: 40%; margin: 20px"
+      >
+        הדפסה
+      </button>
+    </div>
+  </div>
+</div>

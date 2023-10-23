@@ -1,0 +1,232 @@
+<div *ngIf="isLoading_main" class="loader"></div>
+<div *ngIf="!isLoading_main" class="main_div">
+  <h1 style="text-align: center; margin: 40px">אתרי גידול</h1>
+  <div class="sub_main_div">
+    <!-- חיפוש לפי שנה ותוצרת -->
+    <div class="col-xl-12 col-lg-6 col-12" style="padding: unset">
+      <div class="card pull-up search_by_year">
+        <div class="card-content">
+          <div class="card-body card_padding">
+            <div class="media d-flex" style="height: 99px">
+              <!-- חיפוש לפי שנה -->
+              <div
+                class="year-select rtl_Style"
+                style="
+                  display: flex;
+                  align-items: stretch;
+                  font-size: 25px;
+                  font-weight: bold;
+                  margin: auto;
+                "
+              >
+                <input
+                  [(ngModel)]="chosenYear"
+                  (keyup.enter)="onYearChange2()"
+                  type="number"
+                  style="width: 125px; height: 60px; padding: 5px"
+                />
+                <select
+                  [(ngModel)]="chosenYear"
+                  (ngModelChange)="onYearChange2()"
+                  style="width: 30px; height: 60px; margin-left: 10px"
+                >
+                  <option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- שלוחה חיפוש-->
+              <div
+                class="year-select rtl_Style"
+                style="
+                  display: flex;
+                  align-items: stretch;
+                  font-size: 25px;
+                  font-weight: bold;
+                  margin: auto;
+                "
+              >
+                <select
+                  [(ngModel)]="selectedCategory"
+                  (change)="selectCategory($event.target.value)"
+                  class="form-select form-select-lg"
+                  style="font-size: larger"
+                >
+                  <option value="" disabled selected>שלוחה</option>
+                  <option
+                    *ngFor="let obj of keys_of_categorizedArrays"
+                    [value]="obj"
+                    [selected]="selectedCategory === obj"
+                  >
+                    {{ getCategoryLabel(obj) }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- חיפוש לפי תאריך -->
+  <div class="sub_main_div">
+    <div class="col-xl-12 col-lg-6 col-12" style="padding: unset">
+      <div class="date-input-container" style="direction: rtl">
+        <label for="Date" style="margin-right: 10px"
+          >גידול חוץ נכון לתאריך:</label
+        >
+        <div class="input-group">
+          <input
+            placeholder="תאריך"
+            class="form-control"
+            bsDatepicker
+            [(ngModel)]="theDate"
+            #dp="bsDatepicker"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="toggleDatepicker()"
+            >
+              <!-- Toggle button -->
+              <i class="fa fa-calendar"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- כפתורי רדיו ראשון -->
+  <div class="sub_main_div">
+    <div
+      class="col-xl-12 col-lg-6 col-12"
+      style="
+        display: flex;
+        justify-content: space-around;
+        border: solid grey 1px;
+        margin: 25px;
+      "
+    >
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="options"
+          [(ngModel)]="selected_Option_atar"
+          value="1"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >מסוכם לאתר</label
+        >
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="options"
+          [(ngModel)]="selected_Option_atar"
+          value="0"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >מסוכם לאתר כולל שותפים</label
+        >
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="options"
+          [(ngModel)]="selected_Option_atar"
+          value="00"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >פירוט מבנים</label
+        >
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="options"
+          [(ngModel)]="selected_Option_atar"
+          value="2"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >מגדלים ללא אתרים</label
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- כפתורי רדיו סטטוס -->
+  <div class="sub_main_div">
+    <div
+      class="col-xl-12 col-lg-6 col-12"
+      style="
+        display: flex;
+        justify-content: space-around;
+        border: solid grey 1px;
+      "
+    >
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="selectedOption2"
+          [(ngModel)]="selected_option_status"
+          value="0"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >פעיל</label
+        >
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="selectedOption2"
+          [(ngModel)]="selected_option_status"
+          value="1"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >לא פעיל</label
+        >
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-left: 20px">
+        <input
+          type="radio"
+          name="selectedOption2"
+          [(ngModel)]="selected_option_status"
+          value="2"
+        />
+        <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+          >כולם</label
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- כפתורי אקסל קריסטל -->
+  <div class="sub_main_div">
+    <div
+      class="col-xl-12 col-lg-6 col-12"
+      style="display: flex; justify-content: inherit; margin: 25px"
+    >
+      <button
+        (click)="exel_func()"
+        class="search-button"
+        style="width: 40%; margin: 20px"
+      >
+        אקסל
+      </button>
+      <button
+        (click)="search()"
+        class="search-button"
+        style="width: 40%; margin: 20px"
+      >
+        הדפסה
+      </button>
+    </div>
+  </div>
+</div>

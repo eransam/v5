@@ -1,0 +1,1312 @@
+.avatar-xs {
+  width: 24px !important;
+  margin-right: 5px !important;
+}
+
+.btn_set_padding {
+  padding: 0% !important;
+}
+
+.chart_body_padding {
+  padding: 2rem !important;
+}
+
+:host ::ng-deep .scoreLineShadow {
+  -webkit-filter: drop-shadow(0px 20px 11px rgba(0, 0, 0, 0.5)) !important;
+  filter: drop-shadow(0px 20px 11px rgba(0, 0, 0, 0.5));
+}
+
+:host ::ng-deep .ecommercesaleslineArea .ct-series-a .ct-point-circle {
+  stroke-width: 5px;
+  stroke: #ffffff;
+  fill: #1e9ff2;
+}
+
+:host ::ng-deep .ecommercesaleslineArea .ct-series-b .ct-point-circle {
+  stroke-width: 5px;
+  stroke: #ffffff;
+  fill: #58e0cd;
+}
+
+:host ::ng-deep .media {
+  display: flex;
+  align-items: flex-start;
+}
+
+:host ::ng-deep .position-relative {
+  position: relative !important;
+}
+
+:host ::ng-deep .ct-series-b .ct-bar,
+.ct-series-b .ct-slice-donut {
+  stroke: #beb6b6;
+}
+
+:host ::ng-deep .progress:last-child {
+  width: 100% !important;
+}
+
+:host ::ng-deep .areaChartLegend .ct-series-a .ct-line {
+  stroke: url(#gradient2);
+  stroke-width: 5px;
+  stroke-linecap: round;
+}
+
+:host ::ng-deep .areaChartLegend .ct-series-a .ct-area {
+  fill: #ffffff;
+}
+
+:host ::ng-deep .areaChartLegend .ct-series-a .ct-line {
+  stroke: #3da2ea;
+}
+
+:host ::ng-deep .ecommercesaleslineArea .ct-series-a .ct-area {
+  fill: #4105f9f5;
+}
+
+:host ::ng-deep .ecommercesaleslineArea .ct-series-b .ct-area {
+  fill: #03f7b2fa;
+}
+
+:host ::ng-deep .ecommercesaleslineArea .ct-series-b .ct-line {
+  stroke: #58e0cd;
+}
+
+:host ::ng-deep .ecommercesaleslineArea .ct-series-a .ct-line {
+  stroke: #1e9ff2;
+}
+
+:host ::ng-deep .barchart .ct-series-a .ct-bar {
+  stroke: #ff394f !important;
+  stroke-width: 7px !important;
+}
+
+:host ::ng-deep .pull-up {
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+:host ::ng-deep .chart-info {
+  margin-top: 73px !important;
+}
+
+.mb-3,
+.my-3 {
+  margin-bottom: -4rem !important;
+}
+
+.mb-2,
+.my-2 {
+  margin-bottom: -4.5rem !important;
+}
+
+:host ::ng-deep .donut .ct-done .ct-slice-donut {
+  stroke: #28d094;
+  stroke-width: 24px !important;
+}
+
+:host ::ng-deep .donut .ct-progress .ct-slice-donut {
+  stroke: #ff4558;
+  stroke-width: 16px !important;
+}
+
+:host ::ng-deep .donut .ct-outstanding .ct-slice-donut {
+  stroke: #ff7d4d;
+  stroke-width: 8px !important;
+}
+
+:host ::ng-deep .donut .ct-started .ct-slice-donut {
+  stroke: #666ecc;
+  stroke-width: 32px !important;
+}
+
+:host ::ng-deep .donut .ct-label {
+  text-anchor: middle;
+  font-size: 20px;
+  fill: #868e96;
+}
+
+:host ::ng-deep .Barchart {
+  display: block;
+  margin-left: -100px;
+  margin-bottom: -60px;
+  margin-top: -45px;
+}
+
+:host ::ng-deep .Barchart .ct-label {
+  font-size: 0.75rem;
+  line-height: 15;
+}
+
+.p {
+  margin-top: 1rem;
+  margin-bottom: -1.5rem;
+  font-size: large;
+  color: #6c757d !important;
+}
+
+:host ::ng-deep .text-center .p {
+  margin-top: 2rem;
+  margin-bottom: -1.2rem;
+}
+
+:host ::ng-deep .height-300 {
+  height: 250px !important;
+}
+
+:host ::ng-deep .gradient-blackberry {
+  background-image: linear-gradient(45deg, #b9e2fa, #b9e2fa) !important;
+  margin-left: 48px;
+}
+
+:host ::ng-deep .gradient-mint {
+  background-image: linear-gradient(45deg, #ff9ba6, #ff9ba6);
+  margin-left: 48px;
+}
+
+:host ::ng-deep .gradient-info {
+  background-image: linear-gradient(45deg, #6ef9d6, #6ef9d6);
+  margin-left: 48px;
+}
+
+:host ::ng-deep .extraPadding7 {
+  padding: 0.7rem;
+}
+
+:host ::ng-deep .avatar-md {
+  width: 40px;
+}
+
+:host ::ng-deep .square {
+  border-radius: 0% !important;
+  height: auto;
+  border: 2px solid #fff !important;
+}
+
+:host ::ng-deep .ps--active-x > .ps__rail-x {
+  display: none !important;
+}
+
+:host ::ng-deep .border-top-0 {
+  padding: 1.25rem 2rem !important;
+}
+
+:host ::ng-deep .btn-danger {
+  color: white !important;
+}
+
+:host ::ng-deep .progress:last-child {
+  margin-bottom: 0rem;
+}
+
+:host ::ng-deep .btn.active {
+  outline: none;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+.btn {
+  cursor: pointer !important;
+}
+
+.btn_dropdown {
+  background-color: white !important;
+}
+
+:host ::ng-deep .text_color {
+  color: #0c84d1;
+}
+
+:host ::ng-deep .progress {
+  box-shadow: 6px 6px 14px -1px rgba(62, 57, 107, 0.2);
+  margin-top: 1rem !important;
+}
+
+:host ::ng-deep .btn-group {
+  position: absolute !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .btn-group {
+    position: relative !important;
+  }
+}
+
+:host ::ng-deep .text-muted {
+  color: #6b6f82 !important;
+}
+
+:host ::ng-deep .mb-3,
+.my-3 {
+  margin-bottom: 1.5rem !important;
+}
+
+:host ::ng-deep .media {
+  display: flex;
+  align-items: flex-start;
+}
+
+:host ::ng-deep .height-350 {
+  height: 250px !important;
+  margin-left: 18%;
+  margin-bottom: 55px;
+}
+
+:host ::ng-deep .card-text:last-child {
+  margin-bottom: 0;
+  height: 430px;
+}
+
+:host ::ng-deep .mb-3 {
+  margin-bottom: 1.1rem !important;
+}
+
+:host ::ng-deep .chart-info .p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  margin-left: 4px;
+}
+
+:host ::ng-deep .order-tbl_change th,
+.order-tbl_change td {
+  padding-right: 0.8rem;
+}
+
+:host ::ng-deep svg.ct-chart-bar {
+  width: 100% !important;
+  padding-top: 5%;
+}
+
+:host ::ng-deep #donut-dashboard-chart {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .pr_stats {
+  text-align: center;
+}
+
+:host ::ng-deep .height-300 {
+  width: 100%;
+}
+
+:host ::ng-deep .alert_basics_charrt {
+  padding: 0;
+}
+
+:host ::ng-deep .card-header .heading-elements a.btn {
+  color: white !important;
+}
+
+:host ::ng-deep .row_padding {
+  padding: 1.25rem 2rem !important;
+}
+
+:host ::ng-deep .border_bottom {
+  margin-bottom: 0rem !important;
+}
+
+:host ::ng-deep .top_space {
+  padding-top: 5% !important;
+}
+
+:host ::ng-deep .border_top {
+  border-top: none !important;
+}
+
+:host ::ng-deep .card-footer {
+  padding: 2rem !important;
+}
+
+:host ::ng-deep .ct-chart-bar .ct-label.ct-horizontal.ct-end {
+  text-anchor: middle;
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+:host ::ng-deep .ct-chart-bar .ct-label.ct-vertical.ct-start {
+  text-anchor: middle;
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+:host ::ng-deep .block-ui-wrapper {
+  background: rgba(255, 249, 249, 0.5) !important;
+}
+
+:host ::ng-deep .chartist-tooltip.bar_tooltip {
+  border-radius: 10px;
+  padding: 18px;
+  color: rgb(29, 28, 28);
+  height: 60px;
+  width: 80px;
+  background: rgba(255, 255, 255, 0.9);
+  border: solid 2px rgba(230, 230, 230, 0.9);
+  font-family: sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
+
+:host ::ng-deep .chartist-tooltip.donut_tooltip {
+  border-radius: 10px;
+  padding: 2px;
+  color: rgb(29, 28, 28);
+  height: 60px;
+  width: 90px;
+  background: rgba(255, 255, 255, 0.9);
+  border: solid 2px rgba(230, 230, 230, 0.9);
+  font-family: sans-serif;
+  font-size: 14px;
+  text-align: center;
+  top: 16.906px;
+}
+
+:host ::ng-deep .chartist-tooltip.tooltip-show {
+  opacity: 0.6 !important;
+}
+
+:host ::ng-deep .chartist-tooltip.bar_tooltip:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -15px;
+  border: 15px solid transparent;
+  border-top-color: rgba(255, 255, 255, 0.8);
+}
+
+:host ::ng-deep .chartist-tooltip.donut_tooltip:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -15px;
+  border: 15px solid transparent;
+  border-top-color: rgba(255, 255, 255, 0.8);
+}
+:host ::ng-deep .tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: block;
+  height: 0;
+  overflow-y: hidden;
+}
+:host ::ng-deep .tab-content > .active,
+.pill-content > .active {
+  height: auto;
+}
+
+.detailsTable {
+  padding: unset !important;
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* .table-responsive {
+      height: 360px;
+    } */
+
+.growerDetails {
+  text-align: right !important;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 300px;
+  height: 300px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.loader_grower_rav_shnati {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.loader_grower_cart {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 6%;
+  margin-bottom: 5%;
+}
+
+.logoIngStyle {
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  display: flex !important;
+  justify-content: left !important;
+  cursor: pointer;
+}
+
+.exel_and_total {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.media-body .text-left {
+  text-align: right !important;
+}
+
+.ngx-datatable.bootstrap
+  .datatable-body
+  .datatable-body-row.datatable-row-even {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding-right: 2% !important;
+}
+
+.heading-elements {
+  display: none !important;
+}
+
+.card-header {
+  border-bottom: none;
+
+  .card-title {
+    margin-bottom: 0;
+  }
+
+  .heading-elements,
+  .heading-elements-toggle {
+    background-color: inherit;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: none !important;
+
+    &.heading-top-elements {
+      .page-item {
+        display: inline-block;
+      }
+    }
+
+    a {
+      padding: 0 8px;
+
+      &.btn {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+    }
+  }
+}
+
+.card-micsa {
+  height: 610px !important;
+  padding-right: 1%;
+}
+
+.popup-dialog {
+  background-color: white !important;
+  max-width: 60vw;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  /* position: relative; */
+  /* top: -1700px; */
+  /* left: 164px; */
+  padding: 4px;
+  /* height: 400px; */
+  width: fit-content;
+  position: absolute;
+  top: 20%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+}
+.popup-dialog-more-info {
+  background-color: red !important;
+}
+.numKannat {
+  color: green;
+}
+
+.table-container {
+  max-height: 778px; /* Adjust the height as needed */
+  overflow-y: auto;
+}
+
+.exel_and_total_erorrs {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.p-exel_and_total_erorrs {
+  font-size: 14px;
+  text-align: center;
+}
+
+.rtl_Style {
+  direction: rtl;
+}
+
+#ecommerceId {
+  zoom: 0.75;
+}
+
+.micsotStyle {
+  max-height: 440px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+}
+
+.micsotStyle2 {
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-container {
+  margin-right: 10px;
+}
+
+.right-container {
+  margin-left: 10px;
+}
+.table-container {
+  overflow-x: auto;
+  direction: rtl;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+.check {
+  display: flex !important;
+  justify-content: end;
+}
+
+/* Component styles or separate stylesheet */
+.active-site {
+  //   font-weight: bolder;
+  //   font-size: larger;
+  color: green !important;
+}
+
+.openPopup_certificates-dialog {
+  height: 485px !important;
+}
+.eranTest {
+  padding: 1px;
+}
+
+.search_by_year {
+  height: 132px;
+}
+
+.site_by_shlohot_btn {
+  font-size: 17px;
+  /* display: inline-block; */
+  /* display: block; */
+  display: flex;
+}
+
+.active-site_shlohot_btn {
+  color: green !important;
+}
+
+.green-background {
+  background-color: #efffef;
+}
+
+.red-background {
+  background-color: #ffebeb;
+}
+
+.media.d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.media-body.text-left {
+  flex: 1;
+  margin-right: 10px;
+  color: #333;
+  font-size: 16px;
+}
+
+.year-select.rtl_Style {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.chosen_site {
+  font-size: larger !important;
+  color: green !important;
+  cursor: pointer;
+}
+
+.not_chosen_site {
+  color: blue !important;
+  cursor: pointer;
+}
+
+.avtice_site_class {
+  background-color: #efffef;
+}
+
+.not_avtice_site_class {
+  background-color: #ffebeb;
+}
+
+.farm-det {
+  display: flex;
+}
+
+.farm_more_det {
+  display: flex !important;
+  width: 75% !important;
+  justify-content: end !important;
+}
+
+.sort_farms {
+  display: flex !important;
+  width: 30% !important;
+  justify-content: end !important;
+}
+
+.table_tatle {
+  padding: unset !important;
+}
+
+.main_table_tatle {
+  // text-align: end;
+  font-weight: bold;
+  border-bottom: 1px solid #dadada;
+}
+
+.avtice_flock {
+  background-color: rgba(143, 238, 143, 0.349);
+}
+
+.not_avtice_flock {
+  background-color: #ff45001a;
+}
+
+.main_div {
+  box-shadow: 10px 20px 10px 5px rgba(70, 82, 125, 0.37);
+  border-radius: inherit;
+  margin-top: 34px !important;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  flex-direction: column;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  //   border: grey solid 1px;
+  padding: 40px;
+  background-color: white;
+}
+
+.sub_main_div {
+  display: flex;
+  justify-content: center;
+}
+
+.main_table {
+  width: fit-content;
+  padding: 5px;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.table_inside {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.cool-table-container {
+  padding: 5px;
+  display: flex;
+  width: 85%;
+  margin-top: 0%;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  margin-left: 12%;
+  direction: rtl;
+}
+
+.cool-table {
+  background-color: #ffffff; /* White background for the table */
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.main_table {
+  padding: 20px;
+}
+
+/* Add more styling to the table headers and rows */
+.main_table th {
+  font-weight: bold;
+  text-align: right;
+  padding: 10px;
+}
+
+.main_table td {
+  text-align: right;
+  padding: 10px;
+}
+
+/* Add a hover effect on rows */
+.main_table tbody tr:hover {
+  background-color: #e1ebf4; /* Light blue hover background */
+}
+
+/* Styling for the expand symbol */
+.expand-symbol {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #3498db; /* Blue color for the symbol */
+  color: white;
+  text-align: center;
+  line-height: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.expand-symbol.expanded {
+  background-color: #2c3e50; /* Darker blue when expanded */
+}
+
+.cool-table {
+  background-color: #ffffff; /* White background for the table */
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.main_table {
+  padding: 20px;
+}
+
+/* Add more styling to the table headers and rows */
+.main_table th {
+  font-weight: bold;
+  text-align: right;
+  padding: 10px;
+}
+
+.main_table td {
+  text-align: right;
+  padding: 10px;
+}
+
+/* Add a hover effect on rows */
+.main_table tbody tr:hover {
+  background-color: #e1ebf4; /* Light blue hover background */
+}
+
+/* Styling for the expand symbol */
+.expand-symbol {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #3498db; /* Blue color for the symbol */
+  color: white;
+  text-align: center;
+  line-height: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.expand-symbol.expanded {
+  background-color: #2c3e50; /* Darker blue when expanded */
+}
+
+/* Add animations to the expanded content */
+.expand-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.expand-symbol.expanded + .expand-content {
+  max-height: 500px; /* Adjust the value based on your content */
+  padding: 10px 0;
+}
+
+/* Add animations to the expanded content */
+.expand-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.expand-symbol.expanded + .expand-content {
+  max-height: 500px; /* Adjust the value based on your content */
+  padding: 10px 0;
+}
+
+.main_table {
+  padding: 5px;
+  width: 75%;
+  margin-top: 4%;
+  margin-left: 15%;
+}
+
+.date-input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.blue-date-input-certificate_id2 {
+  background-color: #f0f5ff; /* Light blue shade */
+  border: 1px solid #3498db; /* Blue border */
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.blue-date-input {
+  background-color: #f0f5ff; /* Light blue shade */
+  border: 1px solid #3498db; /* Blue border */
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-button {
+  background-color: #3498db;
+  color: white;
+  padding: 0px 20px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #2980b9; /* Slightly darker blue on hover */
+}
+
+.tr_sub_sort {
+  display: flex;
+}
+
+.btn_sort_by_certificate_id {
+  height: 45px;
+  padding-top: 6px;
+  border-radius: 0;
+  width: 55px;
+  padding: 0;
+}
+
+.blue-date-input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.blue-date-input {
+  padding: 5px;
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.calendar-input {
+  width: 100%;
+}
+
+.calendar-dropdown input[type="date"]::-webkit-inner-spin-button,
+.calendar-dropdown input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.dropdown-menu .show .ng-star-inserted {
+  position: absolute;
+  inset: 0px 257px auto auto !important;
+  margin: 0px;
+  transform: translate(141.111px, 372.222px);
+}
+
+ngb-datepicker.dropdown-menu.show.ng-star-inserted {
+  inset: 0px 252px auto auto !important;
+}
+
+.tat_sort {
+  border-bottom: solid black 1px;
+  margin-right: 44px;
+  width: 428px;
+}
+
+/* Style for the date input container */
+.date-input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Style for the input */
+.date-input-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 5px;
+}
+
+/* Style for the input group */
+.date-input-container .input-group-append {
+  cursor: pointer;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text {
+  background-color: #2196f3; /* Blue background color */
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 0 5px 5px 0;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text i {
+  color: white; /* White color for the icon */
+}
+
+/* Style for the date picker */
+.ngb-datepicker {
+  position: absolute;
+  top: calc(100% + 5px); /* Position the date picker below the input */
+  left: 0;
+  background-color: white; /* White background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a pop-up effect */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Border radius */
+  z-index: 9999; /* Ensure it appears above other elements */
+}
+
+/* Style for the date picker header */
+.ngb-datepicker .ngb-dp-header {
+  background-color: #2196f3; /* Blue header background color */
+}
+
+/* Style for the date picker header navigation icons */
+.ngb-datepicker .ngb-dp-arrow {
+  color: white; /* White color for the icons */
+}
+
+/* Style for the date picker days */
+.ngb-datepicker .ngb-dp-day {
+  border: 1px solid transparent; /* Transparent border */
+}
+
+/* Style for the selected date */
+.ngb-datepicker .ngb-dp-day.selected {
+  background-color: #2196f3; /* Blue selected date background color */
+  color: white; /* White color for the selected date */
+  border: 1px solid #2196f3; /* Blue border for the selected date */
+}
+
+/* Style for the hover effect on date */
+.ngb-datepicker .ngb-dp-day:hover {
+  background-color: #f0f0f0; /* Light gray hover background color */
+}
+
+/* Style for the date input container */
+.date-input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Style for the input */
+.date-input-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 5px;
+}
+
+/* Style for the input group */
+.date-input-container .input-group-append {
+  cursor: pointer;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text {
+  background-color: #2196f3; /* Blue background color */
+  border: 1px solid #2196f3; /* Blue border color */
+  border-radius: 0 5px 5px 0;
+}
+
+/* Style for the calendar icon */
+.date-input-container .input-group-text i {
+  color: white; /* White color for the icon */
+}
+
+/* Style for the date picker */
+.ngb-datepicker {
+  position: absolute;
+  top: 100%; /* Position the date picker below the input */
+  left: 0;
+  background-color: white; /* White background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a pop-up effect */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Border radius */
+  z-index: 9999; /* Ensure it appears above other elements */
+}
+
+/* Style for the date picker header */
+.ngb-datepicker .ngb-dp-header {
+  background-color: #2196f3; /* Blue header background color */
+}
+
+/* Style for the date picker header navigation icons */
+.ngb-datepicker .ngb-dp-arrow {
+  color: white; /* White color for the icons */
+}
+
+/* Style for the date picker days */
+.ngb-datepicker .ngb-dp-day {
+  border: 1px solid transparent; /* Transparent border */
+}
+
+/* Style for the selected date */
+.ngb-datepicker .ngb-dp-day.selected {
+  background-color: #2196f3; /* Blue selected date background color */
+  color: white; /* White color for the selected date */
+  border: 1px solid #2196f3; /* Blue border for the selected date */
+}
+
+/* Style for the hover effect on date */
+.ngb-datepicker .ngb-dp-day:hover {
+  background-color: #f0f0f0; /* Light gray hover background color */
+}
+
+/* Style the input field */
+.form-control {
+  background-image: none; /* Remove default icon */
+}
+
+/* Style the toggle button */
+.btn-outline-secondary {
+  background-color: #ffffff; /* Button background color */
+  border: 1px solid #ced4da; /* Border color */
+  color: #495057; /* Text color */
+}
+
+.btn-outline-secondary:hover {
+  background-color: #e9ecef; /* Hover background color */
+}
+
+.btn-outline-secondary i {
+  margin-right: 5px; /* Adjust icon spacing */
+}
+
+/* Style the calendar popover (datepicker dropdown) */
+.bs-datepicker-container {
+  font-family: Arial, sans-serif; /* Adjust font-family as needed */
+  direction: rtl; /* Right-to-left text direction for Hebrew */
+}
+
+/* Style the selected date in the calendar */
+.day.selected {
+  background-color: #007bff; /* Adjust selected date background color */
+  color: #fff; /* Adjust selected date text color */
+}
+
+/* Style the hovered date in the calendar */
+.day.hovered {
+  background-color: #e0e0e0; /* Adjust hovered date background color */
+}
+
+.bs-datepicker-body {
+  background-color: rgb(95, 95, 95) !important;
+  padding: 35px;
+  color: white;
+}
+
+.bs-datepicker-head {
+  background-color: rgb(95, 95, 95) !important;
+  display: flex;
+  justify-content: center;
+}
+
+.week .ng-star-inserted {
+  display: none;
+}
+
+button.current.ng-star-inserted {
+  background-color: #0d6efd;
+}
+button.current {
+  background-color: #0d6efd;
+}
+
+button.previous {
+  background-color: #0d6efd;
+}
+
+button.next {
+  background-color: #0d6efd;
+}
+
+span.ng-star-inserted {
+  cursor: pointer;
+}
+
+td.ng-star-inserted {
+  cursor: pointer;
+}
+
+.sort_main_grower {
+  display: flex;
+  flex-direction: column;
+}
+
+bs-datepicker-container.bottom.ng-tns-c128-1.ng-star-inserted {
+  display: block;
+  position: absolute;
+  will-change: transform;
+  top: 0px;
+  left: 0px;
+  font-weight: 900 !important;
+  font-size: 30px !important;
+  transform: translate3d(719px, 388px, 0px);
+}
+
+bs-datepicker-container tr.ng-star-inserted {
+  display: flex;
+  justify-content: space-between;
+  width: 299px;
+}
+
+bs-datepicker-container table.days.weeks tr {
+  display: flex;
+  justify-content: space-between;
+  width: 299px;
+}
+
+bs-datepicker-container table.days.weeks tr td span {
+  font-size: 22px;
+}
+
+bs-datepicker-container .bs-datepicker-body .days.weeks th.ng-star-inserted {
+  font-size: 30px;
+}
+
+bs-datepicker-container bs-datepicker-navigation-view span {
+  font-size: 2rem;
+}
+
+bs-datepicker-container bs-datepicker-navigation-view button {
+  background-color: #666666 !important;
+  color: white;
+  margin: 11px;
+}
+
+bs-datepicker-container table.months tr.ng-star-inserted {
+  display: flex !important;
+  justify-content: space-between !important;
+  width: 299px !important;
+}
+
+bs-datepicker-container table.months tr.ng-star-inserted span {
+  font-size: 30px;
+}
+
+bs-datepicker-container table.years tr.ng-star-inserted span {
+  font-size: 20px;
+}
+
+.search-button {
+  background-color: #3498db;
+  color: white;
+  padding: 0px 20px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.year-select.rtl_Style select {
+  margin-left: 10px;
+  padding: 5px;
+  border: none;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 2px grey;
+  cursor: pointer;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 300px;
+  height: 300px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}

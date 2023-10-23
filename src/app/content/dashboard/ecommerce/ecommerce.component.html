@@ -1725,21 +1725,7 @@
                         >
                           מס אתר
                         </th>
-                        <!-- <th
-                          *ngIf="this.quarantine.length > 0"
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="color: red; width: 100px"
-                          (click)="
-                            openPopup_PageQuarantineComponent_page(
-                              this.quarantine
-                            )
-                          "
-                        >
-                          הסגר
 
-                          <i class="fas fa-angle-left fa-lg"></i>
-                        </th> -->
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1824,13 +1810,7 @@
                           סוג משק
                         </th>
 
-                        <!-- <th
-                          scope="col"
-                          class="border-top-0 table_tatle"
-                          style="width: 100px"
-                        >
-                          מס גוש
-                        </th> -->
+
                         <th
                           scope="col"
                           class="border-top-0 table_tatle"
@@ -1846,15 +1826,6 @@
                         <!-- מס אתר -->
                         <td style="width: 100px">{{ row.farm_num }}</td>
 
-                        <!-- הסגר -->
-                        <!-- <td
-                          *ngIf="this.quarantine.length > 0"
-                          style="color: red; font-size: 2rem; width: 100px"
-                        >
-                          {{
-                            this.quarantine[0].start_date | date : "dd/MM/yyyy"
-                          }}
-                        </td> -->
                         <!-- שם אתר -->
                         <td style="width: 100px">{{ row.farm_name }}</td>
 
