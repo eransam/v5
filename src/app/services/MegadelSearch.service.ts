@@ -12,6 +12,37 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Bezim_Atarim_Only_Yzrn_With_Mcsa_Peilut(
+    Order: any,
+    YrMcs: any,
+    Tz: any,
+    DatePartner: any,
+    OptAtarSts: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Bezim_Atarim_Only_Yzrn_With_Mcsa_Peilut?Order=${Order}&YrMcs=${YrMcs}&Tz=${Tz}&DatePartner=${DatePartner}&OptAtarSts=${OptAtarSts}`
+      )
+    );
+    return item;
+  }
+
+  async Alfon_Atarim_By_Tz(
+    Order: any,
+    Yr: any,
+    Tz: any,
+    OptAtarType: any,
+    OptAtarSts: any,
+    DatePartner: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Alfon_Atarim_By_Tz?Order=${Order}&Yr=${Yr}&Tz=${Tz}&OptAtarType=${OptAtarType}&OptAtarSts=${OptAtarSts}&DatePartner=${DatePartner}`
+      )
+    );
+    return item;
+  }
+
   async check_shivokim_Independent(flock_id: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
@@ -818,8 +849,6 @@ export class MegadelSearchService {
         }
       });
   }
-
-
 
   async Get_grower_num_and_grower_id_by_grower_id_new(
     grower_id: any

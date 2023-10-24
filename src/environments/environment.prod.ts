@@ -9,16 +9,13 @@ export const environment = {
 
   firebase: {
     apiKey: 'AIzaSyB78aPWrovray_gVpZmadbDmEr5AzypOAA',
-    // authDomain: 'evolvision-rnd.firebaseapp.com',
-    // databaseURL: 'https://evolvision-rnd.firebaseio.com',
+    authDomain: 'evolvision-rnd.firebaseapp.com',
+    databaseURL: 'https://evolvision-rnd.firebaseio.com',
     projectId: 'lul2000-project',
-    // storageBucket: 'evolvision-rnd.appspot.com',
-    // messagingSenderId: '890895206035',
-    // appId: '1:890895206035:web:a6d0e1574d59ffe40bef66',
-    // measurementId: 'G-WYKKLCYFHE',
+    storageBucket: 'evolvision-rnd.appspot.com',
+    messagingSenderId: '890895206035',
+    appId: '1:890895206035:web:a6d0e1574d59ffe40bef66',
+    measurementId: 'G-WYKKLCYFHE',
   },
   googleApiKey: 'AIzaSyB78aPWrovray_gVpZmadbDmEr5AzypOAA',
 };
-
-
-

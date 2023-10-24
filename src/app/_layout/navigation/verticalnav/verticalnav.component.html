@@ -18,13 +18,34 @@
     >
       <li
         (click)="navto('/datatables/SearchMegadelComponent')"
-        class="liStyle"
+        class="liStyle main_cat"
       >
         חיפוש מגדל
       </li>
 
-      <li (click)="navto('/')" class="liStyle">התנתקות</li>
+      <li (click)="toggleSubMenu()" class="liStyle main_cat">
+        דוחות<i
+          class="fas fa-angle-left fa-lg"
+          style="padding-top: 20px; margin-right: 15px"
+          [ngClass]="{ icon_sub_menu_down: the_icon_sun_menu }"
+        ></i>
+      </li>
+      <!-- תת תפריט לדוחות -->
+      <ul *ngIf="isSubMenuVisible" class="navigation navigation-main">
+        <li (click)="navto('/dashboard/GidulSiteComponent')" class="liStyle">
+          אתרי גידול
+        </li>
+        <li
+          (click)="navto('/dashboard/MicsaYearToGrowerComponent')"
+          class="liStyle"
+        >
+          שנת קבלת מכסה למגדל
+        </li>
+      </ul>
+
+      <li (click)="navto('/')" class="liStyle main_cat">התנתקות</li>
     </ul>
+
     <ul
       class="navigation navigation-main"
       id="main-menu-navigation"

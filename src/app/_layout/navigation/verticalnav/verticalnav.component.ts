@@ -1,40 +1,66 @@
-import { Component, Inject, OnInit, Renderer2, NgZone, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  Renderer2,
+  NgZone,
+  ViewChild,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NavbarService } from '../../../_services/navbar.service';
 import { ThemeSettingsService } from '../../settings/theme-settings.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarComponent,
+  PerfectScrollbarDirective,
+} from 'ngx-perfect-scrollbar';
 import { MenuSettingsService } from '../../settings/menu-settings.service';
 import { isArray } from 'util';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { AppConstants } from 'src/app/_helpers/app.constants';
 import { Router, NavigationEnd, Event } from '@angular/router';
 
 @Component({
-
   selector: 'app-verticalnav',
   templateUrl: './verticalnav.component.html',
   styleUrls: ['./verticalnav.component.css'],
   animations: [
     trigger('popOverState', [
-      state('show', style({
-        opacity: '1',
-      })),
-      state('hide', style({
-        opacity: '0',
-        height: '*',
-      })),
+      state(
+        'show',
+        style({
+          opacity: '1',
+        })
+      ),
+      state(
+        'hide',
+        style({
+          opacity: '0',
+          height: '*',
+        })
+      ),
       transition('show => hide', animate('200ms ease-in-out')),
-      transition('hide => show', animate('200ms ease-in-out'))
-    ])
-  ]
+      transition('hide => show', animate('200ms ease-in-out')),
+    ]),
+  ],
 })
 export class VerticalnavComponent implements OnInit {
   child: any;
   insideTm: any;
   outsideTm: any;
   loggedInUser: any;
+  isSubMenuVisible: boolean = false;
+  istoggleSubMenu_micsa_rep: boolean = false;
+  the_icon_sun_menu: boolean = false;
+
   public title;
   private _themeSettingsConfig: any;
   public _menuSettingsConfig: any;
@@ -43,8 +69,10 @@ export class VerticalnavComponent implements OnInit {
 
   public config: PerfectScrollbarConfigInterface = { wheelPropagation: false };
 
-  @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
-  @ViewChild(PerfectScrollbarDirective, { static: true }) directiveRef?: PerfectScrollbarDirective;
+  @ViewChild(PerfectScrollbarComponent)
+  componentRef?: PerfectScrollbarComponent;
+  @ViewChild(PerfectScrollbarDirective, { static: true })
+  directiveRef?: PerfectScrollbarDirective;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -57,7 +85,6 @@ export class VerticalnavComponent implements OnInit {
     this._unsubscribeAll = new Subject();
     this._unsubscribeAllMenu = new Subject();
     this.router.events.subscribe((event: Event) => {
-
       if (event instanceof NavigationEnd) {
         this.resetMainMenu();
         this.setActiveRouteInNavbar();
@@ -65,7 +92,6 @@ export class VerticalnavComponent implements OnInit {
     });
   }
   ngOnInit() {
-
     // Subscribe to config changes
     this._themeSettingsService.config
       .pipe(takeUntil(this._unsubscribeAll))
@@ -83,21 +109,34 @@ export class VerticalnavComponent implements OnInit {
     this.setActiveRouteInNavbar();
   }
 
+  toggleSubMenu() {
+    this.isSubMenuVisible = !this.isSubMenuVisible;
+    this.the_icon_sun_menu = !this.the_icon_sun_menu;
+  }
 
-navto(str:any){
+  toggleSubMenu_micsa_rep() {
+    this.istoggleSubMenu_micsa_rep = !this.istoggleSubMenu_micsa_rep;
+  }
+
+
+
+  navto(str: any) {
     let returnUrl = str;
     this.router.navigate([returnUrl]);
-}
-
-
-
+  }
 
   resetMainMenu() {
-    const nodes = this.document.getElementById('main-menu-navigation').childNodes;
+    const nodes = this.document.getElementById(
+      'main-menu-navigation'
+    ).childNodes;
     for (let i = 0; i < nodes.length; i++) {
       this.resetCollapseMenu(nodes[i]);
     }
-    for (let i = 0; i < this._menuSettingsConfig.vertical_menu.items.length; i++) {
+    for (
+      let i = 0;
+      i < this._menuSettingsConfig.vertical_menu.items.length;
+      i++
+    ) {
       this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = false;
       this._menuSettingsConfig.vertical_menu.items[i]['hover'] = false;
       this._menuSettingsConfig.vertical_menu.items[i]['isOpen'] = false;
@@ -106,16 +145,22 @@ navto(str:any){
   }
 
   resetCollapseMenu(element) {
-    if (element.classList && element.classList.contains('has-sub') && element.classList.contains('open')) {
+    if (
+      element.classList &&
+      element.classList.contains('has-sub') &&
+      element.classList.contains('open')
+    ) {
       element.classList.remove('hover');
       element.classList.remove('menu-collapsed-open');
     }
   }
 
   resetSubmenuItems(parentItem) {
-    if (parentItem['submenu'] &&
+    if (
+      parentItem['submenu'] &&
       parentItem['submenu']['items'] &&
-      parentItem['submenu']['items'].length > 0) {
+      parentItem['submenu']['items'].length > 0
+    ) {
       parentItem['isOpen'] = false;
       for (let j = 0; j < parentItem['submenu']['items'].length; j++) {
         parentItem['submenu']['items'][j]['isSelected'] = false;
@@ -127,10 +172,16 @@ navto(str:any){
   refreshView() {
     const mainMenuElement = document.getElementsByClassName('main-menu');
     if (mainMenuElement && mainMenuElement.length > 0) {
-      if (this._themeSettingsConfig.colorTheme === 'semi-light' || this._themeSettingsConfig.colorTheme === 'light') {
+      if (
+        this._themeSettingsConfig.colorTheme === 'semi-light' ||
+        this._themeSettingsConfig.colorTheme === 'light'
+      ) {
         this._renderer.removeClass(mainMenuElement.item(0), 'menu-dark');
         this._renderer.addClass(mainMenuElement.item(0), 'menu-light');
-      } else if (this._themeSettingsConfig.colorTheme === 'semi-dark' || this._themeSettingsConfig.colorTheme === 'dark') {
+      } else if (
+        this._themeSettingsConfig.colorTheme === 'semi-dark' ||
+        this._themeSettingsConfig.colorTheme === 'dark'
+      ) {
         this._renderer.addClass(mainMenuElement.item(0), 'menu-dark');
         this._renderer.removeClass(mainMenuElement.item(0), 'menu-light');
       }
@@ -145,60 +196,124 @@ navto(str:any){
   }
 
   setActiveRouteInNavbar() {
-    for (let i = 0; i < this._menuSettingsConfig.vertical_menu.items.length; i++) {
-      if (!this._menuSettingsConfig.vertical_menu.items[i].submenu &&
-        this._menuSettingsConfig.vertical_menu.items[i].page === this.router.url) {
+    for (
+      let i = 0;
+      i < this._menuSettingsConfig.vertical_menu.items.length;
+      i++
+    ) {
+      if (
+        !this._menuSettingsConfig.vertical_menu.items[i].submenu &&
+        this._menuSettingsConfig.vertical_menu.items[i].page === this.router.url
+      ) {
         this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = true;
         break;
       } else if (this._menuSettingsConfig.vertical_menu.items[i].submenu) {
         // Level 1 menu
-        for (let j = 0; j < this._menuSettingsConfig.vertical_menu.items[i].submenu.items.length; j++) {
-          if (!this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].submenu &&
-            this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].page === this.router.url) {
-            this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = true;
-            this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]['isSelected'] = true;
+        for (
+          let j = 0;
+          j <
+          this._menuSettingsConfig.vertical_menu.items[i].submenu.items.length;
+          j++
+        ) {
+          if (
+            !this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+              .submenu &&
+            this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+              .page === this.router.url
+          ) {
+            this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] =
+              true;
+            this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j][
+              'isSelected'
+            ] = true;
             this._menuSettingsConfig.vertical_menu.items[i].isOpen = true;
             break;
-          } else if (this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].submenu) {
+          } else if (
+            this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+              .submenu
+          ) {
             // Level 2 menu
-            for (let k = 0; k < this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].submenu.items.length; k++) {
-              if (this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].submenu.items[k].page === this.router.url) {
-                this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = true;
-                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]['isSelected'] = true;
+            for (
+              let k = 0;
+              k <
+              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+                .submenu.items.length;
+              k++
+            ) {
+              if (
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+                  .submenu.items[k].page === this.router.url
+              ) {
+                this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] =
+                  true;
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[
+                  j
+                ]['isSelected'] = true;
                 this._menuSettingsConfig.vertical_menu.items[i].isOpen = true;
 
-                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]['isSelected'] = true;
-                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].submenu.items[k]['isSelected'] = true;
-                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].isOpen = true;
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[
+                  j
+                ]['isSelected'] = true;
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[
+                  j
+                ].submenu.items[k]['isSelected'] = true;
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[
+                  j
+                ].isOpen = true;
               }
             }
-          } else if(!this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].submenu ){
-           let a,b;
-           let URL =  localStorage.getItem('creatorurl');
-           let SurveyUrl =  localStorage.getItem('surveyurl');
-           if( this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].page ==='/creator' && this.router.url === URL){
-               a = j;
-              this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = true;
-              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[a]['isSelected'] = true;
+          } else if (
+            !this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+              .submenu
+          ) {
+            let a, b;
+            let URL = localStorage.getItem('creatorurl');
+            let SurveyUrl = localStorage.getItem('surveyurl');
+            if (
+              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+                .page === '/creator' &&
+              this.router.url === URL
+            ) {
+              a = j;
+              this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] =
+                true;
+              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[a][
+                'isSelected'
+              ] = true;
               this._menuSettingsConfig.vertical_menu.items[i].isOpen = true;
               // this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]['isSelected'] = false;
-            } else if(this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j].page ==='/survey' && this.router.url === SurveyUrl){
-                 b = j;
-              this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = true;
-              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[b]['isSelected'] = true;
+            } else if (
+              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[j]
+                .page === '/survey' &&
+              this.router.url === SurveyUrl
+            ) {
+              b = j;
+              this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] =
+                true;
+              this._menuSettingsConfig.vertical_menu.items[i].submenu.items[b][
+                'isSelected'
+              ] = true;
               this._menuSettingsConfig.vertical_menu.items[i].isOpen = true;
-              if (this._menuSettingsConfig.vertical_menu.items[i].submenu.items[a]) {
-                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[a]['isSelected'] = false;
+              if (
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[a]
+              ) {
+                this._menuSettingsConfig.vertical_menu.items[i].submenu.items[
+                  a
+                ]['isSelected'] = false;
               }
+            }
           }
-        }
         }
       }
     }
   }
 
   resetOpenMenu() {
-    for (let i = 0; i < this._menuSettingsConfig.vertical_menu.items.length; i++) {
+    for (
+      let i = 0;
+      i < this._menuSettingsConfig.vertical_menu.items.length;
+      i++
+    ) {
       const menu = this._menuSettingsConfig.vertical_menu.items[i];
       if (!menu.submenu) {
         menu['isOpen'] = false;
@@ -216,10 +331,13 @@ navto(str:any){
   }
 
   setOpenInNavbar(value) {
-    for (let i = 0; i < this._menuSettingsConfig.vertical_menu.items.length; i++) {
+    for (
+      let i = 0;
+      i < this._menuSettingsConfig.vertical_menu.items.length;
+      i++
+    ) {
       const menu = this._menuSettingsConfig.vertical_menu.items[i];
-      if (!menu.submenu &&
-        menu.page === this.router.url) {
+      if (!menu.submenu && menu.page === this.router.url) {
         menu['isOpen'] = value;
         menu['isActive'] = value;
       } else if (menu.submenu) {
@@ -260,32 +378,32 @@ navto(str:any){
   setLayout(layout) {
     this._themeSettingsService.config = {
       layout: {
-        pattern: layout
-      }
+        pattern: layout,
+      },
     };
   }
 
   fixComponent(component, value) {
     if (component === 'header') {
       this._themeSettingsService.config = {
-        header: value
+        header: value,
       };
     } else if (component === 'footer') {
       this._themeSettingsService.config = {
-        footer: value
+        footer: value,
       };
     } else {
       this._themeSettingsService.config = {
         header: value,
-        footer: value
+        footer: value,
       };
     }
   }
 
   /**
-	 * Use for fixed left aside menu, to show menu on mouseenter event.
-	 * @param e Event
-	 */
+   * Use for fixed left aside menu, to show menu on mouseenter event.
+   * @param e Event
+   */
   mouseEnter(e) {
     if (this.navbarService.isFixedMenu()) {
       return;
@@ -304,9 +422,9 @@ navto(str:any){
   }
 
   /**
-	 * Use for fixed left aside menu, to show menu on mouseenter event.
-	 * @param e Event
-	 */
+   * Use for fixed left aside menu, to show menu on mouseenter event.
+   * @param e Event
+   */
   mouseLeave(event) {
     if (this.navbarService.isFixedMenu()) {
       return;
@@ -328,36 +446,65 @@ navto(str:any){
   }
 
   resetOtherActiveMenu(selectedChild, isSubmenuOfSubmenu) {
-    for (let i = 0; i < this._menuSettingsConfig.vertical_menu.items.length; i++) {
+    for (
+      let i = 0;
+      i < this._menuSettingsConfig.vertical_menu.items.length;
+      i++
+    ) {
       this._menuSettingsConfig.vertical_menu.items[i]['isSelected'] = false;
       this._menuSettingsConfig.vertical_menu.items[i]['hover'] = false;
-      this.handleSubmenuItems(this._menuSettingsConfig.vertical_menu.items[i], selectedChild, isSubmenuOfSubmenu);
+      this.handleSubmenuItems(
+        this._menuSettingsConfig.vertical_menu.items[i],
+        selectedChild,
+        isSubmenuOfSubmenu
+      );
     }
   }
 
   handleSubmenuItems(parentItem, selectedChild, isSubmenuOfSubmenu) {
     if (selectedChild['title'] === 'Horizontal') {
-      localStorage.setItem('currentLayoutStyle', AppConstants.LAYOUT_STYLE_HORIZONTAL);
+      localStorage.setItem(
+        'currentLayoutStyle',
+        AppConstants.LAYOUT_STYLE_HORIZONTAL
+      );
       window.location.reload();
     } else if (selectedChild['title'] === 'Vertical') {
-      localStorage.setItem('currentLayoutStyle', AppConstants.LAYOUT_STYLE_VERTICAL);
+      localStorage.setItem(
+        'currentLayoutStyle',
+        AppConstants.LAYOUT_STYLE_VERTICAL
+      );
       window.location.reload();
-    } else if (parentItem['submenu'] &&
+    } else if (
+      parentItem['submenu'] &&
       parentItem['submenu']['items'] &&
-      parentItem['submenu']['items'].length > 0) {
-      if (parentItem.title !== selectedChild.title && parentItem['isOpen'] === true && !isSubmenuOfSubmenu &&
-        this._themeSettingsConfig.navigation === AppConstants.NAVIGATION_TYPE_COLLAPSIBLE) {
+      parentItem['submenu']['items'].length > 0
+    ) {
+      if (
+        parentItem.title !== selectedChild.title &&
+        parentItem['isOpen'] === true &&
+        !isSubmenuOfSubmenu &&
+        this._themeSettingsConfig.navigation ===
+          AppConstants.NAVIGATION_TYPE_COLLAPSIBLE
+      ) {
         parentItem['isOpen'] = false;
       }
       for (let j = 0; j < parentItem['submenu']['items'].length; j++) {
         if (selectedChild.page !== 'null') {
           parentItem['submenu']['items'][j]['isSelected'] = false;
         }
-        this.handleSubmenuItems(parentItem['submenu']['items'][j], selectedChild, isSubmenuOfSubmenu);
+        this.handleSubmenuItems(
+          parentItem['submenu']['items'][j],
+          selectedChild,
+          isSubmenuOfSubmenu
+        );
       }
-    } else if (parentItem.title !== selectedChild.title && !selectedChild.submenu
-      && this._themeSettingsConfig.navigation === AppConstants.NAVIGATION_TYPE_COLLAPSIBLE
-      && parentItem['isOpen'] === true) {
+    } else if (
+      parentItem.title !== selectedChild.title &&
+      !selectedChild.submenu &&
+      this._themeSettingsConfig.navigation ===
+        AppConstants.NAVIGATION_TYPE_COLLAPSIBLE &&
+      parentItem['isOpen'] === true
+    ) {
       parentItem['isOpen'] = false;
     }
   }
@@ -388,11 +535,16 @@ navto(str:any){
       this._renderer.removeClass(toggle, 'd-block');
     }
 
-    if ( child.page === '/chats' && this.loggedInUser.email === 'john@pixinvent.com') {
+    if (
+      child.page === '/chats' &&
+      this.loggedInUser.email === 'john@pixinvent.com'
+    ) {
       this.router.navigate(['/chats/static-chat']);
-    } else if ( child.page === '/chats' && this.loggedInUser.email !== 'john@pixinvent.com') {
+    } else if (
+      child.page === '/chats' &&
+      this.loggedInUser.email !== 'john@pixinvent.com'
+    ) {
       this.router.navigate(['/chats']);
     }
-   
   }
 }

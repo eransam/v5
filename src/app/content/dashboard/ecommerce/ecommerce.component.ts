@@ -2507,20 +2507,7 @@ export class EcommerceComponent implements OnInit {
     await this.CristalsService.hazmadot_history_cristal(yzrn_num, tzrt);
     await this.stop_the_isLoading_FarmDetails();
     console.log('f');
-
-
-
-    
   }
-
-
-
-
-
-
-
-
-
 
   async get_all_sites_cristal(year: any, tozeret: any, yzrn_num: any) {
     var tzrt = tozeret.belonging_group_id_oshik;
@@ -2592,7 +2579,6 @@ export class EcommerceComponent implements OnInit {
       this.isLoading_FarmDetails = false;
     }, 5000);
   }
-
 
   async show_arr_of_meshvkim_to_grower_witout_farm() {
     if (
@@ -4241,14 +4227,14 @@ export class EcommerceComponent implements OnInit {
     this.isLoading_grower_payment = true;
     this.grower_payment_det =
       await this.megadelSearchService.Tkufa_Mhir_Select_New(
-        6,
+        4,
         this.userDetails[0]?.v_yzrn,
         '30',
-        '01',
+        '02',
         this.chosenYear.toString(),
         ''
       );
-    this.openPopup_grower_payment();
+    this.open_grower_payment();
     this.isLoading_grower_payment = false;
   }
 
@@ -5850,14 +5836,28 @@ export class EcommerceComponent implements OnInit {
     const dialogRef = this.dialog.open(PopupRavShnatiComponent, dialogConfig);
   }
 
-  openPopup_grower_payment() {
+  open_grower_payment() {
     this.grower_payment_det.push({
       grower_Extensions: this.keys_of_categorizedArrays,
     });
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'openPopup_certificates-dialog';
-    dialogConfig.data = this.grower_payment_det;
-    const dialogRef = this.dialog.open(PopupPaymentComponent, dialogConfig);
+    localStorage.setItem(
+      'this.grower_payment_det',
+      JSON.stringify(this.grower_payment_det)
+    );
+    const baseUrl = this.environmentService.getBaseUrl();
+    const path2 = '#/dashboard/PaymentComponent';
+    var newWindow = window.open(`${baseUrl}${path2}`, '_blank');
+
+    if (newWindow) {
+      newWindow.focus(); // Focus on the new window
+    } else {
+      console.log('New window was blocked by a popup blocker.');
+    }
+
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.panelClass = 'openPopup_certificates-dialog';
+    // dialogConfig.data = this.grower_payment_det;
+    // const dialogRef = this.dialog.open(PopupPaymentComponent, dialogConfig);
   }
 
   openPopup_OldFlocksComponent(data: any) {

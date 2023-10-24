@@ -13,3 +13,33 @@
   flex-direction: column;
   direction: rtl;
 }
+
+.main_cat{
+    font-weight: 900;
+    font-size: 20px;
+}
+
+
+.test_eran{
+    content: "\f112";
+    font-family: "LineAwesome";
+    font-size: 1rem;
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    transform: rotate(0deg);
+}
+
+
+
+
+
+.icon_sub_menu_down{
+transform: rotate(-90deg)
+}
+
+
+
+
+

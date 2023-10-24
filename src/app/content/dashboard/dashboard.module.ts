@@ -59,8 +59,12 @@ import {
   BsLocaleService,
 } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
-import { heLocale } from 'ngx-bootstrap/locale';PageShivokimHatalaComponent
+import { heLocale } from 'ngx-bootstrap/locale';
+PageShivokimHatalaComponent;
 import { CustomRoundPipe } from './pipes/custom-round.pipe';
+import { GidulSiteComponent } from './ecommerce/gidul-site/gidul-site.component';
+import { MicsaYearToGrowerComponent } from './ecommerce/micsa-year-to-grower/micsa-year-to-grower.component';
+import { PaymentComponent } from './ecommerce/payment/payment.component';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
@@ -87,6 +91,18 @@ defineLocale('he', heLocale); // Define Hebrew locale
       template: BlockTemplateComponent,
     }),
     RouterModule.forChild([
+      {
+        path: 'GidulSiteComponent',
+        component: GidulSiteComponent,
+      },
+      {
+        path: 'MicsaYearToGrowerComponent',
+        component: MicsaYearToGrowerComponent,
+      },
+      {
+        path: 'PaymentComponent',
+        component: PaymentComponent,
+      },
       {
         path: 'HazmadotHistoryPageComponent',
         component: HazmadotHistoryPageComponent,
@@ -197,6 +213,9 @@ defineLocale('he', heLocale); // Define Hebrew locale
     PageShivokToNashchataComponent,
     PageShivokimFromImonToEndSiteComponent,
     CustomRoundPipe,
+    GidulSiteComponent,
+    MicsaYearToGrowerComponent,
+    PaymentComponent,
   ],
   providers: [DatePipe],
   exports: [RouterModule],

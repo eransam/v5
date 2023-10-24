@@ -123,7 +123,7 @@ export class GidulSiteComponent implements OnInit {
   getExcelData(data: any): void {
     this.tableexcelService.exportAsExcelFile(
       data,
-      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
+      'אתרי גידול'
     );
   }
 
