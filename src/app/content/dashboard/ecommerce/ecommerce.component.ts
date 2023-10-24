@@ -625,7 +625,6 @@ export class EcommerceComponent implements OnInit {
       );
 
       if (this.site_num_search !== '') {
-        // const yourObject = { 18: [1, 2, 3, 4], 20: [20] }; // Replace this with your object
         var keyWithValue20: string | undefined;
 
         for (const key in this.categorizedArrays) {
@@ -2460,7 +2459,6 @@ export class EcommerceComponent implements OnInit {
       if (keyWithValue20) {
         console.log(keyWithValue20);
 
-        // this.selectedCategory = keyWithValue20;
         await this.selectCategory(keyWithValue20);
       }
       console.log(this.farm_det_new);

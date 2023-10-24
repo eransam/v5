@@ -10,6 +10,7 @@ import { TableexcelService } from 'src/app/services/tableexcel.service';
   styleUrls: ['./payment.component.css'],
 })
 export class PaymentComponent implements OnInit {
+  order: any = 6;
   userTypeID;
   certificateSum = 0;
   startDate: Date;
@@ -57,8 +58,8 @@ export class PaymentComponent implements OnInit {
   chosenYear_placeHolder: any = 'בחר שנה';
   type_of_payment: any[] = [];
   Hok_Galil: any[] = [];
-  public currentPage: number = 1; 
-  public rowsPerPage: number = 20; 
+  public currentPage: number = 1;
+  public rowsPerPage: number = 20;
   itemsPerPage = 20;
   theUserDet: any[] = [];
   data: any[] = [];
@@ -152,7 +153,11 @@ export class PaymentComponent implements OnInit {
         this.paymentControl.setValue('02');
       }
     } else {
-      if (this.the_change_shloha === '01') {
+      if (
+        this.the_change_shloha === '01' ||
+        this.the_change_shloha === '26' ||
+        this.the_change_shloha === '21'
+      ) {
         this.type_of_payment = [{ name: 'היטלים', code: '02' }];
         this.paymentControl.setValue('02');
       } else {
@@ -288,6 +293,7 @@ export class PaymentComponent implements OnInit {
       if (this.chosenShlohaControl.value) {
         this.theChosenShlohaControl = this.chosenShlohaControl.value;
       } else {
+        
         this.theChosenShlohaControl = '30';
       }
 
@@ -325,9 +331,23 @@ export class PaymentComponent implements OnInit {
       this.data = this.payment_by_grewernum;
       this.isLoading_FarmDetails = false;
     } else {
+      if (this.theChosenShlohaControl === '30') {
+        this.order = 6;
+      }
+      if (this.theChosenShlohaControl === '01') {
+        this.order = 4;
+      }
+      if (
+        this.theChosenShlohaControl === '21' ||
+        this.theChosenShlohaControl === '26' ||
+        this.theChosenShlohaControl === '20'
+      ) {
+        this.order = 20;
+      }
+
       this.payment_by_grewernum =
         await this.megadelSearchService.Tkufa_Mhir_Select_New(
-          6,
+          this.order,
           this.theUserDet[0]?.v_yzrn,
           this.theChosenShlohaControl,
           this.paymentControl.value,
