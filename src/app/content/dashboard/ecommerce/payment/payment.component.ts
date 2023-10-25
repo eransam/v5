@@ -80,7 +80,7 @@ export class PaymentComponent implements OnInit {
     this.chosenYear = '2023';
     this.enteredYear = '2023';
     this.chosenSite = 'כולם';
-    this.chosenShloha = 'ביצי מאכל';
+    this.chosenShloha = '30';
     this.payment = 2;
   }
 
@@ -115,7 +115,8 @@ export class PaymentComponent implements OnInit {
     console.log(this.shlohot_cartificate);
 
     this.DetailsForm = new FormGroup({
-      yaerBox: this.yearInput,
+      
+        yaerBox: this.yearInput,
     });
 
     // מספרי אתרי המגדל
@@ -293,7 +294,6 @@ export class PaymentComponent implements OnInit {
       if (this.chosenShlohaControl.value) {
         this.theChosenShlohaControl = this.chosenShlohaControl.value;
       } else {
-        
         this.theChosenShlohaControl = '30';
       }
 

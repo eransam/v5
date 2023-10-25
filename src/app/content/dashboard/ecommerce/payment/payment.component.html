@@ -7,8 +7,11 @@
         justify-content: center !important;
       "
     >
-      <h3 class="userDetLabel" style="justify-content: center !important">
-        תשלום:
+      <h3
+        class="userDetLabel"
+        style="justify-content: center !important; direction: rtl"
+      >
+        תשלומים:
       </h3>
     </div>
   </div>
@@ -302,12 +305,12 @@
 
               <!-- <th scope="col" class="border-top-0">>או מכסה קבועה מכסה לתשלום</th> -->
               <td class="">
-                {{ row.Micsa_Tshlm }}
+                {{ row.Micsa_Tshlm | number : "0.0" }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">>כמות בתקופה </th> -->
               <td class="">
-                {{ row.Kamut_In_Tkufa }}
+                {{ row.Kamut_In_Tkufa | number : "0.0" }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
