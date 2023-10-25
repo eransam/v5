@@ -11,6 +11,7 @@ import { log } from 'console';
   styleUrls: ['./payment.component.css'],
 })
 export class PaymentComponent implements OnInit {
+    premia_table:boolean =false
   order: any = 6;
   userTypeID;
   certificateSum = 0;
@@ -315,50 +316,50 @@ export class PaymentComponent implements OnInit {
 
   getExcelDataFarmDetails(): void {
     this.tableexcelService.exportAsExcelFile(
-      this.paginatedData,
+      this.data,
       'Modern Admin - Clean Angular8+ Dashboard HTML Template'
     );
   }
 
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
+  //   previousPage() {
+  //     if (this.currentPage > 1) {
+  //       this.currentPage--;
+  //     }
+  //   }
 
-  nextPage() {
-    const totalPages = Math.ceil(this.data.length / this.itemsPerPage);
-    if (this.currentPage < totalPages) {
-      this.currentPage++;
-    }
-  }
+  //   nextPage() {
+  //     const totalPages = Math.ceil(this.data.length / this.itemsPerPage);
+  //     if (this.currentPage < totalPages) {
+  //       this.currentPage++;
+  //     }
+  //   }
 
-  get paginatedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.data.slice(startIndex, endIndex);
-  }
+  //   get paginatedData(): any[] {
+  //     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  //     const endIndex = startIndex + this.itemsPerPage;
+  //     return this.data.slice(startIndex, endIndex);
+  //   }
 
-  public get totalPages(): number {
-    return Math.ceil(this.data.length / this.rowsPerPage);
-  }
+  //   public get totalPages(): number {
+  //     return Math.ceil(this.data.length / this.rowsPerPage);
+  //   }
 
   public get visibleData(): any[] {
     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
     const endIndex = startIndex + this.rowsPerPage;
     return this.data.slice(startIndex, endIndex);
   }
-  public goToNextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
+  //   public goToNextPage(): void {
+  //     if (this.currentPage < this.totalPages) {
+  //       this.currentPage++;
+  //     }
+  //   }
 
-  public goToPreviousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
+  //   public goToPreviousPage(): void {
+  //     if (this.currentPage > 1) {
+  //       this.currentPage--;
+  //     }
+  //   }
 
   getCategoryKey(label: string): string {
     switch (label) {
@@ -415,6 +416,9 @@ export class PaymentComponent implements OnInit {
   }
 
   async add() {
+    this.premia_table = false
+
+
     console.log(this.paymentControl.value);
 
     this.isLoading_FarmDetails = true;
@@ -444,6 +448,7 @@ export class PaymentComponent implements OnInit {
 
     this.chosenYear_placeHolder = await this.theChosenYearControl;
     if (this.paymentControl.value === '07') {
+        this.premia_table = true
       this.payment_by_grewernum =
         await this.megadelSearchService.Tkufa_Mhir_Select_New(
           40,

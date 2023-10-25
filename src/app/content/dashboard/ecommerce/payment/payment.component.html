@@ -137,7 +137,7 @@
         <table
           class=""
           style="direction: rtl; width: 100%"
-          *ngIf="this.paymentControl.value === '07'"
+          *ngIf="premia_table"
         >
           <thead class="detailsTable">
             <tr class="the_tatle_res_table">
@@ -161,7 +161,7 @@
           <tbody>
             <tr
               class="the_res_table"
-              *ngFor="let row of paginatedData"
+              *ngFor="let row of data"
               [class.green-background]="activeColor"
               [class.red-background]="notActiveColor"
             >
@@ -175,7 +175,7 @@
               <!-- <th scope="col" class="border-top-0" >חודש רטרו</th> -->
               <td class="">
                 <a [routerLink]="['/dashboard/ecommerce']">
-                  {{ row.kt_hodesh_rtr }}</a
+                  {{ row.kt_Hodesh_Rtr }}</a
                 >
               </td>
 
@@ -186,7 +186,7 @@
 
               <!-- <th scope="col" class="border-top-0">>שם מדגיר </th> -->
               <td class="">
-                {{ row.madgir_name }}
+                {{ row.Madgir_Name }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">> קבלן </th> -->
@@ -202,34 +202,34 @@
 
               <!-- <th scope="col" class="border-top-0">כמות </th> -->
               <td class="">
-                {{ row.kamut }}
+                {{ row.Kamut | number : "0.0" }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">מחיר רגיל </th> -->
               <td class="">
-                {{ row.kt_mhir }}
+                {{ row.kt_Mhir }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">> תשלום רגיל< </th> -->
               <td class="">
-                {{ row.shum_tshlm }}
+                {{ row.Shum_Tshlm }}
               </td>
               <!-- <th scope="col" class="border-top-0">מחיר ניוקאסל </th> -->
               <td class="">
-                {{ row.kt_mhir_nk }}
+                {{ row.kt_Mhir_Nk }}
               </td>
               <!-- <th scope="col" class="border-top-0">>>תשלום ניוקאסל  </th> -->
               <td class="">
-                {{ row.shum_tshlm_nk }}
+                {{ row.Shum_Tshlm_nk }}
               </td>
               <!-- <th scope="col" class="border-top-0">>מחיר סלמונלה< </th> -->
               <td class="">
-                {{ row.kt_mhir_sl }}
+                {{ row.kt_Mhir_sl }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">תשלום סלמונלה </th> -->
               <td class="">
-                {{ row.shum_tshlm_sl }}
+                {{ row.Shum_Tshlm_sl }}
               </td>
 
               <!-- <th scope="col" class="border-top-0">>סהכ תשלום </th> -->
@@ -244,7 +244,7 @@
         <table
           class=""
           style="direction: rtl; width: 100%"
-          *ngIf="this.paymentControl.value !== '07'"
+          *ngIf="!premia_table"
         >
           <thead class="detailsTable">
             <tr class="the_tatle_res_table">
