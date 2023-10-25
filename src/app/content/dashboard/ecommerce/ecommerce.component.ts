@@ -608,8 +608,19 @@ export class EcommerceComponent implements OnInit {
         await this.categorizedArrays[belonging_group_id].push(obj);
       }
 
+      console.log(this.categorizedArrays);
+
       //   יצירת מערך המחזיר את קודי השלוחות של אתרי המגדל
       this.keys_of_categorizedArrays = Object.keys(this.categorizedArrays);
+
+      //   מחיקת שלוחת פינוי המטילות
+      const valueToRemove = '11';
+      const index = this.keys_of_categorizedArrays.indexOf(valueToRemove);
+      if (index !== -1) {
+        this.keys_of_categorizedArrays.splice(index, 1);
+      }
+
+      console.log(this.keys_of_categorizedArrays);
 
       if (this.mihsot.length > 0) {
         if (!this.keys_of_categorizedArrays.includes('20')) {
@@ -4223,15 +4234,76 @@ export class EcommerceComponent implements OnInit {
   // תשלום
   async shows_grower_payment() {
     this.isLoading_grower_payment = true;
-    this.grower_payment_det =
-      await this.megadelSearchService.Tkufa_Mhir_Select_New(
-        4,
-        this.userDetails[0]?.v_yzrn,
-        '30',
-        '02',
-        this.chosenYear.toString(),
-        ''
-      );
+
+    console.log(this.keys_of_categorizedArrays);
+
+    // תנאי 1
+    if (
+      this.keys_of_categorizedArrays.some((value) =>
+        ['22', '19', '20'].includes(value)
+      )
+    ) {
+      const keysToCheck = ['22', '19', '20'];
+      var tz = null;
+      this.keys_of_categorizedArrays.some((value) => {
+        if (keysToCheck.includes(value)) {
+            tz = this.convert_from_oshik_to_maaravi(value)
+          return true;
+        }
+      });
+      if (tz !== null) {
+        console.log('Found value:', tz);
+      } else {
+        tz = '30';
+      }
+      var order = 4;
+      this.grower_payment_det =
+        await this.megadelSearchService.Tkufa_Mhir_Select_New(
+          order,
+          this.userDetails[0]?.v_yzrn,
+          tz,
+          '02',
+          this.chosenYear.toString(),
+          ''
+        );
+        localStorage.setItem('tz', JSON.stringify(tz));
+    }
+    // תנאי 2
+    if (
+      this.keys_of_categorizedArrays.some((value) =>
+        ['17','18'].includes(value)
+      )
+    ) {
+      const keysToCheck = ['17','18'];
+      var tz = null;
+      this.keys_of_categorizedArrays.some((value) => {
+        if (keysToCheck.includes(value)) {
+          tz = value;
+          return true;
+        }
+      });
+      if (tz !== null) {
+        console.log('Found value:', tz);
+      } else {
+        tz = '21';
+      }
+      tz = this.convert_from_oshik_to_maaravi(tz)
+
+      var order = 20;
+      this.grower_payment_det =
+        await this.megadelSearchService.Tkufa_Mhir_Select_New(
+          order,
+          this.userDetails[0]?.v_yzrn,
+          tz,
+          '02',
+          this.chosenYear.toString(),
+          ''
+        );
+        localStorage.setItem('tz', JSON.stringify(tz));
+    }
+
+    console.log(this.grower_payment_det);
+
     this.open_grower_payment();
     this.isLoading_grower_payment = false;
   }
@@ -4260,6 +4332,33 @@ export class EcommerceComponent implements OnInit {
         return 'ברווזים - רבייה';
       case '28':
         return 'שלווים - ביצי מאכל';
+      default:
+        return '';
+    }
+  }
+
+  convert_from_oshik_to_maaravi(key: string): string {
+    switch (key) {
+      case '17':
+        return '21';
+      case '18':
+        return '20';
+      case '19':
+        return '10';
+      case '20':
+        return '30';
+      case '21':
+        return '22';
+      case '22':
+        return '01';
+      case '23':
+        return '98';
+      case '25':
+        return '97';
+      case '26':
+        return '96';
+      case '28':
+        return '31';
       default:
         return '';
     }
