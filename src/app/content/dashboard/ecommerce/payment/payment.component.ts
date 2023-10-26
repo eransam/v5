@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -9,9 +9,10 @@ import { log } from 'console';
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PaymentComponent implements OnInit {
-    premia_table:boolean =false
+  premia_table: boolean = false;
   order: any = 6;
   userTypeID;
   certificateSum = 0;
@@ -68,6 +69,20 @@ export class PaymentComponent implements OnInit {
   yearInput: FormControl;
   myForm: FormGroup;
   the_first_tz: any = '';
+  transformedData: any[];
+  Kamut_SHTshlm: any = 0;
+  Shum_Tshlm: any = 0;
+  HefTas: any = 0;
+  HefTas_Tshlm: any = 0;
+  tot_Cam_tshlm: any = 0;
+  tot_shum_tshlm: any = 0;
+
+  Kamut_premia: any = 0;
+  Shum_Tshlm_premia: any = 0;
+  Shum_Tshlm_nk_premia: any = 0;
+  Shum_Tshlm_sl_premia: any = 0;
+  total_premia: any = 0;
+  siba_table:any[]=[];
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
@@ -88,7 +103,18 @@ export class PaymentComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('start_ngOnInit');
+    this.Kamut_premia = 0;
+    this.Shum_Tshlm_premia = 0;
+    this.Shum_Tshlm_nk_premia = 0;
+    this.Shum_Tshlm_sl_premia = 0;
+    this.total_premia = 0;
+
+    this.Kamut_SHTshlm = 0;
+    this.Shum_Tshlm = 0;
+    this.HefTas = 0;
+    this.HefTas_Tshlm = 0;
+    this.tot_Cam_tshlm = 0;
+    this.tot_shum_tshlm = 0;
     this.yearInput = new FormControl('', Validators.required);
 
     // פרטי מגדל
@@ -96,9 +122,10 @@ export class PaymentComponent implements OnInit {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
 
-    // פרטי תשלומים
+    // פרטי טבלה
     if (localStorage.getItem('this.grower_payment_det')) {
       this.data = JSON.parse(localStorage.getItem('this.grower_payment_det'));
+      this.count_total_details_hetelim(this.data);
     }
 
     // שלוחת תשלומים התחלתית
@@ -108,13 +135,13 @@ export class PaymentComponent implements OnInit {
         this.the_first_tz
       );
       this.chosenShloha = the_first_tz_convert;
-      this.first_payment(this.the_first_tz);
+      await this.first_payment(this.the_first_tz);
+      console.log(this.type_of_payment);
     }
     this.chosenShloha = this.the_first_tz;
 
     // משתנה המכיל את מספרי השלוחות של המגדל
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
-    console.log(this.grower_extention);
 
     // משתנה המכיל את שמות השלוחות של המגדל
     for (let obj of this.grower_extention) {
@@ -129,7 +156,6 @@ export class PaymentComponent implements OnInit {
       '',
       ''
     );
-    console.log(this.shlohot_cartificate);
 
     //   מחיקת שלוחת פינוי המטילות
     const valueToRemove = '11';
@@ -149,12 +175,15 @@ export class PaymentComponent implements OnInit {
     this.siteName.push({ RishaionSts: '', code: 'כולם' });
 
     this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
-    console.log('this.userDetails: ', this.theUserDet);
-
-    console.log('this.chosenShloha: ', this.chosenShloha);
-    console.log('this.chosenShlohaControl: ', this.chosenShlohaControl);
   }
   //   and ngOnInit
+
+
+
+  async show_siba_table(){
+    this.siba_table = await this.megadelSearchService.Tables_Select_Gnrl(21,'TSSB');
+
+  }
 
   convert_from_oshik_to_maaravi(key: string): string {
     switch (key) {
@@ -210,14 +239,9 @@ export class PaymentComponent implements OnInit {
     }
   }
 
-  onSelectChange() {
-    console.log(this.chosenYear.toString());
-  }
-
+  //   מופעלת באון איניט ומביאה את הפרטי תשלום ההתחלתיים לפי השלוחה ההתחלתית
   async first_payment(shloha: any) {
-    console.log(shloha);
     this.the_change_shloha = shloha;
-    console.log(this.the_change_shloha);
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.Hok_Galil = await this.megadelSearchService.Yzrn_Chk_Hok_Galil(
         this.theUserDet[0].v_yzrn,
@@ -263,12 +287,11 @@ export class PaymentComponent implements OnInit {
         }
       }
     }
-    console.log(this.type_of_payment);
   }
 
+  //   מביאה את סוגי התשלום בבחירת שלוחה
   async change_shloha() {
     this.the_change_shloha = this.chosenShlohaControl.value;
-    console.log(this.the_change_shloha);
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.Hok_Galil = await this.megadelSearchService.Yzrn_Chk_Hok_Galil(
         this.theUserDet[0].v_yzrn,
@@ -311,55 +334,199 @@ export class PaymentComponent implements OnInit {
         }
       }
     }
-    console.log(this.type_of_payment);
   }
 
+  //   מייצא קובץ אקסל
   getExcelDataFarmDetails(): void {
-    this.tableexcelService.exportAsExcelFile(
-      this.data,
-      'Modern Admin - Clean Angular8+ Dashboard HTML Template'
-    );
+    this.tableexcelService.exportAsExcelFile(this.data, 'תשלומים');
   }
 
-  //   previousPage() {
-  //     if (this.currentPage > 1) {
-  //       this.currentPage--;
-  //     }
-  //   }
+  // פונ הורדה לאקסל
+  getExcelData(): void {
+    if (this.paymentControl.value === '07') {
+      const selectedFieldsArray = this.data.map((item) => {
+        return {
+          hodesh_name: item.hodesh_name,
+          kt_Hodesh_Rtr: item.kt_Hodesh_Rtr,
+          kt_mdgr: item.kt_mdgr,
 
-  //   nextPage() {
-  //     const totalPages = Math.ceil(this.data.length / this.itemsPerPage);
-  //     if (this.currentPage < totalPages) {
-  //       this.currentPage++;
-  //     }
-  //   }
+          Madgir_Name: item.Madgir_Name,
 
-  //   get paginatedData(): any[] {
-  //     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  //     const endIndex = startIndex + this.itemsPerPage;
-  //     return this.data.slice(startIndex, endIndex);
-  //   }
+          kt_kbln: item.kt_kbln,
 
-  //   public get totalPages(): number {
-  //     return Math.ceil(this.data.length / this.rowsPerPage);
-  //   }
+          shem_kbln: item.shem_kbln,
 
-  public get visibleData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-    const endIndex = startIndex + this.rowsPerPage;
-    return this.data.slice(startIndex, endIndex);
+          Kamut: item.Kamut,
+
+          kt_Mhir: item.kt_Mhir,
+
+          Shum_Tshlm: item.Shum_Tshlm,
+
+          kt_Mhir_Nk: item.kt_Mhir_Nk,
+
+          Shum_Tshlm_nk: item.Shum_Tshlm_nk,
+
+          kt_Mhir_sl: item.kt_Mhir_sl,
+
+          Shum_Tshlm_sl: item.Shum_Tshlm_sl,
+
+          total: item.total,
+        };
+      });
+
+      const fieldTitleMapping = {
+        hodesh_name: 'חודש',
+        kt_Hodesh_Rtr: 'חודש רטרו',
+        kt_mdgr: 'מדגיר',
+        Madgir_Name: 'שם מדגיר',
+
+        kt_kbln: 'קבלן',
+
+        shem_kbln: 'שם קבלן',
+
+        Kamut: 'כמות',
+
+        kt_Mhir: 'מחיר רגיל',
+
+        Shum_Tshlm: 'תשלום רגיל',
+
+        kt_Mhir_Nk: 'מחיר ניוקאסל',
+
+        Shum_Tshlm_nk: 'תשלום ניוקאסל',
+
+        kt_Mhir_sl: 'מחיר סלמונלה',
+
+        Shum_Tshlm_sl: 'תשלום סלמונלה',
+
+        total: 'תשלום סהכ',
+      };
+
+      this.transformedData = selectedFieldsArray.map((item) => {
+        const transformedItem = {};
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            transformedItem[fieldTitleMapping[key] || key] = item[key];
+          }
+        }
+        return transformedItem;
+      });
+
+      this.tableexcelService.exportAsExcelFile(
+        this.transformedData,
+        'תשלומים - פרמיה'
+      );
+    } else {
+      if (this.paymentControl.value === '02') {
+        const selectedFieldsArray = this.data.map((item) => {
+          return {
+            hodesh_name: item.hodesh_name,
+            kt_Msvk: item.kt_Msvk,
+            shem_msvk: item.shem_msvk,
+            Micsa_Tshlm: item.Micsa_Tshlm,
+            Kamut_In_Tkufa: item.Kamut_In_Tkufa,
+            kt_Mztbr: item.kt_Mztbr,
+            rtro: item.rtro,
+            kt_mhir: item.kt_mhir,
+            Kamut_SHTshlm: item.Kamut_SHTshlm,
+            Shum_Tshlm: item.Shum_Tshlm,
+            HefTas: item.HefTas,
+            HefTas_Tshlm: item.HefTas_Tshlm,
+            tot_Cam_tshlm: item.tot_Cam_tshlm,
+            tot_shum_tshlm: item.tot_shum_tshlm,
+            SibaHakpaa: item.SibaHakpaa,
+            kt_siba_not_tslm: item.kt_siba_not_tslm,
+          };
+        });
+        const fieldTitleMapping = {
+          hodesh_name: 'חודש',
+          kt_Msvk: 'משווק',
+          shem_msvk: 'שם משווק',
+          Micsa_Tshlm: 'מכסה קבועה',
+          Kamut_In_Tkufa: 'כמות בתקופה',
+          kt_Mztbr: 'מצטבר',
+          rtro: 'רטרו',
+          kt_mhir: 'מחיר',
+          Kamut_SHTshlm: 'כמות שולמה',
+          Shum_Tshlm: 'תשלום',
+          HefTas: 'כמות תוספת',
+          HefTas_Tshlm: 'תוספת תשלום',
+          tot_Cam_tshlm: 'סהכ כמות שולמה',
+          tot_shum_tshlm: 'סהכ תשלום',
+          SibaHakpaa: 'הקפאה',
+          kt_siba_not_tslm: 'סיבה',
+        };
+
+        this.transformedData = selectedFieldsArray.map((item) => {
+          const transformedItem = {};
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              transformedItem[fieldTitleMapping[key] || key] = item[key];
+            }
+          }
+          return transformedItem;
+        });
+
+        this.tableexcelService.exportAsExcelFile(
+          this.transformedData,
+          'תשלומים - היטלים'
+        );
+      } else {
+        const selectedFieldsArray = this.data.map((item) => {
+          return {
+            hodesh_name: item.hodesh_name,
+            kt_Msvk: item.kt_Msvk,
+            shem_msvk: item.shem_msvk,
+            Micsa_Tshlm: item.Micsa_Tshlm,
+            Kamut_In_Tkufa: item.Kamut_In_Tkufa,
+            kt_Mztbr: item.kt_Mztbr,
+            rtro: item.rtro,
+            kt_mhir: item.kt_mhir,
+            Kamut_SHTshlm: item.Kamut_SHTshlm,
+            Shum_Tshlm: item.Shum_Tshlm,
+            HefTas: item.HefTas,
+            HefTas_Tshlm: item.HefTas_Tshlm,
+            tot_Cam_tshlm: item.tot_Cam_tshlm,
+            tot_shum_tshlm: item.tot_shum_tshlm,
+            SibaHakpaa: item.SibaHakpaa,
+            kt_siba_not_tslm: item.kt_siba_not_tslm,
+          };
+        });
+        const fieldTitleMapping = {
+          hodesh_name: 'חודש',
+          kt_Msvk: 'משווק',
+          shem_msvk: 'שם משווק',
+          Micsa_Tshlm: 'תשלום מכסה',
+          Kamut_In_Tkufa: 'כמות בתקופה',
+          kt_Mztbr: 'מצטבר',
+          rtro: 'רטרו',
+          kt_mhir: 'מחיר',
+          Kamut_SHTshlm: 'כמות שולמה',
+          Shum_Tshlm: 'תשלום',
+          HefTas: 'כמות תוספת',
+          HefTas_Tshlm: 'תוספת תשלום',
+          tot_Cam_tshlm: 'סהכ כמות שולמה',
+          tot_shum_tshlm: 'סהכ תשלום',
+          SibaHakpaa: 'הקפאה',
+          kt_siba_not_tslm: 'סיבה',
+        };
+
+        this.transformedData = selectedFieldsArray.map((item) => {
+          const transformedItem = {};
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              transformedItem[fieldTitleMapping[key] || key] = item[key];
+            }
+          }
+          return transformedItem;
+        });
+
+        this.tableexcelService.exportAsExcelFile(
+          this.transformedData,
+          'תשלומים - סובסידיה'
+        );
+      }
+    }
   }
-  //   public goToNextPage(): void {
-  //     if (this.currentPage < this.totalPages) {
-  //       this.currentPage++;
-  //     }
-  //   }
-
-  //   public goToPreviousPage(): void {
-  //     if (this.currentPage > 1) {
-  //       this.currentPage--;
-  //     }
-  //   }
 
   getCategoryKey(label: string): string {
     switch (label) {
@@ -416,10 +583,18 @@ export class PaymentComponent implements OnInit {
   }
 
   async add() {
-    this.premia_table = false
-
-
-    console.log(this.paymentControl.value);
+    this.Kamut_premia = 0;
+    this.Shum_Tshlm_premia = 0;
+    this.Shum_Tshlm_nk_premia = 0;
+    this.Shum_Tshlm_sl_premia = 0;
+    this.total_premia = 0;
+    this.Kamut_SHTshlm = 0;
+    this.Shum_Tshlm = 0;
+    this.HefTas = 0;
+    this.HefTas_Tshlm = 0;
+    this.tot_Cam_tshlm = 0;
+    this.tot_shum_tshlm = 0;
+    this.premia_table = false;
 
     this.isLoading_FarmDetails = true;
 
@@ -448,7 +623,7 @@ export class PaymentComponent implements OnInit {
 
     this.chosenYear_placeHolder = await this.theChosenYearControl;
     if (this.paymentControl.value === '07') {
-        this.premia_table = true
+      this.premia_table = true;
       this.payment_by_grewernum =
         await this.megadelSearchService.Tkufa_Mhir_Select_New(
           40,
@@ -460,6 +635,8 @@ export class PaymentComponent implements OnInit {
         );
 
       this.data = this.payment_by_grewernum;
+      this.count_total_details_premia(this.data);
+
       this.isLoading_FarmDetails = false;
     } else {
       if (
@@ -492,9 +669,146 @@ export class PaymentComponent implements OnInit {
         );
 
       this.data = this.payment_by_grewernum;
+      this.count_total_details_hetelim(this.data);
       this.isLoading_FarmDetails = false;
     }
     this.paymentControl.setValue(this.paymentControl.value);
-    this.payment.setValue(this.paymentControl.value);
+    // this.payment.setValue(this.paymentControl.value);
+    this.payment = this.paymentControl.value;
+    console.log('d');
+  }
+
+  count_total_details_hetelim(data) {
+    console.log('g');
+
+    this.Kamut_SHTshlm = data.reduce((sum, obj) => {
+      if (typeof obj.Kamut_SHTshlm === 'string') {
+        const stringWithoutCommas = obj.Kamut_SHTshlm.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.Shum_Tshlm = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm === 'string') {
+        const stringWithoutCommas = obj.Shum_Tshlm.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.HefTas = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm === 'string') {
+        const stringWithoutCommas = obj.HefTas.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.HefTas_Tshlm = data.reduce((sum, obj) => {
+      if (obj.HefTas_Tshlm) {
+        sum + obj.HefTas_Tshlm;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.tot_Cam_tshlm = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm === 'string') {
+        const stringWithoutCommas = obj.tot_Cam_tshlm.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.tot_shum_tshlm = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm === 'string') {
+        const stringWithoutCommas = obj.tot_shum_tshlm.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    console.log('l');
+  }
+
+  count_total_details_premia(data) {
+    console.log('g');
+
+    // this.Kamut_premia = data.reduce((sum, obj) => {
+    //   if (obj.Kamut) {
+    //     sum + obj.Kamut;
+    //   } else {
+    //     return sum;
+    //   }
+    // }, 0);
+
+    this.Kamut_premia = data.reduce((sum, obj) => {
+      if (obj.Kamut) {
+        return sum + obj.Kamut;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    console.log(this.Kamut_premia);
+
+    this.Shum_Tshlm_premia = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm === 'string') {
+        const stringWithoutCommas = obj.Shum_Tshlm.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.Shum_Tshlm_nk_premia = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm_nk === 'string') {
+        const stringWithoutCommas = obj.Shum_Tshlm_nk.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.Shum_Tshlm_sl_premia = data.reduce((sum, obj) => {
+      if (typeof obj.Shum_Tshlm_sl === 'string') {
+        const stringWithoutCommas = obj.Shum_Tshlm_sl.replace(/,/g, '');
+        const parsedNumber = parseFloat(stringWithoutCommas);
+        return sum + parsedNumber;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    // this.total_premia = data.reduce((sum, obj) => {
+    //   if (obj.total) {
+    //     sum + obj.total;
+    //   } else {
+    //     return sum;
+    //   }
+    // }, 0);
+
+    this.total_premia = data.reduce((sum, obj) => {
+      if (obj.total) {
+        return sum + obj.total;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    //   -----------------------------
   }
 }

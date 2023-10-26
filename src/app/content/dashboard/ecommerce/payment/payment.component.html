@@ -47,14 +47,12 @@
           <input
             [(ngModel)]="chosenYear"
             [formControl]="chosenYearControl"
-            (keyup.enter)="onSelectChange()"
             type="number"
             style="width: 125px; height: 32px; padding: 5px"
           />
           <select
             [(ngModel)]="chosenYear"
             [formControl]="chosenYearControl"
-            (ngModelChange)="onSelectChange()"
             style="width: 30px; height: 32px; margin-left: 10px"
           >
             <option *ngFor="let year of years" [value]="year">
@@ -81,7 +79,7 @@
         </div>
 
         <!-- בחר סוג תשלום -->
-        <div class="year-select rtl_Style col-md-5" style="padding-top: 23px">
+        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
           סוג תשלום:
 
           <select [(ngModel)]="payment" [formControl]="paymentControl">
@@ -92,7 +90,7 @@
         </div>
 
         <!-- כפתור חיפוש -->
-        <div class="col-md-1">
+        <div class="col-md-2">
           <button
             class="btn btn-warning"
             style="
@@ -108,21 +106,24 @@
         </div>
 
         <!--EXEL כפתור-->
-        <div class="importBth" style="margin-top: 30px">
+        <div class="col-md-2 importBth" style="margin-top: 19px">
           <div class="justify-content importBth_div">
             <img
               style="height: 35px; margin-right: 10px"
               class=""
               src="assets/images/logo/excel.png"
               alt="Image"
-              (click)="getExcelDataFarmDetails()"
+              (click)="getExcelData()"
             />
             <p>({{ this.data.length }})</p>
           </div>
         </div>
       </div>
 
+      <!-- לואודר -->
       <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+      <!-- טבלאות -->
       <div
         *ngIf="!isLoading_FarmDetails"
         class="mainTableClass"
@@ -237,6 +238,47 @@
                 {{ row.total }}
               </td>
             </tr>
+            <br />
+            <tr>
+              <!-- hodesh_name -->
+              <td class="" style="background-color: #057eff12 !important">סהכ</td>
+              <!-- kt_Hodesh_Rtr -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- kt_mdgr -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- Madgir_Name -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- kt_kbln -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- shem_kbln -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- Kamut -->
+              <td class="" style="background-color: #057eff12 !important">
+                {{ Kamut_premia | number : "0.0" }}
+              </td>
+              <!-- kt_Mhir -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- Shum_Tshlm -->
+              <td class="" style="background-color: #057eff12 !important">
+                {{ Shum_Tshlm_premia | number : "0.0" }}
+              </td>
+              <!-- kt_Mhir_Nk -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- Shum_Tshlm_nk -->
+              <td class="" style="background-color: #057eff12 !important">
+                {{ Shum_Tshlm_nk_premia | number : "0.0" }}
+              </td>
+              <!-- kt_Mhir_sl -->
+              <td class="" style="background-color: #057eff12 !important"></td>
+              <!-- Shum_Tshlm_sl -->
+              <td class="" style="background-color: #057eff12 !important">
+                {{ Shum_Tshlm_sl_premia | number : "0.0" }}
+              </td>
+              <!-- total -->
+              <td class="" style="background-color: #057eff12 !important">
+                {{ total_premia | number : "0.0" }}
+              </td>
+            </tr>
           </tbody>
         </table>
 
@@ -253,18 +295,19 @@
               <th scope="col" class="border-top-0">שם משווק</th>
               <th
                 scope="col"
-                *ngIf="this.paymentControl.value === 1"
+                *ngIf="this.paymentControl.value === '01'"
                 class="border-top-0"
               >
                 מכסה תשלום
               </th>
               <th
-                *ngIf="this.paymentControl.value !== 1"
+                *ngIf="this.paymentControl.value !== '01'"
                 scope="col"
                 class="border-top-0"
               >
                 מכסה קבועה
               </th>
+
               <th scope="col" class="border-top-0">כמות בתקופה</th>
               <th scope="col" class="border-top-0">מצטבר</th>
               <th scope="col" class="border-top-0">רטרו</th>
@@ -363,39 +406,66 @@
 
               <!-- <th scope="col" class="border-top-0">סיבה/th> -->
               <td class="">
-                {{ row.kt_siba_not_tslm }}
+                <h3
+                (click)="show_siba_table()"
+                class=""
+                style="
+                  cursor: pointer;
+                  color: #0000ff;
+                  margin-left: 20px;
+                "
+              >
+              {{ row.kt_siba_not_tslm }}
+                <i  *ngIf="this.paymentControl.value === '01'" class="fas fa-angle-left fa-lg"></i>
+              </h3>
               </td>
+            </tr>
+            <br />
+            <tr>
+              <td class="" style="background-color: #057eff12 !important">
+                סהכ
+              </td>
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important">
+                {{ Kamut_SHTshlm | number : "0.0" }}
+              </td>
+              <td class="" style="background-color: #057eff12 !important">
+                {{ Shum_Tshlm | number : "0.0" }}
+              </td>
+              <td class="" style="background-color: #057eff12 !important">
+                {{ HefTas | number : "0.0" }}
+              </td>
+              <td class="" style="background-color: #057eff12 !important">
+                {{ HefTas_Tshlm | number : "0.0" }}
+              </td>
+
+              <td class="" style="background-color: #057eff12 !important">
+                {{ tot_Cam_tshlm | number : "0.0" }}
+              </td>
+              <td class="" style="background-color: #057eff12 !important">
+                {{ tot_shum_tshlm | number : "0.0" }}
+              </td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
+
+              <td class="" style="background-color: #057eff12 !important"></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </form>
-  <!-- כפתורי מעבר עמודים -->
-  <!-- <div class="btn-pages">
-    <button
-      (click)="previousPage()"
-      [disabled]="currentPage === 1"
-      class="btn btn-warning"
-      style="
-        margin: 15px !important;
-        font-size: 25px !important;
-        background-color: #3498db !important;
-      "
-    >
-      קודם
-    </button>
-    <button
-      class="btn btn-warning"
-      style="
-        margin: 15px !important;
-        font-size: 25px !important;
-        background-color: #3498db !important;
-      "
-      (click)="nextPage()"
-      [disabled]="currentPage * itemsPerPage >= data.length"
-    >
-      הבא
-    </button>
-  </div> -->
 </div>

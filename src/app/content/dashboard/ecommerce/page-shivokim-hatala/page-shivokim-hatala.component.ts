@@ -249,26 +249,6 @@ export class PageShivokimHatalaComponent {
     this.count_total_eggs_and_packege(this.data);
   }
 
-  cd_gidul: 921;
-  egg_factory_name: '50563 -  ב"ה עשת שי ביצים בע"מ';
-  farm_code: '5679';
-  farm_name: 'אוחנה אליהו';
-  flock_id: 101632;
-  grower_kind: 'שותף';
-  grower_name: 'כהן רגינה *';
-  grower_name1: 'כהן רגינה *';
-  is_main_grower: 0;
-  lull2000_code: '11300746';
-  marketing_sum: 3646;
-  mcsa: 2500;
-  merocezet: ',,';
-  msvk_code: 568;
-  msvk_name: '568 - חוות שביט בע"מ';
-  package_sum: 121.53333333333333;
-  percent_: 8.44;
-  produce_date: '2023-10-13T00:00:00';
-  settlement_name: 'זרעית - רוזנואלד';
-
   // פונ הורדה לאקסל
   getExcelData(): void {
     if (this.isSplit === 'מפוצל') {
