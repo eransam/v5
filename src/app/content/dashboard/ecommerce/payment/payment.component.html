@@ -37,7 +37,6 @@
     class="form form-horizontal row-separator"
     (ngSubmit)="add()"
     [formGroup]="DetailsForm"
-    (keyup.enter)="add()"
   >
     <div class="form-body text-right">
       <div class="row" style="margin-top: 40px; direction: rtl">
@@ -241,7 +240,9 @@
             <br />
             <tr>
               <!-- hodesh_name -->
-              <td class="" style="background-color: #057eff12 !important">סהכ</td>
+              <td class="" style="background-color: #057eff12 !important">
+                סהכ
+              </td>
               <!-- kt_Hodesh_Rtr -->
               <td class="" style="background-color: #057eff12 !important"></td>
               <!-- kt_mdgr -->
@@ -407,17 +408,16 @@
               <!-- <th scope="col" class="border-top-0">סיבה/th> -->
               <td class="">
                 <h3
-                (click)="show_siba_table()"
-                class=""
-                style="
-                  cursor: pointer;
-                  color: #0000ff;
-                  margin-left: 20px;
-                "
-              >
-              {{ row.kt_siba_not_tslm }}
-                <i  *ngIf="this.paymentControl.value === '01'" class="fas fa-angle-left fa-lg"></i>
-              </h3>
+                  (click)="openPopup_siba_table(row.kt_siba_not_tslm)"
+                  class=""
+                  style="cursor: pointer; color: #0000ff; margin-left: 20px"
+                >
+                  {{ row.kt_siba_not_tslm }}
+                  <!-- <i
+                    *ngIf="this.paymentControl.value === '01'"
+                    class="fas fa-angle-left fa-lg"
+                  ></i> -->
+                </h3>
               </td>
             </tr>
             <br />

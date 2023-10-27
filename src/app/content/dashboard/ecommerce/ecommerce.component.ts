@@ -51,6 +51,7 @@ import { PopupMifkadimComponent } from './popup-mifkadim/popup-mifkadim.componen
 import { PopupPinoyimComponent } from './popup-pinoyim/popup-pinoyim.component';
 import { PopupHiclosBySiteComponent } from './popup-hiclos-by-site/popup-hiclos-by-site.component';
 import { PopupOldFlocksComponent } from './popup-old-flocks/popup-old-flocks.component';
+import { PopupSibaTableComponent } from './popup-siba-table/popup-siba-table.component';
 @Component({
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
@@ -4247,7 +4248,7 @@ export class EcommerceComponent implements OnInit {
       var tz = null;
       this.keys_of_categorizedArrays.some((value) => {
         if (keysToCheck.includes(value)) {
-            tz = this.convert_from_oshik_to_maaravi(value)
+          tz = this.convert_from_oshik_to_maaravi(value);
           return true;
         }
       });
@@ -4266,15 +4267,15 @@ export class EcommerceComponent implements OnInit {
           this.chosenYear.toString(),
           ''
         );
-        localStorage.setItem('tz', JSON.stringify(tz));
+      localStorage.setItem('tz', JSON.stringify(tz));
     }
     // תנאי 2
     if (
       this.keys_of_categorizedArrays.some((value) =>
-        ['17','18'].includes(value)
+        ['17', '18'].includes(value)
       )
     ) {
-      const keysToCheck = ['17','18'];
+      const keysToCheck = ['17', '18'];
       var tz = null;
       this.keys_of_categorizedArrays.some((value) => {
         if (keysToCheck.includes(value)) {
@@ -4287,7 +4288,7 @@ export class EcommerceComponent implements OnInit {
       } else {
         tz = '21';
       }
-      tz = this.convert_from_oshik_to_maaravi(tz)
+      tz = this.convert_from_oshik_to_maaravi(tz);
 
       var order = 20;
       this.grower_payment_det =
@@ -4299,7 +4300,7 @@ export class EcommerceComponent implements OnInit {
           this.chosenYear.toString(),
           ''
         );
-        localStorage.setItem('tz', JSON.stringify(tz));
+      localStorage.setItem('tz', JSON.stringify(tz));
     }
 
     console.log(this.grower_payment_det);
@@ -6010,6 +6011,48 @@ export class EcommerceComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog closed with result:', result);
+      document.removeEventListener('click', handleDocumentClick);
+      buttonElement.removeEventListener('click', handleButtonClick);
+    });
+  }
+
+  async openPopup_siba_table() {
+    var siba_table = await this.megadelSearchService.Tables_Select_Gnrl(
+      21,
+      'TSSB'
+    );
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog-more-info';
+    dialogConfig.data = siba_table;
+    const dialogRef = this.dialog.open(PopupSibaTableComponent, dialogConfig);
+
+    let isSecondClick = false;
+
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
+
+    const handleButtonClick = () => {
+      if (dialogRef) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    // Add a click event listener to the button that triggers the main function
+    const buttonElement = document.querySelector('#moreInfoBtn'); // Replace 'your-button-id' with the actual ID of your button
+    buttonElement.addEventListener('click', handleButtonClick);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed with result:', result);
+      isSecondClick = false;
       document.removeEventListener('click', handleDocumentClick);
       buttonElement.removeEventListener('click', handleButtonClick);
     });

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { TableexcelService } from 'src/app/services/tableexcel.service';
 import { log } from 'console';
+import { PopupSibaTableComponent } from '../popup-siba-table/popup-siba-table.component';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -84,6 +86,7 @@ export class PaymentComponent implements OnInit {
   total_premia: any = 0;
   siba_table:any[]=[];
   constructor(
+    private dialog: MatDialog,
     private formBuilder: FormBuilder,
     public router: Router,
     private megadelSearchService: MegadelSearchService,
@@ -178,12 +181,49 @@ export class PaymentComponent implements OnInit {
   }
   //   and ngOnInit
 
+  async openPopup_siba_table(openPopup_siba_table) {
+    localStorage.setItem('openPopup_siba_table', JSON.stringify(openPopup_siba_table));
+    var siba_table = await this.megadelSearchService.Tables_Select_Gnrl(
+      21,
+      'TSSB'
+    );
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog-more-info';
+    dialogConfig.data = siba_table;
+    const dialogRef = this.dialog.open(PopupSibaTableComponent, dialogConfig);
 
+    let isSecondClick = false;
 
-  async show_siba_table(){
-    this.siba_table = await this.megadelSearchService.Tables_Select_Gnrl(21,'TSSB');
+    const handleDocumentClick = () => {
+      if (isSecondClick) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      } else {
+        isSecondClick = true;
+      }
+    };
 
+    const handleButtonClick = () => {
+      if (dialogRef) {
+        dialogRef.close();
+        document.removeEventListener('click', handleDocumentClick);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    // Add a click event listener to the button that triggers the main function
+    const buttonElement = document.querySelector('#moreInfoBtn'); // Replace 'your-button-id' with the actual ID of your button
+    buttonElement.addEventListener('click', handleButtonClick);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed with result:', result);
+      isSecondClick = false;
+      document.removeEventListener('click', handleDocumentClick);
+      buttonElement.removeEventListener('click', handleButtonClick);
+    });
   }
+
 
   convert_from_oshik_to_maaravi(key: string): string {
     switch (key) {
