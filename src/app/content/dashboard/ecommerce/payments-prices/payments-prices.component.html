@@ -1,0 +1,224 @@
+<div class="main_div">
+  <div class="userDetDiv_tatle">
+    <div
+      style="
+        margin-left: 30px;
+        display: flex;
+        justify-content: center !important;
+      "
+    >
+      <h3
+        class="userDetLabel"
+        style="justify-content: center !important; direction: rtl"
+      >
+        מחירים
+      </h3>
+    </div>
+  </div>
+
+  <form
+    class="form form-horizontal row-separator"
+    (ngSubmit)="add()"
+    [formGroup]="DetailsForm"
+  >
+    <div class="form-body text-right">
+      <div class="row" style="margin-top: 40px; direction: rtl">
+        <!-- חיפוש לפי שנה -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          שנה:
+          <input
+            [(ngModel)]="chosenYear"
+            [formControl]="chosenYearControl"
+            type="number"
+            style="width: 125px; height: 32px; padding: 5px"
+          />
+          <select
+            [(ngModel)]="chosenYear"
+            [formControl]="chosenYearControl"
+            style="width: 30px; height: 32px; margin-left: 10px"
+          >
+            <option *ngFor="let year of years" [value]="year">
+              {{ year }}
+            </option>
+          </select>
+        </div>
+
+        <!-- חיפוש לפי חודש -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          חודש:
+          <select
+            [(ngModel)]="chosenMonth"
+            [formControl]="chosenMonthControl"
+            style="width: 125px; height: 32px; margin-left: 10px"
+          >
+            <option *ngFor="let month of months" [value]="month.name">
+              {{ month.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- בחר שלוחה -->
+        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+          שלוחה:
+          <select
+            [(ngModel)]="chosenShloha"
+            [formControl]="chosenShlohaControl"
+            (change)="change_shloha($event)"
+          >
+            <option *ngFor="let obj of this.shlohot" [value]="obj.name">
+              {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- בחר סוג תשלום -->
+        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+          סוג תשלום:
+
+          <select [(ngModel)]="payment" [formControl]="paymentControl">
+            <option *ngFor="let obj of this.type_of_payment" [value]="obj.code">
+              {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- כפתור חיפוש -->
+        <div class="col-md-2">
+          <button
+            class="btn btn-warning"
+            style="
+              margin: 15px !important;
+              font-size: 25px !important;
+              background-color: #3498db !important;
+              border: none;
+            "
+            type="submit"
+          >
+            חישובים
+          </button>
+        </div>
+
+        <!--EXEL כפתור-->
+        <div class="col-md-2 importBth" style="margin-top: 19px">
+          <div class="justify-content importBth_div">
+            <img
+              style="height: 35px; margin-right: 10px"
+              class=""
+              src="assets/images/logo/excel.png"
+              alt="Image"
+              (click)="getExcelData()"
+            />
+            <p>({{ this.data.length }})</p>
+          </div>
+        </div>
+        <!-- לואודר -->
+        <div *ngIf="isLoading_FarmDetails" class="loader"></div>
+
+        <!-- טבלאות -->
+        <div
+          *ngIf="!isLoading_FarmDetails"
+          class="mainTableClass"
+          style="
+            font-weight: bold;
+            font-size: 18px !important;
+            width: 100% !important;
+            height: fit-content;
+          "
+        >
+          <!-- טבלת היטלים וסובסידיה -->
+          <table
+            *ngIf="!this.paymentControl.value === '03'"
+            class=""
+            style="direction: rtl; width: 100%"
+          >
+            <thead class="detailsTable">
+              <tr class="the_tatle_res_table">
+                <th scope="col" class="border-top-0">מס</th>
+                <th scope="col" class="border-top-0">מתאריך</th>
+                <th scope="col" class="border-top-0">עד תאריך</th>
+                <th scope="col" class="border-top-0">מחיר</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr class="the_res_table" *ngFor="let row of data">
+                <!-- <th scope="col" class="border-top-0">> מס</th> -->
+                <td class="">
+                  {{ row.mh_tkufa_num }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> מתאריך </th> -->
+                <td class="">
+                  {{ row.tk_date_from | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> עד תאריך </th> -->
+                <td class="">
+                  <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
+                  {{ row.tk_date_to | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> מחיר </th> -->
+                <td class="">
+                  {{ row.mh_mhir | number : "0.0" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- טבלת  ביטוחים -->
+          <table
+            *ngIf="this.paymentControl.value === '03'"
+            class=""
+            style="direction: rtl; width: 100%"
+          >
+            <thead class="detailsTable">
+              <tr class="the_tatle_res_table">
+                <th scope="col" class="border-top-0">שם ביטוח</th>
+                <th scope="col" class="border-top-0">קוד</th>
+                <th scope="col" class="border-top-0">מס תקופה</th>
+                <th scope="col" class="border-top-0">מתאריך</th>
+                <th scope="col" class="border-top-0">עד תאריך</th>
+                <th scope="col" class="border-top-0">מחיר</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr class="the_res_table" *ngFor="let row of data">
+                <!-- <th scope="col" class="border-top-0">> שם ביטוח</th> -->
+                <td class="">
+                  {{ row.insurance_name }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> קוד </th> -->
+                <td class="">
+                  {{ row.mh_Sug_Mhir }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> מס תקופה </th> -->
+                <td class="">
+                  {{ row.mh_tkufa_num }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> מתאריך </th> -->
+                <td class="">
+                  {{ row.tk_date_from | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> עד תאריך </th> -->
+                <td class="">
+                  {{ row.tk_date_to | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> מחיר </th> -->
+                <td class="">
+                  {{ row.mh_mhir }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

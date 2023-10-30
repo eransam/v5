@@ -1,0 +1,120 @@
+<div class="main_div">
+  <div class="userDetDiv_tatle">
+    <div
+      style="
+        margin-left: 30px;
+        display: flex;
+        justify-content: center !important;
+      "
+    >
+      <h3
+        class="userDetLabel"
+        style="justify-content: center !important; direction: rtl"
+      >
+        סגירת חודש:
+      </h3>
+    </div>
+  </div>
+
+  <form
+    class="form form-horizontal row-separator"
+    (ngSubmit)="add()"
+    [formGroup]="DetailsForm"
+  >
+    <div class="form-body text-right">
+      <div class="row" style="margin-top: 40px; direction: rtl">
+        <!-- חיפוש לפי שנה -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          שנה:
+          <input
+            [(ngModel)]="chosenYear"
+            [formControl]="chosenYearControl"
+            type="number"
+            style="width: 125px; height: 32px; padding: 5px"
+          />
+          <select
+            [(ngModel)]="chosenYear"
+            [formControl]="chosenYearControl"
+            style="width: 30px; height: 32px; margin-left: 10px"
+          >
+            <option *ngFor="let year of years" [value]="year">
+              {{ year }}
+            </option>
+          </select>
+        </div>
+
+        <!-- חיפוש לפי חודש -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          חודש:
+          <select
+            [(ngModel)]="chosenMonth"
+            [formControl]="chosenMonthControl"
+            style="width: 125px; height: 32px; margin-left: 10px"
+          >
+            <option *ngFor="let month of months" [value]="month.code">
+              {{ month.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- בחר שלוחה -->
+        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+          שלוחה:
+          <select
+            [(ngModel)]="chosenShloha"
+            [formControl]="chosenShlohaControl"
+            (change)="change_shloha()"
+          >
+            <option
+              *ngFor="let obj of this.shlohot_cartificate"
+              [value]="obj.code"
+            >
+              {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- בחר סוג תשלום -->
+        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
+          סוג תשלום:
+
+          <select [(ngModel)]="payment" [formControl]="paymentControl">
+            <option *ngFor="let obj of this.type_of_payment" [value]="obj.code">
+              {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- כפתור חיפוש -->
+        <div class="col-md-2">
+          <button
+            class="btn btn-warning"
+            style="
+              margin: 15px !important;
+              font-size: 25px !important;
+              background-color: #3498db !important;
+              border: none;
+            "
+            type="submit"
+          >
+            חישובים
+          </button>
+        </div>
+
+        <!--EXEL כפתור-->
+        <div class="col-md-2 importBth" style="margin-top: 19px">
+          <div class="justify-content importBth_div">
+            <img
+              style="height: 35px; margin-right: 10px"
+              class=""
+              src="assets/images/logo/excel.png"
+              alt="Image"
+              (click)="getExcelData()"
+            />
+            <p>({{ this.data.length }})</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

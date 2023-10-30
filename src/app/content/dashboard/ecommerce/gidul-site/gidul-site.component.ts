@@ -98,6 +98,9 @@ export class GidulSiteComponent implements OnInit {
             theDate,
             this.selected_option_status
           );
+
+
+          
         console.log(Alfon_Atarim_By_Tz);
         await this.getExcelData(Alfon_Atarim_By_Tz);
       } else {
@@ -119,8 +122,11 @@ export class GidulSiteComponent implements OnInit {
     }
   }
 
+
   // פונ הורדה לאקסל
   getExcelData(data: any): void {
+    console.log(data);
+    
     this.tableexcelService.exportAsExcelFile(
       data,
       'אתרי גידול'
