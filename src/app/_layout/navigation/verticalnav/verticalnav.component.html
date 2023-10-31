@@ -16,6 +16,7 @@
       id="main-menu-navigation"
       data-menu="menu-navigation"
     >
+      <!-- סקשיין  חיפוש מגדל-->
       <li
         (click)="navto('/datatables/SearchMegadelComponent')"
         class="liStyle main_cat"
@@ -23,15 +24,16 @@
         חיפוש מגדל
       </li>
 
-      <li (click)="toggleSubMenu()" class="liStyle main_cat">
+      <!-- סקשיין  דוחות-->
+      <li (click)="toggleSubMenu_reports()" class="liStyle main_cat">
         דוחות<i
           class="fas fa-angle-left fa-lg"
           style="padding-top: 20px; margin-right: 15px"
-          [ngClass]="{ icon_sub_menu_down: the_icon_sun_menu }"
+          [ngClass]="{ icon_sub_menu_down: the_icon_sun_menu_reports }"
         ></i>
       </li>
       <!-- תת תפריט לדוחות -->
-      <ul *ngIf="isSubMenuVisible" class="navigation navigation-main">
+      <ul *ngIf="isSubMenuVisible_reports" class="navigation navigation-main">
         <li (click)="navto('/dashboard/GidulSiteComponent')" class="liStyle">
           אתרי גידול
         </li>
@@ -43,6 +45,43 @@
         </li>
       </ul>
 
+      <!-- סקשיין  טבלאות-->
+      <li (click)="toggleSubMenu_tables()" class="liStyle main_cat">
+        טבלאות<i
+          class="fas fa-angle-left fa-lg"
+          style="padding-top: 20px; margin-right: 15px"
+          [ngClass]="{ icon_sub_menu_down: the_icon_sun_menu_tables }"
+        ></i>
+      </li>
+      <!-- תת תפריט טבלאות -->
+      <ul *ngIf="isSubMenuVisible_tables" class="navigation navigation-main">
+        <li
+          (click)="navto('/dashboard/PaymentsPricesComponent')"
+          class="liStyle"
+        >
+          סוגי תשלום - מחירים
+        </li>
+      </ul>
+
+      <!-- סקשיין תשלומים-->
+      <li (click)="toggleSubMenu_payments()" class="liStyle main_cat">
+        תשלומים<i
+          class="fas fa-angle-left fa-lg"
+          style="padding-top: 20px; margin-right: 15px"
+          [ngClass]="{ icon_sub_menu_down: the_icon_sun_menu_payments }"
+        ></i>
+      </li>
+      <!-- תת תפריט לתשלומים -->
+      <ul *ngIf="isSubMenuVisible_payments" class="navigation navigation-main">
+        <li
+          (click)="navto('/dashboard/ClosePaymentsComponent')"
+          class="liStyle"
+        >
+          סגירת חודש
+        </li>
+      </ul>
+
+      <!-- סקשיין התנתקות -->
       <li (click)="navto('/')" class="liStyle main_cat">התנתקות</li>
     </ul>
 

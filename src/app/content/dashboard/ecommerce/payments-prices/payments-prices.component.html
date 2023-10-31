@@ -127,7 +127,7 @@
         >
           <!-- טבלת היטלים וסובסידיה -->
           <table
-            *ngIf="!this.paymentControl.value === '03'"
+            *ngIf="this.paymentControl.value !== '03'"
             class=""
             style="direction: rtl; width: 100%"
           >

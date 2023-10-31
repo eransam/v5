@@ -12,6 +12,59 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Mhirim_Get_Tkufa_bitohim_by_year_and_tz(
+    tzrt: any,
+    year: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Mhirim_Get_Tkufa_bitohim_by_year_and_tz?tzrt=${tzrt}&year=${year}`
+      )
+    );
+    return item;
+  }
+
+  async Mhirim_Get_Tkufa(
+    shibud: any,
+    start_tzrt: any,
+    start_sug_mhir: any,
+    codezacaut: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Mhirim_Get_Tkufa?shibud=${shibud}&start_tzrt=${start_tzrt}&start_sug_mhir=${start_sug_mhir}&codezacaut=${codezacaut}`
+      )
+    );
+    return item;
+  }
+
+  async get_all_payment_type_to_prices(): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_all_payment_type_to_prices`
+      )
+    );
+    return item;
+  }
+
+  async get_all_new_shlohot(): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_all_new_shlohot`
+      )
+    );
+    return item;
+  }
+
+  async Tables_Select_Gnrl(order: any, start_prefix: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Tables_Select_Gnrl?order=${order}&start_prefix=${start_prefix}`
+      )
+    );
+    return item;
+  }
+
   async Bezim_Atarim_Only_Yzrn_With_Mcsa_Peilut(
     Order: any,
     YrMcs: any,

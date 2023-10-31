@@ -57,9 +57,14 @@ export class VerticalnavComponent implements OnInit {
   insideTm: any;
   outsideTm: any;
   loggedInUser: any;
-  isSubMenuVisible: boolean = false;
+  isSubMenuVisible_reports: boolean = false;
+  isSubMenuVisible_payments: boolean = false;
+  isSubMenuVisible_tables: boolean = false;
+
   istoggleSubMenu_micsa_rep: boolean = false;
-  the_icon_sun_menu: boolean = false;
+  the_icon_sun_menu_reports: boolean = false;
+  the_icon_sun_menu_payments: boolean = false;
+  the_icon_sun_menu_tables: boolean = false;
 
   public title;
   private _themeSettingsConfig: any;
@@ -109,10 +114,21 @@ export class VerticalnavComponent implements OnInit {
     this.setActiveRouteInNavbar();
   }
 
-  toggleSubMenu() {
-    this.isSubMenuVisible = !this.isSubMenuVisible;
-    this.the_icon_sun_menu = !this.the_icon_sun_menu;
+  toggleSubMenu_reports() {
+    this.isSubMenuVisible_reports = !this.isSubMenuVisible_reports;
+    this.the_icon_sun_menu_reports = !this.the_icon_sun_menu_reports;
   }
+  toggleSubMenu_tables() {
+    this.isSubMenuVisible_tables = !this.isSubMenuVisible_tables;
+    this.the_icon_sun_menu_tables = !this.the_icon_sun_menu_tables;
+  }
+
+
+  toggleSubMenu_payments() {
+    this.isSubMenuVisible_payments = !this.isSubMenuVisible_payments;
+    this.the_icon_sun_menu_payments = !this.the_icon_sun_menu_payments;
+  }
+
 
   toggleSubMenu_micsa_rep() {
     this.istoggleSubMenu_micsa_rep = !this.istoggleSubMenu_micsa_rep;

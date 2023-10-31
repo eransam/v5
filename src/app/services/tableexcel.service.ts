@@ -17,6 +17,9 @@ export class TableexcelService {
     const workbook: XLSX.WorkBook = {
       Sheets: { data: worksheet },
       SheetNames: ['data'],
+      Workbook: {
+        Views: [{ RTL: true }],
+      },
     };
     const excelBuffer: any = XLSX.write(workbook, {
       bookType: 'xlsx',

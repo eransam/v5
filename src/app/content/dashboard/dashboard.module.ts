@@ -65,6 +65,9 @@ import { CustomRoundPipe } from './pipes/custom-round.pipe';
 import { GidulSiteComponent } from './ecommerce/gidul-site/gidul-site.component';
 import { MicsaYearToGrowerComponent } from './ecommerce/micsa-year-to-grower/micsa-year-to-grower.component';
 import { PaymentComponent } from './ecommerce/payment/payment.component';
+import { PopupSibaTableComponent } from './ecommerce/popup-siba-table/popup-siba-table.component';
+import { ClosePaymentsComponent } from './ecommerce/close-payments/close-payments.component';
+import { PaymentsPricesComponent } from './ecommerce/payments-prices/payments-prices.component';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
@@ -91,6 +94,16 @@ defineLocale('he', heLocale); // Define Hebrew locale
       template: BlockTemplateComponent,
     }),
     RouterModule.forChild([
+      {
+        path: 'PaymentsPricesComponent',
+        component: PaymentsPricesComponent,
+      },
+
+      {
+        path: 'ClosePaymentsComponent',
+        component: ClosePaymentsComponent,
+      },
+
       {
         path: 'GidulSiteComponent',
         component: GidulSiteComponent,
@@ -216,6 +229,9 @@ defineLocale('he', heLocale); // Define Hebrew locale
     GidulSiteComponent,
     MicsaYearToGrowerComponent,
     PaymentComponent,
+    PopupSibaTableComponent,
+    ClosePaymentsComponent,
+    PaymentsPricesComponent,
   ],
   providers: [DatePipe],
   exports: [RouterModule],
