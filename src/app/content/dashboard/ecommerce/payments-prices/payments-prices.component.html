@@ -171,14 +171,21 @@
                 </td>
 
                 <!-- קרן ויסות -->
-                <td class="">
+                <td *ngIf="row.mh_mhir_visot" class="">
                   {{ row.mh_mhir_visot | number : "1.4-4" }}
                 </td>
+                <td *ngIf="!row.mh_mhir_visot" class="">
+                  <span style="color: red; font-size: 1rem">X</span>
+                </td>
+
                 <!-- היטל חלקי -->
-                <td class="">
+                <td *ngIf="row.mh_mhir_visot" class="">
                   {{
                     row.mh_mhir_hetelim - row.mh_mhir_visot | number : "1.4-4"
                   }}
+                </td>
+                <td *ngIf="!row.mh_mhir_visot" class="">
+                  <span style="color: red; font-size: 1rem">X</span>
                 </td>
               </tr>
             </tbody>
@@ -213,7 +220,7 @@
                 </td>
 
                 <!-- <th scope="col" class="border-top-0">> שלוחה </th> -->
-                <td class="">{{ row.name_shloha }} - {{ row.mh_tzrt }}</td>
+                <td class="">{{ row.mh_tzrt }} - {{ row.name_shloha }}</td>
 
                 <!-- <th scope="col" class="border-top-0">> מתאריך </th> -->
                 <td class="">
@@ -289,7 +296,7 @@
                   {{ row.mh_mhir_06 | number : "1.4-4" }}
                 </td>
                 <td *ngIf="!row.mh_mhir_06" class="">
-                  <span style="color: red; font-size: 2rem">X</span>
+                  <span style="color: red; font-size: 1rem">X</span>
                 </td>
 
                 <!-- <th scope="col" class="border-top-0"> ביטוח רגיל </th> -->
@@ -297,7 +304,7 @@
                   {{ row.mh_mhir_07 | number : "1.4-4" }}
                 </td>
                 <td *ngIf="!row.mh_mhir_07" class="">
-                  <span style="color: red; font-size: 2rem">X</span>
+                  <span style="color: red; font-size: 1rem">X</span>
                 </td>
 
                 <!-- <th scope="col" class="border-top-0"> ביטוח סלמונלה </th> -->
@@ -305,7 +312,7 @@
                   {{ row.mh_mhir_09 | number : "1.4-4" }}
                 </td>
                 <td *ngIf="!row.mh_mhir_09" class="">
-                  <span style="color: red; font-size: 2rem">X</span>
+                  <span style="color: red; font-size: 1rem">X</span>
                 </td>
 
                 <!-- סהכ -->
