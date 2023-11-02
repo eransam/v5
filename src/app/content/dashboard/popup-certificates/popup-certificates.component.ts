@@ -91,8 +91,6 @@ export class PopupCertificatesComponent {
       this.theUserDet = JSON.parse(localStorage.getItem('theDetails'));
     }
 
-    // this.initialEndDate = this.endDate;
-
     this.grower_extention = this.data[this.data.length - 1].grower_Extensions;
     console.log(this.grower_extention);
     for (let obj of this.grower_extention) {
@@ -191,6 +189,58 @@ export class PopupCertificatesComponent {
     }
   }
 
+  get_code_by_shloha_name(label: string): string {
+    switch (label) {
+      case 'הודים':
+        return '01';
+      case 'פיטום':
+        return '10';
+      case 'פיטום':
+        return '10';
+      case 'ביצי רבייה קלות':
+        return '20';
+      case 'ביצי רבייה כבדות':
+        return '21';
+      case 'ביצי רבייה הודו':
+        return '22';
+      case "ביצי רבייה כבדה יו''ש":
+        return '26';
+      case "ביצי רבייה קלות יו''ש":
+        return '29';
+      case 'ביצי מאכל':
+        return '30';
+      case 'אפרוחי פיטום':
+        return '40';
+      case 'אפרוחי הטלה':
+        return '41';
+      case 'אפרוחי רביה קל':
+        return '42';
+      case 'אפרוחי רביה כבדה':
+        return '43';
+      case 'אפרוחי הודים':
+        return '44';
+      case 'הודנים':
+        return '45';
+      case 'פרגיות להטלה':
+        return '46';
+      case 'אפר רביה הודו':
+        return '47';
+      case 'יבוא-אמאות רביה קלה':
+        return '90';
+      case 'יבוא-רביה כבדה אמהות':
+        return '91';
+      case 'יבוא-סבתות רביה הודים':
+        return '92';
+      case 'יבוא-אפרוחות להטלה':
+        return '93';
+      case 'יבוא-רביה כבדה סבתות':
+        return '94';
+
+      default:
+        return '';
+    }
+  }
+
   getCategoryLabel(key: string): string {
     switch (key) {
       case '17':
@@ -225,7 +275,11 @@ export class PopupCertificatesComponent {
     console.log('chosenYearControl: ', this.chosenYearControl.value);
     console.log('chosenSiteControl: ', this.chosenSiteControl.value);
     console.log('chosenShlohaControl: ', this.chosenShlohaControl.value);
+    this.chosenShlohaControl.setValue(this.get_code_by_shloha_name( this.chosenShlohaControl.value)
+    ) 
 
+    console.log(this.chosenShlohaControl.value);
+    
     // chosenShlohaControl
     if (this.chosenShlohaControl.value === 0) {
       this.theChosenShlohaControl = '30';

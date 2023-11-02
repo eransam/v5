@@ -23,8 +23,46 @@
   >
     <div class="form-body text-right">
       <div class="row" style="margin-top: 40px; direction: rtl">
+        <!-- בחר סוג תשלום -->
+        <div
+          class="year-select rtl_Style col-md-2"
+          style="padding-top: 23px; width: 260px; margin-bottom: 50px"
+        >
+          סוג תשלום:
+
+          <select
+            (change)="change_payment($event)"
+            [(ngModel)]="payment"
+            [formControl]="paymentControl"
+          >
+            <option *ngFor="let obj of this.type_of_payment" [value]="obj">
+              {{ obj }}
+            </option>
+          </select>
+        </div>
+
+        <!-- בחר שלוחה -->
+        <div
+          class="year-select rtl_Style col-md-2"
+          style="padding-top: 23px; margin-bottom: 50px"
+        >
+          שלוחה:
+          <select
+            [(ngModel)]="chosenShloha"
+            [formControl]="chosenShlohaControl"
+          >
+            <option *ngFor="let obj of this.shlohot" [value]="obj.name">
+              {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        
         <!-- חיפוש לפי שנה -->
-        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        <div
+          class="year-select rtl_Style col-md-2"
+          style="padding-top: 23px; margin-bottom: 50px"
+        >
           שנה:
           <input
             [(ngModel)]="chosenYear"
@@ -44,7 +82,7 @@
         </div>
 
         <!-- חיפוש לפי חודש -->
-        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+        <!-- <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
           חודש:
           <select
             [(ngModel)]="chosenMonth"
@@ -55,51 +93,15 @@
               {{ month.name }}
             </option>
           </select>
-        </div>
-
-        <!-- בחר שלוחה -->
-        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
-          שלוחה:
-          <select
-            [(ngModel)]="chosenShloha"
-            [formControl]="chosenShlohaControl"
-            (change)="change_shloha($event)"
-          >
-            <option *ngFor="let obj of this.shlohot" [value]="obj.name">
-              {{ obj.name }}
-            </option>
-          </select>
-        </div>
-
-        <!-- בחר סוג תשלום -->
-        <div class="year-select rtl_Style col-md-3" style="padding-top: 23px">
-          סוג תשלום:
-
-          <select [(ngModel)]="payment" [formControl]="paymentControl">
-            <option *ngFor="let obj of this.type_of_payment" [value]="obj.code">
-              {{ obj.name }}
-            </option>
-          </select>
-        </div>
+        </div> -->
 
         <!-- כפתור חיפוש -->
         <div class="col-md-2">
-          <button
-            class="btn btn-warning"
-            style="
-              margin: 15px !important;
-              font-size: 25px !important;
-              background-color: #3498db !important;
-              border: none;
-            "
-            type="submit"
-          >
-            חישובים
-          </button>
+          <button class="btn btn-warning search_btn" type="submit">חפש</button>
         </div>
 
         <!--EXEL כפתור-->
-        <div class="col-md-2 importBth" style="margin-top: 19px">
+        <!-- <div class="col-md-2 importBth" style="margin-top: 19px">
           <div class="justify-content importBth_div">
             <img
               style="height: 35px; margin-right: 10px"
@@ -110,7 +112,8 @@
             />
             <p>({{ this.data.length }})</p>
           </div>
-        </div>
+        </div> -->
+
         <!-- לואודר -->
         <div *ngIf="isLoading_FarmDetails" class="loader"></div>
 
@@ -125,14 +128,76 @@
             height: fit-content;
           "
         >
-          <!-- טבלת היטלים וסובסידיה -->
+          <!-- טבלת היטלים  -->
           <table
-            *ngIf="this.paymentControl.value !== '03'"
+            *ngIf="this.open_table === '02'"
             class=""
             style="direction: rtl; width: 100%"
           >
             <thead class="detailsTable">
               <tr class="the_tatle_res_table">
+                <th *ngIf="all_table" scope="col" class="border-top-0">
+                  שלוחה
+                </th>
+                <th scope="col" class="border-top-0">שנה</th>
+                <th scope="col" class="border-top-0">מתאריך</th>
+                <th scope="col" class="border-top-0">עד תאריך</th>
+                <th scope="col" class="border-top-0">היטל</th>
+                <th scope="col" class="border-top-0">קרן ויסות</th>
+                <th scope="col" class="border-top-0">היטל חלקי</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr class="the_res_table" *ngFor="let row of data">
+                <!-- שלוחה -->
+                <td *ngIf="all_table" class="">
+                  {{ row.mh_tzrt }} - {{ row.name_shloha }}
+                </td>
+                <!-- שנה -->
+                <td class="">
+                  {{ this.chosenYear }}
+                </td>
+                <!-- מתאריך -->
+                <td class="">
+                  {{ row.tk_date_from_hetelim | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- עד תאריך -->
+                <td class="">
+                  {{ row.tk_date_to_hetelim | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- היטל -->
+                <td class="">
+                  {{ row.mh_mhir_hetelim | number : "1.4-4" }}
+                </td>
+
+                <!-- קרן ויסות -->
+                <td class="">
+                  {{ row.mh_mhir_visot | number : "1.4-4" }}
+                </td>
+                <!-- היטל חלקי -->
+                <td class="">
+                  {{
+                    row.mh_mhir_hetelim - row.mh_mhir_visot | number : "1.4-4"
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- טבלת סובסידיה  -->
+          <table
+            *ngIf="this.open_table === '01'"
+            class=""
+            style="direction: rtl; width: 100%"
+          >
+            <thead class="detailsTable">
+              <tr class="the_tatle_res_table">
+                <th *ngIf="all_table"  scope="col" class="border-top-0">שלוחה</th>
+                <th scope="col" class="border-top-0">סוג תשלום</th>
+
                 <th scope="col" class="border-top-0">מס</th>
                 <th scope="col" class="border-top-0">מתאריך</th>
                 <th scope="col" class="border-top-0">עד תאריך</th>
@@ -142,6 +207,17 @@
 
             <tbody>
               <tr class="the_res_table" *ngFor="let row of data">
+                <!-- <th scope="col" class="border-top-0">> שלוחה </th> -->
+                <td *ngIf="all_table" class="">
+                  {{ row.
+                    name_shloha }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> סוג תשלום</th> -->
+                <td class="">
+                  {{ row.payment_name }}
+                </td>
+
                 <!-- <th scope="col" class="border-top-0">> מס</th> -->
                 <td class="">
                   {{ row.mh_tkufa_num }}
@@ -160,7 +236,7 @@
 
                 <!-- <th scope="col" class="border-top-0"> מחיר </th> -->
                 <td class="">
-                  {{ row.mh_mhir | number : "0.0" }}
+                  {{ row.mh_mhir | number : "1.4-4" }}
                 </td>
               </tr>
             </tbody>
@@ -168,51 +244,71 @@
 
           <!-- טבלת  ביטוחים -->
           <table
-            *ngIf="this.paymentControl.value === '03'"
+            *ngIf="this.open_table === '03'"
             class=""
             style="direction: rtl; width: 100%"
           >
             <thead class="detailsTable">
               <tr class="the_tatle_res_table">
-                <th scope="col" class="border-top-0">שם ביטוח</th>
-                <th scope="col" class="border-top-0">קוד</th>
-                <th scope="col" class="border-top-0">מס תקופה</th>
+                <th scope="col" class="border-top-0">שנה</th>
+
+                <th scope="col" class="border-top-0">שלוחה</th>
                 <th scope="col" class="border-top-0">מתאריך</th>
                 <th scope="col" class="border-top-0">עד תאריך</th>
-                <th scope="col" class="border-top-0">מחיר</th>
+                <th scope="col" class="border-top-0">ביטוח ניוקאסל</th>
+                <th scope="col" class="border-top-0">ביטוח רגיל</th>
+                <th scope="col" class="border-top-0">ביטוח סלמונלה</th>
+                <th scope="col" class="border-top-0">סהכ</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr class="the_res_table" *ngFor="let row of data">
-                <!-- <th scope="col" class="border-top-0">> שם ביטוח</th> -->
+              <tr class="the_res_table" *ngFor="let row of this.data">
+                <!-- <th scope="col" class="border-top-0">> שנה </th> -->
                 <td class="">
-                  {{ row.insurance_name }}
+                  {{ this.chosenYear }}
                 </td>
 
-                <!-- <th scope="col" class="border-top-0">> קוד </th> -->
-                <td class="">
-                  {{ row.mh_Sug_Mhir }}
-                </td>
+                <!-- <th scope="col" class="border-top-0">> שלוחה </th> -->
+                <td class="">{{ row.mh_tzrt_07 }} - {{ row.name_shloha07 }}</td>
 
-                <!-- <th scope="col" class="border-top-0">> מס תקופה </th> -->
+                <!-- <th scope="col" class="border-top-0">> מתאריך </th> -->
                 <td class="">
-                  {{ row.mh_tkufa_num }}
-                </td>
-
-                <!-- <th scope="col" class="border-top-0"> מתאריך </th> -->
-                <td class="">
-                  {{ row.tk_date_from | date : "dd/MM/yyyy" }}
+                  {{ row.tk_date_from_07 | date : "dd/MM/yyyy" }}
                 </td>
 
                 <!-- <th scope="col" class="border-top-0"> עד תאריך </th> -->
                 <td class="">
-                  {{ row.tk_date_to | date : "dd/MM/yyyy" }}
+                  {{ row.tk_date_to_07 | date : "dd/MM/yyyy" }}
                 </td>
 
-                <!-- <th scope="col" class="border-top-0"> מחיר </th> -->
+                <!-- <th scope="col" class="border-top-0"> ביטוח ניוקאסל </th> -->
+                <td *ngIf="row.mh_mhir_06" class="">
+                  {{ row.mh_mhir_06 | number : "1.4-4" }}
+                </td>
+                <td *ngIf="!row.mh_mhir_06" class="">
+                  <span style="color: red; font-size: 2rem">X</span>
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> ביטוח רגיל </th> -->
+                <td *ngIf="row.mh_mhir_07">
+                  {{ row.mh_mhir_07 | number : "1.4-4" }}
+                </td>
+                <td *ngIf="!row.mh_mhir_07" class="">
+                  <span style="color: red; font-size: 2rem">X</span>
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> ביטוח סלמונלה </th> -->
+                <td *ngIf="row.mh_mhir_09" class="">
+                  {{ row.mh_mhir_09 | number : "1.4-4" }}
+                </td>
+                <td *ngIf="!row.mh_mhir_09" class="">
+                  <span style="color: red; font-size: 2rem">X</span>
+                </td>
+
+                <!-- סהכ -->
                 <td class="">
-                  {{ row.mh_mhir }}
+                  {{ row.count | number : "1.4-4" }}
                 </td>
               </tr>
             </tbody>

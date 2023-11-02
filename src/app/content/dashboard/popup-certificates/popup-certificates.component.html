@@ -40,7 +40,7 @@
           <label class="col-md-4 label-control" for="startDate">מתאריך</label>
           <div class="col-md-8">
             <input
-              placeholder="{{startDateControl_placeHolder.substr(6, 2)  }}/{{
+              placeholder="{{ startDateControl_placeHolder.substr(6, 2) }}/{{
                 startDateControl_placeHolder.substr(4, 2)
               }}/{{ startDateControl_placeHolder.substr(6, 2) }}"
               type="text"
@@ -116,7 +116,7 @@
         <select [(ngModel)]="chosenShloha" [formControl]="chosenShlohaControl">
           <option
             *ngFor="let obj of this.shlohot_cartificate"
-            [value]="obj.code"
+            [value]="obj.name"
           >
             {{ obj.name }}
           </option>

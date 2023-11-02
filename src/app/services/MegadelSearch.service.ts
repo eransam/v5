@@ -12,6 +12,28 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async Mhirim_Get_Tkufa_all_shlohot(
+    shibud: any,
+    start_sug_mhir: any,
+    codezacaut: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Mhirim_Get_Tkufa_all_shlohot?shibud=${shibud}&start_sug_mhir=${start_sug_mhir}&codezacaut=${codezacaut}`
+      )
+    );
+    return item;
+  }
+
+  async Mhirim_Get_Tkufa_bitohim_all_shlohot(year: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Mhirim_Get_Tkufa_bitohim_all_shlohot?year=${year}`
+      )
+    );
+    return item;
+  }
+
   async Mhirim_Get_Tkufa_bitohim_by_year_and_tz(
     tzrt: any,
     year: any

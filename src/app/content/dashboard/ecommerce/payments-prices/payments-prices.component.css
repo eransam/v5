@@ -175,6 +175,15 @@
     right: 80px;
     top: 135px;
   }
-  
-  /* Style the input field as needed */
+
+
+
+  .search_btn {
+    font-size: 15px !important;
+    background-color: #3498db !important;
+    border: none;
+    width: 81px !important;
+    margin-top: 23px;
+    font-weight: 700;
+   }
   

@@ -67,7 +67,7 @@ import { MicsaYearToGrowerComponent } from './ecommerce/micsa-year-to-grower/mic
 import { PaymentComponent } from './ecommerce/payment/payment.component';
 import { PopupSibaTableComponent } from './ecommerce/popup-siba-table/popup-siba-table.component';
 import { ClosePaymentsComponent } from './ecommerce/close-payments/close-payments.component';
-import { PaymentsPricesComponent } from './ecommerce/payments-prices/payments-prices.component';
+import { PaymentsPricesComponent } from './ecommerce/payments-prices/PaymentsPricesComponent';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
