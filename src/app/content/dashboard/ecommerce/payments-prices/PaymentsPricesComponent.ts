@@ -770,6 +770,11 @@ export class PaymentsPricesComponent {
               );
             if (the_payment === '01') {
               hetelim_or_sobsidia[0].payment_name = 'סובסידיה';
+              var name_shloha = this.all_shlohot.filter(
+                (obj2) => obj2.code === chosenShloha
+              );
+              hetelim_or_sobsidia[0].name_shloha = name_shloha[0].name;
+              hetelim_or_sobsidia[0].mh_tzrt = chosenShloha;
               this.data = hetelim_or_sobsidia;
             }
             if (the_payment === '02') {
@@ -799,6 +804,11 @@ export class PaymentsPricesComponent {
 
               const mergedObject = Object.assign({}, ...merge);
               console.log(mergedObject);
+              var name_shloha = this.all_shlohot.filter(
+                (obj2) => obj2.code === chosenShloha
+              );
+              mergedObject.name_shloha = name_shloha[0].name;
+              mergedObject.mh_tzrt = chosenShloha;
               this.data = [mergedObject];
               console.log(this.data);
             }

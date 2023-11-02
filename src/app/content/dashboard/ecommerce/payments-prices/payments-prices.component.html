@@ -57,7 +57,6 @@
           </select>
         </div>
 
-        
         <!-- חיפוש לפי שנה -->
         <div
           class="year-select rtl_Style col-md-2"
@@ -136,10 +135,9 @@
           >
             <thead class="detailsTable">
               <tr class="the_tatle_res_table">
-                <th *ngIf="all_table" scope="col" class="border-top-0">
-                  שלוחה
-                </th>
                 <th scope="col" class="border-top-0">שנה</th>
+                <th scope="col" class="border-top-0">שלוחה</th>
+
                 <th scope="col" class="border-top-0">מתאריך</th>
                 <th scope="col" class="border-top-0">עד תאריך</th>
                 <th scope="col" class="border-top-0">היטל</th>
@@ -150,14 +148,13 @@
 
             <tbody>
               <tr class="the_res_table" *ngFor="let row of data">
-                <!-- שלוחה -->
-                <td *ngIf="all_table" class="">
-                  {{ row.mh_tzrt }} - {{ row.name_shloha }}
-                </td>
                 <!-- שנה -->
                 <td class="">
                   {{ this.chosenYear }}
                 </td>
+                <!-- שלוחה -->
+                <td class="">{{ row.mh_tzrt }} - {{ row.name_shloha }}</td>
+
                 <!-- מתאריך -->
                 <td class="">
                   {{ row.tk_date_from_hetelim | date : "dd/MM/yyyy" }}
@@ -195,33 +192,28 @@
           >
             <thead class="detailsTable">
               <tr class="the_tatle_res_table">
-                <th *ngIf="all_table"  scope="col" class="border-top-0">שלוחה</th>
+                <th scope="col" class="border-top-0">שנה</th>
+
+                <th scope="col" class="border-top-0">שלוחה</th>
+                <th scope="col" class="border-top-0">מתאריך</th>
+                <th scope="col" class="border-top-0">עד תאריך</th>
                 <th scope="col" class="border-top-0">סוג תשלום</th>
 
                 <th scope="col" class="border-top-0">מס</th>
-                <th scope="col" class="border-top-0">מתאריך</th>
-                <th scope="col" class="border-top-0">עד תאריך</th>
+
                 <th scope="col" class="border-top-0">מחיר</th>
               </tr>
             </thead>
 
             <tbody>
               <tr class="the_res_table" *ngFor="let row of data">
+                <!-- שנה -->
+                <td class="">
+                  {{ this.chosenYear }}
+                </td>
+
                 <!-- <th scope="col" class="border-top-0">> שלוחה </th> -->
-                <td *ngIf="all_table" class="">
-                  {{ row.
-                    name_shloha }}
-                </td>
-
-                <!-- <th scope="col" class="border-top-0">> סוג תשלום</th> -->
-                <td class="">
-                  {{ row.payment_name }}
-                </td>
-
-                <!-- <th scope="col" class="border-top-0">> מס</th> -->
-                <td class="">
-                  {{ row.mh_tkufa_num }}
-                </td>
+                <td class="">{{ row.name_shloha }} - {{ row.mh_tzrt }}</td>
 
                 <!-- <th scope="col" class="border-top-0">> מתאריך </th> -->
                 <td class="">
@@ -232,6 +224,16 @@
                 <td class="">
                   <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
                   {{ row.tk_date_to | date : "dd/MM/yyyy" }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> סוג תשלום</th> -->
+                <td class="">
+                  {{ row.payment_name }}
+                </td>
+
+                <!-- <th scope="col" class="border-top-0">> מס</th> -->
+                <td class="">
+                  {{ row.mh_tkufa_num }}
                 </td>
 
                 <!-- <th scope="col" class="border-top-0"> מחיר </th> -->
