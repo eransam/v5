@@ -356,6 +356,25 @@ body div.cdk-overlay-container .popup-dialog-more-info {
   margin: auto;
 }
 
+body div.cdk-overlay-container .popup-dialog-add-prices {
+  background-color: white !important;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  padding: 4px;
+  position: absolute !important;
+  top: 500px;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  width: 100%;
+}
+
 body div.cdk-overlay-container .popup-dialog-OldGrower {
   background-color: white !important;
   max-width: 60vw;
@@ -468,27 +487,27 @@ html body .content .content-wrapper {
 }
 
 body div.cdk-overlay-container .openPopup_certificates-dialog {
-    height: 90% !important;
-    max-width: none !important;
-    width: 87% !important;
-    background-color: white !important;
-    max-width: 60vw;
-    color: black !important;
-    background-color: silver;
-    font-size: 20px;
-    margin: auto;
-    color: black !important;
-    background-color: silver;
-    font-size: 20px;
-    direction: rtl;
-    padding: 4px;
-    width: -moz-fit-content;
-    width: fit-content;
-    position: absolute !important;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: auto;
+  height: 90% !important;
+  max-width: none !important;
+  width: 87% !important;
+  background-color: white !important;
+  max-width: 60vw;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  padding: 4px;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
 }
 
 body div.cdk-overlay-container .openPopup_grower_cart-dialog {
@@ -509,6 +528,28 @@ body div.cdk-overlay-container .openPopup_grower_cart-dialog {
   position: absolute !important;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+}
+
+body div.cdk-overlay-container .openSuccessDialog {
+  /* height: 80% !important; */
+  /* width: 70% !important; */
+  background-color: white !important;
+  max-width: 60vw;
+  color: black !important;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  padding: 4px;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute !important;
+  top: 473px;
+  left: 32%;
   transform: translate(-50%, -50%);
   margin: auto;
 }

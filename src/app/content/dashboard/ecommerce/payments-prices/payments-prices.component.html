@@ -26,7 +26,7 @@
         <!-- בחר סוג תשלום -->
         <div
           class="year-select rtl_Style col-md-2"
-          style="padding-top: 23px; width: 260px; margin-bottom: 50px"
+          style="padding-top: 23px; width: 300px; margin-bottom: 50px"
         >
           סוג תשלום:
 
@@ -44,7 +44,7 @@
         <!-- בחר שלוחה -->
         <div
           class="year-select rtl_Style col-md-2"
-          style="padding-top: 23px; margin-bottom: 50px"
+          style="padding-top: 23px; margin-bottom: 50px; width: 400px"
         >
           שלוחה:
           <select
@@ -52,7 +52,7 @@
             [formControl]="chosenShlohaControl"
           >
             <option *ngFor="let obj of this.shlohot" [value]="obj.name">
-              {{ obj.name }}
+              {{ obj.code }} - {{ obj.name }}
             </option>
           </select>
         </div>
@@ -140,14 +140,16 @@
 
                 <th scope="col" class="border-top-0">מתאריך</th>
                 <th scope="col" class="border-top-0">עד תאריך</th>
-                <th scope="col" class="border-top-0">היטל</th>
+
                 <th scope="col" class="border-top-0">קרן ויסות</th>
                 <th scope="col" class="border-top-0">היטל חלקי</th>
+                <th scope="col" class="border-top-0">היטל</th>
+                <th scope="col" class="border-top-0">עריכה</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr class="the_res_table" *ngFor="let row of data">
+              <tr class="the_res_table" *ngFor="let row of data; let i = index">
                 <!-- שנה -->
                 <td class="">
                   {{ this.chosenYear }}
@@ -163,11 +165,6 @@
                 <!-- עד תאריך -->
                 <td class="">
                   {{ row.tk_date_to_hetelim | date : "dd/MM/yyyy" }}
-                </td>
-
-                <!-- היטל -->
-                <td class="">
-                  {{ row.mh_mhir_hetelim | number : "1.4-4" }}
                 </td>
 
                 <!-- קרן ויסות -->
@@ -186,6 +183,21 @@
                 </td>
                 <td *ngIf="!row.mh_mhir_visot" class="">
                   <span style="color: red; font-size: 1rem">X</span>
+                </td>
+
+                <!-- היטל -->
+                <td class="">
+                  {{ row.mh_mhir_hetelim | number : "1.4-4" }}
+                </td>
+
+                <!-- כפתור עריכה -->
+                <td
+                  style="cursor: pointer; color: green"
+                  (click)="editRow(row)"
+                  id="editRowBtn"
+                >
+                  עדכון
+                  <i class="fas fa-angle-left fa-lg"></i>
                 </td>
               </tr>
             </tbody>
@@ -264,8 +276,9 @@
                 <th scope="col" class="border-top-0">שלוחה</th>
                 <th scope="col" class="border-top-0">מתאריך</th>
                 <th scope="col" class="border-top-0">עד תאריך</th>
-                <th scope="col" class="border-top-0">ביטוח ניוקאסל</th>
                 <th scope="col" class="border-top-0">ביטוח רגיל</th>
+
+                <th scope="col" class="border-top-0">ביטוח ניוקאסל</th>
                 <th scope="col" class="border-top-0">ביטוח סלמונלה</th>
                 <th scope="col" class="border-top-0">סהכ</th>
               </tr>
@@ -291,19 +304,19 @@
                   {{ row.tk_date_to_07 | date : "dd/MM/yyyy" }}
                 </td>
 
-                <!-- <th scope="col" class="border-top-0"> ביטוח ניוקאסל </th> -->
-                <td *ngIf="row.mh_mhir_06" class="">
-                  {{ row.mh_mhir_06 | number : "1.4-4" }}
-                </td>
-                <td *ngIf="!row.mh_mhir_06" class="">
-                  <span style="color: red; font-size: 1rem">X</span>
-                </td>
-
                 <!-- <th scope="col" class="border-top-0"> ביטוח רגיל </th> -->
                 <td *ngIf="row.mh_mhir_07">
                   {{ row.mh_mhir_07 | number : "1.4-4" }}
                 </td>
                 <td *ngIf="!row.mh_mhir_07" class="">
+                  <span style="color: red; font-size: 1rem">X</span>
+                </td>
+
+                <!-- <th scope="col" class="border-top-0"> ביטוח ניוקאסל </th> -->
+                <td *ngIf="row.mh_mhir_06" class="">
+                  {{ row.mh_mhir_06 | number : "1.4-4" }}
+                </td>
+                <td *ngIf="!row.mh_mhir_06" class="">
                   <span style="color: red; font-size: 1rem">X</span>
                 </td>
 

@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
 import { TableexcelService } from 'src/app/services/tableexcel.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PopupAddPricesComponent } from '../../popup-add-prices/popup-add-prices.component';
 
 @Component({
   selector: 'app-payments-prices',
@@ -55,16 +57,18 @@ export class PaymentsPricesComponent {
   theEndDateControl: any = '';
   theChosenYearControl: any = 2023;
   theChosenShlohaControl: any = '30';
-  type_of_payment: any[] = ['היטלים', 'סובסידיה', 'ביטוחים'];
+  type_of_payment: any[] = ['02 - היטלים', '01 - סובסידיה', '07 - ביטוחים'];
   data: any[] = [];
   yearInput: FormControl;
   transformedData: any[];
+  selectedRow: number | null = null; // To track the edited row index
 
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
     private megadelSearchService: MegadelSearchService,
-    private tableexcelService: TableexcelService
+    private tableexcelService: TableexcelService,
+    private dialog: MatDialog
   ) {
     this.DetailsForm = this.formBuilder.group({
       chosenYear: new FormControl(),
@@ -75,7 +79,7 @@ export class PaymentsPricesComponent {
   }
   async ngOnInit() {
     this.chosenMonth = 'ינואר';
-    this.payment = 'היטלים';
+    this.payment = '02 - היטלים';
     const currentDate = new Date();
     this.chosenYear = currentDate.getFullYear();
 
@@ -110,12 +114,24 @@ export class PaymentsPricesComponent {
     this.all_payment_type =
       await this.megadelSearchService.get_all_payment_type_to_prices();
     //   מידע של כל השלוחות בהיטלים
-    await this.get_data_hetelim_all_shlohot_by_yaer(this.chosenYear);
+    this.start_mergedArray = await this.get_data_hetelim_all_shlohot_by_yaer(
+      this.chosenYear
+    );
 
     this.data = this.start_mergedArray;
     // פתיחת טבלה מתאימה
     this.open_table = '02';
-    console.log(this.data);
+  }
+
+  openPopup_editRowBtn(data: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'popup-dialog-add-prices';
+    dialogConfig.data = [data];
+    const dialogRef = this.dialog.open(PopupAddPricesComponent, dialogConfig);
+  }
+
+  editRow(row_to_add: any): void {
+    this.openPopup_editRowBtn(row_to_add);
   }
 
   async get_data_hetelim_all_shlohot_by_yaer(year: any) {
@@ -125,9 +141,8 @@ export class PaymentsPricesComponent {
       '02',
       '01'
     );
-    console.log(hetelim);
     for (let obj of hetelim) {
-      obj.payment_name = 'היטלים';
+      obj.payment_name = '02 - היטלים';
       obj.payment_name_en = 'hetelim';
     }
 
@@ -153,8 +168,6 @@ export class PaymentsPricesComponent {
       obj.payment_name = 'קרן ויסות';
       obj.payment_name_en = 'visot';
     }
-
-    console.log(visot);
 
     // שינוי שם ייחודי לכל שלוחה
     visot = visot.map((obj) => ({
@@ -184,9 +197,7 @@ export class PaymentsPricesComponent {
       return result;
     }, {});
     const mergedArray = Object.values(groupedObjects);
-    console.log(mergedArray);
     this.start_mergedArray = mergedArray;
-    console.log(this.start_mergedArray);
 
     // הוספת שדה שם שלוחה לכל שלוחה
     for (let obj of this.start_mergedArray) {
@@ -196,12 +207,7 @@ export class PaymentsPricesComponent {
       obj.name_shloha = name_shloha[0].name;
     }
 
-    console.log(this.start_mergedArray);
-
-    // מיזוג כל האובייקטים לאובייקט אחד
-    // const mergedObject = Object.assign({}, ...merge);
-    // console.log(mergedObject);
-    // this.data = [mergedObject];
+    return this.start_mergedArray;
   }
 
   //   and ngOnInit
@@ -257,7 +263,6 @@ export class PaymentsPricesComponent {
       {}
     );
     const mergedArray = Object.values(groupedObjects);
-    console.log(mergedArray);
     this.mergedArray_bitohim = mergedArray;
 
     //הוספת שדה שם שלוחה לכל שלוחה
@@ -270,13 +275,11 @@ export class PaymentsPricesComponent {
         count += obj.mh_mhir_07;
       }
       if (obj.mh_mhir_09) {
-        count += obj.mh_mhir_07;
+        count += obj.mh_mhir_09;
       }
 
       obj.count = count;
     }
-
-    console.log(this.mergedArray_bitohim);
   }
 
   convert_from_oshik_to_maaravi(key: string): string {
@@ -334,21 +337,17 @@ export class PaymentsPricesComponent {
   }
 
   async change_payment(obj: any) {
-    console.log(obj);
     console.log(event.target);
-    console.log(this.paymentControl.value);
     this.shlohot = await this.megadelSearchService.get_all_new_shlohot();
 
-    if (this.paymentControl.value === 'סובסידיה') {
+    if (this.paymentControl.value === '01 - סובסידיה') {
       this.shlohot = this.shlohot.filter(
         (obj) => obj.code === '10' || obj.code === '30'
       );
       this.shlohot.unshift({ id: 1, name: 'כולם', code: '100' });
-
-      console.log(this.shlohot);
     }
 
-    if (this.paymentControl.value === 'היטלים') {
+    if (this.paymentControl.value === '02 - היטלים') {
       this.shlohot = this.shlohot.filter(
         (obj) =>
           obj.code === '01' ||
@@ -363,7 +362,7 @@ export class PaymentsPricesComponent {
       this.shlohot.unshift({ id: 1, name: 'כולם', code: '100' });
     }
 
-    if (this.paymentControl.value === 'ביטוחים') {
+    if (this.paymentControl.value === '07 - ביטוחים') {
       this.shlohot = this.shlohot.filter(
         (obj) =>
           obj.code === '40' ||
@@ -403,8 +402,8 @@ export class PaymentsPricesComponent {
 
     if (chosenShloha_code === '30' || chosenShloha_code === '10') {
       this.type_of_payment = [
-        { name: 'סובסידיה', code: '01' },
-        { name: 'היטלים', code: '02' },
+        { name: '01 - סובסידיה', code: '01' },
+        { name: '02 - היטלים', code: '02' },
       ];
       this.payment = '02';
     } else {
@@ -416,10 +415,10 @@ export class PaymentsPricesComponent {
         chosenShloha_code === '29' ||
         chosenShloha_code === '20'
       ) {
-        this.type_of_payment = [{ name: 'היטלים', code: '02' }];
+        this.type_of_payment = [{ name: '02 - היטלים', code: '02' }];
         this.payment = '02';
       } else {
-        this.type_of_payment = [{ name: 'ביטוחים', code: '03' }];
+        this.type_of_payment = [{ name: '07 - ביטוחים', code: '03' }];
         this.payment = '03';
       }
     }
@@ -681,15 +680,15 @@ export class PaymentsPricesComponent {
       console.log(this.chosenShlohaControl.value);
       console.log(this.paymentControl.value);
 
-      if (this.paymentControl.value === 'סובסידיה') {
+      if (this.paymentControl.value === '01 - סובסידיה') {
         var the_payment = '01';
         this.open_table = '01';
       }
-      if (this.paymentControl.value === 'היטלים') {
+      if (this.paymentControl.value === '02 - היטלים') {
         var the_payment = '02';
         this.open_table = '02';
       }
-      if (this.paymentControl.value === 'ביטוחים') {
+      if (this.paymentControl.value === '07 - ביטוחים') {
         var the_payment = '03';
         this.open_table = '03';
       }
@@ -705,9 +704,7 @@ export class PaymentsPricesComponent {
         console.log('No objects found.');
       }
 
-      console.log(chosenShloha);
-
-      if (this.paymentControl.value === 'ביטוחים') {
+      if (this.paymentControl.value === '07 - ביטוחים') {
         if (this.chosenShlohaControl.value === 'כולם') {
           await this.bring_all_data_shlohot_bitohim_by_year(
             this.chosenYearControl.value
@@ -722,14 +719,11 @@ export class PaymentsPricesComponent {
           const filteredObjects = this.mergedArray_bitohim.filter(
             (obj) => obj.name_shloha07 === searchName
           );
-
-          console.log(filteredObjects);
-
           this.data = filteredObjects;
         }
       } else {
         if (
-          this.paymentControl.value === 'היטלים' &&
+          this.paymentControl.value === '02 - היטלים' &&
           this.chosenShlohaControl.value === 'כולם'
         ) {
           this.all_table = true;
@@ -738,7 +732,7 @@ export class PaymentsPricesComponent {
           this.data = this.start_mergedArray;
         } else {
           if (
-            this.paymentControl.value === 'סובסידיה' &&
+            this.paymentControl.value === '01 - סובסידיה' &&
             this.chosenShlohaControl.value === 'כולם'
           ) {
             this.all_table = true;
@@ -749,16 +743,14 @@ export class PaymentsPricesComponent {
                 the_payment,
                 '01'
               );
-            console.log(sobsidia);
             // הוספת שדה שם שלוחה לכל שלוחה
             for (let obj of sobsidia) {
               var name_shloha = this.all_shlohot.filter(
                 (obj2) => obj2.code === obj.mh_tzrt
               );
               obj.name_shloha = name_shloha[0].name;
-              obj.payment_name = 'סובסידיה';
+              obj.payment_name = '01 - סובסידיה';
             }
-            console.log(sobsidia);
             this.data = sobsidia;
           } else {
             var hetelim_or_sobsidia =
@@ -769,7 +761,7 @@ export class PaymentsPricesComponent {
                 '01'
               );
             if (the_payment === '01') {
-              hetelim_or_sobsidia[0].payment_name = 'סובסידיה';
+              hetelim_or_sobsidia[0].payment_name = '01 - סובסידיה';
               var name_shloha = this.all_shlohot.filter(
                 (obj2) => obj2.code === chosenShloha
               );
@@ -778,7 +770,7 @@ export class PaymentsPricesComponent {
               this.data = hetelim_or_sobsidia;
             }
             if (the_payment === '02') {
-              hetelim_or_sobsidia[0].payment_name = 'היטלים';
+              hetelim_or_sobsidia[0].payment_name = '02 - היטלים';
               hetelim_or_sobsidia[0].payment_name_en = 'hetelim';
               var visot = await this.megadelSearchService.Mhirim_Get_Tkufa(
                 this.chosenYear,
@@ -790,7 +782,6 @@ export class PaymentsPricesComponent {
               visot[0].payment_name_en = 'visot';
 
               var merge = [...hetelim_or_sobsidia, ...visot];
-              console.log(merge);
 
               // שינוי שם ייחודי לכל שלוחה
               merge = merge.map((obj) => ({
@@ -803,14 +794,12 @@ export class PaymentsPricesComponent {
               }));
 
               const mergedObject = Object.assign({}, ...merge);
-              console.log(mergedObject);
               var name_shloha = this.all_shlohot.filter(
                 (obj2) => obj2.code === chosenShloha
               );
               mergedObject.name_shloha = name_shloha[0].name;
               mergedObject.mh_tzrt = chosenShloha;
               this.data = [mergedObject];
-              console.log(this.data);
             }
           }
         }

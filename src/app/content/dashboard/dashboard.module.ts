@@ -68,6 +68,8 @@ import { PaymentComponent } from './ecommerce/payment/payment.component';
 import { PopupSibaTableComponent } from './ecommerce/popup-siba-table/popup-siba-table.component';
 import { ClosePaymentsComponent } from './ecommerce/close-payments/close-payments.component';
 import { PaymentsPricesComponent } from './ecommerce/payments-prices/PaymentsPricesComponent';
+import { PopupAddPricesComponent } from './popup-add-prices/popup-add-prices.component';
+import { SuccessDialogComponent } from './ecommerce/success-dialog/success-dialog.component';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
@@ -232,6 +234,8 @@ defineLocale('he', heLocale); // Define Hebrew locale
     PopupSibaTableComponent,
     ClosePaymentsComponent,
     PaymentsPricesComponent,
+    PopupAddPricesComponent,
+    SuccessDialogComponent,
   ],
   providers: [DatePipe],
   exports: [RouterModule],

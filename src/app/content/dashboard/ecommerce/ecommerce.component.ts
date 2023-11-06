@@ -4303,7 +4303,6 @@ export class EcommerceComponent implements OnInit {
       localStorage.setItem('tz', JSON.stringify(tz));
     }
 
-    console.log(this.grower_payment_det);
 
     this.open_grower_payment();
     this.isLoading_grower_payment = false;
@@ -5952,10 +5951,6 @@ export class EcommerceComponent implements OnInit {
       console.log('New window was blocked by a popup blocker.');
     }
 
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = 'openPopup_certificates-dialog';
-    // dialogConfig.data = this.grower_payment_det;
-    // const dialogRef = this.dialog.open(PopupPaymentComponent, dialogConfig);
   }
 
   openPopup_OldFlocksComponent(data: any) {

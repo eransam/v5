@@ -12,6 +12,21 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async update_hetelim_price_and_dates(
+    tk_date_from: any,
+    tk_date_to: any,
+    mh_mhir: any,
+    year: any,
+    tk_tzrt: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/update_hetelim_price_and_dates?tk_date_from=${tk_date_from}&tk_date_to=${tk_date_to}&mh_mhir=${mh_mhir}&year=${year}&tk_tzrt=${tk_tzrt}`
+      )
+    );
+    return item;
+  }
+
   async Mhirim_Get_Tkufa_all_shlohot(
     shibud: any,
     start_sug_mhir: any,

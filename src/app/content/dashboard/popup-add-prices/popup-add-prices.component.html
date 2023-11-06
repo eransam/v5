@@ -1,0 +1,126 @@
+<table
+  class="cool-table-custom main_table"
+  dir="rtl"
+  style="padding: 5px; margin: unset"
+  border="0"
+>
+  <thead>
+    <tr>
+      <td
+        style="
+          font-size: 20px;
+          background-color: #446bff;
+          height: 66px;
+          padding-right: 15px;
+        "
+      >
+        <span>
+          <button mat-icon-button mat-dialog-close>
+            <mat-icon>X</mat-icon>
+          </button></span
+        >
+        עריכת היטל
+      </td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td colspan="2">
+        <table class="" style="direction: rtl; width: 100%">
+          <thead class="detailsTable">
+            <tr class="the_tatle_res_table">
+              <th scope="col" class="border-top-0 tatle_table">שנה</th>
+              <th scope="col" class="border-top-0 tatle_table">שלוחה</th>
+              <th scope="col" class="border-top-0 tatle_table">מתאריך</th>
+              <th scope="col" class="border-top-0 tatle_table">עד תאריך</th>
+              <th scope="col" class="border-top-0 tatle_table">קרן ויסות</th>
+              <th scope="col" class="border-top-0 tatle_table">היטל חלקי</th>
+              <th scope="col" class="border-top-0 tatle_table">היטל</th>
+              <th scope="col" class="border-top-0 tatle_table"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="the_res_table" *ngFor="let row of data; let i = index">
+              <!-- שנה -->
+              <td class="body_table">
+                {{ row.year }}
+              </td>
+              <!-- שלוחה -->
+              <td class="body_table">
+                {{ row.mh_tzrt }} - {{ row.name_shloha }}
+              </td>
+
+              <!-- מתאריך -->
+              <!-- <td class="body_table">
+                <input type="date" [(ngModel)]="row.tk_date_from_hetelim" />
+              </td> -->
+              <td class="body_table">
+                <input
+                  type="date"
+                  [ngModel]="row.tk_date_from_hetelim"
+                  (ngModelChange)="onDate_from_Change($event)"
+                />
+              </td>
+
+              <!-- עד תאריך -->
+              <!-- <td class="body_table">
+                <input type="date" [(ngModel)]="row.tk_date_to_hetelim" />
+              </td> -->
+              <td class="body_table">
+                <input
+                  type="date"
+                  [ngModel]="row.tk_date_to_hetelim"
+                  (ngModelChange)="onDate_to_Change($event)"
+                />
+              </td>
+
+              <!-- קרן ויסות -->
+              <td *ngIf="row.mh_mhir_visot" class="body_table">
+                <input type="number" [(ngModel)]="row.mh_mhir_visot" />
+              </td>
+              <td *ngIf="!row.mh_mhir_visot" class="body_table">
+                <span style="color: red; font-size: 1rem">X</span>
+              </td>
+
+              <!-- היטל חלקי -->
+              <td *ngIf="row.mh_mhir_visot" class="body_table">
+                {{ row.mh_mhir_hetelim - row.mh_mhir_visot | number : "1.4-4" }}
+              </td>
+              <td *ngIf="!row.mh_mhir_visot" class="body_table">
+                <span style="color: red; font-size: 1rem">X</span>
+              </td>
+
+              <!-- היטל -->
+              <td class="body_table">
+                <input type="number" [(ngModel)]="row.mh_mhir_hetelim" />
+              </td>
+
+              <!-- כפתור עריכה -->
+              <td
+                class="body_table"
+                style="cursor: pointer; color: green"
+                (click)="saveRow(row)"
+                id="editRowBtn"
+              >
+                <button
+                  class="btn btn-warning"
+                  style="
+                    margin: 15px !important;
+                    font-size: 25px !important;
+                    background-color: #3498db !important;
+                    border: none;
+                  "
+                  type="submit"
+                >
+                  שמור
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
