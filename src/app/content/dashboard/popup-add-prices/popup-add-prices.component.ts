@@ -5,6 +5,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogConfig,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
@@ -24,7 +25,8 @@ export class PopupAddPricesComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private datePipe: DatePipe,
     private megadelSearchService: MegadelSearchService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogRef_PopupAddPricesComponent: MatDialogRef<PopupAddPricesComponent>
   ) {}
   async ngOnInit() {
     const date = new Date(this.data[0].tk_date_from_hetelim);
@@ -39,20 +41,16 @@ export class PopupAddPricesComponent {
   }
   onDate_from_Change(newDate: string) {
     this.data[0].tk_date_from_hetelim = newDate;
-    // If you want to update the original date in your model, you can do that here:
-    // this.row.tk_date_from_hetelim = newDate + 'T00:00:00';
   }
   onDate_to_Change(newDate: string) {
     this.data[0].tk_date_to_hetelim = newDate;
-    // If you want to update the original date in your model, you can do that here:
-    // this.row.tk_date_from_hetelim = newDate + 'T00:00:00';
   }
 
   toggleDatepicker() {
     this.datepicker.toggle();
   }
   toggleDatepickerTo() {
-    this.dpTo.toggle(); // Toggles the "to date" datepicker
+    this.dpTo.toggle();
   }
 
   async saveRow(row: any) {
@@ -71,6 +69,7 @@ export class PopupAddPricesComponent {
     } else {
       this.openSuccessDialog('שגיאה');
     }
+    this.dialogRef_PopupAddPricesComponent.close();
   }
 
   openSuccessDialog(msg: any) {
@@ -78,5 +77,8 @@ export class PopupAddPricesComponent {
     dialogConfig.panelClass = 'openSuccessDialog';
     dialogConfig.data = msg;
     const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
+    setTimeout(() => {
+      dialogRef.close();
+    }, 1000);
   }
 }
