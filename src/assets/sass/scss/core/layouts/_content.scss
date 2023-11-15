@@ -548,8 +548,30 @@ body div.cdk-overlay-container .openSuccessDialog {
   width: -moz-fit-content;
   width: fit-content;
   position: absolute !important;
-  top: 473px;
-  left: 32%;
+  top: 342px;
+  left: 39%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+}
+
+body div.cdk-overlay-container .openSuccessDialogDelete {
+  /* height: 80% !important; */
+  /* width: 70% !important; */
+  background-color: white !important;
+  max-width: 60vw;
+  color: black !important;
+  font-size: 20px;
+  margin: auto;
+  color: black !important;
+  background-color: silver;
+  font-size: 20px;
+  direction: rtl;
+  padding: 4px;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute !important;
+  top: 342px;
+  left: 25%;
   transform: translate(-50%, -50%);
   margin: auto;
 }

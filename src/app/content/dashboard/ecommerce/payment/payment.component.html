@@ -35,6 +35,7 @@
 
   <form
     class="form form-horizontal row-separator"
+    style="margin-bottom: 50px"
     (ngSubmit)="add()"
     [formGroup]="DetailsForm"
   >
@@ -301,14 +302,7 @@
               >
                 מכסה תשלום
               </th>
-              <th
-                *ngIf="this.paymentControl.value !== '01'"
-                scope="col"
-                class="border-top-0"
-              >
-                מכסה קבועה
-              </th>
-
+              <th *ngIf="this.paymentControl.value !== '01'"scope="col"class="border-top-0">מכסה קבועה</th>
               <th scope="col" class="border-top-0">כמות בתקופה</th>
               <th scope="col" class="border-top-0">מצטבר</th>
               <th scope="col" class="border-top-0">רטרו</th>

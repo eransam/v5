@@ -8,7 +8,7 @@ describe('ClosePaymentsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ClosePaymentsComponent]
+      declarations: [ClosePaymentsComponent],
     });
     fixture = TestBed.createComponent(ClosePaymentsComponent);
     component = fixture.componentInstance;

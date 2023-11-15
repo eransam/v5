@@ -1,9 +1,8 @@
-/* success-dialog.component.css */
 h2 {
   text-align: center;
   font-size: 24px;
-  color: #fff; /* Text color */
-  background-color: #0074cc; /* Background color */
+  color: #fff; 
+  background-color: #0074cc; 
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

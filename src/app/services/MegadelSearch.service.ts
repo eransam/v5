@@ -12,6 +12,45 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+
+
+  
+  async Kamut_Tkufa_New_Display_Delete_Data(
+    Order: any,
+    SugTas: any,
+    Yr: any,
+    Hodesh: any,
+    TatMana: any,
+    Tzrt: any,
+    Yzrn: any,
+    kt_Job_Upd: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Kamut_Tkufa_New_Display_Delete_Data?Order=${Order}&SugTas=${SugTas}&Yr=${Yr}&Hodesh=${Hodesh}&TatMana=${TatMana}&Tzrt=${Tzrt}&Yzrn=${Yzrn}&kt_Job_Upd=${kt_Job_Upd}`
+      )
+    );
+    return item;
+  }
+
+  async Calc_Hetelim_New(
+    year: any,
+    tzrt: any,
+    mana: any,
+    tat_mana: any,
+    yzrnBoded: any,
+    MsvkBoded: any,
+    dateHzmd: any,
+    user: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/Calc_Hetelim_New?year=${year}&tzrt=${tzrt}&mana=${mana}&tat_mana=${tat_mana}&yzrnBoded=${yzrnBoded}&MsvkBoded=${MsvkBoded}&dateHzmd=${dateHzmd}&user=${user}`
+      )
+    );
+    return item;
+  }
+
   async update_hetelim_price_and_dates(
     tk_date_from: any,
     tk_date_to: any,

@@ -4,9 +4,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { MegadelSearchService } from 'src/app/services/MegadelSearch.service';
+import { MegadelSearchInsertService } from 'src/app/services/megadel-search-insert.service';
+import { MegadelSearchDeleteService } from 'src/app/services/megadel-search-delete.service';
+
 import { TableexcelService } from 'src/app/services/tableexcel.service';
 import { log } from 'console';
 import { PopupSibaTableComponent } from '../popup-siba-table/popup-siba-table.component';
+import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-close-payments',
@@ -14,6 +18,8 @@ import { PopupSibaTableComponent } from '../popup-siba-table/popup-siba-table.co
   styleUrls: ['./close-payments.component.css'],
 })
 export class ClosePaymentsComponent {
+  selected_option_status: string = '0';
+  isLoading: boolean = false;
   premia_table: boolean = false;
   order: any = 6;
   userTypeID;
@@ -38,10 +44,11 @@ export class ClosePaymentsComponent {
   chosenSiteControl = new FormControl();
   chosenShlohaControl = new FormControl();
   paymentControl = new FormControl();
+  selected_option_statusControl = new FormControl();
   isLoading_FarmDetails = false;
   chosenyear_cartificate: any = '2023';
   chosenYear: any = 2023;
-  chosenMonth: any = 'ינואר';
+  chosenMonth: any = '01';
   enteredYear: any = '2023';
   years = ['2020', '2021', '2022', '2023'];
   months = [
@@ -56,7 +63,7 @@ export class ClosePaymentsComponent {
     { code: '09', name: 'ספטמבר' },
     { code: '10', name: 'אוקטובר' },
     { code: '11', name: 'נובמבר' },
-    { code: '12', name: 'דצמבר' }
+    { code: '12', name: 'דצמבר' },
   ];
 
   siteName: any[] = [];
@@ -85,6 +92,7 @@ export class ClosePaymentsComponent {
   type_of_payment: any[] = [
     { name: 'סובסידיה', code: '01' },
     { name: 'היטלים', code: '02' },
+    { name: 'ביטוחים', code: '07' },
   ];
   Hok_Galil: any[] = [];
   public currentPage: number = 1;
@@ -114,6 +122,8 @@ export class ClosePaymentsComponent {
     private formBuilder: FormBuilder,
     public router: Router,
     private megadelSearchService: MegadelSearchService,
+    private MegadelSearchInsertService: MegadelSearchInsertService,
+    private MegadelSearchDeleteService: MegadelSearchDeleteService,
     private tableexcelService: TableexcelService
   ) {
     this.DetailsForm = this.formBuilder.group({
@@ -121,9 +131,10 @@ export class ClosePaymentsComponent {
       chosenMonth: new FormControl(),
       chosenShloha: new FormControl(),
       payment: new FormControl(),
+      selected_option_status: new FormControl(),
     });
 
-    this.chosenMonth = 'ינואר';
+    this.chosenMonth = '01';
     this.chosenYear = '2023';
     this.enteredYear = '2023';
     this.chosenSite = 'כולם';
@@ -138,6 +149,7 @@ export class ClosePaymentsComponent {
   }
   //   and ngOnInit
 
+  async calc() {}
   convert_from_oshik_to_maaravi(key: string): string {
     switch (key) {
       case '17':
@@ -451,13 +463,83 @@ export class ClosePaymentsComponent {
     }
   }
 
-  async add() {
-    this.isLoading_FarmDetails = true;
+  async delete_month() {
+    this.isLoading = true;
+    console.log(this.chosenYearControl.value);
+    console.log(this.chosenMonthControl.value);
+    console.log(this.chosenShlohaControl.value);
+    console.log(this.paymentControl.value);
+    var delete_month =
+      await this.MegadelSearchDeleteService.delete_close_month_main(
+        this.chosenMonthControl.value,
+        this.chosenYearControl.value,
+        this.chosenShlohaControl.value,
+        this.paymentControl.value
+      );
+    this.openSuccessDialog_delete('החודש נמחק בהצלחה');
 
+    this.isLoading = false;
+  }
+
+  async add() {
+    this.isLoading = true;
     console.log(this.chosenYearControl.value);
     console.log(this.chosenMonthControl.value);
     console.log(this.chosenShlohaControl.value);
     console.log(this.paymentControl.value);
     console.log('d');
+
+    const lastDay = this.getLastDayOfMonth(
+      Number(this.chosenMonthControl.value)
+    );
+
+    var full_date = `${this.chosenYearControl.value}${this.chosenMonthControl.value}${lastDay}`;
+    console.log(full_date);
+    var Calc = await this.MegadelSearchInsertService.close_month_main(
+      this.chosenMonthControl.value,
+      this.chosenYearControl.value,
+      this.paymentControl.value,
+      this.chosenShlohaControl.value
+    );
+
+    console.log(Calc);
+
+    if (Calc[0]?.status === 'exist') {
+      this.openSuccessDialog('שגיאה - חודש זה כבר נסגר');
+    }
+    if (Calc[0]?.status === 'not-exist') {
+      this.openSuccessDialog('החודש נסגר בהצלחה');
+    }
+
+    this.isLoading = false;
+  }
+
+  openSuccessDialog(msg: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openSuccessDialog';
+    dialogConfig.data = msg;
+    const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
+    setTimeout(() => {
+      dialogRef.close();
+    }, 2000);
+  }
+
+  openSuccessDialog_delete(msg: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openSuccessDialogDelete';
+    dialogConfig.data = msg;
+    const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
+    setTimeout(() => {
+      dialogRef.close();
+    }, 2000);
+  }
+
+  getLastDayOfMonth(month: number): number {
+    const date = new Date(); // Get the current date
+    date.setMonth(month); // Set the month to the one you want
+    date.setDate(0); // Set the day to 0, which refers to the last day of the previous month
+
+    return date.getDate();
   }
 }
+6;
