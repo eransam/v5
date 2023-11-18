@@ -12,9 +12,48 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_data_from_close_month_by_grower(
+    shana: any,
+    payment_type: any,
+    tzrt: any,
+    month: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_data_from_close_month_by_grower?shana=${shana}&payment_type=${payment_type}&tzrt=${tzrt}&month=${month}`
+      )
+    );
+    return item;
+  }
 
+  async get_data_from_close_month_by_msvk(
+    shana: any,
+    payment_type: any,
+    tzrt: any,
+    month: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_data_from_close_month_by_msvk?shana=${shana}&payment_type=${payment_type}&tzrt=${tzrt}&month=${month}`
+      )
+    );
+    return item;
+  }
 
-  
+  async get_grower_payment(
+    grower_num: any,
+    tzrt: any,
+    year: any,
+    payment: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_grower_payment?grower_num=${grower_num}&tzrt=${tzrt}&year=${year}&payment=${payment}`
+      )
+    );
+    return item;
+  }
+
   async Kamut_Tkufa_New_Display_Delete_Data(
     Order: any,
     SugTas: any,
