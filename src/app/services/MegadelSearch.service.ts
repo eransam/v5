@@ -12,6 +12,15 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_all_data_from_update_all_prices_by_year(year: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_all_data_from_update_all_prices_by_year?year=${year}`
+      )
+    );
+    return item;
+  }
+
   async get_data_from_close_month_by_grower(
     shana: any,
     payment_type: any,
