@@ -136,14 +136,21 @@
             <thead class="detailsTable">
               <tr class="the_tatle_res_table">
                 <th scope="col" class="border-top-0">שנה</th>
+
                 <th scope="col" class="border-top-0">שלוחה</th>
 
                 <th scope="col" class="border-top-0">מתאריך</th>
+
                 <th scope="col" class="border-top-0">עד תאריך</th>
 
                 <th scope="col" class="border-top-0">קרן ויסות</th>
+
                 <th scope="col" class="border-top-0">היטל חלקי</th>
+
                 <th scope="col" class="border-top-0">היטל</th>
+
+                <th scope="col" class="border-top-0">תאריך עדכון</th>
+
                 <th scope="col" class="border-top-0">עריכה</th>
               </tr>
             </thead>
@@ -159,12 +166,12 @@
 
                 <!-- מתאריך -->
                 <td class="">
-                  {{ row.tk_date_from_hetelim | date : "dd/MM/yyyy" }}
+                  {{ row.tk_date_from_hetelim }}
                 </td>
 
                 <!-- עד תאריך -->
                 <td class="">
-                  {{ row.tk_date_to_hetelim | date : "dd/MM/yyyy" }}
+                  {{ row.tk_date_to_hetelim }}
                 </td>
 
                 <!-- קרן ויסות -->
@@ -190,7 +197,12 @@
                   {{ row.mh_mhir_hetelim | number : "1.4-4" }}
                 </td>
 
-                <!-- כפתור עריכה -->
+                <!-- תאריך עדכון -->
+                <td class="">
+                  {{ row.update_time }}
+                </td>
+
+                <!-- כפתור עדכון -->
                 <td
                   style="cursor: pointer; color: green"
                   (click)="editRow(row)"

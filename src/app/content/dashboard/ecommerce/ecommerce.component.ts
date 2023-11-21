@@ -4258,15 +4258,24 @@ export class EcommerceComponent implements OnInit {
         tz = '30';
       }
       var order = 4;
+
       this.grower_payment_det =
-        await this.megadelSearchService.Tkufa_Mhir_Select_New(
-          order,
+        await this.megadelSearchService.get_grower_payment(
           this.userDetails[0]?.v_yzrn,
           tz,
-          '02',
           this.chosenYear.toString(),
-          ''
+          '02'
         );
+
+        // this.grower_payment_det =
+        //   await this.megadelSearchService.Tkufa_Mhir_Select_New(
+        //     order,
+        //     this.userDetails[0]?.v_yzrn,
+        //     tz,
+        //     '02',
+        //     this.chosenYear.toString(),
+        //     ''
+        //   );
       localStorage.setItem('tz', JSON.stringify(tz));
     }
     // תנאי 2
@@ -4302,7 +4311,6 @@ export class EcommerceComponent implements OnInit {
         );
       localStorage.setItem('tz', JSON.stringify(tz));
     }
-
 
     this.open_grower_payment();
     this.isLoading_grower_payment = false;
@@ -5950,7 +5958,6 @@ export class EcommerceComponent implements OnInit {
     } else {
       console.log('New window was blocked by a popup blocker.');
     }
-
   }
 
   openPopup_OldFlocksComponent(data: any) {

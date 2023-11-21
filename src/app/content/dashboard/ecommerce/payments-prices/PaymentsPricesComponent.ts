@@ -118,7 +118,47 @@ export class PaymentsPricesComponent {
       this.chosenYear
     );
 
-    this.data = this.start_mergedArray;
+    var get_all_data_from_update_all_prices_by_year =
+      await this.megadelSearchService.get_all_data_from_update_all_prices_by_year(
+        this.chosenYear
+      );
+
+    get_all_data_from_update_all_prices_by_year =
+      get_all_data_from_update_all_prices_by_year.map((item) => ({
+        id: item.id,
+        mh_mhir_hetelim: item.mh_mhir_hetelim,
+        mh_mhir_visot: item.mh_mhir_visot,
+        mh_tzrt: item.mh_tzrt,
+        name_shloha: item.name_shloha,
+        payment_type: item.payment_type,
+        tk_date_from_hetelim: item.tk_date_from_hetelim,
+        tk_date_to_hetelim: item.tk_date_to_hetelim,
+        update_time: item.update_time,
+        year: item.year,
+      }));
+
+    var margeArr = [
+      ...get_all_data_from_update_all_prices_by_year,
+      ...this.start_mergedArray,
+    ];
+
+     margeArr = margeArr.sort((a, b) => {
+        // Compare 'mh_tzrt' first
+        if (a.mh_tzrt !== b.mh_tzrt) {
+          return a.mh_tzrt.localeCompare(b.mh_tzrt);
+        }
+      
+        // If 'mh_tzrt' is the same, compare 'update_time'
+        const dateA:any = new Date(a.update_time);
+        const dateB:any = new Date(b.update_time);
+      
+        return dateA - dateB;
+      });
+
+      console.log(margeArr);
+      
+
+    this.data = margeArr;
     // פתיחת טבלה מתאימה
     this.open_table = '02';
   }
@@ -386,7 +426,6 @@ export class PaymentsPricesComponent {
 
   //   מביאה את סוגי התשלום בבחירת שלוחה
   async change_shloha(obj: any) {
-    console.log(obj);
     console.log(event.target);
 
     // הוצאת קוד השלוחה

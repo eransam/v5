@@ -53,21 +53,15 @@
               </td>
 
               <!-- מתאריך -->
-              <!-- <td class="body_table">
-                <input type="date" [(ngModel)]="row.tk_date_from_hetelim" />
-              </td> -->
               <td class="body_table">
                 <input
                   type="date"
-                  [ngModel]="row.tk_date_from_hetelim"
+                  [ngModel]="row.tk_date_from_hetelim_today"
                   (ngModelChange)="onDate_from_Change($event)"
                 />
               </td>
 
               <!-- עד תאריך -->
-              <!-- <td class="body_table">
-                <input type="date" [(ngModel)]="row.tk_date_to_hetelim" />
-              </td> -->
               <td class="body_table">
                 <input
                   type="date"
@@ -81,7 +75,7 @@
                 <input type="number" [(ngModel)]="row.mh_mhir_visot" />
               </td>
               <td *ngIf="!row.mh_mhir_visot" class="body_table">
-                <span style="color: red; font-size: 1rem">X</span>
+                <input type="number" [(ngModel)]="row.mh_mhir_visot" />
               </td>
 
               <!-- היטל חלקי -->

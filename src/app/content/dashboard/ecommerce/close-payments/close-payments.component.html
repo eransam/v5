@@ -29,18 +29,19 @@
           style="margin-top: 40px; direction: rtl; margin-right: 25px"
         >
           <!-- בחר סוג תשלום -->
+
           <div
             class="year-select rtl_Style col-md-12"
             style="padding-top: 23px"
           >
-            סוג תשלום:
+            <div>סוג תשלום:</div>
 
             <select [(ngModel)]="payment" [formControl]="paymentControl">
               <option
                 *ngFor="let obj of this.type_of_payment"
                 [value]="obj.code"
               >
-                {{ obj.name }}
+                {{ obj.code }} - {{ obj.name }}
               </option>
             </select>
           </div>
@@ -84,7 +85,8 @@
             class="year-select rtl_Style col-md-12"
             style="padding-top: 23px"
           >
-            שלוחה:
+            <div>שלוחה:</div>
+
             <select
               [(ngModel)]="chosenShloha"
               [formControl]="chosenShlohaControl"
@@ -94,7 +96,7 @@
                 *ngFor="let obj of this.shlohot_cartificate"
                 [value]="obj.code"
               >
-                {{ obj.name }}
+                {{ obj.code }} - {{ obj.name }}
               </option>
             </select>
           </div>
@@ -104,7 +106,7 @@
             class="year-select rtl_Style col-md-12"
             style="padding-top: 23px"
           >
-            שנה:
+            <div>שנה:</div>
             <input
               [(ngModel)]="chosenYear"
               [formControl]="chosenYearControl"
@@ -122,32 +124,12 @@
             </select>
           </div>
 
-          <!--רדיו - לפי חודש -->
-          <div
-            class="year-select rtl_Style col-md-12"
-            style="padding-top: 23px"
-          >
-            <div>
-              <input
-                type="radio"
-                name="selectedOption2"
-                [(ngModel)]="selected_option_status"
-                [formControl]="selected_option_statusControl"
-                value="1"
-              />
-              <label
-                style="text-align: center; margin-top: 7px; margin-left: 10px"
-                >חודש</label
-              >
-            </div>
-          </div>
-
           <!-- חיפוש לפי חודש -->
           <div
             class="year-select rtl_Style col-md-12"
             style="padding-top: 23px"
           >
-            חודש:
+            <div>חודש:</div>
             <select
               [(ngModel)]="chosenMonth"
               [formControl]="chosenMonthControl"
@@ -159,48 +141,28 @@
             </select>
           </div>
 
-          <!-- מתאריך עד תאריך - רדיו-->
-          <div
-            class="year-select rtl_Style col-md-12"
-            style="padding-top: 23px"
-          >
-            <div>
-              <input
-                type="radio"
-                name="selectedOption2"
-                [(ngModel)]="selected_option_status"
-                [formControl]="selected_option_statusControl"
-                value="2"
-              />
-              <label
-                style="text-align: center; margin-top: 7px; margin-left: 10px"
-                >בין תאריכים</label
-              >
-            </div>
-          </div>
-
           <!-- כפתור חיפוש -->
-          <div class="col-md-12">
+          <div class="col-md-2" style="margin-bottom: 20px">
             <button
               class="btn btn-warning"
               style="
-                margin-top: 15px !important;
+                margin-top: 35px !important;
                 font-size: 25px !important;
                 background-color: #3498db !important;
                 border: none;
               "
               type="submit"
             >
-              סגור חודש
+              סגירת חודש
             </button>
           </div>
 
           <!-- כפתור מחיקה -->
-          <div class="col-md-12">
+          <div class="col-md-2" style="margin-bottom: 20px">
             <button
               class="btn btn-warning"
               style="
-                margin-top: 15px !important;
+                margin-top: 35px !important;
                 font-size: 25px !important;
                 background-color: #3498db !important;
                 border: none;
@@ -213,7 +175,7 @@
           </div>
 
           <!--EXEL כפתור-->
-          <div class="col-md-12 importBth" style="margin-top: 19px">
+          <!-- <div class="col-md-12 importBth" style="margin-top: 19px">
             <div class="justify-content importBth_div">
               <img
                 style="height: 35px; margin-right: 10px"
@@ -224,9 +186,149 @@
               />
               <p>({{ this.data.length }})</p>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </form>
   </div>
+  <div class="userDetDiv_tatle">
+    <div
+      style="
+        margin-left: 30px;
+        display: flex;
+        justify-content: center !important;
+      "
+    >
+      <h3
+        class="userDetLabel"
+        style="justify-content: center !important; direction: rtl"
+      >
+        ייצוא נתוני סגירה:
+      </h3>
+    </div>
+  </div>
+  <form
+    class="form form-horizontal row-separator"
+    (ngSubmit)="create_excel()"
+    [formGroup]="excelForm"
+  >
+    <div class="form-body text-right">
+      <div
+        class="row"
+        style="margin-top: 40px; direction: rtl; margin-right: 25px"
+      >
+        <!-- בחר סוג תשלום -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          סוג תשלום:
+
+          <select
+            [(ngModel)]="payment_excel"
+            [formControl]="paymentControl_excel"
+          >
+            <option *ngFor="let obj of this.type_of_payment" [value]="obj.code">
+              {{ obj.code }} - {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- בחר שלוחה -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          שלוחה:
+          <select
+            [(ngModel)]="chosenShloha_excel"
+            [formControl]="chosenShlohaControl_excel"
+            (change)="change_shloha()"
+          >
+            <option
+              *ngFor="let obj of this.shlohot_cartificate"
+              [value]="obj.code"
+            >
+              {{ obj.code }} - {{ obj.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- חיפוש לפי שנה -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          שנה:
+          <input
+            [(ngModel)]="chosenYear_excel"
+            [formControl]="chosenYearControl_excel"
+            type="number"
+            style="width: 125px; height: 32px; padding: 5px"
+          />
+          <select
+            [(ngModel)]="chosenYear_excel"
+            [formControl]="chosenYearControl_excel"
+            style="width: 30px; height: 32px; margin-left: 10px"
+          >
+            <option *ngFor="let year of years" [value]="year">
+              {{ year }}
+            </option>
+          </select>
+        </div>
+
+        <!-- חיפוש לפי חודש -->
+        <div class="year-select rtl_Style col-md-2" style="padding-top: 23px">
+          חודש:
+          <select
+            [(ngModel)]="chosenMonth_excel"
+            [formControl]="chosenMonthControl_excel"
+            style="width: 125px; height: 32px; margin-left: 10px"
+          >
+            <option *ngFor="let month of months" [value]="month.code">
+              {{ month.name }}
+            </option>
+          </select>
+        </div>
+        <div
+          class="year-select rtl_Style col-md-4"
+          style="padding-top: 23px"
+        ></div>
+
+        <!-- מפורט - ריכוז -->
+        <div class="year-select rtl_Style col-md-1" style="margin-top: 30px">
+          <input
+            type="radio"
+            name="selectedOption2_excel"
+            [(ngModel)]="selected_option_status_excel"
+            [formControl]="selected_option_statusControl_excel"
+            value="merokaz"
+          />
+          <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+            >מרוכז</label
+          >
+        </div>
+
+        <div class="year-select rtl_Style col-md-1" style="margin-top: 30px">
+          <input
+            type="radio"
+            name="selectedOption2_excel"
+            [(ngModel)]="selected_option_status_excel"
+            [formControl]="selected_option_statusControl_excel"
+            value="meforat"
+          />
+          <label style="text-align: center; margin-top: 7px; margin-left: 10px"
+            >מפורט</label
+          >
+        </div>
+
+        <!-- כפתור חיפוש -->
+        <div class="col-md-12" style="margin-top: 15px">
+          <button
+            class="btn btn-warning"
+            style="
+              margin-top: 15px !important;
+              font-size: 25px !important;
+              background-color: #3498db !important;
+              border: none;
+            "
+            type="submit"
+          >
+            יצוא קובץ
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

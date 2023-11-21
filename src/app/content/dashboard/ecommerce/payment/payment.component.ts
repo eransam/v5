@@ -78,13 +78,14 @@ export class PaymentComponent implements OnInit {
   HefTas_Tshlm: any = 0;
   tot_Cam_tshlm: any = 0;
   tot_shum_tshlm: any = 0;
-
+  marketing_sum: any = 0;
+  amount: any = 0;
   Kamut_premia: any = 0;
   Shum_Tshlm_premia: any = 0;
   Shum_Tshlm_nk_premia: any = 0;
   Shum_Tshlm_sl_premia: any = 0;
   total_premia: any = 0;
-  siba_table:any[]=[];
+  siba_table: any[] = [];
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -128,6 +129,13 @@ export class PaymentComponent implements OnInit {
     // פרטי טבלה
     if (localStorage.getItem('this.grower_payment_det')) {
       this.data = JSON.parse(localStorage.getItem('this.grower_payment_det'));
+
+      for (let obj of this.data) {
+        var nomth_name = this.get_month_name(obj.the_month);
+        obj.month_name = nomth_name;
+      }
+      console.log(this.data);
+
       this.count_total_details_hetelim(this.data);
     }
 
@@ -181,8 +189,52 @@ export class PaymentComponent implements OnInit {
   }
   //   and ngOnInit
 
+  get_month_name(num_of_month: any) {
+    switch (num_of_month) {
+      case 1:
+        return 'ינואר';
+        break;
+      case 2:
+        return 'פברואר';
+        break;
+      case 3:
+        return 'מרץ';
+        break;
+      case 4:
+        return 'אפריל';
+        break;
+      case 5:
+        return 'מאי';
+        break;
+      case 6:
+        return 'יוני';
+        break;
+      case 7:
+        return 'יולי';
+        break;
+      case 8:
+        return 'אוגוסט';
+        break;
+      case 9:
+        return 'ספטמבר';
+        break;
+      case 10:
+        return 'אוקטובר';
+        break;
+      case 11:
+        return 'נובמבר';
+        break;
+      case 12:
+        return 'דצמבר';
+        break;
+    }
+  }
+
   async openPopup_siba_table(openPopup_siba_table) {
-    localStorage.setItem('openPopup_siba_table', JSON.stringify(openPopup_siba_table));
+    localStorage.setItem(
+      'openPopup_siba_table',
+      JSON.stringify(openPopup_siba_table)
+    );
     var siba_table = await this.megadelSearchService.Tables_Select_Gnrl(
       21,
       'TSSB'
@@ -223,7 +275,6 @@ export class PaymentComponent implements OnInit {
       buttonElement.removeEventListener('click', handleButtonClick);
     });
   }
-
 
   convert_from_oshik_to_maaravi(key: string): string {
     switch (key) {
@@ -699,14 +750,17 @@ export class PaymentComponent implements OnInit {
       }
 
       this.payment_by_grewernum =
-        await this.megadelSearchService.Tkufa_Mhir_Select_New(
-          this.order,
+        await this.megadelSearchService.get_grower_payment(
           this.theUserDet[0]?.v_yzrn,
           this.theChosenShlohaControl,
-          this.paymentControl.value,
           this.theChosenYearControl,
-          ''
+          this.paymentControl.value
         );
+
+      for (let obj of this.payment_by_grewernum) {
+        var nomth_name = this.get_month_name(obj.the_month);
+        obj.month_name = nomth_name;
+      }
 
       this.data = this.payment_by_grewernum;
       this.count_total_details_hetelim(this.data);
@@ -719,80 +773,33 @@ export class PaymentComponent implements OnInit {
   }
 
   count_total_details_hetelim(data) {
+    const newArr = data.filter(
+        (item) =>
+          item.id
+      );
+      console.log(newArr);
+      
+
+
+    this.marketing_sum = newArr.reduce((sum, obj) => {
+      if (obj.id) {
+        return sum + obj.marketing_sum;
+      } else {
+        return sum;
+      }
+    }, 0);
+
+    this.amount = newArr.reduce((sum, obj) => {
+      if (obj.id) {
+        return sum + obj.amount;
+      } else {
+        return sum;
+      }
+    }, 0);
     console.log('g');
-
-    this.Kamut_SHTshlm = data.reduce((sum, obj) => {
-      if (typeof obj.Kamut_SHTshlm === 'string') {
-        const stringWithoutCommas = obj.Kamut_SHTshlm.replace(/,/g, '');
-        const parsedNumber = parseFloat(stringWithoutCommas);
-        return sum + parsedNumber;
-      } else {
-        return sum;
-      }
-    }, 0);
-
-    this.Shum_Tshlm = data.reduce((sum, obj) => {
-      if (typeof obj.Shum_Tshlm === 'string') {
-        const stringWithoutCommas = obj.Shum_Tshlm.replace(/,/g, '');
-        const parsedNumber = parseFloat(stringWithoutCommas);
-        return sum + parsedNumber;
-      } else {
-        return sum;
-      }
-    }, 0);
-
-    this.HefTas = data.reduce((sum, obj) => {
-      if (typeof obj.Shum_Tshlm === 'string') {
-        const stringWithoutCommas = obj.HefTas.replace(/,/g, '');
-        const parsedNumber = parseFloat(stringWithoutCommas);
-        return sum + parsedNumber;
-      } else {
-        return sum;
-      }
-    }, 0);
-
-    this.HefTas_Tshlm = data.reduce((sum, obj) => {
-      if (obj.HefTas_Tshlm) {
-        sum + obj.HefTas_Tshlm;
-      } else {
-        return sum;
-      }
-    }, 0);
-
-    this.tot_Cam_tshlm = data.reduce((sum, obj) => {
-      if (typeof obj.Shum_Tshlm === 'string') {
-        const stringWithoutCommas = obj.tot_Cam_tshlm.replace(/,/g, '');
-        const parsedNumber = parseFloat(stringWithoutCommas);
-        return sum + parsedNumber;
-      } else {
-        return sum;
-      }
-    }, 0);
-
-    this.tot_shum_tshlm = data.reduce((sum, obj) => {
-      if (typeof obj.Shum_Tshlm === 'string') {
-        const stringWithoutCommas = obj.tot_shum_tshlm.replace(/,/g, '');
-        const parsedNumber = parseFloat(stringWithoutCommas);
-        return sum + parsedNumber;
-      } else {
-        return sum;
-      }
-    }, 0);
-
-    console.log('l');
   }
 
   count_total_details_premia(data) {
-    console.log('g');
-
-    // this.Kamut_premia = data.reduce((sum, obj) => {
-    //   if (obj.Kamut) {
-    //     sum + obj.Kamut;
-    //   } else {
-    //     return sum;
-    //   }
-    // }, 0);
-
     this.Kamut_premia = data.reduce((sum, obj) => {
       if (obj.Kamut) {
         return sum + obj.Kamut;

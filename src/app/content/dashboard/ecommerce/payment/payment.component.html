@@ -115,7 +115,7 @@
               alt="Image"
               (click)="getExcelData()"
             />
-            <p>({{ this.data.length }})</p>
+            <!-- <p>({{ this.data.length -1 }})</p> -->
           </div>
         </div>
       </div>
@@ -302,19 +302,16 @@
               >
                 מכסה תשלום
               </th>
-              <th *ngIf="this.paymentControl.value !== '01'"scope="col"class="border-top-0">מכסה קבועה</th>
+              <th
+                *ngIf="this.paymentControl.value !== '01'"
+                scope="col"
+                class="border-top-0"
+              >
+                מכסה קבועה
+              </th>
               <th scope="col" class="border-top-0">כמות בתקופה</th>
-              <th scope="col" class="border-top-0">מצטבר</th>
-              <th scope="col" class="border-top-0">רטרו</th>
               <th scope="col" class="border-top-0">מחיר</th>
-              <th scope="col" class="border-top-0">כמות שולמה</th>
               <th scope="col" class="border-top-0">תשלום</th>
-              <th scope="col" class="border-top-0">כמות תוספת</th>
-              <th scope="col" class="border-top-0">תוספת תשלום</th>
-              <th scope="col" class="border-top-0">סה''כ כמות שולמה</th>
-              <th scope="col" class="border-top-0">סהכ תשלום</th>
-              <th scope="col" class="border-top-0">הקפאה</th>
-              <th scope="col" class="border-top-0">סיבה</th>
             </tr>
           </thead>
 
@@ -327,135 +324,48 @@
               <!-- <th scope="col" class="border-top-0">חודש</th> -->
               <td class="">
                 <a [routerLink]="['/dashboard/ecommerce']">
-                  {{ row.hodesh_name }}</a
+                  {{ row.month_name }}</a
                 >
               </td>
               <!-- <th scope="col" class="border-top-0" משווק</th> -->
               <td class="">
                 <a [routerLink]="['/dashboard/ecommerce']">
-                  {{ row.kt_Msvk }}</a
+                  {{ row.msvk_code }}</a
                 >
               </td>
-
               <!-- <th scope="col" class="border-top-0">>שם משווק</th> -->
               <td class="">
-                {{ row.shem_msvk }}
+                {{ row.msvk_name }}
               </td>
-
               <!-- <th scope="col" class="border-top-0">>או מכסה קבועה מכסה לתשלום</th> -->
               <td class="">
-                {{ row.Micsa_Tshlm | number : "0.0" }}
+                {{ row.micsa_kvoha | number : "0.0" }}
               </td>
-
               <!-- <th scope="col" class="border-top-0">>כמות בתקופה </th> -->
               <td class="">
-                {{ row.Kamut_In_Tkufa | number : "0.0" }}
+                {{ row.marketing_sum | number : "0.0" }}
               </td>
-
-              <!-- <th scope="col" class="border-top-0">מצטבר </th> -->
+              <!-- מחיר -->
               <td class="">
-                {{ row.kt_Mztbr }}
+                {{ row.mh_Mhir }}
               </td>
-
-              <!-- <th scope="col" class="border-top-0">רטרו </th> -->
+              <!-- תשלום -->
               <td class="">
-                {{ row.rtro }}
-              </td>
-
-              <!-- <th scope="col" class="border-top-0">מחיר </th> -->
-              <td class="">
-                {{ row.kt_mhir }}
-              </td>
-
-              <!-- <th scope="col" class="border-top-0">>כמות שולמה< </th> -->
-              <td class="">
-                {{ row.Kamut_SHTshlm }}
-              </td>
-              <!-- <th scope="col" class="border-top-0">תשלום </th> -->
-              <td class="">
-                {{ row.Shum_Tshlm }}
-              </td>
-              <!-- <th scope="col" class="border-top-0">>כמות תוספת </th> -->
-              <td class="">
-                {{ row.HefTas }}
-              </td>
-              <!-- <th scope="col" class="border-top-0">>תוספת תשלום< </th> -->
-              <td class="">
-                {{ row.HefTas_Tshlm }}
-              </td>
-
-              <!-- <th scope="col" class="border-top-0">סה''כ כמות שולמה< </th> -->
-              <td class="">
-                {{ row.tot_Cam_tshlm }}
-              </td>
-
-              <!-- <th scope="col" class="border-top-0">>סהכ תשלום </th> -->
-              <td class="">
-                {{ row.tot_shum_tshlm }}
-              </td>
-
-              <!-- <th scope="col" class="border-top-0 הקפאה</th> -->
-              <td class="">
-                {{ row.SibaHakpaa }}
-              </td>
-
-              <!-- <th scope="col" class="border-top-0">סיבה/th> -->
-              <td class="">
-                <h3
-                  (click)="openPopup_siba_table(row.kt_siba_not_tslm)"
-                  class=""
-                  style="cursor: pointer; color: #0000ff; margin-left: 20px"
-                >
-                  {{ row.kt_siba_not_tslm }}
-                  <!-- <i
-                    *ngIf="this.paymentControl.value === '01'"
-                    class="fas fa-angle-left fa-lg"
-                  ></i> -->
-                </h3>
+                {{ row.amount | number : "0.0"}}
               </td>
             </tr>
+
+            <!-- שורת סה''כ' -->
             <br />
             <tr>
-              <td class="" style="background-color: #057eff12 !important">
-                סהכ
-              </td>
+                <!-- סהכ -->
+              <td class="" style="background-color: #057eff12 !important">סהכ</td>
               <td class="" style="background-color: #057eff12 !important"></td>
-
               <td class="" style="background-color: #057eff12 !important"></td>
-
               <td class="" style="background-color: #057eff12 !important"></td>
-
+              <td class="" style="background-color: #057eff12 !important">{{ this.marketing_sum | number : "0.0"}}</td>
               <td class="" style="background-color: #057eff12 !important"></td>
-
-              <td class="" style="background-color: #057eff12 !important"></td>
-
-              <td class="" style="background-color: #057eff12 !important"></td>
-
-              <td class="" style="background-color: #057eff12 !important"></td>
-
-              <td class="" style="background-color: #057eff12 !important">
-                {{ Kamut_SHTshlm | number : "0.0" }}
-              </td>
-              <td class="" style="background-color: #057eff12 !important">
-                {{ Shum_Tshlm | number : "0.0" }}
-              </td>
-              <td class="" style="background-color: #057eff12 !important">
-                {{ HefTas | number : "0.0" }}
-              </td>
-              <td class="" style="background-color: #057eff12 !important">
-                {{ HefTas_Tshlm | number : "0.0" }}
-              </td>
-
-              <td class="" style="background-color: #057eff12 !important">
-                {{ tot_Cam_tshlm | number : "0.0" }}
-              </td>
-              <td class="" style="background-color: #057eff12 !important">
-                {{ tot_shum_tshlm | number : "0.0" }}
-              </td>
-
-              <td class="" style="background-color: #057eff12 !important"></td>
-
-              <td class="" style="background-color: #057eff12 !important"></td>
+              <td class="" style="background-color: #057eff12 !important">{{ this.amount | number : "0.0"}}</td>
             </tr>
           </tbody>
         </table>
