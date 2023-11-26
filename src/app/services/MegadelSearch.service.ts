@@ -12,6 +12,22 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_grower_all_det(
+    month: any,
+    year: any,
+    date_from: any,
+    date_to: any,
+    grower_num: any,
+    tzrt: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_grower_all_det?month=${month}&year=${year}&date_from=${date_from}&date_to=${date_to}&grower_num=${grower_num}&tzrt=${tzrt}`
+      )
+    );
+    return item;
+  }
+
   async get_all_data_from_update_all_prices_by_year(year: any): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
@@ -18,7 +18,14 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
   templateUrl: './close-payments.component.html',
   styleUrls: ['./close-payments.component.css'],
 })
-export class ClosePaymentsComponent {
+export class ClosePaymentsComponent implements OnInit, OnDestroy {
+  main_arr: any[] = [];
+  split_all_grower_qa = 3;
+  status_all_grower_qa = 3;
+  shivok_count_0 = 3;
+  micsot_all_growers_qa = 3;
+  grower_with_minos_in_split = 3;
+  check_hidosh_all_growers_qa = 3;
   selected_option_status: string = '0';
   selected_option_status_excel: string = 'merokaz';
   isLoading: boolean = false;
@@ -129,6 +136,26 @@ export class ClosePaymentsComponent {
   Shum_Tshlm_sl_premia: any = 0;
   total_premia: any = 0;
   siba_table: any[] = [];
+  loadingText: string = 'מתחיל בתהליך הבקרה...';
+  private textChangeInterval: any;
+  loadingTextCounter: number;
+  bakara_name = [
+    'בדיקת פיצול לכלל המגדלים...',
+    'בדיקת סטטוס כלל התעודות...',
+    'בדיקת שיווק בכמות 0...',
+    'בדיקת מכסות מגדלים...',
+    'בדיקת חידוש למגדלים...',
+    'בדיקת חידוש למגדלים...',
+  ];
+
+  if_all_grower_from_packege_in_grower_split: any[];
+  if_all_certificate_is_in_transfer_status_id_3: any[];
+  check_if_there_is_certificate_from_packege_that_sum_0: any[];
+  check_if_all_grower_after_split_have_micsa: any[];
+  check_if_grower_have_minos_shivok: any[];
+  check_if_grower_have_shivok_and_not_hidosh: any[];
+  isButtonDisabled: boolean = true;
+  //   סיום משתנים
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -179,6 +206,200 @@ export class ClosePaymentsComponent {
     });
   }
   //   and ngOnInit
+
+  ngOnDestroy(): void {
+    clearInterval(this.textChangeInterval);
+  }
+
+//   qa
+  async main_testing() {
+    this.split_all_grower_qa = 4;
+    this.status_all_grower_qa = 4;
+    this.shivok_count_0 = 4;
+    this.micsot_all_growers_qa = 4;
+    this.grower_with_minos_in_split = 4;
+    this.check_hidosh_all_growers_qa = 4;
+    if (this.chosenShlohaControl.value === '30') {
+      // יוצרים סטרינגים אשר מכילים את התאריך המלא מהיום הראשון של החודש לאחרון לפי מס חודש
+      var lastDay = this.getLastDayOfMonth(
+        Number(this.chosenMonthControl.value)
+      );
+      var first_day = '01';
+      var last_day_of_the_month_full_year = `${this.chosenYearControl.value}${this.chosenMonthControl.value}${lastDay}`;
+      var first_day_of_the_month_full_year = `${this.chosenYearControl.value}${this.chosenMonthControl.value}${first_day}`;
+
+      //grower_split עברו את תהליך הפיצול ונמצאים עכשיו בטבלת  packege בדיקה האם כל המגדלים מטבלת
+      this.if_all_grower_from_packege_in_grower_split =
+        await this.QaServiceService.qa_if_all_grower_from_packege_in_grower_split_by_dates(
+          first_day_of_the_month_full_year,
+          last_day_of_the_month_full_year
+        );
+      console.log(this.if_all_grower_from_packege_in_grower_split);
+
+      if (this.if_all_grower_from_packege_in_grower_split.length === 0) {
+        this.split_all_grower_qa = 1;
+      } else {
+        this.split_all_grower_qa = 2;
+        var arr: any[];
+        this.main_arr = [];
+
+        for (let obj of this.if_all_grower_from_packege_in_grower_split) {
+          arr = await this.megadelSearchService.get_grower_all_det(
+            this.chosenMonthControl.value,
+            this.chosenYearControl.value,
+            first_day_of_the_month_full_year,
+            last_day_of_the_month_full_year,
+            obj.lull2000_code,
+            this.chosenShlohaControl.value
+          );
+          this.main_arr = [...this.main_arr, ...arr];
+        }
+        this.if_all_grower_from_packege_in_grower_split = this.main_arr;
+      }
+
+      // בדיקה האם כל התעודות של סגירת החודש המבוקש נמצאים בסטטוס "נקלטו במכון" כ
+      this.if_all_certificate_is_in_transfer_status_id_3 =
+        await this.QaServiceService.qa_check_if_all_certificate_is_in_transfer_status_id_3(
+          first_day_of_the_month_full_year,
+          last_day_of_the_month_full_year
+        );
+      console.log(this.if_all_certificate_is_in_transfer_status_id_3);
+      if (this.if_all_certificate_is_in_transfer_status_id_3.length === 0) {
+        this.status_all_grower_qa = 1;
+      } else {
+        this.status_all_grower_qa = 2;
+        var arr: any[];
+        this.main_arr = [];
+        for (let obj of this.if_all_certificate_is_in_transfer_status_id_3) {
+          arr = await this.megadelSearchService.get_grower_all_det(
+            this.chosenMonthControl.value,
+            this.chosenYearControl.value,
+            first_day_of_the_month_full_year,
+            last_day_of_the_month_full_year,
+            obj.lull2000_code,
+            this.chosenShlohaControl.value
+          );
+          this.main_arr = [...this.main_arr, ...arr];
+        }
+        this.if_all_certificate_is_in_transfer_status_id_3 = this.main_arr;
+      }
+
+      // אשר כמות השיווק שלהם היא 0 packege בדיקה האם יש תעודות בטבלת
+      this.check_if_there_is_certificate_from_packege_that_sum_0 =
+        await this.QaServiceService.qa_check_if_there_is_certificate_from_packege_that_sum_0(
+          first_day_of_the_month_full_year,
+          last_day_of_the_month_full_year
+        );
+      console.log(this.check_if_there_is_certificate_from_packege_that_sum_0);
+      if (
+        this.check_if_there_is_certificate_from_packege_that_sum_0.length === 0
+      ) {
+        this.shivok_count_0 = 1;
+      } else {
+        this.shivok_count_0 = 2;
+        var arr: any[];
+        this.main_arr = [];
+        for (let obj of this
+          .check_if_there_is_certificate_from_packege_that_sum_0) {
+          arr = await this.megadelSearchService.get_grower_all_det(
+            this.chosenMonthControl.value,
+            this.chosenYearControl.value,
+            first_day_of_the_month_full_year,
+            last_day_of_the_month_full_year,
+            obj.lull2000_code,
+            this.chosenShlohaControl.value
+          );
+          this.main_arr = [...this.main_arr, ...arr];
+        }
+        this.check_if_there_is_certificate_from_packege_that_sum_0 =
+          this.main_arr;
+      }
+
+      //בודק האם יש מיכסה למגדל אשר עבר את הפיצול וקיים שיווקים
+      this.check_if_all_grower_after_split_have_micsa =
+        await this.QaServiceService.qa_check_if_all_grower_after_split_have_micsa(
+          first_day_of_the_month_full_year,
+          last_day_of_the_month_full_year,
+          this.chosenYearControl.value,
+          this.chosenShlohaControl.value
+        );
+      console.log(this.check_if_all_grower_after_split_have_micsa);
+      if (this.check_if_all_grower_after_split_have_micsa.length === 0) {
+        this.micsot_all_growers_qa = 1;
+      } else {
+        this.micsot_all_growers_qa = 2;
+        var arr: any[];
+        this.main_arr = [];
+        for (let obj of this.check_if_all_grower_after_split_have_micsa) {
+          arr = await this.megadelSearchService.get_grower_all_det(
+            this.chosenMonthControl.value,
+            this.chosenYearControl.value,
+            first_day_of_the_month_full_year,
+            last_day_of_the_month_full_year,
+            obj.lull2000_code,
+            this.chosenShlohaControl.value
+          );
+          this.main_arr = [...this.main_arr, ...arr];
+        }
+        this.check_if_all_grower_after_split_have_micsa = this.main_arr;
+      }
+
+      // בודק האם יש מגדלים אשר יש להם מינוס בשיווק בגרואר ספליט
+      this.check_if_grower_have_minos_shivok =
+        await this.QaServiceService.qa_check_if_grower_have_minos_shivok(
+          first_day_of_the_month_full_year,
+          last_day_of_the_month_full_year
+        );
+      console.log(this.check_if_grower_have_minos_shivok);
+      if (this.check_if_grower_have_minos_shivok.length === 0) {
+        this.grower_with_minos_in_split = 1;
+      } else {
+        this.grower_with_minos_in_split = 2;
+        var arr: any[];
+        this.main_arr = [];
+        for (let obj of this.check_if_grower_have_minos_shivok) {
+          arr = await this.megadelSearchService.get_grower_all_det(
+            this.chosenMonthControl.value,
+            this.chosenYearControl.value,
+            first_day_of_the_month_full_year,
+            last_day_of_the_month_full_year,
+            obj.lull2000_code,
+            this.chosenShlohaControl.value
+          );
+          this.main_arr = [...this.main_arr, ...arr];
+        }
+        this.check_if_grower_have_minos_shivok = this.main_arr;
+      }
+
+      //   בודק האם יש למגדל שיווק אך אין לו חידוש
+      this.check_if_grower_have_shivok_and_not_hidosh =
+        await this.QaServiceService.qa_check_if_grower_have_shivok_and_not_hidosh(
+          first_day_of_the_month_full_year,
+          last_day_of_the_month_full_year
+        );
+      console.log(this.check_if_grower_have_shivok_and_not_hidosh);
+      if (this.check_if_grower_have_shivok_and_not_hidosh.length === 0) {
+        this.check_hidosh_all_growers_qa = 1;
+      } else {
+        this.check_hidosh_all_growers_qa = 2;
+        var arr: any[] = [];
+        this.main_arr = [];
+        for (let obj of this.check_if_grower_have_shivok_and_not_hidosh) {
+          arr = await this.megadelSearchService.get_grower_all_det(
+            this.chosenMonthControl.value,
+            this.chosenYearControl.value,
+            first_day_of_the_month_full_year,
+            last_day_of_the_month_full_year,
+            obj.lull2000_code,
+            this.chosenShlohaControl.value
+          );
+          this.main_arr = [...this.main_arr, ...arr];
+        }
+        this.check_if_grower_have_shivok_and_not_hidosh = this.main_arr;
+      }
+    }
+    this.isButtonDisabled = false;
+  }
 
   async calc() {}
   convert_from_oshik_to_maaravi(key: string): string {
@@ -438,6 +659,160 @@ export class ClosePaymentsComponent {
         );
       }
     }
+  }
+
+  // אקסל בדיקת מכסות
+  create_ecxel_testing_micsot_megadlim(data_to_excel): void {
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      lull2000_code: 'מס מגדל',
+      micsa_kvoha: 'מכסה',
+    };
+
+    this.transformedData = data_to_excel.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'בקרה - בדיקת מכסות מגדלים'
+    );
+  }
+  // אקסל פיצול כלל המגדלים
+  create_ecxel_testing_if_all_grower_from_packege_in_grower_split(
+    data_to_excel
+  ): void {
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      lull2000_code: 'מס מגדל',
+    };
+
+    this.transformedData = data_to_excel.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'בקרה -  בדיקת פיצול לכלל המגדלים'
+    );
+  }
+
+  // אקסל שיווק כמות 0 מגדלים
+  create_ecxel_testing_if_there_is_certificate_from_packege_that_sum_0(
+    data_to_excel
+  ): void {
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      lull2000_code: 'מס מגדל',
+    };
+
+    this.transformedData = data_to_excel.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'בקרה -  בדיקת כמות 0'
+    );
+  }
+
+  // אקסל  שיווק מגדל במינוס
+  create_ecxel_testing_if_grower_have_minos_shivok(data_to_excel): void {
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      lull2000_code: 'מס מגדל',
+    };
+
+    this.transformedData = data_to_excel.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'בקרה -  שיווק מגדל במינוס'
+    );
+  }
+
+  //   אקסל בדיקת חידושים למגדלים
+  create_ecxel_testing_if_grower_have_shivok_and_not_hidosh(
+    data_to_excel
+  ): void {
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      lull2000_code: 'מס מגדל',
+      flock_id: 'מס להקה',
+    };
+
+    this.transformedData = data_to_excel.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'בקרה -  שיווק מגדל במינוס'
+    );
+  }
+
+  // אקסל בדיקת סטטוס תעודה
+  create_ecxel_testing_if_all_certificate_is_in_transfer_status_id_3(
+    data_to_excel
+  ): void {
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      certificate_id: 'מס תעודה',
+      flock_id: 'מס להקה',
+
+      grower_name: 'שם מגדל',
+
+      lull2000_code: 'מס מגדל',
+
+      farm_code: 'מס משק',
+
+      msvk_name: 'שם משווק',
+
+      msvk_code: 'קוד משווק',
+
+      transfer_status_id: 'סטטוס תעודה',
+    };
+
+    this.transformedData = data_to_excel.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'בקרה -  בדיקת סטטוס תעודה'
+    );
   }
 
   getExcelData_new_test(data_to_excel): void {
@@ -736,100 +1111,61 @@ export class ClosePaymentsComponent {
     this.isLoading = false;
   }
 
+  changeLoadingText_func(): void {
+    this.textChangeInterval = setInterval(() => {
+      this.changeLoadingText();
+    }, 2000);
+  }
+
+  private changeLoadingText(): void {
+    const texts = [
+      'בדיקת פיצול לכלל המגדלים...',
+      'בדיקת סטטוס כלל התעודות...',
+      'בדיקת שיווק בכמות 0...',
+      'בדיקת מכסות מגדלים...',
+      'בדיקת חידוש למגדלים...',
+      'בדיקת חידוש למגדלים...',
+    ];
+
+    // Initialize or increment the counter
+    if (
+      this.loadingTextCounter === undefined ||
+      this.loadingTextCounter === texts.length - 1
+    ) {
+      this.loadingTextCounter = 0;
+    } else {
+      this.loadingTextCounter++;
+    }
+
+    // Set the loading text based on the counter
+    this.loadingText = texts[this.loadingTextCounter];
+  }
+
   async add() {
     this.isLoading = true;
+    this.changeLoadingText_func();
     console.log(this.chosenYearControl.value);
     console.log(this.chosenMonthControl.value);
     console.log(this.chosenShlohaControl.value);
     console.log(this.paymentControl.value);
     console.log('d');
 
-    // qa
-    if (this.chosenShlohaControl.value === '30') {
-      // יוצרים סטרינגים אשר מכילים את התאריך המלא מהיום הראשון של החודש לאחרון לפי מס חודש
-      var lastDay = this.getLastDayOfMonth(
-        Number(this.chosenMonthControl.value)
-      );
-      var first_day = '01';
-      var last_day_of_the_month_full_year = `${this.chosenYearControl.value}${this.chosenMonthControl.value}${lastDay}`;
-      var first_day_of_the_month_full_year = `${this.chosenYearControl.value}${this.chosenMonthControl.value}${first_day}`;
+    var Calc = await this.MegadelSearchInsertService.close_month_main(
+      this.chosenMonthControl.value,
+      this.chosenYearControl.value,
+      this.paymentControl.value,
+      this.chosenShlohaControl.value
+    );
 
-      //grower_split עברו את תהליך הפיצול ונמצאים עכשיו בטבלת  packege בדיקה האם כל המגדלים מטבלת
-      var if_all_grower_from_packege_in_grower_split: any[] =
-        await this.QaServiceService.qa_if_all_grower_from_packege_in_grower_split_by_dates(
-          first_day_of_the_month_full_year,
-          last_day_of_the_month_full_year
-        );
-      console.log(if_all_grower_from_packege_in_grower_split);
+    console.log(Calc);
 
-      // בדיקה האם כל התעודות של סגירת החודש המבוקש נמצאים בסטטוס "נקלטו במכון" כ
-      var if_all_certificate_is_in_transfer_status_id_3: any[] =
-        await this.QaServiceService.qa_check_if_all_certificate_is_in_transfer_status_id_3(
-          first_day_of_the_month_full_year,
-          last_day_of_the_month_full_year
-        );
-      console.log(if_all_certificate_is_in_transfer_status_id_3);
+    if (Calc[0]?.status === 'exist') {
+      this.openSuccessDialog('שגיאה - חודש זה כבר נסגר');
+    }
+    if (Calc[0]?.status === 'insert-successfully') {
+      console.log('in');
 
-      // אשר כמות השיווק שלהם היא 0 packege בדיקה האם יש תעודות בטבלת
-      var _check_if_there_is_certificate_from_packege_that_sum_0: any[] =
-        await this.QaServiceService.qa_check_if_there_is_certificate_from_packege_that_sum_0(
-          first_day_of_the_month_full_year,
-          last_day_of_the_month_full_year
-        );
-      console.log(_check_if_there_is_certificate_from_packege_that_sum_0);
-
-      //בודק האם יש מיכסה למגדל אשר עבר את הפיצול וקיים שיווקים
-      var check_if_all_grower_after_split_have_micsa: any[] =
-        await this.QaServiceService.qa_check_if_all_grower_after_split_have_micsa(
-          first_day_of_the_month_full_year,
-          last_day_of_the_month_full_year,
-          this.chosenYearControl.value,
-          this.chosenShlohaControl.value
-        );
-      console.log(check_if_all_grower_after_split_have_micsa);
-
-      // בודק האם יש מגדלים אשר יש להם מינוס בשיווק בגרואר ספליט
-      var check_if_grower_have_minos_shivok: any[] =
-        await this.QaServiceService.qa_check_if_grower_have_minos_shivok(
-          first_day_of_the_month_full_year,
-          last_day_of_the_month_full_year
-        );
-      console.log(check_if_grower_have_minos_shivok);
-
-      //   בודק האם יש למגדל שיווק אך אין לו חידוש
-      var check_if_grower_have_shivok_and_not_hidosh: any[] =
-        await this.QaServiceService.qa_check_if_grower_have_shivok_and_not_hidosh(
-          first_day_of_the_month_full_year,
-          last_day_of_the_month_full_year
-        );
-      console.log(check_if_grower_have_shivok_and_not_hidosh);
-
-      if (
-        check_if_grower_have_shivok_and_not_hidosh.length === 0 &&
-        check_if_grower_have_minos_shivok.length === 0 &&
-        check_if_all_grower_after_split_have_micsa.length === 0 &&
-        _check_if_there_is_certificate_from_packege_that_sum_0.length === 0 &&
-        if_all_certificate_is_in_transfer_status_id_3.length === 0 &&
-        if_all_grower_from_packege_in_grower_split.length === 0
-      ) {
-        var Calc = await this.MegadelSearchInsertService.close_month_main(
-          this.chosenMonthControl.value,
-          this.chosenYearControl.value,
-          this.paymentControl.value,
-          this.chosenShlohaControl.value
-        );
-
-        console.log(Calc);
-
-        if (Calc[0]?.status === 'exist') {
-          this.openSuccessDialog('שגיאה - חודש זה כבר נסגר');
-        }
-        if (Calc[0]?.status === 'insert-successfully') {
-          console.log('in');
-
-          this.openSuccessDialog('החודש נסגר בהצלחה');
-        }
-      }
+      this.openSuccessDialog('החודש נסגר בהצלחה');
     }
 
     this.isLoading = false;
