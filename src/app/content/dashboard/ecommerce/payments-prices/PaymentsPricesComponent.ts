@@ -62,7 +62,7 @@ export class PaymentsPricesComponent {
   yearInput: FormControl;
   transformedData: any[];
   selectedRow: number | null = null; // To track the edited row index
-
+  margeArr: any[] = [];
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
@@ -78,6 +78,7 @@ export class PaymentsPricesComponent {
     });
   }
   async ngOnInit() {
+    this.margeArr = [];
     this.chosenMonth = 'ינואר';
     this.payment = '02 - היטלים';
     const currentDate = new Date();
@@ -113,11 +114,12 @@ export class PaymentsPricesComponent {
     // כל סוגי התשלום
     this.all_payment_type =
       await this.megadelSearchService.get_all_payment_type_to_prices();
+
     //   מידע של כל השלוחות בהיטלים
     this.start_mergedArray = await this.get_data_hetelim_all_shlohot_by_yaer(
       this.chosenYear
     );
-
+    // כל שינויי המחיר הנוספים פר שנה
     var get_all_data_from_update_all_prices_by_year =
       await this.megadelSearchService.get_all_data_from_update_all_prices_by_year(
         this.chosenYear
@@ -137,30 +139,36 @@ export class PaymentsPricesComponent {
         year: item.year,
       }));
 
-    var margeArr = [
+    this.margeArr = [
       ...get_all_data_from_update_all_prices_by_year,
       ...this.start_mergedArray,
     ];
 
-     margeArr = margeArr.sort((a, b) => {
-        // Compare 'mh_tzrt' first
-        if (a.mh_tzrt !== b.mh_tzrt) {
-          return a.mh_tzrt.localeCompare(b.mh_tzrt);
-        }
-      
-        // If 'mh_tzrt' is the same, compare 'update_time'
-        const dateA:any = new Date(a.update_time);
-        const dateB:any = new Date(b.update_time);
-      
-        return dateA - dateB;
-      });
+    this.margeArr = this.margeArr.sort((a, b) => {
+      // Compare 'mh_tzrt' first
+      if (a.mh_tzrt !== b.mh_tzrt) {
+        return a.mh_tzrt.localeCompare(b.mh_tzrt);
+      }
 
-      console.log(margeArr);
-      
+      // If 'mh_tzrt' is the same, compare 'update_time'
+      const dateA: any = new Date(a.update_time);
+      const dateB: any = new Date(b.update_time);
 
-    this.data = margeArr;
+      return dateA - dateB;
+    });
+
+    console.log(this.margeArr);
+
+    this.data = this.start_mergedArray;
+    // this.data = margeArr;
+
     // פתיחת טבלה מתאימה
     this.open_table = '02';
+  }
+  //   end oninit
+
+  all_the_change_price() {
+    this.data = this.margeArr;
   }
 
   openPopup_editRowBtn(data: any) {

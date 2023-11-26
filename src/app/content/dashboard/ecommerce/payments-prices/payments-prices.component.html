@@ -99,6 +99,17 @@
           <button class="btn btn-warning search_btn" type="submit">חפש</button>
         </div>
 
+        <div class="col-md-2">
+          <button
+            class="btn btn-warning search_btn"
+            style="width: fit-content !important"
+            type="button"
+            (click)="all_the_change_price()"
+          >
+            הצגת שינויי מחיר
+          </button>
+        </div>
+
         <!--EXEL כפתור-->
         <!-- <div class="col-md-2 importBth" style="margin-top: 19px">
           <div class="justify-content importBth_div">
@@ -166,12 +177,12 @@
 
                 <!-- מתאריך -->
                 <td class="">
-                  {{ row.tk_date_from_hetelim }}
+                  {{ row.tk_date_from_hetelim | date : "dd/MM/yyyy" }}
                 </td>
 
                 <!-- עד תאריך -->
                 <td class="">
-                  {{ row.tk_date_to_hetelim }}
+                  {{ row.tk_date_to_hetelim | date : "dd/MM/yyyy" }}
                 </td>
 
                 <!-- קרן ויסות -->
