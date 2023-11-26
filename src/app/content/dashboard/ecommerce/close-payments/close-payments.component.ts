@@ -197,6 +197,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.payment_excel = '02';
   }
   async ngOnInit() {
+    this.isButtonDisabled = true;
+
     this.yearInput = new FormControl('', Validators.required);
     this.DetailsForm = new FormGroup({
       yaerBox: this.yearInput,
@@ -211,7 +213,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     clearInterval(this.textChangeInterval);
   }
 
-//   qa
+  //   qa
   async main_testing() {
     this.split_all_grower_qa = 4;
     this.status_all_grower_qa = 4;

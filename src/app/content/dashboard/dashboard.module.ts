@@ -70,11 +70,13 @@ import { ClosePaymentsComponent } from './ecommerce/close-payments/close-payment
 import { PaymentsPricesComponent } from './ecommerce/payments-prices/PaymentsPricesComponent';
 import { PopupAddPricesComponent } from './popup-add-prices/popup-add-prices.component';
 import { SuccessDialogComponent } from './ecommerce/success-dialog/success-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
 @NgModule({
   imports: [
+    MatTabsModule,
     BsDatepickerModule.forRoot(),
     MatDatepickerModule,
     MatNativeDateModule,
