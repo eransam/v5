@@ -1,607 +1,6 @@
 <div class="main_div">
   <mat-tab-group>
-    <mat-tab label="סגירת חודש">
-      <div class="userDetDiv_tatle">
-        <div
-          style="
-            margin-left: 30px;
-            display: flex;
-            justify-content: center !important;
-          "
-        >
-          <h3
-            class="userDetLabel"
-            style="justify-content: center !important; direction: rtl"
-          >
-            סגירת חודש:
-          </h3>
-        </div>
-      </div>
-      <!-- <div *ngIf="isLoading" class="loader"></div> -->
-      <div *ngIf="isLoading" class="loader2">{{ loadingText }}</div>
-
-      <div *ngIf="!isLoading">
-        <form
-          class="form form-horizontal row-separator"
-          (ngSubmit)="add()"
-          [formGroup]="DetailsForm"
-        >
-          <div class="form-body text-right">
-            <div
-              class="row"
-              style="margin-top: 40px; direction: rtl; margin-right: 25px"
-            >
-              <!-- בחר סוג תשלום -->
-
-              <div
-                class="year-select rtl_Style col-md-12"
-                style="padding-top: 23px"
-              >
-                <div>סוג תשלום:</div>
-
-                <select [(ngModel)]="payment" [formControl]="paymentControl">
-                  <option
-                    *ngFor="let obj of this.type_of_payment"
-                    [value]="obj.code"
-                  >
-                    {{ obj.code }} - {{ obj.name }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- רטרו \ שוטף -->
-              <div
-                class="year-select rtl_Style col-md-12"
-                style="padding-top: 23px; display: flex"
-              >
-                <div>
-                  <input
-                    type="radio"
-                    name="selectedOption2"
-                    [(ngModel)]="selected_option_status"
-                    [formControl]="selected_option_statusControl"
-                    value="1"
-                  />
-                  <label
-                    style="
-                      text-align: center;
-                      margin-top: 7px;
-                      margin-left: 10px;
-                    "
-                    >שוטף</label
-                  >
-                </div>
-
-                <div>
-                  <input
-                    type="radio"
-                    name="selectedOption2"
-                    [(ngModel)]="selected_option_status"
-                    [formControl]="selected_option_statusControl"
-                    value="2"
-                  />
-                  <label
-                    style="
-                      text-align: center;
-                      margin-top: 7px;
-                      margin-left: 10px;
-                    "
-                    >רטרו</label
-                  >
-                </div>
-              </div>
-
-              <!-- בחר שלוחה -->
-              <div
-                class="year-select rtl_Style col-md-12"
-                style="padding-top: 23px"
-              >
-                <div>שלוחה:</div>
-
-                <select
-                  [(ngModel)]="chosenShloha"
-                  [formControl]="chosenShlohaControl"
-                  (change)="change_shloha()"
-                >
-                  <option
-                    *ngFor="let obj of this.shlohot_cartificate"
-                    [value]="obj.code"
-                  >
-                    {{ obj.code }} - {{ obj.name }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- חיפוש לפי שנה -->
-              <div
-                class="year-select rtl_Style col-md-12"
-                style="padding-top: 23px"
-              >
-                <div>שנה:</div>
-                <input
-                  [(ngModel)]="chosenYear"
-                  [formControl]="chosenYearControl"
-                  type="number"
-                  style="width: 125px; height: 32px; padding: 5px"
-                />
-                <select
-                  [(ngModel)]="chosenYear"
-                  [formControl]="chosenYearControl"
-                  style="width: 30px; height: 32px; margin-left: 10px"
-                >
-                  <option *ngFor="let year of years" [value]="year">
-                    {{ year }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- חיפוש לפי חודש -->
-              <div
-                class="year-select rtl_Style col-md-12"
-                style="padding-top: 23px"
-              >
-                <div>חודש:</div>
-                <select
-                  [(ngModel)]="chosenMonth"
-                  [formControl]="chosenMonthControl"
-                  style="width: 125px; height: 32px; margin-left: 10px"
-                >
-                  <option *ngFor="let month of months" [value]="month.code">
-                    {{ month.name }}
-                  </option>
-                </select>
-              </div>
-              <br />
-              <div
-                *ngIf="!isLoading_FarmDetails"
-                class="mainTableClass"
-                style="
-                  font-weight: bold;
-                  font-size: 18px !important;
-                  width: fit-content !important;
-                  height: fit-content;
-                "
-              >
-                <table
-                  class=""
-                  style="direction: rtl; width: fit-content; margin-top: 30px"
-                >
-                  <thead class="detailsTable">
-                    <tr class="the_tatle_res_table">
-                      <th scope="col" class="border-top-0">בקרות לפני סגירה</th>
-
-                      <th scope="col" class="border-top-0">סטטוס</th>
-
-                      <th scope="col" class="border-top-0">דוח</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <!--'בדיקת פיצול לכלל המגדלים...',-->
-                    <tr class="the_res_table">
-                      <!-- בדיקה -->
-                      <td class="">1. בדיקת פיצול לכלל המגדלים</td>
-                      <!-- סטטוס -->
-                      <td scope="col" class="border-top-0">
-                        <div>
-                          <span
-                            *ngIf="this.split_all_grower_qa === 1"
-                            style="color: green; font-size: 2rem"
-                            >√</span
-                          >
-                          <span
-                            *ngIf="this.split_all_grower_qa === 2"
-                            style="color: red; font-size: 2rem"
-                            >X</span
-                          >
-                          <span
-                            *ngIf="this.split_all_grower_qa === 3"
-                            style="font-size: 2rem"
-                            >...</span
-                          >
-
-                          <span
-                            *ngIf="this.split_all_grower_qa === 4"
-                            style="font-size: 2rem"
-                          >
-                            <div class="small_loader"></div>
-                          </span>
-                        </div>
-                      </td>
-
-                      <!-- דוח -->
-                      <td *ngIf="this.split_all_grower_qa !== 2" class="">
-                        ...
-                      </td>
-                      <td *ngIf="this.split_all_grower_qa === 2" class="">
-                        <!--EXEL כפתור-->
-                        <div
-                          class="col-md-12 importBth"
-                          style="margin-top: 19px"
-                        >
-                          <div class="justify-content importBth_div">
-                            <img
-                              style="height: 35px; margin-right: 10px"
-                              class=""
-                              src="assets/images/logo/excel.png"
-                              alt="Image"
-                              (click)="
-                                this.create_ecxel_testing_if_all_grower_from_packege_in_grower_split(
-                                  this
-                                    .if_all_grower_from_packege_in_grower_split
-                                )
-                              "
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <!-- 'בדיקת סטטוס כלל התעודות...', -->
-                    <tr class="the_res_table">
-                      <!-- בדיקה -->
-                      <td class="">2. בדיקת סטטוס כלל התעודות</td>
-                      <!-- סטטוס -->
-                      <td scope="col" class="border-top-0">
-                        <div>
-                          <span
-                            *ngIf="this.status_all_grower_qa === 1"
-                            style="color: green; font-size: 2rem"
-                            >√</span
-                          >
-                          <span
-                            *ngIf="this.status_all_grower_qa === 2"
-                            style="color: red; font-size: 2rem"
-                            >X</span
-                          >
-                          <span
-                            *ngIf="this.status_all_grower_qa === 3"
-                            style="font-size: 2rem"
-                            >...</span
-                          >
-                          <span
-                            *ngIf="this.status_all_grower_qa === 4"
-                            style="font-size: 2rem"
-                          >
-                            <div class="small_loader"></div>
-                          </span>
-                        </div>
-                      </td>
-
-                      <!-- דוח -->
-                      <td *ngIf="this.status_all_grower_qa !== 2" class="">
-                        ...
-                      </td>
-                      <td *ngIf="this.status_all_grower_qa === 2" class="">
-                        <!--EXEL כפתור-->
-                        <div
-                          class="col-md-12 importBth"
-                          style="margin-top: 19px"
-                        >
-                          <div class="justify-content importBth_div">
-                            <img
-                              style="height: 35px; margin-right: 10px"
-                              class=""
-                              src="assets/images/logo/excel.png"
-                              alt="Image"
-                              (click)="
-                                this.create_ecxel_testing_if_all_certificate_is_in_transfer_status_id_3(
-                                  this
-                                    .if_all_certificate_is_in_transfer_status_id_3
-                                )
-                              "
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <!-- 'בדיקת שיווק בכמות 0...', -->
-                    <tr class="the_res_table">
-                      <!-- בדיקה -->
-                      <td class="">3. בדיקת שיווק בכמות 0</td>
-                      <!-- סטטוס -->
-                      <td scope="col" class="border-top-0">
-                        <div>
-                          <span
-                            *ngIf="this.shivok_count_0 === 1"
-                            style="color: green; font-size: 2rem"
-                            >√</span
-                          >
-                          <span
-                            *ngIf="this.shivok_count_0 === 2"
-                            style="color: red; font-size: 2rem"
-                            >X</span
-                          >
-                          <span
-                            *ngIf="this.shivok_count_0 === 3"
-                            style="font-size: 2rem"
-                            >...</span
-                          >
-                          <span
-                            *ngIf="this.shivok_count_0 === 4"
-                            style="font-size: 2rem"
-                          >
-                            <div class="small_loader"></div>
-                          </span>
-                        </div>
-                      </td>
-
-                      <!-- דוח -->
-                      <td *ngIf="this.shivok_count_0 !== 2" class="">...</td>
-                      <td *ngIf="this.shivok_count_0 === 2" class="">
-                        <!--EXEL כפתור-->
-                        <div
-                          class="col-md-12 importBth"
-                          style="margin-top: 19px"
-                        >
-                          <div class="justify-content importBth_div">
-                            <img
-                              style="height: 35px; margin-right: 10px"
-                              class=""
-                              src="assets/images/logo/excel.png"
-                              alt="Image"
-                              (click)="
-                                this.create_ecxel_testing_if_there_is_certificate_from_packege_that_sum_0(
-                                  this
-                                    .check_if_there_is_certificate_from_packege_that_sum_0
-                                )
-                              "
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <!-- 'בדיקת מכסות מגדלים...', -->
-                    <tr class="the_res_table">
-                      <!-- בדיקה -->
-                      <td class="">4. בדיקת מכסות מגדלים</td>
-                      <!-- סטטוס -->
-                      <td scope="col" class="border-top-0">
-                        <div>
-                          <span
-                            *ngIf="this.micsot_all_growers_qa === 1"
-                            style="color: green; font-size: 2rem"
-                            >√</span
-                          >
-                          <span
-                            *ngIf="this.micsot_all_growers_qa === 2"
-                            style="color: red; font-size: 2rem"
-                            >X</span
-                          >
-                          <span
-                            *ngIf="this.micsot_all_growers_qa === 3"
-                            style="font-size: 2rem"
-                            >...</span
-                          >
-                          <span
-                            *ngIf="this.micsot_all_growers_qa === 4"
-                            style="font-size: 2rem"
-                          >
-                            <div class="small_loader"></div>
-                          </span>
-                        </div>
-                      </td>
-
-                      <!-- דוח -->
-                      <td *ngIf="this.micsot_all_growers_qa !== 2" class="">
-                        ...
-                      </td>
-                      <td *ngIf="this.micsot_all_growers_qa === 2" class="">
-                        <!--EXEL כפתור-->
-                        <div
-                          class="col-md-12 importBth"
-                          style="margin-top: 19px"
-                        >
-                          <div class="justify-content importBth_div">
-                            <img
-                              style="height: 35px; margin-right: 10px"
-                              class=""
-                              src="assets/images/logo/excel.png"
-                              alt="Image"
-                              (click)="
-                                this.create_ecxel_testing_micsot_megadlim(
-                                  this
-                                    .check_if_all_grower_after_split_have_micsa
-                                )
-                              "
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <!-- 'בדיקת מגדלים במינוס בפיצול...', -->
-                    <tr class="the_res_table">
-                      <!-- בדיקה -->
-                      <td class="">5. בדיקת מגדלים במינוס בפיצול</td>
-                      <!-- סטטוס -->
-                      <td scope="col" class="border-top-0">
-                        <div>
-                          <span
-                            *ngIf="this.grower_with_minos_in_split === 1"
-                            style="color: green; font-size: 2rem"
-                            >√</span
-                          >
-                          <span
-                            *ngIf="this.grower_with_minos_in_split === 2"
-                            style="color: red; font-size: 2rem"
-                            >X</span
-                          >
-                          <span
-                            *ngIf="this.grower_with_minos_in_split === 3"
-                            style="font-size: 2rem"
-                            >...</span
-                          >
-                          <span
-                            *ngIf="this.grower_with_minos_in_split === 4"
-                            style="font-size: 2rem"
-                          >
-                            <div class="small_loader"></div>
-                          </span>
-                        </div>
-                      </td>
-
-                      <!-- דוח -->
-                      <td
-                        *ngIf="this.grower_with_minos_in_split !== 2"
-                        class=""
-                      >
-                        ...
-                      </td>
-                      <td
-                        *ngIf="this.grower_with_minos_in_split === 2"
-                        class=""
-                      >
-                        <!--EXEL כפתור-->
-                        <div
-                          class="col-md-12 importBth"
-                          style="margin-top: 19px"
-                        >
-                          <div class="justify-content importBth_div">
-                            <img
-                              style="height: 35px; margin-right: 10px"
-                              class=""
-                              src="assets/images/logo/excel.png"
-                              alt="Image"
-                              (click)="
-                                this.create_ecxel_testing_if_grower_have_minos_shivok(
-                                  this.check_if_grower_have_minos_shivok
-                                )
-                              "
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <!-- 'בדיקת חידוש למגדלים...', -->
-                    <tr class="the_res_table">
-                      <!-- בדיקה -->
-                      <td class="">6. בדיקת חידוש למגדלים</td>
-
-                      <!-- סטטוס -->
-                      <td scope="col" class="border-top-0">
-                        <div>
-                          <span
-                            *ngIf="this.check_hidosh_all_growers_qa === 1"
-                            style="color: green; font-size: 2rem"
-                            >√</span
-                          >
-                          <span
-                            *ngIf="this.check_hidosh_all_growers_qa === 2"
-                            style="color: red; font-size: 2rem"
-                            >X</span
-                          >
-                          <span
-                            *ngIf="this.check_hidosh_all_growers_qa === 3"
-                            style="font-size: 2rem"
-                            >...</span
-                          >
-                          <span
-                            *ngIf="this.check_hidosh_all_growers_qa === 4"
-                            style="font-size: 2rem"
-                          >
-                            <div class="small_loader"></div>
-                          </span>
-                        </div>
-                      </td>
-
-                      <!-- דוח -->
-                      <td
-                        *ngIf="this.check_hidosh_all_growers_qa !== 2"
-                        class=""
-                      >
-                        ...
-                      </td>
-                      <td
-                        *ngIf="this.check_hidosh_all_growers_qa === 2"
-                        class=""
-                      >
-                        <!--EXEL כפתור-->
-                        <div
-                          class="col-md-12 importBth"
-                          style="margin-top: 19px"
-                        >
-                          <div class="justify-content importBth_div">
-                            <img
-                              style="height: 35px; margin-right: 10px"
-                              class=""
-                              src="assets/images/logo/excel.png"
-                              alt="Image"
-                              (click)="
-                                this.create_ecxel_testing_if_grower_have_shivok_and_not_hidosh(
-                                  this
-                                    .check_if_grower_have_shivok_and_not_hidosh
-                                )
-                              "
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- כפתור ביצוע בקרה -->
-              <div class="col-md-6" style="">
-                <button
-                  class="btn btn-warning"
-                  style="
-                    margin-top: 35px !important;
-                    font-size: 25px !important;
-                    background-color: #3498db !important;
-                    border: none;
-                    height: 50px;
-                    position: relative;
-                    top: 373px;
-                  "
-                  (click)="main_testing()"
-                  type="button"
-                >
-                  ביצוע בקרה
-                </button>
-              </div>
-
-              <!-- כפתור סגירת חודש -->
-              <div class="col-md-12" style="margin-bottom: 20px">
-                <button
-                  [disabled]="isButtonDisabled"
-                  class="btn btn-warning"
-                  style="
-                    margin-top: 35px !important;
-                    font-size: 25px !important;
-                    background-color: #3498db !important;
-                    border: none;
-                  "
-                  type="submit"
-                >
-                  סגירת חודש
-                </button>
-              </div>
-
-              <!-- כפתור מחיקה -->
-              <div class="col-md-2" style="margin-bottom: 20px">
-                <button
-                  class="btn btn-warning"
-                  style="
-                    margin-top: 35px !important;
-                    font-size: 25px !important;
-                    background-color: #3498db !important;
-                    border: none;
-                  "
-                  (click)="delete_month()"
-                  type="button"
-                >
-                  מחיקת חודש
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </mat-tab>
-    <mat-tab label="ייצוא חודש">
+    <mat-tab label="דוחות">
       <div class="userDetDiv_tatle">
         <div
           style="
@@ -659,6 +58,7 @@
                 [formControl]="chosenShlohaControl_excel"
                 (change)="change_shloha()"
               >
+                <option value="" disabled selected>בחר שלוחה</option>
                 <option
                   *ngFor="let obj of this.shlohot_cartificate"
                   [value]="obj.code"
@@ -765,6 +165,621 @@
           </div>
         </div>
       </form>
+    </mat-tab>
+    <mat-tab label="סגירת חודש">
+      <div class="userDetDiv_tatle">
+        <div
+          style="
+            margin-left: 30px;
+            display: flex;
+            justify-content: center !important;
+          "
+        >
+          <h3
+            class="userDetLabel"
+            style="justify-content: center !important; direction: rtl"
+          >
+            סגירת חודש:
+          </h3>
+        </div>
+      </div>
+      <!-- <div *ngIf="isLoading" class="loader"></div> -->
+      <div *ngIf="isLoading" class="loader2">{{ loadingText }}</div>
+
+      <div *ngIf="!isLoading">
+        <form
+          class="form form-horizontal row-separator"
+          (ngSubmit)="add()"
+          [formGroup]="DetailsForm"
+        >
+          <div class="form-body text-right">
+            <div
+              class="row"
+              style="margin-top: 40px; direction: rtl; margin-right: 25px"
+            >
+              <!-- בחר סוג תשלום -->
+
+              <div
+                class="year-select rtl_Style col-md-12"
+                style="padding-top: 23px"
+              >
+                <div>סוג תשלום:</div>
+
+                <select [(ngModel)]="payment" [formControl]="paymentControl">
+                  <option
+                    *ngFor="let obj of this.type_of_payment"
+                    [value]="obj.code"
+                  >
+                    {{ obj.code }} - {{ obj.name }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- רטרו \ שוטף -->
+              <div
+                class="year-select rtl_Style col-md-12"
+                style="padding-top: 23px; display: flex"
+              >
+                <div>
+                  <input
+                    type="radio"
+                    name="selectedOption2"
+                    [(ngModel)]="selected_option_status"
+                    [formControl]="selected_option_statusControl"
+                    value="1"
+                  />
+                  <label
+                    style="
+                      text-align: center;
+                      margin-top: 7px;
+                      margin-left: 10px;
+                    "
+                    >שוטף</label
+                  >
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="selectedOption2"
+                    [(ngModel)]="selected_option_status"
+                    [formControl]="selected_option_statusControl"
+                    value="2"
+                  />
+                  <label
+                    style="
+                      text-align: center;
+                      margin-top: 7px;
+                      margin-left: 10px;
+                    "
+                    >רטרו</label
+                  >
+                </div>
+              </div>
+
+              <!-- בחר שלוחה -->
+              <div
+                class="year-select rtl_Style col-md-12"
+                style="padding-top: 23px"
+              >
+                <div>שלוחה:</div>
+
+                <select
+                  [(ngModel)]="chosenShloha"
+                  [formControl]="chosenShlohaControl"
+                  (change)="change_shloha()"
+                >
+                  <option value="" disabled selected>בחר שלוחה</option>
+                  <option
+                    *ngFor="let obj of this.shlohot_cartificate"
+                    [value]="obj.code"
+                  >
+                    {{ obj.code }} - {{ obj.name }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- חיפוש לפי שנה -->
+              <div
+                class="year-select rtl_Style col-md-12"
+                style="padding-top: 23px"
+              >
+                <div>שנה:</div>
+                <input
+                  [(ngModel)]="chosenYear"
+                  [formControl]="chosenYearControl"
+                  type="number"
+                  style="width: 125px; height: 32px; padding: 5px"
+                />
+                <select
+                  [(ngModel)]="chosenYear"
+                  [formControl]="chosenYearControl"
+                  style="width: 30px; height: 32px; margin-left: 10px"
+                >
+                  <option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- חיפוש לפי חודש -->
+              <div
+                class="year-select rtl_Style col-md-12"
+                style="padding-top: 23px"
+              >
+                <div>חודש:</div>
+                <select
+                  [(ngModel)]="chosenMonth"
+                  [formControl]="chosenMonthControl"
+                  style="width: 125px; height: 32px; margin-left: 10px"
+                >
+                  <option *ngFor="let month of months" [value]="month.code">
+                    {{ month.name }}
+                  </option>
+                </select>
+              </div>
+              <br />
+
+              <!-- טבלת בקרות -->
+              <div
+                *ngIf="!isLoading_FarmDetails && bakara_shloha"
+                class="mainTableClass"
+                style="
+                  font-weight: bold;
+                  font-size: 18px !important;
+                  width: fit-content !important;
+                  height: fit-content;
+                "
+              >
+                <table
+                  class=""
+                  style="direction: rtl; width: fit-content; margin-top: 30px"
+                >
+                  <thead class="detailsTable">
+                    <tr class="the_tatle_res_table">
+                      <th scope="col" class="border-top-0">בקרות לפני סגירה</th>
+
+                      <th scope="col" class="border-top-0">סטטוס</th>
+
+                      <th scope="col" class="border-top-0">דוח</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    
+                    <!-- 'בדיקת מכסות מגדלים...', -->
+                    <tr class="the_res_table">
+                        <!-- בדיקה -->
+                        <td class="">4. בדיקת מכסות מגדלים</td>
+                        <!-- סטטוס -->
+                        <td scope="col" class="border-top-0">
+                          <div>
+                            <span
+                              *ngIf="this.micsot_all_growers_qa === 1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngIf="this.micsot_all_growers_qa === 2"
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                            <span
+                              *ngIf="this.micsot_all_growers_qa === 3"
+                              style="font-size: 2rem"
+                              >...</span
+                            >
+                            <span
+                              *ngIf="this.micsot_all_growers_qa === 4"
+                              style="font-size: 2rem"
+                            >
+                              <div class="small_loader"></div>
+                            </span>
+                          </div>
+                        </td>
+  
+                        <!-- דוח -->
+                        <td *ngIf="this.micsot_all_growers_qa !== 2" class="">
+                          ...
+                        </td>
+                        <td *ngIf="this.micsot_all_growers_qa === 2" class="">
+                          <!--EXEL כפתור-->
+                          <div
+                            class="col-md-12 importBth"
+                            style="margin-top: 19px"
+                          >
+                            <div class="justify-content importBth_div">
+                              <img
+                                style="height: 35px; margin-right: 10px"
+                                class=""
+                                src="assets/images/logo/excel.png"
+                                alt="Image"
+                                (click)="
+                                  this.create_ecxel_testing_micsot_megadlim(
+                                    this
+                                      .check_if_all_grower_after_split_have_micsa
+                                  )
+                                "
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                                          <!-- 'בדיקת שיווק בכמות 0...', -->
+                    <tr class="the_res_table">
+                        <!-- בדיקה -->
+                        <td class="">3. בדיקת שיווק בכמות 0</td>
+                        <!-- סטטוס -->
+                        <td scope="col" class="border-top-0">
+                          <div>
+                            <span
+                              *ngIf="this.shivok_count_0 === 1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngIf="this.shivok_count_0 === 2"
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                            <span
+                              *ngIf="this.shivok_count_0 === 3"
+                              style="font-size: 2rem"
+                              >...</span
+                            >
+                            <span
+                              *ngIf="this.shivok_count_0 === 4"
+                              style="font-size: 2rem"
+                            >
+                              <div class="small_loader"></div>
+                            </span>
+                          </div>
+                        </td>
+  
+                        <!-- דוח -->
+                        <td *ngIf="this.shivok_count_0 !== 2" class="">...</td>
+                        <td *ngIf="this.shivok_count_0 === 2" class="">
+                          <!--EXEL כפתור-->
+                          <div
+                            class="col-md-12 importBth"
+                            style="margin-top: 19px"
+                          >
+                            <div class="justify-content importBth_div">
+                              <img
+                                style="height: 35px; margin-right: 10px"
+                                class=""
+                                src="assets/images/logo/excel.png"
+                                alt="Image"
+                                (click)="
+                                  this.create_ecxel_testing_if_there_is_certificate_from_packege_that_sum_0(
+                                    this
+                                      .check_if_there_is_certificate_from_packege_that_sum_0
+                                  )
+                                "
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    <!-- 'בדיקת חידוש למגדלים...', -->
+                    <tr class="the_res_table">
+                        <!-- בדיקה -->
+                        <td class="">6. בדיקת חידוש למגדלים</td>
+  
+                        <!-- סטטוס -->
+                        <td scope="col" class="border-top-0">
+                          <div>
+                            <span
+                              *ngIf="this.check_hidosh_all_growers_qa === 1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngIf="this.check_hidosh_all_growers_qa === 2"
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                            <span
+                              *ngIf="this.check_hidosh_all_growers_qa === 3"
+                              style="font-size: 2rem"
+                              >...</span
+                            >
+                            <span
+                              *ngIf="this.check_hidosh_all_growers_qa === 4"
+                              style="font-size: 2rem"
+                            >
+                              <div class="small_loader"></div>
+                            </span>
+                          </div>
+                        </td>
+  
+                        <!-- דוח -->
+                        <td
+                          *ngIf="this.check_hidosh_all_growers_qa !== 2"
+                          class=""
+                        >
+                          ...
+                        </td>
+                        <td
+                          *ngIf="this.check_hidosh_all_growers_qa === 2"
+                          class=""
+                        >
+                          <!--EXEL כפתור-->
+                          <div
+                            class="col-md-12 importBth"
+                            style="margin-top: 19px"
+                          >
+                            <div class="justify-content importBth_div">
+                              <img
+                                style="height: 35px; margin-right: 10px"
+                                class=""
+                                src="assets/images/logo/excel.png"
+                                alt="Image"
+                                (click)="
+                                  this.create_ecxel_testing_if_grower_have_shivok_and_not_hidosh(
+                                    this
+                                      .check_if_grower_have_shivok_and_not_hidosh
+                                  )
+                                "
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+
+                    <!-- 'בדיקת מגדלים במינוס בפיצול...', -->
+                    <tr class="the_res_table">
+                        <!-- בדיקה -->
+                        <td class="">5. בדיקת מגדלים במינוס בפיצול</td>
+                        <!-- סטטוס -->
+                        <td scope="col" class="border-top-0">
+                          <div>
+                            <span
+                              *ngIf="this.grower_with_minos_in_split === 1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngIf="this.grower_with_minos_in_split === 2"
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                            <span
+                              *ngIf="this.grower_with_minos_in_split === 3"
+                              style="font-size: 2rem"
+                              >...</span
+                            >
+                            <span
+                              *ngIf="this.grower_with_minos_in_split === 4"
+                              style="font-size: 2rem"
+                            >
+                              <div class="small_loader"></div>
+                            </span>
+                          </div>
+                        </td>
+  
+                        <!-- דוח -->
+                        <td
+                          *ngIf="this.grower_with_minos_in_split !== 2"
+                          class=""
+                        >
+                          ...
+                        </td>
+                        <td
+                          *ngIf="this.grower_with_minos_in_split === 2"
+                          class=""
+                        >
+                          <!--EXEL כפתור-->
+                          <div
+                            class="col-md-12 importBth"
+                            style="margin-top: 19px"
+                          >
+                            <div class="justify-content importBth_div">
+                              <img
+                                style="height: 35px; margin-right: 10px"
+                                class=""
+                                src="assets/images/logo/excel.png"
+                                alt="Image"
+                                (click)="
+                                  this.create_ecxel_testing_if_grower_have_minos_shivok(
+                                    this.check_if_grower_have_minos_shivok
+                                  )
+                                "
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+
+
+
+
+                    <!-- 'בדיקת סטטוס כלל התעודות...', -->
+                    <tr class="the_res_table">
+                      <!-- בדיקה -->
+                      <td class="">2. בדיקת סטטוס כלל התעודות</td>
+                      <!-- סטטוס -->
+                      <td scope="col" class="border-top-0">
+                        <div>
+                          <span
+                            *ngIf="this.status_all_grower_qa === 1"
+                            style="color: green; font-size: 2rem"
+                            >√</span
+                          >
+                          <span
+                            *ngIf="this.status_all_grower_qa === 2"
+                            style="color: red; font-size: 2rem"
+                            >X</span
+                          >
+                          <span
+                            *ngIf="this.status_all_grower_qa === 3"
+                            style="font-size: 2rem"
+                            >...</span
+                          >
+                          <span
+                            *ngIf="this.status_all_grower_qa === 4"
+                            style="font-size: 2rem"
+                          >
+                            <div class="small_loader"></div>
+                          </span>
+                        </div>
+                      </td>
+
+                      <!-- דוח -->
+                      <td *ngIf="this.status_all_grower_qa !== 2" class="">
+                        ...
+                      </td>
+                      <td *ngIf="this.status_all_grower_qa === 2" class="">
+                        <!--EXEL כפתור-->
+                        <div
+                          class="col-md-12 importBth"
+                          style="margin-top: 19px"
+                        >
+                          <div class="justify-content importBth_div">
+                            <img
+                              style="height: 35px; margin-right: 10px"
+                              class=""
+                              src="assets/images/logo/excel.png"
+                              alt="Image"
+                              (click)="
+                                this.create_ecxel_testing_if_all_certificate_is_in_transfer_status_id_3(
+                                  this
+                                    .if_all_certificate_is_in_transfer_status_id_3
+                                )
+                              "
+                            />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!--'בדיקת פיצול לכלל המגדלים...',-->
+                    <tr class="the_res_table">
+                        <!-- בדיקה -->
+                        <td class="">1. בדיקת פיצול לכלל המגדלים</td>
+                        <!-- סטטוס -->
+                        <td scope="col" class="border-top-0">
+                          <div>
+                            <span
+                              *ngIf="this.split_all_grower_qa === 1"
+                              style="color: green; font-size: 2rem"
+                              >√</span
+                            >
+                            <span
+                              *ngIf="this.split_all_grower_qa === 2"
+                              style="color: red; font-size: 2rem"
+                              >X</span
+                            >
+                            <span
+                              *ngIf="this.split_all_grower_qa === 3"
+                              style="font-size: 2rem"
+                              >...</span
+                            >
+  
+                            <span
+                              *ngIf="this.split_all_grower_qa === 4"
+                              style="font-size: 2rem"
+                            >
+                              <div class="small_loader"></div>
+                            </span>
+                          </div>
+                        </td>
+  
+                        <!-- דוח -->
+                        <td *ngIf="this.split_all_grower_qa !== 2" class="">
+                          ...
+                        </td>
+                        <td *ngIf="this.split_all_grower_qa === 2" class="">
+                          <!--EXEL כפתור-->
+                          <div
+                            class="col-md-12 importBth"
+                            style="margin-top: 19px"
+                          >
+                            <div class="justify-content importBth_div">
+                              <img
+                                style="height: 35px; margin-right: 10px"
+                                class=""
+                                src="assets/images/logo/excel.png"
+                                alt="Image"
+                                (click)="
+                                  this.create_ecxel_testing_if_all_grower_from_packege_in_grower_split(
+                                    this
+                                      .if_all_grower_from_packege_in_grower_split
+                                  )
+                                "
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+
+
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- כפתור ביצוע בקרה -->
+              <div *ngIf="bakara_shloha" class="col-md-6" style="">
+                <button
+                  class="btn btn-warning"
+                  style="
+                    margin-top: 35px !important;
+                    font-size: 25px !important;
+                    background-color: #3498db !important;
+                    border: none;
+                    height: 50px;
+                    position: relative;
+                    top: 373px;
+                  "
+                  (click)="main_testing()"
+                  type="button"
+                >
+                  ביצוע בקרה
+                </button>
+              </div>
+
+              <!-- כפתור סגירת חודש -->
+              <div class="col-md-12" style="margin-bottom: 20px">
+                <button
+                  [disabled]="isButtonDisabled"
+                  class="btn btn-warning"
+                  style="
+                    margin-top: 35px !important;
+                    font-size: 25px !important;
+                    background-color: #3498db !important;
+                    border: none;
+                  "
+                  type="submit"
+                >
+                  סגירת חודש
+                </button>
+              </div>
+
+              <!-- כפתור מחיקה -->
+              <div class="col-md-2" style="margin-bottom: 20px">
+                <button
+                  class="btn btn-warning"
+                  style="
+                    margin-top: 35px !important;
+                    font-size: 25px !important;
+                    background-color: #3498db !important;
+                    border: none;
+                  "
+                  (click)="delete_month()"
+                  type="button"
+                >
+                  מחיקת חודש
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>

@@ -184,11 +184,18 @@ export class PaymentsPricesComponent {
 
   async get_data_hetelim_all_shlohot_by_yaer(year: any) {
     // המידע ההתחלתי של כל השלוחות של ההיטלים
-    var hetelim = await this.megadelSearchService.Mhirim_Get_Tkufa_all_shlohot(
-      year,
-      '02',
-      '01'
-    );
+    // var hetelim = await this.megadelSearchService.Mhirim_Get_Tkufa_all_shlohot(
+    //   year,
+    //   '02',
+    //   '01'
+    // );
+
+    var hetelim =
+      await this.megadelSearchService.GET_all_prices_and_dates_new_2(
+        '02',
+        year
+      );
+
     for (let obj of hetelim) {
       obj.payment_name = '02 - היטלים';
       obj.payment_name_en = 'hetelim';

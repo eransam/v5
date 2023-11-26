@@ -10,6 +10,23 @@ import { environment } from 'src/environments/environment';
 export class MegadelSearchInsertService {
   constructor(private http: HttpClient) {}
 
+  async insert_price_updates_new_2(
+    mh_tzrt: any,
+    mh_tkufa_num_hetelim: any,
+    tk_date_from_hetelim: any,
+    tk_date_to_hetelim: any,
+    mh_mhir_hetelim: any,
+    year: any,
+    mh_sug_mhir: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/insert_price_updates_new_2?mh_tzrt=${mh_tzrt}&mh_tkufa_num_hetelim=${mh_tkufa_num_hetelim}&tk_date_from_hetelim=${tk_date_from_hetelim}&tk_date_to_hetelim=${tk_date_to_hetelim}&mh_mhir_hetelim=${mh_mhir_hetelim}&year=${year}&mh_sug_mhir=${mh_sug_mhir}`
+      )
+    );
+    return item;
+  }
+
   async insert_price_updates(
     main_price: any,
     visot_price: any,

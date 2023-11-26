@@ -62,7 +62,7 @@ export class PopupAddPricesComponent {
   }
 
   async saveRow(row: any) {
-                console.log(row);
+    console.log(row);
     var the_update_val =
       await this.megadelSearchService.update_hetelim_price_and_dates(
         row.tk_date_from_hetelim_today,
@@ -79,17 +79,27 @@ export class PopupAddPricesComponent {
         row.mh_mhir_visot
       );
 
-      
-      var insert_price_updates_table =
-      await this.MegadelSearchInsertService.insert_price_updates(
-        row.mh_mhir_hetelim,
-        row.mh_mhir_visot,
+    //   var insert_price_updates_table =
+    //   await this.MegadelSearchInsertService.insert_price_updates(
+    //     row.mh_mhir_hetelim,
+    //     row.mh_mhir_visot,
+    //     row.mh_tzrt,
+    //     row.name_shloha,
+    //    '02',
+    //     row.tk_date_from_hetelim,
+    //     row.tk_date_to_hetelim,
+    //     row.year
+    //   );
+
+    var insert_price_updates_table =
+      await this.MegadelSearchInsertService.insert_price_updates_new_2(
         row.mh_tzrt,
-        row.name_shloha,
-       '02',
+        row.mh_tkufa_num_hetelim,
         row.tk_date_from_hetelim,
         row.tk_date_to_hetelim,
-        row.year
+        row.mh_mhir_hetelim,
+        row.year.toString(),
+        '02'
       );
 
     console.log(the_update_visot);

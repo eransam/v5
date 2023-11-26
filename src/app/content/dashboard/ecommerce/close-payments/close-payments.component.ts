@@ -19,6 +19,7 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
   styleUrls: ['./close-payments.component.css'],
 })
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
+  bakara_shloha: boolean = false;
   main_arr: any[] = [];
   split_all_grower_qa = 3;
   status_all_grower_qa = 3;
@@ -26,7 +27,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   micsot_all_growers_qa = 3;
   grower_with_minos_in_split = 3;
   check_hidosh_all_growers_qa = 3;
-  selected_option_status: string = '0';
+  selected_option_status: string = '1';
   selected_option_status_excel: string = 'merokaz';
   isLoading: boolean = false;
   premia_table: boolean = false;
@@ -96,7 +97,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   theEndDateControl: any = '';
   theChosenSiteControl: any = 0;
   theChosenYearControl: any = 2023;
-  theChosenShlohaControl: any = '30';
+  theChosenShlohaControl: any = '';
   startDateControl_placeHolder: any = '20230101';
   endDateControl_placeHolder: any = '20231231';
   grower_extention: any[] = [];
@@ -115,6 +116,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   ];
   Hok_Galil: any[] = [];
   public currentPage: number = 1;
+  currentMonth: number;
+
   public rowsPerPage: number = 20;
   itemsPerPage = 20;
   theUserDet: any[] = [];
@@ -190,13 +193,23 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
     this.enteredYear = '2023';
     this.chosenSite = 'כולם';
-    this.chosenShloha = '30';
+    this.chosenShloha = '';
     this.chosenShloha_excel = '30';
 
     this.payment = '02';
     this.payment_excel = '02';
   }
   async ngOnInit() {
+    const currentDate = new Date();
+    this.currentMonth = currentDate.getMonth() + 1;
+    console.log(this.currentMonth);
+    if (this.currentMonth > 1) {
+      this.currentMonth = this.currentMonth - 1;
+      this.chosenMonth = this.currentMonth.toString();
+    } else {
+      this.chosenMonth = this.currentMonth.toString();
+    }
+
     this.isButtonDisabled = true;
 
     this.yearInput = new FormControl('', Validators.required);
@@ -461,6 +474,10 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   //   מביאה את סוגי התשלום בבחירת שלוחה
   async change_shloha() {
     this.the_change_shloha = this.chosenShlohaControl.value;
+
+    if (this.the_change_shloha === '30') {
+      this.bakara_shloha = true;
+    }
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.type_of_payment = [
         { name: 'סובסידיה', code: '01' },
@@ -666,9 +683,28 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   // אקסל בדיקת מכסות
   create_ecxel_testing_micsot_megadlim(data_to_excel): void {
     //   קביעת שמות בעברית לתצוגה באקסל
+
     const fieldTitleMapping = {
+      flock_close_date: 'תאריך סגירת להקה',
+      flock_status_id: 'סטטוס להקה',
+      flock_hatch_date: 'תאריך בקיעה',
+      flock_week_age: 'גיל בשבועות',
+      flock_month_age: 'גיל בחודשים',
+      month_shivok: 'חודש שיווק',
+      year_shivok: 'שנת שיווק',
       lull2000_code: 'מס מגדל',
-      micsa_kvoha: 'מכסה',
+      cd_gidul: 'קוד גידול',
+      Internal_Marketing: 'העברות פנימיות',
+      grower_name: 'שם מגדל',
+      settlement_name: 'שם שיוב',
+      is_main_grower: 'סוג מגדל',
+      farm_code: 'מס אתר',
+      flock_id: 'קוד אתר',
+      first_hiclos: 'איכלוס ראשוני',
+      marketing_sum: 'שיווק',
+      main_grower: 'מגדל ראשי',
+      micsa_kvoha: 'מיכסה קבועה',
+      marketing_main_grower: 'שיווק מגדל ראשי',
     };
 
     this.transformedData = data_to_excel.map((item) => {
@@ -685,13 +721,33 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       'בקרה - בדיקת מכסות מגדלים'
     );
   }
+
   // אקסל פיצול כלל המגדלים
   create_ecxel_testing_if_all_grower_from_packege_in_grower_split(
     data_to_excel
   ): void {
     //   קביעת שמות בעברית לתצוגה באקסל
     const fieldTitleMapping = {
+      flock_close_date: 'תאריך סגירת להקה',
+      flock_status_id: 'סטטוס להקה',
+      flock_hatch_date: 'תאריך בקיעה',
+      flock_week_age: 'גיל בשבועות',
+      flock_month_age: 'גיל בחודשים',
+      month_shivok: 'חודש שיווק',
+      year_shivok: 'שנת שיווק',
       lull2000_code: 'מס מגדל',
+      cd_gidul: 'קוד גידול',
+      Internal_Marketing: 'העברות פנימיות',
+      grower_name: 'שם מגדל',
+      settlement_name: 'שם שיוב',
+      is_main_grower: 'סוג מגדל',
+      farm_code: 'מס אתר',
+      flock_id: 'קוד אתר',
+      first_hiclos: 'איכלוס ראשוני',
+      marketing_sum: 'שיווק',
+      main_grower: 'מגדל ראשי',
+      micsa_kvoha: 'מיכסה קבועה',
+      marketing_main_grower: 'שיווק מגדל ראשי',
     };
 
     this.transformedData = data_to_excel.map((item) => {
@@ -715,7 +771,26 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   ): void {
     //   קביעת שמות בעברית לתצוגה באקסל
     const fieldTitleMapping = {
+      flock_close_date: 'תאריך סגירת להקה',
+      flock_status_id: 'סטטוס להקה',
+      flock_hatch_date: 'תאריך בקיעה',
+      flock_week_age: 'גיל בשבועות',
+      flock_month_age: 'גיל בחודשים',
+      month_shivok: 'חודש שיווק',
+      year_shivok: 'שנת שיווק',
       lull2000_code: 'מס מגדל',
+      cd_gidul: 'קוד גידול',
+      Internal_Marketing: 'העברות פנימיות',
+      grower_name: 'שם מגדל',
+      settlement_name: 'שם שיוב',
+      is_main_grower: 'סוג מגדל',
+      farm_code: 'מס אתר',
+      flock_id: 'קוד אתר',
+      first_hiclos: 'איכלוס ראשוני',
+      marketing_sum: 'שיווק',
+      main_grower: 'מגדל ראשי',
+      micsa_kvoha: 'מיכסה קבועה',
+      marketing_main_grower: 'שיווק מגדל ראשי',
     };
 
     this.transformedData = data_to_excel.map((item) => {
@@ -737,7 +812,26 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   create_ecxel_testing_if_grower_have_minos_shivok(data_to_excel): void {
     //   קביעת שמות בעברית לתצוגה באקסל
     const fieldTitleMapping = {
+      flock_close_date: 'תאריך סגירת להקה',
+      flock_status_id: 'סטטוס להקה',
+      flock_hatch_date: 'תאריך בקיעה',
+      flock_week_age: 'גיל בשבועות',
+      flock_month_age: 'גיל בחודשים',
+      month_shivok: 'חודש שיווק',
+      year_shivok: 'שנת שיווק',
       lull2000_code: 'מס מגדל',
+      cd_gidul: 'קוד גידול',
+      Internal_Marketing: 'העברות פנימיות',
+      grower_name: 'שם מגדל',
+      settlement_name: 'שם שיוב',
+      is_main_grower: 'סוג מגדל',
+      farm_code: 'מס אתר',
+      flock_id: 'קוד אתר',
+      first_hiclos: 'איכלוס ראשוני',
+      marketing_sum: 'שיווק',
+      main_grower: 'מגדל ראשי',
+      micsa_kvoha: 'מיכסה קבועה',
+      marketing_main_grower: 'שיווק מגדל ראשי',
     };
 
     this.transformedData = data_to_excel.map((item) => {
@@ -761,8 +855,26 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   ): void {
     //   קביעת שמות בעברית לתצוגה באקסל
     const fieldTitleMapping = {
+      flock_close_date: 'תאריך סגירת להקה',
+      flock_status_id: 'סטטוס להקה',
+      flock_hatch_date: 'תאריך בקיעה',
+      flock_week_age: 'גיל בשבועות',
+      flock_month_age: 'גיל בחודשים',
+      month_shivok: 'חודש שיווק',
+      year_shivok: 'שנת שיווק',
       lull2000_code: 'מס מגדל',
-      flock_id: 'מס להקה',
+      cd_gidul: 'קוד גידול',
+      Internal_Marketing: 'העברות פנימיות',
+      grower_name: 'שם מגדל',
+      settlement_name: 'שם שיוב',
+      is_main_grower: 'סוג מגדל',
+      farm_code: 'מס אתר',
+      flock_id: 'קוד אתר',
+      first_hiclos: 'איכלוס ראשוני',
+      marketing_sum: 'שיווק',
+      main_grower: 'מגדל ראשי',
+      micsa_kvoha: 'מיכסה קבועה',
+      marketing_main_grower: 'שיווק מגדל ראשי',
     };
 
     this.transformedData = data_to_excel.map((item) => {
@@ -786,20 +898,26 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   ): void {
     //   קביעת שמות בעברית לתצוגה באקסל
     const fieldTitleMapping = {
-      certificate_id: 'מס תעודה',
-      flock_id: 'מס להקה',
-
-      grower_name: 'שם מגדל',
-
+      flock_close_date: 'תאריך סגירת להקה',
+      flock_status_id: 'סטטוס להקה',
+      flock_hatch_date: 'תאריך בקיעה',
+      flock_week_age: 'גיל בשבועות',
+      flock_month_age: 'גיל בחודשים',
+      month_shivok: 'חודש שיווק',
+      year_shivok: 'שנת שיווק',
       lull2000_code: 'מס מגדל',
-
-      farm_code: 'מס משק',
-
-      msvk_name: 'שם משווק',
-
-      msvk_code: 'קוד משווק',
-
-      transfer_status_id: 'סטטוס תעודה',
+      cd_gidul: 'קוד גידול',
+      Internal_Marketing: 'העברות פנימיות',
+      grower_name: 'שם מגדל',
+      settlement_name: 'שם שיוב',
+      is_main_grower: 'סוג מגדל',
+      farm_code: 'מס אתר',
+      flock_id: 'קוד אתר',
+      first_hiclos: 'איכלוס ראשוני',
+      marketing_sum: 'שיווק',
+      main_grower: 'מגדל ראשי',
+      micsa_kvoha: 'מיכסה קבועה',
+      marketing_main_grower: 'שיווק מגדל ראשי',
     };
 
     this.transformedData = data_to_excel.map((item) => {

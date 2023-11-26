@@ -11,6 +11,20 @@ export class MegadelSearchService {
   constructor(private http: HttpClient) {}
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
+  
+
+
+  
+  async GET_all_prices_and_dates_new_2(mh_sug_mhir: any,mh_shana: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/GET_all_prices_and_dates_new_2?mh_sug_mhir=${mh_sug_mhir}&mh_shana=${mh_shana}`
+      )
+    );
+    return item;
+  }
+
+
 
   async get_grower_all_det(
     month: any,

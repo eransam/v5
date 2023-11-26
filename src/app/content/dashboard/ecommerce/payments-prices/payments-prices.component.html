@@ -210,10 +210,10 @@
 
                 <!-- תאריך עדכון -->
                 <td class="">
-                  {{ row.update_time }}
+                  {{ row.update_time | date : "dd/MM/yyyy'T'HH:mm:ss" }}
                 </td>
 
-                <!-- כפתור עדכון -->
+                <!-- עריכה -->
                 <td
                   style="cursor: pointer; color: green"
                   (click)="editRow(row)"
