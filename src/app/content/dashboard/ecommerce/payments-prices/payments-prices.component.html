@@ -106,23 +106,9 @@
             type="button"
             (click)="all_the_change_price()"
           >
-            הצגת שינויי מחיר
+            מידע מפורט
           </button>
         </div>
-
-        <!--EXEL כפתור-->
-        <!-- <div class="col-md-2 importBth" style="margin-top: 19px">
-          <div class="justify-content importBth_div">
-            <img
-              style="height: 35px; margin-right: 10px"
-              class=""
-              src="assets/images/logo/excel.png"
-              alt="Image"
-              (click)="getExcelData()"
-            />
-            <p>({{ this.data.length }})</p>
-          </div>
-        </div> -->
 
         <!-- לואודר -->
         <div *ngIf="isLoading_FarmDetails" class="loader"></div>
@@ -169,52 +155,153 @@
             <tbody>
               <tr class="the_res_table" *ngFor="let row of data; let i = index">
                 <!-- שנה -->
-                <td class="">
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  class=""
+                >
                   {{ this.chosenYear }}
                 </td>
                 <!-- שלוחה -->
-                <td class="">{{ row.mh_tzrt }} - {{ row.name_shloha }}</td>
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  class=""
+                >
+                  {{ row.mh_tzrt }} - {{ row.name_shloha }}
+                </td>
 
                 <!-- מתאריך -->
-                <td class="">
-                  {{ row.tk_date_from_hetelim | date : "dd/MM/yyyy" }}
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  class=""
+                >
+                  {{ row.tk_date_from | date : "dd/MM/yyyy" }}
                 </td>
 
                 <!-- עד תאריך -->
-                <td class="">
-                  {{ row.tk_date_to_hetelim | date : "dd/MM/yyyy" }}
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  class=""
+                >
+                  {{ row.tk_date_to | date : "dd/MM/yyyy" }}
                 </td>
 
                 <!-- קרן ויסות -->
-                <td *ngIf="row.mh_mhir_visot" class="">
-                  {{ row.mh_mhir_visot | number : "1.4-4" }}
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  *ngIf="row.mhir_visot"
+                  class=""
+                >
+                  {{ row.mhir_visot | number : "1.4-4" }}
                 </td>
-                <td *ngIf="!row.mh_mhir_visot" class="">
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  *ngIf="!row.mhir_visot"
+                  class=""
+                >
                   <span style="color: red; font-size: 1rem">X</span>
                 </td>
 
                 <!-- היטל חלקי -->
-                <td *ngIf="row.mh_mhir_visot" class="">
-                  {{
-                    row.mh_mhir_hetelim - row.mh_mhir_visot | number : "1.4-4"
-                  }}
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  *ngIf="row.mhir_visot"
+                  class=""
+                >
+                  {{ row.mh_mhir - row.mhir_visot | number : "1.4-4" }}
                 </td>
-                <td *ngIf="!row.mh_mhir_visot" class="">
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  *ngIf="!row.mhir_visot"
+                  class=""
+                >
                   <span style="color: red; font-size: 1rem">X</span>
                 </td>
 
                 <!-- היטל -->
-                <td class="">
-                  {{ row.mh_mhir_hetelim | number : "1.4-4" }}
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  class=""
+                >
+                  {{ row.mh_mhir | number : "1.4-4" }}
                 </td>
 
                 <!-- תאריך עדכון -->
-                <td class="">
+                <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
+                  class=""
+                >
                   {{ row.update_time | date : "dd/MM/yyyy'T'HH:mm:ss" }}
                 </td>
 
                 <!-- עריכה -->
                 <td
+                  [ngClass]="{
+                    main_price:
+                      i === 0 &&
+                      this.chosenShlohaControl.value !== 'כולם' &&
+                      data.length > 1 &&
+                      search_one_shloha
+                  }"
                   style="cursor: pointer; color: green"
                   (click)="editRow(row)"
                   id="editRowBtn"

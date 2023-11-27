@@ -63,6 +63,7 @@ export class PaymentsPricesComponent {
   transformedData: any[];
   selectedRow: number | null = null; // To track the edited row index
   margeArr: any[] = [];
+  search_one_shloha: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
@@ -115,49 +116,10 @@ export class PaymentsPricesComponent {
     this.all_payment_type =
       await this.megadelSearchService.get_all_payment_type_to_prices();
 
-    //   מידע של כל השלוחות בהיטלים
+    //   מביא את כל המחירים של כל השלוחות
     this.start_mergedArray = await this.get_data_hetelim_all_shlohot_by_yaer(
       this.chosenYear
     );
-    // כל שינויי המחיר הנוספים פר שנה
-    var get_all_data_from_update_all_prices_by_year =
-      await this.megadelSearchService.get_all_data_from_update_all_prices_by_year(
-        this.chosenYear
-      );
-
-    get_all_data_from_update_all_prices_by_year =
-      get_all_data_from_update_all_prices_by_year.map((item) => ({
-        id: item.id,
-        mh_mhir_hetelim: item.mh_mhir_hetelim,
-        mh_mhir_visot: item.mh_mhir_visot,
-        mh_tzrt: item.mh_tzrt,
-        name_shloha: item.name_shloha,
-        payment_type: item.payment_type,
-        tk_date_from_hetelim: item.tk_date_from_hetelim,
-        tk_date_to_hetelim: item.tk_date_to_hetelim,
-        update_time: item.update_time,
-        year: item.year,
-      }));
-
-    this.margeArr = [
-      ...get_all_data_from_update_all_prices_by_year,
-      ...this.start_mergedArray,
-    ];
-
-    this.margeArr = this.margeArr.sort((a, b) => {
-      // Compare 'mh_tzrt' first
-      if (a.mh_tzrt !== b.mh_tzrt) {
-        return a.mh_tzrt.localeCompare(b.mh_tzrt);
-      }
-
-      // If 'mh_tzrt' is the same, compare 'update_time'
-      const dateA: any = new Date(a.update_time);
-      const dateB: any = new Date(b.update_time);
-
-      return dateA - dateB;
-    });
-
-    console.log(this.margeArr);
 
     this.data = this.start_mergedArray;
     // this.data = margeArr;
@@ -167,8 +129,51 @@ export class PaymentsPricesComponent {
   }
   //   end oninit
 
-  all_the_change_price() {
-    this.data = this.margeArr;
+  async all_the_change_price() {
+    if (this.chosenShlohaControl.value === 'כולם') {
+      var prices_and_dates_with_updates =
+        await this.megadelSearchService.GET_prices_and_dates_with_updates(
+          '02',
+          this.chosenYear.toString(),
+          '0'
+        );
+      prices_and_dates_with_updates.sort((a, b) =>
+        a.mh_tzrt.localeCompare(b.mh_tzrt)
+      );
+    } else {
+      const searchName = this.chosenShlohaControl.value;
+      const filteredObjects = this.shlohot.filter(
+        (obj) => obj.name === searchName
+      );
+
+      if (filteredObjects.length > 0) {
+        var chosenShloha = filteredObjects[0]?.code;
+        var prices_and_dates_with_updates =
+          await this.megadelSearchService.GET_prices_and_dates_with_updates(
+            '02',
+            this.chosenYear.toString(),
+            chosenShloha
+          );
+      } else {
+        console.log('No objects found.');
+      }
+      // מיון המערך כך שהאובייקט עם תאריך העדכון הכי עדכני יהיה ראשון
+      prices_and_dates_with_updates.sort((a, b) => {
+        const dateA = new Date(a.update_time).getTime();
+        const dateB = new Date(b.update_time).getTime();
+        return dateB - dateA;
+      });
+    }
+
+    // הוספת שדה שם שלוחה לכל שלוחה
+    for (let obj of prices_and_dates_with_updates) {
+      var name_shloha = this.all_shlohot.filter(
+        (obj2) => obj2.code === obj.mh_tzrt
+      );
+      obj.name_shloha = name_shloha[0].name;
+    }
+
+    this.data = prices_and_dates_with_updates;
   }
 
   openPopup_editRowBtn(data: any) {
@@ -183,76 +188,13 @@ export class PaymentsPricesComponent {
   }
 
   async get_data_hetelim_all_shlohot_by_yaer(year: any) {
-    // המידע ההתחלתי של כל השלוחות של ההיטלים
-    // var hetelim = await this.megadelSearchService.Mhirim_Get_Tkufa_all_shlohot(
-    //   year,
-    //   '02',
-    //   '01'
-    // );
-
     var hetelim =
-      await this.megadelSearchService.GET_all_prices_and_dates_new_2(
+      await this.megadelSearchService.GET_all_current_prices_and_dates(
         '02',
-        year
+        year,
+        '0'
       );
-
-    for (let obj of hetelim) {
-      obj.payment_name = '02 - היטלים';
-      obj.payment_name_en = 'hetelim';
-    }
-
-    // שינוי שם ייחודי לכל שלוחה
-    hetelim = hetelim.map((obj) => ({
-      ['mh_mhir_' + obj.payment_name_en]: obj.mh_mhir,
-      ['mh_tkufa_num_' + obj.payment_name_en]: obj.mh_tkufa_num,
-      ['payment_name_' + obj.payment_name_en]: obj.payment_name,
-      ['payment_name_en_' + obj.payment_name_en]: obj.payment_name_en,
-      ['tk_date_from_' + obj.payment_name_en]: obj.tk_date_from,
-      ['tk_date_to_' + obj.payment_name_en]: obj.tk_date_to,
-      ['mh_tzrt']: obj.mh_tzrt,
-    }));
-
-    // פרטי קרן ויסות שלוחת ביצי מאכל
-    var visot = await this.megadelSearchService.Mhirim_Get_Tkufa_all_shlohot(
-      year,
-      '35',
-      '01'
-    );
-
-    for (let obj of visot) {
-      obj.payment_name = 'קרן ויסות';
-      obj.payment_name_en = 'visot';
-    }
-
-    // שינוי שם ייחודי לכל שלוחה
-    visot = visot.map((obj) => ({
-      ['mh_mhir_' + obj.payment_name_en]: obj.mh_mhir,
-      ['mh_tkufa_num_' + obj.payment_name_en]: obj.mh_tkufa_num,
-      ['payment_name_' + obj.payment_name_en]: obj.payment_name,
-      ['payment_name_en_' + obj.payment_name_en]: obj.payment_name_en,
-      ['tk_date_from_' + obj.payment_name_en]: obj.tk_date_from,
-      ['tk_date_to_' + obj.payment_name_en]: obj.tk_date_to,
-      ['mh_tzrt']: obj.mh_tzrt,
-    }));
-
-    // הכנסת האובייקטים למערך אחד
-    var merge = [...hetelim, ...visot];
-
-    // מיזוג אובייקטים פר שלוחה
-    const groupedObjects = merge.reduce((result, obj) => {
-      const mh_tzrt = obj.mh_tzrt;
-      if (!result[mh_tzrt]) {
-        result[mh_tzrt] = {};
-      }
-      Object.keys(obj).forEach((key) => {
-        // if (key !== 'mh_tzrt') {
-        result[mh_tzrt][key] = obj[key];
-        // }
-      });
-      return result;
-    }, {});
-    const mergedArray = Object.values(groupedObjects);
-    this.start_mergedArray = mergedArray;
+    this.start_mergedArray = hetelim;
 
     // הוספת שדה שם שלוחה לכל שלוחה
     for (let obj of this.start_mergedArray) {
@@ -261,7 +203,6 @@ export class PaymentsPricesComponent {
       );
       obj.name_shloha = name_shloha[0].name;
     }
-
     return this.start_mergedArray;
   }
 
@@ -726,6 +667,11 @@ export class PaymentsPricesComponent {
 
   async add() {
     try {
+      if (this.chosenShlohaControl.value === 'כולם') {
+        this.search_one_shloha = false;
+      } else {
+        this.search_one_shloha = true;
+      }
       this.all_table = false;
       this.isLoading_FarmDetails = true;
       this.count = 0;
@@ -808,12 +754,22 @@ export class PaymentsPricesComponent {
             this.data = sobsidia;
           } else {
             var hetelim_or_sobsidia =
-              await this.megadelSearchService.Mhirim_Get_Tkufa(
+              await this.megadelSearchService.GET_all_current_prices_and_dates(
+                '02',
                 this.chosenYear,
-                chosenShloha,
-                the_payment,
-                '01'
+                chosenShloha
               );
+
+            // הוספת שדה שם שלוחה לכל שלוחה
+            for (let obj of hetelim_or_sobsidia) {
+              var name_shloha = this.all_shlohot.filter(
+                (obj2) => obj2.code === obj.mh_tzrt
+              );
+              obj.name_shloha = name_shloha[0].name;
+            }
+
+            console.log(hetelim_or_sobsidia);
+
             if (the_payment === '01') {
               hetelim_or_sobsidia[0].payment_name = '01 - סובסידיה';
               var name_shloha = this.all_shlohot.filter(
@@ -824,36 +780,7 @@ export class PaymentsPricesComponent {
               this.data = hetelim_or_sobsidia;
             }
             if (the_payment === '02') {
-              hetelim_or_sobsidia[0].payment_name = '02 - היטלים';
-              hetelim_or_sobsidia[0].payment_name_en = 'hetelim';
-              var visot = await this.megadelSearchService.Mhirim_Get_Tkufa(
-                this.chosenYear,
-                chosenShloha,
-                '35',
-                '01'
-              );
-              visot[0].payment_name = 'קרן ויסות';
-              visot[0].payment_name_en = 'visot';
-
-              var merge = [...hetelim_or_sobsidia, ...visot];
-
-              // שינוי שם ייחודי לכל שלוחה
-              merge = merge.map((obj) => ({
-                ['mh_mhir_' + obj.payment_name_en]: obj.mh_mhir,
-                ['mh_tkufa_num_' + obj.payment_name_en]: obj.mh_tkufa_num,
-                ['payment_name_' + obj.payment_name_en]: obj.payment_name,
-                ['tk_date_from_' + obj.payment_name_en]: obj.tk_date_from,
-                ['tk_date_to_' + obj.payment_name_en]: obj.tk_date_to,
-                ['payment_name_en_' + obj.payment_name_en]: obj.payment_name_en,
-              }));
-
-              const mergedObject = Object.assign({}, ...merge);
-              var name_shloha = this.all_shlohot.filter(
-                (obj2) => obj2.code === chosenShloha
-              );
-              mergedObject.name_shloha = name_shloha[0].name;
-              mergedObject.mh_tzrt = chosenShloha;
-              this.data = [mergedObject];
+              this.data = hetelim_or_sobsidia;
             }
           }
         }

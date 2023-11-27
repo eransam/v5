@@ -32,26 +32,24 @@ export class PopupAddPricesComponent {
     private dialogRef_PopupAddPricesComponent: MatDialogRef<PopupAddPricesComponent>
   ) {}
   async ngOnInit() {
-    const date = new Date(this.data[0].tk_date_from_hetelim);
+    console.log(this.data);
+
+    const date = new Date(this.data[0].tk_date_from);
     const year = date.getFullYear();
     this.data[0].year = year;
     this.data[0].tk_date_from_hetelim_today = new Date()
       .toISOString()
       .split('T')[0];
-    this.data[0].tk_date_from_hetelim =
-      this.data[0].tk_date_from_hetelim.substring(0, 10);
-    this.data[0].tk_date_to_hetelim = this.data[0].tk_date_to_hetelim.substring(
-      0,
-      10
-    );
+    this.data[0].tk_date_from = this.data[0].tk_date_from.substring(0, 10);
+    this.data[0].tk_date_to = this.data[0].tk_date_to.substring(0, 10);
 
     console.log(this.data);
   }
   onDate_from_Change(newDate: string) {
-    this.data[0].tk_date_from_hetelim = newDate;
+    this.data[0].tk_date_from = newDate;
   }
   onDate_to_Change(newDate: string) {
-    this.data[0].tk_date_to_hetelim = newDate;
+    this.data[0].tk_date_to = newDate;
   }
 
   toggleDatepicker() {
@@ -63,20 +61,23 @@ export class PopupAddPricesComponent {
 
   async saveRow(row: any) {
     console.log(row);
+
+    // מעדכן את טבלת המחירים הקבועה הראשית
     var the_update_val =
       await this.megadelSearchService.update_hetelim_price_and_dates(
         row.tk_date_from_hetelim_today,
-        row.tk_date_to_hetelim,
-        row.mh_mhir_hetelim,
+        row.tk_date_to,
+        row.mh_mhir,
         row.year,
         row.mh_tzrt
       );
 
+    //   מעדכן את מחיר הויסות
     var the_update_visot =
       await this.MegadelSearchInsertService.update_visot_price(
         row.year,
         row.mh_tzrt,
-        row.mh_mhir_visot
+        row.mhir_visot
       );
 
     //   var insert_price_updates_table =
@@ -91,15 +92,17 @@ export class PopupAddPricesComponent {
     //     row.year
     //   );
 
+    // מכניס את שינוי המחיר לטבלת לוג שינויי המחיר
     var insert_price_updates_table =
       await this.MegadelSearchInsertService.insert_price_updates_new_2(
         row.mh_tzrt,
-        row.mh_tkufa_num_hetelim,
-        row.tk_date_from_hetelim,
-        row.tk_date_to_hetelim,
-        row.mh_mhir_hetelim,
+        row.mh_tkufa_num,
+        row.tk_date_from,
+        row.tk_date_to,
+        row.mh_mhir,
         row.year.toString(),
-        '02'
+        '02',
+        row.mhir_visot
       );
 
     console.log(the_update_visot);

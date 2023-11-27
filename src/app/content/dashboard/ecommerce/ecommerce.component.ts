@@ -4267,15 +4267,7 @@ export class EcommerceComponent implements OnInit {
           '02'
         );
 
-        // this.grower_payment_det =
-        //   await this.megadelSearchService.Tkufa_Mhir_Select_New(
-        //     order,
-        //     this.userDetails[0]?.v_yzrn,
-        //     tz,
-        //     '02',
-        //     this.chosenYear.toString(),
-        //     ''
-        //   );
+
       localStorage.setItem('tz', JSON.stringify(tz));
     }
     // תנאי 2

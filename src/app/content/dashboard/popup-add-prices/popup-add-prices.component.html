@@ -65,30 +65,30 @@
               <td class="body_table">
                 <input
                   type="date"
-                  [ngModel]="row.tk_date_to_hetelim"
+                  [ngModel]="row.tk_date_to"
                   (ngModelChange)="onDate_to_Change($event)"
                 />
               </td>
 
               <!-- קרן ויסות -->
-              <td *ngIf="row.mh_mhir_visot" class="body_table">
-                <input type="number" [(ngModel)]="row.mh_mhir_visot" />
+              <td *ngIf="row.mhir_visot" class="body_table">
+                <input type="number" [(ngModel)]="row.mhir_visot" />
               </td>
-              <td *ngIf="!row.mh_mhir_visot" class="body_table">
-                <input type="number" [(ngModel)]="row.mh_mhir_visot" />
+              <td *ngIf="!row.mhir_visot" class="body_table">
+                <input type="number" [(ngModel)]="row.mhir_visot" />
               </td>
 
               <!-- היטל חלקי -->
-              <td *ngIf="row.mh_mhir_visot" class="body_table">
-                {{ row.mh_mhir_hetelim - row.mh_mhir_visot | number : "1.4-4" }}
+              <td *ngIf="row.mhir_visot" class="body_table">
+                {{ row.mh_mhir - row.mhir_visot | number : "1.4-4" }}
               </td>
-              <td *ngIf="!row.mh_mhir_visot" class="body_table">
+              <td *ngIf="!row.mhir_visot" class="body_table">
                 <span style="color: red; font-size: 1rem">X</span>
               </td>
 
               <!-- היטל -->
               <td class="body_table">
-                <input type="number" [(ngModel)]="row.mh_mhir_hetelim" />
+                <input type="number" [(ngModel)]="row.mh_mhir" />
               </td>
 
               <!-- כפתור עריכה -->
