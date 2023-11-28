@@ -33,8 +33,6 @@
               <th scope="col" class="border-top-0 tatle_table">שנה</th>
               <th scope="col" class="border-top-0 tatle_table">שלוחה</th>
               <th scope="col" class="border-top-0 tatle_table">מתאריך</th>
-              <th scope="col" class="border-top-0 tatle_table">2מתאריך</th>
-
               <th scope="col" class="border-top-0 tatle_table">עד תאריך</th>
               <th scope="col" class="border-top-0 tatle_table">קרן ויסות</th>
               <th scope="col" class="border-top-0 tatle_table">היטל חלקי</th>
@@ -53,15 +51,6 @@
               <td class="body_table">
                 {{ row.mh_tzrt }} - {{ row.name_shloha }}
               </td>
-
-              <!-- מתאריך -->
-              <!-- <td class="body_table">
-                <input
-                  type="date"
-                  [ngModel]="row.tk_date_from_hetelim_today"
-                  (ngModelChange)="onDate_from_Change($event)"
-                />
-              </td> -->
 
               <td>
                 <div class="date-input-container">
@@ -110,15 +99,6 @@
                   </div>
                 </div>
               </td>
-
-              <!-- עד תאריך
-              <td class="body_table">
-                <input
-                  type="date"
-                  [ngModel]="row.tk_date_to"
-                  (ngModelChange)="onDate_to_Change($event)"
-                />
-              </td> -->
 
               <!-- קרן ויסות -->
               <td *ngIf="row.mhir_visot" class="body_table">
