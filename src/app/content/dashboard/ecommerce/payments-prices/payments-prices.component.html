@@ -290,7 +290,7 @@
                   }"
                   class=""
                 >
-                  {{ row.update_time | date : "dd/MM/yyyy'T'HH:mm:ss" }}
+                  {{ row.update_time | date : "dd/MM/yyyy'-'HH:mm:ss" }}
                 </td>
 
                 <!-- עריכה -->
@@ -351,7 +351,6 @@
 
                 <!-- <th scope="col" class="border-top-0">> עד תאריך </th> -->
                 <td class="">
-                  <!-- {{ row.td_date | date : "dd/MM/yyyy" }}  -->
                   {{ row.tk_date_to | date : "dd/MM/yyyy" }}
                 </td>
 

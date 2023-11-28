@@ -21,6 +21,8 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
   bakara_shloha: boolean = false;
   main_arr: any[] = [];
+  main_arr2: any[] = [];
+
   split_all_grower_qa = 3;
   status_all_grower_qa = 3;
   shivok_count_0 = 3;
@@ -356,7 +358,27 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
           );
           this.main_arr = [...this.main_arr, ...arr];
         }
-        this.check_if_all_grower_after_split_have_micsa = this.main_arr;
+        if (this.main_arr.length === 0) {
+          var arr2: any[];
+          this.main_arr2 = [];
+          for (let obj of this.check_if_all_grower_after_split_have_micsa) {
+            arr2 = await this.megadelSearchService.get_start_grower_det(
+              '',
+              '',
+              '',
+              obj.lull2000_code,
+              '',
+              '',
+              ''
+            );
+            this.main_arr2 = [...this.main_arr2, ...arr2];
+            this.check_if_all_grower_after_split_have_micsa = this.main_arr2;
+          }
+        } else {
+          this.check_if_all_grower_after_split_have_micsa = this.main_arr;
+        }
+
+        console.log(this.check_if_all_grower_after_split_have_micsa);
       }
 
       // בודק האם יש מגדלים אשר יש להם מינוס בשיווק בגרואר ספליט
@@ -682,44 +704,72 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
   // אקסל בדיקת מכסות
   create_ecxel_testing_micsot_megadlim(data_to_excel): void {
-    //   קביעת שמות בעברית לתצוגה באקסל
+    console.log(data_to_excel);
 
-    const fieldTitleMapping = {
-      flock_close_date: 'תאריך סגירת להקה',
-      flock_status_id: 'סטטוס להקה',
-      flock_hatch_date: 'תאריך בקיעה',
-      flock_week_age: 'גיל בשבועות',
-      flock_month_age: 'גיל בחודשים',
-      month_shivok: 'חודש שיווק',
-      year_shivok: 'שנת שיווק',
-      lull2000_code: 'מס מגדל',
-      cd_gidul: 'קוד גידול',
-      Internal_Marketing: 'העברות פנימיות',
-      grower_name: 'שם מגדל',
-      settlement_name: 'שם שיוב',
-      is_main_grower: 'סוג מגדל',
-      farm_code: 'מס אתר',
-      flock_id: 'קוד אתר',
-      first_hiclos: 'איכלוס ראשוני',
-      marketing_sum: 'שיווק',
-      main_grower: 'מגדל ראשי',
-      micsa_kvoha: 'מיכסה קבועה',
-      marketing_main_grower: 'שיווק מגדל ראשי',
-    };
-
-    this.transformedData = data_to_excel.map((item) => {
-      const transformedItem = {};
-      for (const key in item) {
-        if (item.hasOwnProperty(key)) {
-          transformedItem[fieldTitleMapping[key] || key] = item[key];
+    if (this.main_arr.length === 0) {
+      const fieldTitleMapping = {
+        yz_first_name: 'שם פרטי מגדל',
+        yz_Id: 'קוד מגדל',
+        yz_last_name: 'שם משפחה מגדל',
+        yz_shem: 'שם אתר',
+        yz_status: 'סטטוס',
+        yz_sug: ' סוג מגדל',
+        yz_yeshuv: 'שם ישוב מגדל',
+        yz_yzrn: 'מס מגדל',
+        yz_zehut: 'ת.זהות',
+      };
+      this.transformedData = data_to_excel.map((item) => {
+        const transformedItem = {};
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            transformedItem[fieldTitleMapping[key] || key] = item[key];
+          }
         }
-      }
-      return transformedItem;
-    });
-    this.tableexcelService.exportAsExcelFile(
-      this.transformedData,
-      'בקרה - בדיקת מכסות מגדלים'
-    );
+        return transformedItem;
+      });
+      this.tableexcelService.exportAsExcelFile(
+        this.transformedData,
+        'בקרה - בדיקת מכסות מגדלים'
+      );
+    } else {
+      //   קביעת שמות בעברית לתצוגה באקסל
+
+      const fieldTitleMapping = {
+        flock_close_date: 'תאריך סגירת להקה',
+        flock_status_id: 'סטטוס להקה',
+        flock_hatch_date: 'תאריך בקיעה',
+        flock_week_age: 'גיל בשבועות',
+        flock_month_age: 'גיל בחודשים',
+        month_shivok: 'חודש שיווק',
+        year_shivok: 'שנת שיווק',
+        lull2000_code: 'מס מגדל',
+        cd_gidul: 'קוד גידול',
+        Internal_Marketing: 'העברות פנימיות',
+        grower_name: 'שם מגדל',
+        settlement_name: 'שם שיוב',
+        is_main_grower: 'סוג מגדל',
+        farm_code: 'מס אתר',
+        flock_id: 'קוד אתר',
+        first_hiclos: 'איכלוס ראשוני',
+        marketing_sum: 'שיווק',
+        main_grower: 'מגדל ראשי',
+        micsa_kvoha: 'מיכסה קבועה',
+        marketing_main_grower: 'שיווק מגדל ראשי',
+      };
+      this.transformedData = data_to_excel.map((item) => {
+        const transformedItem = {};
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            transformedItem[fieldTitleMapping[key] || key] = item[key];
+          }
+        }
+        return transformedItem;
+      });
+      this.tableexcelService.exportAsExcelFile(
+        this.transformedData,
+        'בקרה - בדיקת מכסות מגדלים'
+      );
+    }
   }
 
   // אקסל פיצול כלל המגדלים

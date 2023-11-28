@@ -33,6 +33,8 @@
               <th scope="col" class="border-top-0 tatle_table">שנה</th>
               <th scope="col" class="border-top-0 tatle_table">שלוחה</th>
               <th scope="col" class="border-top-0 tatle_table">מתאריך</th>
+              <th scope="col" class="border-top-0 tatle_table">2מתאריך</th>
+
               <th scope="col" class="border-top-0 tatle_table">עד תאריך</th>
               <th scope="col" class="border-top-0 tatle_table">קרן ויסות</th>
               <th scope="col" class="border-top-0 tatle_table">היטל חלקי</th>
@@ -53,22 +55,70 @@
               </td>
 
               <!-- מתאריך -->
-              <td class="body_table">
+              <!-- <td class="body_table">
                 <input
                   type="date"
                   [ngModel]="row.tk_date_from_hetelim_today"
                   (ngModelChange)="onDate_from_Change($event)"
                 />
+              </td> -->
+
+              <td>
+                <div class="date-input-container">
+                  <div class="input-group">
+                    <input
+                      (ngModelChange)="onDate_from_Change($event)"
+                      placeholder="2מתאריך"
+                      class="form-control"
+                      bsDatepicker
+                      [(ngModel)]="startDate"
+                      #dp="bsDatepicker"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-secondary"
+                        (click)="toggleDatepicker()"
+                      >
+                        <!-- Toggle button -->
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </td>
 
-              <!-- עד תאריך -->
+              <td>
+                <div class="date-input-container">
+                  <div class="input-group">
+                    <input
+                      (ngModelChange)="onDate_to_Change($event)"
+                      placeholder="עד תאריך"
+                      class="form-control"
+                      bsDatepicker
+                      [(ngModel)]="endDate"
+                      #dpTo="bsDatepicker"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-secondary"
+                        (click)="toggleDatepickerTo()"
+                      >
+                        <!-- Toggle button -->
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- עד תאריך
               <td class="body_table">
                 <input
                   type="date"
                   [ngModel]="row.tk_date_to"
                   (ngModelChange)="onDate_to_Change($event)"
                 />
-              </td>
+              </td> -->
 
               <!-- קרן ויסות -->
               <td *ngIf="row.mhir_visot" class="body_table">

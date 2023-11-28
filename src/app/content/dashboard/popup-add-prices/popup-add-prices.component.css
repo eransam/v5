@@ -532,3 +532,62 @@ bs-datepicker-container table.years tr.ng-star-inserted span {
 ::ng-deep bs-datepicker-container.bottom.ng-tns-c129-2.ng-star-inserted {
   z-index: 9999 !important;
 }
+
+bs-datepicker-container.bottom.ng-tns-c128-1.ng-star-inserted {
+  display: block;
+  position: absolute;
+  will-change: transform;
+  top: 0px;
+  left: 0px;
+  font-weight: 900 !important;
+  font-size: 30px !important;
+  transform: translate3d(719px, 388px, 0px);
+}
+
+bs-datepicker-container tr.ng-star-inserted {
+  display: flex;
+  justify-content: space-between;
+  width: 299px;
+}
+
+bs-datepicker-container table.days.weeks tr {
+  display: flex;
+  justify-content: space-between;
+  width: 299px;
+}
+
+bs-datepicker-container table.days.weeks tr td span {
+  font-size: 22px;
+}
+
+bs-datepicker-container .bs-datepicker-body .days.weeks th.ng-star-inserted {
+  font-size: 30px;
+}
+
+bs-datepicker-container bs-datepicker-navigation-view span {
+  font-size: 2rem;
+}
+
+bs-datepicker-container bs-datepicker-navigation-view button {
+  background-color: #666666 !important;
+  color: white;
+  margin: 11px;
+}
+
+bs-datepicker-container table.months tr.ng-star-inserted {
+  display: flex !important;
+  justify-content: space-between !important;
+  width: 299px !important;
+}
+
+bs-datepicker-container table.months tr.ng-star-inserted span {
+  font-size: 30px;
+}
+
+bs-datepicker-container table.years tr.ng-star-inserted span {
+  font-size: 20px;
+}
+
+body div.cdk-overlay-container {
+  z-index: unset !important;
+}

@@ -146,7 +146,6 @@ export class PageShivokimHatalaComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // Check if 'startDate' has changed
     if (changes.startDate) {
       // Perform operations on 'startDate' here
       console.log(this.startDate);
@@ -456,8 +455,6 @@ export class PageShivokimHatalaComponent {
   }
 
   openDatePicker() {
-    // this.endDate = new Date(); // Replace with your date logic
-    // this.formattedEndDate = this.formatDate(this.endDate);
   }
 
   transformDate(originalDate: string): string {
