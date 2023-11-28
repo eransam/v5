@@ -12,6 +12,7 @@ import { TableexcelService } from 'src/app/services/tableexcel.service';
 import { log } from 'console';
 import { PopupSibaTableComponent } from '../popup-siba-table/popup-siba-table.component';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
+import { ConfirmMsgComponent } from '../confirm-msg/confirm-msg.component';
 
 @Component({
   selector: 'app-close-payments',
@@ -160,6 +161,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   check_if_grower_have_minos_shivok: any[];
   check_if_grower_have_shivok_and_not_hidosh: any[];
   isButtonDisabled: boolean = true;
+  user_confirm_close: boolean = false;
   //   סיום משתנים
   constructor(
     private dialog: MatDialog,
@@ -274,6 +276,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         this.if_all_grower_from_packege_in_grower_split = this.main_arr;
       }
 
+      //   בדיקת סטטוס כלל התעודות
       // בדיקה האם כל התעודות של סגירת החודש המבוקש נמצאים בסטטוס "נקלטו במכון" כ
       this.if_all_certificate_is_in_transfer_status_id_3 =
         await this.QaServiceService.qa_check_if_all_certificate_is_in_transfer_status_id_3(
@@ -285,20 +288,6 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         this.status_all_grower_qa = 1;
       } else {
         this.status_all_grower_qa = 2;
-        var arr: any[];
-        this.main_arr = [];
-        for (let obj of this.if_all_certificate_is_in_transfer_status_id_3) {
-          arr = await this.megadelSearchService.get_grower_all_det(
-            this.chosenMonthControl.value,
-            this.chosenYearControl.value,
-            first_day_of_the_month_full_year,
-            last_day_of_the_month_full_year,
-            obj.lull2000_code,
-            this.chosenShlohaControl.value
-          );
-          this.main_arr = [...this.main_arr, ...arr];
-        }
-        this.if_all_certificate_is_in_transfer_status_id_3 = this.main_arr;
       }
 
       // אשר כמות השיווק שלהם היא 0 packege בדיקה האם יש תעודות בטבלת
@@ -435,7 +424,25 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         this.check_if_grower_have_shivok_and_not_hidosh = this.main_arr;
       }
     }
-    this.isButtonDisabled = false;
+
+    if (
+      this.if_all_grower_from_packege_in_grower_split.length === 0 &&
+      this.if_all_certificate_is_in_transfer_status_id_3.length === 0 &&
+      this.check_if_there_is_certificate_from_packege_that_sum_0.length === 0 &&
+      this.check_if_all_grower_after_split_have_micsa.length === 0 &&
+      this.check_if_grower_have_minos_shivok.length === 0 &&
+      this.check_if_grower_have_shivok_and_not_hidosh.length === 0
+    ) {
+      await this.open_confirm_msg_Dialog(
+        'חלק מהבקרות לא עברו בהצלחה, האם ברצונך להמשיך בתהליך הסגירה?'
+      );
+      console.log(this.user_confirm_close);
+      if (this.user_confirm_close) {
+        this.isButtonDisabled = false;
+      }
+    } else {
+      this.isButtonDisabled = false;
+    }
   }
 
   async calc() {}
@@ -502,8 +509,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     }
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.type_of_payment = [
-        { name: 'סובסידיה', code: '01' },
         { name: 'היטלים', code: '02' },
+        { name: 'סובסידיה', code: '01' },
       ];
     } else {
       this.type_of_payment = [{ name: 'היטלים', code: '02' }];
@@ -746,7 +753,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         cd_gidul: 'קוד גידול',
         Internal_Marketing: 'העברות פנימיות',
         grower_name: 'שם מגדל',
-        settlement_name: 'שם שיוב',
+        settlement_name: 'שם ישוב',
         is_main_grower: 'סוג מגדל',
         farm_code: 'מס אתר',
         flock_id: 'קוד אתר',
@@ -789,7 +796,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       cd_gidul: 'קוד גידול',
       Internal_Marketing: 'העברות פנימיות',
       grower_name: 'שם מגדל',
-      settlement_name: 'שם שיוב',
+      settlement_name: 'שם ישוב',
       is_main_grower: 'סוג מגדל',
       farm_code: 'מס אתר',
       flock_id: 'קוד אתר',
@@ -832,7 +839,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       cd_gidul: 'קוד גידול',
       Internal_Marketing: 'העברות פנימיות',
       grower_name: 'שם מגדל',
-      settlement_name: 'שם שיוב',
+      settlement_name: 'שם ישוב',
       is_main_grower: 'סוג מגדל',
       farm_code: 'מס אתר',
       flock_id: 'קוד אתר',
@@ -873,7 +880,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       cd_gidul: 'קוד גידול',
       Internal_Marketing: 'העברות פנימיות',
       grower_name: 'שם מגדל',
-      settlement_name: 'שם שיוב',
+      settlement_name: 'שם ישוב',
       is_main_grower: 'סוג מגדל',
       farm_code: 'מס אתר',
       flock_id: 'קוד אתר',
@@ -916,7 +923,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       cd_gidul: 'קוד גידול',
       Internal_Marketing: 'העברות פנימיות',
       grower_name: 'שם מגדל',
-      settlement_name: 'שם שיוב',
+      settlement_name: 'שם ישוב',
       is_main_grower: 'סוג מגדל',
       farm_code: 'מס אתר',
       flock_id: 'קוד אתר',
@@ -948,26 +955,14 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   ): void {
     //   קביעת שמות בעברית לתצוגה באקסל
     const fieldTitleMapping = {
-      flock_close_date: 'תאריך סגירת להקה',
-      flock_status_id: 'סטטוס להקה',
-      flock_hatch_date: 'תאריך בקיעה',
-      flock_week_age: 'גיל בשבועות',
-      flock_month_age: 'גיל בחודשים',
-      month_shivok: 'חודש שיווק',
-      year_shivok: 'שנת שיווק',
-      lull2000_code: 'מס מגדל',
-      cd_gidul: 'קוד גידול',
-      Internal_Marketing: 'העברות פנימיות',
+      certificate_id: 'מס תעודה',
+      flock_id: 'מס להקה',
       grower_name: 'שם מגדל',
-      settlement_name: 'שם שיוב',
-      is_main_grower: 'סוג מגדל',
-      farm_code: 'מס אתר',
-      flock_id: 'קוד אתר',
-      first_hiclos: 'איכלוס ראשוני',
-      marketing_sum: 'שיווק',
-      main_grower: 'מגדל ראשי',
-      micsa_kvoha: 'מיכסה קבועה',
-      marketing_main_grower: 'שיווק מגדל ראשי',
+      lull2000_code: 'מס מגדל',
+      farm_code: 'קוד אתר',
+      msvk_name: 'שם משווק',
+      msvk_code: 'קוד משווק',
+      transfer_status_id: 'סטטוס העברה',
     };
 
     this.transformedData = data_to_excel.map((item) => {
@@ -1392,6 +1387,17 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = false;
+  }
+
+  open_confirm_msg_Dialog(msg: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'open_confirm_msg_Dialog';
+    dialogConfig.data = msg;
+    const dialogRef = this.dialog.open(ConfirmMsgComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.user_confirm_close = result;
+    });
   }
 
   openSuccessDialog(msg: any) {
