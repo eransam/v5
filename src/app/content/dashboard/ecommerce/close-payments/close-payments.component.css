@@ -459,3 +459,20 @@ body {
   animation: spin 1s linear infinite;
   margin: auto;
 }
+
+.mdc-tab__text-label {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+mdc-tab__text-label {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+
+
+.delete_icon_eran{
+    position: relative;
+    top: -40px;
+    right: 276px;
+    z-index: 4;
+}

@@ -1,6 +1,9 @@
 <div class="main_div">
   <mat-tab-group>
-    <mat-tab label="דוחות">
+    <mat-tab
+      style="font-size: 20px !important; font-weight: 700 !important"
+      label="דוחות"
+    >
       <div class="userDetDiv_tatle">
         <div
           style="
@@ -27,90 +30,325 @@
             class="row"
             style="margin-top: 40px; direction: rtl; margin-right: 25px"
           >
-            <!-- בחר סוג תשלום -->
-            <div
-              class="year-select rtl_Style col-md-2"
-              style="padding-top: 23px"
-            >
-              סוג תשלום:
 
-              <select
-                [(ngModel)]="payment_excel"
-                [formControl]="paymentControl_excel"
-              >
-                <option
-                  *ngFor="let obj of this.type_of_payment"
-                  [value]="obj.code"
-                >
-                  {{ obj.code }} - {{ obj.name }}
-                </option>
-              </select>
-            </div>
-
-            <!-- בחר שלוחה -->
             <div
-              class="year-select rtl_Style col-md-2"
-              style="padding-top: 23px"
-            >
-              שלוחה:
-              <select
-                [(ngModel)]="chosenShloha_excel"
-                [formControl]="chosenShlohaControl_excel"
-                (change)="change_shloha()"
-              >
-                <option value="" disabled selected>בחר שלוחה</option>
-                <option
-                  *ngFor="let obj of this.shlohot_cartificate"
-                  [value]="obj.code"
-                >
-                  {{ obj.code }} - {{ obj.name }}
-                </option>
-              </select>
-            </div>
-
-            <!-- חיפוש לפי שנה -->
-            <div
-              class="year-select rtl_Style col-md-2"
-              style="padding-top: 23px"
-            >
-              שנה:
-              <input
-                [(ngModel)]="chosenYear_excel"
-                [formControl]="chosenYearControl_excel"
-                type="number"
-                style="width: 125px; height: 32px; padding: 5px"
-              />
-              <select
-                [(ngModel)]="chosenYear_excel"
-                [formControl]="chosenYearControl_excel"
-                style="width: 30px; height: 32px; margin-left: 10px"
-              >
-                <option *ngFor="let year of years" [value]="year">
-                  {{ year }}
-                </option>
-              </select>
-            </div>
-
-            <!-- חיפוש לפי חודש -->
-            <div
-              class="year-select rtl_Style col-md-2"
-              style="padding-top: 23px"
-            >
-              חודש:
-              <select
-                [(ngModel)]="chosenMonth_excel"
-                [formControl]="chosenMonthControl_excel"
-                style="width: 125px; height: 32px; margin-left: 10px"
-              >
-                <option *ngFor="let month of months" [value]="month.code">
-                  {{ month.name }}
-                </option>
-              </select>
-            </div>
-            <div
-              class="year-select rtl_Style col-md-4"
+              class="year-select rtl_Style col-md-3"
               style="padding-top: 23px"
             ></div>
+
+            <div class="form-body text-right">
+              <div class="row">
+                <!-- משנה:-->
+                <div class="col-md-2">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >משנה:</label
+                    >
+                    <div class="col-md-8" style="display: flex">
+                      <input
+                        class="form-control border-primary textUserInput"
+                        [(ngModel)]="chosenYear_excel"
+                        [formControl]="chosenYearControl_excel"
+                        type="number"
+                        style="width: 125px; height: 32px; padding: 5px"
+                      />
+                      <select
+                        [(ngModel)]="chosenYear_excel"
+                        [formControl]="chosenYearControl_excel"
+                        style="width: 30px; height: 32px; margin-left: 10px"
+                      >
+                        <option *ngFor="let year of years" [value]="year">
+                          {{ year }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- עד שנה-->
+                <div class="col-md-2">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >עד שנה:</label
+                    >
+                    <div class="col-md-8" style="display: flex">
+                      <input
+                        class="form-control border-primary textUserInput"
+                        [(ngModel)]="to_chosenYear_excel"
+                        [formControl]="to_chosenYearControl_excel"
+                        type="number"
+                        style="width: 125px; height: 32px; padding: 5px"
+                      />
+                      <select
+                        [(ngModel)]="to_chosenYear_excel"
+                        [formControl]="to_chosenYearControl_excel"
+                        style="width: 30px; height: 32px; margin-left: 10px"
+                      >
+                        <option *ngFor="let year of years" [value]="year">
+                          {{ year }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- מחודש:-->
+                <div class="col-md-2">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >מחודש:</label
+                    >
+                    <div class="col-md-8">
+                      <select
+                        class="form-control border-primary textUserInput"
+                        [(ngModel)]="chosenMonth_excel"
+                        [formControl]="chosenMonthControl_excel"
+                        style="width: 125px; height: 32px; margin-left: 10px"
+                      >
+                        <option
+                          *ngFor="let month of months"
+                          [value]="month.code"
+                        >
+                          {{ month.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- עד חודש-->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >עד מחודש:</label
+                    >
+                    <div class="col-md-8">
+                      <select
+                        class="form-control border-primary textUserInput"
+                        [(ngModel)]="to_chosenMonth_excel"
+                        [formControl]="to_chosenMonthControl_excel"
+                        style="width: 125px; height: 32px; margin-left: 10px"
+                      >
+                        <option
+                          *ngFor="let month of months"
+                          [value]="month.code"
+                        >
+                          {{ month.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!--שדה ריק-->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <div class="col-md-8"></div>
+                  </div>
+                </div>
+
+                <!--שלוחה-->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >שלוחה:</label
+                    >
+                    <div class="col-md-8">
+                      <select
+                        class="form-control border-primary textUserInput"
+                        [(ngModel)]="chosenShloha_excel"
+                        [formControl]="chosenShlohaControl_excel"
+                        (change)="change_shloha()"
+                      >
+                        <option value="" disabled selected>בחר שלוחה</option>
+                        <option
+                          *ngFor="let obj of this.shlohot_cartificate"
+                          [value]="obj.code"
+                        >
+                          {{ obj.code }} - {{ obj.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- סוג תשלום-->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >סוג תשלום</label
+                    >
+                    <div class="col-md-8">
+                      <select
+                        class="form-control border-primary textUserInput"
+                        [(ngModel)]="payment_excel"
+                        [formControl]="paymentControl_excel"
+                      >
+                        <option
+                          *ngFor="let obj of this.type_of_payment"
+                          [value]="obj.code"
+                        >
+                          {{ obj.code }} - {{ obj.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- שם מגדל טסט -->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >שם מגדל</label
+                    >
+                    <div class="col-md-8">
+                      <input
+                        name="username_test"
+                        type="text"
+                        id="username-input"
+                        class="form-control border-primary textUserInput"
+                        placeholder="שם"
+                        [(ngModel)]="username_test"
+                        [formControl]="usernameControl_test"
+                      />
+                      <span
+                        class="delete-icon delete_icon_eran"
+                        (click)="clearInput('username_test')"
+                      >
+                        <i class="fa fa-times"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- מס אתר -->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >מספר אתר</label
+                    >
+                    <div class="col-md-8">
+                      <input
+                        name="siteNum_test"
+                        type="text"
+                        id="siteNum-input"
+                        class="form-control border-primary textUserInput"
+                        placeholder="מס אתר"
+                        [(ngModel)]="siteNum_test"
+                        [formControl]="siteNumControl_test"
+                      />
+                      <span
+                        class="delete-icon delete_icon_eran"
+                        (click)="clearInput('siteNum_test')"
+                      >
+                        <i class="fa fa-times"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- מס ג''ח' -->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >מספר גח</label
+                    >
+                    <div class="col-md-8">
+                      <input
+                        name="gidulHotzNum_test"
+                        type="text"
+                        id="gidulHotzNum-input"
+                        class="form-control border-primary textUserInput"
+                        placeholder="מס גח"
+                        [(ngModel)]="gidulHotzNum_test"
+                        [formControl]="gidulHotzNumControl_test"
+                      />
+                      <span
+                        class="delete-icon delete_icon_eran"
+                        (click)="clearInput('gidulHotzNum_test')"
+                      >
+                        <i class="fa fa-times"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- מס מגדל -->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >מס מגדל</label
+                    >
+                    <div class="col-md-8">
+                      <input
+                        name="growerNum_test"
+                        type="text"
+                        id="growerNum-input"
+                        class="form-control border-primary textUserInput"
+                        placeholder="מס מגדל"
+                        [(ngModel)]="growerNum_test"
+                        [formControl]="growerNumControl_test"
+                      />
+                      <span
+                        class="delete-icon delete_icon_eran"
+                        (click)="clearInput('growerNum_test')"
+                      >
+                        <i class="fa fa-times"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- תז מגדל -->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >תז מגדל</label
+                    >
+                    <div class="col-md-8">
+                      <input
+                        name="grower_zeut_test"
+                        type="text"
+                        id="grower_zeut_test-input"
+                        class="form-control border-primary textUserInput"
+                        placeholder="תז מגדל"
+                        [(ngModel)]="grower_zeut_test"
+                        [formControl]="grower_zeut_testControl_test"
+                      />
+                      <span
+                        class="delete-icon delete_icon_eran"
+                        (click)="clearInput('growerNum_test')"
+                      >
+                        <i class="fa fa-times"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!--ישוב-->
+                <div class="col-md-3">
+                  <div class="form-group row mx-auto">
+                    <label class="col-md-4 label-control" for="userinput1"
+                      >ישוב</label
+                    >
+                    <div class="col-md-8">
+                      <input
+                        name="yeshuv_test"
+                        type="text"
+                        id="yeshuv-input"
+                        class="form-control border-primary textUserInput"
+                        placeholder="ישוב"
+                        [(ngModel)]="yeshuv_test"
+                        [formControl]="yeshuvControl_test"
+                      />
+                      <span
+                        class="delete-icon delete_icon_eran"
+                        (click)="clearInput('yeshuv_test')"
+                      >
+                        <i class="fa fa-times"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <!-- מפורט - ריכוז -->
             <div

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as Chartist from 'chartist';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ChartEvent, ChartType } from 'ng-chartist';
@@ -56,6 +56,7 @@ import { PopupSibaTableComponent } from './popup-siba-table/popup-siba-table.com
   selector: 'app-ecommerce',
   templateUrl: './ecommerce.component.html',
   styleUrls: ['./ecommerce.component.scss'],
+//   encapsulation: ViewEncapsulation.None,
   providers: [DatePipe],
 })
 export class EcommerceComponent implements OnInit {

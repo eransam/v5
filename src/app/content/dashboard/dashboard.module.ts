@@ -71,6 +71,7 @@ import { PaymentsPricesComponent } from './ecommerce/payments-prices/PaymentsPri
 import { PopupAddPricesComponent } from './popup-add-prices/popup-add-prices.component';
 import { SuccessDialogComponent } from './ecommerce/success-dialog/success-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ConfirmMsgComponent } from './ecommerce/confirm-msg/confirm-msg.component';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
@@ -238,6 +239,7 @@ defineLocale('he', heLocale); // Define Hebrew locale
     PaymentsPricesComponent,
     PopupAddPricesComponent,
     SuccessDialogComponent,
+    ConfirmMsgComponent,
   ],
   providers: [DatePipe],
   exports: [RouterModule],

@@ -18,8 +18,21 @@ import { ConfirmMsgComponent } from '../confirm-msg/confirm-msg.component';
   selector: 'app-close-payments',
   templateUrl: './close-payments.component.html',
   styleUrls: ['./close-payments.component.css'],
+  //    encapsulation: ViewEncapsulation.None,
 })
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
+  username_test: string;
+  siteNum_test: string;
+  gidulHotzNum_test: string;
+  growerNum_test: string;
+  grower_zeut_test: string;
+  yeshuv_test: string;
+  usernameControl_test = new FormControl();
+  siteNumControl_test = new FormControl();
+  gidulHotzNumControl_test = new FormControl();
+  growerNumControl_test = new FormControl();
+  grower_zeut_testControl_test = new FormControl();
+  yeshuvControl_test = new FormControl();
   bakara_shloha: boolean = false;
   main_arr: any[] = [];
   main_arr2: any[] = [];
@@ -55,8 +68,12 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   chosenYearControl = new FormControl();
 
   chosenYearControl_excel = new FormControl();
+
+  to_chosenYearControl_excel = new FormControl();
   chosenMonthControl = new FormControl();
   chosenMonthControl_excel = new FormControl();
+  to_chosenMonthControl_excel = new FormControl();
+
   chosenSiteControl = new FormControl();
   chosenShlohaControl = new FormControl();
   chosenShlohaControl_excel = new FormControl();
@@ -68,8 +85,11 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   chosenyear_cartificate: any = '2023';
   chosenYear: any = 2023;
   chosenYear_excel: any = 2023;
+  to_chosenYear_excel: any = 2023;
+
   chosenMonth: any = '01';
   chosenMonth_excel: any = '01';
+  to_chosenMonth_excel: any = '01';
   enteredYear: any = '2023';
   years = ['2020', '2021', '2022', '2023'];
   months = [
@@ -162,6 +182,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   check_if_grower_have_shivok_and_not_hidosh: any[];
   isButtonDisabled: boolean = true;
   user_confirm_close: boolean = false;
+  result_test: any;
   //   סיום משתנים
   constructor(
     private dialog: MatDialog,
@@ -183,17 +204,30 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     });
     this.excelForm = this.formBuilder.group({
       chosenYear_excel: new FormControl(),
+
+      to_chosenYear_excel: new FormControl(),
+
       chosenMonth_excel: new FormControl(),
+
+      to_chosenMonth_excel: new FormControl(),
       chosenShloha_excel: new FormControl(),
       payment_excel: new FormControl(),
       selected_option_status_excel: new FormControl(),
+      usernameControl_test: new FormControl(),
+      siteNumControl_test: new FormControl(),
+      gidulHotzNumControl_test: new FormControl(),
+      growerNumControl_test: new FormControl(),
+      grower_zeut_testControl_test: new FormControl(),
+      yeshuvControl_test: new FormControl(),
     });
 
     this.chosenMonth = '01';
     this.chosenMonth_excel = '01';
-
+    this.to_chosenMonth_excel = '01';
     this.chosenYear = '2023';
     this.chosenYear_excel = '2023';
+    
+    this.to_chosenYear_excel = '2023';
 
     this.enteredYear = '2023';
     this.chosenSite = 'כולם';
@@ -228,6 +262,33 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.textChangeInterval);
+  }
+
+  clearInput(inputName: string): void {
+    switch (inputName) {
+      case 'yeshuv_test':
+        this.yeshuv_test = '';
+        break;
+
+      case 'growerNum_test':
+        this.growerNum_test = '';
+        break;
+
+      case 'grower_zeut_test':
+        this.grower_zeut_test = '';
+        break;
+
+      case 'gidulHotzNum_test':
+        this.gidulHotzNum_test = '';
+        break;
+      case 'siteNum_test':
+        this.siteNum_test = '';
+        break;
+      case 'username_test':
+        this.username_test = '';
+        break;
+      // Add cases for other input names if needed
+    }
   }
 
   //   qa
@@ -433,15 +494,18 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       this.check_if_grower_have_minos_shivok.length === 0 &&
       this.check_if_grower_have_shivok_and_not_hidosh.length === 0
     ) {
-      await this.open_confirm_msg_Dialog(
+      this.isButtonDisabled = false;
+    } else {
+      const check: any = await this.open_confirm_msg_Dialog(
         'חלק מהבקרות לא עברו בהצלחה, האם ברצונך להמשיך בתהליך הסגירה?'
       );
-      console.log(this.user_confirm_close);
-      if (this.user_confirm_close) {
+
+      console.log(check);
+      if (check) {
         this.isButtonDisabled = false;
+      } else {
+        this.isButtonDisabled = true;
       }
-    } else {
-      this.isButtonDisabled = false;
     }
   }
 
@@ -1336,22 +1400,40 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
+  test(){
+    console.log("test");
+  }
   async create_excel() {
     this.isLoading = true;
     console.log(this.chosenYearControl_excel.value);
+    console.log(this.to_chosenYearControl_excel.value);
     console.log(this.chosenMonthControl_excel.value);
+    console.log(this.to_chosenMonthControl_excel.value);
     console.log(this.chosenShlohaControl_excel.value);
+    console.log(this.usernameControl_test.value);
     console.log(this.paymentControl_excel.value);
     console.log(this.selected_option_statusControl_excel.value);
-
+    console.log(this.siteNumControl_test.value);
+    console.log(this.gidulHotzNumControl_test.value);
+    console.log(this.growerNumControl_test.value);
+    console.log(this.grower_zeut_testControl_test.value);
+    console.log(this.yeshuvControl_test.value);
     console.log('d');
 
     const lastDay = this.getLastDayOfMonth(
       Number(this.chosenMonthControl_excel.value)
     );
 
+    const lastDay_to = this.getLastDayOfMonth(
+        Number(this.to_chosenMonthControl_excel.value)
+      );
+
+
     var full_date = `${this.chosenYearControl_excel.value}${this.chosenMonthControl_excel.value}${lastDay}`;
     console.log(full_date);
+
+    var full_date_to = `${this.to_chosenYearControl_excel.value}${this.to_chosenMonthControl_excel.value}${lastDay_to}`;
+    console.log(full_date_to);
 
     if (this.selected_option_statusControl_excel.value === 'merokaz') {
       var data =
@@ -1389,14 +1471,22 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
-  open_confirm_msg_Dialog(msg: any) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'open_confirm_msg_Dialog';
-    dialogConfig.data = msg;
-    const dialogRef = this.dialog.open(ConfirmMsgComponent, dialogConfig);
+  open_confirm_msg_Dialog(msg: any): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.panelClass = 'open_confirm_msg_Dialog';
+      dialogConfig.data = msg;
+      const dialogRef = this.dialog.open(ConfirmMsgComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.user_confirm_close = result;
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === true) {
+          console.log('User clicked אישור');
+          resolve(true);
+        } else {
+          console.log('User clicked ביטול');
+          resolve(false);
+        }
+      });
     });
   }
 
@@ -1405,9 +1495,9 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     dialogConfig.panelClass = 'openSuccessDialog';
     dialogConfig.data = msg;
     const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
-    setTimeout(() => {
-      dialogRef.close();
-    }, 2000);
+    // setTimeout(() => {
+    //   dialogRef.close();
+    // }, 2000);
   }
 
   openSuccessDialog_delete(msg: any) {
