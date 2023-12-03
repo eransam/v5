@@ -27,12 +27,17 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   growerNum_test: string;
   grower_zeut_test: string;
   yeshuv_test: string;
+  msvk_code_test: string;
+  msvk_name_test: string;
   usernameControl_test = new FormControl();
   siteNumControl_test = new FormControl();
   gidulHotzNumControl_test = new FormControl();
   growerNumControl_test = new FormControl();
   grower_zeut_testControl_test = new FormControl();
   yeshuvControl_test = new FormControl();
+  msvk_name_Control_test = new FormControl();
+  msvk_code_Control_test = new FormControl();
+
   bakara_shloha: boolean = false;
   main_arr: any[] = [];
   main_arr2: any[] = [];
@@ -47,6 +52,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   selected_option_status_excel: string = 'merokaz';
   isLoading: boolean = false;
   premia_table: boolean = false;
+  search_click: boolean = false;
   order: any = 6;
   userTypeID;
   certificateSum = 0;
@@ -219,6 +225,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       growerNumControl_test: new FormControl(),
       grower_zeut_testControl_test: new FormControl(),
       yeshuvControl_test: new FormControl(),
+      msvk_name_Control_test: new FormControl(),
+      msvk_code_Control_test: new FormControl(),
     });
 
     this.chosenMonth = '01';
@@ -226,7 +234,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.to_chosenMonth_excel = '01';
     this.chosenYear = '2023';
     this.chosenYear_excel = '2023';
-    
+
     this.to_chosenYear_excel = '2023';
 
     this.enteredYear = '2023';
@@ -266,6 +274,14 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
   clearInput(inputName: string): void {
     switch (inputName) {
+      case 'msvk_name_test':
+        this.msvk_name_test = '';
+        break;
+
+      case 'msvk_code_test':
+        this.msvk_code_test = '';
+        break;
+
       case 'yeshuv_test':
         this.yeshuv_test = '';
         break;
@@ -293,6 +309,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
   //   qa
   async main_testing() {
+    this.search_click = true;
     this.split_all_grower_qa = 4;
     this.status_all_grower_qa = 4;
     this.shivok_count_0 = 4;
@@ -1400,11 +1417,61 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
-  test(){
-    console.log("test");
+  test() {
+    console.log('test');
   }
   async create_excel() {
+    this.search_click = true;
     this.isLoading = true;
+    console.log(this.chosenYearControl_excel.value);
+    console.log(this.to_chosenYearControl_excel.value);
+    console.log(this.chosenMonthControl_excel.value);
+    console.log(this.to_chosenMonthControl_excel.value);
+
+    console.log(this.chosenShlohaControl_excel.value);
+    console.log(this.usernameControl_test.value);
+    console.log(this.paymentControl_excel.value);
+    console.log(this.selected_option_statusControl_excel.value);
+    console.log(this.siteNumControl_test.value);
+    console.log(this.gidulHotzNumControl_test.value);
+    console.log(this.msvk_name_Control_test.value);
+    console.log(this.msvk_code_Control_test.value);
+    console.log(this.growerNumControl_test.value);
+    console.log(this.grower_zeut_testControl_test.value);
+    console.log(this.yeshuvControl_test.value);
+    console.log('d');
+
+    if (this.chosenShlohaControl_excel.value === undefined) {
+      this.chosenShlohaControl_excel.setValue('');
+    }
+    if (this.usernameControl_test.value === undefined) {
+      this.usernameControl_test.setValue('');
+    }
+    if (this.paymentControl_excel.value === undefined) {
+      this.paymentControl_excel.setValue('');
+    }
+    if (this.siteNumControl_test.value === undefined) {
+      this.siteNumControl_test.setValue('');
+    }
+    if (this.gidulHotzNumControl_test.value === undefined) {
+      this.gidulHotzNumControl_test.setValue('');
+    }
+    if (this.msvk_name_Control_test.value === undefined) {
+      this.msvk_name_Control_test.setValue('');
+    }
+    if (this.msvk_code_Control_test.value === undefined) {
+      this.msvk_code_Control_test.setValue('');
+    }
+    if (this.growerNumControl_test.value === undefined) {
+      this.growerNumControl_test.setValue('');
+    }
+    if (this.grower_zeut_testControl_test.value === undefined) {
+      this.grower_zeut_testControl_test.setValue('');
+    }
+    if (this.yeshuvControl_test.value === undefined) {
+      this.yeshuvControl_test.setValue('');
+    }
+
     console.log(this.chosenYearControl_excel.value);
     console.log(this.to_chosenYearControl_excel.value);
     console.log(this.chosenMonthControl_excel.value);
@@ -1415,19 +1482,40 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     console.log(this.selected_option_statusControl_excel.value);
     console.log(this.siteNumControl_test.value);
     console.log(this.gidulHotzNumControl_test.value);
+    console.log(this.msvk_name_Control_test.value);
+    console.log(this.msvk_code_Control_test.value);
     console.log(this.growerNumControl_test.value);
     console.log(this.grower_zeut_testControl_test.value);
     console.log(this.yeshuvControl_test.value);
     console.log('d');
+
+    this.data =
+      await this.megadelSearchService.get_data_growers_from_close_month(
+        this.chosenYearControl_excel.value,
+        this.to_chosenYearControl_excel.value,
+        this.chosenMonthControl_excel.value,
+        this.to_chosenMonthControl_excel.value,
+        this.chosenShlohaControl_excel.value,
+        this.usernameControl_test.value,
+        this.paymentControl_excel.value,
+        this.siteNumControl_test.value,
+        this.gidulHotzNumControl_test.value,
+        this.msvk_name_Control_test.value,
+        this.msvk_code_Control_test.value,
+        this.growerNumControl_test.value,
+        this.grower_zeut_testControl_test.value,
+        this.yeshuvControl_test.value
+      );
+
+    console.log(data);
 
     const lastDay = this.getLastDayOfMonth(
       Number(this.chosenMonthControl_excel.value)
     );
 
     const lastDay_to = this.getLastDayOfMonth(
-        Number(this.to_chosenMonthControl_excel.value)
-      );
-
+      Number(this.to_chosenMonthControl_excel.value)
+    );
 
     var full_date = `${this.chosenYearControl_excel.value}${this.chosenMonthControl_excel.value}${lastDay}`;
     console.log(full_date);

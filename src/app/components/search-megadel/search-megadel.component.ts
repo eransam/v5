@@ -725,16 +725,13 @@ export class SearchMegadelComponent implements OnInit {
     if (the_growers_id_by_name !== '') {
       const seenYazranNums: { [key: string]: boolean } = {};
 
-      // Filter the original array to remove duplicates based on Yazran_num
       const uniqueArray = the_growers_id_by_name.filter((obj) => {
         if (!seenYazranNums[obj.yz_Id]) {
-          // If Yazran_num is not seen, mark it as seen and keep the object
           seenYazranNums[obj.yz_Id] = true;
           return true;
         }
-        return false; // Duplicate, so filter it out
+        return false;
       });
-
       console.log('Unique Array:', uniqueArray);
       the_growers_id_by_name = uniqueArray;
     }
@@ -815,13 +812,11 @@ export class SearchMegadelComponent implements OnInit {
     console.log(growerNumControl_test_val);
     console.log(the_yeshuvControl_test_val);
     console.log(the_nahalaControl_test_val);
-
     console.log(the_gidulHotzNumControl_test_val);
     console.log(the_siteNumControl_test_val);
     console.log(the_growers_id_by_name);
 
     if (the_siteNumControl_test_val.length > 0) {
-      //
       var the_grower_ids_from_farm_num =
         await this.megadelSearchService.get_growers_id_with_splite_by_farm_num(
           the_siteNumControl_test_val
@@ -857,6 +852,7 @@ export class SearchMegadelComponent implements OnInit {
     if (the_growers_id_by_name !== '') {
       for (let obj of the_growers_id_by_name) {
         if (obj?.splite) {
+            
           // מביא את פרטי המגדל
           var the_grower_det =
             await this.megadelSearchService.get_start_grower_det(

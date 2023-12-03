@@ -54,6 +54,12 @@
   padding: 10px;
 }
 
+.mainTableClass2 th {
+  background-color: #8b8b8b;
+  color: #333;
+  padding: 10px;
+}
+
 .mainTableClass td {
   background-color: #fff;
   color: #333;
@@ -469,10 +475,27 @@ mdc-tab__text-label {
   font-weight: 700 !important;
 }
 
+.delete_icon_eran {
+  position: relative;
+  top: -40px;
+  right: 276px;
+  z-index: 4;
+}
 
-.delete_icon_eran{
-    position: relative;
-    top: -40px;
-    right: 276px;
-    z-index: 4;
+.tat_sort {
+  border-bottom: solid black 1px;
+  width: 428px;
+}
+
+.div_close {
+  display: flex;
+  justify-content: end;
+  width: auto;
+}
+
+.main_table {
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  width: 90%;
+  height: 600px;
 }

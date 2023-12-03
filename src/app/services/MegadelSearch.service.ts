@@ -12,6 +12,31 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_data_growers_from_close_month(
+    chosenYearControl_excel,
+    to_chosenYearControl_excel,
+    chosenMonthControl_excel,
+    to_chosenMonthControl_excel,
+    chosenShlohaControl_excel,
+    usernameControl_test,
+    paymentControl_excel,
+    siteNumControl_test,
+    gidulHotzNumControl_test,
+    msvk_name_Control_test,
+    msvk_code_Control_test,
+    growerNumControl_test,
+    grower_zeut_testControl_test,
+    yeshuvControl_test
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_data_growers_from_close_month?chosenYearControl_excel=${chosenYearControl_excel}&to_chosenYearControl_excel=${to_chosenYearControl_excel}&chosenMonthControl_excel=${chosenMonthControl_excel}&to_chosenMonthControl_excel=${to_chosenMonthControl_excel}&chosenShlohaControl_excel=${chosenShlohaControl_excel}&usernameControl_test=${usernameControl_test}&paymentControl_excel=${paymentControl_excel}&siteNumControl_test=${siteNumControl_test}&gidulHotzNumControl_test=${gidulHotzNumControl_test}&msvk_name_Control_test=${msvk_name_Control_test}&msvk_code_Control_test=${msvk_code_Control_test}&growerNumControl_test=${growerNumControl_test}&grower_zeut_testControl_test=${grower_zeut_testControl_test}&yeshuvControl_test=${yeshuvControl_test}`
+      )
+    );
+    console.log('item: ', item);
+    return item;
+  }
+
   async GET_prices_and_dates_with_updates(
     mh_sug_mhir: any,
     mh_shana: any,
