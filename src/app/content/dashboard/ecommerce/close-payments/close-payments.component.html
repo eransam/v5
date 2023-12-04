@@ -136,311 +136,371 @@
                     </div>
                   </div>
                 </div>
+                <!-- מרוכז -->
+                <div
+                  class="year-select rtl_Style col-md-1"
+                  style="margin-top: 10px"
+                >
+                  <input
+                    (click)="merokaz_radio_click()"
+                    type="radio"
+                    name="selectedOption2_excel"
+                    [(ngModel)]="selected_option_status_excel"
+                    [formControl]="selected_option_statusControl_excel"
+                    value="merokaz"
+                  />
+                  <label
+                    style="
+                      text-align: center;
+                      margin-top: 7px;
+                      margin-left: 10px;
+                    "
+                    >מרוכז</label
+                  >
+                </div>
+                <!-- מפורט -->
+                <div
+                  class="year-select rtl_Style col-md-1"
+                  style="margin-top: 10px"
+                >
+                  <input
+                    (click)="meforat_radio_click()"
+                    type="radio"
+                    name="selectedOption2_excel"
+                    [(ngModel)]="selected_option_status_excel"
+                    [formControl]="selected_option_statusControl_excel"
+                    value="meforat"
+                  />
+                  <label
+                    style="
+                      text-align: center;
+                      margin-top: 7px;
+                      margin-left: 10px;
+                    "
+                    >מפורט</label
+                  >
+                </div>
+                <!-- מתקדם -->
+                <div
+                  class="year-select rtl_Style col-md-1"
+                  style="margin-top: 10px"
+                >
+                  <input
+                    (click)="Advanced_Search()"
+                    type="radio"
+                    name="selectedOption2_excel"
+                    [(ngModel)]="selected_option_status_excel"
+                    [formControl]="selected_option_statusControl_excel"
+                    value="Advanced"
+                  />
+                  <label
+                    style="
+                      text-align: center;
+                      margin-top: 7px;
+                      margin-left: 10px;
+                    "
+                    >מתקדם</label
+                  >
+                </div>
+
                 <br />
 
-                <!--שדה ריק-->
-                <div class="col-md-12">
-                  <div class="form-group row mx-auto">
-                    <div class="col-md-8">
-                      <p class="tat_sort">תת מיון</p>
+                <!-- מיון מתקדם -->
+                <div class="row" *ngIf="Advanced_Search_varible">
+                  <!-- כותרת תת מיון-->
+                  <div class="col-md-12">
+                    <div class="form-group row mx-auto">
+                      <div class="col-md-8">
+                        <p class="tat_sort">תת מיון</p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!--שלוחה-->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >שלוחה:</label
-                    >
-                    <div class="col-md-8">
-                      <select
-                        class="form-control border-primary textUserInput"
-                        [(ngModel)]="chosenShloha_excel"
-                        [formControl]="chosenShlohaControl_excel"
-                        (change)="change_shloha()"
+                  <!--שלוחה-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >שלוחה:</label
                       >
-                        <option value="" disabled selected>בחר שלוחה</option>
-                        <option
-                          *ngFor="let obj of this.shlohot_cartificate"
-                          [value]="obj.code"
+                      <div class="col-md-8">
+                        <select
+                          class="form-control border-primary textUserInput"
+                          [(ngModel)]="chosenShloha_excel"
+                          [formControl]="chosenShlohaControl_excel"
+                          (change)="change_shloha()"
                         >
-                          {{ obj.code }} - {{ obj.name }}
-                        </option>
-                      </select>
+                          <option value="" disabled selected>בחר שלוחה</option>
+                          <option
+                            *ngFor="let obj of this.shlohot_cartificate"
+                            [value]="obj.code"
+                          >
+                            {{ obj.code }} - {{ obj.name }}
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- סוג תשלום-->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >סוג תשלום</label
-                    >
-                    <div class="col-md-8">
-                      <select
-                        class="form-control border-primary textUserInput"
-                        [(ngModel)]="payment_excel"
-                        [formControl]="paymentControl_excel"
+                  <!-- סוג תשלום-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >סוג תשלום</label
                       >
-                        <option
-                          *ngFor="let obj of this.type_of_payment"
-                          [value]="obj.code"
+                      <div class="col-md-8">
+                        <select
+                          class="form-control border-primary textUserInput"
+                          [(ngModel)]="payment_excel"
+                          [formControl]="paymentControl_excel"
                         >
-                          {{ obj.code }} - {{ obj.name }}
-                        </option>
-                      </select>
+                          <option
+                            *ngFor="let obj of this.type_of_payment"
+                            [value]="obj.code"
+                          >
+                            {{ obj.code }} - {{ obj.name }}
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- שם מגדל טסט -->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >שם מגדל</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="username_test"
-                        type="text"
-                        id="username-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="שם"
-                        [(ngModel)]="username_test"
-                        [formControl]="usernameControl_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('username_test')"
+                  <!-- שם מגדל טסט -->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >שם מגדל</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="username_test"
+                          type="text"
+                          id="username-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="שם"
+                          [(ngModel)]="username_test"
+                          [formControl]="usernameControl_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('username_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- מס אתר -->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >מספר אתר</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="siteNum_test"
-                        type="text"
-                        id="siteNum-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="מס אתר"
-                        [(ngModel)]="siteNum_test"
-                        [formControl]="siteNumControl_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('siteNum_test')"
+                  <!-- מס אתר -->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >מספר אתר</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="siteNum_test"
+                          type="text"
+                          id="siteNum-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="מס אתר"
+                          [(ngModel)]="siteNum_test"
+                          [formControl]="siteNumControl_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('siteNum_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- מס ג''ח' -->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >מספר גח</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="gidulHotzNum_test"
-                        type="text"
-                        id="gidulHotzNum-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="מס גח"
-                        [(ngModel)]="gidulHotzNum_test"
-                        [formControl]="gidulHotzNumControl_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('gidulHotzNum_test')"
+                  <!-- מס ג''ח' -->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >מספר גח</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="gidulHotzNum_test"
+                          type="text"
+                          id="gidulHotzNum-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="מס גח"
+                          [(ngModel)]="gidulHotzNum_test"
+                          [formControl]="gidulHotzNumControl_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('gidulHotzNum_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- מס מגדל -->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >מס מגדל</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="growerNum_test"
-                        type="text"
-                        id="growerNum-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="מס מגדל"
-                        [(ngModel)]="growerNum_test"
-                        [formControl]="growerNumControl_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('growerNum_test')"
+                  <!-- מס מגדל -->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >מס מגדל</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="growerNum_test"
+                          type="text"
+                          id="growerNum-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="מס מגדל"
+                          [(ngModel)]="growerNum_test"
+                          [formControl]="growerNumControl_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('growerNum_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- תז מגדל -->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >תז מגדל</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="grower_zeut_test"
-                        type="text"
-                        id="grower_zeut_test-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="תז מגדל"
-                        [(ngModel)]="grower_zeut_test"
-                        [formControl]="grower_zeut_testControl_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('growerNum_test')"
+                  <!-- תז מגדל -->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >תז מגדל</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="grower_zeut_test"
+                          type="text"
+                          id="grower_zeut_test-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="תז מגדל"
+                          [(ngModel)]="grower_zeut_test"
+                          [formControl]="grower_zeut_testControl_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('growerNum_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!--ישוב-->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >ישוב</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="yeshuv_test"
-                        type="text"
-                        id="yeshuv-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="ישוב"
-                        [(ngModel)]="yeshuv_test"
-                        [formControl]="yeshuvControl_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('yeshuv_test')"
+                  <!--ישוב-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >ישוב</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="yeshuv_test"
+                          type="text"
+                          id="yeshuv-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="ישוב"
+                          [(ngModel)]="yeshuv_test"
+                          [formControl]="yeshuvControl_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('yeshuv_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!--שם משווק-->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >שם משווק</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="msvk_name"
-                        type="text"
-                        id="msvk_name-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="שם משווק"
-                        [(ngModel)]="msvk_name_test"
-                        [formControl]="msvk_name_Control_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('msvk_name_test')"
+                  <!--שם משווק-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >שם משווק</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="msvk_name"
+                          type="text"
+                          id="msvk_name-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="שם משווק"
+                          [(ngModel)]="msvk_name_test"
+                          [formControl]="msvk_name_Control_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('msvk_name_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!--קוד משווק-->
-                <div class="col-md-3">
-                  <div class="form-group row mx-auto">
-                    <label class="col-md-4 label-control" for="userinput1"
-                      >קוד משווק</label
-                    >
-                    <div class="col-md-8">
-                      <input
-                        name="msvk_code"
-                        type="text"
-                        id="msvk_code-input"
-                        class="form-control border-primary textUserInput"
-                        placeholder="שם משווק"
-                        [(ngModel)]="msvk_code_test"
-                        [formControl]="msvk_code_Control_test"
-                      />
-                      <span
-                        class="delete-icon delete_icon_eran"
-                        (click)="clearInput('msvk_code_test')"
+                  <!--קוד משווק-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >קוד משווק</label
                       >
-                        <i class="fa fa-times"></i>
-                      </span>
+                      <div class="col-md-8">
+                        <input
+                          name="msvk_code"
+                          type="text"
+                          id="msvk_code-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="שם משווק"
+                          [(ngModel)]="msvk_code_test"
+                          [formControl]="msvk_code_Control_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('msvk_code_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--מס להקה-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >מס להקה</label
+                      >
+                      <div class="col-md-8">
+                        <input
+                          name="flock_id"
+                          type="text"
+                          id="flock_id-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="מס להקה"
+                          [(ngModel)]="flock_id_test"
+                          [formControl]="flock_id_Control_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('flock_id_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- מפורט - ריכוז -->
-            <div
-              class="year-select rtl_Style col-md-1"
-              style="margin-top: 30px"
-            >
-              <input
-                type="radio"
-                name="selectedOption2_excel"
-                [(ngModel)]="selected_option_status_excel"
-                [formControl]="selected_option_statusControl_excel"
-                value="merokaz"
-              />
-              <label
-                style="text-align: center; margin-top: 7px; margin-left: 10px"
-                >מרוכז</label
-              >
-            </div>
-
-            <div
-              class="year-select rtl_Style col-md-1"
-              style="margin-top: 30px"
-            >
-              <input
-                type="radio"
-                name="selectedOption2_excel"
-                [(ngModel)]="selected_option_status_excel"
-                [formControl]="selected_option_statusControl_excel"
-                value="meforat"
-              />
-              <label
-                style="text-align: center; margin-top: 7px; margin-left: 10px"
-                >מפורט</label
-              >
-            </div>
-
-            <!-- כפתור חיפוש -->
+            <!-- כפתור חיפוש ונקה -->
             <div class="col-md-12" style="margin-top: 15px">
               <button
                 class="btn btn-warning"
@@ -454,18 +514,40 @@
               >
                 יצוא קובץ
               </button>
+              <button
+                type="button"
+                class="btn btn-primary cleanBtn"
+                style="
+                  margin-top: 15px !important;
+                  font-size: 25px !important;
+                  background-color: #3498db !important;
+                  border: none;
+                  margin-right: 25px;
+                "
+                (click)="cleanInputFild()"
+              >
+                <i class="feather ft-x"></i> נקה
+              </button>
             </div>
           </div>
         </div>
       </form>
       <br />
-      <!-- טבלת נתונים -->
+
+      <div *ngIf="isLoading" class="loader"></div>
+      <!--meforat טבלת נתונים -->
       <div
-      *ngIf="search_click"
+        *ngIf="
+          this.selected_option_statusControl_excel.value === 'meforat' &&
+          this.click_on_search &&
+          !isLoading
+        "
         class="main_table mainTableClass"
         style="
           font-weight: bold;
           font-size: 18px !important;
+          margin-bottom: 140px;
+          direction: rtl;
         "
       >
         <table
@@ -514,6 +596,18 @@
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
+                תוצרת
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                סוג מחיר
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
                 קוד משווק
               </th>
               <th
@@ -556,7 +650,7 @@
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
-                קוד אתר
+                מס אתר
               </th>
               <th
                 class="border-top-0"
@@ -617,6 +711,14 @@
               <td *ngIf="row.the_month">{{ row.the_month }}</td>
               <td *ngIf="!row.the_month">""</td>
 
+              <!-- תוצרת -->
+              <td *ngIf="row.mh_Tzrt">{{ row.mh_Tzrt }}</td>
+              <td *ngIf="!row.mh_Tzrt">""</td>
+
+              <!-- סוג מחיר -->
+              <td *ngIf="row.mh_Sug_Mhir">{{ row.mh_Sug_Mhir }}</td>
+              <td *ngIf="!row.mh_Sug_Mhir">""</td>
+
               <!-- קוד משווק -->
               <td *ngIf="row.msvk_code">{{ row.msvk_code }}</td>
               <td *ngIf="!row.msvk_code">""</td>
@@ -672,6 +774,376 @@
           </tbody>
         </table>
       </div>
+
+      <!--Advanced טבלת נתונים -->
+      <div
+        *ngIf="
+          this.selected_option_statusControl_excel.value === 'Advanced' &&
+          this.click_on_search &&
+          !isLoading
+        "
+        class="main_table mainTableClass"
+        style="
+          font-weight: bold;
+          font-size: 18px !important;
+          margin-bottom: 140px;
+          direction: rtl;
+        "
+      >
+        <table
+          class=""
+          style="direction: rtl; width: fit-content; margin-top: 30px"
+        >
+          <thead class="detailsTable">
+            <tr class="the_tatle_res_table">
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מס מגדל
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שם מגדל
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                זהות מגדל
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                קוד גידול
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שנה
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                חודש
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                תוצרת
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                סוג מחיר
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                קוד משווק
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שם משווק
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מחיר תשלום
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מכסה קבועה
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                כמות שיווק
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                סכום
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                אחוז שיווק
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מס אתר
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שם אתר
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מס להקה
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שם ישוב
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                קוד ישוב
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                סוג מגדל
+              </th>
+            </tr>
+          </thead>
+
+          <tbody style="white-space: nowrap">
+            <tr class="the_res_table" *ngFor="let row of data">
+              <!-- מס מגדל -->
+              <td *ngIf="row.lull2000_code">{{ row.lull2000_code }}</td>
+              <td *ngIf="!row.lull2000_code">""</td>
+
+              <!-- שם מגדל -->
+              <td *ngIf="row.grower_name">{{ row.grower_name }}</td>
+              <td *ngIf="!row.grower_name">""</td>
+
+              <!-- זהות מגדל -->
+              <td *ngIf="row.yz_zehut">{{ row.yz_zehut }}</td>
+              <td *ngIf="!row.yz_zehut">""</td>
+
+              <!-- קוד גידול -->
+              <td *ngIf="row.cd_gidul">{{ row.cd_gidul }}</td>
+              <td *ngIf="!row.cd_gidul">""</td>
+
+              <!-- שנה -->
+              <td *ngIf="row.mh_Shana">{{ row.mh_Shana }}</td>
+              <td *ngIf="!row.mh_Shana">""</td>
+
+              <!-- חודש -->
+              <td *ngIf="row.the_month">{{ row.the_month }}</td>
+              <td *ngIf="!row.the_month">""</td>
+
+              <!-- תוצרת -->
+              <td *ngIf="row.mh_Tzrt">{{ row.mh_Tzrt }}</td>
+              <td *ngIf="!row.mh_Tzrt">""</td>
+
+              <!-- סוג מחיר -->
+              <td *ngIf="row.mh_Sug_Mhir">{{ row.mh_Sug_Mhir }}</td>
+              <td *ngIf="!row.mh_Sug_Mhir">""</td>
+
+              <!-- קוד משווק -->
+              <td *ngIf="row.msvk_code">{{ row.msvk_code }}</td>
+              <td *ngIf="!row.msvk_code">""</td>
+
+              <!-- שם משווק -->
+              <td *ngIf="row.msvk_name">{{ row.msvk_name }}</td>
+              <td *ngIf="!row.msvk_name">""</td>
+
+              <!-- מחיר לתשלום -->
+              <td *ngIf="row.mh_Mhir">{{ row.mh_Mhir }}</td>
+              <td *ngIf="!row.mh_Mhir">""</td>
+
+              <!-- מכסה קבועה -->
+              <td *ngIf="row.micsa_kvoha">{{ row.micsa_kvoha }}</td>
+              <td *ngIf="!row.micsa_kvoha">""</td>
+
+              <!-- כמות שיווק -->
+              <td *ngIf="row.marketing_sum">{{ row.marketing_sum }}</td>
+              <td *ngIf="!row.marketing_sum">""</td>
+
+              <!--  סכום -->
+              <td *ngIf="row.amount">{{ row.amount }}</td>
+              <td *ngIf="!row.amount">""</td>
+
+              <!--  אחוז שיווק -->
+              <td *ngIf="row.percent_">{{ row.percent_ }}</td>
+              <td *ngIf="!row.percent_">""</td>
+
+              <!--  קוד אתר -->
+              <td *ngIf="row.farm_code">{{ row.farm_code }}</td>
+              <td *ngIf="!row.farm_code">""</td>
+
+              <!--  שם אתר -->
+              <td *ngIf="row.farm_name">{{ row.farm_name }}</td>
+              <td *ngIf="!row.farm_name">""</td>
+
+              <!--  מס להקה -->
+              <td *ngIf="row.flock_id">{{ row.flock_id }}</td>
+              <td *ngIf="!row.flock_id">""</td>
+
+              <!--  שם ישוב -->
+              <td *ngIf="row.settlement_name">{{ row.settlement_name }}</td>
+              <td *ngIf="!row.settlement_name">""</td>
+
+              <!--  קוד ישוב -->
+              <td *ngIf="row.settlement_id">{{ row.settlement_id }}</td>
+              <td *ngIf="!row.settlement_id">""</td>
+
+              <!--  סוג מגדל -->
+              <td *ngIf="row.is_main_grower">{{ row.is_main_grower }}</td>
+              <td *ngIf="!row.is_main_grower">""</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!--merokaz טבלת נתונים -->
+      <div
+        *ngIf="
+          this.selected_option_statusControl_excel.value === 'merokaz' &&
+          this.click_on_search &&
+          !isLoading
+        "
+        class="main_table mainTableClass"
+        style="
+          font-weight: bold;
+          font-size: 18px !important;
+          margin-bottom: 140px;
+          direction: rtl;
+        "
+      >
+        <table
+          class=""
+          style="direction: rtl; width: fit-content; margin-top: 30px"
+        >
+          <thead class="detailsTable">
+            <tr class="the_tatle_res_table">
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שנה
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                חודש
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                תוצרת
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                סוג תשלום
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                שם משווק
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                קוד משווק
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מכסה קבועה
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                כמות לתשלום
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                מחיר
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                סכום
+              </th>
+            </tr>
+          </thead>
+
+          <tbody style="white-space: nowrap">
+            <tr class="the_res_table" *ngFor="let row of data">
+              <!-- שנה-->
+              <td *ngIf="row.shana">{{ row.shana }}</td>
+              <td *ngIf="!row.shana">""</td>
+
+              <!-- חודש-->
+              <td *ngIf="row.month">{{ row.month }}</td>
+              <td *ngIf="!row.month">""</td>
+
+              <!-- תוצרת-->
+              <td *ngIf="row.tzrt">{{ row.tzrt }}</td>
+              <td *ngIf="!row.tzrt">""</td>
+
+              <!-- סוג תשלום-->
+              <td *ngIf="row.payment_type">{{ row.payment_type }}</td>
+              <td *ngIf="!row.payment_type">""</td>
+
+              <!--שם משווק-->
+              <td *ngIf="row.msvk_name">{{ row.msvk_name }}</td>
+              <td *ngIf="!row.msvk_name">""</td>
+
+              <!-- קוד משווק -->
+              <td *ngIf="row.msvk_code">{{ row.msvk_code }}</td>
+              <td *ngIf="!row.msvk_code">""</td>
+
+              <!-- מכסה קבועה -->
+              <td *ngIf="row.micsa_kvoha">{{ row.micsa_kvoha }}</td>
+              <td *ngIf="!row.micsa_kvoha">""</td>
+
+              <!-- כמות לתשלום -->
+              <td *ngIf="row.kamut_tashlom">{{ row.kamut_tashlom }}</td>
+              <td *ngIf="!row.kamut_tashlom">""</td>
+
+              <!--  מחיר -->
+              <td *ngIf="row.mhir">{{ row.mhir }}</td>
+              <td *ngIf="!row.mhir">""</td>
+
+              <!--  סכום -->
+              <td *ngIf="row.amount_to_pay">{{ row.amount_to_pay }}</td>
+              <td *ngIf="!row.amount_to_pay">""</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </mat-tab>
     <mat-tab label="סגירת חודש">
       <div class="userDetDiv_tatle">
@@ -691,8 +1163,6 @@
         </div>
       </div>
       <div *ngIf="isLoading" class="loader"></div>
-      <!-- <div *ngIf="isLoading" class="loader2">{{ loadingText }}</div> -->
-
       <div class="div_close" *ngIf="!isLoading">
         <div style="width: fit-content" class="sub_div_close_2">
           <div

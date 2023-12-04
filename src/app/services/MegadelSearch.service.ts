@@ -12,6 +12,34 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async get_data_from_close_month_by_grower_meforat(
+    chosenYearControl_excel: any,
+    to_chosenYearControl_excel: any,
+    chosenMonthControl_excel: any,
+    to_chosenMonthControl_excel: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_data_from_close_month_by_grower_meforat?chosenYearControl_excel=${chosenYearControl_excel}&to_chosenYearControl_excel=${to_chosenYearControl_excel}&chosenMonthControl_excel=${chosenMonthControl_excel}&to_chosenMonthControl_excel=${to_chosenMonthControl_excel}`
+      )
+    );
+    return item;
+  }
+
+  async get_data_from_close_month_by_msvk_merokaz(
+    chosenYearControl_excel: any,
+    to_chosenYearControl_excel: any,
+    chosenMonthControl_excel: any,
+    to_chosenMonthControl_excel: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/get_data_from_close_month_by_msvk_merokaz?chosenYearControl_excel=${chosenYearControl_excel}&to_chosenYearControl_excel=${to_chosenYearControl_excel}&chosenMonthControl_excel=${chosenMonthControl_excel}&to_chosenMonthControl_excel=${to_chosenMonthControl_excel}`
+      )
+    );
+    return item;
+  }
+
   async get_data_growers_from_close_month(
     chosenYearControl_excel,
     to_chosenYearControl_excel,
@@ -26,11 +54,12 @@ export class MegadelSearchService {
     msvk_code_Control_test,
     growerNumControl_test,
     grower_zeut_testControl_test,
-    yeshuvControl_test
+    yeshuvControl_test,
+    flock_id_Control_test
   ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/get_data_growers_from_close_month?chosenYearControl_excel=${chosenYearControl_excel}&to_chosenYearControl_excel=${to_chosenYearControl_excel}&chosenMonthControl_excel=${chosenMonthControl_excel}&to_chosenMonthControl_excel=${to_chosenMonthControl_excel}&chosenShlohaControl_excel=${chosenShlohaControl_excel}&usernameControl_test=${usernameControl_test}&paymentControl_excel=${paymentControl_excel}&siteNumControl_test=${siteNumControl_test}&gidulHotzNumControl_test=${gidulHotzNumControl_test}&msvk_name_Control_test=${msvk_name_Control_test}&msvk_code_Control_test=${msvk_code_Control_test}&growerNumControl_test=${growerNumControl_test}&grower_zeut_testControl_test=${grower_zeut_testControl_test}&yeshuvControl_test=${yeshuvControl_test}`
+        `${environment.apiPath}growerService.asmx/get_data_growers_from_close_month?chosenYearControl_excel=${chosenYearControl_excel}&to_chosenYearControl_excel=${to_chosenYearControl_excel}&chosenMonthControl_excel=${chosenMonthControl_excel}&to_chosenMonthControl_excel=${to_chosenMonthControl_excel}&chosenShlohaControl_excel=${chosenShlohaControl_excel}&usernameControl_test=${usernameControl_test}&paymentControl_excel=${paymentControl_excel}&siteNumControl_test=${siteNumControl_test}&gidulHotzNumControl_test=${gidulHotzNumControl_test}&msvk_name_Control_test=${msvk_name_Control_test}&msvk_code_Control_test=${msvk_code_Control_test}&growerNumControl_test=${growerNumControl_test}&grower_zeut_testControl_test=${grower_zeut_testControl_test}&yeshuvControl_test=${yeshuvControl_test}&flock_id_Control_test=${flock_id_Control_test}`
       )
     );
     console.log('item: ', item);

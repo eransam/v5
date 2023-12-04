@@ -497,5 +497,6 @@ mdc-tab__text-label {
   overflow-y: auto !important;
   overflow-x: auto !important;
   width: 90%;
-  height: 600px;
+  height: fit-content;
+  max-height: 600px;
 }

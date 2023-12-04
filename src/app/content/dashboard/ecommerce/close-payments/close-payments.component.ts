@@ -21,6 +21,8 @@ import { ConfirmMsgComponent } from '../confirm-msg/confirm-msg.component';
   //    encapsulation: ViewEncapsulation.None,
 })
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
+  click_on_search: boolean = false;
+  Advanced_Search_varible: boolean = false;
   username_test: string;
   siteNum_test: string;
   gidulHotzNum_test: string;
@@ -28,6 +30,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   grower_zeut_test: string;
   yeshuv_test: string;
   msvk_code_test: string;
+  flock_id_test: string;
   msvk_name_test: string;
   usernameControl_test = new FormControl();
   siteNumControl_test = new FormControl();
@@ -37,7 +40,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   yeshuvControl_test = new FormControl();
   msvk_name_Control_test = new FormControl();
   msvk_code_Control_test = new FormControl();
-
+  flock_id_Control_test = new FormControl();
   bakara_shloha: boolean = false;
   main_arr: any[] = [];
   main_arr2: any[] = [];
@@ -227,6 +230,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       yeshuvControl_test: new FormControl(),
       msvk_name_Control_test: new FormControl(),
       msvk_code_Control_test: new FormControl(),
+      flock_id_Control_test: new FormControl(),
     });
 
     this.chosenMonth = '01';
@@ -246,6 +250,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.payment_excel = '02';
   }
   async ngOnInit() {
+    this.click_on_search = false;
+    this.Advanced_Search_varible = false;
     const currentDate = new Date();
     this.currentMonth = currentDate.getMonth() + 1;
     console.log(this.currentMonth);
@@ -272,10 +278,26 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     clearInterval(this.textChangeInterval);
   }
 
+  cleanInputFild() {
+    this.msvk_name_test = '';
+    this.flock_id_test = '';
+    this.msvk_code_test = '';
+    this.yeshuv_test = '';
+    this.growerNum_test = '';
+    this.grower_zeut_test = '';
+    this.gidulHotzNum_test = '';
+    this.siteNum_test = '';
+    this.username_test = '';
+  }
+
   clearInput(inputName: string): void {
     switch (inputName) {
       case 'msvk_name_test':
         this.msvk_name_test = '';
+        break;
+
+      case 'flock_id_test':
+        this.flock_id_test = '';
         break;
 
       case 'msvk_code_test':
@@ -1421,25 +1443,10 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     console.log('test');
   }
   async create_excel() {
+    this.isLoading = true;
+    this.click_on_search = true;
     this.search_click = true;
     this.isLoading = true;
-    console.log(this.chosenYearControl_excel.value);
-    console.log(this.to_chosenYearControl_excel.value);
-    console.log(this.chosenMonthControl_excel.value);
-    console.log(this.to_chosenMonthControl_excel.value);
-
-    console.log(this.chosenShlohaControl_excel.value);
-    console.log(this.usernameControl_test.value);
-    console.log(this.paymentControl_excel.value);
-    console.log(this.selected_option_statusControl_excel.value);
-    console.log(this.siteNumControl_test.value);
-    console.log(this.gidulHotzNumControl_test.value);
-    console.log(this.msvk_name_Control_test.value);
-    console.log(this.msvk_code_Control_test.value);
-    console.log(this.growerNumControl_test.value);
-    console.log(this.grower_zeut_testControl_test.value);
-    console.log(this.yeshuvControl_test.value);
-    console.log('d');
 
     if (this.chosenShlohaControl_excel.value === undefined) {
       this.chosenShlohaControl_excel.setValue('');
@@ -1462,6 +1469,10 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     if (this.msvk_code_Control_test.value === undefined) {
       this.msvk_code_Control_test.setValue('');
     }
+    if (this.flock_id_Control_test.value === undefined) {
+      this.flock_id_Control_test.setValue('');
+    }
+
     if (this.growerNumControl_test.value === undefined) {
       this.growerNumControl_test.setValue('');
     }
@@ -1483,31 +1494,65 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     console.log(this.siteNumControl_test.value);
     console.log(this.gidulHotzNumControl_test.value);
     console.log(this.msvk_name_Control_test.value);
-    console.log(this.msvk_code_Control_test.value);
     console.log(this.growerNumControl_test.value);
     console.log(this.grower_zeut_testControl_test.value);
     console.log(this.yeshuvControl_test.value);
+    console.log(this.flock_id_Control_test.value);
+
     console.log('d');
 
-    this.data =
-      await this.megadelSearchService.get_data_growers_from_close_month(
-        this.chosenYearControl_excel.value,
-        this.to_chosenYearControl_excel.value,
-        this.chosenMonthControl_excel.value,
-        this.to_chosenMonthControl_excel.value,
-        this.chosenShlohaControl_excel.value,
-        this.usernameControl_test.value,
-        this.paymentControl_excel.value,
-        this.siteNumControl_test.value,
-        this.gidulHotzNumControl_test.value,
-        this.msvk_name_Control_test.value,
-        this.msvk_code_Control_test.value,
-        this.growerNumControl_test.value,
-        this.grower_zeut_testControl_test.value,
-        this.yeshuvControl_test.value
-      );
+    if (this.selected_option_statusControl_excel.value === 'Advanced') {
+      this.data =
+        await this.megadelSearchService.get_data_growers_from_close_month(
+          this.chosenYearControl_excel.value,
+          this.to_chosenYearControl_excel.value,
+          this.chosenMonthControl_excel.value,
+          this.to_chosenMonthControl_excel.value,
+          this.chosenShlohaControl_excel.value,
+          this.usernameControl_test.value,
+          this.paymentControl_excel.value,
+          this.siteNumControl_test.value,
+          this.gidulHotzNumControl_test.value,
+          this.msvk_name_Control_test.value,
+          this.msvk_code_Control_test.value,
+          this.growerNumControl_test.value,
+          this.grower_zeut_testControl_test.value,
+          this.yeshuvControl_test.value,
+          this.flock_id_Control_test.value
+        );
 
-    console.log(data);
+      console.log(this.data);
+      this.isLoading = false;
+    } else {
+      if (this.selected_option_statusControl_excel.value === 'merokaz') {
+        this.data =
+          await this.megadelSearchService.get_data_from_close_month_by_msvk_merokaz(
+            this.chosenYearControl_excel.value,
+            this.to_chosenYearControl_excel.value,
+            this.chosenMonthControl_excel.value,
+            this.to_chosenMonthControl_excel.value
+          );
+
+        console.log(this.data);
+        this.isLoading = false;
+      } else {
+        if (this.selected_option_statusControl_excel.value === 'meforat') {
+          this.data =
+            await this.megadelSearchService.get_data_from_close_month_by_grower_meforat(
+              this.chosenYearControl_excel.value,
+              this.to_chosenYearControl_excel.value,
+              this.chosenMonthControl_excel.value,
+              this.to_chosenMonthControl_excel.value
+            );
+
+          console.log(this.data);
+          this.isLoading = false;
+        } else {
+          this.data = [];
+          this.isLoading = false;
+        }
+      }
+    }
 
     const lastDay = this.getLastDayOfMonth(
       Number(this.chosenMonthControl_excel.value)
@@ -1523,40 +1568,55 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     var full_date_to = `${this.to_chosenYearControl_excel.value}${this.to_chosenMonthControl_excel.value}${lastDay_to}`;
     console.log(full_date_to);
 
-    if (this.selected_option_statusControl_excel.value === 'merokaz') {
-      var data =
-        await this.megadelSearchService.get_data_from_close_month_by_msvk(
-          this.chosenYearControl_excel.value,
-          this.paymentControl_excel.value,
-          this.chosenShlohaControl_excel.value,
+    // if (this.selected_option_statusControl_excel.value === 'merokaz') {
+    //   var data =
+    //     await this.megadelSearchService.get_data_from_close_month_by_msvk(
+    //       this.chosenYearControl_excel.value,
+    //       this.paymentControl_excel.value,
+    //       this.chosenShlohaControl_excel.value,
 
-          this.chosenMonthControl_excel.value
-        );
-      console.log(data);
+    //       this.chosenMonthControl_excel.value
+    //     );
+    //   console.log(data);
 
-      if (data.length > 0) {
-        this.getExcelData_new_test(data);
-      } else {
-        this.openSuccessDialog('לא קיים מידע');
-      }
-    }
-    if (this.selected_option_statusControl_excel.value === 'meforat') {
-      var data =
-        await this.megadelSearchService.get_data_from_close_month_by_grower(
-          this.chosenYearControl_excel.value,
-          this.paymentControl_excel.value,
-          this.chosenShlohaControl_excel.value,
+    // //   if (data.length > 0) {
+    // //     this.getExcelData_new_test(data);
+    // //   } else {
+    // //     this.openSuccessDialog('לא קיים מידע');
+    // //   }
+    // }
+    // if (this.selected_option_statusControl_excel.value === 'meforat') {
+    //   var data =
+    //     await this.megadelSearchService.get_data_from_close_month_by_grower(
+    //       this.chosenYearControl_excel.value,
+    //       this.paymentControl_excel.value,
+    //       this.chosenShlohaControl_excel.value,
 
-          this.chosenMonthControl_excel.value
-        );
-      if (data.length > 0) {
-        this.getExcelData_new_test(data);
-      } else {
-        this.openSuccessDialog('לא קיים מידע');
-      }
-    }
+    //       this.chosenMonthControl_excel.value
+    //     );
+    //   if (data.length > 0) {
+    //     this.getExcelData_new_test(data);
+    //   } else {
+    //     this.openSuccessDialog('לא קיים מידע');
+    //   }
+    // }
 
     this.isLoading = false;
+  }
+
+  Advanced_Search() {
+    this.click_on_search = false;
+    this.Advanced_Search_varible = true;
+  }
+
+  merokaz_radio_click() {
+    this.click_on_search = false;
+    this.Advanced_Search_varible = false;
+  }
+
+  meforat_radio_click() {
+    this.click_on_search = false;
+    this.Advanced_Search_varible = false;
   }
 
   open_confirm_msg_Dialog(msg: any): Promise<boolean> {
