@@ -497,11 +497,92 @@
                       </div>
                     </div>
                   </div>
+
+                  <!--שם ישוב הגידול-->
+                  <div class="col-md-3">
+                    <div class="form-group row mx-auto">
+                      <label class="col-md-4 label-control" for="userinput1"
+                        >ישוב הגידול</label
+                      >
+                      <div class="col-md-8">
+                        <input
+                          name="farm_sattelment"
+                          type="text"
+                          id="farm_sattelment-input"
+                          class="form-control border-primary textUserInput"
+                          placeholder="ישוב הגידול"
+                          [(ngModel)]="farm_sattelment_test"
+                          [formControl]="farm_sattelment_Control_test"
+                        />
+                        <span
+                          class="delete-icon delete_icon_eran"
+                          (click)="clearInput('farm_sattelment_test')"
+                        >
+                          <i class="fa fa-times"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- כפתור חיפוש ונקה -->
+                  <div class="col-md-2" style="margin-top: 15px">
+                    <!-- חיפוש -->
+                    <button
+                      class="btn btn-warning"
+                      style="
+                        margin-right: 25px;
+                        float: left;
+                        margin-top: 15px !important;
+                        font-size: 25px !important;
+                        background-color: #3498db !important;
+                        border: none;
+                      "
+                      type="submit"
+                    >
+                      חיפוש
+                    </button>
+                    <!-- נקה -->
+                    <button
+                      type="button"
+                      class="btn btn-primary cleanBtn"
+                      style="
+                        float: left;
+                        margin-top: 15px !important;
+                        font-size: 25px !important;
+                        background-color: #3498db !important;
+                        border: none;
+                        margin-right: 25px;
+                      "
+                      (click)="cleanInputFild()"
+                    >
+                      <i class="feather ft-x"></i> נקה
+                    </button>
+                  </div>
+                  <!--EXEL כפתור-->
+                  <div class="col-md-1 importBth" style="margin-top: 19px">
+                    <div class="justify-content importBth_div">
+                      <img
+                        style="
+                          height: 35px;
+                          margin-right: 10px;
+                          margin-top: 18px;
+                        "
+                        class=""
+                        src="assets/images/logo/excel.png"
+                        alt="Image"
+                        (click)="this.main_excel_report_btn(this.data)"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- כפתור חיפוש ונקה -->
-            <div class="col-md-12" style="margin-top: 15px">
+            <!-- כפתור חיפוש נקה ואקסל -->
+            <div
+              *ngIf="!Advanced_Search_varible"
+              class="col-md-12"
+              style="margin-top: 15px; display: inline-flex"
+            >
               <button
                 class="btn btn-warning"
                 style="
@@ -512,7 +593,7 @@
                 "
                 type="submit"
               >
-                יצוא קובץ
+                חיפוש
               </button>
               <button
                 type="button"
@@ -528,6 +609,22 @@
               >
                 <i class="feather ft-x"></i> נקה
               </button>
+
+              <!-- כפתור אקסל -->
+              <div class="justify-content importBth_div">
+                <img
+                  style="
+                    height: 35px;
+                    margin-right: 10px;
+                    margin-top: 22px;
+                    margin-right: 30px;
+                  "
+                  class=""
+                  src="assets/images/logo/excel.png"
+                  alt="Image"
+                  (click)="this.main_excel_report_btn(this.data)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -572,7 +669,19 @@
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
-                זהות מגדל
+                שם ישוב
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                קוד ישוב
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                ת.ז מגדל
               </th>
               <th
                 class="border-top-0"
@@ -664,18 +773,7 @@
               >
                 מס להקה
               </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right"
-              >
-                שם ישוב
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right"
-              >
-                קוד ישוב
-              </th>
+
               <th
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
@@ -695,7 +793,15 @@
               <td *ngIf="row.grower_name">{{ row.grower_name }}</td>
               <td *ngIf="!row.grower_name">""</td>
 
-              <!-- זהות מגדל -->
+              <!--  שם ישוב -->
+              <td *ngIf="row.settlement_name">{{ row.settlement_name }}</td>
+              <td *ngIf="!row.settlement_name">""</td>
+
+              <!--  קוד ישוב -->
+              <td *ngIf="row.settlement_id">{{ row.settlement_id }}</td>
+              <td *ngIf="!row.settlement_id">""</td>
+
+              <!-- ת.ז מגדל -->
               <td *ngIf="row.yz_zehut">{{ row.yz_zehut }}</td>
               <td *ngIf="!row.yz_zehut">""</td>
 
@@ -732,19 +838,25 @@
               <td *ngIf="!row.mh_Mhir">""</td>
 
               <!-- מכסה קבועה -->
-              <td *ngIf="row.micsa_kvoha">{{ row.micsa_kvoha }}</td>
+              <td *ngIf="row.micsa_kvoha">
+                {{ row.micsa_kvoha | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.micsa_kvoha">""</td>
 
               <!-- כמות שיווק -->
-              <td *ngIf="row.marketing_sum">{{ row.marketing_sum }}</td>
+              <td *ngIf="row.marketing_sum">
+                {{ row.marketing_sum | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.marketing_sum">""</td>
 
               <!--  סכום -->
-              <td *ngIf="row.amount">{{ row.amount }}</td>
+              <td *ngIf="row.amount">{{ row.amount | number : "1.0-0" }}</td>
               <td *ngIf="!row.amount">""</td>
 
               <!--  אחוז שיווק -->
-              <td *ngIf="row.percent_">{{ row.percent_ }}</td>
+              <td *ngIf="row.percent_">
+                % {{ row.percent_ | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.percent_">""</td>
 
               <!--  קוד אתר -->
@@ -759,17 +871,28 @@
               <td *ngIf="row.flock_id">{{ row.flock_id }}</td>
               <td *ngIf="!row.flock_id">""</td>
 
-              <!--  שם ישוב -->
-              <td *ngIf="row.settlement_name">{{ row.settlement_name }}</td>
-              <td *ngIf="!row.settlement_name">""</td>
-
-              <!--  קוד ישוב -->
-              <td *ngIf="row.settlement_id">{{ row.settlement_id }}</td>
-              <td *ngIf="!row.settlement_id">""</td>
-
               <!--  סוג מגדל -->
-              <td *ngIf="row.is_main_grower">{{ row.is_main_grower }}</td>
-              <td *ngIf="!row.is_main_grower">""</td>
+              <td *ngIf="row.is_main_grower === 0 || row.is_main_grower === 3">
+                שותף
+              </td>
+              <td *ngIf="row.is_main_grower === 1 && row.percent_ !== 100">
+                ראשי
+              </td>
+              <td *ngIf="row.is_main_grower === 2 && row.percent_ !== 100">
+                ראשי
+              </td>
+              <td *ngIf="row.is_main_grower === 1 && row.percent_ === 100">
+                פרטני
+              </td>
+              <td *ngIf="row.is_main_grower === 2 && row.percent_ === 100">
+                פרטני
+              </td>
+            </tr>
+            <tr>
+              <td>סה''כ:</td>
+              <td>
+                {{ this.total_count_marketing_sum }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -812,7 +935,19 @@
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
-                זהות מגדל
+                שם ישוב
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                קוד ישוב
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                ת.ז מגדל
               </th>
               <th
                 class="border-top-0"
@@ -902,20 +1037,16 @@
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
+                ישוב אתר
+              </th>
+
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
                 מס להקה
               </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right"
-              >
-                שם ישוב
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right"
-              >
-                קוד ישוב
-              </th>
+
               <th
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
@@ -934,8 +1065,15 @@
               <!-- שם מגדל -->
               <td *ngIf="row.grower_name">{{ row.grower_name }}</td>
               <td *ngIf="!row.grower_name">""</td>
+              <!--  שם ישוב -->
+              <td *ngIf="row.settlement_name">{{ row.settlement_name }}</td>
+              <td *ngIf="!row.settlement_name">""</td>
 
-              <!-- זהות מגדל -->
+              <!--  קוד ישוב -->
+              <td *ngIf="row.settlement_id">{{ row.settlement_id }}</td>
+              <td *ngIf="!row.settlement_id">""</td>
+
+              <!-- ת.ז מגדל -->
               <td *ngIf="row.yz_zehut">{{ row.yz_zehut }}</td>
               <td *ngIf="!row.yz_zehut">""</td>
 
@@ -972,19 +1110,25 @@
               <td *ngIf="!row.mh_Mhir">""</td>
 
               <!-- מכסה קבועה -->
-              <td *ngIf="row.micsa_kvoha">{{ row.micsa_kvoha }}</td>
+              <td *ngIf="row.micsa_kvoha">
+                {{ row.micsa_kvoha | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.micsa_kvoha">""</td>
 
               <!-- כמות שיווק -->
-              <td *ngIf="row.marketing_sum">{{ row.marketing_sum }}</td>
+              <td *ngIf="row.marketing_sum">
+                {{ row.marketing_sum | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.marketing_sum">""</td>
 
               <!--  סכום -->
-              <td *ngIf="row.amount">{{ row.amount }}</td>
+              <td *ngIf="row.amount">{{ row.amount | number : "1.0-0" }}</td>
               <td *ngIf="!row.amount">""</td>
 
               <!--  אחוז שיווק -->
-              <td *ngIf="row.percent_">{{ row.percent_ }}</td>
+              <td *ngIf="row.percent_">
+                % {{ row.percent_ | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.percent_">""</td>
 
               <!--  קוד אתר -->
@@ -995,21 +1139,38 @@
               <td *ngIf="row.farm_name">{{ row.farm_name }}</td>
               <td *ngIf="!row.farm_name">""</td>
 
+              <!--  ישוב אתר -->
+              <td *ngIf="row.settlement_name_farm">
+                {{ row.settlement_name_farm }}
+              </td>
+              <td *ngIf="!row.settlement_name_farm">""</td>
+
               <!--  מס להקה -->
               <td *ngIf="row.flock_id">{{ row.flock_id }}</td>
               <td *ngIf="!row.flock_id">""</td>
 
-              <!--  שם ישוב -->
-              <td *ngIf="row.settlement_name">{{ row.settlement_name }}</td>
-              <td *ngIf="!row.settlement_name">""</td>
-
-              <!--  קוד ישוב -->
-              <td *ngIf="row.settlement_id">{{ row.settlement_id }}</td>
-              <td *ngIf="!row.settlement_id">""</td>
-
               <!--  סוג מגדל -->
-              <td *ngIf="row.is_main_grower">{{ row.is_main_grower }}</td>
-              <td *ngIf="!row.is_main_grower">""</td>
+              <td *ngIf="row.is_main_grower === 0 || row.is_main_grower === 3">
+                שותף
+              </td>
+              <td *ngIf="row.is_main_grower === 1 && row.percent_ !== 100">
+                ראשי
+              </td>
+              <td *ngIf="row.is_main_grower === 2 && row.percent_ !== 100">
+                ראשי
+              </td>
+              <td *ngIf="row.is_main_grower === 1 && row.percent_ === 100">
+                פרטני
+              </td>
+              <td *ngIf="row.is_main_grower === 2 && row.percent_ === 100">
+                פרטני
+              </td>
+            </tr>
+            <tr>
+              <td>סה''כ:</td>
+              <td>
+                {{ this.total_count_marketing_sum }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -1126,7 +1287,9 @@
               <td *ngIf="!row.msvk_code">""</td>
 
               <!-- מכסה קבועה -->
-              <td *ngIf="row.micsa_kvoha">{{ row.micsa_kvoha }}</td>
+              <td *ngIf="row.micsa_kvoha">
+                {{ row.micsa_kvoha | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.micsa_kvoha">""</td>
 
               <!-- כמות לתשלום -->
@@ -1138,8 +1301,16 @@
               <td *ngIf="!row.mhir">""</td>
 
               <!--  סכום -->
-              <td *ngIf="row.amount_to_pay">{{ row.amount_to_pay }}</td>
+              <td *ngIf="row.amount_to_pay">
+                {{ row.amount_to_pay | number : "1.0-0" }}
+              </td>
               <td *ngIf="!row.amount_to_pay">""</td>
+            </tr>
+            <tr>
+              <td>סה''כ:</td>
+              <td>
+                {{ this.total_count_marketing_sum }}
+              </td>
             </tr>
           </tbody>
         </table>

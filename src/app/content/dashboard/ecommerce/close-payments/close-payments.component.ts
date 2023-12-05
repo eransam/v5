@@ -21,6 +21,7 @@ import { ConfirmMsgComponent } from '../confirm-msg/confirm-msg.component';
   //    encapsulation: ViewEncapsulation.None,
 })
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
+  total_count_marketing_sum = 0;
   click_on_search: boolean = false;
   Advanced_Search_varible: boolean = false;
   username_test: string;
@@ -31,6 +32,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   yeshuv_test: string;
   msvk_code_test: string;
   flock_id_test: string;
+  farm_sattelment_test: string;
+
   msvk_name_test: string;
   usernameControl_test = new FormControl();
   siteNumControl_test = new FormControl();
@@ -41,6 +44,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   msvk_name_Control_test = new FormControl();
   msvk_code_Control_test = new FormControl();
   flock_id_Control_test = new FormControl();
+  farm_sattelment_Control_test = new FormControl();
   bakara_shloha: boolean = false;
   main_arr: any[] = [];
   main_arr2: any[] = [];
@@ -231,6 +235,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       msvk_name_Control_test: new FormControl(),
       msvk_code_Control_test: new FormControl(),
       flock_id_Control_test: new FormControl(),
+      farm_sattelment_Control_test: new FormControl(),
     });
 
     this.chosenMonth = '01';
@@ -281,6 +286,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   cleanInputFild() {
     this.msvk_name_test = '';
     this.flock_id_test = '';
+    this.farm_sattelment_test = '';
     this.msvk_code_test = '';
     this.yeshuv_test = '';
     this.growerNum_test = '';
@@ -299,6 +305,11 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       case 'flock_id_test':
         this.flock_id_test = '';
         break;
+
+        case 'farm_sattelment_test':
+            this.farm_sattelment_test = '';
+            break;
+        
 
       case 'msvk_code_test':
         this.msvk_code_test = '';
@@ -925,7 +936,203 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
-  // אקסל שיווק כמות 0 מגדלים
+  main_excel_report_btn(data_to_excel) {
+    if (this.selected_option_statusControl_excel.value === 'Advanced') {
+      this.Excel_button_reports_advanced(data_to_excel);
+    } else {
+      if (this.selected_option_statusControl_excel.value === 'merokaz') {
+        this.Excel_button_reports_merokaz(data_to_excel);
+      } else {
+        if (this.selected_option_statusControl_excel.value === 'meforat') {
+          this.Excel_button_reports_meforat(data_to_excel);
+        }
+      }
+    }
+  }
+  // אקסל דוחות מרוכז
+  Excel_button_reports_merokaz(data_to_excel): void {
+    console.log(data_to_excel);
+    const selectedFieldsArray = data_to_excel.map((item) => {
+      return {
+        shana: item.shana,
+        month: item.month,
+        tzrt: item.tzrt,
+        payment_type: item.payment_type,
+        msvk_code: item.msvk_code,
+        msvk_name: item.msvk_name,
+        micsa_kvoha: item.micsa_kvoha,
+        kamut_tashlom: item.kamut_tashlom,
+        mhir: item.mhir,
+        amount_to_pay: item.amount_to_pay,
+      };
+    });
+
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      shana: 'שנה',
+      month: 'חודש',
+      tzrt: 'תוצרת',
+      payment_type: 'סוג תשלום',
+      msvk_code: 'קוד משווק',
+      msvk_name: 'שם משווק',
+      micsa_kvoha: 'מיכסה קבועה',
+      kamut_tashlom: 'כמות לתשלום',
+      mhir: 'מחיר',
+      amount_to_pay: 'סכום לתשלום',
+    };
+
+    this.transformedData = selectedFieldsArray.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'דוחות- מרוכז'
+    );
+  }
+
+  //   אקסל דוחות מפורט
+  Excel_button_reports_meforat(data_to_excel): void {
+    console.log(data_to_excel);
+    const selectedFieldsArray = data_to_excel.map((item) => {
+      return {
+        mh_Shana: item.mh_Shana,
+        the_month: item.the_month,
+        mh_Tzrt: item.mh_Tzrt,
+        mh_Sug_Mhir: item.mh_Sug_Mhir,
+        grower_grower_num: item.grower_grower_num,
+        grower_name: item.grower_name,
+        yz_zehut: item.yz_zehut,
+        is_main_grower: item.is_main_grower,
+        micsa_kvoha: item.micsa_kvoha,
+        farm_code: item.farm_code,
+        farm_name: item.farm_name,
+        flock_id: item.flock_id,
+        cd_gidul: item.cd_gidul,
+        percent_: item.percent_,
+        settlement_id: item.settlement_id,
+        settlement_name: item.settlement_name,
+        msvk_code: item.msvk_code,
+        msvk_name: item.msvk_name,
+        marketing_sum: item.marketing_sum,
+        mh_Mhir: item.mh_Mhir,
+        amount: item.amount,
+      };
+    });
+
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      mh_Shana: 'שנה',
+      the_month: 'חודש',
+      mh_Tzrt: 'תוצרת',
+      mh_Sug_Mhir: 'סוג תשלום',
+      grower_grower_num: 'מס מגדל',
+      grower_name: 'שם מגדל',
+      yz_zehut: 'ת.ז מגדל',
+      is_main_grower: 'סוג מגדל',
+      micsa_kvoha: 'מיכסה קבועה',
+      farm_code: 'קוד אתר',
+      farm_name: 'שם אתר',
+      flock_id: 'מס להקה',
+      cd_gidul: 'קוד גידול',
+      percent_: 'אחוז שותפות',
+      settlement_id: 'קוד ישוב',
+      settlement_name: 'שם ישוב',
+      msvk_code: 'קוד משווק',
+      msvk_name: 'שם משווק',
+      marketing_sum: 'כמות לתשלום',
+      mh_Mhir: 'מחיר',
+      amount: 'סכום לתשלום',
+    };
+
+    this.transformedData = selectedFieldsArray.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'דוחות- מפורט'
+    );
+  }
+
+  //   אקסל דוחות מתקדם
+  Excel_button_reports_advanced(data_to_excel): void {
+    const selectedFieldsArray = data_to_excel.map((item) => {
+      return {
+        mh_Shana: item.mh_Shana,
+        the_month: item.the_month,
+        mh_Tzrt: item.mh_Tzrt,
+        mh_Sug_Mhir: item.mh_Sug_Mhir,
+        lull2000_code: item.lull2000_code,
+        grower_name: item.grower_name,
+        yz_zehut: item.yz_zehut,
+        is_main_grower: item.is_main_grower,
+        micsa_kvoha: item.micsa_kvoha,
+        farm_code: item.farm_code,
+        farm_name: item.farm_name,
+        flock_id: item.flock_id,
+        cd_gidul: item.cd_gidul,
+        percent_: item.percent_,
+        settlement_id: item.settlement_id,
+        settlement_name: item.settlement_name,
+        msvk_code: item.msvk_code,
+        msvk_name: item.msvk_name,
+        marketing_sum: item.marketing_sum,
+        mh_Mhir: item.mh_Mhir,
+        amount: item.amount,
+      };
+    });
+
+    //   קביעת שמות בעברית לתצוגה באקסל
+    const fieldTitleMapping = {
+      mh_Shana: 'שנה',
+      the_month: 'חודש',
+      mh_Tzrt: 'תוצרת',
+      mh_Sug_Mhir: 'סוג תשלום',
+      lull2000_code: 'מס מגדל',
+      grower_name: 'שם מגדל',
+      yz_zehut: 'ת.ז מגדל',
+      is_main_grower: 'סוג מגדל',
+      micsa_kvoha: 'מיכסה קבועה',
+      farm_code: 'קוד אתר',
+      farm_name: 'שם אתר',
+      flock_id: 'מס להקה',
+      cd_gidul: 'קוד גידול',
+      percent_: 'אחוז שותפות',
+      settlement_id: 'קוד ישוב',
+      settlement_name: 'שם ישוב',
+      msvk_code: 'קוד משווק',
+      msvk_name: 'שם משווק',
+      marketing_sum: 'כמות לתשלום',
+      mh_Mhir: 'מחיר',
+      amount: 'סכום לתשלום',
+    };
+
+    this.transformedData = selectedFieldsArray.map((item) => {
+      const transformedItem = {};
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          transformedItem[fieldTitleMapping[key] || key] = item[key];
+        }
+      }
+      return transformedItem;
+    });
+    this.tableexcelService.exportAsExcelFile(
+      this.transformedData,
+      'דוחות- מתקדם'
+    );
+  }
+
   create_ecxel_testing_if_there_is_certificate_from_packege_that_sum_0(
     data_to_excel
   ): void {
@@ -1472,6 +1679,12 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     if (this.flock_id_Control_test.value === undefined) {
       this.flock_id_Control_test.setValue('');
     }
+    if (this.farm_sattelment_Control_test.value === undefined) {
+        this.farm_sattelment_Control_test.setValue('');
+      }
+
+
+    
 
     if (this.growerNumControl_test.value === undefined) {
       this.growerNumControl_test.setValue('');
@@ -1498,10 +1711,15 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     console.log(this.grower_zeut_testControl_test.value);
     console.log(this.yeshuvControl_test.value);
     console.log(this.flock_id_Control_test.value);
+    console.log(this.farm_sattelment_Control_test.value);
+
+    
 
     console.log('d');
 
     if (this.selected_option_statusControl_excel.value === 'Advanced') {
+      this.total_count_marketing_sum = 0;
+
       this.data =
         await this.megadelSearchService.get_data_growers_from_close_month(
           this.chosenYearControl_excel.value,
@@ -1518,13 +1736,19 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
           this.growerNumControl_test.value,
           this.grower_zeut_testControl_test.value,
           this.yeshuvControl_test.value,
-          this.flock_id_Control_test.value
+          this.flock_id_Control_test.value,
+          this.farm_sattelment_Control_test.value          
         );
 
       console.log(this.data);
+      this.total_count_marketing_sum = this.data.reduce(
+        (sum, obj) => sum + obj.marketing_sum,
+        0
+      );
       this.isLoading = false;
     } else {
       if (this.selected_option_statusControl_excel.value === 'merokaz') {
+        this.total_count_marketing_sum = 0;
         this.data =
           await this.megadelSearchService.get_data_from_close_month_by_msvk_merokaz(
             this.chosenYearControl_excel.value,
@@ -1534,9 +1758,14 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
           );
 
         console.log(this.data);
+        this.total_count_marketing_sum = this.data.reduce(
+          (sum, obj) => sum + obj.marketing_sum,
+          0
+        );
         this.isLoading = false;
       } else {
         if (this.selected_option_statusControl_excel.value === 'meforat') {
+          this.total_count_marketing_sum = 0;
           this.data =
             await this.megadelSearchService.get_data_from_close_month_by_grower_meforat(
               this.chosenYearControl_excel.value,
@@ -1546,8 +1775,15 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
             );
 
           console.log(this.data);
+
+          this.total_count_marketing_sum = this.data.reduce(
+            (sum, obj) => sum + obj.marketing_sum,
+            0
+          );
+
           this.isLoading = false;
         } else {
+          this.total_count_marketing_sum = 0;
           this.data = [];
           this.isLoading = false;
         }
