@@ -1047,6 +1047,32 @@
                 מס להקה
               </th>
 
+              <!-- חדש -->
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                תאריך איכלוס
+              </th>
+
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                תאריך בקיעה
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                גיל בחודשים
+              </th>
+              <th
+                class="border-top-0"
+                style="font-weight: bold; text-align: right"
+              >
+                איכלוס
+              </th>
               <th
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
@@ -1148,6 +1174,20 @@
               <!--  מס להקה -->
               <td *ngIf="row.flock_id">{{ row.flock_id }}</td>
               <td *ngIf="!row.flock_id">""</td>
+
+              <!--  תאריך איכלוס -->
+              <td *ngIf="row.the_min3">{{ row.the_min3 | date : "dd/MM/yyyy"}}</td>
+              <td *ngIf="!row.the_min3">""</td>
+              <!--  תאריך בקיעה -->
+              <td *ngIf="row.flock_hatch_date">{{ row.flock_hatch_date | date : "dd/MM/yyyy"}}</td>
+              <td *ngIf="!row.flock_hatch_date">""</td>
+              <!--  גיל בחודשים -->
+              <td *ngIf="row.flock_month_age">{{ row.flock_month_age }}</td>
+              <td *ngIf="!row.flock_month_age">""</td>
+
+              <!-- איכלוס -->
+              <td *ngIf="row.total_hidosh">{{ row.total_hidosh | number : "1.0-0" }}</td>
+              <td *ngIf="!row.total_hidosh">""</td>
 
               <!--  סוג מגדל -->
               <td *ngIf="row.is_main_grower === 0 || row.is_main_grower === 3">

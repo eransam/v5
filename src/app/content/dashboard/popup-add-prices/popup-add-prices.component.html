@@ -52,6 +52,7 @@
                 {{ row.mh_tzrt }} - {{ row.name_shloha }}
               </td>
 
+              <!-- מתאריך -->
               <td>
                 <div class="date-input-container">
                   <div class="input-group">
@@ -76,6 +77,7 @@
                 </div>
               </td>
 
+              <!-- עד תאריך -->
               <td>
                 <div class="date-input-container">
                   <div class="input-group">
@@ -101,7 +103,11 @@
               </td>
 
               <!-- קרן ויסות -->
-              <td *ngIf="row.mhir_visot" class="body_table">
+              <td
+                *ngIf="row.mhir_visot"
+                class="body_table"
+                (change)="validateInput($event)"
+              >
                 <input type="number" [(ngModel)]="row.mhir_visot" />
               </td>
               <td *ngIf="!row.mhir_visot" class="body_table">
@@ -118,7 +124,11 @@
 
               <!-- היטל -->
               <td class="body_table">
-                <input type="number" [(ngModel)]="row.mh_mhir" />
+                <input
+                  type="number"
+                  [(ngModel)]="row.mh_mhir"
+                  (change)="validateInput($event)"
+                />
               </td>
 
               <!-- כפתור עריכה -->

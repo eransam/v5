@@ -73,6 +73,37 @@ export class PopupAddPricesComponent {
     this.data[0].tk_date_to = newDate;
   }
 
+  validateInput(event: any): void {
+    const enteredValue = event.target.value;
+
+    // Check if the entered value is less than 0
+    if (enteredValue < 0) {
+      // Display a message, reset the value, or take any other appropriate action
+      this.openSuccessDialog_fast('הסכום קטן מ 0');
+      event.target.value = 0; // Reset to 0 or any default value
+    }
+  }
+
+  onstartDateChange(event: any): void {
+    const enteredValue = event.target.value;
+
+    // Check if the entered value is less than 0
+    if (enteredValue > this.endDate) {
+      // Display a message, reset the value, or take any other appropriate action
+      this.openSuccessDialog_fast('התאריך ההתחלתי גדול מהתאריך הסופי');
+      var startDateObj1 = new Date();
+      var today1 = new Date();
+      startDateObj1.setDate(today1.getDate());
+      event.target.value = this.datePipe.transform(startDateObj1, 'dd-MM-yyyy');
+      this.data[0].tk_date_from = this.datePipe.transform(
+        startDateObj1,
+        'dd-MM-yyyy'
+      );
+    } else {
+      this.data[0].tk_date_from = event.target.value;
+    }
+  }
+
   toggleDatepicker() {
     this.datepicker.toggle();
   }
@@ -124,7 +155,6 @@ export class PopupAddPricesComponent {
 
     console.log(this.endDate_to_search);
 
-
     var the_update_val =
       await this.megadelSearchService.update_hetelim_price_and_dates(
         this.startDate,
@@ -141,8 +171,6 @@ export class PopupAddPricesComponent {
         row.mh_tzrt,
         row.mhir_visot
       );
-
-
 
     // מכניס את שינוי המחיר לטבלת לוג שינויי המחיר
     var insert_price_updates_table =
@@ -170,6 +198,16 @@ export class PopupAddPricesComponent {
   }
 
   openSuccessDialog(msg: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'openSuccessDialog';
+    dialogConfig.data = msg;
+    const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
+    setTimeout(() => {
+      dialogRef.close();
+    }, 1000);
+  }
+
+  openSuccessDialog_fast(msg: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'openSuccessDialog';
     dialogConfig.data = msg;
