@@ -409,7 +409,7 @@ export class PageShivokimHatalaComponent {
 
   async open_certificate_details(certificate_id: any) {
     var newWindow = window.open(
-      `http://epb-iis22:9091/app/v3.3.8/#/certificate-egg-details/${certificate_id}`,
+      `http://aws-iis.lul.epb:9091/app/v3.3.8/#/certificate-egg-details/${certificate_id}`,
       '_blank'
     );
     if (newWindow) {

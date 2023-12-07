@@ -5,7 +5,6 @@ export const environment = {
   production: true,
   apiPath: window.location.protocol + '//' + window.location.host + '/',
   api_front: 'http://aws-iis.lul.epb:9092/app/v2',
-
 //   api_front: 'http://epb-iis22:9092/app/v2',
   
   firebase: {

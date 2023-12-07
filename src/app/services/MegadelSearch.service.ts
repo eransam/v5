@@ -1107,9 +1107,10 @@ export class MegadelSearchService {
     ];
     var jsonFinal = [
       {
-        reportName: '\\\\epb-iis22\\Report\\ChickenHealth\\FlockHistory.rpt',
+        reportName:
+          '\\\\amznfsx97bxnytt.lul.epb\\Reports\\ChickenHealth\\FlockHistory.rpt',
         pdfName:
-          '\\\\epb-iis22\\Scan\\ChickenHealth\\flock\\' +
+          '\\\\amznfsx97bxnytt.lul.epb\\Scan\\ChickenHealth\\flock\\' +
           'params.data.id' +
           '.pdf',
         connectionString: 'ChickenHealth',
@@ -1128,7 +1129,9 @@ export class MegadelSearchService {
 
         if (data) {
           window.open(
-            'http://epb-iis22:8006/EggMovements/' + 'params.data.id' + '.pdf'
+            'https://reports.epbapp.org/EggMovements/' +
+              'params.data.id' +
+              '.pdf'
           );
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
