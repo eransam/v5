@@ -7,6 +7,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class CristalsService {
+  reportName: '\\\\amznfsx97bxnytt.lul.epb\\Reports';
+  scanName: '\\\\amznfsx97bxnytt.lul.epb\\Scan';
+  reportHTTP: 'https://reports.epbapp.org';
+
   constructor(private http: HttpClient) {}
 
   async flock_history(flock_num) {
@@ -31,9 +35,11 @@ export class CristalsService {
     var jsonFinal = [
       {
         reportName:
-          '\\\\EPB-IIS12\\Report\\ChickenHealth\\CR_FlockHistory2.rpt',
+          // '\\\\EPB-IIS12\\Report\\ChickenHealth\\CR_FlockHistory2.rpt',
+          '\\\\amznfsx97bxnytt.lul.epbReports\\Report\\ChickenHealth\\CR_FlockHistory2.rpt',
 
-        pdfName: '\\\\epb-iis22\\Scan\\EggMovements\\' + pdfName,
+        //   pdfName: '\\\\epb-iis22\\Scan\\EggMovements\\' + pdfName,
+        pdfName: '\\\\amznfsx97bxnytt.lul.epb\\Scan\\EggMovements\\' + pdfName,
         connectionString: 'ChickenHealth',
         param: paramData,
       },
@@ -51,8 +57,8 @@ export class CristalsService {
 
         if (data) {
           console.log('g');
-
-          window.open('http://epb-iis22:8006/EggMovements/' + pdfName);
+          //   window.open('http://epb-iis22:8006/EggMovements/' + pdfName);
+          window.open('https://reports.epbapp.org/' + pdfName);
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
         }
@@ -81,9 +87,8 @@ export class CristalsService {
 
     var jsonFinal = [
       {
-        reportName:
-          '\\\\EPB-IIS12\\Report\\LulSln_net\\Egg_report\\Hazmada_Yzrn.rpt',
-        pdfName: '\\\\epb-iis22\\Scan\\EggMovements\\eran_rep\\' + pdfName,
+        reportName: `${this.reportName}\\LulSln_net\\Egg_report\\Hazmada_Yzrn.rpt`,
+        pdfName: `${this.scanName}\\EggMovements\\eran_rep\\` + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -101,7 +106,7 @@ export class CristalsService {
         if (data) {
           console.log('g');
 
-          window.open('http://epb-iis22:8006/EggMovements/eran_rep/' + pdfName);
+          window.open(`${this.reportHTTP}/EggMovements/eran_rep/` + pdfName);
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
         }
@@ -137,10 +142,9 @@ export class CristalsService {
 
     var jsonFinal = [
       {
-        reportName:
-          '\\\\epb-iis12\\REPORT\\LulSln_net\\Egg_report\\Alfon_Atarim_By_Tz.rpt',
+        reportName: `${this.reportName}\\LulSln_net\\Egg_report\\Alfon_Atarim_By_Tz.rpt`,
         pdfName:
-          `\\\\epb-iis22\\Scan\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
+          `${this.scanName}\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -159,7 +163,7 @@ export class CristalsService {
           console.log('g');
 
           window.open(
-            `http://epb-iis22:8006/EggMovements/eran_rep/${tozeret}/` + pdfName
+            `${this.reportHTTP}/EggMovements/eran_rep/${tozeret}/` + pdfName
           );
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
@@ -167,7 +171,7 @@ export class CristalsService {
       });
 
     const window_to_open =
-      `http://epb-iis22:8006/EggMovements//eran_rep/${tozeret}/` + pdfName;
+      `${this.reportHTTP}/EggMovements//eran_rep/${tozeret}/` + pdfName;
     return window_to_open;
   }
 
@@ -196,10 +200,9 @@ export class CristalsService {
 
     var jsonFinal = [
       {
-        reportName:
-          '\\\\epb-iis12\\REPORT\\LulSln_net\\Egg_report\\Bezim_Atarim_Only_Yzrn_With_Mcsa_Peilut.rpt',
+        reportName: `${this.reportName}\\LulSln_net\\Egg_report\\Bezim_Atarim_Only_Yzrn_With_Mcsa_Peilut.rpt`,
         pdfName:
-          `\\\\epb-iis22\\Scan\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
+          `${this.scanName}\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -218,7 +221,7 @@ export class CristalsService {
           console.log('g');
 
           window.open(
-            `http://epb-iis22:8006/EggMovements/eran_rep/${tozeret}/` + pdfName
+            `${this.reportHTTP}/EggMovements/eran_rep/${tozeret}/` + pdfName
           );
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
@@ -226,7 +229,7 @@ export class CristalsService {
       });
 
     var window_name =
-      `http://epb-iis22:8006/EggMovements/eran_rep/${tozeret}/` + pdfName;
+      `${this.reportHTTP}/EggMovements/eran_rep/${tozeret}/` + pdfName;
     return window_name;
   }
 
@@ -254,10 +257,9 @@ export class CristalsService {
 
     var jsonFinal = [
       {
-        reportName:
-          '\\\\EPB-IIS12\\REPORT\\LulSln_net\\Egg_report\\Atarim_Of_Yzrn.rpt',
+        reportName: `${this.reportName}\\LulSln_net\\Egg_report\\Atarim_Of_Yzrn.rpt`,
         pdfName:
-          `\\\\epb-iis22\\Scan\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
+          `${this.scanName}\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -276,7 +278,7 @@ export class CristalsService {
           console.log('g');
 
           window.open(
-            `http://epb-iis22:8006/EggMovements/eran_rep/${tozeret}/` + pdfName
+            `${this.reportHTTP}/EggMovements/eran_rep/${tozeret}/` + pdfName
           );
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
@@ -304,10 +306,9 @@ export class CristalsService {
 
     var jsonFinal = [
       {
-        reportName:
-          '\\\\epb-iis12\\REPORT\\LulSln_net\\Egg_report\\Info_Micsa_Yzrn.rpt',
+        reportName: `${this.reportName}\\LulSln_net\\Egg_report\\Info_Micsa_Yzrn.rpt`,
         pdfName:
-          `\\\\epb-iis22\\Scan\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
+          `${this.scanName}\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -326,7 +327,7 @@ export class CristalsService {
           console.log('g');
 
           window.open(
-            `http://epb-iis22:8006/EggMovements/eran_rep/${tozeret}/` + pdfName
+            `${this.reportHTTP}/EggMovements/eran_rep/${tozeret}/` + pdfName
           );
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
@@ -364,10 +365,9 @@ export class CristalsService {
 
     var jsonFinal = [
       {
-        reportName:
-          '\\\\epb-iis12\\REPORT\\LulSln_net\\Egg_report\\Alfon_Micsa_Strt_By_Year.rpt',
+        reportName: `${this.reportName}\\LulSln_net\\Egg_report\\Alfon_Micsa_Strt_By_Year.rpt`,
         pdfName:
-          `\\\\epb-iis22\\Scan\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
+          `${this.scanName}\\EggMovements\\eran_rep\\${tozeret}\\` + pdfName,
         connectionString: 'egg',
         param: paramData,
       },
@@ -386,7 +386,7 @@ export class CristalsService {
           console.log('g');
 
           window.open(
-            `http://epb-iis22:8006/EggMovements/eran_rep/${tozeret}/` + pdfName
+            `${this.reportHTTP}/EggMovements/eran_rep/${tozeret}/` + pdfName
           );
         } else {
           console.log('FALLLLLLLLLLLLLLLLLLLLLLLLLLLLSEE');
@@ -405,8 +405,8 @@ export class CristalsService {
     ];
     var jsonFinal = [
       {
-        reportName: '\\\\epb-iis12\\Report\\EvacuationChicken\\CERTIFICATE.rpt',
-        pdfName: '\\\\epb-iis12\\Scan\\EvacuationChicken\\Temp\\' + id + '.pdf',
+        reportName: `${this.reportName}\\EvacuationChicken\\CERTIFICATE.rpt`,
+        pdfName: `${this.scanName}\\EvacuationChicken\\Temp\\' + id + '.pdf`,
         connectionString: 'PinuyOfot',
         param: paramData,
       },
