@@ -500,3 +500,9 @@ mdc-tab__text-label {
   height: fit-content;
   max-height: 600px;
 }
+
+.td_tab {
+  border: solid #000000 0.1px;
+  width: 105px;
+  text-align: center;
+}

@@ -72,6 +72,7 @@ import { PopupAddPricesComponent } from './popup-add-prices/popup-add-prices.com
 import { SuccessDialogComponent } from './ecommerce/success-dialog/success-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ConfirmMsgComponent } from './ecommerce/confirm-msg/confirm-msg.component';
+import { MidPageComponent } from './mid-page/mid-page.component';
 
 defineLocale('he', heLocale); // Define Hebrew locale
 defineLocale('he', heLocale); // Define Hebrew locale
@@ -104,6 +105,10 @@ defineLocale('he', heLocale); // Define Hebrew locale
         component: PaymentsPricesComponent,
       },
 
+      {
+        path: 'MidPageComponent',
+        component: MidPageComponent,
+      },
       {
         path: 'ClosePaymentsComponent',
         component: ClosePaymentsComponent,
@@ -240,6 +245,7 @@ defineLocale('he', heLocale); // Define Hebrew locale
     PopupAddPricesComponent,
     SuccessDialogComponent,
     ConfirmMsgComponent,
+    MidPageComponent,
   ],
   providers: [DatePipe],
   exports: [RouterModule],

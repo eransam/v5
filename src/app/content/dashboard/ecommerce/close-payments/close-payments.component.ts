@@ -1,3 +1,5 @@
+// ge_all_from_close_month_by_msvk_new_history
+
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -21,6 +23,7 @@ import { ConfirmMsgComponent } from '../confirm-msg/confirm-msg.component';
   //    encapsulation: ViewEncapsulation.None,
 })
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
+  history_close_month: any[] = [];
   total_count_marketing_sum = 0;
   click_on_search: boolean = false;
   Advanced_Search_varible: boolean = false;
@@ -306,10 +309,9 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         this.flock_id_test = '';
         break;
 
-        case 'farm_sattelment_test':
-            this.farm_sattelment_test = '';
-            break;
-        
+      case 'farm_sattelment_test':
+        this.farm_sattelment_test = '';
+        break;
 
       case 'msvk_code_test':
         this.msvk_code_test = '';
@@ -613,6 +615,10 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         return '';
     }
   }
+  navto(str: any) {
+    let returnUrl = str;
+    this.router.navigate([returnUrl]);
+  }
 
   //   מביאה את סוגי התשלום בבחירת שלוחה
   async change_shloha() {
@@ -620,6 +626,13 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
     if (this.the_change_shloha === '30') {
       this.bakara_shloha = true;
+
+      this.history_close_month =
+        await this.megadelSearchService.ge_all_from_close_month_by_msvk_new_history(
+          this.chosenShlohaControl.value
+        );
+
+      console.log(this.history_close_month);
     }
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
       this.type_of_payment = [
@@ -935,9 +948,14 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       'בקרה -  בדיקת פיצול לכלל המגדלים'
     );
   }
-
   main_excel_report_btn(data_to_excel) {
     if (this.selected_option_statusControl_excel.value === 'Advanced') {
+      for (let obj of data_to_excel) {
+        let existingDate = obj.flock_hatch_date.split('T')[0];
+        let existingDate2 = obj.the_min3.split('T')[0];
+        obj.flock_hatch_date = existingDate;
+        obj.the_min3 = existingDate2;
+      }
       this.Excel_button_reports_advanced(data_to_excel);
     } else {
       if (this.selected_option_statusControl_excel.value === 'merokaz') {
@@ -1065,6 +1083,23 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
+  amount: 3686;
+  cd_gidul: 156;
+  farm_code: '2128';
+  farm_name: 'קליימן יוסף';
+  flock_close_date: null;
+  flock_hatch_date: '2022-11-18T00:00:00';
+  flock_id: 104831;
+  flock_month_age: 13;
+  flock_status_id: 1;
+  flock_week_age: 54.7;
+  grower_id: 1456;
+  grower_name: 'קליימן יוסף';
+  hidosh_from_imon: 84485;
+  hidosh_from_madgera: 0;
+  hidosh_pnimi: 0;
+  id: 26095;
+
   //   אקסל דוחות מתקדם
   Excel_button_reports_advanced(data_to_excel): void {
     const selectedFieldsArray = data_to_excel.map((item) => {
@@ -1090,6 +1125,12 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         marketing_sum: item.marketing_sum,
         mh_Mhir: item.mh_Mhir,
         amount: item.amount,
+
+        flock_month_age: item.flock_month_age,
+        flock_hatch_date: item.flock_hatch_date,
+        settlement_name_farm: item.settlement_name_farm,
+        total_hidosh: item.total_hidosh,
+        the_min3: item.the_min3,
       };
     });
 
@@ -1116,6 +1157,11 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       marketing_sum: 'כמות לתשלום',
       mh_Mhir: 'מחיר',
       amount: 'סכום לתשלום',
+      flock_month_age: 'גיל להקה בחודשים',
+      flock_hatch_date: 'תאריך בקיעה',
+      settlement_name_farm: 'שם ישוב גידול',
+      total_hidosh: 'חידוש',
+      the_min3: 'תאריך איכלוס',
     };
 
     this.transformedData = selectedFieldsArray.map((item) => {
@@ -1569,21 +1615,28 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   }
 
   async delete_month() {
-    this.isLoading = true;
-    console.log(this.chosenYearControl.value);
-    console.log(this.chosenMonthControl.value);
-    console.log(this.chosenShlohaControl.value);
-    console.log(this.paymentControl.value);
-    var delete_month =
-      await this.MegadelSearchDeleteService.delete_close_month_main(
-        this.chosenMonthControl.value,
-        this.chosenYearControl.value,
-        this.chosenShlohaControl.value,
-        this.paymentControl.value
-      );
-    this.openSuccessDialog_delete('החודש נמחק בהצלחה');
+    const check: any = await this.open_confirm_msg_Dialog(
+      'האם אתה בטוח שברצונך למחוק חודש?'
+    );
 
-    this.isLoading = false;
+    console.log(check);
+    if (check) {
+      this.isLoading = true;
+      console.log(this.chosenYearControl.value);
+      console.log(this.chosenMonthControl.value);
+      console.log(this.chosenShlohaControl.value);
+      console.log(this.paymentControl.value);
+      var delete_month =
+        await this.MegadelSearchDeleteService.delete_close_month_main(
+          this.chosenMonthControl.value,
+          this.chosenYearControl.value,
+          this.chosenShlohaControl.value,
+          this.paymentControl.value
+        );
+      this.openSuccessDialog_delete('החודש נמחק בהצלחה');
+      this.isLoading = false;
+    } else {
+    }
   }
 
   changeLoadingText_func(): void {
@@ -1680,11 +1733,8 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       this.flock_id_Control_test.setValue('');
     }
     if (this.farm_sattelment_Control_test.value === undefined) {
-        this.farm_sattelment_Control_test.setValue('');
-      }
-
-
-    
+      this.farm_sattelment_Control_test.setValue('');
+    }
 
     if (this.growerNumControl_test.value === undefined) {
       this.growerNumControl_test.setValue('');
@@ -1713,8 +1763,6 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     console.log(this.flock_id_Control_test.value);
     console.log(this.farm_sattelment_Control_test.value);
 
-    
-
     console.log('d');
 
     if (this.selected_option_statusControl_excel.value === 'Advanced') {
@@ -1737,7 +1785,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
           this.grower_zeut_testControl_test.value,
           this.yeshuvControl_test.value,
           this.flock_id_Control_test.value,
-          this.farm_sattelment_Control_test.value          
+          this.farm_sattelment_Control_test.value
         );
 
       console.log(this.data);
@@ -1804,39 +1852,6 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     var full_date_to = `${this.to_chosenYearControl_excel.value}${this.to_chosenMonthControl_excel.value}${lastDay_to}`;
     console.log(full_date_to);
 
-    // if (this.selected_option_statusControl_excel.value === 'merokaz') {
-    //   var data =
-    //     await this.megadelSearchService.get_data_from_close_month_by_msvk(
-    //       this.chosenYearControl_excel.value,
-    //       this.paymentControl_excel.value,
-    //       this.chosenShlohaControl_excel.value,
-
-    //       this.chosenMonthControl_excel.value
-    //     );
-    //   console.log(data);
-
-    // //   if (data.length > 0) {
-    // //     this.getExcelData_new_test(data);
-    // //   } else {
-    // //     this.openSuccessDialog('לא קיים מידע');
-    // //   }
-    // }
-    // if (this.selected_option_statusControl_excel.value === 'meforat') {
-    //   var data =
-    //     await this.megadelSearchService.get_data_from_close_month_by_grower(
-    //       this.chosenYearControl_excel.value,
-    //       this.paymentControl_excel.value,
-    //       this.chosenShlohaControl_excel.value,
-
-    //       this.chosenMonthControl_excel.value
-    //     );
-    //   if (data.length > 0) {
-    //     this.getExcelData_new_test(data);
-    //   } else {
-    //     this.openSuccessDialog('לא קיים מידע');
-    //   }
-    // }
-
     this.isLoading = false;
   }
 
@@ -1879,9 +1894,10 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     dialogConfig.panelClass = 'openSuccessDialog';
     dialogConfig.data = msg;
     const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
-    // setTimeout(() => {
-    //   dialogRef.close();
-    // }, 2000);
+    setTimeout(() => {
+      dialogRef.close();
+    }, 2000);
+    this.router.navigate(['/dashboard/MidPageComponent']);
   }
 
   openSuccessDialog_delete(msg: any) {
@@ -1892,6 +1908,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       dialogRef.close();
     }, 2000);
+    this.router.navigate(['/dashboard/MidPageComponent']);
   }
 
   getLastDayOfMonth(month: number): number {

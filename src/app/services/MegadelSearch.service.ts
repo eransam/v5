@@ -12,6 +12,15 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
+  async ge_all_from_close_month_by_msvk_new_history(tzrt: any): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/ge_all_from_close_month_by_msvk_new_history?tzrt=${tzrt}`
+      )
+    );
+    return item;
+  }
+
   async get_data_from_close_month_by_grower_meforat(
     chosenYearControl_excel: any,
     to_chosenYearControl_excel: any,
