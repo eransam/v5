@@ -12,10 +12,45 @@ export class MegadelSearchService {
 
   //   Megadel: ------------------------------------------------------------------------------------------------------------------------
 
-  async ge_all_from_close_month_by_msvk_new_history(tzrt: any): Promise<any[]> {
+
+
+  
+  async check_if_month_exist_in_close_month(
+    tzrt: any,
+    payment_type: any,
+    year: any,
+    month: any
+  ): Promise<any[]> {
     const item = await firstValueFrom(
       this.http.get<any[]>(
-        `${environment.apiPath}growerService.asmx/ge_all_from_close_month_by_msvk_new_history?tzrt=${tzrt}`
+        `${environment.apiPath}growerService.asmx/check_if_month_exist_in_close_month?tzrt=${tzrt}&payment_type=${payment_type}&year=${year}&month=${month}`
+      )
+    );
+    return item;
+  }
+
+
+
+  async ge_all_from_close_month_by_msvk_new_history_by_tzrt_pay_year_month(
+    tzrt: any,
+    payment_type: any,
+    year: any,
+    month: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/ge_all_from_close_month_by_msvk_new_history_by_tzrt_pay_year_month?tzrt=${tzrt}&payment_type=${payment_type}&year=${year}&month=${month}`
+      )
+    );
+    return item;
+  }
+
+  async ge_all_from_close_month_by_msvk_new_history_by_tzrt(
+    tzrt: any
+  ): Promise<any[]> {
+    const item = await firstValueFrom(
+      this.http.get<any[]>(
+        `${environment.apiPath}growerService.asmx/ge_all_from_close_month_by_msvk_new_history_by_tzrt?tzrt=${tzrt}`
       )
     );
     return item;

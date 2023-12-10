@@ -74,14 +74,13 @@ export class PopupAddPricesComponent {
   }
 
   validateInput(event: any): void {
-    const enteredValue = event.target.value;
-
-    // Check if the entered value is less than 0
-    if (enteredValue < 0) {
-      // Display a message, reset the value, or take any other appropriate action
-      this.openSuccessDialog_fast('הסכום קטן מ 0');
-      event.target.value = 0; // Reset to 0 or any default value
-    }
+    // const enteredValue = event.target.value;
+    // // Check if the entered value is less than 0
+    // if (enteredValue < 0) {
+    //   // Display a message, reset the value, or take any other appropriate action
+    //   this.openSuccessDialog_fast('הסכום קטן מ 0');
+    //   event.target.value = 0; // Reset to 0 or any default value
+    // }
   }
 
   onstartDateChange(event: any): void {
@@ -118,83 +117,102 @@ export class PopupAddPricesComponent {
 
   async saveRow(row: any) {
     console.log(row);
-
-    var day_endDate = this.endDate.split('-')[0];
-    var month_endDate = this.endDate.split('-')[1];
-    var year_endDate = this.endDate.split('-')[2];
-    this.endDate = `${year_endDate}-${month_endDate}-${day_endDate}`;
-
-    var day_startDate = this.startDate.split('-')[0];
-    var month_startDate = this.startDate.split('-')[1];
-    var year_startDate = this.startDate.split('-')[2];
-    this.startDate = `${year_startDate}-${month_startDate}-${day_startDate}`;
-    console.log('test');
-
-    if (!this.startDate.toString().includes('-')) {
-      const date = new Date(this.startDate);
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so we add 1
-      const day = date.getDate().toString().padStart(2, '0');
-      this.startDate_to_search = `${year}-${month}-${day}`;
+    if (row.mh_mhir < row.mhir_visot) {
+      this.openSuccessDialog_fast('מחיר הויסות לא יכול להיות גדול ממחיר ההיטל');
     } else {
-      this.startDate_to_search = this.transformDate(this.startDate);
-      console.log(this.startDate_to_search);
+      if (row.mh_mhir < 0) {
+        this.openSuccessDialog_fast('מחיר ההיטל לא יכול להיות קטן מ- 0');
+      } else {
+        if (row.mhir_visot < 0) {
+          this.openSuccessDialog_fast('מחיר הויסות לא יכול להיות קטן מ- 0');
+        } else {
+          if (new Date(row.tk_date_to) < new Date(row.tk_date_from)) {
+            this.openSuccessDialog_fast('תאריך לא יכול להיות קטן מעד תאריך');
+          } else {
+            var day_endDate = this.endDate.split('-')[0];
+            var month_endDate = this.endDate.split('-')[1];
+            var year_endDate = this.endDate.split('-')[2];
+            this.endDate = `${year_endDate}-${month_endDate}-${day_endDate}`;
+
+            var day_startDate = this.startDate.split('-')[0];
+            var month_startDate = this.startDate.split('-')[1];
+            var year_startDate = this.startDate.split('-')[2];
+            this.startDate = `${year_startDate}-${month_startDate}-${day_startDate}`;
+            console.log('test');
+
+            if (!this.startDate.toString().includes('-')) {
+              const date = new Date(this.startDate);
+              const year = date.getFullYear();
+              const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so we add 1
+              const day = date.getDate().toString().padStart(2, '0');
+              this.startDate_to_search = `${year}-${month}-${day}`;
+            } else {
+              this.startDate_to_search = this.transformDate(this.startDate);
+              console.log(this.startDate_to_search);
+            }
+            console.log(this.startDate_to_search);
+
+            if (!this.endDate.toString().includes('-')) {
+              const date2 = new Date(this.endDate);
+              const year2 = date2.getFullYear();
+              const month2 = (date2.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so we add 1
+              const day2 = date2.getDate().toString().padStart(2, '0');
+              this.endDate_to_search = `${year2}-${month2}-${day2}`;
+            } else {
+              this.endDate_to_search = this.transformDate(this.endDate);
+              console.log(this.endDate_to_search);
+            }
+
+            console.log(this.endDate_to_search);
+
+            var the_update_val =
+              await this.megadelSearchService.update_hetelim_price_and_dates(
+                this.startDate,
+                this.endDate,
+                row.mh_mhir,
+                row.year,
+                row.mh_tzrt
+              );
+
+            //   מעדכן את מחיר הויסות
+            var the_update_visot =
+              await this.MegadelSearchInsertService.update_visot_price(
+                row.year,
+                row.mh_tzrt,
+                row.mhir_visot
+              );
+
+            // מכניס את שינוי המחיר לטבלת לוג שינויי המחיר
+            var insert_price_updates_table =
+              await this.MegadelSearchInsertService.insert_price_updates_new_2(
+                row.mh_tzrt,
+                row.mh_tkufa_num,
+                this.startDate,
+                this.endDate,
+                row.mh_mhir,
+                row.year.toString(),
+                '02',
+                row.mhir_visot
+              );
+
+            console.log(the_update_visot);
+            console.log(the_update_visot);
+            console.log(insert_price_updates_table);
+
+            if (
+              the_update_val &&
+              the_update_visot &&
+              insert_price_updates_table
+            ) {
+              this.openSuccessDialog_fast('הפעולה בוצעה בהצלחה');
+            } else {
+              this.openSuccessDialog_fast('שגיאה');
+            }
+            this.dialogRef_PopupAddPricesComponent.close();
+          }
+        }
+      }
     }
-    console.log(this.startDate_to_search);
-
-    if (!this.endDate.toString().includes('-')) {
-      const date2 = new Date(this.endDate);
-      const year2 = date2.getFullYear();
-      const month2 = (date2.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so we add 1
-      const day2 = date2.getDate().toString().padStart(2, '0');
-      this.endDate_to_search = `${year2}-${month2}-${day2}`;
-    } else {
-      this.endDate_to_search = this.transformDate(this.endDate);
-      console.log(this.endDate_to_search);
-    }
-
-    console.log(this.endDate_to_search);
-
-    var the_update_val =
-      await this.megadelSearchService.update_hetelim_price_and_dates(
-        this.startDate,
-        this.endDate,
-        row.mh_mhir,
-        row.year,
-        row.mh_tzrt
-      );
-
-    //   מעדכן את מחיר הויסות
-    var the_update_visot =
-      await this.MegadelSearchInsertService.update_visot_price(
-        row.year,
-        row.mh_tzrt,
-        row.mhir_visot
-      );
-
-    // מכניס את שינוי המחיר לטבלת לוג שינויי המחיר
-    var insert_price_updates_table =
-      await this.MegadelSearchInsertService.insert_price_updates_new_2(
-        row.mh_tzrt,
-        row.mh_tkufa_num,
-        this.startDate,
-        this.endDate,
-        row.mh_mhir,
-        row.year.toString(),
-        '02',
-        row.mhir_visot
-      );
-
-    console.log(the_update_visot);
-    console.log(the_update_visot);
-    console.log(insert_price_updates_table);
-
-    if (the_update_val && the_update_visot && insert_price_updates_table) {
-      this.openSuccessDialog('הפעולה בוצעה בהצלחה');
-    } else {
-      this.openSuccessDialog('שגיאה');
-    }
-    this.dialogRef_PopupAddPricesComponent.close();
   }
 
   openSuccessDialog(msg: any) {

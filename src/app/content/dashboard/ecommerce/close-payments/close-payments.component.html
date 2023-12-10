@@ -654,129 +654,196 @@
           <thead class="detailsTable">
             <tr class="the_tatle_res_table">
               <th
+                (click)="sortTable('grower_grower_num')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 מס מגדל
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('grower_name'),
+                    'fa-sort-asc': isColumnSortedAsc('grower_name'),
+                    'fa-sort-desc': isColumnSortedDesc('grower_name')
+                  }"
+                ></i>
               </th>
               <th
+                (click)="sortTable('grower_name')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 שם מגדל
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('grower_name'),
+                    'fa-sort-asc': isColumnSortedAsc('grower_name'),
+                    'fa-sort-desc': isColumnSortedDesc('grower_name')
+                  }"
+                ></i>
               </th>
+
               <th
+                (click)="sortTable('settlement_name')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 שם ישוב
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('settlement_name'),
+                    'fa-sort-asc': isColumnSortedAsc('settlement_name'),
+                    'fa-sort-desc': isColumnSortedDesc('settlement_name')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 קוד ישוב
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 ת.ז מגדל
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 קוד גידול
               </th>
+
               <th
+                (click)="sortTable('mh_Shana')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 שנה
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('mh_Shana'),
+                    'fa-sort-asc': isColumnSortedAsc('mh_Shana'),
+                    'fa-sort-desc': isColumnSortedDesc('mh_Shana')
+                  }"
+                ></i>
               </th>
               <th
+                (click)="sortTable('the_month')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 חודש
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('the_month'),
+                    'fa-sort-asc': isColumnSortedAsc('the_month'),
+                    'fa-sort-desc': isColumnSortedDesc('the_month')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 תוצרת
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 סוג מחיר
               </th>
+
               <th
+                (click)="sortTable('msvk_code')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 קוד משווק
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('msvk_code'),
+                    'fa-sort-asc': isColumnSortedAsc('msvk_code'),
+                    'fa-sort-desc': isColumnSortedDesc('msvk_code')
+                  }"
+                ></i>
               </th>
+
               <th
+                (click)="sortTable('msvk_name')"
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 שם משווק
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('msvk_name'),
+                    'fa-sort-asc': isColumnSortedAsc('msvk_name'),
+                    'fa-sort-desc': isColumnSortedDesc('msvk_name')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 מחיר תשלום
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 מכסה קבועה
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 כמות שיווק
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 סכום
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 אחוז שיווק
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 מס אתר
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 שם אתר
               </th>
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 מס להקה
               </th>
 
               <th
                 class="border-top-0"
-                style="font-weight: bold; text-align: right"
+                style="font-weight: bold; text-align: right; cursor: pointer"
               >
                 סוג מגדל
               </th>
@@ -920,22 +987,49 @@
           <thead class="detailsTable">
             <tr class="the_tatle_res_table">
               <th
+                (click)="sortTable('lull2000_code')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 מס מגדל
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('lull2000_code'),
+                    'fa-sort-asc': isColumnSortedAsc('lull2000_code'),
+                    'fa-sort-desc': isColumnSortedDesc('lull2000_code')
+                  }"
+                ></i>
               </th>
               <th
+                (click)="sortTable('grower_name')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 שם מגדל
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('grower_name'),
+                    'fa-sort-asc': isColumnSortedAsc('grower_name'),
+                    'fa-sort-desc': isColumnSortedDesc('grower_name')
+                  }"
+                ></i>
               </th>
               <th
+                (click)="sortTable('settlement_name')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 שם ישוב
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('settlement_name'),
+                    'fa-sort-asc': isColumnSortedAsc('settlement_name'),
+                    'fa-sort-desc': isColumnSortedDesc('settlement_name')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
@@ -956,17 +1050,37 @@
                 קוד גידול
               </th>
               <th
+                (click)="sortTable('mh_Shana')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 שנה
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('mh_Shana'),
+                    'fa-sort-asc': isColumnSortedAsc('mh_Shana'),
+                    'fa-sort-desc': isColumnSortedDesc('mh_Shana')
+                  }"
+                ></i>
               </th>
+
               <th
+                (click)="sortTable('the_month')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 חודש
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('the_month'),
+                    'fa-sort-asc': isColumnSortedAsc('the_month'),
+                    'fa-sort-desc': isColumnSortedDesc('the_month')
+                  }"
+                ></i>
               </th>
+
               <th
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
@@ -980,16 +1094,34 @@
                 סוג מחיר
               </th>
               <th
+                (click)="sortTable('msvk_code')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 קוד משווק
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('msvk_code'),
+                    'fa-sort-asc': isColumnSortedAsc('msvk_code'),
+                    'fa-sort-desc': isColumnSortedDesc('msvk_code')
+                  }"
+                ></i>
               </th>
               <th
+                (click)="sortTable('msvk_name')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 שם משווק
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('msvk_name'),
+                    'fa-sort-asc': isColumnSortedAsc('msvk_name'),
+                    'fa-sort-desc': isColumnSortedDesc('msvk_name')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
@@ -1034,10 +1166,19 @@
                 שם אתר
               </th>
               <th
+                (click)="sortTable('settlement_name_farm')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 ישוב אתר
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('settlement_name_farm'),
+                    'fa-sort-asc': isColumnSortedAsc('settlement_name_farm'),
+                    'fa-sort-desc': isColumnSortedDesc('settlement_name_farm')
+                  }"
+                ></i>
               </th>
 
               <th
@@ -1047,7 +1188,6 @@
                 מס להקה
               </th>
 
-              <!-- חדש -->
               <th
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
@@ -1244,16 +1384,35 @@
           <thead class="detailsTable">
             <tr class="the_tatle_res_table">
               <th
+                (click)="sortTable('shana')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 שנה
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('shana'),
+                    'fa-sort-asc': isColumnSortedAsc('shana'),
+                    'fa-sort-desc': isColumnSortedDesc('shana')
+                  }"
+                ></i>
               </th>
+
               <th
+                (click)="sortTable('month')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 חודש
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('month'),
+                    'fa-sort-asc': isColumnSortedAsc('month'),
+                    'fa-sort-desc': isColumnSortedDesc('month')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
@@ -1268,16 +1427,34 @@
                 סוג תשלום
               </th>
               <th
+                (click)="sortTable('msvk_name')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 שם משווק
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('msvk_name'),
+                    'fa-sort-asc': isColumnSortedAsc('msvk_name'),
+                    'fa-sort-desc': isColumnSortedDesc('msvk_name')
+                  }"
+                ></i>
               </th>
               <th
+                (click)="sortTable('msvk_code')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right"
               >
                 קוד משווק
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-sort': !isColumnSorted('msvk_code'),
+                    'fa-sort-asc': isColumnSortedAsc('msvk_code'),
+                    'fa-sort-desc': isColumnSortedDesc('msvk_code')
+                  }"
+                ></i>
               </th>
               <th
                 class="border-top-0"
@@ -1534,12 +1711,14 @@
                 >
                   <div>שנה:</div>
                   <input
+                    (change)="change_year()"
                     [(ngModel)]="chosenYear"
                     [formControl]="chosenYearControl"
                     type="number"
                     style="width: 125px; height: 32px; padding: 5px"
                   />
                   <select
+                    (change)="change_year()"
                     [(ngModel)]="chosenYear"
                     [formControl]="chosenYearControl"
                     style="width: 30px; height: 32px; margin-left: 10px"
@@ -1557,6 +1736,7 @@
                 >
                   <div>חודש:</div>
                   <select
+                    (change)="change_month()"
                     [(ngModel)]="chosenMonth"
                     [formControl]="chosenMonthControl"
                     style="width: 125px; height: 32px; margin-left: 10px"
@@ -1566,6 +1746,7 @@
                     </option>
                   </select>
                 </div>
+
                 <br />
 
                 <!-- טבלת בקרות -->
@@ -2003,6 +2184,7 @@
                 <!-- כפתור מחיקה -->
                 <div class="col-md-12" style="margin-bottom: 20px">
                   <button
+                    [disabled]="isButton_delete_Disabled"
                     class="btn btn-warning"
                     style="
                       margin-top: 35px !important;

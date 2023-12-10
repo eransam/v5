@@ -24,6 +24,8 @@ import { ConfirmMsgComponent } from '../confirm-msg/confirm-msg.component';
 })
 export class ClosePaymentsComponent implements OnInit, OnDestroy {
   history_close_month: any[] = [];
+  sortedField: string = ''; // Track the currently sorted field
+  sortDirection: number = 1; // 1 for ascending, -1 for descending
   total_count_marketing_sum = 0;
   click_on_search: boolean = false;
   Advanced_Search_varible: boolean = false;
@@ -197,6 +199,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
   check_if_grower_have_minos_shivok: any[];
   check_if_grower_have_shivok_and_not_hidosh: any[];
   isButtonDisabled: boolean = true;
+  isButton_delete_Disabled: boolean = true;
   user_confirm_close: boolean = false;
   result_test: any;
   //   סיום משתנים
@@ -271,6 +274,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     }
 
     this.isButtonDisabled = true;
+    this.isButton_delete_Disabled = true;
 
     this.yearInput = new FormControl('', Validators.required);
     this.DetailsForm = new FormGroup({
@@ -286,6 +290,47 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     clearInterval(this.textChangeInterval);
   }
 
+  // Sorting function
+  sortTable(field: string): void {
+    // Toggle sort direction if the same field is clicked again
+    if (field === this.sortedField) {
+      this.sortDirection = -this.sortDirection;
+    } else {
+      this.sortedField = field;
+      this.sortDirection = 1;
+    }
+
+    // Perform sorting based on the selected field and direction
+    this.data.sort((a, b) => {
+      const valueA = a[field];
+      const valueB = b[field];
+
+      if (valueA < valueB) {
+        return -1 * this.sortDirection;
+      } else if (valueA > valueB) {
+        return 1 * this.sortDirection;
+      } else {
+        return 0;
+      }
+    });
+
+    console.log(this.data);
+  }
+
+  // Inside your component class
+  isColumnSorted(column: string): boolean {
+    return this.sortedField === column;
+  }
+
+  isColumnSortedAsc(column: string): boolean {
+    return this.isColumnSorted(column) && this.sortDirection === 1;
+  }
+
+  isColumnSortedDesc(column: string): boolean {
+    return this.isColumnSorted(column) && this.sortDirection === -1;
+  }
+
+  //   מנקה שדות
   cleanInputFild() {
     this.msvk_name_test = '';
     this.flock_id_test = '';
@@ -299,6 +344,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
     this.username_test = '';
   }
 
+  //   מנקה שדות
   clearInput(inputName: string): void {
     switch (inputName) {
       case 'msvk_name_test':
@@ -615,33 +661,140 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         return '';
     }
   }
+
+  //   מנתב לכתובות
   navto(str: any) {
     let returnUrl = str;
     this.router.navigate([returnUrl]);
   }
 
+  //   בשינוי שנה
+  async change_year() {
+    this.isButtonDisabled = true;
+    this.split_all_grower_qa = 3;
+    this.status_all_grower_qa = 3;
+    this.shivok_count_0 = 3;
+    this.micsot_all_growers_qa = 3;
+    this.grower_with_minos_in_split = 3;
+    this.check_hidosh_all_growers_qa = 3;
+
+    // שיחרור כפתור מחיקת חודש
+    var check_if_month_exist_in_close_month =
+      await this.megadelSearchService.check_if_month_exist_in_close_month(
+        this.chosenShlohaControl.value,
+        this.paymentControl.value,
+        this.chosenYearControl.value,
+        this.chosenMonthControl.value
+      );
+    console.log(check_if_month_exist_in_close_month);
+    if (check_if_month_exist_in_close_month[0].Result) {
+      this.isButton_delete_Disabled = false;
+    } else {
+      this.isButton_delete_Disabled = true;
+    }
+
+    // הבאת היסטוריית פעולות
+    this.history_close_month =
+      await this.megadelSearchService.ge_all_from_close_month_by_msvk_new_history_by_tzrt_pay_year_month(
+        this.chosenShlohaControl.value,
+        this.paymentControl.value,
+        this.chosenYearControl.value,
+        this.chosenMonthControl.value
+      );
+  }
+  //   בשינוי חודש
+  async change_month() {
+    this.isButtonDisabled = true;
+    this.isButton_delete_Disabled = true;
+    this.split_all_grower_qa = 3;
+    this.status_all_grower_qa = 3;
+    this.shivok_count_0 = 3;
+    this.micsot_all_growers_qa = 3;
+    this.grower_with_minos_in_split = 3;
+    this.check_hidosh_all_growers_qa = 3;
+
+    // שיחרור כפתור המחיקת חודש
+    var check_if_month_exist_in_close_month =
+      await this.megadelSearchService.check_if_month_exist_in_close_month(
+        this.chosenShlohaControl.value,
+        this.paymentControl.value,
+        this.chosenYearControl.value,
+        this.chosenMonthControl.value
+      );
+    console.log(check_if_month_exist_in_close_month);
+    if (check_if_month_exist_in_close_month[0].Result) {
+      this.isButton_delete_Disabled = false;
+    } else {
+      this.isButton_delete_Disabled = true;
+    }
+
+    // הבאת פרטי היסטוריית הפעולות
+    this.history_close_month =
+      await this.megadelSearchService.ge_all_from_close_month_by_msvk_new_history_by_tzrt_pay_year_month(
+        this.chosenShlohaControl.value,
+        this.paymentControl.value,
+        this.chosenYearControl.value,
+        this.chosenMonthControl.value
+      );
+  }
+
   //   מביאה את סוגי התשלום בבחירת שלוחה
   async change_shloha() {
+    this.isButton_delete_Disabled = true;
+    this.isButtonDisabled = true;
+    this.split_all_grower_qa = 3;
+    this.status_all_grower_qa = 3;
+    this.shivok_count_0 = 3;
+    this.micsot_all_growers_qa = 3;
+    this.grower_with_minos_in_split = 3;
+    this.check_hidosh_all_growers_qa = 3;
     this.the_change_shloha = this.chosenShlohaControl.value;
+
+    console.log(this.chosenYearControl.value);
+    console.log(this.chosenMonthControl.value);
+    console.log(this.chosenShlohaControl.value);
+    console.log(this.paymentControl.value);
+
+    var check_if_month_exist_in_close_month =
+      await this.megadelSearchService.check_if_month_exist_in_close_month(
+        this.chosenShlohaControl.value,
+        this.paymentControl.value,
+        this.chosenYearControl.value,
+        this.chosenMonthControl.value
+      );
+    console.log(check_if_month_exist_in_close_month);
+    if (check_if_month_exist_in_close_month[0].Result) {
+      this.isButton_delete_Disabled = false;
+    } else {
+      this.isButton_delete_Disabled = true;
+    }
 
     if (this.the_change_shloha === '30') {
       this.bakara_shloha = true;
 
       this.history_close_month =
-        await this.megadelSearchService.ge_all_from_close_month_by_msvk_new_history(
-          this.chosenShlohaControl.value
+        await this.megadelSearchService.ge_all_from_close_month_by_msvk_new_history_by_tzrt_pay_year_month(
+          this.chosenShlohaControl.value,
+          this.paymentControl.value,
+          this.chosenYearControl.value,
+          this.chosenMonthControl.value
         );
 
       console.log(this.history_close_month);
     }
     if (this.the_change_shloha === '30' || this.the_change_shloha === '10') {
+      if (this.the_change_shloha === '10') {
+        this.bakara_shloha = false;
+      }
       this.type_of_payment = [
         { name: 'היטלים', code: '02' },
         { name: 'סובסידיה', code: '01' },
       ];
     } else {
       this.type_of_payment = [{ name: 'היטלים', code: '02' }];
+      this.bakara_shloha = false;
     }
+    console.log('test');
   }
 
   //   מייצא קובץ אקסל
@@ -1082,23 +1235,6 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       'דוחות- מפורט'
     );
   }
-
-  amount: 3686;
-  cd_gidul: 156;
-  farm_code: '2128';
-  farm_name: 'קליימן יוסף';
-  flock_close_date: null;
-  flock_hatch_date: '2022-11-18T00:00:00';
-  flock_id: 104831;
-  flock_month_age: 13;
-  flock_status_id: 1;
-  flock_week_age: 54.7;
-  grower_id: 1456;
-  grower_name: 'קליימן יוסף';
-  hidosh_from_imon: 84485;
-  hidosh_from_madgera: 0;
-  hidosh_pnimi: 0;
-  id: 26095;
 
   //   אקסל דוחות מתקדם
   Excel_button_reports_advanced(data_to_excel): void {
