@@ -129,16 +129,7 @@ export class PopupAddPricesComponent {
           if (new Date(row.tk_date_to) < new Date(row.tk_date_from)) {
             this.openSuccessDialog_fast('תאריך לא יכול להיות קטן מעד תאריך');
           } else {
-            var day_endDate = this.endDate.split('-')[0];
-            var month_endDate = this.endDate.split('-')[1];
-            var year_endDate = this.endDate.split('-')[2];
-            this.endDate = `${year_endDate}-${month_endDate}-${day_endDate}`;
 
-            var day_startDate = this.startDate.split('-')[0];
-            var month_startDate = this.startDate.split('-')[1];
-            var year_startDate = this.startDate.split('-')[2];
-            this.startDate = `${year_startDate}-${month_startDate}-${day_startDate}`;
-            console.log('test');
 
             if (!this.startDate.toString().includes('-')) {
               const date = new Date(this.startDate);
@@ -167,8 +158,8 @@ export class PopupAddPricesComponent {
 
             var the_update_val =
               await this.megadelSearchService.update_hetelim_price_and_dates(
-                this.startDate,
-                this.endDate,
+                this.startDate_to_search,
+                this.endDate_to_search,
                 row.mh_mhir,
                 row.year,
                 row.mh_tzrt
@@ -187,8 +178,8 @@ export class PopupAddPricesComponent {
               await this.MegadelSearchInsertService.insert_price_updates_new_2(
                 row.mh_tzrt,
                 row.mh_tkufa_num,
-                this.startDate,
-                this.endDate,
+                this.startDate_to_search,
+                this.endDate_to_search,
                 row.mh_mhir,
                 row.year.toString(),
                 '02',

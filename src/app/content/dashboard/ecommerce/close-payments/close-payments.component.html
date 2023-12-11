@@ -654,7 +654,7 @@
           <thead class="detailsTable">
             <tr class="the_tatle_res_table">
               <th
-                (click)="sortTable('grower_grower_num')"
+                (click)="sortTable('lull2000_code')"
                 class="border-top-0"
                 style="font-weight: bold; text-align: right; cursor: pointer"
               >
@@ -662,9 +662,9 @@
                 <i
                   class="fa"
                   [ngClass]="{
-                    'fa-sort': !isColumnSorted('grower_name'),
-                    'fa-sort-asc': isColumnSortedAsc('grower_name'),
-                    'fa-sort-desc': isColumnSortedDesc('grower_name')
+                    'fa-sort': !isColumnSorted('lull2000_code'),
+                    'fa-sort-asc': isColumnSortedAsc('lull2000_code'),
+                    'fa-sort-desc': isColumnSortedDesc('lull2000_code')
                   }"
                 ></i>
               </th>
@@ -699,25 +699,6 @@
                   }"
                 ></i>
               </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                קוד ישוב
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                ת.ז מגדל
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                קוד גידול
-              </th>
-
               <th
                 (click)="sortTable('mh_Shana')"
                 class="border-top-0"
@@ -816,45 +797,14 @@
               >
                 סכום
               </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                אחוז שיווק
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                מס אתר
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                שם אתר
-              </th>
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                מס להקה
-              </th>
-
-              <th
-                class="border-top-0"
-                style="font-weight: bold; text-align: right; cursor: pointer"
-              >
-                סוג מגדל
-              </th>
             </tr>
           </thead>
 
           <tbody style="white-space: nowrap">
             <tr class="the_res_table" *ngFor="let row of data">
               <!-- מס מגדל -->
-              <td *ngIf="row.grower_grower_num">{{ row.grower_grower_num }}</td>
-              <td *ngIf="!row.grower_grower_num">""</td>
+              <td *ngIf="row.lull2000_code">{{ row.lull2000_code }}</td>
+              <td *ngIf="!row.lull2000_code">""</td>
 
               <!-- שם מגדל -->
               <td *ngIf="row.grower_name">{{ row.grower_name }}</td>
@@ -863,18 +813,6 @@
               <!--  שם ישוב -->
               <td *ngIf="row.settlement_name">{{ row.settlement_name }}</td>
               <td *ngIf="!row.settlement_name">""</td>
-
-              <!--  קוד ישוב -->
-              <td *ngIf="row.settlement_id">{{ row.settlement_id }}</td>
-              <td *ngIf="!row.settlement_id">""</td>
-
-              <!-- ת.ז מגדל -->
-              <td *ngIf="row.yz_zehut">{{ row.yz_zehut }}</td>
-              <td *ngIf="!row.yz_zehut">""</td>
-
-              <!-- קוד גידול -->
-              <td *ngIf="row.cd_gidul">{{ row.cd_gidul }}</td>
-              <td *ngIf="!row.cd_gidul">""</td>
 
               <!-- שנה -->
               <td *ngIf="row.mh_Shana">{{ row.mh_Shana }}</td>
@@ -917,48 +855,47 @@
               <td *ngIf="!row.marketing_sum">""</td>
 
               <!--  סכום -->
-              <td *ngIf="row.amount">{{ row.amount | number : "1.0-0" }}</td>
+              <td *ngIf="row.amount">{{ row.amount | number : "1.0-2" }}</td>
               <td *ngIf="!row.amount">""</td>
-
-              <!--  אחוז שיווק -->
-              <td *ngIf="row.percent_">
-                % {{ row.percent_ | number : "1.0-0" }}
-              </td>
-              <td *ngIf="!row.percent_">""</td>
-
-              <!--  קוד אתר -->
-              <td *ngIf="row.farm_code">{{ row.farm_code }}</td>
-              <td *ngIf="!row.farm_code">""</td>
-
-              <!--  שם אתר -->
-              <td *ngIf="row.farm_name">{{ row.farm_name }}</td>
-              <td *ngIf="!row.farm_name">""</td>
-
-              <!--  מס להקה -->
-              <td *ngIf="row.flock_id">{{ row.flock_id }}</td>
-              <td *ngIf="!row.flock_id">""</td>
-
-              <!--  סוג מגדל -->
-              <td *ngIf="row.is_main_grower === 0 || row.is_main_grower === 3">
-                שותף
-              </td>
-              <td *ngIf="row.is_main_grower === 1 && row.percent_ !== 100">
-                ראשי
-              </td>
-              <td *ngIf="row.is_main_grower === 2 && row.percent_ !== 100">
-                ראשי
-              </td>
-              <td *ngIf="row.is_main_grower === 1 && row.percent_ === 100">
-                פרטני
-              </td>
-              <td *ngIf="row.is_main_grower === 2 && row.percent_ === 100">
-                פרטני
-              </td>
             </tr>
             <tr>
-              <td>סה''כ:</td>
-              <td>
-                {{ this.total_count_marketing_sum }}
+              <td class="td_count">סה''כ:</td>
+
+              <!-- שם מגדל -->
+              <td class="td_count"></td>
+
+              <!--  שם ישוב -->
+              <td class="td_count"></td>
+
+              <!-- שנה -->
+              <td class="td_count"></td>
+
+              <!-- חודש -->
+              <td class="td_count"></td>
+
+              <!-- תוצרת -->
+              <td class="td_count"></td>
+
+              <!-- סוג מחיר -->
+              <td class="td_count"></td>
+
+              <!-- קוד משווק -->
+              <td class="td_count"></td>
+
+              <!-- שם משווק -->
+              <td class="td_count"></td>
+
+              <!-- מחיר לתשלום -->
+              <td class="td_count"></td>
+
+              <!-- מכסה קבועה -->
+              <td class="td_count"></td>
+
+              <!-- כמות שיווק -->
+              <td class="td_count"></td>
+
+              <td class="td_count">
+                {{ this.total_count_marketing_sum | number : "1.0-0" }}
               </td>
             </tr>
           </tbody>
@@ -1288,7 +1225,7 @@
               <td *ngIf="!row.marketing_sum">""</td>
 
               <!--  סכום -->
-              <td *ngIf="row.amount">{{ row.amount | number : "1.0-0" }}</td>
+              <td *ngIf="row.amount">{{ row.amount | number : "1.0-2" }}</td>
               <td *ngIf="!row.amount">""</td>
 
               <!--  אחוז שיווק -->
@@ -1353,9 +1290,79 @@
               </td>
             </tr>
             <tr>
-              <td>סה''כ:</td>
-              <td>
-                {{ this.total_count_marketing_sum }}
+              <td class="td_count">סה''כ:</td>
+
+              <!-- מס מגדל -->
+              <td class="td_count"></td>
+
+              <!-- שם מגדל -->
+              <td class="td_count"></td>
+              <!--  שם ישוב -->
+              <td class="td_count"></td>
+
+              <!--  קוד ישוב -->
+              <td class="td_count"></td>
+
+              <!-- ת.ז מגדל -->
+              <td class="td_count"></td>
+
+              <!-- קוד גידול -->
+              <td class="td_count"></td>
+
+              <!-- שנה -->
+              <td class="td_count"></td>
+
+              <!-- חודש -->
+              <td class="td_count"></td>
+
+              <!-- תוצרת -->
+              <td class="td_count"></td>
+
+              <!-- סוג מחיר -->
+              <td class="td_count"></td>
+
+              <!-- קוד משווק -->
+              <td class="td_count"></td>
+
+              <!-- שם משווק -->
+              <td class="td_count"></td>
+
+              <!-- מחיר לתשלום -->
+              <td class="td_count"></td>
+
+              <!-- מכסה קבועה -->
+              <td class="td_count"></td>
+
+              <!-- כמות שיווק -->
+              <td class="td_count"></td>
+
+              <!--  סכום -->
+              <td class="td_count"></td>
+
+              <!--  אחוז שיווק -->
+              <td class="td_count"></td>
+
+              <!--  קוד אתר -->
+              <td class="td_count"></td>
+
+              <!--  שם אתר -->
+              <td class="td_count"></td>
+
+              <!--  ישוב אתר -->
+              <td class="td_count"></td>
+
+              <!--  מס להקה -->
+              <td class="td_count"></td>
+
+              <!--  תאריך איכלוס -->
+              <td class="td_count"></td>
+              <!--  תאריך בקיעה -->
+              <td class="td_count"></td>
+              <!--  גיל בחודשים -->
+              <td class="td_count"></td>
+
+              <td class="td_count">
+                {{ this.total_count_marketing_sum | number : "1.0-0" }}
               </td>
             </tr>
           </tbody>
@@ -1525,14 +1532,22 @@
 
               <!--  סכום -->
               <td *ngIf="row.amount_to_pay">
-                {{ row.amount_to_pay | number : "1.0-0" }}
+                {{ row.amount_to_pay | number : "1.0-2" }}
               </td>
               <td *ngIf="!row.amount_to_pay">""</td>
             </tr>
             <tr>
-              <td>סה''כ:</td>
-              <td>
-                {{ this.total_count_marketing_sum }}
+              <td class="td_count">סה''כ:</td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count"></td>
+              <td class="td_count">
+                {{ this.total_count_marketing_sum | number : "1.0-0" }}
               </td>
             </tr>
           </tbody>

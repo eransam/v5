@@ -506,3 +506,7 @@ mdc-tab__text-label {
   width: 105px;
   text-align: center;
 }
+
+.td_count {
+  background-color: #e5eefce8 !important;
+}

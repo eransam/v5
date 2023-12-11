@@ -1176,16 +1176,9 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
         the_month: item.the_month,
         mh_Tzrt: item.mh_Tzrt,
         mh_Sug_Mhir: item.mh_Sug_Mhir,
-        grower_grower_num: item.grower_grower_num,
+        lull2000_code: item.lull2000_code,
         grower_name: item.grower_name,
-        yz_zehut: item.yz_zehut,
-        is_main_grower: item.is_main_grower,
         micsa_kvoha: item.micsa_kvoha,
-        farm_code: item.farm_code,
-        farm_name: item.farm_name,
-        flock_id: item.flock_id,
-        cd_gidul: item.cd_gidul,
-        percent_: item.percent_,
         settlement_id: item.settlement_id,
         settlement_name: item.settlement_name,
         msvk_code: item.msvk_code,
@@ -1202,16 +1195,9 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
       the_month: 'חודש',
       mh_Tzrt: 'תוצרת',
       mh_Sug_Mhir: 'סוג תשלום',
-      grower_grower_num: 'מס מגדל',
+      lull2000_code: 'מס מגדל',
       grower_name: 'שם מגדל',
-      yz_zehut: 'ת.ז מגדל',
-      is_main_grower: 'סוג מגדל',
       micsa_kvoha: 'מיכסה קבועה',
-      farm_code: 'קוד אתר',
-      farm_name: 'שם אתר',
-      flock_id: 'מס להקה',
-      cd_gidul: 'קוד גידול',
-      percent_: 'אחוז שותפות',
       settlement_id: 'קוד ישוב',
       settlement_name: 'שם ישוב',
       msvk_code: 'קוד משווק',
@@ -1943,7 +1929,7 @@ export class ClosePaymentsComponent implements OnInit, OnDestroy {
 
         console.log(this.data);
         this.total_count_marketing_sum = this.data.reduce(
-          (sum, obj) => sum + obj.marketing_sum,
+          (sum, obj) => sum + obj.kamut_tashlom,
           0
         );
         this.isLoading = false;
